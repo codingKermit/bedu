@@ -21,6 +21,7 @@ library.add(fab, fas, far)
 /** axios 기본 URL */
 axios.defaults.baseURL="http://localhost:8090";
 
+createApp(App).use(router)
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 const app = createApp(App);
