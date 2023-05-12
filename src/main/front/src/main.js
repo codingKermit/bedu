@@ -31,10 +31,9 @@ const app = createApp(App);
 app.config.globalProperties.axios = axios;
 app.config.globalProperties.router = router;
 
-/** CkEditor5 임포트 */
 
-
-
+/** CkEditor 임포트 */
+import CKEditor from "@ckeditor/ckeditor5-vue";
 /** 비에듀 테마 컬러 블랙, 블루, 옐로우 값 전역 변수 사용*/
 app.config.globalProperties.onlyblack = "#231815";
 app.config.globalProperties.spaceblue = "#303076";
@@ -44,6 +43,7 @@ app.config.globalProperties.dinamicYellow = "#EDC268";
 app
 .use(router)
 .use(BootstrapVue3)
+.use(CKEditor)
 .use(VueSweetalert2)
 .component("font-awesome-icon",FontAwesomeIcon)
 .mount('#app')
