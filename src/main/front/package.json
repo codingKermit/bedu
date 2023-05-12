@@ -16,6 +16,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "bootstrap-vue-3": "^0.5.1",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.2.0",

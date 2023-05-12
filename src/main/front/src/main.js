@@ -21,17 +21,24 @@ library.add(fab, fas, far)
 /** axios 기본 URL */
 axios.defaults.baseURL="http://localhost:8090";
 
-createApp(App).use(router)
+
+/** sweetalert 임포트 */
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+
+/** axios, router 전역 변수로 사용 */
 const app = createApp(App);
 app.config.globalProperties.axios = axios;
+app.config.globalProperties.router = router;
 
-/** 비에듀 테마 컬러 블랙, 블루, 옐로우 */
+/** CkEditor5 임포트 */
+
+
+
+/** 비에듀 테마 컬러 블랙, 블루, 옐로우 값 전역 변수 사용*/
 app.config.globalProperties.onlyblack = "#231815";
 app.config.globalProperties.spaceblue = "#303076";
 app.config.globalProperties.dinamicYellow = "#EDC268";
-
 
 
 app
