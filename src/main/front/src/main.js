@@ -21,7 +21,7 @@ library.add(fab, fas, far)
 /** axios 기본 URL */
 axios.defaults.baseURL="http://localhost:8090";
 
-createApp(App)
+createApp(App).use(router)
 .use(router)
 .use(BootstrapVue3)
 .component("font-awesome-icon",FontAwesomeIcon)
