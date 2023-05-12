@@ -21,8 +21,21 @@ library.add(fab, fas, far)
 /** axios 기본 URL */
 axios.defaults.baseURL="http://localhost:8090";
 
-createApp(App)
+import VueSweetalert2 from 'vue-sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
+const app = createApp(App);
+app.config.globalProperties.axios = axios;
+
+/** 비에듀 테마 컬러 블랙, 블루, 옐로우 */
+app.config.globalProperties.onlyblack = "#231815";
+app.config.globalProperties.spaceblue = "#303076";
+app.config.globalProperties.dinamicYellow = "#EDC268";
+
+
+
+app
 .use(router)
 .use(BootstrapVue3)
+.use(VueSweetalert2)
 .component("font-awesome-icon",FontAwesomeIcon)
 .mount('#app')
