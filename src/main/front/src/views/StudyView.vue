@@ -5,8 +5,11 @@
             <p class="fs-4 fw-light">What's wanna be?</p>
         </b-container>
         <b-form>
+            <div class="">
 
+            </div>
         </b-form>
+        {{ this.yellow }}
     </div>
 </template>
 
@@ -15,10 +18,12 @@
 
 <script>
 export default{
-    name : 'study',
+    name : 'StudyView',
     data() {
         return {
-            
+            blue : this.$blue,
+            black : this.$black,
+            yellow : this.$yellow
         }
     },
     methods: {
