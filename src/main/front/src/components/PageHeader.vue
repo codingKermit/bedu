@@ -5,7 +5,7 @@
         헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link> |
-        <router-link to="/test">Test</router-link>
+        <router-link to="/studyView">Test</router-link>
       </div>
     </header>
 </template>
