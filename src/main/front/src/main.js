@@ -28,8 +28,8 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 /** axios, router 전역 변수로 사용 */
 const app = createApp(App);
-app.config.globalProperties.axios = axios;
-app.config.globalProperties.router = router;
+app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$router = router;
 
 
 /** CkEditor 임포트 */
