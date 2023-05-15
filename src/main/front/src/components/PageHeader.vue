@@ -5,8 +5,8 @@
         <router-link to="/">
             <img src="@/assets/imgs/Logo.png" width="150">
         </router-link>
-        <router-link to="/about">분야별 강의</router-link>
-        <router-link to="/about2">분야별 강의</router-link>
+        <router-link to="/lecture">분야별 강의</router-link>
+        <router-link to="/lecture2">분야별 강의</router-link>
         <router-link to="/community">커뮤니티</router-link>
         <router-link to="/review">수강후기</router-link>
         <router-link to="/companyStudy">기업교육</router-link>

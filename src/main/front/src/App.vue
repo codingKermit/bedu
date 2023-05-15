@@ -2,7 +2,7 @@
   <div>
     <PageHeader/> <!-- 헤더 컴포넌트 -->
     <div class="body">
-      <router-view/> <!-- 페이지 이동이 표시될 곳 -->
+      <router-view class="py-5"/> <!-- 페이지 이동이 표시될 곳 -->
     </div>
     <PageFooter/> <!-- 푸터 컴포넌트 -->
     <b-link :to="test"></b-link>
@@ -49,4 +49,5 @@ nav a.router-link-exact-active {
     border-right: solid 100px #EDC268;
     border-color: #EDC268;
 }
+
 </style>
