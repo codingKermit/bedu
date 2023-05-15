@@ -23,6 +23,10 @@ export default {
 </script>
 
 <style>
+#app {
+  font-family: 'Noto Sans KR' ,'NanumMyeongjo', 'Times';
+}
+
 .body {
   margin: 0px;
   padding: 0px;
