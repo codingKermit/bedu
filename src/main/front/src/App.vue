@@ -25,6 +25,7 @@ export default {
 <style>
 .body {
   margin: 0px;
+  padding: 0px;
   background-color: white;
 }
 
