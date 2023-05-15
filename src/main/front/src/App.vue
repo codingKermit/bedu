@@ -2,7 +2,7 @@
   <div class="side">
     <PageHeader/> <!-- 헤더 컴포넌트 -->
     <div class="body">
-      <router-view class="py-5"/> <!-- 페이지 이동이 표시될 곳 -->
+      <router-view/> <!-- 페이지 이동이 표시될 곳 -->
     </div>
     <PageFooter/> <!-- 푸터 컴포넌트 -->
     <b-link :to="test"></b-link>
@@ -29,6 +29,7 @@ export default {
 
 .body {
   margin: 0px;
+  padding: 0px;
   background-color: white;
 }
 
