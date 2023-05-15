@@ -10,13 +10,43 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import('../views/AboutView.vue')
   }
   ,
   {
-    path: '/test',
-    name: 'test',
-    component: () => import(/* webpackChunkName: "about" */ '../views/TestView.vue')
+    path: '/about2',
+    name: 'about2',
+    component: () => import('../views/AboutView2.vue')
+  }
+  ,
+  {
+    path: '/community',
+    name: 'community',
+    component: () => import('../views/CommunityView.vue')
+  }
+  ,
+  {
+    path: '/review',
+    name: 'review',
+    component: () => import('../views/StudyReview.vue')
+  }
+  ,
+  {
+    path: '/companyStudy',
+    name: 'companyStudy',
+    component: () => import('../views/CompanyStudy.vue')
+  }
+  ,
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue')
+  }
+  ,
+  {
+    path: '/regist',
+    name: 'regist',
+    component: () => import('../views/RegistView.vue')
   }
 ]
 
