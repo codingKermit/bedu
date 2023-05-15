@@ -48,6 +48,24 @@ const routes = [
     name: 'regist',
     component: () => import('../views/RegistView.vue')
   }
+  ,
+  {
+    path: '/csc',
+    name: 'csc',
+    component: () => import('../views/Notice/CscView.vue')
+  }
+  ,
+  {
+    path: '/tou',
+    name: 'tou',
+    component: () => import('../views/Notice/TouView.vue')
+  }
+  ,
+  {
+    path: '/privacy',
+    name: 'privacy',
+    component: () => import('../views/Notice/PrivacyView.vue')
+  }
 ]
 
 const router = createRouter({
