@@ -1,12 +1,23 @@
 <!-- PageHeader.vue -->
 <template>
     <header>
-      <div id="nav">
+      <div id="nav1">
         <router-link to="/">
             <img src="@/assets/imgs/Logo.png" width="150">
         </router-link>
         <router-link to="/about">분야별 강의</router-link>
         <router-link to="/about2">분야별 강의</router-link>
+        <div class="search-popup">
+          <form action="#" class="search-form" role="search">
+              <fieldset>
+                <div class="search-form-con">
+                  <input type="text" name="search">
+                </div>
+              </fieldset>
+          </form>
+        </div>
+      </div>
+      <div id="nav2">
         <router-link to="/community">커뮤니티</router-link>
         <router-link to="/review">수강후기</router-link>
         <router-link to="/companyStudy">기업교육</router-link>
@@ -23,28 +34,53 @@
   </script>
   
   <style scoped>
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 50px;
+header {
+  margin: 0 auto;
   background-color: #EDC268;
+  padding-top: 3%;
+  padding-bottom: 5%;
 }
 
-#nav a {
+#nav1 {
+  float: left;
+}
+
+#nav2 {
+  float: right;
+}
+
+#nav1 img {
+  margin-right: 20px;
+}
+
+#nav1 a {
+  margin-right: 30px;
+  font-family: 'Noto Sans CJK KR', sans-serif;
   font-weight: bold;
   color: #2c3e50;
   text-decoration: none;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+#nav2 a {
+  margin-left: 20px;
+  font-family: 'Noto Sans CJK KR', sans-serif;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
 }
+
+#nav1 .search-popup {
+  float: right;
+}
+
+#nav1 .search-popup input {
+  width: 100%;
+  height: 40px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #F6E0B3;
+  border-radius: 30px;
+}
+
   
   </style>
