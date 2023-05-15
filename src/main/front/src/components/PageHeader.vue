@@ -2,10 +2,16 @@
 <template>
     <header>
       <div id="nav">
-        헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더헤더
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/studyView">Test</router-link>
+        <router-link to="/">
+            <img src="@/assets/imgs/Logo.png" width="150">
+        </router-link>
+        <router-link to="/about">분야별 강의</router-link>
+        <router-link to="/about2">분야별 강의</router-link>
+        <router-link to="/community">커뮤니티</router-link>
+        <router-link to="/review">수강후기</router-link>
+        <router-link to="/companyStudy">기업교육</router-link>
+        <router-link to="/login">로그인</router-link>
+        <router-link to="/regist">회원가입</router-link>
       </div>
     </header>
 </template>
@@ -34,6 +40,7 @@
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
