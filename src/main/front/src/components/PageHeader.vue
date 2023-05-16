@@ -5,8 +5,8 @@
         <router-link to="/">
             <img src="@/assets/imgs/Logo.png" width="150">
         </router-link>
-        <router-link to="/lecture">분야별 강의</router-link>
-        <router-link to="/lecture2">분야별 강의</router-link>
+        <router-link to="/">분야별 강의</router-link>
+        <router-link to="/course">분야별 강의</router-link>
         <div class="search-popup">
           <form action="#" class="search-form" role="search">
               <fieldset>
