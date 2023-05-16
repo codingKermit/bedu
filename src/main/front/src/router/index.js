@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: () => import('../views/HomeView.vue')
+    name: 'main',
+    component: () => import('../views/MainView.vue')
   },
   {
     path: '/course',
@@ -41,6 +41,24 @@ const routes = [
     path: '/regist',
     name: 'regist',
     component: () => import('../views/RegistView.vue')
+  }
+  ,
+  {
+    path: '/csc',
+    name: 'csc',
+    component: () => import('../views/Notice/CscView.vue')
+  }
+  ,
+  {
+    path: '/tou',
+    name: 'tou',
+    component: () => import('../views/Notice/TouView.vue')
+  }
+  ,
+  {
+    path: '/privacy',
+    name: 'privacy',
+    component: () => import('../views/Notice/PrivacyView.vue')
   }
 ]
 
