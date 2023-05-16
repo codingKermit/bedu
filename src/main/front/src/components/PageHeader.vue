@@ -1,26 +1,24 @@
 <!-- PageHeader.vue -->
 <template>
   <header>
-    <div class="dien">
-      <div id="nav1">
-        <router-link to="/">
-            <img src="@/assets/imgs/Logo.png" width="150">
-        </router-link>
-        <router-link to="/">분야별 강의</router-link>
-        <router-link to="/community">커뮤니티</router-link>
-        <router-link to="/review">수강후기</router-link>
-        <router-link to="/companyStudy">기업교육</router-link>
+    <div id="nav1">
+      <router-link to="/">
+          <img src="@/assets/imgs/Logo.png" width="150">
+      </router-link>
+      <router-link to="/">분야별 강의</router-link>
+      <router-link to="/community">커뮤니티</router-link>
+      <router-link to="/review">수강후기</router-link>
+      <router-link to="/companyStudy">기업교육</router-link>
+    </div>
+    <div id="nav2">
+      <div class="search-popup">
+          <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+            <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+            <b-form-input class="border-0 me-2"></b-form-input>
+          </div>
       </div>
-      <div id="nav2">
-        <div class="search-popup">
-            <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto mb-5 border-bedu">
-              <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
-              <b-form-input class="border-0 me-2"></b-form-input>
-            </div>
-        </div>
-        <router-link to="/login">로그인</router-link>
-        <router-link to="/regist">회원가입</router-link>
-      </div>
+      <router-link to="/login">로그인</router-link>
+      <router-link to="/regist">회원가입</router-link>
     </div>
   </header>
 </template>
@@ -33,26 +31,27 @@ export default {
 
 <style scoped>
 header {
-margin: 0 auto;
-background-color: #EDC268;
-padding-top: 3%;
-padding-bottom: 5%;
+  margin: 0 auto;
+  background-color: #EDC268;
+  padding-top: 3%;
+  padding-bottom: 2%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.dien {
-width: auto;
+
+#nav1 {
+  display: flex;
+  align-items: center;
 }
 
-.dien #nav1 {
-float: left;
-}
-
-.dien #nav2 {
-float: right;
+#nav2 {
+  display: flex;
+  align-items: center;
 }
 
 #nav1 img {
-margin-right: 20px;
+  margin-right: 20px;
 }
 
 #nav1 a {
@@ -72,6 +71,7 @@ text-decoration: none;
 }
 
 #nav2 .search-popup {
+  align-items: center;
 display: inline-block;
 margin-left: -20px;
 margin-right: -50px;
