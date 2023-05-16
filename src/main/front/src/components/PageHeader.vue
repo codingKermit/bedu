@@ -34,53 +34,60 @@
   </script>
   
   <style scoped>
-header {
-  margin: 0 auto;
-  background-color: #EDC268;
-  padding-top: 3%;
-  padding-bottom: 5%;
-}
+  header {
+    margin: 0 auto;
+    background-color: #EDC268;
+    padding-top: 3%;
+    padding-bottom: 5%;
+    display: flex;
+    justify-content: space-between;
+  }
 
-#nav1 {
-  float: left;
-}
+  #nav1 {
+    display: flex;
+    align-items: center;
+  }
 
-#nav2 {
-  float: right;
-}
+  #nav1 img {
+    margin-right: 10px;
+  }
 
-#nav1 img {
-  margin-right: 20px;
-}
+  #nav1 a {
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+    margin-left: 20px;
+  }
 
-#nav1 a {
-  margin-right: 30px;
-  font-family: 'Noto Sans CJK KR', sans-serif;
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-}
+  .search-form {
+    margin-left: 70px;
+  }
 
-#nav2 a {
-  margin-left: 20px;
-  font-family: 'Noto Sans CJK KR', sans-serif;
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-}
+  .search-form-con {
+    display: flex;
+    align-items: center;
+  }
 
-#nav1 .search-popup {
-  float: right;
-}
+  .search-form-con input {
+    width: 100%;
+    height: 40px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #F6E0B3;
+    border-radius: 30px;
+  }
 
-#nav1 .search-popup input {
-  width: 100%;
-  height: 40px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #F6E0B3;
-  border-radius: 30px;
-}
+  #nav2 {
+    display: flex;
+    align-items: center;
+  }
 
-  
-  </style>
+  #nav2 a {
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+    margin-left: 20px;
+  }
+</style>

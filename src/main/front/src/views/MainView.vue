@@ -39,7 +39,6 @@
             <button>로그인</button>
             <a>아이디 찾기/비밀번호 찾기</a>
           </div>
-          
         </form>
       </div>
 
@@ -138,6 +137,7 @@ export default{
 </script>
 
 <style scoped>
+
 img {
   height: 450px;
 }
@@ -150,7 +150,7 @@ img {
 }
 
 .login a {
-  margin-left: 150px;
+  margin-left: 100px;
 }
 
 .login input {
