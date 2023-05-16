@@ -1,0 +1,47 @@
+
+img {
+    height: 450px;
+  }
+  
+  .login {
+    padding-left: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #EBF0F7;
+  }
+  
+  .login a {
+    margin-left: 100px;
+  }
+  
+  .login input {
+    width: 280px;
+    height: 40px;
+    border: none;
+    margin-right: 15px;
+  }
+  
+  .login button {
+    width: 240px;
+    height: 40px;
+    border: none;
+    background-color: #3A5896;
+    color: white;
+  }
+  
+  
+  .quickLink {
+    margin-top: 25px;
+    padding-left: 40px;
+  }
+  
+  .content {
+    border: 1px solid;
+    padding: 200px;
+  }
+  
+  .notice {
+    border: 1px solid;
+    padding: 20px;
+  }
+  
