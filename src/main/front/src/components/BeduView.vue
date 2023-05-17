@@ -23,10 +23,6 @@
   </script>
   
   <style>
-  #app {
-    font-family: 'Noto Sans KR' ,'NanumMyeongjo', 'Times';
-  }
-  
   .body {
     margin: 0px;
     padding: 0px;
@@ -37,6 +33,8 @@
       padding-left: 6%;
       padding-right: 6%;
       background-color: #EDC268;
+      width: 100vw;
+      height: 100dvh;
   }
   
   nav a.router-link-exact-active {
