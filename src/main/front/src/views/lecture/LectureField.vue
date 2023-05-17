@@ -12,7 +12,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in base" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -43,7 +43,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4  class="mb-5">
                     <b-col v-for="(item, i) in data" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -74,7 +74,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in web" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -105,7 +105,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in lang" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -136,7 +136,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in ai" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -167,7 +167,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in programming" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -198,7 +198,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in tools" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -229,7 +229,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in major" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
@@ -260,7 +260,7 @@
                 </span>
             </div>
             <div>
-                <b-row class="mb-5">
+                <b-row cols=4 class="mb-5">
                     <b-col v-for="(item, i) in design" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
