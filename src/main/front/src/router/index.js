@@ -90,6 +90,11 @@ const routes = [
     path: '/privacy',
     name: 'privacy',
     component: () => import('../views/Notice/PrivacyView.vue')
+  },
+  {
+    path: '/reviewWrite',
+    name: 'reviewWrite',
+    component: () => import('../views/Review/ReviewWrite.vue')
   }
 ]
 

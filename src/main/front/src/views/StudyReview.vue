@@ -54,10 +54,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="review-write-button-container">
+      <button class="review-write-button" @click="$router.push('/reviewWrite')">작성하기</button>
+    </div>
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -210,18 +211,18 @@ a {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-@media (max-width: 768px) {
-  .mk-c-tab>li {
-    width: 50%;
-  }
-  .review-table th,
-  .review-table td {
-    font-size: 12px;
-    padding: 8px;
-  }
-  .review-table .review-content {
-    width: 150px;
-  }
+.review-write-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
+  padding: 10px;
 }
+
+.review-write-button {
+  width: 150px;
+  height: 50px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+}
+
 </style>
