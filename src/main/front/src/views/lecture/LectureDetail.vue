@@ -29,9 +29,9 @@
                     </div>
                     <!-- score end-->
                     <div class="list-unstyled align-middle w-100">
-                        <div class="mb-2 row"><span class="text-secondary col-3">강사</span><span class="text-body col">{{ form.teacher }}</span></div>
-                        <div class="mb-2 row"><span class="text-secondary col-3">수강기간</span><span class="text-body col"> 구매일로부터 {{ form.duration }}일</span></div>
-                        <div class="mb-2 row"><span class="text-secondary col-3">학습시간</span><span class="text-body col">{{ form.totalTimes }}</span></div>
+                        <div class="mb-2 row"><span class="text-secondary col-2">강사</span><span class="text-body col">{{ form.teacher }}</span></div>
+                        <div class="mb-2 row"><span class="text-secondary col-2">수강기간</span><span class="text-body col"> 구매일로부터 {{ form.duration }}일</span></div>
+                        <div class="mb-2 row"><span class="text-secondary col-2">학습시간</span><span class="text-body col">{{ form.totalTimes }}</span></div>
                     </div>
                 <!-- info end-->
 
