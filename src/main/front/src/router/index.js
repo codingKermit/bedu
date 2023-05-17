@@ -11,18 +11,30 @@ const routes = [
     name: 'course',
 
     component: () => import('../views/lecture/LectureCourse.vue')
-  },
-  {
-    path : '/lectureDetail',
-    name : 'lectureDetail',
-
-    component : () => import('@/views/lecture/LectureDetail.vue')
   }
   ,
   {
     path: '/community',
     name: 'community',
-    component: () => import('../views/CommunityView.vue')
+    component: () => import('../views/community/CommunityView.vue')
+  }
+  ,
+  {
+    path: '/communitywrite',
+    name: 'communitywrite',
+    component: () => import('../views/community/CommunityWrite.vue')
+  }
+  ,
+  {
+    path: '/communitydetail',
+    name: 'communitydetail',
+    component: () => import('../views/community/CommunityDetail.vue')
+  }
+  ,
+  {
+    path: '/communitydetail/:num',
+    name: 'communitydetail',
+    component: () => import('../views/community/CommunityDetail.vue')
   }
   ,
   {
