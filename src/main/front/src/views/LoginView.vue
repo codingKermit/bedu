@@ -13,15 +13,18 @@
         <img src="@/assets/imgs/Logo2.png" width="180"><br/>
         <p>강의는 역시 B:EDU</p>
       </div>
-      <div class="button-container">
+      <div class="login-container">
         <form class="login-form">
           <div class="form-group">
-            <button class="kakao-login-btn">카카오 계정으로 로그인</button>
+            <input class="email" placeholder="이메일을 입력해주세요.">
           </div>
           <div class="form-group">
-            <button class="email-login-btn">이메일로 로그인</button>
+            <input class="password" placeholder="비밀번호를 입력해주세요.">
           </div>
         </form>
+        <div>
+          <button class="submit" type="button">로그인</button>
+        </div>
       </div>
     </div>
   </div>
@@ -32,7 +35,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh;
+  min-height: 90vh;
   background: #EDF0F5;
   text-align: center;
 }
@@ -73,7 +76,7 @@
   position: relative;
   background: white;
   width: 600px;
-  height: 360px;
+  height: 460px;
 }
 
 .logo-container {
@@ -85,24 +88,24 @@
   margin-top: 50px;
 }
 
-.kakao-login-btn,
-.email-login-btn {
+.email,
+.password {
   width: 300px;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;
-  cursor: pointer;
-  color: #FFFFFF;
   margin-top: 1rem;
 }
 
-.kakao-login-btn {
-  background-color: #FEE500;
-}
-
-.email-login-btn {
-  background-color: #FFFFFF;
-  color: #4A4A4A;
+.submit {
+  width: 300px;
+  padding: 0.4rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  color: #FFFFFF;
+  background: #303076;
 }
 </style>

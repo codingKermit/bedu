@@ -48,6 +48,7 @@
         console.log('Submit Review:', this.review);
         // 폼 제출 후 리뷰 작성 완료 처리 등을 수행할 수 있습니다
       },
+      
       setStars(stars) {
         this.review.stars = stars;
       }
