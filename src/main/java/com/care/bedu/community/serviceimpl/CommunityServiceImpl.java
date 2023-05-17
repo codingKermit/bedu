@@ -38,6 +38,11 @@ public class CommunityServiceImpl implements CommunityService{
 	public int viewdelete(int num) {
 		return communityMapper.viewdelete(num);
 	}
+
+	@Override
+	public int viewupdate(CommunityDTO communityDTO) {
+		return communityMapper.viewupdate(communityDTO);
+	}
 	
 	
 

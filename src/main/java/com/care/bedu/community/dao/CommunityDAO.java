@@ -14,5 +14,6 @@ public interface CommunityDAO {
 	public int viewwriter(CommunityDTO communityDTO);
 	public CommunityDTO viewone(int num);
 	public int viewdelete(int num);
+	public int viewupdate(CommunityDTO communityDTO);
 
 }

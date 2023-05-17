@@ -4,23 +4,28 @@
 <mapper namespace="com.care.bedu.community.dao.CommunityDAO">
 	
 	<select id="vielist" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT * FROM bil.community
+		SELECT * FROM BEDU.COMMUNITY
 		ORDER BY NUM DESC
 	</select>
 	
 	<insert id="viewwriter">
-		insert into BIL.COMMUNITY(title, contents, writeDate, writer)
-		values(#{title}, #{contents}, SYSDATE(), #{writer})
+		insert into BEDU.COMMUNITY(userId, title, contents, writeDate, writer)
+		values(#{userId}, #{title}, #{contents}, SYSDATE(), #{writer})
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT * FROM BIL.COMMUNITY
+		SELECT * FROM BEDU.COMMUNITY
 		WHERE NUM = #{num}
 	</select>
 	
 	<delete id="viewdelete">
-		DELETE FROM BIL.COMMUNITY
+		DELETE FROM BEDU.COMMUNITY
 		WHERE NUM = #{num}
 	</delete>
+	
+	<update id="viewupdate">
+		UPDATE BEDU.COMMUNITY SET TITLE, CONTENTS
+		WHERE NUM = #{num}
+	</update>
 	
 </mapper>

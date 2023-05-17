@@ -26,6 +26,7 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/writer", method=RequestMethod.POST)
 	public String communityWriter(CommunityDTO communityDTO){
+		communityDTO.setUserId("admin"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
 		int result = communityService.boardwriter(communityDTO);
 		return result > 0 ? "글등록에 성공하였습니다!": "글등록실패!";
 	}
@@ -36,8 +37,10 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/community/delete", method=RequestMethod.GET)
-	public String communityDelete(int num){
-		int result = communityService.viewdelete(num);
+	public String communityDelete(String num){
+		System.out.println("번호:"+ num);
+		int strnum = Integer.parseInt(num);
+		int result = communityService.viewdelete(strnum);
 		return result> 0? "Y":"N";
 	}
 }

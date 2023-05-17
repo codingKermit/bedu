@@ -10,4 +10,5 @@ public interface CommunityService {
 	public int boardwriter(CommunityDTO communityDTO);
 	public CommunityDTO viewone(int num);
 	public int viewdelete(int num);
+	public int viewupdate(CommunityDTO communityDTO);
 }

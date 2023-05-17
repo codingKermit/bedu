@@ -22,7 +22,7 @@
                 </text>
             </b-container>
             <b-button type="submit" class="btn-custom ms-2" :to="'/questionwriter'+'/'+community.num">글수정</b-button>
-            <b-button type="submit" class="btn-custom ms-2">삭제</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
             <hr class="my-5">
         </b-container>
     </div>
@@ -35,6 +35,7 @@ export default{
     
     data() {
         return {
+            cnum: 0,
             result : 0,
             community : {
                 title : '',
@@ -47,6 +48,12 @@ export default{
         }
     },
 
+    mounted() {
+        const num = this.$route.params.num;
+        
+        this.communityRead(num);
+    },
+
     methods: {
         communityRead(num){ // 게시글 데이터 조회
             this.$axios.get('/api/community/detail',{
@@ -55,16 +62,15 @@ export default{
                 }
             })
             .then(response=>{
-                alert('성공');
                 this.community = response.data;
             })
             .catch((error)=>{console.log(error)})
         },
-        communitydelete(num){
+        communitydelete(){
             alert('게시글을 삭제합니다.');
-            this.$axios.get('/question/boardDelete',{
+            this.$axios.get('/community/delete',{
                 params : {
-                    num : num,
+                    num : this.cnum,
                 }
             })
             .then(res=>{
@@ -84,10 +90,6 @@ export default{
             alert(num, '!');
         }
 
-    },
-    mounted() {
-        const num = this.$route.params.num;
-        this.communityRead(num);
     },
 }
 </script>

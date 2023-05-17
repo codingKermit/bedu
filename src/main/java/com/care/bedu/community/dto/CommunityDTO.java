@@ -6,11 +6,11 @@ import lombok.Data;
 public class CommunityDTO {
 	
 	private int num;
+	private String userId;
 	private String writer;
 	private String contents;
 	private String writeDate;
-	private String heart;
 	private String title;
-	private String view;
+	private String views;
 
 }

@@ -27,7 +27,7 @@
             </b-link></td>
             <td>{{ community.writer }}</td>
             <td>{{ community.writeDate }}</td>
-            <td>{{ community.view }}</td>
+            <td>{{ community.views }}</td>
           </tr>
         
           </tbody>
@@ -66,7 +66,6 @@
         communitylist: [], //리스트 데이터
         totalItems : 0,
         totalPage : 0,
-        viewpath: 0,
         currentPage : 1,
         order : '최신순',
         keyword : '',
@@ -121,7 +120,6 @@
         margin-left:auto; 
         margin-right:auto;
         width: 100%;
-        border: 1px solid #444444;
     }
 
     .community-main{
