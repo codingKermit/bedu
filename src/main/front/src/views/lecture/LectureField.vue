@@ -305,7 +305,7 @@ export default{
         getLectures(){
             this.$axios.get('/api/getLectureField')
             .then((res)=>{
-                this.base = res.data.ai;
+                this.base = res.data.base;
                 this.data = res.data.data;
                 this.web = res.data.web;
                 this.lang = res.data.lang;

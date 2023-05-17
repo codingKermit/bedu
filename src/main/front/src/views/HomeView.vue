@@ -14,7 +14,6 @@
         <p class="fw-bold fs-4 text-start">분야별 강의</p>
         <categories></categories>
         
-        <p class="fw-bold fs-4 text-start">분야별 강의</p>
       </b-container>
   </div >
 </template>
