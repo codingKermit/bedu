@@ -6,8 +6,7 @@
         <img src="@/assets/imgs/Logo.png" width="150">
       </router-link>
       <div class="dropdown">
-        <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-          aria-expanded="false">
+        <a class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" @click="navigateTo('/lectureField')">
           분야별 강의
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -34,8 +33,8 @@
 </template>
 
 <script>
-
 export default {
+  name: 'PageHeader',
   data() {
     return {
       categories: [
@@ -82,18 +81,25 @@ export default {
     categoryChange(item) {
       this.$router.push({
         name: 'course',
-        params: {
+        query: {
           category: item.value,
           korCategory: item.title
         }
       });
+    },
+    navigateTo(route) {
+      this.$router.push(route);
     }
   }
 };
-
 </script>
 
 <style scoped>
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 2px;
+}
+
 header {
   margin: 0 auto;
   background-color: #EDC268;
@@ -102,7 +108,6 @@ header {
   display: flex;
   justify-content: space-between;
 }
-
 
 #nav1 {
   display: flex;
@@ -154,4 +159,9 @@ header {
   background-color: #F6E0B3;
   width: 70%;
   border-color: #EDC268;
-}</style>
+}
+
+.no-arrow::after {
+  display: none;
+}
+</style>
