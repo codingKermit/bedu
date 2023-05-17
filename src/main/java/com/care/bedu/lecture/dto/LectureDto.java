@@ -22,7 +22,7 @@ public class LectureDto {
 	private String regiDate; // 강의 개설일
 	private String price; // 가격
 	private String description; // 강의 상세정보
-	private String likeYn; // 유저별 강의 좋아요 여부
+	private boolean likeYn; // 유저별 강의 좋아요 여부
 	private double score; // 강의 평점
 	private int scoreUsers; // 강의 평점 매긴 사람
 	private int totalTimes; // 총 강의 시간
