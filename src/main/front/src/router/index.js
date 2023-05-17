@@ -7,10 +7,16 @@ const routes = [
     component: () => import('../views/HomeView.vue')
   },
   {
-    path: '/course/:category/:korCategory',
+    path: '/course',
     name: 'course',
 
     component: () => import('../views/lecture/LectureCourse.vue')
+  },
+  {
+    path : '/lectureDetail',
+    name : 'lectureDetail',
+
+    component : () => import('@/views/lecture/LectureDetail.vue')
   }
   ,
   {

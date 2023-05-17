@@ -65,7 +65,7 @@
                 categoryChange(item){
                     this.$router.push({
                         name : 'course',
-                        params:{
+                        query:{
                             category : item.value,
                             korCategory : item.title
                         }
@@ -75,11 +75,9 @@
             created() {
 
             },
-            mounted() {},
-            props: {
-                imgPath: String,
-                title: String
-            }
+            mounted() {
+
+            },
         }
     </script>
 

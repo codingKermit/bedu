@@ -6,6 +6,7 @@ import com.care.bedu.lecture.dto.LectureDto;
 
 public interface LectureService {
 	
-	public ArrayList<LectureDto> getLectureList();
+	public ArrayList<LectureDto> getLectureList(String category);
+	public LectureDto getLectureDetail(int num);
 
 }

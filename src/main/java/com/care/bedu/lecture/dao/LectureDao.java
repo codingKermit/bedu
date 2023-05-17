@@ -10,5 +10,6 @@ import com.care.bedu.lecture.dto.LectureDto;
 public interface LectureDao {
 
 	
-	public ArrayList<LectureDto> getLectureList();
+	public ArrayList<LectureDto> getLectureList(String category);
+	public LectureDto getLectureDetail(int num);
 }

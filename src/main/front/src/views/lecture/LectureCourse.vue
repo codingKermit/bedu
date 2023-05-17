@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5">
+  <div class="py-5 lectureCourse">
     <b-container class="">
       <div class="mb-5">
         <text class="fs-5 fw-light">
@@ -8,7 +8,7 @@
       </div>
       <b-row class="row-cols-auto">
         <b-col v-for="item in lectures" :key="item" class="mb-3 col-lg-3 col-md-4 col-sm-9">
-          <b-link class="text-decoration-none text-body">
+          <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
             <div class="border-1 border-opacity-10">
               <img :src="item.thumbnail" >
               <b-container class="p-4 border">
@@ -38,65 +38,19 @@ export default{
     return {
       category : this.$route.params.category,
       korCategory : this.category == 'base' ? '기초 강의':'데이터 분석',
-      lectures : [
-        {
-          title : '스케치업으로 완성하는 웹툰 배경',
-          teacher : '문연교',
-          total : 20,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/239235/local_courselist/thumbnailimg/3522/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg',
-        },{
-          title : '디지털 드로잉 기본기 완전판',
-          teacher : '남궁법석',
-          total : 20,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/231858/local_courselist/thumbnailimg/3512/%EC%8D%B8%EB%84%A4%EC%9D%BC%28%EB%94%94%EC%A7%80%ED%84%B8%20%EB%93%9C%EB%A1%9C%EC%9E%89%29.png',
-        },{
-          title : '웹툰, 기획부터 제작까지',
-          teacher : '김지윤',
-          total : 20,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/226430/local_courselist/thumbnailimg/3497/4.%EC%8D%B8%EB%84%A4%EC%9D%BC_%EC%9B%B9%ED%88%B0%EA%B8%B0%ED%9A%8D.png'
-        },{
-          title : '웹툰 제작',
-          teacher : '유선미',
-          total : 17,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/213855/local_courselist/thumbnailimg/3490/15_%EA%B7%B8%EB%9E%98%ED%94%BD.png'
-        },{
-          title : '하나하나 꼼꼼히! 웹툰 드로잉 네 걸음',
-          teacher : '문연교',
-          total : 30,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/197945/local_courselist/thumbnailimg/3278/%EC%8D%B8%EB%84%A4%EC%9D%BC.png'
-        },
-        {
-          title : '하나하나 꼼꼼히! 웹툰 드로잉 세 걸음',
-          teacher : '문연교',
-          total : 30,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/197945/local_courselist/thumbnailimg/3278/%EC%8D%B8%EB%84%A4%EC%9D%BC.png'
-        },{
-          title : '하나하나 꼼꼼히! 웹툰 드로잉 두 걸음',
-          teacher : '문연교',
-          total : 30,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/197945/local_courselist/thumbnailimg/3278/%EC%8D%B8%EB%84%A4%EC%9D%BC.png'
-        },{
-          title : '하나하나 꼼꼼히! 웹툰 드로잉 첫걸음',
-          teacher : '문연교',
-          total : 30,
-          duration : 30,
-          thumbnail : 'https://www.ddazua.com/pluginfile.php/197945/local_courselist/thumbnailimg/3278/%EC%8D%B8%EB%84%A4%EC%9D%BC.png'
-        }
-      ],
+      lectures : [],
     }
   },
   methods: {
     getList(){
-      this.$axios.get('/api/lectureList')
+      this.$axios.get('/api/lectureList',{
+        params:{
+          category : this.category
+        }
+      })
       .then((res)=>{
         console.log(res)
+        this.lectures = res.data;
       })
       .catch((err)=>{console.log(err)})
     }
@@ -108,14 +62,14 @@ export default{
     this.getList();
   },
   watch:{
-    '$route.params.category':{
+    '$route.query.category':{
       immediate: true,
       handler(newCategory){
         this.category = newCategory;
         // console.log(this.category)
       }
     },
-    '$route.params.korCategory':{
+    '$route.query.korCategory':{
       immediate: true,
       handler(newKorCategory){
         this.korCategory = newKorCategory;
@@ -143,6 +97,7 @@ img{
   display: inline-block;
   vertical-align: middle;
 }
+
 
 
 </style>
