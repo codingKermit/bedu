@@ -11,6 +11,19 @@ const routes = [
     name: 'course',
 
     component: () => import('../views/lecture/LectureCourse.vue')
+  } , 
+  {
+    path : '/lectureDetail',
+    name : 'lectureDetail',
+
+    component : () => import('@/views/lecture/LectureDetail.vue')
+  }
+  ,
+  {
+    path : '/lectureField',
+    name : 'lectureField',
+
+    component : () => import('@/views/lecture/LectureField.vue')
   }
   ,
   {
