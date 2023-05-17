@@ -14,12 +14,33 @@
         <p>강의는 역시 B:EDU</p>
       </div>
       <div class="button-container">
-        <form class="login-form">
-          <div class="form-group">
-            <button class="kakao-login-btn">카카오 계정으로 로그인</button>
+        <form>
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <input type="email" id="form2Example1" class="form-control" />
+            <label class="form-label" for="form2Example1">Email address</label>
           </div>
-          <div class="form-group">
-            <button class="email-login-btn">이메일로 로그인</button>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input type="password" id="form2Example2" class="form-control" />
+            <label class="form-label" for="form2Example2">Password</label>
+          </div>
+
+          <!-- 2 column grid layout for inline styling -->
+          <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+            </div>
+          </div>
+
+          <!-- Submit button -->
+          <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+          <!-- Register buttons -->
+          <div class="text-center">
+            <button type="button" class="btn btn-link btn-floating mx-1">
+              <i class="fab fa-github"></i>
+            </button>
           </div>
         </form>
       </div>
