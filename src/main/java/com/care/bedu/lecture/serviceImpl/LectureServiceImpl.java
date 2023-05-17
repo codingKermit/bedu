@@ -17,7 +17,6 @@ public class LectureServiceImpl implements LectureService{
 	
 	@Override
 	public ArrayList<LectureDto> getLectureList() {
-		// TODO Auto-generated method stub
 		ArrayList<LectureDto> list = new ArrayList<>();
 		
 		list = dao.getLectureList();
