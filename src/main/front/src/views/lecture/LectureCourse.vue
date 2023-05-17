@@ -1,12 +1,11 @@
 <template>
   <div class="py-5">
-    <categories></categories>
-    <div class="mb-5">
-      <text class="ms-5 fs-5 fw-light">
-        {{ korCategory }}
-      </text>
-    </div>
     <b-container class="">
+      <div class="mb-5">
+        <text class="fs-5 fw-light">
+          {{ korCategory }}
+        </text>
+      </div>
       <b-row class="row-cols-auto">
         <b-col v-for="item in lectures" :key="item" class="mb-3 col-lg-3 col-md-4 col-sm-9">
           <b-link class="text-decoration-none text-body">
@@ -17,7 +16,7 @@
                   <p class="fw-bold">{{ item.title }}</p>
                 </div>
                 <p class="fw-bold"> <span  class="teacher-name">{{ item.teacher }} 선생님</span><span> 총 {{ item.total }}강</span></p>
-                <p class="text-secondary">수강기간:{{ item.duration }}일</p>
+                <p class="text-secondary fs-6">수강기간:{{ item.duration }}일</p>
                 <div class="text-center">
                   <b-button class="w-100" variant="outline-dark">수강신청</b-button>
                 </div>
@@ -32,15 +31,13 @@
 
 
 <script>
-import Categories from '../../components/Categories.vue'
 
 export default{
-  components: { Categories },
   name : 'LectureCourse',
   data() {
     return {
-      category : this.$route.query.category,
-      korCategory : this.$route.query.korCategory,
+      category : this.$route.params.category,
+      korCategory : this.category == 'base' ? '기초 강의':'데이터 분석',
       lectures : [
         {
           title : '스케치업으로 완성하는 웹툰 배경',
@@ -96,14 +93,36 @@ export default{
     }
   },
   methods: {
-    
+    getList(){
+      this.$axios.get('/api/lectureList')
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch((err)=>{console.log(err)})
+    }
   },
   mounted() {
-    this.category = this.$route.query.category
+    
   },
   created() {
-    this.category = this.$route.query.category
+    this.getList();
   },
+  watch:{
+    '$route.params.category':{
+      immediate: true,
+      handler(newCategory){
+        this.category = newCategory;
+        // console.log(this.category)
+      }
+    },
+    '$route.params.korCategory':{
+      immediate: true,
+      handler(newKorCategory){
+        this.korCategory = newKorCategory;
+        // console.log(this.korCategory)
+      }
+    }
+  }
 }
 
 

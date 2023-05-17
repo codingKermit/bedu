@@ -34,12 +34,7 @@ app.config.globalProperties.$router = router;
 /** CkEditor 임포트 */
 import CKEditor from "@ckeditor/ckeditor5-vue";
 
-/** 비에듀 테마 컬러 블랙, 블루, 옐로우 값 전역 변수 사용*/
-app.config.globalProperties.$black = "#231815";
-app.config.globalProperties.$blue = "#303076";
-app.config.globalProperties.$yellow = "#EDC268";
-
-/** 폰트 임포트 */
+/** 폰트, 컬러 3종(black, yellow, blue) 임포트 */
 import '@/assets/css/common.css'
 
 

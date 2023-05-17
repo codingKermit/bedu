@@ -18,7 +18,20 @@ export default {
   components: {
     PageFooter,
     PageHeader
-  }
+  },
+  methods: {
+      test(){
+        this.$axios.get("/api/hello").
+        then((res)=>{
+          console.log(res.data)
+        })
+        .catch((error)=>{console.log(error)})
+        ;
+      }
+    },
+    created() {
+      this.test();
+    },
 }
 </script>
 

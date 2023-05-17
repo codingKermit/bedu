@@ -16,4 +16,10 @@ public class HomeController {
 	public String index() {
 		return "index";
 	}
+	
+	@RequestMapping("/api/hello")
+	@ResponseBody
+	public String hello() {
+		return "hello~!";
+	}
 }

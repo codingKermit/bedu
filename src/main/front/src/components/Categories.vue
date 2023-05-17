@@ -1,18 +1,19 @@
 <template>
     <div>
-        <b-container class="d-flex mb-5">
-            <b-row cols="9" class="text-center">
-                <b-col v-for="item in categories" :key="item">
-                    <!-- <b-link class="text-body text-decoration-none" :to='"/course/" + item.value'> -->
-                        <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2" @click="categoryChange(item)">
-                            <img :src="item.img"></b-container>
+        <b-navbar toggleable="md">
+            <b-collapse id="categories" is-nav>
+            <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
+                <b-nav-item v-for="item in categories" :key="item">
+                    <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2" @click="categoryChange(item)">
+                            <b-img :src="item.img" fluid></b-img>
+                        </b-container>
                             <text class="fw-bold d-block">{{ item.title }}</text>
-                        <!-- </b-link> -->
-                    </b-col>
-                </b-row>
-            </b-container>
-        </div>
-    </template>
+                        </b-nav-item>
+                    </b-navbar-nav>
+                </b-collapse>
+        </b-navbar>
+    </div>
+</template>
 
     <script>
         export default {
@@ -64,14 +65,16 @@
                 categoryChange(item){
                     this.$router.push({
                         name : 'course',
-                        query:{
+                        params:{
                             category : item.value,
                             korCategory : item.title
                         }
                     })
                 }
             },
-            created() {},
+            created() {
+
+            },
             mounted() {},
             props: {
                 imgPath: String,
@@ -82,7 +85,7 @@
 
     <style scoped="scoped">
         img {
-            width: 70%;
-            height: 70%;
+            width: 65%;
+            height: 65%;
         }
     </style>
