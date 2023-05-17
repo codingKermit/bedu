@@ -17,12 +17,22 @@ public class LectureController {
 	private LectureService service;
 	
 	@RequestMapping("/lectureList")
-	public ArrayList<LectureDto> getLectureList(){
+	public ArrayList<LectureDto> getLectureList(String category){
 		ArrayList<LectureDto> list = new ArrayList<>();
 		
-		list = service.getLectureList();
+		list = service.getLectureList(category);
 		
 		return list;
+		
+	}
+	
+	@RequestMapping("/lectureDetail")
+	public LectureDto getLectureDetail(int num) {
+		LectureDto dto = new LectureDto();
+		
+		dto = service.getLectureDetail(num);
+		
+		return dto;
 		
 	}
 

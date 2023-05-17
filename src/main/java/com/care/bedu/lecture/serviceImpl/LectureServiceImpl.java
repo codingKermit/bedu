@@ -16,13 +16,23 @@ public class LectureServiceImpl implements LectureService{
 	private LectureDao dao;
 	
 	@Override
-	public ArrayList<LectureDto> getLectureList() {
+	public ArrayList<LectureDto> getLectureList(String category) {
 		// TODO Auto-generated method stub
 		ArrayList<LectureDto> list = new ArrayList<>();
 		
-		list = dao.getLectureList();
+		list = dao.getLectureList(category);
 		
 		return list;
+	}
+
+	@Override
+	public LectureDto getLectureDetail(int num) {
+		// TODO Auto-generated method stub
+		LectureDto dto = new LectureDto();
+		dto = dao.getLectureDetail(num);
+		
+		
+		return dto;
 	}
 
 }

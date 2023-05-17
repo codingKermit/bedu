@@ -3,10 +3,30 @@
 
 <mapper namespace="com.care.bedu.lecture.dao.LectureDao">
 
-<select id="getLectureList" resultType="com.care.bedu.lecture.dto.LectureDto">
-	SELECT A.* FROM BIL.LECTURE A
-	INNER JOIN BIL.LECTUREDETAIL B
-	ON A.NUM = B.POSTID
+<select id="getLectureList" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="String">
+	SELECT A.NUM, A.TITLE, A.TEACHER, COUNT(B.POSTID) AS TOTAL, A.DURATION,
+	A.THUMBNAIL, A.VIEW, A.REGIDATE, A.PRICE, A.DISCRIPTION,
+	AVG(C.SCORE) AS SCORE, COUNT(C.USERID) AS SCOREUSERS, 
+	SUM(B.TIMES) AS TOTALTIMES, A.CATEGORY
+	 FROM (SELECT * FROM BIL.LECTURE WHERE CATEGORY = #{category})  AS A 
+	LEFT JOIN BIL.LECTUREDETAIL B
+	ON A.NUM = B.POSTID 
+	LEFT JOIN BIL.LECTURESCORE C
+	ON A.NUM = C.LECTUREID
+	GROUP BY A.NUM;
+</select>
+
+<select id="getLectureDetail" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="int">
+	SELECT A.NUM, A.TITLE, A.TEACHER, COUNT(B.POSTID) AS TOTAL, A.DURATION,
+	A.THUMBNAIL, A.VIEW, A.REGIDATE, A.PRICE, A.DISCRIPTION,
+	AVG(C.SCORE) AS SCORE, COUNT(C.USERID) AS SCOREUSERS, 
+	SUM(B.TIMES) AS TOTALTIMES, A.CATEGORY
+	 FROM (SELECT * FROM BIL.LECTURE WHERE NUM = #{num})  AS A 
+	LEFT JOIN BIL.LECTUREDETAIL B
+	ON A.NUM = B.POSTID 
+	LEFT JOIN BIL.LECTURESCORE C
+	ON A.NUM = C.LECTUREID
+	GROUP BY A.NUM;
 </select>
 
 </mapper>
