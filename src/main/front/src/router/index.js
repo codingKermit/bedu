@@ -11,7 +11,7 @@ const routes = [
     name: 'course',
 
     component: () => import('../views/lecture/LectureCourse.vue')
-  },
+  } , 
   {
     path : '/lectureDetail',
     name : 'lectureDetail',
@@ -20,9 +20,34 @@ const routes = [
   }
   ,
   {
+    path : '/lectureField',
+    name : 'lectureField',
+
+    component : () => import('@/views/lecture/LectureField.vue')
+  }
+  ,
+  {
     path: '/community',
     name: 'community',
-    component: () => import('../views/CommunityView.vue')
+    component: () => import('../views/community/CommunityView.vue')
+  }
+  ,
+  {
+    path: '/communitywrite',
+    name: 'communitywrite',
+    component: () => import('../views/community/CommunityWrite.vue')
+  }
+  ,
+  {
+    path: '/communitydetail',
+    name: 'communitydetail',
+    component: () => import('../views/community/CommunityDetail.vue')
+  }
+  ,
+  {
+    path: '/communitydetail/:num',
+    name: 'communitydetail',
+    component: () => import('../views/community/CommunityDetail.vue')
   }
   ,
   {
@@ -40,13 +65,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/LoginView.vue')
+    component: () => import('../views/user/LoginView.vue')
   }
   ,
   {
     path: '/regist',
     name: 'regist',
-    component: () => import('../views/RegistView.vue')
+    component: () => import('../views/user/RegistView.vue')
   }
   ,
   {
@@ -65,6 +90,11 @@ const routes = [
     path: '/privacy',
     name: 'privacy',
     component: () => import('../views/Notice/PrivacyView.vue')
+  },
+  {
+    path: '/reviewWrite',
+    name: 'reviewWrite',
+    component: () => import('../views/Review/ReviewWrite.vue')
   }
 ]
 

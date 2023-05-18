@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.community.dao.CommunityDAO">
+	
+	<select id="vielist" resultType="com.care.bedu.community.dto.CommunityDTO">
+		SELECT * FROM BEDU.COMMUNITY
+		ORDER BY NUM DESC
+	</select>
+	
+	<insert id="viewwriter">
+		insert into BEDU.COMMUNITY(userId, title, contents, writeDate, writer)
+		values(#{userId}, #{title}, #{contents}, SYSDATE(), #{writer})
+	</insert>
+	
+	<select id="viewone" resultType="com.care.bedu.community.dto.CommunityDTO">
+		SELECT * FROM BEDU.COMMUNITY
+		WHERE NUM = #{num}
+	</select>
+	
+	<delete id="viewdelete">
+		DELETE FROM BEDU.COMMUNITY
+		WHERE NUM = #{num}
+	</delete>
+	
+	<update id="viewupdate">
+		UPDATE BEDU.COMMUNITY SET TITLE, CONTENTS
+		WHERE NUM = #{num}
+	</update>
+	
+</mapper>

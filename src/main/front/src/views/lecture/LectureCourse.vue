@@ -1,8 +1,9 @@
 <template>
   <div class="py-5 lectureCourse">
+    <b-button @click="damn()">샘플데이터 와장창 넣어버리기</b-button>
     <b-container class="">
       <div class="mb-5">
-        <text class="fs-5 fw-light">
+        <text class="fs-5 text-secondary">
           {{ korCategory }}
         </text>
       </div>
@@ -53,6 +54,11 @@ export default{
         this.lectures = res.data;
       })
       .catch((err)=>{console.log(err)})
+    },
+    damn(){
+      this.$axios.get('/api/damn')
+      .then((res)=>{console.log(res)})
+      .catch((err)=>console.log(err));
     }
   },
   mounted() {
@@ -66,14 +72,12 @@ export default{
       immediate: true,
       handler(newCategory){
         this.category = newCategory;
-        // console.log(this.category)
       }
     },
     '$route.query.korCategory':{
       immediate: true,
       handler(newKorCategory){
         this.korCategory = newKorCategory;
-        // console.log(this.korCategory)
       }
     }
   }
