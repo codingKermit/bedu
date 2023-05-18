@@ -21,7 +21,7 @@
                     {{ community.heart }}
                 </text>
             </b-container>
-            <b-button type="submit" class="btn-custom ms-2" :to="'/communityedit'+'/'+community.num">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="communityeditPath()">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
             <hr class="my-5">
         </b-container>
@@ -83,6 +83,15 @@ export default{
                 .catch(error => {
                     console.log(error)
                 })
+        },
+        communityeditPath(){
+            this.$router.push({
+                name: 'communityedit', 
+                params:{
+                    num :this.result
+                }
+            })
+                
         },
 
         path(num){

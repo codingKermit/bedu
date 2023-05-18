@@ -45,7 +45,7 @@ const routes = [
   }
   ,
   {
-    path: '/communityedit',
+    path: '/communityedit/:num',
     name: 'communityedit',
     component: () => import('../views/community/CommunityEdit.vue')
   }

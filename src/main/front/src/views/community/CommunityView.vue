@@ -6,8 +6,16 @@
       </div>
       <div class="community-main">
         <div id="community-box">
-          <input type="text" class="search-form"> <button class="btn btn-primary">검색</button>
-          <b-button class="btn btn-primary" :to="'/communitywrite'" style="margin-left: 300px;">작성하기</b-button>
+          <!-- <select name="condition">
+			<option value="freetitle">제목</option>
+			<option value="freecontent">내용</option>
+		</select>  -->
+    <!-- <input type="text" name="keyword"/> -->
+		 <!-- <button type="submit">검색</button> -->
+      <b-form @submit="search()">
+          <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
+          <b-button class="btn btn-primary" style="margin-left: 300px;">검색</b-button>
+      </b-form>
         </div>
       <table class="w3-table-all">
           <thead>
@@ -58,6 +66,8 @@
     </div>
   </template>
   <script>
+import { formToJSON } from 'axios';
+
   export default {
 
     data() { //변수생성
@@ -68,7 +78,9 @@
         totalPage : 0,
         currentPage : 1,
         order : '최신순',
-        keyword : '',
+        form: {
+          keyword: '',
+        }
         // paging: {
         //   block: 0,
         //   end_page: 0,
@@ -111,6 +123,19 @@
             console.log(error, '실패함!!')
           })
       },
+      search() {
+        alert('검색');
+        const form = new FormData();
+        form.append('keyword', this.form.keyword);
+        this.$axios.post('/api/community/boardList', form)
+          .then(res => {
+            console.log('확인:', res);
+            this.form = res.data;
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
     },
   }
   </script>
