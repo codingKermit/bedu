@@ -21,7 +21,7 @@
                     {{ community.heart }}
                 </text>
             </b-container>
-            <b-button type="submit" class="btn-custom ms-2" :to="'/questionwriter'+'/'+community.num">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2" :to="'/communityedit'+'/'+community.num">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
             <hr class="my-5">
         </b-container>
@@ -35,7 +35,6 @@ export default{
     
     data() {
         return {
-            cnum: 0,
             result : 0,
             community : {
                 title : '',
@@ -52,6 +51,7 @@ export default{
         const num = this.$route.params.num;
         
         this.communityRead(num);
+        this.path(num);
     },
 
     methods: {
@@ -66,29 +66,28 @@ export default{
             })
             .catch((error)=>{console.log(error)})
         },
-        communitydelete(){
+        communitydelete() {
             alert('게시글을 삭제합니다.');
-            this.$axios.get('/community/delete',{
-                params : {
-                    num : this.cnum,
+            this.$axios.get('/api/community/delete', {
+                params: {
+                    num: this.result,
                 }
             })
-            .then(res=>{
-                this.result = res.data;
-                this.$swal('Success','글삭제완료!','success'),
-                router.push({
-                        name:"question"
+                .then(res => {
+                    this.$swal('Success', '글삭제완료!', 'success'),
+                        console.log(res);
+                    router.push({
+                        name: "community"
+                    })
                 })
-                
-            })
-            .catch(error=>{
-                console.log(error)
-            })
+                .catch(error => {
+                    console.log(error)
+                })
         },
 
-        communityedit(num){
-            alert(num, '!');
-        }
+        path(num){
+            this.result = num;
+        },
 
     },
 }

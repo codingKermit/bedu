@@ -100,6 +100,7 @@
       this.List();
     },
     methods: {
+
       List(){
           this.$axios.get('/api/community/boardList')
           .then(res => {
@@ -107,7 +108,6 @@
           this.communitylist = res.data;
         })
           .catch(error => {
-            alert('불러오기 실패!');
             console.log(error, '실패함!!')
           })
       },
@@ -123,11 +123,8 @@
     }
 
     .community-main{
-      margin-left:auto; 
+        margin-left:auto; 
         margin-right:auto;
-      width: 700px;
-    }
-    #community-box{
-
+        width: 700px;
     }
 </style>
