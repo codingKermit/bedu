@@ -37,22 +37,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="review in filteredReviews" :key="review.id">
-          <td>{{ review.number }}</td>
-          <td>{{ review.course }}</td>
-          <td>
-            <span class="review-content" v-for="content in review.contents" :key="content.id">
-              {{ content.text }}
-            </span>
-          </td>
-          <td>
-            <div class="star-rating">
-              <span class="star" v-for="star in review.stars" :key="star">&#9733;</span>
-            </div>
-          </td>
-          <td>{{ review.author }}</td>
-        </tr>
-      </tbody>
+  <tr v-for="review in filteredReviews" :key="review.id">
+    <td>{{ review.number }}</td>
+    <td>{{ review.course }}</td>
+    <td>
+      <span class="review-content" v-for="content in review.contents" :key="content.id">
+        {{ content.text }}
+      </span>
+    </td>
+    <td>
+      <div class="star-rating">
+        <span class="star" v-for="star in review.stars" :key="star">&#9733;</span>
+      </div>
+    </td>
+    <td>{{ review.author }}</td>
+  </tr>
+</tbody>
     </table>
     <div class="review-write-button-container">
       <button class="review-write-button" @click="$router.push('/reviewWrite')">작성하기</button>
@@ -61,55 +61,53 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  props: {
+    reviews: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       searchKeyword: '',
-      reviews: [
-        {
-          id: 1,
-          number: 1,
-          course: "데이터 과학",
-          contents: [
-            { id: 1, text: "훌륭한 강의입니다! 설명도 너무 잘해주시고" },
-          ],
-          author: "김아무개",
-          stars: [1, 1, 1, 1, 1], // 별점 예시로 5개의 별 표시
-        },
-        {
-          id: 2,
-          number: 2,
-          course: "웹 개발",
-          contents: [
-            { id: 2, text: "강의가 매우 실용적입니다 교육자의 설명이 명확하고 이해하기 쉽습니다" },
-          ],
-          author: "박아무개",
-          stars: [1, 1, 1, 1], // 별점 예시로 4개의 별 표시
-        },
-        // 추가적인 리뷰 데이터 객체를 추가하세요
-      ],
+      fetchedReviews: [] // 새로운 데이터를 받아오기 위한 배열 추가
     };
   },
   computed: {
     filteredReviews() {
       if (this.searchKeyword) {
         const keyword = this.searchKeyword.toLowerCase();
-        return this.reviews.filter(review =>
+        return this.fetchedReviews.filter(review =>
           review.course.toLowerCase().includes(keyword) ||
           review.contents.some(content => content.text.toLowerCase().includes(keyword)) ||
           review.author.toLowerCase().includes(keyword)
         );
       } else {
-        return this.reviews;
+        return this.fetchedReviews;
       }
-    },
+    }
   },
   methods: {
+    fetchReviews() {
+      axios.get('/api/reviews')
+        .then(response => {
+          this.fetchedReviews = response.data; // 받아온 리뷰 데이터를 fetchedReviews 배열에 저장
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     searchReviews() {
       // 검색 기능을 구현하기 위한 메소드입니다.
       // 필요에 따라 서버와의 통신이나 클라이언트 측에서의 데이터 필터링 등을 수행할 수 있습니다.
-    },
+    }
   },
+  mounted() {
+    this.fetchReviews(); // StudyReview 컴포넌트가 마운트될 때 리뷰 데이터를 가져오도록 호출
+  }
 };
 </script>
 
