@@ -39,15 +39,15 @@ const routes = [
   }
   ,
   {
-    path: '/communitydetail',
+    path: '/communitydetail/:num',
     name: 'communitydetail',
     component: () => import('../views/community/CommunityDetail.vue')
   }
   ,
   {
-    path: '/communitydetail/:num',
-    name: 'communitydetail',
-    component: () => import('../views/community/CommunityDetail.vue')
+    path: '/communityedit/:num',
+    name: 'communityedit',
+    component: () => import('../views/community/CommunityEdit.vue')
   }
   ,
   {
