@@ -40,7 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 90vh;
+  min-height: 83vh;
   background: #EDF0F5;
   text-align: center;
 }
