@@ -10,9 +10,12 @@
     </div>
     <div class="container">
       <div class="logo-container">
-        <p>회원가입</p>
+        <img src="@/assets/imgs/Logo2.png" width="180"><br/>
+        <p>강의는 역시 B:EDU</p>
       </div>
-      Test
+      <div class="login-container">
+        회원가입
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +25,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh;
+  min-height: 90vh;
   background: #EDF0F5;
   text-align: center;
 }
@@ -46,6 +49,15 @@
   border-bottom: 3px solid #303076;
 }
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .registbtn {
   width: 300px;
   padding: 1rem;
@@ -53,8 +65,9 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
-  color: #FFFFFF;
+  color: white;
   background: #303076;
+  animation: fadein 0.5s;
   border-bottom: 3px solid #303076;
 }
 
@@ -62,7 +75,7 @@
   position: relative;
   background: white;
   width: 600px;
-  height: 360px;
+  height: 460px;
 }
 
 .logo-container {
@@ -72,5 +85,26 @@
   border-radius: 1rem;
   background: white;
   margin-top: 50px;
+}
+
+.email,
+.password {
+  width: 300px;
+  padding: 0.4rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.submit {
+  width: 300px;
+  padding: 0.4rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  color: #FFFFFF;
+  background: #303076;
 }
 </style>

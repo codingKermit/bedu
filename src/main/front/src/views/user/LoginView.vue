@@ -25,6 +25,11 @@
         <div>
           <button class="submit" type="button">로그인</button>
         </div>
+        <div>
+          <a>아이디 찾기</a> |
+          <a>비밀번호 찾기</a> |
+          <a>회원가입</a>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +62,16 @@
   color: #FFFFFF;
   background: #303076;
   border-bottom: 3px solid #303076;
-  animation: fadein 3s;
+  animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .registbtn {

@@ -5,11 +5,11 @@
       <router-link to="/">
         <img src="@/assets/imgs/Logo.png" width="150">
       </router-link>
-      <div class="dropdown">
-        <a class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" @click="navigateTo('/lectureField')">
+      <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+        <a class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen" @click="navigateTo('/lectureField')">
           분야별 강의
         </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
           <li v-for="item in categories" :key="item.title">
             <a style="cursor: pointer;" class="dropdown-item" @click="categoryChange(item)">{{ item.title }}</a>
           </li>
@@ -37,6 +37,7 @@ export default {
   name: 'PageHeader',
   data() {
     return {
+      isDropdownOpen: false,
       categories: [
         {
           title: '기초 강의',
@@ -89,8 +90,14 @@ export default {
     },
     navigateTo(route) {
       this.$router.push(route);
-    }
-  }
+    },
+    openDropdown() {
+      this.isDropdownOpen = true;
+    },
+    closeDropdown() {
+      this.isDropdownOpen = false;
+    },
+  },
 };
 </script>
 
