@@ -3,12 +3,14 @@
         <b-navbar toggleable="md">
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
-                <b-nav-item v-for="item in categories" :key="item">
-                    <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2" @click="categoryChange(item)">
+                <b-nav-item v-for="(item, i) in categories" :key="i">
+                    <b-link :to='"/course?category="+item.value+"&korCategory="+item.title' class="text-body text-decoration-none">
+                        <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                             <b-img :src="item.img" fluid></b-img>
                         </b-container>
-                            <text class="fw-bold d-block">{{ item.title }}</text>
-                        </b-nav-item>
+                        <text class="fw-bold d-block">{{ item.title }}</text>
+                    </b-link>
+                    </b-nav-item>
                     </b-navbar-nav>
                 </b-collapse>
         </b-navbar>
@@ -62,15 +64,7 @@
                 }
             },
             methods: {
-                categoryChange(item){
-                    this.$router.push({
-                        name : 'course',
-                        query:{
-                            category : item.value,
-                            korCategory : item.title
-                        }
-                    })
-                }
+
             },
             created() {
 
