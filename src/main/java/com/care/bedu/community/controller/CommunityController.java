@@ -18,7 +18,7 @@ public class CommunityController {
 	@Autowired
 	private CommunityService communityService;
 	
-	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/community/boardList", method= RequestMethod.GET)
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
 		System.out.println("키워드:"+ communityDTO.getKeyword());
 		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
