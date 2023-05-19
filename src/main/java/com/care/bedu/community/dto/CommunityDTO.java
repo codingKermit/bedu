@@ -14,7 +14,6 @@ public class CommunityDTO {
 	private String writeDate;
 	private String title;
 	private String views;
-	private String condition;
 	private String keyword;
 
 }

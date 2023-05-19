@@ -2,8 +2,8 @@
     <b-container class="w-50">
         <h1>커뮤니티</h1>
       <b-form @submit="edit()">
-          <input type="hidden" v-model="form.num" value="가" ref="num"/>
-          <input type="hidden" v-model="form.writer" value="가" ref="writer"/>
+          <input type="hidden" v-model="form.num" ref="num"/>
+          <input type="hidden" v-model="form.writer"  ref="writer"/>
           <b-form-input class="my-5" ref="title" v-model="form.title"></b-form-input>
           <b-form-textarea class="form-control col-sm-5" rows="5" ref="contents" v-model="form.contents"></b-form-textarea>
           <b-container class="my-3 justify-content-md-end d-md-flex">

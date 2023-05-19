@@ -1,24 +1,18 @@
 <template>
-    <div class="community">
-      <div class="community-title">
-        <h1>커뮤니티</h1>
-        <subtitle :subtitle="subtitle"/>
-      </div>
-      <div class="community-main">
-        <div id="community-box">
-          <!-- <select name="condition">
-			<option value="freetitle">제목</option>
-			<option value="freecontent">내용</option>
-		</select>  -->
-    <!-- <input type="text" name="keyword"/> -->
-		 <!-- <button type="submit">검색</button> -->
-      <b-form @submit="search()">
+  <div class="community">
+    <div class="community-title">
+      <h1>커뮤니티</h1>
+      <subtitle :subtitle="subtitle" />
+    </div>
+    <div class="community-main">
+      <div id="community-box">
+        <!-- <b-form @submit="search()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button class="btn btn-primary" style="margin-left: 300px;">검색</b-button>
-      </b-form>
-        </div>
+        </b-form> -->
+      </div>
       <table class="w3-table-all">
-          <thead>
+        <thead>
           <tr>
             <th>번호</th>
             <th>제목</th>
@@ -26,47 +20,27 @@
             <th>날짜</th>
             <th>조회수</th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           <tr v-for="community in communitylist" :key="community">
             <td>{{ community.num }}</td>
-            <td><b-link class="text-start" :to='"/communitydetail"+"/"+community.num'>
-              {{ community.title }}
-            </b-link></td>
+            <td><b-link class="text-start" :to='"/communitydetail" + "/" + community.num'>
+                {{ community.title }}
+              </b-link></td>
             <td>{{ community.writer }}</td>
             <td>{{ community.writeDate }}</td>
             <td>{{ community.views }}</td>
           </tr>
-        
-          </tbody>
-        
-        </table>
-    
+
+        </tbody>
+
+      </table>
     </div>
-      <!-- <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
-        <span class="pg">
-        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
-        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
-           class="prev w3-button w3-bar-item w3-border">&lt;</a>
-        <template v-for=" (n,index) in paginavigation()">
-            <template v-if="paging.page==n">
-                <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
-            </template>
-            <template v-else>
-                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
-            </template>
-        </template>
-        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
-        </span>
-      </div> -->
-      <div id="app">
+    <div id="app">
+    </div>
   </div>
-    </div>
-  </template>
+</template>
   <script>
-import { formToJSON } from 'axios';
 
   export default {
 
