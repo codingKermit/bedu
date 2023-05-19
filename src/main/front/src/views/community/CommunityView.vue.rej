@@ -1,0 +1,9 @@
+diff a/src/main/front/src/views/community/CommunityView.vue b/src/main/front/src/views/community/CommunityView.vue	(rejected hunks)
+@@ -65,7 +65,6 @@
+     </div>
+   </template>
+   <script>
+-import { formToJSON } from 'axios';
+ 
+   export default {
+ 
