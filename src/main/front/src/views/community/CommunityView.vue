@@ -91,6 +91,7 @@
       List(){
           this.$axios.get('/api/community/boardList')
           .then(res => {
+            alert('확인!');  
           console.log(res);
           this.communitylist = res.data;
         })
