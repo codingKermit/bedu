@@ -43,6 +43,7 @@
                <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5">
                 <b-container class="d-flex">
                     <div class="w-50 d-flex pt-4">
+                        <span class="fw-5 text-secondary ms-3">강좌</span>
                         <span class="fw-5 text-secondary ms-3 fs-2">강좌</span>
                         <span class="mx-auto ">{{ form.title }}</span>
                     </div>
