@@ -43,9 +43,8 @@
                <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5">
                 <b-container class="d-flex">
                     <div class="w-50 d-flex pt-4">
-                        <span class="fw-5 text-secondary ms-3">강좌</span>
-                        <span class="fw-5 text-secondary ms-3 fs-2">강좌</span>
-                        <span class="mx-auto ">{{ form.title }}</span>
+                        <span class="fw-5 text-secondary ms-3 fs-6">강좌</span>
+                        <span class="mx-auto fs-5">{{ form.title }}</span>
                     </div>
                     <div class="align-middle pt-3 ms-auto fw-bold me-4">
                         <span class="fs-2 text-danger">{{ form.price }}</span><span>원</span>
