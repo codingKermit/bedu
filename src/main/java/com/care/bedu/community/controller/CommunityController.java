@@ -21,7 +21,8 @@ public class CommunityController {
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
 		System.out.println("키워드:"+ communityDTO.getKeyword());
-		ArrayList<CommunityDTO> list = communityService.listProc();
+		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
+		System.out.println("리스트:"+ list);
 		return list;
 	}
 	

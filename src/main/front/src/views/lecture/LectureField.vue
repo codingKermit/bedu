@@ -8,7 +8,9 @@
                     <b-link class="text-decoration-none text-danger fw-bold">기초 강의</b-link>에서 인기 있는 강좌
                 </span>
                 <span class="ms-auto">
-                    <b-link class="text-decoration-none text-secondary" @click="watchList('base','기초 강의')">· 더보기</b-link>
+                    <b-link class="text-decoration-none text-secondary"
+                    :to='"/course?category=base&korCategory=기초 강의"'
+                    >· 더보기</b-link>
                 </span>
             </div>
             <div>
@@ -16,11 +18,16 @@
                     <b-col v-for="(item, i) in base" :key="i">
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
-                            <img :src="item.thumbnail" >
-                            <b-container class="p-4 border">
+                                <div class="position-relative">
+                                    <img :src="item.thumbnail" >
+                                </div>
+                                <b-container class="p-4 border position-relative">
+                                    <span class="position-absolute like-off">
+                                        <font-awesome-icon :icon="['fas', 'heart']" style="color: #ffffff;" />
+                                    </span>
                                 <div>
                                 <p class="fw-bold">{{ item.title }}</p>
-                                </div>
+                            </div>
                                 <p class="fw-bold"> <span  class="teacher-name">{{ item.teacher }} 선생님</span><span> 총 {{ item.total }}강</span></p>
                                 <p class="text-secondary fs-6">수강기간:{{ item.duration }}일</p>
                                 <div class="text-center">
@@ -48,7 +55,10 @@
                         <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
                             <img :src="item.thumbnail" >
-                            <b-container class="p-4 border">
+                            <b-container class="p-4 border position-relative">
+                                    <span class="position-absolute like-on">
+                                        <font-awesome-icon :icon="['fas', 'heart']" style="color: #ed0202;" />
+                                    </span>
                                 <div>
                                 <p class="fw-bold">{{ item.title }}</p>
                                 </div>
@@ -256,7 +266,7 @@
                     <b-link class="text-decoration-none text-danger fw-bold">디자인</b-link>에서 인기 있는 강좌
                 </span>
                 <span class="ms-auto">
-                    <span class="text-decoration-none text-secondary" @click="watchList('design','디자인')">· 더보기</span>
+                    <b-link class="text-decoration-none text-secondary" @click="watchList('design','디자인')">· 더보기</b-link>
                 </span>
             </div>
             <div>
@@ -314,6 +324,7 @@ export default{
                 this.tools = res.data.tools;
                 this.major = res.data.major;
                 this.design = res.data.design;
+                console.log(this.base)
             })
             .catch((err)=>{
                 console.log(err)
@@ -344,5 +355,36 @@ export default{
 img{
   width: 100%;
   height: 150px;
+}
+
+
+.like-off{
+    height: 50px;
+    width: 50px;
+    /* background: url(@/assets/imgs/icon_like_off.png) no-repeat center; */
+    top: -40px;
+    right : -10px;
+    text-align: center;
+    font-size : 24px;
+}
+.like-on{
+    height: 50px;
+    width: 50px;
+    /* background: url(@/assets/imgs/icon_like_on.png) no-repeat center; */
+    top: -40px;
+    right : -10px;
+    text-align: center;
+    font-size : 24px;
+}
+
+.teacher-name::after{
+  content: '';
+  width: 1px;
+  background-color: black;
+  margin: 0rem 0.5rem;
+  background: black;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>

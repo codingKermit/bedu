@@ -2,6 +2,7 @@ package com.care.bedu.community.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,11 @@ public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private CommunityDAO communityMapper;
 
-	@Override
-	public ArrayList<CommunityDTO> listProc() {
-		HashMap<String, Object> map = new HashMap<>();
-		return communityMapper.vielist();
-	}
+//	@Override
+//	public ArrayList<CommunityDTO> listProc() {
+//		HashMap<String, Object> map = new HashMap<>();
+//		return communityMapper.vielist();
+//	}
 
 	@Override
 	public int boardwriter(CommunityDTO communityDTO) {
@@ -42,6 +43,15 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public int viewupdate(CommunityDTO communityDTO) {
 		return communityMapper.viewupdate(communityDTO);
+	}
+
+	@Override
+	public ArrayList<CommunityDTO> listProc(CommunityDTO communityDTO) {
+//		if(communityDTO.getKeyword() != null) {
+//			communityDTO.set
+//		}
+		ArrayList<CommunityDTO> list = communityMapper.viewlist(communityDTO);
+		return list;
 	}
 	
 	

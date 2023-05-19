@@ -3,8 +3,10 @@
 
 <mapper namespace="com.care.bedu.community.dao.CommunityDAO">
 	
-	<select id="vielist" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT * FROM BEDU.COMMUNITY
+	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
+		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
+		<!--<if test="keyword == TITLE"> WHERE TITLE LIKE CONCAT('%',#{keyword},'%') </if>
+		<if test="keyword == CONTENTS"> WHERE CONTENTS LIKE CONCAT('%',#{keyword},'%') </if>-->
 		ORDER BY NUM DESC
 	</select>
 	

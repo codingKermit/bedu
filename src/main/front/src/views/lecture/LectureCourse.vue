@@ -1,6 +1,5 @@
 <template>
   <div class="py-5 lectureCourse">
-    <b-button @click="damn()">샘플데이터 와장창 넣어버리기</b-button>
     <b-container class="">
       <div class="mb-5">
         <text class="fs-5 text-secondary">
@@ -24,7 +23,17 @@
               </b-container>
             </div>
           </b-link>
-            </b-col>
+        </b-col>
+        <infinite-loading @infinite="infiniteHandler">
+          <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+          </template>
+          <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+            <span></span>
+          </template>
+          <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+          </template>
+        
+      </infinite-loading>
       </b-row>
     </b-container>
   </div>
@@ -32,33 +41,56 @@
 
 
 <script>
+import InfiniteLoading from 'infinite-loading-vue3-ts';
 
 export default{
+  components: {
+    InfiniteLoading,
+  },
   name : 'LectureCourse',
   data() {
     return {
       category : this.$route.params.category,
       korCategory : this.category == 'base' ? '기초 강의':'데이터 분석',
       lectures : [],
+      page : 1
     }
   },
   methods: {
     getList(){
       this.$axios.get('/api/lectureList',{
         params:{
-          category : this.category
+          category : this.category,
+          page : this.page,
         }
       })
       .then((res)=>{
         console.log(res)
-        this.lectures = res.data;
+        this.lectures = res.data.item;
+        // this.lectures.push(...res.data.item);
       })
       .catch((err)=>{console.log(err)})
     },
-    damn(){
-      this.$axios.get('/api/damn')
-      .then((res)=>{console.log(res)})
-      .catch((err)=>console.log(err));
+    infiniteHandler($state){
+      this.$axios.get('/api/lectureList',{
+        params:{
+          category : this.category,
+          page : this.page,
+        }
+      })
+      .then((res)=>{
+        console.log(res)
+        // this.lectures = res.data;
+        // $state.loaded();
+        if(res.data.item.length){
+          this.page++;
+          this.lectures.push(...res.data.item);
+          $state.loaded();
+        } else{
+          $state.complete();
+        }
+      })
+      .catch((err)=>{console.log(err)})
     }
   },
   mounted() {
