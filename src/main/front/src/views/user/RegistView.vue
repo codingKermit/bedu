@@ -111,6 +111,7 @@ export default {
       this.updateAllChecked();
     },
   },
+  
   computed: {
     submitButtonColor() {
       return this.selectedAgreements.length === this.agreements.length ? '#303076' : '';
