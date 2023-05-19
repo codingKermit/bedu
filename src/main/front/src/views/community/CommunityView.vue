@@ -11,7 +11,6 @@
 			<option value="freecontent">내용</option>
 		</select>  -->
     <!-- <input type="text" name="keyword"/> -->
-		 <!-- <button type="submit">검색</button> -->
       <b-form @submit="search()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button class="btn btn-primary" style="margin-left: 300px;">검색</b-button>
@@ -66,7 +65,6 @@
     </div>
   </template>
   <script>
-import { formToJSON } from 'axios';
 
   export default {
 
