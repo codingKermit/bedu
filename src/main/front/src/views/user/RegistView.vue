@@ -1,12 +1,8 @@
 <template>
   <div class="regist">
     <div class="change">
-      <button @click="$router.push('/login')" class="loginbtn">
-        로그인
-      </button>
-      <button @click="$router.push('/regist')" class="registbtn">
-        회원가입
-      </button>
+      <button @click="$router.push('/login')" class="loginbtn">로그인</button>
+      <button @click="$router.push('/regist')" class="registbtn">회원가입</button>
     </div>
     <div class="container">
       <div v-if="!showForm" class="regist-container">
@@ -16,11 +12,16 @@
           <span style="cursor: pointer;">모든 이용 약관에 동의.</span>
         </label>
 
-        <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value" @click="toggleCheckbox(item.value)">
-          <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'" :value="item.value" v-model="selectedAgreements" @change="updateAllChecked">
-          <span style="cursor: pointer;">{{ item.label }}<strong v-if="item.optional" class="select_disable">(선택)</strong></span>
-          <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7" cols="85"></textarea>
-          <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7" cols="85"></textarea>
+        <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value"
+          @click="toggleCheckbox(item.value)">
+          <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'"
+            :value="item.value" v-model="selectedAgreements" @change="updateAllChecked">
+          <span style="cursor: pointer;">{{ item.label }}<strong v-if="item.optional"
+              class="select_disable">(선택)</strong></span>
+          <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7"
+            cols="85"></textarea>
+          <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7"
+            cols="85"></textarea>
         </label>
 
         <a>※위 항목에 동의하지 않는 경우 회원가입이 불가합니다.</a>
@@ -212,7 +213,8 @@ input[type=checkbox] {
   padding: 10px;
 }
 
-.submit, .submit2 {
+.submit,
+.submit2 {
   width: 90%;
   padding: 0.8rem;
   margin-top: 40px;
@@ -227,7 +229,7 @@ input[type=checkbox] {
 }
 
 .submit2:active {
-  box-shadow:inset 1px 2px 5px 0px rgb(203, 203, 203),inset -1px 0px 3px 0px rgb(203, 203, 203);
+  box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203), inset -1px 0px 3px 0px rgb(203, 203, 203);
 }
 
 .container2 {
@@ -250,8 +252,8 @@ input[type=checkbox] {
   margin-left: -23px;
   font-size: 1.1rem;
   font-weight: 400;
-  background-color: #707070;
   color: white;
+  background-color: #707070;
 }
 
 .password {
@@ -276,5 +278,4 @@ input[type=checkbox] {
   color: #303076;
   border: 3px solid #303076;
 }
-
 </style>
