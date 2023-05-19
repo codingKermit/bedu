@@ -313,6 +313,7 @@ export default{
     },
     methods: {
         getLectures(){
+            console.log(location.origin);
             this.$axios.get('/api/getLectureField')
             .then((res)=>{
                 this.base = res.data.base;

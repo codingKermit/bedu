@@ -19,7 +19,6 @@ public class LectureController {
 	@RequestMapping("/lectureList")
 	public ArrayList<LectureDto> getLectureList(String category){
 		ArrayList<LectureDto> list = new ArrayList<>();
-		
 		list = service.getLectureList(category);
 		
 		return list;
