@@ -5,9 +5,11 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
 		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
+		 WHERE (TITLE LIKE CONCAT('%',#{keyword},'%')
+		  OR CONTENTS LIKE CONCAT('%',#{keyword},'%'))
+		ORDER BY NUM DESC
 		<!--<if test="keyword == TITLE"> WHERE TITLE LIKE CONCAT('%',#{keyword},'%') </if>
 		<if test="keyword == CONTENTS"> WHERE CONTENTS LIKE CONCAT('%',#{keyword},'%') </if>-->
-		ORDER BY NUM DESC
 	</select>
 	
 	<insert id="viewwriter">

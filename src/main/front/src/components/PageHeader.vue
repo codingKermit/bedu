@@ -104,7 +104,6 @@ export default {
 <style scoped>
 .dropdown:hover .dropdown-menu {
   display: block;
-  margin-top: 2px;
 }
 
 header {
