@@ -1,11 +1,13 @@
 package com.care.bedu.lecture.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.care.bedu.lecture.dto.LectureDetailDto;
 import com.care.bedu.lecture.dto.LectureDto;
 import com.care.bedu.lecture.service.LectureService;
 
@@ -17,12 +19,14 @@ public class LectureController {
 	private LectureService service;
 	
 	@RequestMapping("/lectureList")
-	public ArrayList<LectureDto> getLectureList(String category){
+	public HashMap<String, ArrayList<LectureDto>> getLectureList(String category, int page){
 		ArrayList<LectureDto> list = new ArrayList<>();
+		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
 		
-		list = service.getLectureList(category);
+		list = service.getLectureList(category, page);
 		
-		return list;
+		map.put("item", list);
+		return map;
 		
 	}
 	
@@ -33,7 +37,23 @@ public class LectureController {
 		dto = service.getLectureDetail(num);
 		
 		return dto;
-		
 	}
+	
+	@RequestMapping("/getLectureField")
+	public HashMap<String,ArrayList<LectureDto>> getLectureField(){
+		HashMap<String,ArrayList<LectureDto>> map = new HashMap<>();
+		map = service.getLectureField();
+		return map;
+	}
+	
+	@RequestMapping("/getVideoList")
+	public ArrayList<LectureDetailDto> getVideoList(int num){
+		ArrayList<LectureDetailDto> list = new ArrayList<>();
+		
+		list = service.getVideoList(num);
+		
+		return list;
+	}
+	
 
 }

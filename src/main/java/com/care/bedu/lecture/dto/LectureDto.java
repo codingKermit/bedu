@@ -26,7 +26,6 @@ public class LectureDto {
 	private double score; // 강의 평점
 	private int scoreUsers; // 강의 평점 매긴 사람
 	private int totalTimes; // 총 강의 시간
-	private String category; // 강의 카테고리
-	//또 뭐있어야하지?
-
+	private String category; // 강의 카테고리 --> 코드 혹은 영어로 저장
+	private String korCategory; // 강의 카테고리 --> 한글로 저장
 }
