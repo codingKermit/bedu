@@ -6,10 +6,10 @@
     </div>
     <div class="community-main">
       <div id="community-box">
-        <!-- <b-form @submit="search()">
+        <b-form @submit="search()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
-          <b-button class="btn btn-primary" style="margin-left: 300px;">검색</b-button>
-        </b-form> -->
+          <b-button type="submit" class="btn btn-primary" style="margin-left: 300px;">검색</b-button>
+        </b-form>
       </div>
       <table class="w3-table-all">
         <thead>
@@ -81,10 +81,11 @@
         // }
       }
     },
+
     mounted() {
-      // this.boo()
       this.List();
     },
+
     methods: {
 
       List(){
