@@ -37,22 +37,22 @@
         </tr>
       </thead>
       <tbody>
-  <tr v-for="review in filteredReviews" :key="review.id">
-    <td>{{ review.number }}</td>
-    <td>{{ review.course }}</td>
-    <td>
-      <span class="review-content" v-for="content in review.contents" :key="content.id">
-        {{ content.text }}
-      </span>
-    </td>
-    <td>
-      <div class="star-rating">
-        <span class="star" v-for="star in review.stars" :key="star">&#9733;</span>
-      </div>
-    </td>
-    <td>{{ review.author }}</td>
-  </tr>
-</tbody>
+        <tr v-for="(review, index) in filteredReviews" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ review.course }}</td>
+          <td>
+            <span class="review-content" v-for="content in review.contents" :key="content.id">
+              {{ content.text }}
+            </span>
+          </td>
+          <td>
+            <div class="star-rating">
+              <span class="star" v-for="star in review.stars" :key="star">&#9733;</span>
+            </div>
+          </td>
+          <td>{{ review.author }}</td>
+        </tr>
+      </tbody>
     </table>
     <div class="review-write-button-container">
       <button class="review-write-button" @click="$router.push('/reviewWrite')">작성하기</button>
@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       searchKeyword: '',
-      fetchedReviews: [] // 새로운 데이터를 받아오기 위한 배열 추가
+      fetchedReviews: []
     };
   },
   computed: {
@@ -94,19 +94,18 @@ export default {
     fetchReviews() {
       axios.get('/api/reviews')
         .then(response => {
-          this.fetchedReviews = response.data; // 받아온 리뷰 데이터를 fetchedReviews 배열에 저장
+          this.fetchedReviews = response.data;
         })
         .catch(error => {
           console.error(error);
         });
     },
-    searchReviews() {
-      // 검색 기능을 구현하기 위한 메소드입니다.
-      // 필요에 따라 서버와의 통신이나 클라이언트 측에서의 데이터 필터링 등을 수행할 수 있습니다.
+    addReview(review) {
+      this.fetchedReviews.push(review);
     }
   },
   mounted() {
-    this.fetchReviews(); // StudyReview 컴포넌트가 마운트될 때 리뷰 데이터를 가져오도록 호출
+    this.fetchReviews();
   }
 };
 </script>
