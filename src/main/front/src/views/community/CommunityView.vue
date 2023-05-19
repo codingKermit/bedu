@@ -55,8 +55,7 @@ export default {
   },
   methods: {
     List() {
-      this.$axios
-        .get('/api/community/boardList')
+      this.$axios.get('/api/community/boardList')
         .then(res => {
           console.log(res);
           this.communitylist = res.data;
