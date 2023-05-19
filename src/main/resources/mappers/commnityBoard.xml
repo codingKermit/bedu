@@ -24,7 +24,7 @@
 	</delete>
 	
 	<update id="viewupdate">
-		UPDATE BEDU.COMMUNITY SET TITLE, CONTENTS
+		UPDATE BEDU.COMMUNITY SET TITLE = #{title}, CONTENTS = #{contents}
 		WHERE NUM = #{num}
 	</update>
 	

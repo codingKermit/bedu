@@ -39,15 +39,15 @@ const routes = [
   }
   ,
   {
-    path: '/communitydetail',
+    path: '/communitydetail/:num',
     name: 'communitydetail',
     component: () => import('../views/community/CommunityDetail.vue')
   }
   ,
   {
-    path: '/communitydetail/:num',
-    name: 'communitydetail',
-    component: () => import('../views/community/CommunityDetail.vue')
+    path: '/communityedit/:num',
+    name: 'communityedit',
+    component: () => import('../views/community/CommunityEdit.vue')
   }
   ,
   {
@@ -100,7 +100,11 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  // eslint-disable-next-line
+  scrollBehavior (to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 export default router

@@ -6,7 +6,7 @@
         <img src="@/assets/imgs/Logo.png" width="150">
       </router-link>
       <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-        <a class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen" @click="navigateTo('/lectureField')">
+        <a class="dropdown-toggle no-arrow bedu-hd-cate-le" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen" @click="navigateTo('/lectureField')">
           분야별 강의
         </a>
         <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
@@ -15,9 +15,9 @@
           </li>
         </ul>
       </div>
-      <router-link to="/community" class="bedu-head-cate">커뮤니티</router-link>
-      <router-link to="/review" class="bedu-head-cate">수강후기</router-link>
-      <router-link to="/companyStudy" class="bedu-head-cate">기업교육</router-link>
+      <router-link class="bedu-hd-cate-le" to="/community">커뮤니티</router-link>
+      <router-link class="bedu-hd-cate-le" to="/review">수강후기</router-link>
+      <router-link class="bedu-hd-cate-le" to="/companyStudy">기업교육</router-link>
       
       <div class="search-popup">
         <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
@@ -26,8 +26,8 @@
         </div>
       </div>
       <div>
-        <router-link to="/login" class="bedu-head-cate2">로그인</router-link>
-        <router-link to="/regist" class="bedu-head-cate2">회원가입</router-link>
+        <router-link class="bedu-hd-cate-ri" to="/login">로그인</router-link>
+        <router-link class="bedu-hd-cate-ri" to="/regist">회원가입</router-link>
       </div>
     </div>
   </header>
@@ -90,7 +90,13 @@ export default {
     },
     navigateTo(route) {
       this.$router.push(route);
-    }
+    },
+    openDropdown() {
+      this.isDropdownOpen = true;
+    },
+    closeDropdown() {
+      this.isDropdownOpen = false;
+    },
   }
 };
 </script>
@@ -100,7 +106,6 @@ header {
   background-color: #EDC268;
   display: flex;
   width:100%;
-  position:absolute;
   justify-content: center;
   height: 7rem; 
 }
@@ -117,7 +122,15 @@ header {
   margin-top: 2px;
 }
 
-#nav1 .bedu-head-cate {
+.bedu-hd-cate-le{
+  font-family: 'Noto Sans CJK KR', sans-serif;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+
+.bedu-hd-cate-ri {
   font-family: 'Noto Sans CJK KR', sans-serif;
   font-weight: bold;
   color: #2c3e50;
@@ -126,7 +139,7 @@ header {
 }
 .bedu-header .search-popup {
   align-items: center;
-  display: inline-block;
+  display: inline-block; 
 }
 .bedu-header .search-popup input {
   width: 100%;
@@ -135,6 +148,10 @@ header {
   background-color: #F6E0B3;
   border-radius: 30px;
 }
+.search-popup{
+  margin-left: 32.4rem;
+}
+
 .border-bedu {
   background-color: #F6E0B3;
   width: 70%;
