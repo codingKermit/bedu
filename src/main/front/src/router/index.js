@@ -5,13 +5,15 @@ const routes = [
     path: '/',
     name: 'main',
     component: () => import('../views/HomeView.vue')
-  },
+  }
+  ,
   {
     path: '/course',
     name: 'course',
 
     component: () => import('../views/lecture/LectureCourse.vue')
-  } , 
+  }
+  , 
   {
     path : '/lectureDetail',
     name : 'lectureDetail',
@@ -49,6 +51,32 @@ const routes = [
     name: 'regist',
     component: () => import('../views/user/RegistView.vue')
   }
+
+  ,
+  {
+    path: '/community',
+    name: 'community',
+    component: () => import('../views/community/CommunityView.vue')
+  }
+
+  ,
+  {
+    path: '/communitywriter',
+    name: 'communitywriter',
+    component: () => import('../views/community/CommunityWrite.vue')
+  }
+  ,
+  {
+    path: '/communitydetail/:num',
+    name: 'communitydetail',
+    component: () => import('../views/community/CommunityDetail.vue')
+  }
+  ,
+  {
+    path: '/communityedit/:num',
+    name: 'communityedit',
+    component: () => import('../views/community/CommunityEdit.vue')
+  }
   ,
   {
     path: '/csc',
@@ -66,12 +94,13 @@ const routes = [
     path: '/privacy',
     name: 'privacy',
     component: () => import('../views/Notice/PrivacyView.vue')
-  },
+  }
+  ,
   {
     path: '/reviewWrite',
     name: 'reviewWrite',
     component: () => import('../views/Review/ReviewWrite.vue')
-  }
+  },
 ]
 
 const router = createRouter({
