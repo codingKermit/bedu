@@ -10,10 +10,11 @@ import com.care.bedu.community.dto.CommunityDTO;
 @Mapper
 public interface CommunityDAO {
 	
-	public ArrayList<CommunityDTO> vielist();
+	public ArrayList<CommunityDTO> viewlist(CommunityDTO communityDTO);
 	public int viewwriter(CommunityDTO communityDTO);
 	public CommunityDTO viewone(int num);
 	public int viewdelete(int num);
 	public int viewupdate(CommunityDTO communityDTO);
+//	public String viewsearch(CommunityDTO communityDTO);
 
 }
