@@ -16,8 +16,6 @@ public class Review {
     private List<String> contents;
     private int stars;
     private String author;
-
-    // 생성자, getter, setter 등 필요한 코드 추가
 }
 
 
