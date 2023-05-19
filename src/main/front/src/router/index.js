@@ -27,30 +27,6 @@ const routes = [
   }
   ,
   {
-    path: '/community',
-    name: 'community',
-    component: () => import('../views/community/CommunityView.vue')
-  }
-  ,
-  {
-    path: '/communitywrite',
-    name: 'communitywrite',
-    component: () => import('../views/community/CommunityWrite.vue')
-  }
-  ,
-  {
-    path: '/communitydetail/:num',
-    name: 'communitydetail',
-    component: () => import('../views/community/CommunityDetail.vue')
-  }
-  ,
-  {
-    path: '/communityedit/:num',
-    name: 'communityedit',
-    component: () => import('../views/community/CommunityEdit.vue')
-  }
-  ,
-  {
     path: '/review',
     name: 'review',
     component: () => import('../views/StudyReview.vue')
