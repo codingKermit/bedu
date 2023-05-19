@@ -13,36 +13,46 @@
         <label class="areeAll" for="agree_all">
           <input class="form-check-input" type="checkbox" name="agree_all" id="agree_all" v-model="allChecked"
             @change="toggleAllAgreements">
-          <span>모든 이용 약관에 동의.</span>
+          <span style="cursor: pointer;">모든 이용 약관에 동의.</span>
         </label>
-        <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value">
-          <input class="form-check-input" type="checkbox" :name="'agree'" :value="item.value" v-model="selectedAgreements"
-            @change="updateAllChecked">
-          <span>{{ item.label }}<strong v-if="item.optional" class="select_disable">(선택)</strong></span>
-          <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7"
-            cols="85"></textarea>
-          <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7"
-            cols="85"></textarea>
+
+        <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value" @click="toggleCheckbox(item.value)">
+          <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'" :value="item.value" v-model="selectedAgreements" @change="updateAllChecked">
+          <span style="cursor: pointer;">{{ item.label }}<strong v-if="item.optional" class="select_disable">(선택)</strong></span>
+          <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7" cols="85"></textarea>
+          <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7" cols="85"></textarea>
         </label>
+
         <a>※위 항목에 동의하지 않는 경우 회원가입이 불가합니다.</a>
+
         <div>
           <button v-if="selectedAgreements.length === agreements.length" class="submit"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button"
             @click="showRegistrationForm">동의합니다</button>
-            <button v-if="selectedAgreements.length != agreements.length" class="submit"
+          <button v-if="selectedAgreements.length != agreements.length" class="submit2"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button">
             동의합니다</button>
         </div>
       </div>
-      <div v-else>
-        <form class="regist-form">
-          <div class="form-group">
-            <input class="email" placeholder="이메일을 입력해주세요.">
-          </div>
-          <div class="form-group">
-            <input class="password" placeholder="비밀번호를 입력해주세요.">
-          </div>
-        </form>
+
+      <div class="container2" v-else>
+        <div class="regist-container2">
+          <form class="regist-form">
+            <div class="form-group">
+              <input class="email" placeholder="이메일 입력">
+              <button class="emailChk">중복체크</button>
+            </div>
+            <div class="form-group">
+              <input class="password" placeholder="비밀번호 입력">
+            </div>
+            <div class="form-group">
+              <input class="password" placeholder="비밀번호 확인">
+            </div>
+            <div class="form-group">
+              <button class="submitformbtn">회원가입</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -76,7 +86,12 @@ export default {
     },
     showRegistrationForm() {
       this.showForm = true;
-    }
+    },
+    toggleCheckbox(value) {
+      const checkbox = document.getElementById(`agree_${value}`);
+      checkbox.checked = !checkbox.checked;
+      this.updateAllChecked();
+    },
   },
   computed: {
     submitButtonColor() {
@@ -94,9 +109,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 113vh;
+  min-height: auto;
   background: #EDF0F5;
   text-align: center;
+  padding-bottom: 40px;
 }
 
 .change {
@@ -145,7 +161,8 @@ export default {
   position: relative;
   background: white;
   width: 600px;
-  height: 670px;
+  height: auto;
+  padding-bottom: 40px;
 }
 
 .regist-container {
@@ -195,10 +212,11 @@ input[type=checkbox] {
   padding: 10px;
 }
 
-.submit {
+.submit, .submit2 {
   width: 90%;
   padding: 0.8rem;
   margin-top: 40px;
+  margin-left: -23px;
   font-size: 1.3rem;
   font-weight: 400;
   border: none;
@@ -207,4 +225,56 @@ input[type=checkbox] {
   color: #303076;
   border: 3px solid #303076;
 }
+
+.submit2:active {
+  box-shadow:inset 1px 2px 5px 0px rgb(203, 203, 203),inset -1px 0px 3px 0px rgb(203, 203, 203);
+}
+
+.container2 {
+  padding-bottom: 30px;
+}
+
+.email {
+  width: 74%;
+  padding: 0.8rem;
+  margin-top: 40px;
+  margin-left: -23px;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.emailChk {
+  width: 20%;
+  padding: 0.8rem;
+  margin-top: 40px;
+  margin-left: -23px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  background-color: #707070;
+  color: white;
+}
+
+.password {
+  width: 90%;
+  padding: 0.8rem;
+  margin-top: 40px;
+  margin-left: -23px;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.submitformbtn {
+  width: 90%;
+  padding: 0.8rem;
+  margin-top: 80px;
+  margin-left: -23px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  color: #303076;
+  border: 3px solid #303076;
+}
+
 </style>

@@ -16,33 +16,44 @@
       <div class="login-container">
         <form class="login-form">
           <div class="form-group">
-            <input class="email" placeholder="이메일을 입력해주세요.">
+            <input class="email" placeholder="사용자 이메일">
           </div>
           <div class="form-group">
-            <input class="password" placeholder="비밀번호를 입력해주세요.">
+            <input class="password" placeholder="비밀번호">
+          </div>
+          <div class="idrm">
+            <input class="form-check-input" type="checkbox" ref="saveIdCheckbox">
+            <span style="cursor: pointer;" @click="toggleCheckbox">아이디 저장</span>
           </div>
         </form>
         <div>
           <button class="submit" type="button">로그인</button>
-        </div>
-        <div>
-          <a>아이디 찾기</a> |
-          <a>비밀번호 찾기</a> |
-          <a>회원가입</a>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script>
+  export default {
+  methods: {
+    toggleCheckbox() {
+      const checkbox = this.$refs.saveIdCheckbox;
+      checkbox.checked = !checkbox.checked;
+    },
+  },
+};
+</script>
+
 <style scoped>
 .login {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 83vh;
+  min-height: auto;
   background: #EDF0F5;
   text-align: center;
+  padding-bottom: 40px;
 }
 
 .change {
@@ -96,7 +107,6 @@
 .logo-container {
   position: relative;
   font-size: 1.5rem;
-  padding: 0.5rem;
   border-radius: 1rem;
   background: white;
   margin-top: 50px;
@@ -104,21 +114,41 @@
 
 .email,
 .password {
-  width: 300px;
-  padding: 0.4rem;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-top: 1rem;
+  position: relative; 
+  width: 90%;
+  padding: 0.8rem;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.idrm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+input[type=checkbox] {
+  padding: 10px;
+}
+
+.idrm span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 3px;
 }
 
 .submit {
-  width: 300px;
-  padding: 0.4rem;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-top: 1rem;
+  position: relative;
+  width: 90%;
+  padding: 0.8rem;
+  margin-top: 40px;
+  font-size: 1.3rem;
+  font-weight: 400;
   color: #FFFFFF;
   background: #303076;
 }
