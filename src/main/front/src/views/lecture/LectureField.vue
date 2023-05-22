@@ -308,7 +308,8 @@ export default{
             programming: [],
             tools : [],
             major : [],
-            design : []
+            design : [],
+            likes : [],
         }
     },
     methods: {
@@ -337,6 +338,14 @@ export default{
                     korCategory : korCategory
                 }
             })
+        },
+        getLikes(){
+            this.$axios.get('/api/getLikeList')
+            .then((res)=>{
+                console.log(res)
+                this.likes = res.data
+            })
+            .catch((err)=>{console.log(err)})
         }
     },
     created() {
@@ -344,6 +353,7 @@ export default{
     },
     mounted() {
         this.getLectures();
+        this.getLikes();
     },
 }
 

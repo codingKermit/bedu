@@ -22,6 +22,8 @@ public class LectureServiceImpl implements LectureService{
 		// TODO Auto-generated method stub
 		ArrayList<LectureDto> list = new ArrayList<>();
 		
+		
+
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("category", category);
 		map.put("begin", (page-1)*20+1);

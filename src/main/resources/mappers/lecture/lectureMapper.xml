@@ -69,9 +69,9 @@ parameterType="hashmap">
 	;
 </select>
 
-<select id="getLikeList">
-	SELECT POSTID, CASE WHEN USERID = #{userId} THEN 1 ELSE 0 END AS LIKEYN
-	FROM BIL.LECTURELIKE;
+<select id="getLikeList" resultType="int">
+	SELECT POSTID
+	FROM BIL.LECTURELIKE WHERE USERID = '123';
 </select>
 
 

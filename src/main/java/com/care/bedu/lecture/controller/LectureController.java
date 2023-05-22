@@ -20,8 +20,6 @@ public class LectureController {
 	
 	@RequestMapping("/lectureList")
 	public HashMap<String, ArrayList<LectureDto>> getLectureList(String category, int page){
-		System.out.println(category);
-		System.out.println(page);
 		ArrayList<LectureDto> list = new ArrayList<>();
 		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
 		
