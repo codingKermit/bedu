@@ -38,16 +38,19 @@
 
       <div class="container2" v-else>
         <div class="regist-container2">
-          <form class="regist-form">
+          <form class="regist-form" @submit.prevent="register">
             <div class="form-group">
-              <input class="email" placeholder="이메일 입력" v-model="email" required :rules="emailRules">
-              <button class="emailChk">중복체크</button>
+              <input class="email" placeholder="이메일 입력" v-model="member.email">
+              <button class="emailChk" @click="checkEmailAvailability">중복체크</button>
+            </div>
+            <p v-if="emailAvailabilityMessage" :style="{ color: emailAvailabilityColor }">
+              {{ emailAvailabilityMessage }}
+            </p>
+            <div class="form-group">
+              <input class="password" placeholder="비밀번호 입력" v-model="member.password">
             </div>
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 입력" v-model="password" required :rules="passwordRules">
-            </div>
-            <div class="form-group">
-              <button class="submitformbtn" @click="signUpSubmit()">회원가입</button>
+              <button class="submitformbtn" type="submit">회원가입</button>
             </div>
           </form>
         </div>
@@ -72,19 +75,12 @@ export default {
       fileText1: fileText1,
       fileText2: fileText2,
       showForm: false,
-
-      email: "",
-      emailRules: [
-        v => !!v || '이메일을 작성해주세요',
-        v => /.+@.+\..+/.test(v) || '이메일 형식으로 작성해주세요',
-      ],
-      password: "",
-      passwordRules: [
-        v => !!v || '비밀번호을 작성해주세요',
-        v => (v && v.length >= 5) || '비밀번호는 5글자 이상 작성해주세요',
-        v => /(?=.*\d)/.test(v) || '숫자를 포함해야합니다',
-        v => /([!@$%])/.test(v) || '특수문자를 포함해야합니다 [!@#$%]'
-      ]
+      member: {
+        email: "",
+        password: ""
+      },
+      emailAvailabilityMessage: '',
+      emailAvailabilityColor: ''
     };
   },
   methods: {
@@ -104,39 +100,19 @@ export default {
       this.updateAllChecked();
     },
 
-    signUpSubmit() {
-      const validate = this.$refs.form.validate()
-      if (validate) {
-        let saveData = {};
-        saveData.email = this.email;
-        saveData.password = this.password;
-
-        try {
-          this.$axios.post("/api/member", JSON.stringify(saveData), {
-            headers: {
-              "Content-Type": `application/json`,
-            },
-          })
-            .then((response) => {
-              console.log(response)
-              if (response.data.errorCode === 400) {
-                alert(response.data.errorMessage)
-
-              }
-              else {
-                alert("회원가입이 완료되었습니다. 로그인 화면으로 돌아갑니다")
-                this.$router.push({ path: './login' });
-              }
-            })
-            .catch(error => {
-              console.log(error.response);
-
-            });
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
+    register() {
+      this.$axios.post("/api/register", this.member)
+        .then((response) => {
+          alert(response.data);
+          this.$router.push({
+            name: 'login'
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          alert('회원가입 실패');
+        });
+    },
   },
 
   computed: {
@@ -156,13 +132,13 @@ export default {
   flex-direction: column;
   align-items: center;
   min-height: auto;
-  background: #EDF0F5;
   text-align: center;
-  padding-bottom: 40px;
+  padding-top: 15%;
+  padding-bottom: 20%;
 }
 
 .change {
-  margin-top: 50px;
+  margin-top: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
