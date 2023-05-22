@@ -27,9 +27,9 @@
       </div>
       <div class="bedu-ft-des-details">
         <div class="bedu-ft-des">
-          <p><span>(주)Test 통신판매업번호: 제 2019-서울강남-01371호</span></p>
-          <p><span>평생교육시설 신고: 제원-408호 Test 사이버평생교육원</span></p>
-          <p><span>Email: test@test.com FAX: 02-1234-1234 사업자번호: 123-12-1234 대표자: test 개인정보책임자 : test 대표전화: 1234-1234</span></p>
+          <p><span>(주)Test | 통신판매업번호: 제 2019-서울강남-01371호 | </span></p>
+          <p><span>평생교육시설 신고: 제원-408호 | Test 사이버평생교육원</span></p>
+          <p><span>Email: test@test.com | FAX: 02-1234-1234 | 사업자번호: 123-12-1234 | 대표자: test | 개인정보책임자 : test | 대표전화: 1234-1234</span></p>
           <p><span>주소: 서울시 강남구 강남대로 test</span></p>
         </div>
       </div>  
