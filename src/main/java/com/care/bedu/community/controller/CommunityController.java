@@ -20,6 +20,8 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
+		System.out.println("처음 페이지:"+ communityDTO.getPage());
+		System.out.println("키워드:"+ communityDTO.getKeyword());
 		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
 		return list;
 	}
@@ -33,7 +35,6 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/detail", method=RequestMethod.GET)
 	public CommunityDTO communityDetail(int num){
-
 		return communityService.viewone(num);	
 	}
 	
@@ -48,6 +49,12 @@ public class CommunityController {
 		int strnum = Integer.parseInt(num);
 		int result = communityService.viewdelete(strnum);
 		return result> 0? "Y":"N";
+	}
+	
+	@RequestMapping("/community/total")
+	public int getTotal(){
+		System.out.println("전체 글개수 가져오기");
+		return communityService.getTotal();
 	}
 	
 }

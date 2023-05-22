@@ -47,9 +47,16 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public ArrayList<CommunityDTO> listProc(CommunityDTO communityDTO) {
-		communityDTO.setPage((communityDTO.getPage()-1)*10);
-		ArrayList<CommunityDTO> list = communityMapper.viewlist(communityDTO);
-		return list;
+		communityDTO.setPage((communityDTO.getPage()-1)*3);			//시작할 현재 페이지 로직
+		if(communityDTO.getKeyword() != null) {				//검색 키워드 조건 (키워드 없으면 기본 조회)
+			return communityMapper.viewsearch(communityDTO);
+		}
+		return communityMapper.viewlist(communityDTO);
+	}
+
+	@Override
+	public int getTotal() {										//최종 끝 페이지
+		return communityMapper.getTotal();
 	}
 	
 	

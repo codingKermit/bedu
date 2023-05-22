@@ -1,7 +1,7 @@
 package com.care.bedu.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.user.Dto.User;
@@ -17,13 +17,13 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     final UserRepository userRepository;
-    final PasswordEncoder passwordEncoder;
+//    final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void saveMember(UserForm userForm) throws Exception {
         validateDuplicateEmail(userForm.getEmail());
-        User user = new User(userForm.getEmail(), passwordEncoder.encode(userForm.getPassword()));
-        userRepository.save(user);
+//        User user = new User(userForm.getEmail(), passwordEncoder.encode(userForm.getPassword()));
+//        userRepository.save(user);
     }
 
     private void validateDuplicateEmail(String email) {

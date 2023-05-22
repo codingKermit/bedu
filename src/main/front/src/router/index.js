@@ -61,8 +61,8 @@ const routes = [
 
   ,
   {
-    path: '/communitywriter',
-    name: 'communitywriter',
+    path: '/communitywrite',
+    name: 'communitywrite',
     component: () => import('../views/community/CommunityWrite.vue')
   }
   ,

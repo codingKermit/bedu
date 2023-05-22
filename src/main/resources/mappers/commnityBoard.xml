@@ -5,10 +5,15 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
 		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
-		 <if test="keyword != null">
+		 ORDER BY NUM DESC
+		 LIMIT 3 OFFSET #{page}
+	</select>
+	
+	<select id="viewsearch" resultType="com.care.bedu.community.dto.CommunityDTO">
+		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
+		<if test="keyword != null">
 			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENTS LIKE CONCAT ('%', #{keyword},'%')
 		 </if>
-		 ORDER BY NUM DESC
 	</select>
 	
 	<insert id="viewwriter">
