@@ -1,16 +1,16 @@
 <template>
-    <div id="wrap">
       <header>
         <PageHeader/> <!-- 헤더 컴포넌트 -->
       </header>
-      <div class="content-wrap">
-          <router-view/> <!-- 페이지 이동이 표시될 곳 -->
+      <div id="wrap">
+        <div class="content-wrap">
+            <router-view/> <!-- 페이지 이동이 표시될 곳 -->
+        </div>
       </div>
       <footer>
         <PageFooter/> <!-- 푸터 컴포넌트 -->
         <b-link :to="test"></b-link>
       </footer>
-    </div>
 </template>
   
   <script>
