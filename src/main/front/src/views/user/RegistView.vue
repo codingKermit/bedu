@@ -14,8 +14,8 @@
 
         <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value"
           @click="toggleCheckbox(item.value)">
-          <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'"
-            :value="item.value" v-model="selectedAgreements" @change="updateAllChecked">
+          <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'" :value="item.value"
+            v-model="selectedAgreements" @change="updateAllChecked">
           <span style="cursor: pointer;">{{ item.label }}<strong v-if="item.optional"
               class="select_disable">(선택)</strong></span>
           <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7"
@@ -40,14 +40,14 @@
         <div class="regist-container2">
           <form class="regist-form">
             <div class="form-group">
-              <input class="email" placeholder="이메일 입력" v-model="email">
+              <input class="email" placeholder="이메일 입력" v-model="email" required :rules="emailRules">
               <button class="emailChk">중복체크</button>
             </div>
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 입력" v-model="password">
+              <input class="password" placeholder="비밀번호 입력" v-model="password" required :rules="passwordRules">
             </div>
             <div class="form-group">
-              <button class="submitformbtn" @click="registerUser">회원가입</button>
+              <button class="submitformbtn" @click="signUpSubmit()">회원가입</button>
             </div>
           </form>
         </div>
@@ -59,7 +59,6 @@
 <script>
 import fileText1 from 'raw-loader!./이용 약관 동의.txt';
 import fileText2 from 'raw-loader!./개인정보 수집, 이용 동의.txt';
-import axios from 'axios';
 
 export default {
   data() {
@@ -73,28 +72,22 @@ export default {
       fileText1: fileText1,
       fileText2: fileText2,
       showForm: false,
-      email: '',
-      password: ''
+
+      email: "",
+      emailRules: [
+        v => !!v || '이메일을 작성해주세요',
+        v => /.+@.+\..+/.test(v) || '이메일 형식으로 작성해주세요',
+      ],
+      password: "",
+      passwordRules: [
+        v => !!v || '비밀번호을 작성해주세요',
+        v => (v && v.length >= 5) || '비밀번호는 5글자 이상 작성해주세요',
+        v => /(?=.*\d)/.test(v) || '숫자를 포함해야합니다',
+        v => /([!@$%])/.test(v) || '특수문자를 포함해야합니다 [!@#$%]'
+      ]
     };
   },
   methods: {
-    registerUser() {
-    const userData = {
-      email: this.email,
-      password: this.password
-    };
-
-    axios.post("/api/users", JSON.stringify(userData))
-      .then((response) => {
-        if (response.status === 200) {
-          alert("회원 가입 성공");
-          this.$router.push("/login");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    },
     toggleAllAgreements(event) {
       this.selectedAgreements = event.target.checked ? this.agreements.map(item => item.value) : [];
       this.updateAllChecked();
@@ -110,8 +103,42 @@ export default {
       checkbox.checked = !checkbox.checked;
       this.updateAllChecked();
     },
+
+    signUpSubmit() {
+      const validate = this.$refs.form.validate()
+      if (validate) {
+        let saveData = {};
+        saveData.email = this.email;
+        saveData.password = this.password;
+
+        try {
+          this.$axios.post("/api/member", JSON.stringify(saveData), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+            .then((response) => {
+              console.log(response)
+              if (response.data.errorCode === 400) {
+                alert(response.data.errorMessage)
+
+              }
+              else {
+                alert("회원가입이 완료되었습니다. 로그인 화면으로 돌아갑니다")
+                this.$router.push({ path: './login' });
+              }
+            })
+            .catch(error => {
+              console.log(error.response);
+
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
   },
-  
+
   computed: {
     submitButtonColor() {
       return this.selectedAgreements.length === this.agreements.length ? '#303076' : '';
