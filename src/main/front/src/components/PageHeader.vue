@@ -1,6 +1,5 @@
 <!-- PageHeader.vue -->
 <template>
-  <header>
     <div id="nav1">
       <router-link to="/">
         <img src="@/assets/imgs/Logo.png" width="150">
@@ -29,7 +28,6 @@
       <router-link to="/login">로그인</router-link>
       <router-link to="/regist">회원가입</router-link>
     </div>
-  </header>
 </template>
 
 <script>
@@ -100,74 +98,67 @@ export default {
   },
 };
 </script>
-
+  
 <style scoped>
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
-header {
-  margin: 0 auto;
-  background-color: #EDC268;
-  padding-top: 3%;
-  padding-bottom: 2%;
-  display: flex;
-  justify-content: space-between;
-}
-
 #nav1 {
-  display: flex;
-  align-items: center;
-}
+    display: flex;
+    align-items: center;
+  }
+  
+  #nav2 {
+    display: flex;
+    align-items: center;
+  }
+  
+  #nav1 img {
+    margin-right: 20px;
+  }
+  
+  #nav1 a {
+    margin-right: 30px;
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+  }
+  
+  #nav2 a {
+    margin-left: 20px;
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+  }
+  
+  #nav2 .search-popup {
+    align-items: center;
+    display: inline-block;
+    margin-left: -20px;
+    margin-right: -50px;
+  }
+  
+  #nav2 .search-popup input {
+    width: 100%;
+    height: 15px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #F6E0B3;
+    border-radius: 30px;
+  }
+  
+  .border-bedu {
+    background-color: #F6E0B3;
+    width: 70%;
+    border-color: #EDC268;
+  }
+  
+  .no-arrow::after {
+    display: none;
+  }
 
-#nav2 {
-  display: flex;
-  align-items: center;
-}
 
-#nav1 img {
-  margin-right: 20px;
-}
-
-#nav1 a {
-  margin-right: 30px;
-  font-family: 'Noto Sans CJK KR', sans-serif;
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-}
-
-#nav2 a {
-  margin-left: 20px;
-  font-family: 'Noto Sans CJK KR', sans-serif;
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-}
-
-#nav2 .search-popup {
-  align-items: center;
-  display: inline-block;
-  margin-left: -20px;
-  margin-right: -50px;
-}
-
-#nav2 .search-popup input {
-  width: 100%;
-  height: 15px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #F6E0B3;
-  border-radius: 30px;
-}
-
-.border-bedu {
-  background-color: #F6E0B3;
-  width: 70%;
-  border-color: #EDC268;
-}
-
-.no-arrow::after {
-  display: none;
-}
 </style>

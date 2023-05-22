@@ -4,8 +4,36 @@
     --yellow : #EDC268;
 }
 
+html, body {
+    height: 100%
+}
 
+#wrap {
+    background-color: #EDC268;
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 60px;
+}
 
+.content-wrap {
+    margin: 0% 5% 0% 5%;
+    background-color: #fff;
+    border-radius: 30px;
+    height : auto;
+  }
+
+footer {
+    margin-top: 5%;
+    bottom: 0;
+}
+
+header {
+    margin: 0% 5% 0% 5%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    display: flex;
+    justify-content: space-between;
+  }
 
 
 /* Nano Sans Kr 폰트 */

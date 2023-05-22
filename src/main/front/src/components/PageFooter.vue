@@ -1,6 +1,5 @@
 <!-- PageFooter.vue -->
 <template>
-  <footer>
     <div class="bedu-ft">
       <div class="bedu-ft-cate-links">
         <div class="bedu-ft-cate-links-lt">
@@ -34,7 +33,6 @@
         </div>
       </div>  
     </div>
-  </footer>
 </template>
   
 <script>
@@ -42,11 +40,7 @@ export default {}
 </script>
 
 <style scoped>
-footer {
-  margin: 0 auto;
-  padding: 3rem 0 5rem 0;
-  text-align: left;
-}
+
 
 footer img {
   float: left;

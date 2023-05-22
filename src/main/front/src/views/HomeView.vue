@@ -61,8 +61,9 @@ export default{
 
 .character{
   position: absolute;
-  top : 13%;
+  top : 10%;
   left : -150px;
+  height: 30%;
 }
 
 
