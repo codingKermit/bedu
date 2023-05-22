@@ -14,7 +14,7 @@
         <p>강의는 역시 B:EDU</p>
       </div>
       <div class="login-container">
-        <form class="login-form">
+        <form class="login-form" @submit.prevent="login">
           <div class="form-group">
             <input class="email" placeholder="사용자 이메일">
           </div>
@@ -51,13 +51,13 @@
   flex-direction: column;
   align-items: center;
   min-height: auto;
-  background: #EDF0F5;
   text-align: center;
-  padding-bottom: 40px;
+  padding-top: 15%;
+  padding-bottom: 20%;
 }
 
 .change {
-  margin-top: 50px;
+  margin-top: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
