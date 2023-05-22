@@ -7,8 +7,8 @@
         </text>
       </div>
       <b-row class="row-cols-auto">
-        <b-col v-for="item in lectures" :key="item" class="mb-3 col-lg-3 col-md-4 col-sm-9">
-          <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num'>
+        <b-col v-for="(item, index) in lectures" :key="index" class="mb-3 col-lg-3 col-md-4 col-sm-9">
+          <b-link class="text-decoration-none text-body" :to='"/lectureDetail?num="+item.num' :id='"link-"+index'>
             <div class="border-1 border-opacity-10">
               <img :src="item.thumbnail" >
               <b-container class="p-4 border">
@@ -24,7 +24,11 @@
             </div>
           </b-link>
         </b-col>
-        <infinite-loading @infinite="infiniteHandler">
+        <infinite-loading
+          @infinite="infiniteHandler"
+          ref="infiniteLoading" 
+          :distance="10"
+        >
           <template #spinner> <!-- 로딩중일때 보여질 부분 -->
           </template>
           <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
@@ -53,25 +57,26 @@ export default{
       category : this.$route.params.category,
       korCategory : this.category == 'base' ? '기초 강의':'데이터 분석',
       lectures : [],
-      page : 1
+      page : 1,
+      likes :[],
     }
   },
   methods: {
-    getList(){
+    search(){ // 네비에서 버튼 눌러서 왔을때 동작
       this.$axios.get('/api/lectureList',{
         params:{
           category : this.category,
-          page : this.page,
+          page : 1,
         }
       })
       .then((res)=>{
         console.log(res)
         this.lectures = res.data.item;
-        // this.lectures.push(...res.data.item);
+        this.page++;
       })
       .catch((err)=>{console.log(err)})
     },
-    infiniteHandler($state){
+    infiniteHandler($state){ // 스크롤 이벤트 핸들러
       this.$axios.get('/api/lectureList',{
         params:{
           category : this.category,
@@ -79,9 +84,6 @@ export default{
         }
       })
       .then((res)=>{
-        console.log(res)
-        // this.lectures = res.data;
-        // $state.loaded();
         if(res.data.item.length){
           this.page++;
           this.lectures.push(...res.data.item);
@@ -94,24 +96,37 @@ export default{
     }
   },
   mounted() {
-    
+    this.$axios.get('/api/getLikeList',{
+      params:{
+        userId : '123'
+      }
+    })
+    .then((res)=>{console.log(res)})
+    .catch((err)=>{console.log(err)});
   },
   created() {
-    this.getList();
+    
   },
-  watch:{
+  watch:{ // 쿼리 데이터 변경되면 데이터도 변경되도록 설정
     '$route.query.category':{
       immediate: true,
       handler(newCategory){
         this.category = newCategory;
-      }
+        this.lectures = [];
+        this.page = 1;
+        try{
+          this.$refs.infiniteLoading.stateChanger.reset();
+        }catch(error){
+          console.log(error)
+        }
+      },
     },
     '$route.query.korCategory':{
       immediate: true,
       handler(newKorCategory){
         this.korCategory = newKorCategory;
       }
-    }
+    },
   }
 }
 

@@ -1,11 +1,13 @@
 package com.care.bedu.lecture.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.lecture.dao.LectureDao;
+import com.care.bedu.lecture.dto.LectureDetailDto;
 import com.care.bedu.lecture.dto.LectureDto;
 import com.care.bedu.lecture.service.LectureService;
 
@@ -16,12 +18,15 @@ public class LectureServiceImpl implements LectureService{
 	private LectureDao dao;
 	
 	@Override
-	public ArrayList<LectureDto> getLectureList(String category) {
+	public ArrayList<LectureDto> getLectureList(String category, int page) {
 		// TODO Auto-generated method stub
-
 		ArrayList<LectureDto> list = new ArrayList<>();
 		
-		list = dao.getLectureList(category);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("category", category);
+		map.put("begin", (page-1)*20+1);
+		
+		list = dao.getLectureList(map);
 		
 		return list;
 	}
@@ -32,8 +37,71 @@ public class LectureServiceImpl implements LectureService{
 		LectureDto dto = new LectureDto();
 		dto = dao.getLectureDetail(num);
 		
-		
 		return dto;
 	}
 
+	@Override
+	public HashMap<String, ArrayList<LectureDto>> getLectureField() {
+		// TODO Auto-generated method stub
+		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
+		ArrayList<LectureDto> dto = new ArrayList<>();
+
+		dto = dao.getLectureField("base");map.put("base", dto);
+		dto = dao.getLectureField("data"); map.put("data", dto);
+		dto = dao.getLectureField("web"); map.put("web", dto);
+		dto = dao.getLectureField("lang"); map.put("lang", dto);
+		dto = dao.getLectureField("ai"); map.put("ai", dto);
+		dto = dao.getLectureField("programming"); map.put("programming", dto);
+		dto = dao.getLectureField("tools"); map.put("tools", dto);
+		dto = dao.getLectureField("major"); map.put("major", dto);
+		dto = dao.getLectureField("design"); map.put("design", dto);
+		
+		
+		return map;
+	}
+	
+	@Override
+	public ArrayList<LectureDetailDto> getVideoList(int num) {
+		// TODO Auto-generated method stub
+		ArrayList<LectureDetailDto> list = new ArrayList<>();
+		
+		list = dao.getVideoList(num);
+		
+		return list;
+	}
+
+	@Override
+	public HashMap<String, ArrayList<LectureDto>> lectureSearch(String keyword, int page) {
+		// TODO Auto-generated method stub
+		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
+		ArrayList<LectureDto> dto = new ArrayList<>();
+
+		HashMap<String, Object> arg = new HashMap<>();
+		arg.put("keyword", keyword); arg.put("begin", (page-1)*20+1);
+		dto = dao.lectureSearch(arg);
+		map.put("item", dto);
+
+
+		return map;
+	}
+
+	@Override
+	public int searchTotal(String keyword) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		result = dao.searchTotal(keyword);
+		return result;
+	}
+
+	@Override
+	public ArrayList<Integer> getLikeList(String userId) {
+		// TODO Auto-generated method stub
+
+		ArrayList<Integer> list = new ArrayList<>();
+
+		list = dao.getLikeList(userId);
+
+		return list;
+	}
+	
 }

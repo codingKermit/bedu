@@ -32,7 +32,7 @@
                         <div class="list-unstyled align-middle w-100">
                             <div class="mb-2 row"><span class="text-secondary col-2">강사</span><span class="text-body col">{{ form.teacher }}</span></div>
                             <div class="mb-2 row"><span class="text-secondary col-2">수강기간</span><span class="text-body col"> 구매일로부터 {{ form.duration }}일</span></div>
-                            <div class="mb-2 row"><span class="text-secondary col-2">학습시간</span><span class="text-body col">{{ form.totalTimes }}</span></div>
+                            <div class="mb-2 row"><span class="text-secondary col-2">학습시간</span><span class="text-body col">{{ form.totalTimes }}({{ form.total }}강)</span></div>
                         </div>
                         
                     </div>
@@ -50,10 +50,10 @@
                         <span class="fs-2 text-danger">{{ form.price }}</span><span>원</span>
                     </div>
                     <div class="w-10">
-                        <b-button class="d-block mb-1 w-auto px-4">
+                        <b-button class="d-block mb-1 w-auto px-5 py-2">
                             결제하기
                         </b-button>
-                        <b-button class="px-4">
+                        <b-button class="px-5">
                             장바구니
                         </b-button>
                     </div>
@@ -90,7 +90,7 @@
                             {{video.title}}
                         </span>
                         <span class="ms-auto me-3">
-                            {{ video.times }}분
+                            {{ video.times }}
                         </span>
                     </li>
                 </ul>
