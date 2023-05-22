@@ -31,7 +31,7 @@ const routes = [
   {
     path: '/review',
     name: 'review',
-    component: () => import('../views/StudyReview.vue')
+    component: () => import('../views/Review/StudyReview.vue')
   }
   ,
   {

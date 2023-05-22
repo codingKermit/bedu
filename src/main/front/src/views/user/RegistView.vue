@@ -40,17 +40,14 @@
         <div class="regist-container2">
           <form class="regist-form">
             <div class="form-group">
-              <input class="email" placeholder="이메일 입력">
+              <input class="email" placeholder="이메일 입력" v-model="email">
               <button class="emailChk">중복체크</button>
             </div>
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 입력">
+              <input class="password" placeholder="비밀번호 입력" v-model="password">
             </div>
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 확인">
-            </div>
-            <div class="form-group">
-              <button class="submitformbtn">회원가입</button>
+              <button class="submitformbtn" @click="registerUser">회원가입</button>
             </div>
           </form>
         </div>
@@ -62,6 +59,7 @@
 <script>
 import fileText1 from 'raw-loader!./이용 약관 동의.txt';
 import fileText2 from 'raw-loader!./개인정보 수집, 이용 동의.txt';
+import axios from 'axios';
 
 export default {
   data() {
@@ -74,10 +72,29 @@ export default {
       ],
       fileText1: fileText1,
       fileText2: fileText2,
-      showForm: false
+      showForm: false,
+      email: '',
+      password: ''
     };
   },
   methods: {
+    registerUser() {
+    const userData = {
+      email: this.email,
+      password: this.password
+    };
+
+    axios.post("/api/users", JSON.stringify(userData))
+      .then((response) => {
+        if (response.status === 200) {
+          alert("회원 가입 성공");
+          this.$router.push("/login");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
     toggleAllAgreements(event) {
       this.selectedAgreements = event.target.checked ? this.agreements.map(item => item.value) : [];
       this.updateAllChecked();
@@ -94,6 +111,7 @@ export default {
       this.updateAllChecked();
     },
   },
+  
   computed: {
     submitButtonColor() {
       return this.selectedAgreements.length === this.agreements.length ? '#303076' : '';
