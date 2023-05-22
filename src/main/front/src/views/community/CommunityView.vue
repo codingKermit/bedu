@@ -55,8 +55,7 @@ export default {
   },
   methods: {
     List() {
-      this.$axios
-        .get('/api/community/boardList')
+      this.$axios.get('/api/community/boardList')
         .then(res => {
           console.log(res);
           this.communitylist = res.data;
@@ -66,14 +65,13 @@ export default {
         });
     },
     search() {
-      alert('검색');
       const form = new FormData();
       form.append('keyword', this.form.keyword);
       this.$axios
         .post('/api/community/boardList', form)
         .then(res => {
           console.log('확인:', res);
-          this.form = res.data;
+          this.communitylist = res.data;
         })
         .catch(error => {
           console.log(error);
