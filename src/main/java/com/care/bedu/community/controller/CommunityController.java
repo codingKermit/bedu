@@ -18,9 +18,8 @@ public class CommunityController {
 	@Autowired
 	private CommunityService communityService;
 	
-	@RequestMapping(value="/community/boardList", method= RequestMethod.GET)
+	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
-		System.out.println("키워드:"+ communityDTO.getKeyword());
 		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
 		System.out.println("리스트:"+ list);
 		return list;
@@ -35,14 +34,12 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/detail", method=RequestMethod.GET)
 	public CommunityDTO communityDetail(int num){
-//		System.out.println("detail번호:"+num);
+
 		return communityService.viewone(num);	
 	}
 	
 	@RequestMapping(value="/community/edit", method=RequestMethod.POST)
 	public String communityEdit(CommunityDTO communityDTO){
-		System.out.println("edit번호:"+communityDTO.toString());
-		System.out.println(communityDTO.toString());
 		int result = communityService.viewupdate(communityDTO);
 		return result> 0? "Y":"N";	
 	}
