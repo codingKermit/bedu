@@ -13,7 +13,6 @@
       <b-container>
         <p class="fw-bold fs-4 text-start">분야별 강의</p>
         <categories></categories>
-        
       </b-container>
   </div >
 </template>

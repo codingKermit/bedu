@@ -17,19 +17,16 @@ html, body {
 }
 
 #wrap {
-    height: 100%;
+    min-height: 100%;
+    height: auto;
+    margin: 0% 5% 0% 5%;
+    background-color: #fff;
+    border-radius: 30px;
 }
 
 body {
     background-color: #EDC268;
 }
-
-.content-wrap {
-    height: 100%;
-    margin: 0% 5% 0% 5%;
-    background-color: #fff;
-    border-radius: 30px;
-  }
 
 footer {
     margin-top: 5%;
