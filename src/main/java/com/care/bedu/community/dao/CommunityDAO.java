@@ -15,6 +15,7 @@ public interface CommunityDAO {
 	public CommunityDTO viewone(int num);
 	public int viewdelete(int num);
 	public int viewupdate(CommunityDTO communityDTO);
+	public int getTotal();
 //	public String viewsearch(CommunityDTO communityDTO);
 
 }

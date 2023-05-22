@@ -8,6 +8,7 @@ import lombok.ToString;
 public class CommunityDTO {
 	
 	private Integer num;
+	private int page;
 	private String userId;
 	private String writer;
 	private String contents;

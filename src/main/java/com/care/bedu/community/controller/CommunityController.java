@@ -21,7 +21,6 @@ public class CommunityController {
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
 		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
-		System.out.println("리스트:"+ list);
 		return list;
 	}
 	
@@ -46,7 +45,6 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/delete", method=RequestMethod.GET)
 	public String communityDelete(String num){
-		System.out.println("delete번호:"+ num);
 		int strnum = Integer.parseInt(num);
 		int result = communityService.viewdelete(strnum);
 		return result> 0? "Y":"N";

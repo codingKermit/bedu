@@ -47,9 +47,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public ArrayList<CommunityDTO> listProc(CommunityDTO communityDTO) {
-//		if(communityDTO.getKeyword() != null) {
-//			communityDTO.set
-//		}
+		communityDTO.setPage((communityDTO.getPage()-1)*10);
 		ArrayList<CommunityDTO> list = communityMapper.viewlist(communityDTO);
 		return list;
 	}

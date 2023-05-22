@@ -8,7 +8,7 @@
 		 <if test="keyword != null">
 			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENTS LIKE CONCAT ('%', #{keyword},'%')
 		 </if>
-		 ORDER BY NUM DESC
+		 ORDER BY NUM DESC LIMIT 10 OFFSET #{num}
 	</select>
 	
 	<insert id="viewwriter">
@@ -30,5 +30,9 @@
 		UPDATE BEDU.COMMUNITY SET TITLE = #{title}, CONTENTS = #{contents}
 		WHERE NUM = #{num}
 	</update>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) FROM BEDU.COMMUNITY
+	</select>
 	
 </mapper>
