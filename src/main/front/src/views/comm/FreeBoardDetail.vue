@@ -1,7 +1,7 @@
 <template>
     <div class="container w-75 mt-5 mb-3">
         <div class="mb-3">
-            <h1>커뮤니티</h1>
+            <h1>자유게시판</h1>
         </div>
         <hr>
         <b-container class="justify-content-start text-start">
@@ -15,7 +15,7 @@
             <div v-html="community.contents"></div>
 
             <b-container class="ms-auto text-end">
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.view }}
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.views }}
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
                 <text class="fw-bold ms-2">
                     {{ community.heart }}
@@ -41,7 +41,7 @@ export default{
                 contents : '',
                 writer : '',
                 writeDate : '',
-                view : 0,
+                views : 0,
                 heart : 0,
             }
         }

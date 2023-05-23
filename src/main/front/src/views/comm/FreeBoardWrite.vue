@@ -1,10 +1,10 @@
 <template>
     <b-container class="w-50">
-        <h1>커뮤니티</h1>
+        <h1>자유게시판</h1>
+        
       <b-form @submit="submit()">
-          <b-form-input placeholder="작성자이름을 작성해주세요" class="my-5" v-model="form.writer" ref="writer"></b-form-input>
           <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
-          <b-form-textarea class="form-control col-sm-5" rows="5" v-model="form.contents" placeholder="내용을 작성해주세요" ref="contents"></b-form-textarea>
+          <b-form-textarea class="form-control col-sm-5" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
           <b-container class="my-3 justify-content-md-end d-md-flex">
               <b-button class="" type="reset">취소</b-button>
               <b-button type="submit" class="btn-custom ms-2">등록</b-button>
@@ -23,8 +23,7 @@ export default {
         return {
             form:{
                 title:'',
-                contents : '',
-                writer: '',
+                content : '',
             }
         };
     },
@@ -45,7 +44,7 @@ export default {
             )
             return;
           }
-          if(this.form.contents == null || this.form.contents == ""){
+          if(this.form.content == null || this.form.content == ""){
             this.$swal({
               title :'warning!',
               text :"내용을 입력하세요",
@@ -57,10 +56,9 @@ export default {
           }
           const form = new FormData();
           form.append("title",this.form.title);
-          form.append("contents",this.form.contents);
-          form.append("writer",this.form.writer);
+          form.append("content",this.form.content);
 
-          this.$axios.post('/api/community/writer',form)
+          this.$axios.post('/api/community/write',form)
           .then(
               this.$swal('Success','작성완료!','success'),
               router.push({

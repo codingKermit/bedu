@@ -3,22 +3,33 @@
 
 <mapper namespace="com.care.bedu.community.dao.CommunityDAO">
 	
+<!--<resultMap id="community" type="com.care.bedu.community.dto.CommunityDTO">
+	<result property="comm_num" column="comm_num"/>
+	<result property="reg_id" column="reg_id"/>
+	<result property="user_id" column="user_id"/>
+	<result property="content" column="content"/>
+	<result property="comm_date" column="comm_date"/>
+	<result property="comm_cnt" column="comm_cnt"/>
+	<result property="reg_date" column="reg_date"/>
+	<result property="commLikeYn" column="comm_like_yn"/>
+</resultMap>-->
+	
 	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
-		 ORDER BY NUM DESC
-		 LIMIT 3 OFFSET #{page}
+		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, USER_ID FROM t_bedu_comm
+		 ORDER BY COMM_NUM DESC
+		 LIMIT 10 OFFSET #{page}
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT NUM, TITLE, CONTENTS, USERID, WRITEDATE, VIEWS, WRITER FROM BEDU.COMMUNITY
+		SELECT COMM_NUM, TITLE, CONTENT, USERID, COMM_DATE, COMM_CNT, USER_ID FROM t_bedu_comm
 		<if test="keyword != null">
-			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENTS LIKE CONCAT ('%', #{keyword},'%')
+			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENT LIKE CONCAT ('%', #{keyword},'%')
 		 </if>
 	</select>
 	
-	<insert id="viewwriter">
-		insert into BEDU.COMMUNITY(userId, title, contents, writeDate, writer)
-		values(#{userId}, #{title}, #{contents}, SYSDATE(), #{writer})
+	<insert id="viewwrite">
+		INSERT INTO t_bedu_comm(USER_ID, TITLE, CONTENT, COMM_DATE, REG_DATE, REG_ID)
+		VALUES(#{user_id}, #{title}, #{content}, SYSDATE(), SYSDATE(), #{reg_id})
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.dto.CommunityDTO">

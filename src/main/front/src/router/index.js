@@ -56,26 +56,26 @@ const routes = [
   {
     path: '/community',
     name: 'community',
-    component: () => import('../views/community/CommunityView.vue')
+    component: () => import('../views/comm/FreeBoardView.vue')
   }
 
   ,
   {
     path: '/communitywrite',
     name: 'communitywrite',
-    component: () => import('../views/community/CommunityWrite.vue')
+    component: () => import('../views/comm/FreeBoardWrite.vue')
   }
   ,
   {
-    path: '/communitydetail/:num',
+    path: '/communitydetail/:comm_num',
     name: 'communitydetail',
-    component: () => import('../views/community/CommunityDetail.vue')
+    component: () => import('../views/comm/FreeBoardDetail.vue')
   }
   ,
   {
     path: '/communityedit/:num',
     name: 'communityedit',
-    component: () => import('../views/community/CommunityEdit.vue')
+    component: () => import('../views/comm/FreeBoardEdit.vue')
   }
   ,
   {
