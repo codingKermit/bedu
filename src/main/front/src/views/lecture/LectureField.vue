@@ -308,12 +308,12 @@ export default{
             programming: [],
             tools : [],
             major : [],
-            design : []
+            design : [],
+            likes : [],
         }
     },
     methods: {
         getLectures(){
-            console.log(location.origin);
             this.$axios.get('/api/getLectureField')
             .then((res)=>{
                 this.base = res.data.base;
@@ -325,7 +325,6 @@ export default{
                 this.tools = res.data.tools;
                 this.major = res.data.major;
                 this.design = res.data.design;
-                console.log(this.base)
             })
             .catch((err)=>{
                 console.log(err)
@@ -339,6 +338,14 @@ export default{
                     korCategory : korCategory
                 }
             })
+        },
+        getLikes(){
+            this.$axios.get('/api/getLikeList')
+            .then((res)=>{
+                console.log(res)
+                this.likes = res.data
+            })
+            .catch((err)=>{console.log(err)})
         }
     },
     created() {
@@ -346,6 +353,7 @@ export default{
     },
     mounted() {
         this.getLectures();
+        this.getLikes();
     },
 }
 
