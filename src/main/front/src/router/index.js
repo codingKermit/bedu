@@ -77,6 +77,32 @@ const routes = [
     name: 'communityedit',
     component: () => import('../views/comm/FreeBoardEdit.vue')
   }
+
+  ,
+  {
+    path: '/comm/qna',
+    name: 'qnaBoard',
+    component: () => import('../views/comm/QnaBoardView.vue')
+  }
+
+  ,
+  {
+    path: '/comm/qnaWrite',
+    name: 'qnaBoardwrite',
+    component: () => import('../views/comm/QnaBoardWrite.vue')
+  }
+  ,
+  {
+    path: '/comm/qnaDetail/:num',
+    name: 'qnaBoarddetail',
+    component: () => import('../views/comm/QnaBoardDetail.vue')
+  }
+  ,
+  {
+    path: '/comm/qnaEdit/:num',
+    name: 'qnaBoardedit',
+    component: () => import('../views/comm/QnaBoardEdit.vue')
+  }
   ,
   {
     path: '/csc',
