@@ -10,13 +10,13 @@
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button type="submit" class="btn btn-primary">검색</b-button>
         </b-form>
-        <b-button :to="'/communitywrite'" style="margin-left: 310px;">글쓰기</b-button>
+        <b-button :to="'/comm/freBdWrite'" style="margin-left: 310px;">글쓰기</b-button>
       </div>
       <table class="w3-table-all">
         <tbody>
           <tr v-for="community in communitylist" :key="community.num">
             <td>
-              <b-link class="text-start" :to="'/communitydetail/' + community.comm_num">
+              <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
                 {{ community.title }}
               </b-link>
             </td>

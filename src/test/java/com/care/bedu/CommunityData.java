@@ -21,13 +21,13 @@ public class CommunityData {
 	@DisplayName("1. 커뮤니티 데이터 생성")
 	@Test
 	public void test() {
-		for(int i=0; i<15; i++) {
-			CommunityDTO qnadto = new CommunityDTO();
-			qnadto.setTitle("질문합니다.");
-			qnadto.setContents("질문내용들");
-			qnadto.setWriter("홍길동");
-			qnadto.setUserId("admin");
-			communitydao.viewwrite(qnadto);
+		for(int i=0; i<20; i++) {
+			CommunityDTO communitydto = new CommunityDTO();
+			communitydto.setTitle("질문제목");
+			communitydto.setContent("질문내용들");
+			communitydto.setUser_id("user12");
+			communitydto.setReg_id(communitydto.getUser_id());
+			communitydao.viewwrite(communitydto);
 		}
 	}
 

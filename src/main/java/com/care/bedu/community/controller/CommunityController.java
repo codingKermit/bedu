@@ -26,7 +26,6 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/write", method=RequestMethod.POST)
 	public String communityWrite(CommunityDTO communityDTO){
-		System.out.println(communityDTO.getContent());
 		communityDTO.setUser_id("user12"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
 		communityDTO.setReg_id(communityDTO.getUser_id());
 		int result = communityService.boardwrite(communityDTO);

@@ -52,10 +52,10 @@ export default{
         edit(){
           alert('게시글을 수정합니다.');
           const form = new FormData();
-          form.append("num",this.form.comm_num);
+          form.append("comm_num",this.form.comm_num);
           form.append("title",this.form.title);
-          form.append("contents",this.form.content);
-
+          form.append("content",this.form.content);
+          console.log('글번호:', this.form.comm_num);
           this.$axios.post('/api/community/edit',form)
           .then(res => {
               console.log('완료!', res);
