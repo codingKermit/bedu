@@ -4,7 +4,7 @@
       <div class="m-select">
         <ul class="mk-c-tab col8 tab-event">
           <li><a href="#">전체</a></li>
-          <li><a href="#">기초강의</a></li>
+          <li><a href="#">기초강의</a></li>         
           <li><a href="#">데이터분석</a></li>
           <li><a href="#">웹 개발</a></li>
           <li><a href="#">프로그래밍 언어</a></li>
@@ -25,38 +25,40 @@
         </div>
       </div>
     </div>
+    <div class="review-sort" style="float: right;">
+      <select v-model="sortOption" @change="sortReviews" style="border:none;">
+        <option value="default">최신 순</option>
+        <option value="highRating">평점 높은 순</option>
+        <option value="lowRating">평점 낮은 순</option>
+      </select>
+    </div>
 
     <table class="review-table">
       <thead>
         <tr>
           <th>번호</th>
-          <th>강좌</th>
-          <th>수강후기</th>
+          <th style="padding-right: 10%;">강좌</th>
+          <th style="padding-right: 20%;">수강후기</th>
           <th>별점</th>
-          <th>작성자</th>
+          <th>작성자</th> 
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(review, index) in filteredReviews" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ review.course }}</td>
-          <td>
-            <span class="review-content" v-for="content in review.contents" :key="content.id">
-              {{ content.text }}
-            </span>
-          </td>
-          <td>
-            <div class="star-rating">
-              <span class="star" v-for="star in review.stars" :key="star">&#9733;</span>
-            </div>
-          </td>
-          <td>{{ review.author }}</td>
-        </tr>
-      </tbody>
+  <tr v-for="(review, index) in filteredReviews" :key="index">
+    <td>{{ index + 1 }}</td>
+    <td style="padding-right: 10%;">{{ review.title }}</td>
+    <td>
+      <span class="review-writer" style="padding-right: 20%;">{{ review.writer }}</span>
+    </td>
+    <td>
+      <div class="star-rating">
+        <span class="star" v-for="star in review.star" :key="star">&#9733;</span>
+      </div>
+    </td>
+    <td>{{ review.author }}</td>
+  </tr>
+</tbody>
     </table>
-    <div class="review-write-button-container">
-      <button class="review-write-button" @click="$router.push('/reviewWrite')">작성하기</button>
-    </div>
   </div>
 </template>
 
@@ -73,7 +75,9 @@ export default {
   data() {
     return {
       searchKeyword: '',
-      fetchedReviews: []
+      fetchedReviews: [], // 빈 배열로 초기화
+      sortOption: 'default',
+      writer: ''
     };
   },
   computed: {
@@ -81,32 +85,45 @@ export default {
       if (this.searchKeyword) {
         const keyword = this.searchKeyword.toLowerCase();
         return this.fetchedReviews.filter(review =>
-          review.course.toLowerCase().includes(keyword) ||
-          review.contents.some(content => content.text.toLowerCase().includes(keyword)) ||
+          review.title.toLowerCase().includes(keyword) ||
           review.author.toLowerCase().includes(keyword)
         );
       } else {
         return this.fetchedReviews;
       }
-    }
+    },
   },
   methods: {
     fetchReviews() {
-      axios.get('/api/reviews')
-        .then(response => {
-          this.fetchedReviews = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+  axios.get('/api/reviews')
+    .then(response => {
+      this.fetchedReviews = response.data;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+},
+    sortReviews() {
+      switch (this.sortOption) {
+        case 'highRating':
+          this.fetchedReviews.sort((a, b) => b.star - a.star); // 평점이 높은 순으로 정렬
+          break;
+        case 'lowRating':
+          this.fetchedReviews.sort((a, b) => a.star - b.star); // 평점이 낮은 순으로 정렬
+          break;
+        default:
+          // 변경: 최신순으로 정렬 (createdAt 또는 updatedAt 필드를 사용)
+          this.fetchedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          break;
+      }
     },
-    addReview(review) {
-      this.fetchedReviews.push(review);
-    }
+    searchReviews() {
+      // 검색 기능 구현 (필요한 경우 추가해주세요)
+    },
   },
   mounted() {
     this.fetchReviews();
-  }
+  },
 };
 </script>
 
@@ -202,7 +219,7 @@ a {
   color: gold;
 }
 
-.review-table .review-content {
+.review-table .review-writer {
   display: block;
   width: 200px; 
   white-space: nowrap;
@@ -221,5 +238,6 @@ a {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
 }
+
 
 </style>
