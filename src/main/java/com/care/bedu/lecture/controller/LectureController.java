@@ -27,7 +27,6 @@ public class LectureController {
 		
 		map.put("item", list);
 		return map;
-		
 	}
 	
 	@RequestMapping("/lectureDetail")
