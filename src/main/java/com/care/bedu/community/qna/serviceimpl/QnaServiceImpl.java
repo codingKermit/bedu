@@ -16,9 +16,35 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public ArrayList<QnaDTO> listProc(QnaDTO qnaDTO) {
+		if(qnaDTO.getKeyword() != null) {
+			return qnaDAO.viewsearch(qnaDTO);
+		}
 		return qnaDAO.viewlist(qnaDTO);
 	}
 
+	@Override
+	public int boardwrite(QnaDTO qnaDTO) {
+		qnaDTO.setQna_cnt(0);
+		qnaDTO.setQna_like_yn(0);
+		return qnaDAO.viewwrite(qnaDTO);
+	}
+
+	@Override
+	public QnaDTO viewone(int num) {
+		return qnaDAO.viewone(num);
+	}
+
+	@Override
+	public int viewdelete(int num) {
+		return qnaDAO.viewdelete(num);
+	}
+
+	@Override
+	public int viewupdate(QnaDTO qnaDTO) {
+		return qnaDAO.viewupdate(qnaDTO);
+	}
+
+	
 	
 
 }
