@@ -84,7 +84,6 @@ const routes = [
     name: 'qnaBoard',
     component: () => import('../views/comm/QnaBoardView.vue')
   }
-
   ,
   {
     path: '/comm/qnaWrite',

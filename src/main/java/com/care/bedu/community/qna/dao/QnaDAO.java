@@ -9,5 +9,10 @@ import com.care.bedu.community.qna.dto.QnaDTO;
 @Mapper
 public interface QnaDAO {
 	
-	public ArrayList<QnaDTO> viewlist(QnaDTO communityDTO);
+	public ArrayList<QnaDTO> viewlist(QnaDTO qnaDTO);
+	public int viewwrite(QnaDTO qnaDTO);
+	public QnaDTO viewone(int num);
+	public int viewupdate(QnaDTO qnaDTO);
+	public int viewdelete(int qnanum);
+	public ArrayList<QnaDTO> viewsearch(QnaDTO qnaDTO);
 }

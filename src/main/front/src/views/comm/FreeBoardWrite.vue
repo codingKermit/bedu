@@ -50,8 +50,7 @@ export default {
               text :"내용을 입력하세요",
               type :'warning',
               icon : 'warning',
-            }
-            )
+            })
             return;
           }
           const form = new FormData();
