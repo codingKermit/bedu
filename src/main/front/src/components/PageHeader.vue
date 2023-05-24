@@ -14,7 +14,7 @@
           </li>
         </ul>
       </div>
-      <router-link to="/community">커뮤니티</router-link>
+      <router-link to="/comm/freBd">커뮤니티</router-link>
       <router-link to="/review">수강후기</router-link>
       <router-link to="/companyStudy">기업교육</router-link>
     </div>

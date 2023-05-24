@@ -1,28 +1,28 @@
 <template>
     <div class="container w-75 mt-5 mb-3">
         <div class="mb-3">
-            <h1>커뮤니티</h1>
+            <h1>질문 / 답변</h1>
         </div>
         <hr>
         <b-container class="justify-content-start text-start">
             <h5>
-                {{ community.writer }}
+                {{ qna.user_id}}
             </h5>
-            {{ community.writeDate }} 
+            {{ qna.date }} 
             <h2 class="mt-3 mb-5 fw-bold">
-                {{ community.title }}
+                {{ qna.title }}
             </h2>
-            <div v-html="community.contents"></div>
+            <div v-html="qna.content"></div>
 
             <b-container class="ms-auto text-end">
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.view }}
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
                 <text class="fw-bold ms-2">
-                    {{ community.heart }}
+                    {{ qna.qna_like_yn }}
                 </text>
             </b-container>
-            <b-button type="submit" class="btn-custom ms-2" @click="communityeditPath()">글수정</b-button>
-            <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="qnaeditPath()">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="qnadelete()">삭제</b-button>
             <hr class="my-5">
         </b-container>
     </div>
@@ -36,13 +36,13 @@ export default{
     data() {
         return {
             result : 0,
-            community : {
+            qna : {
                 title : '',
-                contents : '',
-                writer : '',
-                writeDate : '',
-                view : 0,
-                heart : 0,
+                content : '',
+                user_id : '',
+                date : '',
+                qna_cnt : 0,
+                qna_like_yn : 0,
             }
         }
     },
@@ -50,25 +50,27 @@ export default{
     mounted() {
         const num = this.$route.params.num;
         
-        this.communityRead(num);
+        this.qnaRead(num);
         this.path(num);
     },
 
     methods: {
-        communityRead(num){ // 게시글 데이터 조회
-            this.$axios.get('/api/community/detail',{
+
+        qnaRead(qnanum){ // 게시글 데이터 조회
+            console.log('번호:', qnanum);
+            this.$axios.get('/api/qna/qnaDetail',{
                 params : {
-                    num : num,
+                    num : qnanum,
                 }
             })
-            .then(response=>{
-                this.community = response.data;
+            .then(res=>{
+                this.qna = res.data;
             })
             .catch((error)=>{console.log(error)})
         },
-        communitydelete() {
+        qnadelete() {
             alert('게시글을 삭제합니다.');
-            this.$axios.get('/api/community/delete', {
+            this.$axios.get('/api/qna/qnaDelete', {
                 params: {
                     num: this.result,
                 }
@@ -77,16 +79,16 @@ export default{
                     this.$swal('Success', '글삭제완료!', 'success'),
                         console.log(res);
                     router.push({
-                        name: "community"
+                        name: "qnaBoard"
                     })
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
-        communityeditPath(){
+        qnaeditPath(){
             this.$router.push({
-                name: 'communityedit', 
+                name: 'qnaBoardedit', 
                 params:{
                     num :this.result
                 }

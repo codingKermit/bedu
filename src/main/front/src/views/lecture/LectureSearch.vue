@@ -1,0 +1,148 @@
+<template>
+    <div>
+        <b-container class="py-5">
+            <b-form class="w-50 mx-auto" @submit="search()">
+                <div class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu mt-5">
+                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                    <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                </div>
+            </b-form>
+            <p class="fs-2 fw-bold">강좌 검색결과 ({{ total }})</p>
+            <div class="search-result-container p-3 border-opacity-25 border-secondary border mb-5">
+                <ul class="list-unstyled">
+                    <li v-for="(item, i) in lectures" :key="i">
+                        <b-link :to='"/lectureDetail?num="+item.num' class="text-body text-decoration-none">
+                            <b-container class="d-flex">
+                                <div class="w-25 p-3">
+                                    <b-img thumbnail rounded class="w-100 h-100" :src="item.thumbnail"></b-img>
+                            </div>
+                            <div class="p-3">
+                                <p class="fs-5 fw-bold">{{ item.title }}</p>
+                                <span class="d-flex">
+                                    <p class="teacher-name">{{ item.teacher }} 선생님</p><p>총 {{ item.total }}강</p>
+                                </span>
+                                <p class="text-secondary">수강기간 : {{ item.duration }}일</p>
+                            </div>
+                            <div class="ms-auto my-auto">
+                                <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>
+                            </div>
+                        </b-container>
+                    </b-link>
+                    </li>
+                    <InfiniteLoading @infinite="infiniteHandler">
+                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+                        </template>
+                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+                            <span></span>
+                        </template>
+                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+                        </template>
+                    </InfiniteLoading>
+                </ul>
+            </div>
+        </b-container>
+    </div>
+</template>
+
+
+<script>
+import { InfiniteLoading } from 'infinite-loading-vue3-ts';
+
+export default{
+    name: "lectureSearch",
+    data() {
+        return {
+            keyword: "",
+            total: 0,
+            lectures: [],
+            page : 1
+        };
+    },
+    methods: {
+        /** 검색했을때 동작.
+         * 스크롤 이벤트에서는 동작하지 않음
+         */
+        search(){ 
+            this.$router.push({
+                name : 'lectureSearch',
+                query:{
+                    keyword : this.keyword
+                }
+            })
+            this.$route.query.keyword = this.keyword
+            this.getTotal();
+            this.$axios.get("/api/lectureSearch", {
+                params: {
+                    keyword: this.keyword,
+                    page : this.page
+                }
+            })
+            .then((res) => {
+                    this.lectures = res.data.item;
+            })
+                .catch((err) => { console.log(err); });  
+        },
+        /** 스크롤 이벤트 동작 메서드 */
+        infiniteHandler($state){
+            this.$axios.get("/api/lectureSearch", {
+                params: {
+                    keyword: this.keyword,
+                    page : this.page
+                }
+            })
+            .then((res) => {
+                if(res.data.item.length){ // 조회 데이터의 길이가 0이 아닐때 동작
+                    this.page++;
+                    this.lectures.push(...res.data.item);
+                    $state.loaded(); // 로드를 계속하도록 함
+                } else{
+                   $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
+                }
+            })
+                .catch((err) => { console.log(err); });
+        },
+        getTotal(){ // 20개씩이 아니라 키워드에 해당하는 전체 강의 갯수
+            this.$axios.get('/api/searchTotal',{
+                params:{
+                    keyword : this.keyword
+                }
+            })
+            .then((res)=>{
+                this.total = res.data
+            })
+            .catch((err)=>{console.log(err)});
+        }
+    },
+    created() {
+    },
+    mounted() {
+        this.keyword = this.$route.query.keyword,
+        this.infiniteHandler();
+        this.getTotal();
+    },
+    components: { InfiniteLoading }
+}
+
+
+</script>
+
+<style scoped>
+.border-bedu{
+    border-color: var(--yellow) !important;
+}
+
+.search-result-container{
+    border-top: 3px solid black !important;
+}
+
+.teacher-name::after{
+    content : '';
+    width: 1px;
+    height: 1rem;
+    background-color: gray;
+    margin : 0rem 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+</style>

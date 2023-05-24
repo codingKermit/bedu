@@ -2,7 +2,7 @@
   <div class="lecture py-5" >
       <img src="@/assets/imgs/character/im.png" class="character">
       <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
-      <p class="fs-5 fw-light fs-bedu-yellow text-center">What's wanna be?</p>
+      <p class="fs-5 fw-light fw-bold text-center" style="color: blueviolet;">What's wanna be?</p>
       <b-form class="w-50 mx-auto">
         <div class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu">
           <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />

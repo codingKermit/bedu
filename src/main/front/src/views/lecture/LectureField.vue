@@ -23,7 +23,8 @@
                                 </div>
                                 <b-container class="p-4 border position-relative">
                                     <span class="position-absolute like-off">
-                                        <font-awesome-icon :icon="['fas', 'heart']" style="color: #ffffff;" />
+                                        <font-awesome-icon :icon='item.likeYn == 1 ? ["fas","heart"]:["far","heart"]' 
+                                        :class='item.likeYn == 1 ?  "red-button":"white-button"' />
                                     </span>
                                 <div>
                                 <p class="fw-bold">{{ item.title }}</p>
@@ -57,7 +58,8 @@
                             <img :src="item.thumbnail" >
                             <b-container class="p-4 border position-relative">
                                     <span class="position-absolute like-on">
-                                        <font-awesome-icon :icon="['fas', 'heart']" style="color: #ed0202;" />
+                                        <font-awesome-icon :icon='item.likeYn == 1 ? ["fas","heart"]:["far","heart"]' 
+                                        :class='item.likeYn == 1 ?  "red-button":"white-button"' />
                                     </span>
                                 <div>
                                 <p class="fw-bold">{{ item.title }}</p>
@@ -308,12 +310,13 @@ export default{
             programming: [],
             tools : [],
             major : [],
-            design : []
+            design : [],
+            likes : [],
+            categories : []
         }
     },
     methods: {
         getLectures(){
-            console.log(location.origin);
             this.$axios.get('/api/getLectureField')
             .then((res)=>{
                 this.base = res.data.base;
@@ -325,7 +328,6 @@ export default{
                 this.tools = res.data.tools;
                 this.major = res.data.major;
                 this.design = res.data.design;
-                console.log(this.base)
             })
             .catch((err)=>{
                 console.log(err)
@@ -359,7 +361,7 @@ img{
 }
 
 
-.like-off{
+.like-off, .like-on{
     height: 50px;
     width: 50px;
     /* background: url(@/assets/imgs/icon_like_off.png) no-repeat center; */
@@ -368,14 +370,21 @@ img{
     text-align: center;
     font-size : 24px;
 }
-.like-on{
+/* .like-on{
     height: 50px;
     width: 50px;
-    /* background: url(@/assets/imgs/icon_like_on.png) no-repeat center; */
+    background: url(@/assets/imgs/icon_like_on.png) no-repeat center;
     top: -40px;
     right : -10px;
     text-align: center;
     font-size : 24px;
+} */
+
+.red-button{
+    color: red;
+}
+.white-button{
+    color:white;
 }
 
 .teacher-name::after{

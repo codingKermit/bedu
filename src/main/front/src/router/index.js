@@ -27,7 +27,12 @@ const routes = [
 
     component : () => import('@/views/lecture/LectureField.vue')
   }
-  ,
+  ,{
+    path : '/lectureCategories',
+    name : 'lectureCategories',
+
+    component : () => import('@/views/lecture/LectureCategories.vue')
+  },
   {
     path: '/review',
     name: 'review',
@@ -54,28 +59,53 @@ const routes = [
 
   ,
   {
-    path: '/community',
+    path: '/comm/freBd',
     name: 'community',
-    component: () => import('../views/community/CommunityView.vue')
+    component: () => import('../views/comm/FreeBoardView.vue')
   }
 
   ,
   {
-    path: '/communitywrite',
+    path: '/comm/freBdWrite',
     name: 'communitywrite',
-    component: () => import('../views/community/CommunityWrite.vue')
+    component: () => import('../views/comm/FreeBoardWrite.vue')
   }
   ,
   {
-    path: '/communitydetail/:num',
+    path: '/comm/freBdDetail/:num',
     name: 'communitydetail',
-    component: () => import('../views/community/CommunityDetail.vue')
+    component: () => import('../views/comm/FreeBoardDetail.vue')
   }
   ,
   {
-    path: '/communityedit/:num',
+    path: '/comm/freBdEdit/:num',
     name: 'communityedit',
-    component: () => import('../views/community/CommunityEdit.vue')
+    component: () => import('../views/comm/FreeBoardEdit.vue')
+  }
+
+  ,
+  {
+    path: '/comm/qna',
+    name: 'qnaBoard',
+    component: () => import('../views/comm/QnaBoardView.vue')
+  }
+  ,
+  {
+    path: '/comm/qnaWrite',
+    name: 'qnaBoardwrite',
+    component: () => import('../views/comm/QnaBoardWrite.vue')
+  }
+  ,
+  {
+    path: '/comm/qnaDetail/:num',
+    name: 'qnaBoarddetail',
+    component: () => import('../views/comm/QnaBoardDetail.vue')
+  }
+  ,
+  {
+    path: '/comm/qnaEdit/:num',
+    name: 'qnaBoardedit',
+    component: () => import('../views/comm/QnaBoardEdit.vue')
   }
   ,
   {
