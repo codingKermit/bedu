@@ -4,7 +4,7 @@
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                 <b-nav-item v-for="(item, i) in categories" :key="i">
-                    <b-link :to='"/course?category="+item.value+"&korCategory="+item.title' class="text-body text-decoration-none">
+                    <b-link :to='"/lectureCategories"' class="text-body text-decoration-none">
                         <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                             <b-img :src="item.img" fluid></b-img>
                         </b-container>

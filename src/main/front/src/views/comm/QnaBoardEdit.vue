@@ -1,8 +1,8 @@
 <template>
     <b-container class="w-50">
-        <h1>자유게시판</h1>
+        <h1>질문 / 답변</h1>
       <b-form @submit="edit()">
-          <input type="hidden" v-model="form.comm_num" ref="comm_num"/>
+          <input type="hidden" v-model="form.comm_num" ref="qna_bd_num"/>
           <b-form-input class="my-5" ref="title" v-model="form.title"></b-form-input>
           <b-form-textarea class="form-control col-sm-5" rows="5" ref="content" v-model="form.content"></b-form-textarea>
           <b-container class="my-3 justify-content-md-end d-md-flex">
@@ -20,7 +20,7 @@ export default{
     data(){
         return {
             form:{
-                comm_num:0,  
+                qna_bd_num: 0,  
                 title: '',
                 content: '',
             }
@@ -29,18 +29,19 @@ export default{
 
     mounted() {
         // console.log(this.$route.params.num)
-        const cnum = this.$route.params.num;
-        console.log(cnum);
-        this.communitydetail(cnum);
+        const qnum = this.$route.params.num;
+        console.log(qnum);
+        this.qnadetail(qnum);
         // this.path(cnum);
         // path(num);
     },
 
     methods: {
-        communitydetail(cnum){ // 게시글 데이터 조회
-            this.$axios.get('/api/community/detail',{
+
+        qnadetail(qnum){ // 게시글 데이터 조회
+            this.$axios.get('/api/qna/qnaDetail',{
                 params : {
-                    num : cnum,
+                    num : qnum,
                 },
             })
             .then(response=>{
@@ -49,19 +50,21 @@ export default{
             })
             .catch((error)=>{console.log(error)})
         },
+
         edit(){
-          alert('게시글을 수정합니다.');
+
           const form = new FormData();
-          form.append("comm_num",this.form.comm_num);
-          form.append("title",this.form.title);
-          form.append("content",this.form.content);
-          console.log('글번호:', this.form.comm_num);
-          this.$axios.post('/api/community/edit',form)
+          form.append("qna_bd_num", this.form.qna_bd_num);
+          form.append("title", this.form.title);
+          form.append("content", this.form.content);
+          console.log('글번호:', this.form.qna_bd_num);
+          alert('게시글을 수정합니다.');
+          this.$axios.post('/api/qna/qnaEdit', form)
           .then(res => {
               console.log('완료!', res);
               this.$swal('Success','수정완료!','success'),
               router.push({
-                  name:"community"
+                  name:"qnaBoard"
               })
             }
           )

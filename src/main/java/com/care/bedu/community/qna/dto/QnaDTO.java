@@ -16,7 +16,7 @@ public class QnaDTO {
 	private String reg_date;	//게시판 시간
 	private String title;	//제목
 	private Integer qna_cnt;	//조회수
-	private String qna_like_yn;	//좋아요
+	private Integer qna_like_yn;	//좋아요
 	private String keyword;		//검색 키워드
 	private int viewNumber;				//화면에 보여줄 정렬된 글번호
 

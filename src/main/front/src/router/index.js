@@ -27,7 +27,12 @@ const routes = [
 
     component : () => import('@/views/lecture/LectureField.vue')
   }
-  ,
+  ,{
+    path : '/lectureCategories',
+    name : 'lectureCategories',
+
+    component : () => import('@/views/lecture/LectureCategories.vue')
+  },
   {
     path: '/review',
     name: 'review',
@@ -84,7 +89,6 @@ const routes = [
     name: 'qnaBoard',
     component: () => import('../views/comm/QnaBoardView.vue')
   }
-
   ,
   {
     path: '/comm/qnaWrite',

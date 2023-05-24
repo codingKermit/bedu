@@ -1,14 +1,10 @@
 package com.care.bedu.review.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 import com.care.bedu.review.entity.Review;
 import com.care.bedu.review.repository.ReviewRepository;
@@ -16,6 +12,7 @@ import com.care.bedu.review.repository.ReviewRepository;
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
+
     private final ReviewRepository reviewRepository;
 
     @Autowired
@@ -29,8 +26,8 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public Review getReviewById(@PathVariable("id") String id) {
-        return reviewRepository.findById(id).orElse(null);
+    public Optional<Review> getReviewById(@PathVariable int id) {
+        return reviewRepository.findById(id);
     }
 
     @PostMapping
@@ -38,5 +35,26 @@ public class ReviewController {
         return reviewRepository.save(review);
     }
 
-   
+    @PutMapping("/{id}")
+    public Review updateReview(@PathVariable int id, @RequestBody Review updatedReview) {
+        Optional<Review> existingReview = reviewRepository.findById(id);
+        if (existingReview.isPresent()) {
+            Review review = existingReview.get();
+            review.setTitle(updatedReview.getTitle());
+            review.setWriter(updatedReview.getWriter());
+            review.setStar(updatedReview.getStar());
+            review.setAuthor(updatedReview.getAuthor());
+            return reviewRepository.save(review);
+        } else {
+            throw new RuntimeException("Review not found with id: " + id);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteReview(@PathVariable int id) {
+        reviewRepository.deleteById(id);
+    }
+
+    // 추가적인 API 핸들러 등을 구현할 수 있습니다.
+
 }

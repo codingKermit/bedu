@@ -17,12 +17,18 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int boardwrite(CommunityDTO communityDTO) {
+		communityDTO.setUser_id("user12"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
+		communityDTO.setReg_id(communityDTO.getUser_id());
+		communityDTO.setComm_cnt(0);
+		communityDTO.setComm_like_yn(0);
 		return communityMapper.viewwrite(communityDTO);
 	}
 
 	@Override
 	public CommunityDTO viewone(int num) {
-		return communityMapper.viewone(num);
+		int result = communityMapper.cntUp(num);
+		CommunityDTO communityDTO =communityMapper.viewone(num);
+		return communityDTO;
 	}
 
 	@Override
@@ -41,17 +47,8 @@ public class CommunityServiceImpl implements CommunityService{
 		if(communityDTO.getKeyword() != null) {				//검색 키워드 조건 (키워드 없으면 기본 조회)
 			return communityMapper.viewsearch(communityDTO);
 		}
-		ArrayList<CommunityDTO> list = communityMapper.viewlist(communityDTO);
-//		System.out.println("전체 글번호 개수:"+ communityMapper.getTotal());
-//		int total = communityMapper.getTotal();
-//		for(int i=0; i<list.size(); i++) {
-//			CommunityDTO communitylist = list.get(i);
-//			for(int viewpage=total; viewpage>0; viewpage--) {
-//				communitylist.setViewNumber(viewpage);
-//				break;
-//			}
-//		}
-		return list;
+		return communityMapper.viewlist(communityDTO);
+		
 	}
 
 	@Override

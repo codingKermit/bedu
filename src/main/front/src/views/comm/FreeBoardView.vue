@@ -14,7 +14,7 @@
       </div>
       <table class="w3-table-all">
         <tbody>
-          <tr v-for="community in communitylist" :key="community.num">
+          <tr v-for="community in communitylist" :key="community">
             <td>
               <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
                 {{ community.title }}
@@ -23,6 +23,7 @@
             <td>{{ community.user_id }}</td>
             <td>{{ community.comm_date }}</td>
             <td>{{ community.comm_cnt }}</td>
+            <td>{{ community.comm_like_yn }}</td>
           </tr>
         </tbody>
       </table>
@@ -67,6 +68,13 @@ export default {
     this.getTotal();          //끝페이지 번호 설정
     this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
   },
+
+  created(){
+    this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
+    this.getTotal();          //끝페이지 번호 설정
+    this.List();           //설정한 페이지 번호를 기반으로 게시물 조회
+  },
+
   methods: {
     List() {
       this.$axios.get('/api/community/boardList', {

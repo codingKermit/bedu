@@ -1,6 +1,6 @@
 <template>
     <b-container class="w-50">
-        <h1>Q&A게시판</h1>
+        <h1>질문 / 답변</h1>
         
       <b-form @submit="submit()">
           <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
@@ -18,7 +18,7 @@ import router from '@/router';
 
 export default {
   
-    name: 'communityWrite',
+    name: 'qnaWrite',
     data() {
         return {
             form:{
@@ -58,11 +58,11 @@ export default {
           form.append("title",this.form.title);
           form.append("content",this.form.content);
 
-          this.$axios.post('/api/community/write',form)
+          this.$axios.post('/api/qna/qnaWrite', form)
           .then(
               this.$swal('Success','작성완료!','success'),
               router.push({
-                  name:"community"
+                  name:"qnaBoard"
               })
           )
           .catch((error)=>{
