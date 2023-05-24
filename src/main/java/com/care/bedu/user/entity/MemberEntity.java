@@ -25,10 +25,12 @@ public class MemberEntity {
 	private Long usernum;
 	private String email;
 	private String password;
+	private String nickname;
 
 	public MemberEntity(MemberDto memberDto) {
 		this.email = memberDto.getEmail();
 		this.password = memberDto.getPassword();
+		this.nickname = memberDto.getNickname();
 	}
 	
 	  public static MemberEntity registMember(MemberDto memberDto){

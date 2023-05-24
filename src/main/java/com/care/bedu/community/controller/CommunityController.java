@@ -20,16 +20,15 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
-		System.out.println("처음 페이지:"+ communityDTO.getPage());
-		System.out.println("키워드:"+ communityDTO.getKeyword());
 		ArrayList<CommunityDTO> list = communityService.listProc(communityDTO);
 		return list;
 	}
 	
-	@RequestMapping(value="/community/writer", method=RequestMethod.POST)
-	public String communityWriter(CommunityDTO communityDTO){
-		communityDTO.setUserId("admin"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
-		int result = communityService.boardwriter(communityDTO);
+	@RequestMapping(value="/community/write", method=RequestMethod.POST)
+	public String communityWrite(CommunityDTO communityDTO){
+		communityDTO.setUser_id("user12"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
+		communityDTO.setReg_id(communityDTO.getUser_id());
+		int result = communityService.boardwrite(communityDTO);
 		return result > 0 ? "Y": "N";
 	}
 	
@@ -53,7 +52,6 @@ public class CommunityController {
 	
 	@RequestMapping("/community/total")
 	public int getTotal(){
-		System.out.println("전체 글개수 가져오기");
 		return communityService.getTotal();
 	}
 	

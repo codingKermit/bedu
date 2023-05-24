@@ -1,23 +1,28 @@
 <template>
   <div class="regist">
+    <!-- 로그인 및 회원가입 이동 버튼 -->
     <div class="change">
       <button @click="$router.push('/login')" class="loginbtn">로그인</button>
       <button @click="$router.push('/regist')" class="registbtn">회원가입</button>
     </div>
     <div class="container">
+      <!-- 이용약관 동의 섹션 -->
       <div v-if="!showForm" class="regist-container">
+        <!-- "모든 이용 약관에 동의" 체크박스 -->
         <label class="areeAll" for="agree_all">
           <input class="form-check-input" type="checkbox" name="agree_all" id="agree_all" v-model="allChecked"
             @change="toggleAllAgreements">
           <span style="cursor: pointer;">모든 이용 약관에 동의.</span>
         </label>
 
+        <!-- 개별 약관 체크박스 -->
         <label class="choice" v-for="(item, index) in agreements" :key="index" :for="'agree_' + item.value"
           @click="toggleCheckbox(item.value)">
           <input class="form-check-input" type="checkbox" :id="'agree_' + item.value" :name="'agree'" :value="item.value"
             v-model="selectedAgreements" @change="updateAllChecked">
           <span style="cursor: pointer;">{{ item.label }}<strong v-if="item.optional"
               class="select_disable">(선택)</strong></span>
+          <!-- 약관 내용 표시 -->
           <textarea v-if="item.value === 1" readonly :name="'agree_' + item.value" v-model="fileText1" rows="7"
             cols="85"></textarea>
           <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7"
@@ -26,31 +31,55 @@
 
         <a>※위 항목에 동의하지 않는 경우 회원가입이 불가합니다.</a>
 
+        <!-- 약관 동의 여부에 따른 '동의합니다' 버튼 표시 -->
         <div>
+          <!-- 모든 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
           <button v-if="selectedAgreements.length === agreements.length" class="submit"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button"
             @click="showRegistrationForm">동의합니다</button>
+          <!-- 일부 약관에 동의하지 않은 경우 회원가입 섹션으로 이동X-->
           <button v-if="selectedAgreements.length != agreements.length" class="submit2"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button">
             동의합니다</button>
         </div>
       </div>
 
+      <!-- 회원가입 양식 섹션 -->
       <div class="container2" v-else>
         <div class="regist-container2">
           <form class="regist-form" @submit.prevent="register">
+            <!-- 이메일 입력 필드 -->
             <div class="form-group">
               <input class="email" placeholder="이메일 입력" v-model="member.email">
-              <button class="emailChk" @click="checkEmailAvailability">중복체크</button>
+              <button class="emailChk" @click="checkEmailDuplicate" :disabled="isChecking">중복체크</button>
+              <p v-show="valid.email && member.email" class="input-error">이메일 주소를 정확히 입력해주세요.</p>
+              <p v-show="emailChecked && !valid.emailChk" class="input-error">중복된 이메일 입니다.</p>
+              <p v-show="emailChecked && valid.emailChk" class="input-correct">사용가능한 이메일 입니다.</p>
             </div>
-            <p v-if="emailAvailabilityMessage" :style="{ color: emailAvailabilityColor }">
-              {{ emailAvailabilityMessage }}
-            </p>
+            <!-- 닉네임 입력 필드 -->
+            <div class="form-group">
+              <input class="nickname" placeholder="닉네임 입력" v-model="member.nickname">
+              <button class="nickChk" @click="checkNickDuplicate" :disabled="isChecking">중복체크</button>
+              <p v-show="nickChecked && !valid.nickChk" class="input-error">중복된 닉네임 입니다.</p>
+              <p v-show="nickChecked && valid.nickChk" class="input-correct">사용 가능한 닉네임 입니다.</p>
+            </div>
+            <!-- 비밀번호 입력 필드 -->
             <div class="form-group">
               <input class="password" placeholder="비밀번호 입력" v-model="member.password">
+              <p v-show="valid.password && member.password && (member.password.length < 6 || member.password.length > 15)"
+                class="input-error">비밀번호는 6자리 이상 15자리 이하로 작성해주세요.</p>
             </div>
+            <!-- 비밀번호 확인 필드 -->
             <div class="form-group">
-              <button class="submitformbtn" type="submit">회원가입</button>
+              <input class="password" placeholder="비밀번호 입력 확인" v-model="confirmPassword">
+              <p v-show="valid.password && member.password && member.password !== confirmPassword" class="input-error">
+                비밀번호가 일치하지 않습니다.</p>
+              <p v-show="valid.password && member.password && member.password == confirmPassword && (member.password.length >= 6 && member.password.length <= 15)"
+                class="input-correct">사용가능한 비밀번호 입니다.</p>
+            </div>
+            <!-- 회원가입 Submit 버튼 -->
+            <div class="form-group">
+              <button class="submitformbtn" type="submit" :disabled="isChecking">회원가입</button>
             </div>
           </form>
         </div>
@@ -66,44 +95,122 @@ import fileText2 from 'raw-loader!./개인정보 수집, 이용 동의.txt';
 export default {
   data() {
     return {
-      allChecked: false,
-      selectedAgreements: [],
-      agreements: [
+      allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
+      selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
+      agreements: [ // 이용약관과 개인정보 수집에 대한 동의 항목을 포함
         { value: 1, label: '이용약관 동의', optional: false },
         { value: 2, label: '개인정보 수집, 이용 동의', optional: false }
       ],
+      // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장
       fileText1: fileText1,
       fileText2: fileText2,
-      showForm: false,
-      member: {
+      showForm: false, // showForm은 회원가입 양식을 보여줄지 여부를 결정하는 데이터 속성
+      confirmPassword: "",
+      isChecking: false,
+      emailChecked: false,
+      nickChecked: false,
+      member: { //  회원의 이메일과 비밀번호를 저장
         email: "",
+        nickname: "",
         password: ""
       },
-      emailAvailabilityMessage: '',
-      emailAvailabilityColor: ''
+      valid: {
+        email: false,
+        password: false,
+        emailChk: false,
+        nickChk: false
+      }
     };
   },
+  watch: {
+    'member.email': function () {
+      this.checkEmail();
+    },
+    'member.password': function () {
+      this.checkPassword();
+    },
+  },
   methods: {
+    // 이메일 정규식
+    checkEmail() {
+      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+
+      if (!validateEmail.test(this.member.email) || !this.member.email) {
+        this.valid.email = true;
+        return;
+      }
+      this.valid.email = false;
+    },
+    checkEmailDuplicate() {
+      this.isChecking = true;
+      this.$axios
+        .get(`/api/register/emil/${this.member.email}`)
+        .then((response) => {
+          const isDuplicate = response.data;
+          this.emailChecked = true; 
+          this.valid.emailChk = !isDuplicate;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('이메일 중복 체크 실패');
+        })
+        .finally(() => {
+          this.isChecking = false; 
+        });
+    },
+    checkNickDuplicate() {
+    this.isChecking = true;
+    this.$axios
+      .get(`/api/register/nickname/${this.member.nickname}`)
+      .then((response) => {
+        const isDuplicate = response.data;
+        this.nickChecked = true; 
+        this.valid.nickChk = !isDuplicate;
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('닉네임 중복 체크 실패');
+      })
+      .finally(() => {
+        this.isChecking = false; 
+      });
+    }, 
+    // 비밀번호 정규식
+    checkPassword() {
+      const validatePassword = /^.{6,15}$/;
+      // 비밀번호는 6자리 이상 15자리 이하여야 합니다.
+      if (!validatePassword.test(this.member.password) || !this.member.password || this.member.password.length < 6 || this.member.password.length > 15 || this.member.password !== this.confirmPassword) {
+        this.valid.password = true;
+        return;
+      }
+      this.valid.password = false;
+    },
+    // "모든 이용 약관에 동의" 체크박스 토글(1개이상 체크박스 체크 빠질시 "모든 이용 약관에 동의" 체크박스 해제)
     toggleAllAgreements(event) {
       this.selectedAgreements = event.target.checked ? this.agreements.map(item => item.value) : [];
       this.updateAllChecked();
     },
+    // 체크박스 상태에 따라 "모든 이용 약관에 동의" 체크박스 업데이트
     updateAllChecked() {
       this.allChecked = this.selectedAgreements.length === this.agreements.length;
     },
-    showRegistrationForm() {
-      this.showForm = true;
-    },
+    // 개별 약관 체크박스 토글
     toggleCheckbox(value) {
       const checkbox = document.getElementById(`agree_${value}`);
       checkbox.checked = !checkbox.checked;
       this.updateAllChecked();
     },
-
+    // 회원가입 양식을 보여주기 위해 showForm 값을 변경
+    showRegistrationForm() {
+      this.showForm = true;
+    },
+    // 사용자 회원가입
     register() {
+      // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
       this.$axios.post("/api/register", this.member)
         .then((response) => {
           alert(response.data);
+          // 문제없이 보냈다면 'login'으로 router이동
           this.$router.push({
             name: 'login'
           });
@@ -115,10 +222,13 @@ export default {
     },
   },
 
+  // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
   computed: {
+    // 모두 약관 동의 되어있다면 backgroun-color: #303076인 회원가입 양식을 나타내주는 button으로 변경
     submitButtonColor() {
       return this.selectedAgreements.length === this.agreements.length ? '#303076' : '';
     },
+    // 모두 약관 동의 되어있지 않다면 backgroun-color: white인 button으로 변경
     submitButtonTextColor() {
       return this.selectedAgreements.length === this.agreements.length ? 'white' : '';
     },
@@ -138,7 +248,6 @@ export default {
 }
 
 .change {
-  margin-top: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -218,7 +327,6 @@ export default {
 .regist-container label span {
   font-size: 17px;
   white-space: nowrap;
-  /* Prevent line break */
 }
 
 textarea {
@@ -227,7 +335,6 @@ textarea {
   font-size: 1em;
   resize: none;
   align-self: flex-start;
-  /* Adjust vertical alignment of textarea */
 }
 
 input[type=checkbox] {
@@ -257,6 +364,10 @@ input[type=checkbox] {
   padding-bottom: 30px;
 }
 
+.form-group {
+  margin-bottom: 8%;
+}
+
 .email {
   width: 74%;
   padding: 0.8rem;
@@ -269,7 +380,36 @@ input[type=checkbox] {
 .emailChk {
   width: 20%;
   padding: 0.8rem;
-  margin-top: 40px;
+  margin-left: -23px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: white;
+  background-color: #707070;
+}
+
+.input-error {
+  margin-left: 30px;
+  position: absolute;
+  color: red;
+}
+
+.input-correct {
+  margin-left: 30px;
+  position: absolute;
+  color: rgb(0, 182, 0);
+}
+
+.nickname {
+  width: 74%;
+  padding: 0.8rem;
+  margin-left: -23px;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.nickChk {
+  width: 20%;
+  padding: 0.8rem;
   margin-left: -23px;
   font-size: 1.1rem;
   font-weight: 400;
@@ -280,7 +420,6 @@ input[type=checkbox] {
 .password {
   width: 90%;
   padding: 0.8rem;
-  margin-top: 40px;
   margin-left: -23px;
   font-size: 1.1rem;
   font-weight: 400;
@@ -289,7 +428,7 @@ input[type=checkbox] {
 .submitformbtn {
   width: 90%;
   padding: 0.8rem;
-  margin-top: 80px;
+  margin-top: 50px;
   margin-left: -23px;
   font-size: 1.3rem;
   font-weight: 400;
@@ -298,5 +437,4 @@ input[type=checkbox] {
   background-color: white;
   color: #303076;
   border: 3px solid #303076;
-}
-</style>
+}</style>

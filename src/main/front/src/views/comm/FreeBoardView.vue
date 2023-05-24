@@ -1,7 +1,7 @@
 <template>
   <div class="community">
     <div class="community-title">
-      <h1>커뮤니티</h1>
+      <h1>자유게시판</h1>
       <!-- <subtitle :subtitle="subtitle" /> -->
     </div>
     <div class="community-main">
@@ -10,29 +10,19 @@
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button type="submit" class="btn btn-primary">검색</b-button>
         </b-form>
-        <b-button :to="'/communitywrite'" style="margin-left: 310px;">글쓰기</b-button>
+        <b-button :to="'/comm/freBdWrite'" style="margin-left: 310px;">글쓰기</b-button>
       </div>
       <table class="w3-table-all">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
         <tbody>
           <tr v-for="community in communitylist" :key="community.num">
-            <td>{{ community.num }}</td>
             <td>
-              <b-link class="text-start" :to="'/communitydetail/' + community.num">
+              <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
                 {{ community.title }}
               </b-link>
             </td>
-            <td>{{ community.writer }}</td>
-            <td>{{ community.writeDate }}</td>
-            <td>{{ community.views }}</td>
+            <td>{{ community.user_id }}</td>
+            <td>{{ community.comm_date }}</td>
+            <td>{{ community.comm_cnt }}</td>
           </tr>
         </tbody>
       </table>
@@ -56,6 +46,14 @@ export default {
   data() {
     return {
       communitylist: [],
+      // communitys : {
+      //           title : '',
+      //           contents : '',
+      //           writer : '',
+      //           writeDate : '',
+      //           view : 0,
+      //           heart : 0,
+      // },
       form: {
         keyword: '',
       },
@@ -79,6 +77,7 @@ export default {
         .then(res => {
           console.log(res);
           this.communitylist = res.data;
+          
         })
         .catch(error => {
           console.log(error, '실패함!!');
@@ -102,7 +101,7 @@ export default {
           this.$axios.get('/api/community/total')
           .then((response)=>{
             this.totalItems = response.data;
-            this.totalPage = Math.ceil(this.totalItems/3);
+            this.totalPage = Math.ceil(this.totalItems/10);
           })
           .catch((error)=>{
             console.log(error)

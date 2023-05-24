@@ -21,11 +21,16 @@ public class MemberService {
         MemberEntity memberEntity = MemberEntity.builder()
                 .email(memberDto.getEmail())
                 .password(encPassword)
+                .nickname(memberDto.getNickname())
                 .build();
         return memberRepository.save(memberEntity);
     }
     
-    public boolean checkEmailAvailability(String email) {
-        return memberRepository.existsByEmail(email);
+    public boolean checkEmailDuplicate(String email) {
+    	return memberRepository.existsByEmail(email);
+    }
+    
+    public boolean checkNicknameDuplicate(String nickname) {
+    	return memberRepository.existsByNickname(nickname);
     }
 }

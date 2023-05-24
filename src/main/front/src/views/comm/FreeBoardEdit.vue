@@ -1,11 +1,10 @@
 <template>
     <b-container class="w-50">
-        <h1>커뮤니티</h1>
+        <h1>자유게시판</h1>
       <b-form @submit="edit()">
-          <input type="hidden" v-model="form.num" ref="num"/>
-          <input type="hidden" v-model="form.writer"  ref="writer"/>
+          <input type="hidden" v-model="form.comm_num" ref="comm_num"/>
           <b-form-input class="my-5" ref="title" v-model="form.title"></b-form-input>
-          <b-form-textarea class="form-control col-sm-5" rows="5" ref="contents" v-model="form.contents"></b-form-textarea>
+          <b-form-textarea class="form-control col-sm-5" rows="5" ref="content" v-model="form.content"></b-form-textarea>
           <b-container class="my-3 justify-content-md-end d-md-flex">
               <b-button class="" type="reset">취소</b-button>
               <b-button type="submit" class="btn-custom ms-2">수정</b-button>
@@ -21,10 +20,9 @@ export default{
     data(){
         return {
             form:{
-                num:0,  
-                writer: '',
+                comm_num:0,  
                 title: '',
-                contents: '',
+                content: '',
             }
         }
     },
@@ -54,11 +52,10 @@ export default{
         edit(){
           alert('게시글을 수정합니다.');
           const form = new FormData();
-          form.append("num",this.form.num);
+          form.append("comm_num",this.form.comm_num);
           form.append("title",this.form.title);
-          form.append("contents",this.form.contents);
-          form.append("writer",this.form.writer);
-
+          form.append("content",this.form.content);
+          console.log('글번호:', this.form.comm_num);
           this.$axios.post('/api/community/edit',form)
           .then(res => {
               console.log('완료!', res);

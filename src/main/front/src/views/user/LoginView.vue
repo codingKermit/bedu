@@ -57,7 +57,6 @@
 }
 
 .change {
-  margin-top: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
