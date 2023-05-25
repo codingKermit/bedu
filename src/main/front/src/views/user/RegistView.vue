@@ -31,15 +31,13 @@
             cols="85"></textarea>
         </label>
 
-        <a>※위 항목에 동의하지 않는 경우 회원가입이 불가합니다.</a>
-
         <!-- 약관 동의 여부에 따른 '동의합니다' 버튼 표시 -->
         <div>
-          <!-- 모든 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
+          <!-- 1,2 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
           <button v-if="selectedAgreements.includes(1) && selectedAgreements.includes(2)" class="submit"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button"
             @click="showRegistrationForm">동의합니다</button>
-          <!-- 일부 약관에 동의하지 않은 경우 회원가입 섹션으로 이동X-->
+          <!-- 1이나 2 약관에 동의하지 않은 경우 회원가입 섹션으로 이동 안됨-->
           <button v-else-if="selectedAgreements.includes(1) || selectedAgreements.includes(2)" class="submit2"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button" disabled>
             동의합니다</button>
@@ -286,11 +284,10 @@ export default {
 
   // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
   computed: {
-    // 모든 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동
+    // 필수 약관에 동의한 경우 '동의합니다' 버튼 색변경과 텍스트색 변경
     submitButtonColor() {
       return this.selectedAgreements.includes(1) && this.selectedAgreements.includes(2) ? '#303076' : '';
     },
-    // 모든 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동
     submitButtonTextColor() {
       return this.selectedAgreements.includes(1) && this.selectedAgreements.includes(2) ? 'white' : '';
     },
