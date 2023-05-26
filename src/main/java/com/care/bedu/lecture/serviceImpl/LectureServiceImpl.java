@@ -6,7 +6,9 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.care.bedu.lecture.dao.LectureCategoryDao;
 import com.care.bedu.lecture.dao.LectureDao;
+import com.care.bedu.lecture.dto.LectureCategoriesDto;
 import com.care.bedu.lecture.dto.LectureDetailDto;
 import com.care.bedu.lecture.dto.LectureDto;
 import com.care.bedu.lecture.service.LectureService;
@@ -16,26 +18,74 @@ public class LectureServiceImpl implements LectureService{
 
 	@Autowired
 	private LectureDao dao;
+
+	@Autowired
+	private LectureCategoryDao cateDao;
+
 	
 	/* 카테고리별 강의를 들어갔을 때 동영상 조회 */
 	@Override
-	public ArrayList<LectureDto> getLectureList(String category, int page) {
+	public ArrayList<Object>  getLectureList(String category, int page) {
 		// TODO Auto-generated method stub
-		ArrayList<LectureDto> list = new ArrayList<>();
+		/* 중분류에 따른 소분류 조회 -> 소분류에 따른 강의 목록 조회
+		 * -> 자료 구조 정리하여 반환
+		 */
+
+		ArrayList<LectureCategoriesDto> dtos = new ArrayList<>(); // 소분류 카테고리 조회
+		dtos = cateDao.getBot(category);
+		
+		HashMap<String, Object> map = new HashMap<>(); // 파라미터 맵
+
+		ArrayList<LectureDto> list = new ArrayList<>(); // 강의 목록
+
+		ArrayList<Object> result = new ArrayList<>(); // 반환 값
 		
 
+		for(LectureCategoriesDto dto : dtos){
+			HashMap<String,Object> lect = new HashMap<>(); // 
+			// System.out.println(dto);
+			map.put("category", dto.getCate_code());
+			list = dao.getLectureList(map); // 소분류에 따른 강의 목록
+			lect.put("cate_code", dto.getCate_code()); // 소분류 코드
+			lect.put("cate_kor", dto.getCate_kor()); // 소분류 한글
+			lect.put("item",list); // 소분류 강의 목록
+			result.add(lect);
+		}
 
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("category", category);
-		map.put("begin", (page-1)*20+1);
+		// map.put("begin", (page-1)*20+1);
 		
-		list = dao.getLectureList(map);
 
-		// 좋아요 여부 체크 후 반환 과정
-		list = likeCheck(list);
-		
-		return list;
+		// // 좋아요 여부 체크 후 반환 과정
+		// list = likeCheck(list);
+
+
+		return result;
 	}
+
+	// /* 카테고리별 강의를 들어갔을 때 동영상 조회 */
+	// @Override
+	// public HashMap<String, Object>  getLectureList(String category, int page) {
+	// 	// TODO Auto-generated method stub
+	// 	/* 중분류에 따른 소분류 조회 -> 소분류에 따른 강의 목록 조회
+	// 	 * -> 자료 구조 정리하여 반환
+	// 	 */
+
+	// 	ArrayList<LectureDto> list = new ArrayList<>(); // 강의 목록
+
+	// 	HashMap<String, Object> result = new HashMap<>(); // 반환 값
+
+
+	// 	HashMap<String, Object> map = new HashMap<>(); // 파라미터 맵
+	// 	map.put("category", category);
+	// 	map.put("begin", (page-1)*20+1);
+		
+	// 	list = dao.getLectureList(map);
+
+	// 	// 좋아요 여부 체크 후 반환 과정
+	// 	list = likeCheck(list);
+		
+	// 	return result;
+	// }
 
 	/* 강의 상세 정보 조회 */
 	@Override
@@ -89,7 +139,8 @@ public class LectureServiceImpl implements LectureService{
 		ArrayList<LectureDto> dto = new ArrayList<>();
 
 		HashMap<String, Object> arg = new HashMap<>();
-		arg.put("keyword", keyword); arg.put("begin", (page-1)*20+1);
+		arg.put("keyword", keyword); 
+		arg.put("begin", (page-1)*20+1);
 		dto = dao.lectureSearch(arg);
 		map.put("item", dto);
 

@@ -17,11 +17,4 @@ public class LectureCategoriesDto {
     String cate_kor;
     int parent;
     String thumbnail;
-    // String top_cate;
-    // String top_cate_kor;
-    // String top_cate_icon;
-    // String mid_cate;
-    // String mid_cate_kor;
-    // String bot_cate;
-    // String bot_cate_kor;
 }

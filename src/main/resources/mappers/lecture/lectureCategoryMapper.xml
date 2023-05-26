@@ -7,4 +7,8 @@
         SELECT * FROM BIL.CATEGORYSAMPLE;
     </select>
 
+    <select id="getBot" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
+        SELECT * FROM BIL.CATEGORYSAMPLE WHERE PARENT = #{mid}
+    </select>
+
 </mapper>

@@ -19,9 +19,9 @@ public class LectureController {
 	private LectureService service;
 	
 	@RequestMapping("/lectureList")
-	public HashMap<String, ArrayList<LectureDto>> getLectureList(String category, int page){
-		ArrayList<LectureDto> list = new ArrayList<>();
-		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
+	public HashMap<String, Object> getLectureList(String category, int page){
+		ArrayList<Object> list = new ArrayList<>();
+		HashMap<String, Object> map = new HashMap<>();
 		
 		list = service.getLectureList(category, page);
 		
