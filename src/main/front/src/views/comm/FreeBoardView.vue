@@ -74,6 +74,7 @@ export default {
     this.getTotal();          //끝페이지 번호 설정
     this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
   },
+
   components:{
     InfiniteLoading
   },
@@ -92,7 +93,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           this.communitylist = res.data;
         })
         .catch(error => {
@@ -105,7 +105,6 @@ export default {
       this.$axios
         .post('/api/community/boardList', form)
         .then(res => {
-          console.log('확인:', res);
           this.communitylist = res.data;
         })
         .catch(error => {
@@ -114,13 +113,14 @@ export default {
     },
 
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
-      this.$axios.get('/api/lectureList',{
+      this.$axios.get('/api/community/boardList',{
         params:{
           category : this.category,
           page : this.page,
         }
       })
-      .then((res)=>{
+      .then(res=>{
+        console.log('스크롤:', res);
         if(res.data.item.length){
           this.page++;
           this.communitylist.push(...res.data.item);
