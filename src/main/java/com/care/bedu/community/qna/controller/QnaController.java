@@ -26,15 +26,12 @@ public class QnaController {
 	
 	@RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)
 	public String qnaWrite(QnaDTO qnaDTO){
-		qnaDTO.setUser_id("honggildong"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
-		qnaDTO.setReg_id(qnaDTO.getUser_id());
 		int result = qnaService.boardwrite(qnaDTO);
 		return result > 0 ? "Y": "N";
 	}
 	
 	@RequestMapping(value="/qna/qnaDetail", method=RequestMethod.GET)
 	public QnaDTO qnaDetail(int num){
-		System.out.println("여기서 받는 번호:"+ num);
 		return qnaService.viewone(num);
 	}
 	
@@ -49,6 +46,11 @@ public class QnaController {
 		int strnum = Integer.parseInt(num);
 		int result = qnaService.viewdelete(strnum);
 		return result> 0? "Y":"N";
+	}
+
+	@RequestMapping("/qna/total")
+	public int getTotal(){
+		return qnaService.getTotal();
 	}
 
 }

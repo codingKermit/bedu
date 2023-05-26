@@ -11,4 +11,5 @@ public interface QnaService {
 	public QnaDTO viewone(int num);
 	public int viewdelete(int num);
 	public int viewupdate(QnaDTO qnaDTO);
+	public int getTotal();
 }

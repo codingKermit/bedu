@@ -1,16 +1,20 @@
 <template>
   <div class="qna">
-    <div class="qna-title">
-      <h1>질문 / 답변</h1>
-    </div>
     <div class="qna-main">
       <div id="qna-box">
+        <h2>질문 / 답변</h2>
         <b-form @submit="qnasearch()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button type="submit" class="btn btn-primary">검색</b-button>
         </b-form>
-        <b-button :to="'/comm/qnaWrite'" style="margin-left: 310px;">글쓰기</b-button>
+        <b-button :to="'/comm/qnaWrite'" style="margin-left: 200px;">글쓰기</b-button>
       </div>
+      <div class="qna-main-1">
+        <div>
+          <h2>커뮤니티</h2>
+          <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link><br>
+          <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link>
+        </div>
       <table class="w3-table-all">
         <tbody>
           <tr v-for="qna in qnalist" :key="qna.num">
@@ -33,13 +37,24 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
+    <InfiniteLoading @infinite="infiniteHandler">
+                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+                        </template>
+                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+                            <span></span>
+                        </template>
+                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+                        </template>
+                    </InfiniteLoading>
     <b-container>
     </b-container>
   </div>
 </template>
 
 <script>
+import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 export default {
 
   data() {
@@ -49,19 +64,23 @@ export default {
       form: {
         keyword: '',
       },
-      totalItems : 0,
-      totalPage : 0,
-      currentPage : 1,
+      totalItems: 0,
+      totalPage: 0,
+      currentPage: 1,
     };
 
   },
-
-  mounted() {
-    
-    this.List();              
+  created() {
+    console.log('크리에이티드');
+    this.currentPage = 1;
+    this.getTotal();
+    this.List();
   },
 
-  created() {
+  mounted() {
+    console.log('마운트');
+    this.currentPage = 1;
+    this.getTotal();
     this.List();
   },
 
@@ -69,14 +88,14 @@ export default {
 
     List() {
       this.$axios.get('/api/qna/qnaList', {
-        params:{
+        params: {
           page: this.currentPage,
         }
       })
         .then(res => {
           console.log(res);
           this.qnalist = res.data;
-          
+
         })
         .catch(error => {
           console.log(error, '실패함!!');
@@ -84,7 +103,7 @@ export default {
     },
 
 
-    qnasearch(){ 
+    qnasearch() {
 
       const form = new FormData();
       form.append('keyword', this.form.keyword);
@@ -99,7 +118,51 @@ export default {
         });
     },
 
+    infiniteHandler($state){ // 스크롤 이벤트 핸들러
+      this.$axios.get('/api/lectureList',{
+        params:{
+          category : this.category,
+          page : this.page,
+        }
+      })
+      .then((res)=>{
+        if(res.data.item.length){
+          this.page++;
+          this.lectures.push(...res.data.item);
+          $state.loaded();
+        } else{
+          $state.complete();
+        }
+      })
+      .catch((err)=>{console.log(err)})
+    },
+
+    getTotal() {
+      this.$axios.get('/api/qna/total')
+        .then((response) => {
+          console.log('총 개수물 개수:', response);
+          this.totalItems = response.data;
+          this.totalPage = Math.ceil(this.totalItems / 10);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    pageChange(val) { // 페이지 변경
+
+      if (val <= 0) {
+        return;
+      }
+      if (val > this.totalPage) {
+        return;
+      }
+      this.currentPage = 1;
+      this.currentPage = val;
+      this.List();
+    },
+
   },
+
 };
 </script>
 <style scoped>
@@ -107,15 +170,17 @@ export default {
     table{
         margin-left:auto; 
         margin-right:auto;
-        width: 100%;
+        width: 500px;
     }
 
     .qna-main{
         margin-left:auto; 
         margin-right:auto;
-        width: 700px;
+        width: 1000px;
     }
     #qna-box{
       display: flex;
+      margin-left: 200px;
+      max-width: 1000px;
     }
 </style>

@@ -12,4 +12,5 @@ public interface CommunityService {
 	public int viewdelete(int num);
 	public int viewupdate(CommunityDTO communityDTO);
 	public int getTotal();
+	public int likeUp(int num);
 }

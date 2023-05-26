@@ -60,26 +60,26 @@ const routes = [
   ,
   {
     path: '/comm/freBd',
-    name: 'community',
+    name: 'freeBoard',
     component: () => import('../views/comm/FreeBoardView.vue')
   }
 
   ,
   {
     path: '/comm/freBdWrite',
-    name: 'communitywrite',
+    name: 'freeBoardWrite',
     component: () => import('../views/comm/FreeBoardWrite.vue')
   }
   ,
   {
     path: '/comm/freBdDetail/:num',
-    name: 'communitydetail',
+    name: 'freeBoardDetail',
     component: () => import('../views/comm/FreeBoardDetail.vue')
   }
   ,
   {
     path: '/comm/freBdEdit/:num',
-    name: 'communityedit',
+    name: 'freeBoardEdit',
     component: () => import('../views/comm/FreeBoardEdit.vue')
   }
 

@@ -17,5 +17,6 @@ public interface CommunityDAO {
 	public int getTotal();
 	public ArrayList<CommunityDTO> viewsearch(CommunityDTO communityDTO);
 	public int cntUp(int num);
+	public int likeUp(int num);
 	
 }

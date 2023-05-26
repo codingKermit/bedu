@@ -10,6 +10,7 @@
               <b-button type="submit" class="btn-custom ms-2">수정</b-button>
           </b-container>
       </b-form>
+      <b-button type="submit" class="btn-custom ms-2" :to="'/comm/freBd'">목록</b-button>
     </b-container>
   </template>
 
@@ -61,7 +62,7 @@ export default{
               console.log('완료!', res);
               this.$swal('Success','수정완료!','success'),
               router.push({
-                  name:"community"
+                  name:"freeBoard"
               })
             }
           )

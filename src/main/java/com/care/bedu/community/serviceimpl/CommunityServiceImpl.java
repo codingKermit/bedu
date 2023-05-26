@@ -55,6 +55,11 @@ public class CommunityServiceImpl implements CommunityService{
 	public int getTotal() {										//최종 끝 페이지
 		return communityMapper.getTotal();
 	}
+
+	@Override
+	public int likeUp(int num) {
+		return communityMapper.likeUp(num);
+	}
 	
 	
 

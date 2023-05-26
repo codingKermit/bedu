@@ -10,6 +10,7 @@
               <b-button type="submit" class="btn-custom ms-2">등록</b-button>
           </b-container>
       </b-form>
+      <b-button :to="'/comm/freBd'">목록</b-button>
     </b-container>
   </template>
 
@@ -58,11 +59,15 @@ export default {
           form.append("content",this.form.content);
 
           this.$axios.post('/api/community/write',form)
-          .then(
-              this.$swal('Success','작성완료!','success'),
-              router.push({
-                  name:"community"
-              })
+          .then(res => {
+              console.log(res.data);
+              if(res.data === 1){
+                this.$swal('Success','작성완료!','success'),
+                router.push({
+                  name:"freeBoard"
+                })
+              }
+            }
           )
           .catch((error)=>{
             console.log(error)

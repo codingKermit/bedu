@@ -1,32 +1,41 @@
 <template>
-  <div class="community">
-    <div class="community-title">
-      <h1>자유게시판</h1>
-      <!-- <subtitle :subtitle="subtitle" /> -->
+  <div class="freeboard">
+    <div class="freeboard-left">
+      <h4>커뮤니티</h4>
+        <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
+        <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
     </div>
-    <div class="community-main">
-      <div id="community-box">
+    <div class="freeboard-main">
+      <div id="freeboard-box">
+        <h1>자유게시판</h1>
         <b-form @submit="search()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button type="submit" class="btn btn-primary">검색</b-button>
         </b-form>
-        <b-button :to="'/comm/freBdWrite'" style="margin-left: 310px;">글쓰기</b-button>
+        <b-button :to="'/comm/freBdWrite'" style="margin-left: 200px;">글쓰기</b-button>
       </div>
-      <table class="w3-table-all">
-        <tbody>
-          <tr v-for="community in communitylist" :key="community">
-            <td>
-              <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
-                {{ community.title }}
-              </b-link>
-            </td>
-            <td>{{ community.user_id }}</td>
-            <td>{{ community.comm_date }}</td>
-            <td>{{ community.comm_cnt }}</td>
-            <td>{{ community.comm_like_yn }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="freeboard-main-1">
+        <table class="w3-table-all">
+          <tbody>
+            <tr v-for="community in communitylist" :key="community.comm_cnt">
+              <td>
+                <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
+                  {{ community.title }}
+                </b-link>
+              </td>
+              <td>{{ community.user_id }}</td>
+              <td>{{ community.comm_date }}</td>
+              <td>
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.comm_cnt }}
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(community.comm_num)"/> 
+                <text class="fw-bold ms-2">
+                    {{ community.comm_like_yn }}
+                </text>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <hr>
     <b-nav-item class="text-end ms-auto">
@@ -37,7 +46,7 @@
                   <font-awesome-icon @click="pageChange(currentPage+1)" :icon="['fas', 'arrow-right-long']" class="fs-5 text-dark"/>
             </b-nav-item>
     <b-container>
-      <page-nav :currentPage="currentPage" :totalPage="totalPage"></page-nav>
+      <page-nav></page-nav>
     </b-container>
   </div>
 </template>
@@ -46,15 +55,8 @@
 export default {
   data() {
     return {
-      communitylist: [],
-      // communitys : {
-      //           title : '',
-      //           contents : '',
-      //           writer : '',
-      //           writeDate : '',
-      //           view : 0,
-      //           heart : 0,
-      // },
+      pathnum:0,
+      communitylist:[],
       form: {
         keyword: '',
       },
@@ -85,7 +87,6 @@ export default {
         .then(res => {
           console.log(res);
           this.communitylist = res.data;
-          
         })
         .catch(error => {
           console.log(error, '실패함!!');
@@ -127,23 +128,49 @@ export default {
           this.List();
     },
 
+    freelikeUp(num) {
+      console.log('받은번호: ', num);
+      this.pathnum = num;
+      this.$axios.get('/api/community/likeUp', {
+        params: {
+          num: num
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          if(res.data === 1){
+            this.List();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
   },
 };
+
 </script>
+
+
 <style scoped>
     
     table{
         margin-left:auto; 
         margin-right:auto;
-        width: 100%;
+        width: 500px;
     }
 
-    .community-main{
+    .freeboard-main{
         margin-left:auto; 
         margin-right:auto;
-        width: 700px;
+        width: 1000px;
+       
     }
-    #community-box{
+    #freeboard-box{
       display: flex;
+      margin-left: 200px;
+      max-width: 1000px;
+     
     }
 </style>
