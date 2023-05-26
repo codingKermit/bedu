@@ -138,6 +138,9 @@ const router = createRouter({
   routes,
   // eslint-disable-next-line
   scrollBehavior (to, from, savedPosition) {
+    if (to.name === 'regist' || to.name === 'login') {
+      return null; // 회원가입과 로그인은 자동스크롤 방지
+    }
     return { top: 0 }
   }
 })

@@ -33,4 +33,12 @@ public class MemberService {
     public boolean checkNicknameDuplicate(String nickname) {
     	return memberRepository.existsByNickname(nickname);
     }
+    
+    public MemberEntity login(String email, String password) {
+        MemberEntity member = memberRepository.findByEmail(email);
+        if (member != null && passwordEncoder.matches(password, member.getPassword())) {
+            return member;
+        }
+        return null;
+    }
 }

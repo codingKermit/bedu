@@ -1,8 +1,7 @@
 package com.care.bedu.user.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.user.dto.MemberDto;
 import com.care.bedu.user.entity.MemberEntity;
-import com.care.bedu.user.entity.MemberRepository;
 import com.care.bedu.user.service.MemberService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +23,24 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
     private final MemberService memberService;
+    private final HttpSession session;
+    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid MemberDto memberDto) {
+        MemberEntity user = memberService.login(memberDto.getEmail(), memberDto.getPassword());
+        if (user != null) {
+            session.setAttribute("user", user);
+            return ResponseEntity.ok("로그인 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+        }
+    }
+    
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        session.invalidate(); 
+        return ResponseEntity.ok("로그아웃 성공");
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid MemberDto memberDto) {

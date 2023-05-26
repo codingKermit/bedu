@@ -1,30 +1,26 @@
 <template>
   <div class="review-form">
     <h2>수강후기 작성</h2>
-    <form @submit="submitReview">
-      <!-- 강좌 입력 -->
+    <form @submit.prevent="submitReview">
       <div class="form-group">
-        <label for="course">강좌</label>
-        <input type="text" id="course" v-model="review.course" required>
+        <label for="title">강좌</label>
+        <input type="text" id="title" v-model="review.title" required>
       </div>
-      <!-- 수강후기 입력 -->
       <div class="form-group">
-        <label for="content">수강후기</label>
-        <textarea id="content" v-model="review.content" required></textarea>
+        <label for="writer">수강후기</label>
+        <textarea id="writer" v-model="review.writer" required></textarea>
       </div>
-      <!-- 별점 입력 -->
       <div class="form-group">
         <label for="stars">별점</label>
         <div class="star-rating">
           <span v-for="star in 5" :key="star" @click="setStars(star)" :class="{ 'filled': star <= review.stars }">&#9733;</span>
         </div>
       </div>
-      <!-- 작성자 입력 -->
       <div class="form-group">
         <label for="author">작성자</label>
         <input type="text" id="author" v-model="review.author" required>
       </div>
-      <button type="submit" @click="submitReview">작성 완료</button>
+      <button type="submit">작성 완료</button>
     </form>
   </div>
 </template>
@@ -34,8 +30,8 @@ export default {
   data() {
     return {
       review: {
-        course: '',
-        content: '',
+        title: '',
+        writer: '',
         stars: 0,
         author: ''
       }
@@ -44,11 +40,7 @@ export default {
   methods: {
     submitReview() {
       console.log('Submit Review:', this.review);
-      
-      // 수정: 리뷰를 ReviewList 컴포넌트에 전달
       this.$emit('add-review', this.review);
-
-      // 리뷰 작성 완료 후 페이지 이동
       this.$router.push('/review');
     },
     setStars(stars) {

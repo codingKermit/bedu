@@ -10,38 +10,72 @@
     </div>
     <div class="container">
       <div class="logo-container">
-        <img src="@/assets/imgs/Logo2.png" width="180"><br/>
+        <img src="@/assets/imgs/Logo2.png" width="180"><br />
         <p>강의는 역시 B:EDU</p>
       </div>
       <div class="login-container">
         <form class="login-form" @submit.prevent="login">
           <div class="form-group">
-            <input class="email" placeholder="사용자 이메일">
+            <input v-model="email" class="email" placeholder="사용자 이메일">
           </div>
           <div class="form-group">
-            <input class="password" placeholder="비밀번호">
+            <input v-model="password" class="password" placeholder="비밀번호">
           </div>
           <div class="idrm">
             <input class="form-check-input" type="checkbox" ref="saveIdCheckbox">
             <span style="cursor: pointer;" @click="toggleCheckbox">아이디 저장</span>
           </div>
+          <div>
+            <button class="submit" type="submit">로그인</button>
+          </div>
         </form>
-        <div>
-          <button class="submit" type="button">로그인</button>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
   methods: {
     toggleCheckbox() {
       const checkbox = this.$refs.saveIdCheckbox;
       checkbox.checked = !checkbox.checked;
     },
-  },
+    login() {
+      if (this.email === '') {
+        alert('이메일을 입력하세요.');
+        return;
+      }
+
+      if (this.password === '') {
+        alert('비밀번호를 입력하세요.');
+        return;
+      }
+
+      const memberDto = {
+        email: this.email,
+        password: this.password,
+      };
+
+      this.$axios.post('/api/login', memberDto)
+        .then(response => {
+          alert(response.data);
+          this.$router.push({
+            name: 'main'
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          alert('로그인 실패');
+        });
+    }
+  }
 };
 </script>
 
@@ -79,6 +113,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -113,7 +148,7 @@
 
 .email,
 .password {
-  position: relative; 
+  position: relative;
   width: 90%;
   padding: 0.8rem;
   margin-top: 15px;

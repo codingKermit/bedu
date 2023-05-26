@@ -27,19 +27,23 @@
             cols="85"></textarea>
           <textarea v-else-if="item.value === 2" readonly :name="'agree_' + item.value" v-model="fileText2" rows="7"
             cols="85"></textarea>
+          <textarea v-else-if="item.value === 3" readonly :name="'agree_' + item.value" v-model="fileText3" rows="7"
+            cols="85"></textarea>
         </label>
-
-        <a>※위 항목에 동의하지 않는 경우 회원가입이 불가합니다.</a>
 
         <!-- 약관 동의 여부에 따른 '동의합니다' 버튼 표시 -->
         <div>
-          <!-- 모든 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
-          <button v-if="selectedAgreements.length === agreements.length" class="submit"
+          <!-- 1,2 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
+          <button v-if="selectedAgreements.includes(1) && selectedAgreements.includes(2)" class="submit"
             :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button"
             @click="showRegistrationForm">동의합니다</button>
-          <!-- 일부 약관에 동의하지 않은 경우 회원가입 섹션으로 이동X-->
-          <button v-if="selectedAgreements.length != agreements.length" class="submit2"
-            :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button">
+          <!-- 1이나 2 약관에 동의하지 않은 경우 회원가입 섹션으로 이동 안됨-->
+          <button v-else-if="selectedAgreements.includes(1) || selectedAgreements.includes(2)" class="submit2"
+            :style="{ background: submitButtonColor, color: submitButtonTextColor }" type="button" disabled>
+            동의합니다</button>
+          <!-- 약관에 동의하지 않은 경우 회원가입 섹션으로 이동X -->
+          <button v-else class="submit2" :style="{ background: submitButtonColor, color: submitButtonTextColor }"
+            type="button" disabled>
             동의합니다</button>
         </div>
       </div>
@@ -51,27 +55,32 @@
             <!-- 이메일 입력 필드 -->
             <div class="form-group">
               <input class="email" placeholder="이메일 입력" v-model="member.email">
-              <button class="emailChk" @click="checkEmailDuplicate" :disabled="isChecking">중복체크</button>
-              <p v-show="valid.email && member.email" class="input-error">이메일 주소를 정확히 입력해주세요.</p>
+              <button class="emailChk" @click="checkEmailDuplicate"
+                :disabled="isChecking || valid.email || !member.email">중복체크</button>
+              <p v-show="valid.email && member.email" class="input-error">이메일 주소를 정확히 입력해주세요. 예) bedu@bedu.com</p>
               <p v-show="emailChecked && !valid.emailChk" class="input-error">중복된 이메일 입니다.</p>
               <p v-show="emailChecked && valid.emailChk" class="input-correct">사용가능한 이메일 입니다.</p>
             </div>
             <!-- 닉네임 입력 필드 -->
             <div class="form-group">
               <input class="nickname" placeholder="닉네임 입력" v-model="member.nickname">
-              <button class="nickChk" @click="checkNickDuplicate" :disabled="isChecking">중복체크</button>
+              <button class="nickChk" @click="checkNickDuplicate"
+                :disabled="isChecking || valid.nickname || !member.nickname">
+                중복체크</button>
+              <p v-show="valid.nickname && member.nickname" class="input-error">닉네임은 2자리 이상 10자리 이하이며 특수문자는 사용하실 수 없습니다.
+              </p>
               <p v-show="nickChecked && !valid.nickChk" class="input-error">중복된 닉네임 입니다.</p>
               <p v-show="nickChecked && valid.nickChk" class="input-correct">사용 가능한 닉네임 입니다.</p>
             </div>
             <!-- 비밀번호 입력 필드 -->
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 입력" v-model="member.password">
+              <input type="password" class="password" placeholder="비밀번호 입력" v-model="member.password">
               <p v-show="valid.password && member.password && (member.password.length < 6 || member.password.length > 15)"
                 class="input-error">비밀번호는 6자리 이상 15자리 이하로 작성해주세요.</p>
             </div>
             <!-- 비밀번호 확인 필드 -->
             <div class="form-group">
-              <input class="password" placeholder="비밀번호 입력 확인" v-model="confirmPassword">
+              <input type="password" class="password" placeholder="비밀번호 입력 확인" v-model="confirmPassword">
               <p v-show="valid.password && member.password && member.password !== confirmPassword" class="input-error">
                 비밀번호가 일치하지 않습니다.</p>
               <p v-show="valid.password && member.password && member.password == confirmPassword && (member.password.length >= 6 && member.password.length <= 15)"
@@ -79,7 +88,7 @@
             </div>
             <!-- 회원가입 Submit 버튼 -->
             <div class="form-group">
-              <button class="submitformbtn" type="submit" :disabled="isChecking">회원가입</button>
+              <button class="submitformbtn" type="submit" :disabled="isChecking || member.email === ''">회원가입</button>
             </div>
           </form>
         </div>
@@ -91,6 +100,7 @@
 <script>
 import fileText1 from 'raw-loader!./이용 약관 동의.txt';
 import fileText2 from 'raw-loader!./개인정보 수집, 이용 동의.txt';
+import fileText3 from 'raw-loader!./이벤트 수신 동의.txt';
 
 export default {
   data() {
@@ -99,23 +109,29 @@ export default {
       selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
       agreements: [ // 이용약관과 개인정보 수집에 대한 동의 항목을 포함
         { value: 1, label: '이용약관 동의', optional: false },
-        { value: 2, label: '개인정보 수집, 이용 동의', optional: false }
+        { value: 2, label: '개인정보 수집, 이용 동의', optional: false },
+        { value: 3, label: '이벤트 수신 동의', optional: true }
       ],
-      // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장
+      // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장하는 변수입니다.
       fileText1: fileText1,
       fileText2: fileText2,
+      fileText3: fileText3,
       showForm: false, // showForm은 회원가입 양식을 보여줄지 여부를 결정하는 데이터 속성
-      confirmPassword: "",
+      confirmPassword: "", //  비밀번호 확인을 위해 입력된 값을 저장하는 변수입니다.
+      // 중복 체크 상태를 나타내는 변수들입니다.
       isChecking: false,
       emailChecked: false,
       nickChecked: false,
-      member: { //  회원의 이메일과 비밀번호를 저장
+      // 회원의 이메일, 닉네임, 비밀번호를 저장하는 객체입니다.
+      member: {
         email: "",
         nickname: "",
         password: ""
       },
+      // 이메일, 닉네임, 비밀번호 등의 유효성을 나타내는 변수들입니다.
       valid: {
         email: false,
+        nickname: false,
         password: false,
         emailChk: false,
         nickChk: false
@@ -126,28 +142,42 @@ export default {
     'member.email': function () {
       this.checkEmail();
     },
+    'member.nickname': function () {
+      this.checkNick();
+    },
     'member.password': function () {
       this.checkPassword();
     },
   },
   methods: {
-    // 이메일 정규식
+    // 이메일의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 이메일 형식을 확인하고 valid.email과 emailChecked 값을 업데이트합니다.
     checkEmail() {
       const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
 
-      if (!validateEmail.test(this.member.email) || !this.member.email) {
-        this.valid.email = true;
+      if (!this.member.email) {
+        this.valid.email = false;
+        this.emailChecked = false;
         return;
       }
+
+      if (!validateEmail.test(this.member.email)) {
+        this.valid.email = true;
+        this.emailChecked = false;
+        return;
+      }
+
       this.valid.email = false;
+      this.valid.emailChk = false;
+      this.emailChecked = false;
     },
+    // 이메일 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 이메일 중복 여부를 요청하고 결과에 따라 emailChecked와 valid.emailChk 값을 업데이트합니다.
     checkEmailDuplicate() {
       this.isChecking = true;
       this.$axios
         .get(`/api/register/emil/${this.member.email}`)
         .then((response) => {
           const isDuplicate = response.data;
-          this.emailChecked = true; 
+          this.emailChecked = true;
           this.valid.emailChk = !isDuplicate;
         })
         .catch((error) => {
@@ -155,30 +185,50 @@ export default {
           alert('이메일 중복 체크 실패');
         })
         .finally(() => {
-          this.isChecking = false; 
+          this.isChecking = false;
         });
     },
+    // 네임의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 닉네임 형식을 확인하고 valid.nickname과 nickChecked 값을 업데이트합니다.
+    checkNick() {
+      const validateNick = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/;
+
+      if (!this.member.nickname) {
+        this.valid.nickname = false;
+        this.nickChecked = false;
+        return;
+      }
+
+      if (!validateNick.test(this.member.nickname)) {
+        this.valid.nickname = true;
+        this.nickChecked = false;
+        return;
+      }
+
+      this.valid.nickname = false;
+      this.valid.nickChk = false;
+      this.nickChecked = false;
+    },
+    // 닉네임 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 닉네임 중복 여부를 요청하고 결과에 따라 nickChecked와 valid.nickChk 값을 업데이트합니다.
     checkNickDuplicate() {
-    this.isChecking = true;
-    this.$axios
-      .get(`/api/register/nickname/${this.member.nickname}`)
-      .then((response) => {
-        const isDuplicate = response.data;
-        this.nickChecked = true; 
-        this.valid.nickChk = !isDuplicate;
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('닉네임 중복 체크 실패');
-      })
-      .finally(() => {
-        this.isChecking = false; 
-      });
-    }, 
-    // 비밀번호 정규식
+      this.isChecking = true;
+      this.$axios
+        .get(`/api/register/nickname/${this.member.nickname}`)
+        .then((response) => {
+          const isDuplicate = response.data;
+          this.nickChecked = true;
+          this.valid.nickChk = !isDuplicate;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('닉네임 중복 체크 실패');
+        })
+        .finally(() => {
+          this.isChecking = false;
+        });
+    },
+    // 비밀번호의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 비밀번호 형식을 확인하고 valid.password 값을 업데이트합니다.
     checkPassword() {
       const validatePassword = /^.{6,15}$/;
-      // 비밀번호는 6자리 이상 15자리 이하여야 합니다.
       if (!validatePassword.test(this.member.password) || !this.member.password || this.member.password.length < 6 || this.member.password.length > 15 || this.member.password !== this.confirmPassword) {
         this.valid.password = true;
         return;
@@ -204,33 +254,42 @@ export default {
     showRegistrationForm() {
       this.showForm = true;
     },
-    // 사용자 회원가입
+    // 사용자의 회원가입을 처리하는 메서드입니다. 이메일, 닉네임, 비밀번호의 유효성을 확인하고 
+    // 중복 체크를 완료한 경우 서버에 회원가입 요청을 보냅니다. 회원가입에 성공하면 로그인 페이지로 이동합니다.
     register() {
-      // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
-      this.$axios.post("/api/register", this.member)
-        .then((response) => {
-          alert(response.data);
-          // 문제없이 보냈다면 'login'으로 router이동
-          this.$router.push({
-            name: 'login'
+      if (
+        this.emailChecked && this.valid.emailChk &&
+        this.nickChecked && this.valid.nickChk &&
+        this.valid.password && this.member.password && this.member.password == this.confirmPassword && (this.member.password.length >= 6 && this.member.password.length <= 15)
+      ) {
+        // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
+        this.$axios.post("/api/register", this.member)
+          .then((response) => {
+            alert(response.data);
+            // 문제없이 보냈다면 'login'으로 router이동
+            this.$router.push({
+              name: 'login'
+            });
+          })
+          .catch(error => {
+            console.log(error);
+            alert('회원가입 실패');
           });
-        })
-        .catch(error => {
-          console.log(error);
-          alert('회원가입 실패');
-        });
+      } else {
+        alert('회원가입 양식을 다시 확인해주세요.');
+        return;
+      }
     },
   },
 
   // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
   computed: {
-    // 모두 약관 동의 되어있다면 backgroun-color: #303076인 회원가입 양식을 나타내주는 button으로 변경
+    // 필수 약관에 동의한 경우 '동의합니다' 버튼 색변경과 텍스트색 변경
     submitButtonColor() {
-      return this.selectedAgreements.length === this.agreements.length ? '#303076' : '';
+      return this.selectedAgreements.includes(1) && this.selectedAgreements.includes(2) ? '#303076' : '';
     },
-    // 모두 약관 동의 되어있지 않다면 backgroun-color: white인 button으로 변경
     submitButtonTextColor() {
-      return this.selectedAgreements.length === this.agreements.length ? 'white' : '';
+      return this.selectedAgreements.includes(1) && this.selectedAgreements.includes(2) ? 'white' : '';
     },
   },
 };
