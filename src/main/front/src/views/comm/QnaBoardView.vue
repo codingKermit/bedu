@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 export default {
 
   data() {

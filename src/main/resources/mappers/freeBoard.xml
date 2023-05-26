@@ -6,7 +6,6 @@
 	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
 		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, COMM_LIKE_YN, REG_ID FROM T_BEDU_COMM
 		 ORDER BY COMM_NUM DESC
-		 LIMIT 10 OFFSET #{page}
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.dto.CommunityDTO">

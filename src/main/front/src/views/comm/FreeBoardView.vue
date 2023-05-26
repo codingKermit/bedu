@@ -38,24 +38,27 @@
       </div>
     </div>
     <hr>
-    <b-nav-item class="text-end ms-auto">
-              <label class="text-black">
-                {{ currentPage }} / {{totalPage }} 페이지
-              </label>  
-                  <font-awesome-icon @click="pageChange(currentPage-1)"  :icon="['fas', 'arrow-left-long']" class="mx-2 fs-5 text-dark"/>
-                  <font-awesome-icon @click="pageChange(currentPage+1)" :icon="['fas', 'arrow-right-long']" class="fs-5 text-dark"/>
-            </b-nav-item>
+    <InfiniteLoading @infinite="infiniteHandler">
+                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+                        </template>
+                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+                            <span></span>
+                        </template>
+                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+                        </template>
+                    </InfiniteLoading>
     <b-container>
       <page-nav></page-nav>
     </b-container>
   </div>
 </template>
-
 <script>
+import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 export default {
+  
   data() {
     return {
-      pathnum:0,
+      page : 1,
       communitylist:[],
       form: {
         keyword: '',
@@ -67,8 +70,12 @@ export default {
   },
   mounted() {
     this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
+    this.infiniteHandler();
     this.getTotal();          //끝페이지 번호 설정
     this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
+  },
+  components:{
+    InfiniteLoading
   },
 
   created(){
@@ -104,6 +111,27 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+
+    infiniteHandler($state){ // 스크롤 이벤트 핸들러
+      this.$axios.get('/api/lectureList',{
+        params:{
+          category : this.category,
+          page : this.page,
+        }
+      })
+      .then((res)=>{
+        if(res.data.item.length){
+          this.page++;
+          this.communitylist.push(...res.data.item);
+          $state.loaded();
+        } else{
+          $state.complete();
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     },
 
     getTotal(){ // 게시글 총 갯수 조회
@@ -147,8 +175,9 @@ export default {
         })
     }
 
-  },
-};
+  }
+
+}
 
 </script>
 
