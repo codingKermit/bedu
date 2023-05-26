@@ -24,8 +24,11 @@
             <b-button type="submit" class="btn-custom ms-2" @click="communityeditPath()">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
             <hr class="my-5">
+
+            <b-button type="submit" class="btn-custom ms-2" @click="communitypath()">목록</b-button>
         </b-container>
     </div>
+    
 </template>
 
 <script>
@@ -75,11 +78,14 @@ export default{
                 }
             })
                 .then(res => {
-                    this.$swal('Success', '글삭제완료!', 'success'),
+                    if(res.data === 1){
+                        this.$swal('Success', '글삭제완료!', 'success'),
                         console.log(res);
                     router.push({
-                        name: "community"
+                        name: "freeBoard"
                     })
+                        
+                    }
                 })
                 .catch(error => {
                     console.log(error)
@@ -87,12 +93,21 @@ export default{
         },
         communityeditPath(){
             this.$router.push({
-                name: 'communityedit', 
+                name: 'freeBoardEdit', 
                 params:{
                     num :this.result
                 }
             })
                 
+        },
+        communitypath(){
+
+            this.$router.push({
+                name: 'freeBoard', 
+                params:{
+                    num :this.result
+                }
+            })
         },
 
         path(num){

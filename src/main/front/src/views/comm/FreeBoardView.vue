@@ -1,60 +1,62 @@
 <template>
-  <div class="community">
-    <div class="community-title">
-      <h1>자유게시판</h1>
-      <!-- <subtitle :subtitle="subtitle" /> -->
+  <div class="freeboard">
+    <div class="freeboard-left">
+      <h4>커뮤니티</h4>
+      <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
+      <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
     </div>
-    <div class="community-main">
-      <div id="community-box">
+    <div class="freeboard-main">
+      <div id="freeboard-box">
+        <h1>자유게시판</h1>
         <b-form @submit="search()">
           <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
           <b-button type="submit" class="btn btn-primary">검색</b-button>
         </b-form>
-        <b-button :to="'/comm/freBdWrite'" style="margin-left: 310px;">글쓰기</b-button>
+        <b-button :to="'/comm/freBdWrite'" style="margin-left: 200px;">글쓰기</b-button>
       </div>
-      <table class="w3-table-all">
-        <tbody>
-          <tr v-for="community in communitylist" :key="community">
-            <td>
-              <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
-                {{ community.title }}
-              </b-link>
-            </td>
-            <td>{{ community.user_id }}</td>
-            <td>{{ community.comm_date }}</td>
-            <td>{{ community.comm_cnt }}</td>
-            <td>{{ community.comm_like_yn }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="freeboard-main-1">
+        <table class="w3-table-all">
+          <tbody>
+            <tr v-for="community in communitylist" :key="community.comm_cnt">
+              <td>
+                <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
+                  {{ community.title }}
+                </b-link>
+              </td>
+              <td>{{ community.user_id }}</td>
+              <td>{{ community.comm_date }}</td>
+              <td>
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.comm_cnt }}
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(community.comm_num)" />
+                <text class="fw-bold ms-2">
+                  {{ community.comm_like_yn }}
+                </text>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <hr>
-    <b-nav-item class="text-end ms-auto">
-              <label class="text-black">
-                {{ currentPage }} / {{totalPage }} 페이지
-              </label>  
-                  <font-awesome-icon @click="pageChange(currentPage-1)"  :icon="['fas', 'arrow-left-long']" class="mx-2 fs-5 text-dark"/>
-                  <font-awesome-icon @click="pageChange(currentPage+1)" :icon="['fas', 'arrow-right-long']" class="fs-5 text-dark"/>
-            </b-nav-item>
-    <b-container>
-      <page-nav :currentPage="currentPage" :totalPage="totalPage"></page-nav>
-    </b-container>
+    <InfiniteLoading @infinite="infiniteHandler">
+      <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+      </template>
+      <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+        <span></span>
+      </template>
+      <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+      </template>
+    </InfiniteLoading>
   </div>
 </template>
-
 <script>
+import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 export default {
+  
   data() {
     return {
-      communitylist: [],
-      // communitys : {
-      //           title : '',
-      //           contents : '',
-      //           writer : '',
-      //           writeDate : '',
-      //           view : 0,
-      //           heart : 0,
-      // },
+      page : 1,
+      communitylist:[],
       form: {
         keyword: '',
       },
@@ -65,8 +67,13 @@ export default {
   },
   mounted() {
     this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
+    this.infiniteHandler();
     this.getTotal();          //끝페이지 번호 설정
     this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
+  },
+
+  components:{
+    InfiniteLoading
   },
 
   created(){
@@ -83,9 +90,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           this.communitylist = res.data;
-          
         })
         .catch(error => {
           console.log(error, '실패함!!');
@@ -97,12 +102,33 @@ export default {
       this.$axios
         .post('/api/community/boardList', form)
         .then(res => {
-          console.log('확인:', res);
           this.communitylist = res.data;
         })
         .catch(error => {
           console.log(error);
         });
+    },
+
+    infiniteHandler($state){ // 스크롤 이벤트 핸들러
+      this.$axios.get('/api/community/boardList',{
+        params:{
+          category : this.category,
+          page : this.page,
+        }
+      })
+      .then(res=>{
+        console.log('스크롤:', res);
+        if(res.data.item.length){
+          this.page++;
+          this.communitylist.push(...res.data.item);
+          $state.loaded();
+        } else{
+          $state.complete();
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     },
 
     getTotal(){ // 게시글 총 갯수 조회
@@ -127,23 +153,50 @@ export default {
           this.List();
     },
 
-  },
-};
+    freelikeUp(num) {
+      console.log('받은번호: ', num);
+      this.pathnum = num;
+      this.$axios.get('/api/community/likeUp', {
+        params: {
+          num: num
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          if(res.data === 1){
+            this.List();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
+  }
+
+}
+
 </script>
+
+
 <style scoped>
     
     table{
         margin-left:auto; 
         margin-right:auto;
-        width: 100%;
+        width: 500px;
     }
 
-    .community-main{
+    .freeboard-main{
         margin-left:auto; 
         margin-right:auto;
-        width: 700px;
+        width: 1000px;
+       
     }
-    #community-box{
+    #freeboard-box{
       display: flex;
+      margin-left: 200px;
+      max-width: 1000px;
+     
     }
 </style>

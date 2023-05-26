@@ -4,9 +4,8 @@
 <mapper namespace="com.care.bedu.community.dao.CommunityDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.dto.CommunityDTO">
-		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, REG_ID FROM T_BEDU_COMM
+		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, COMM_LIKE_YN, REG_ID FROM T_BEDU_COMM
 		 ORDER BY COMM_NUM DESC
-		 LIMIT 10 OFFSET #{page}
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.dto.CommunityDTO">
@@ -40,6 +39,11 @@
 	<update id="viewupdate">
 		UPDATE t_bedu_comm SET TITLE = #{title}, CONTENT = #{content}
 		WHERE COMM_NUM = #{comm_num}
+	</update>
+	
+	<update id="likeUp">
+		UPDATE T_BEDU_COMM SET COMM_LIKE_YN = COMM_LIKE_YN + 1
+		WHERE COMM_NUM = #{num}
 	</update>
 	
 	<select id="getTotal" resultType="int">

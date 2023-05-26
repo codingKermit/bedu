@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class QnaDTO {
+public class QnaDTO {					//질문답변게시판 객체(qna)
 	
 	private Integer qna_bd_num;	//글번호
 	private int page;	//페이지번호
@@ -18,6 +18,5 @@ public class QnaDTO {
 	private Integer qna_cnt;	//조회수
 	private Integer qna_like_yn;	//좋아요
 	private String keyword;		//검색 키워드
-	private int viewNumber;				//화면에 보여줄 정렬된 글번호
 
 }

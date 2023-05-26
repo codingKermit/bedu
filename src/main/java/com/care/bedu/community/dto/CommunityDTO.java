@@ -18,6 +18,5 @@ public class CommunityDTO {
 	private Integer comm_cnt;	//조회수
 	private Integer comm_like_yn;	//좋아요
 	private String keyword;		//검색 키워드
-	private int viewNumber;				//화면에 보여줄 정렬된 글번호
 
 }

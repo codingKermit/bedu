@@ -16,6 +16,7 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public ArrayList<QnaDTO> listProc(QnaDTO qnaDTO) {
+		qnaDTO.setPage((qnaDTO.getPage()-1)*10);
 		if(qnaDTO.getKeyword() != null) {
 			return qnaDAO.viewsearch(qnaDTO);
 		}
@@ -24,13 +25,16 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int boardwrite(QnaDTO qnaDTO) {
-		qnaDTO.setQna_cnt(0);
+		qnaDTO.setUser_id("hong"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
+		qnaDTO.setReg_id(qnaDTO.getUser_id());
+		qnaDTO.setQna_cnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
 		qnaDTO.setQna_like_yn(0);
-		return qnaDAO.viewwrite(qnaDTO);
+		return qnaDAO.viewWrite(qnaDTO);
 	}
 
 	@Override
 	public QnaDTO viewone(int num) {
+		qnaDAO.qnaCntUp(num);
 		return qnaDAO.viewone(num);
 	}
 
@@ -42,6 +46,11 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int viewupdate(QnaDTO qnaDTO) {
 		return qnaDAO.viewupdate(qnaDTO);
+	}
+
+	@Override
+	public int getTotal() {
+		return qnaDAO.getTotal();
 	}
 
 	

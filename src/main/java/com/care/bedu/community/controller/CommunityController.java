@@ -21,13 +21,13 @@ public class CommunityController {
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
 		return communityService.listProc(communityDTO);
-		
 	}
 	
 	@RequestMapping(value="/community/write", method=RequestMethod.POST)
-	public String communityWrite(CommunityDTO communityDTO){
+	public int communityWrite(CommunityDTO communityDTO){
+		
 		int result = communityService.boardwrite(communityDTO);
-		return result > 0 ? "Y": "N";
+		return result == 1 ? 1: 0;
 	}
 	
 	@RequestMapping(value="/community/detail", method=RequestMethod.GET)
@@ -36,21 +36,27 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/community/edit", method=RequestMethod.POST)
-	public String communityEdit(CommunityDTO communityDTO){
+	public int communityEdit(CommunityDTO communityDTO){
 		int result = communityService.viewupdate(communityDTO);
-		return result> 0? "Y":"N";	
+		return result == 1? 1:0;	
 	}
 	
 	@RequestMapping(value="/community/delete", method=RequestMethod.GET)
-	public String communityDelete(String num){
-		int strnum = Integer.parseInt(num);
-		int result = communityService.viewdelete(strnum);
-		return result> 0? "Y":"N";
+	public int communityDelete(int num){
+		int result = communityService.viewdelete(num);
+		return result == 1? 1:0;
 	}
 	
 	@RequestMapping("/community/total")
 	public int getTotal(){
 		return communityService.getTotal();
 	}
+	
+	@RequestMapping(value="/community/likeUp", method = RequestMethod.GET)
+	public int likeUp(int num){
+		int result = communityService.likeUp(num);
+		return result == 1? 1:0;
+	}
+	
 	
 }
