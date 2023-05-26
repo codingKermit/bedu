@@ -21,11 +21,11 @@ public class CommunityController {
 	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<CommunityDTO> communityList(CommunityDTO communityDTO){
 		return communityService.listProc(communityDTO);
-		
 	}
 	
 	@RequestMapping(value="/community/write", method=RequestMethod.POST)
 	public int communityWrite(CommunityDTO communityDTO){
+		
 		int result = communityService.boardwrite(communityDTO);
 		return result == 1 ? 1: 0;
 	}

@@ -2,8 +2,8 @@
   <div class="freeboard">
     <div class="freeboard-left">
       <h4>커뮤니티</h4>
-        <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
-        <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
+      <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
+      <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
     </div>
     <div class="freeboard-main">
       <div id="freeboard-box">
@@ -27,9 +27,9 @@
               <td>{{ community.comm_date }}</td>
               <td>
                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.comm_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(community.comm_num)"/> 
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(community.comm_num)" />
                 <text class="fw-bold ms-2">
-                    {{ community.comm_like_yn }}
+                  {{ community.comm_like_yn }}
                 </text>
               </td>
             </tr>
@@ -39,17 +39,14 @@
     </div>
     <hr>
     <InfiniteLoading @infinite="infiniteHandler">
-                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
-                        </template>
-                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
-                            <span></span>
-                        </template>
-                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
-                        </template>
-                    </InfiniteLoading>
-    <b-container>
-      <page-nav></page-nav>
-    </b-container>
+      <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+      </template>
+      <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+        <span></span>
+      </template>
+      <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+      </template>
+    </InfiniteLoading>
   </div>
 </template>
 <script>
