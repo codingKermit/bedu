@@ -3,7 +3,7 @@
     <div class="freeboard-left">
       <h4>커뮤니티</h4>
       <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
-      <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
+      <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
     </div>
     <div class="freeboard-main">
       <div id="freeboard-box">

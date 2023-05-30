@@ -16,7 +16,6 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public ArrayList<QnaDTO> listProc(QnaDTO qnaDTO) {
-		qnaDTO.setPage((qnaDTO.getPage()-1)*10);
 		if(qnaDTO.getKeyword() != null) {
 			return qnaDAO.viewsearch(qnaDTO);
 		}
@@ -51,6 +50,11 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int getTotal() {
 		return qnaDAO.getTotal();
+	}
+
+	@Override
+	public int likeUp(int num) {
+		return qnaDAO.likeUp(num);
 	}
 
 	

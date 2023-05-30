@@ -11,7 +11,6 @@
 	LEFT JOIN BIL.LECTUREDETAIL B
 	ON A.NUM = B.POSTID
 	GROUP BY A.NUM
-	LIMIT #{begin}, 20
 	;
 </select>
 
@@ -72,6 +71,19 @@ parameterType="hashmap">
 <select id="getLikeList" resultType="int">
 	SELECT POSTID
 	FROM BIL.LECTURELIKE WHERE USERID = '123';
+</select>
+
+<select id="getNewest" resultType="com.care.bedu.lecture.dto.LectureDto">
+	SELECT A.NUM, A.TITLE, A.TEACHER, COUNT(B.POSTID) AS TOTAL, A.DURATION,
+	A.THUMBNAIL, A.VIEW, A.REGIDATE, A.PRICE, A.DESCRIPTION,
+	SEC_TO_TIME(SUM(B.TIMES)) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
+	 FROM (SELECT * FROM BIL.LECTURE WHERE CATEGORY = #{category})  AS A 
+	LEFT JOIN BIL.LECTUREDETAIL B
+	ON A.NUM = B.POSTID
+	GROUP BY A.NUM
+	ORDER BY A.REGIDATE
+	LIMIT 0, 4
+	;
 </select>
 
 
