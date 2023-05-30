@@ -38,7 +38,7 @@
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
-        SELECT * FROM BIL.CATEGORYSAMPLE WHERE PARENT = #{mid}
+        SELECT * FROM BIL.T_BOT_CATE WHERE parent_code = #{mid}
     </select>
 
     <select id="getTop" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
