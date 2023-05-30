@@ -10,9 +10,13 @@
         </div>
       </b-form>
       
-      <b-container>
+      <b-container class="mb-5">
         <p class="fw-bold fs-4 text-start">분야별 강의</p>
         <categories></categories>
+      </b-container>
+
+      <b-container>
+        <p class="fs-4 fw-bold">신규 오픈 강좌</p>
       </b-container>
   </div >
 </template>
@@ -34,11 +38,12 @@ export default{
       this.$axios.get('/api/hello')
       .then((res)=>console.log(res))
       .catch((error)=>{error})
-    }
-    
+    },
+
   },
   mounted() {
-    this.category = this.$route.params.category
+    this.category = this.$route.params.category;
+
   },
   created() {
     // this.test();

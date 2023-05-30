@@ -10,4 +10,5 @@ import com.care.bedu.lecture.dto.LectureCategoriesDto;
 public interface LectureCategoryDao {
     public ArrayList<LectureCategoriesDto> getCategories();
     public ArrayList<LectureCategoriesDto> getBot(String mid);
+    public ArrayList<LectureCategoriesDto> getTop();
 }

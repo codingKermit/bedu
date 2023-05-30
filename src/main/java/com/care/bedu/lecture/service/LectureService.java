@@ -8,7 +8,7 @@ import com.care.bedu.lecture.dto.LectureDto;
 
 public interface LectureService {
 	
-	public ArrayList<Object> getLectureList(String category, int page); // 분야별 강의 목록
+	public ArrayList<Object> getLectureList(String category); // 분야별 강의 목록
 	public LectureDto getLectureDetail(int num); // 강의 상세 정보
 	public HashMap<String,ArrayList<LectureDto>> getLectureField(); /* 분야별로 평점순으로 4개씩 조회. 화면 구성이 변경되어서 사용안할듯 */
 	public ArrayList<LectureDetailDto> getVideoList(int num); /* 강의 상세 커리큘럼 동영상 */

@@ -4,11 +4,45 @@
 <mapper namespace="com.care.bedu.lecture.dao.LectureCategoryDao">
 
     <select id="getCategories" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
-        SELECT * FROM BIL.CATEGORYSAMPLE;
+        select
+            num,
+            cate_code,
+            cate_kor,
+            icon,
+            null as parent_code,
+            null as parent_num
+        from
+            BIL.t_top_cate
+        union all
+        select 
+            num,
+            cate_code,
+            cate_kor,
+            parent_num,
+            parent_code,
+            null as icon
+        from 
+            BIL.t_mid_cate
+        union all
+        select
+            num,
+            cate_code,
+            cate_kor,
+            parent_num,
+            parent_code,
+            null as icon
+        from 
+            BIL.t_bot_cate
+        order by 
+            NUM;
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
         SELECT * FROM BIL.CATEGORYSAMPLE WHERE PARENT = #{mid}
+    </select>
+
+    <select id="getTop" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
+        SELECT * FROM BIL.T_TOP_CATE
     </select>
 
 </mapper>

@@ -15,6 +15,7 @@ public class LectureCategoriesDto {
     int num;
     int cate_code;
     String cate_kor;
-    int parent;
-    String thumbnail;
+    int parent_num;
+    int parent_code;
+    String icon;
 }

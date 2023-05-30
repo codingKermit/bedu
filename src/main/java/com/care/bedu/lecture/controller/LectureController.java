@@ -19,11 +19,10 @@ public class LectureController {
 	private LectureService service;
 	
 	@RequestMapping("/lectureList")
-	public HashMap<String, Object> getLectureList(String category, int page){
+	public HashMap<String, Object> getLectureList(String category){
 		ArrayList<Object> list = new ArrayList<>();
 		HashMap<String, Object> map = new HashMap<>();
-		
-		list = service.getLectureList(category, page);
+		list = service.getLectureList(category);
 		
 		map.put("item", list);
 		return map;

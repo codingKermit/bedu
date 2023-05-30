@@ -52,7 +52,6 @@
 
                                 <b-row cols="2">
                                     <b-col v-for="(lect, index) in bot.item" :key="index">
-                                        <hr>
                                         <b-link class="text-body text-decoration-none" :to='"/lectureDetail?num="+lect.num'>
                                             <b-container class="border p-3 mb-4">
                                                 <b-img thumbnail :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img>
@@ -117,7 +116,6 @@ export default{
         /** 받은 카테고리를 트리 구조로 변경하는 함수 */
         convertToHierarchy(data) {
             const map = {}; // 부모-자식 관계를 저장할 맵
-            
             // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
             data.forEach(category => {
                 category.children = []; // 자식 카테고리를 저장할 배열 생성
@@ -128,7 +126,7 @@ export default{
             
             // 부모-자식 관계 설정
             data.forEach(category => {
-                const parentCode = category.parent;
+                const parentCode = category.parent_code;
                 if (parentCode) {
                 const parent = map[parentCode];
                 if (parent) {
@@ -139,22 +137,21 @@ export default{
                 }
             });
             this.categories = hierarchy;
-            this.cnt_top_cate = this.categories[0].cate_code;
-            this.cnt_top_cate_kor = this.categories[0].cate_kor;
-            this.cnt_mid_cate = this.categories[0].children[0].cate_code;
-            this.cnt_mid_cate_kor = this.categories[0].children[0].cate_kor;
-            },
+            const index = this.$route.query.index;
+            this.cnt_top_cate = this.categories[index].cate_code;
+            this.cnt_top_cate_kor = this.categories[index].cate_kor;
+            this.cnt_mid_cate = this.categories[index].children[0].cate_code;
+            this.cnt_mid_cate_kor = this.categories[index].children[0].cate_kor;
+        },
 
             /** 중분류에 따른 강의 정보 조회 함수 */
             getLectureList(){
                 this.$axios.get('/api/lectureList',{
                     params:{
-                        category : this.cnt_mid_cate,
-                        page : 1
+                        category : this.cnt_mid_cate
                     }
                 })
                 .then((res)=>{
-                    console.log(res.data.item)
                     this.lectures = res.data.item;
                 })
                 .catch((err)=>{console.log(err)})
