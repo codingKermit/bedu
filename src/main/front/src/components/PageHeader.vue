@@ -17,6 +17,7 @@
       <router-link to="/comm/freBd">커뮤니티</router-link>
       <router-link to="/review">수강후기</router-link>
       <router-link to="/companyStudy">기업교육</router-link>
+      <router-link to="">통계</router-link>
     </div>
     <div id="nav2">
       <div class="search-popup">
@@ -36,44 +37,7 @@ export default {
   data() {
     return {
       isDropdownOpen: false,
-      categories: [
-        // {
-        //   title: '기초 강의',
-        //   value: 'base'
-        // },
-        // {
-        //   title: '데이터 분석',
-        //   value: 'data'
-        // },
-        // {
-        //   title: '웹 개발',
-        //   value: 'web'
-        // },
-        // {
-        //   title: '프로그래밍 언어',
-        //   value: 'lang'
-        // },
-        // {
-        //   title: '인공지능',
-        //   value: 'ai'
-        // },
-        // {
-        //   title: '프로그래밍 교양',
-        //   value: 'programming'
-        // },
-        // {
-        //   title: '개발 도구',
-        //   value: 'tools'
-        // },
-        // {
-        //   title: '프로그래밍 전공 지식',
-        //   value: 'major'
-        // },
-        // {
-        //   title: '디자인',
-        //   value: 'design'
-        // }
-      ]
+      categories: []
     };
   },
   methods: {
