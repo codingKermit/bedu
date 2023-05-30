@@ -52,6 +52,11 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDAO.getTotal();
 	}
 
+	@Override
+	public int likeUp(int num) {
+		return qnaDAO.likeUp(num);
+	}
+
 	
 	
 

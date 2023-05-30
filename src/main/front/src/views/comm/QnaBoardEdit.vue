@@ -10,6 +10,7 @@
               <b-button type="submit" class="btn-custom ms-2">수정</b-button>
           </b-container>
       </b-form>
+      <b-button :to="'/comm/qna'">목록</b-button>
     </b-container>
   </template>
 

@@ -28,7 +28,7 @@
             <td>
               <b-container class="ms-auto text-end">
                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)"/> 
                 <text class="fw-bold ms-2">
                     {{ qna.qna_like_yn }}
                 </text>
@@ -140,6 +140,23 @@ export default {
       this.currentPage = 1;
       this.currentPage = val;
       this.List();
+    },
+
+    qnalikeUp(qnum){
+      this.$axios.get('/api/qna/likeUp', {
+        params: {
+          num: qnum
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          if(res.data === 1){
+            this.List();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
 
     infiniteHandler($state){

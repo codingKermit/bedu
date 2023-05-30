@@ -24,6 +24,7 @@
             <b-button type="submit" class="btn-custom ms-2" @click="qnaeditPath()">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2" @click="qnadelete()">삭제</b-button>
             <hr class="my-5">
+            <b-button :to="'/comm/qna'">목록</b-button>
         </b-container>
     </div>
 </template>

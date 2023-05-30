@@ -45,6 +45,11 @@
 		WHERE QNA_BD_NUM = #{num}
 	</update>
 	
+	<update id="likeUp">
+		UPDATE T_BEDU_QNA SET QNA_LIKE_YN = QNA_LIKE_YN + 1
+		WHERE QNA_BD_NUM = #{num}
+	</update>
+	
 	<!--<select id="viewsearch" resultType="com.care.bedu.community.dto.CommunityDTO">
 		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, REG_ID FROM T_BEDU_COMM
 		<if test="keyword != null">
