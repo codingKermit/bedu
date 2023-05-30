@@ -62,7 +62,8 @@
                                     <!-- 커리큘럼 목록 -->
                                     <b-col v-for="(lect, index) in bot.item" 
                                     :key="index">
-                                        <b-link class="text-body text-decoration-none" :to='"/lectureDetail?num="+lect.num'>
+                                    <!-- {{ lect }} -->
+                                        <b-link class="text-body text-decoration-none" :to='"/lectureDetail?num="+lect.lect_num'>
                                             <b-container class="border p-3 mb-4">
                                                 <b-img thumbnail :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img>
                                                 <p class="fs-5 fw-bold">{{ lect.title }}</p>

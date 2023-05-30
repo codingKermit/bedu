@@ -15,8 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LectureDetailDto {
 
-	private int num;
-	private int postId;
-	private String title;
+	private int lect_dtl_num;
+	private int lect_num;
+	private String lect_dtl_title;
 	private Time times;
 }

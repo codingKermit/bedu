@@ -31,7 +31,7 @@
                         <!-- score end-->
                         <div class="list-unstyled align-middle w-100">
                             <div class="mb-2 row"><span class="text-secondary col-2">강사</span><span class="text-body col">{{ form.teacher }}</span></div>
-                            <div class="mb-2 row"><span class="text-secondary col-2">수강기간</span><span class="text-body col"> 구매일로부터 {{ form.duration }}일</span></div>
+                            <div class="mb-2 row"><span class="text-secondary col-2">수강기간</span><span class="text-body col"> 구매일로부터 {{ form.lect_period }}일</span></div>
                             <div class="mb-2 row"><span class="text-secondary col-2">학습시간</span><span class="text-body col">{{ form.totalTimes }}({{ form.total }}강)</span></div>
                         </div>
                         
@@ -87,7 +87,7 @@
                 <ul class="list-unstyled mb-5">
                     <li v-for="(video,i) in videos" :key="i" class="py-3 fs-5 border-bottom border-1  d-flex">
                         <span class="me-auto ms-3 fw-bold">
-                            {{video.title}}
+                            {{video.lect_dtl_title}}
                         </span>
                         <span class="ms-auto me-3">
                             {{ video.times }}
@@ -137,7 +137,7 @@ export default{
                 likeYn : '',
                 totalTimes : 0,
                 category : '',
-                stars : ''
+                stars : [],
             },
             videos:[],
             reviews: [],
@@ -151,6 +151,7 @@ export default{
                 }
             })
             .then((res)=>{
+                console.log(res.data)
                 this.form=res.data;
                 this.form.stars = [];
 
