@@ -17,7 +17,7 @@
       <router-link to="/comm/freBd">커뮤니티</router-link>
       <router-link to="/review">수강후기</router-link>
       <router-link to="/companyStudy">기업교육</router-link>
-      <router-link to="">통계</router-link>
+      <router-link to="/StatisticsMain">통계</router-link>
     </div>
     <div id="nav2">
       <div class="search-popup">
