@@ -35,10 +35,18 @@ export default{
       .then((res)=>console.log(res))
       .catch((error)=>{error})
     }
-    
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin
+    },
   },
   mounted() {
     this.category = this.$route.params.category
+    const token = localStorage.getItem('user_token')
+    if (token) {
+      this.$store.state.isLogin = true
+    }
   },
   created() {
     // this.test();

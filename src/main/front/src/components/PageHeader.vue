@@ -25,14 +25,22 @@
           <b-form-input class="border-0 me-2"></b-form-input>
         </div>
       </div>
-      <router-link to="/login">로그인</router-link>
-      <router-link to="/regist">회원가입</router-link>
+      <router-link to="/login" v-if="!this.$store.state.isLogin">로그인</router-link>
+      <router-link to="/mypage" v-if="this.$store.state.isLogin">마이페이지{{ getNickname }}</router-link>
+      <a v-if="this.$store.state.isLogin" @click="fnLogout">로그아웃</a>
+      <router-link v-if="!this.$store.state.isLogin" to="/regist">회원가입</router-link>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'PageHeader',
+  mounted() {
+    this.getUserNickname()
+  },
+
   data() {
     return {
       isDropdownOpen: false,
@@ -95,6 +103,14 @@ export default {
     closeDropdown() {
       this.isDropdownOpen = false;
     },
+    fnLogout() {
+      localStorage.removeItem("user_token")
+      location.reload()
+    },
+    ...mapActions(['getUserNickname']),
+  },
+  computed: {
+    ...mapGetters(['getNickname']),
   },
 };
 </script>
