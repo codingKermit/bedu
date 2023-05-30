@@ -9,8 +9,8 @@
           분야별 강의
         </a>
         <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
-          <li v-for="item in categories" :key="item.title">
-            <a style="cursor: pointer;" class="dropdown-item" @click="categoryChange(item)">{{ item.title }}</a>
+          <li v-for="item in categories" :key="item.cate_code">
+            <a style="cursor: pointer;" class="dropdown-item" @click="categoryChange(item)">{{ item.cate_kor }}</a>
           </li>
         </ul>
       </div>
@@ -37,44 +37,7 @@ export default {
   data() {
     return {
       isDropdownOpen: false,
-      categories: [
-        {
-          title: '기초 강의',
-          value: 'base'
-        },
-        {
-          title: '데이터 분석',
-          value: 'data'
-        },
-        {
-          title: '웹 개발',
-          value: 'web'
-        },
-        {
-          title: '프로그래밍 언어',
-          value: 'lang'
-        },
-        {
-          title: '인공지능',
-          value: 'ai'
-        },
-        {
-          title: '프로그래밍 교양',
-          value: 'programming'
-        },
-        {
-          title: '개발 도구',
-          value: 'tools'
-        },
-        {
-          title: '프로그래밍 전공 지식',
-          value: 'major'
-        },
-        {
-          title: '디자인',
-          value: 'design'
-        }
-      ]
+      categories: []
     };
   },
   methods: {
@@ -82,8 +45,8 @@ export default {
       this.$router.push({
         name: 'course',
         query: {
-          category: item.value,
-          korCategory: item.title
+          category: item.cate_code,
+          korCategory: item.cate_kor
         }
       });
     },
@@ -96,7 +59,17 @@ export default {
     closeDropdown() {
       this.isDropdownOpen = false;
     },
+    getTop(){
+                this.$axios.get('/api/getTop')
+                .then((res)=>{
+                    this.categories = res.data.item
+                })
+                .catch((err)=>{err})
+                }
   },
+  mounted(){
+    this.getTop();
+  }
 };
 </script>
   

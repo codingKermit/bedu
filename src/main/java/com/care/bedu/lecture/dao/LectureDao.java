@@ -19,4 +19,5 @@ public interface LectureDao {
 	public ArrayList<LectureDto> lectureSearch(HashMap<String, Object> arg);
 	public int searchTotal(String keyword);
 	public ArrayList<Integer> getLikeList(String userId);
+	public ArrayList<LectureDto> getNewest();
 }

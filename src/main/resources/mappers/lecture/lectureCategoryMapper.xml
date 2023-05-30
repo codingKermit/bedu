@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.lecture.dao.LectureCategoryDao">
+
+    <select id="getCategories" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
+        select
+            num,
+            cate_code,
+            cate_kor,
+            icon,
+            null as parent_code,
+            null as parent_num
+        from
+            BIL.t_top_cate
+        union all
+        select 
+            num,
+            cate_code,
+            cate_kor,
+            parent_num,
+            parent_code,
+            null as icon
+        from 
+            BIL.t_mid_cate
+        union all
+        select
+            num,
+            cate_code,
+            cate_kor,
+            parent_num,
+            parent_code,
+            null as icon
+        from 
+            BIL.t_bot_cate
+        order by 
+            NUM;
+    </select>
+
+    <select id="getBot" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
+        SELECT * FROM BIL.T_BOT_CATE WHERE parent_code = #{mid}
+    </select>
+
+    <select id="getTop" resultType="com.care.bedu.lecture.dto.LectureCategoriesDto">
+        SELECT * FROM BIL.T_TOP_CATE
+    </select>
+
+</mapper>
