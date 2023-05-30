@@ -6,7 +6,6 @@
 	<select id="viewlist" resultType="com.care.bedu.community.qna.dto.QnaDTO">
 		SELECT QNA_BD_NUM, TITLE, CONTENT, QNA_CNT, QNA_LIKE_YN, USER_ID, DATE, REG_ID FROM T_BEDU_QNA
 		 ORDER BY QNA_BD_NUM DESC
-		 LIMIT 10 OFFSET #{page}
 	</select>
 	
 	<insert id="viewWrite">
@@ -43,6 +42,11 @@
 	
 	<update id="qnaCntUp">
 		UPDATE T_BEDU_QNA SET QNA_CNT = QNA_CNT + 1
+		WHERE QNA_BD_NUM = #{num}
+	</update>
+	
+	<update id="likeUp">
+		UPDATE T_BEDU_QNA SET QNA_LIKE_YN = QNA_LIKE_YN + 1
 		WHERE QNA_BD_NUM = #{num}
 	</update>
 	

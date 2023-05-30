@@ -1,5 +1,10 @@
 <template>
   <div class="qna">
+    <div class="qna-left">
+      <h4>커뮤니티</h4>
+      <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
+      <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
+    </div>
     <div class="qna-main">
       <div id="qna-box">
         <h2>질문 / 답변</h2>
@@ -10,11 +15,6 @@
         <b-button :to="'/comm/qnaWrite'" style="margin-left: 200px;">글쓰기</b-button>
       </div>
       <div class="qna-main-1">
-        <div>
-          <h2>커뮤니티</h2>
-          <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link><br>
-          <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link>
-        </div>
       <table class="w3-table-all">
         <tbody>
           <tr v-for="qna in qnalist" :key="qna.num">
@@ -28,7 +28,7 @@
             <td>
               <b-container class="ms-auto text-end">
                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)"/> 
                 <text class="fw-bold ms-2">
                     {{ qna.qna_like_yn }}
                 </text>
@@ -39,26 +39,26 @@
       </table>
       </div>
     </div>
+    <hr>
     <InfiniteLoading @infinite="infiniteHandler">
-                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
-                        </template>
-                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
-                            <span></span>
-                        </template>
-                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
-                        </template>
-                    </InfiniteLoading>
-    <b-container>
-    </b-container>
+      <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+      </template>
+      <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+        <span></span>
+      </template>
+      <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+      </template>
+    </InfiniteLoading>
   </div>
 </template>
 
 <script>
+import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 export default {
 
   data() {
-
     return {
+      page : 1,
       qnalist: [],
       form: {
         keyword: '',
@@ -69,18 +69,22 @@ export default {
     };
 
   },
+
   created() {
-    console.log('크리에이티드');
     this.currentPage = 1;
     this.getTotal();
     this.List();
   },
 
   mounted() {
-    console.log('마운트');
+    this.infiniteHandler();
     this.currentPage = 1;
     this.getTotal();
     this.List();
+  },
+
+  components:{
+    InfiniteLoading
   },
 
   methods: {
@@ -92,7 +96,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           this.qnalist = res.data;
 
         })
@@ -109,7 +112,6 @@ export default {
       this.$axios
         .post('/api/qna/qnaList', form)
         .then(res => {
-          console.log('조회성공:', res);
           this.qnalist = res.data;
         })
         .catch(error => {
@@ -117,29 +119,9 @@ export default {
         });
     },
 
-    infiniteHandler($state){ // 스크롤 이벤트 핸들러
-      this.$axios.get('/api/lectureList',{
-        params:{
-          category : this.category,
-          page : this.page,
-        }
-      })
-      .then((res)=>{
-        if(res.data.item.length){
-          this.page++;
-          this.lectures.push(...res.data.item);
-          $state.loaded();
-        } else{
-          $state.complete();
-        }
-      })
-      .catch((err)=>{console.log(err)})
-    },
-
     getTotal() {
       this.$axios.get('/api/qna/total')
         .then((response) => {
-          console.log('총 개수물 개수:', response);
           this.totalItems = response.data;
           this.totalPage = Math.ceil(this.totalItems / 10);
         })
@@ -159,6 +141,43 @@ export default {
       this.currentPage = val;
       this.List();
     },
+
+    qnalikeUp(qnum){
+      this.$axios.get('/api/qna/likeUp', {
+        params: {
+          num: qnum
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          if(res.data === 1){
+            this.List();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    infiniteHandler($state){
+      this.$axios.get('/api/qna/qnaList',{
+        params:{
+          page : this.page,
+        }
+      })
+      .then(res=>{
+        if(res.data.length){
+          this.page++;
+          this.qnalist.push(...res.data);
+          $state.loaded();
+        } else{
+          $state.complete();
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
 
   },
 

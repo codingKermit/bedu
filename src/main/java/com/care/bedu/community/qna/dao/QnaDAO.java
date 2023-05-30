@@ -17,4 +17,5 @@ public interface QnaDAO {
 	public ArrayList<QnaDTO> viewsearch(QnaDTO qnaDTO);
 	public int getTotal();
 	public void qnaCntUp(int num);
+	public int likeUp(int num);
 }

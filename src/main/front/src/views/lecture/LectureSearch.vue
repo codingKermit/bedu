@@ -108,7 +108,7 @@ export default{
                 }
             })
             .then((res)=>{
-                this.total = res.data;
+                this.total = res.data
             })
             .catch((err)=>{console.log(err)});
         }

@@ -3,7 +3,7 @@
     <div class="freeboard-left">
       <h4>커뮤니티</h4>
       <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
-      <router-link class="bedu-hd-cate-le" to="/comm/qna">커뮤니티</router-link>
+      <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
     </div>
     <div class="freeboard-main">
       <div id="freeboard-box">
@@ -66,8 +66,8 @@ export default {
     };
   },
   mounted() {
-    this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
     this.infiniteHandler();
+    this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
     this.getTotal();          //끝페이지 번호 설정
     this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
   },
@@ -112,22 +112,20 @@ export default {
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
       this.$axios.get('/api/community/boardList',{
         params:{
-          category : this.category,
           page : this.page,
         }
       })
       .then(res=>{
-        console.log('스크롤:', res);
-        if(res.data.item.length){
+        if(res.data.length){
           this.page++;
-          this.communitylist.push(...res.data.item);
+          this.communitylist.push(...res.data);
           $state.loaded();
         } else{
           $state.complete();
         }
       })
-      .catch((err)=>{
-        console.log(err)
+      .catch(err=>{
+        console.log(err);
       })
     },
 
@@ -154,7 +152,6 @@ export default {
     },
 
     freelikeUp(num) {
-      console.log('받은번호: ', num);
       this.pathnum = num;
       this.$axios.get('/api/community/likeUp', {
         params: {

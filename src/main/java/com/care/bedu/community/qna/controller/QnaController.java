@@ -52,5 +52,11 @@ public class QnaController {
 	public int getTotal(){
 		return qnaService.getTotal();
 	}
+	
+	@RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)
+	public int likeUp(int num){
+		int result = qnaService.likeUp(num);
+		return result == 1? 1:0;
+	}
 
 }
