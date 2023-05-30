@@ -28,8 +28,8 @@ const routes = [
     component : () => import('@/views/lecture/LectureField.vue')
   }
   ,{
-    path : '/lectureCategories',
-    name : 'lectureCategories',
+    path : '/lectureCategories/:index',
+    name : 'lectureCategories/:index',
 
     component : () => import('@/views/lecture/LectureCategories.vue')
   },

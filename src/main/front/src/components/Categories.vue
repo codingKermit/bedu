@@ -4,7 +4,7 @@
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                 <b-nav-item v-for="(item, index) in categories" :key="index">
-                    <b-link @click="intoCate(index)" class="text-body text-decoration-none">
+                    <b-link :to='"/lectureCategories/"+index' class="text-body text-decoration-none">
                         <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                             <b-img :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
                         </b-container>
@@ -32,14 +32,6 @@
                     this.categories = res.data.item
                 })
                 .catch((err)=>{err})
-                },
-                intoCate(index){
-                    this.$router.push({
-                        name : 'lectureCategories',
-                        query:{
-                            index : index
-                        }
-                    })
                 }
             },
             created() {

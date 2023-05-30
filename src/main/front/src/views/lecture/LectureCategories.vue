@@ -4,7 +4,8 @@
             <div class="w-25 ps-5 me-5"> <!-- 네비 컨테이너 -->
                 <p class="fs-2 fw-bold mb-3">분야별 강의</p>
                 <ul class="nav flex-column w-100">
-                    <li class="nav-item me-4" v-for="(top, index) in categories" :key="index">
+                    <!-- 대분류 -->
+                    <li class="nav-item me-4" v-for="(top, top_index) in categories" :key="top_index"> 
                     <span>
                         <a class="fs-5 text-body text-decoration-none d-flex" data-bs-toggle="collapse" :href='"#top-"+top.cate_code'>
                             <p>{{ top.cate_kor }}</p>
@@ -13,9 +14,13 @@
                             </p>
                         </a>
                     </span>
-                        <div class="collapse text-secondary text-secondary mid-cate-container" :id='"top-"+top.cate_code'>
+                        <div class="collapse text-secondary text-secondary mid-cate-container" :id='"top-"+top.cate_code'
+                        :class='cnt_top_cate == top.cate_code ? "show":""'
+                        >
                             <ul class="ps-2">
-                                <li v-for="(mid, index) in top.children" :key="index" class="list-unstyled py-2">
+                                <!-- 중분류 -->
+                                <li v-for="(mid, mid_index) in top.children" :key="mid_index" class="list-unstyled py-2"
+                                >
                                     <a @click="midCategoryChanger(top,mid)" 
                                     :class="mid.cate_code == cnt_mid_cate && top.cate_code == cnt_top_cate ? 'cnt_selected':'text-body'"
                                     class="text-decoration-none"
@@ -30,6 +35,7 @@
                 <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p>
                 <p class="fs-3 fw-bold curriculum-head my-3">커리큘럼</p>
                 <ul class="list-unstyled">
+                    <!-- 소분류 목록 -->
                     <li
                     :class="index%2 == 0 ? 'curriculum-list-even':'curriculum-list-odd'" 
                     v-for="(bot, index) in lectures" :key="index"
@@ -47,11 +53,15 @@
                                 <font-awesome-icon :icon="['fas','caret-down']" />
                             </span>
                         </a>
-                        <div class="collapse" :id='"bot-cate-list-"+index'>
+                        <!-- 커리큘럼 목록 콜랩스 -->
+                        <div class="collapse multi-collapse" :id='"bot-cate-list-"+index' ref="lecture_list"
+                        :class='index == 0 ? "show":""'
+                        >
                             <b-container>
-
                                 <b-row cols="2">
-                                    <b-col v-for="(lect, index) in bot.item" :key="index">
+                                    <!-- 커리큘럼 목록 -->
+                                    <b-col v-for="(lect, index) in bot.item" 
+                                    :key="index">
                                         <b-link class="text-body text-decoration-none" :to='"/lectureDetail?num="+lect.num'>
                                             <b-container class="border p-3 mb-4">
                                                 <b-img thumbnail :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img>
@@ -137,7 +147,7 @@ export default{
                 }
             });
             this.categories = hierarchy;
-            const index = this.$route.query.index;
+            const index = this.$route.params.index;
             this.cnt_top_cate = this.categories[index].cate_code;
             this.cnt_top_cate_kor = this.categories[index].cate_kor;
             this.cnt_mid_cate = this.categories[index].children[0].cate_code;
@@ -167,6 +177,14 @@ export default{
     watch:{
         cnt_mid_cate: function(){ // 중분류 변경되면 그에맞는 소분류, 강의 목록 조회
             this.getLectureList();
+            var collapses = this.$refs.lecture_list;
+            if(collapses){
+                collapses.forEach((col)=>{
+                    col.classList.remove('show') /* 중분류 변경시 콜랩스 닫기 */
+                    console.log(collapses[0].classList.add('show')) /* 첫번째 스텝만 보여주기 */
+                })
+
+            }
         },
         cnt_bot_cate(){
         
