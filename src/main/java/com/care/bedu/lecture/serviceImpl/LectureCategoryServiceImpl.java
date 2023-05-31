@@ -17,7 +17,6 @@ public class LectureCategoryServiceImpl implements LectureCategoryService{
 
     @Override
     public ArrayList<LectureCategoriesDto> getCategory() {
-        // TODO Auto-generated method stub
         ArrayList<LectureCategoriesDto> list = new ArrayList<>();
         list = dao.getCategories();
         return list;
@@ -25,7 +24,6 @@ public class LectureCategoryServiceImpl implements LectureCategoryService{
 
     @Override
     public ArrayList<LectureCategoriesDto> getTop() {
-        // TODO Auto-generated method stub
         ArrayList<LectureCategoriesDto> tops = new ArrayList<>();
 
         tops = dao.getTop();

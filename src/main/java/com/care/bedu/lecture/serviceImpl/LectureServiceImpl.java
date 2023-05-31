@@ -26,11 +26,9 @@ public class LectureServiceImpl implements LectureService{
 	/* 카테고리별 강의를 들어갔을 때 동영상 조회 */
 	@Override
 	public ArrayList<Object>  getLectureList(String category) {
-		// TODO Auto-generated method stub
 		/* 중분류에 따른 소분류 조회 -> 소분류에 따른 강의 목록 조회
 		 * -> 자료 구조 정리하여 반환
 		 */
-		System.out.println("category : " + category);
 		ArrayList<LectureCategoriesDto> dtos = new ArrayList<>(); // 소분류 카테고리 조회
 		dtos = cateDao.getBot(category);
 		HashMap<String, Object> map = new HashMap<>(); // 파라미터 맵
@@ -58,7 +56,6 @@ public class LectureServiceImpl implements LectureService{
 	/* 강의 상세 정보 조회 */
 	@Override
 	public LectureDto getLectureDetail(int num) {
-		// TODO Auto-generated method stub
 		LectureDto dto = new LectureDto();
 		dto = dao.getLectureDetail(num);
 		
@@ -70,7 +67,6 @@ public class LectureServiceImpl implements LectureService{
 	 */
 	@Override
 	public HashMap<String, ArrayList<LectureDto>> getLectureField() {
-		// TODO Auto-generated method stub
 		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
 		ArrayList<LectureDto> dto = new ArrayList<>();
 
@@ -91,7 +87,6 @@ public class LectureServiceImpl implements LectureService{
 	/* 해당 강의에 포함되어있는 커리큘럼을 조회 */
 	@Override
 	public ArrayList<LectureDetailDto> getVideoList(int num) {
-		// TODO Auto-generated method stub
 		ArrayList<LectureDetailDto> list = new ArrayList<>();
 		
 		list = dao.getVideoList(num);
@@ -102,13 +97,12 @@ public class LectureServiceImpl implements LectureService{
 	/* 검색을 통한 결과 조회 */
 	@Override
 	public HashMap<String, ArrayList<LectureDto>> lectureSearch(String keyword, int page) {
-		// TODO Auto-generated method stub
 		HashMap<String, ArrayList<LectureDto>> map = new HashMap<>();
 		ArrayList<LectureDto> dto = new ArrayList<>();
 
 		HashMap<String, Object> arg = new HashMap<>();
 		arg.put("keyword", keyword); 
-		arg.put("begin", (page-1)*20+1);
+		arg.put("begin", (page-1)*5);
 		dto = dao.lectureSearch(arg);
 		map.put("item", dto);
 
@@ -119,7 +113,6 @@ public class LectureServiceImpl implements LectureService{
 	/* 검색했을때 해당 키워드로 조회되는 총 강의 수를 확인 */
 	@Override
 	public int searchTotal(String keyword) {
-		// TODO Auto-generated method stub
 		int result = 0;
 		result = dao.searchTotal(keyword);
 		return result;
@@ -128,7 +121,6 @@ public class LectureServiceImpl implements LectureService{
 	/* 내가 좋아요한 강의 목록 조회 */
 	@Override
 	public ArrayList<Integer> getLikeList(String userId) {
-		// TODO Auto-generated method stub
 
 		ArrayList<Integer> list = new ArrayList<>();
 
