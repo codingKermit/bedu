@@ -149,6 +149,11 @@ const routes = [
     name: 'reviewWrite',
     component: () => import('../views/Review/ReviewWrite.vue')
   },
+  {
+    path: '/statistics',
+    name: 'statistics',
+    component: () => import('../views/statistics/StatisticsMain.vue')
+  },
 ]
 
 const router = createRouter({
