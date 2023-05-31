@@ -22,6 +22,7 @@ export default {
 // axios함수들
 export const commonAxios = {
     // axios (method(필수값),보낼주소(필수값), 보낼 파라미터)
+    // 호출예시 : this.$axiosSend('get', '/api/something', {name: '123', value: '456'}, true)
     axiosSend(method, url, params) {
         console.log('Axios ready : method = %o, url = %o', method, url)
         return axios({
@@ -57,7 +58,7 @@ export const commonStore = {
 
 // 인피니티스크롤 공통쪽으로 개발
 export const commonScroll = {
-    
+
 }
 
 
