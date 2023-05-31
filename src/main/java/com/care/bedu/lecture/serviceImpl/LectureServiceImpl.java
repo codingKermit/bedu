@@ -102,7 +102,7 @@ public class LectureServiceImpl implements LectureService{
 
 		HashMap<String, Object> arg = new HashMap<>();
 		arg.put("keyword", keyword); 
-		arg.put("begin", (page-1)*20+1);
+		arg.put("begin", (page-1)*5);
 		dto = dao.lectureSearch(arg);
 		map.put("item", dto);
 

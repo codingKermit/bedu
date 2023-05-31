@@ -26,9 +26,7 @@
                                 class="text-decoration-none"
                                 :class="mid.cate_code == cnt_mid_cate && top.cate_code == cnt_top_cate ? 'cnt_selected':'text-body'"
                                 >
-                                    <a>
-                                        {{ mid.cate_kor }}
-                                    </a>
+                                    {{ mid.cate_kor }}
                                 </router-link>
                                 </li>
                             </ul>
@@ -75,7 +73,7 @@
                                                 <div class="d-flex">
                                                     <p class="teacher-container">{{ lect.teacher }} 선생님</p><p>총 {{ lect.total }}강</p>
                                                 </div>
-                                                <p class="text-secondary">수강 기간 : {{ lect.period }}일</p>
+                                                <p class="text-secondary">수강 기간 : {{ lect.lect_period }}일</p>
                                             </b-container>
                                         </b-link>
                                     </b-col>
@@ -158,7 +156,6 @@ export default{
             this.cnt_mid_cate = this.$route.query.cnt_mid_cate;
 
         },
-
             /** 중분류에 따른 강의 정보 조회 함수 */
             getLectureList(){
                 this.$axios.get('/api/lectureList',{
@@ -170,7 +167,7 @@ export default{
                     this.lectures = res.data.item;
                 })
                 .catch((err)=>{console.log(err)})
-            }
+            },
     },
     created() {
     },

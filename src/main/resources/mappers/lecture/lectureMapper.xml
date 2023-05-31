@@ -56,15 +56,13 @@ parameterType="hashmap">
 	LEFT JOIN bedu_db.t_bedu_lect_dtl AS B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
-	LIMIT #{begin}, 20
+	LIMIT #{begin}, 5
 	;
 </select>
 
 <select id="searchTotal" resultType="int">
 	SELECT COUNT(A.LECT_NUM)
 	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE TITLE LIKE CONCAT('%',#{keyword},'%'))  AS A 
-	LEFT JOIN bedu_db.t_bedu_lect_dtl AS B
-	ON A.LECT_NUM = B.LECT_NUM
 	;
 </select>
 

@@ -10,8 +10,8 @@
             <p class="fs-2 fw-bold">강좌 검색결과 ({{ total }})</p>
             <div class="search-result-container p-3 border-opacity-25 border-secondary border mb-5">
                 <ul class="list-unstyled">
-                    <li v-for="(item, i) in lectures" :key="i">
-                        <b-link :to='"/lectureDetail?num="+item.num' class="text-body text-decoration-none">
+                    <li v-for="(item, index) in lectures" :key="index">
+                        <b-link :to='"/lectureDetail?num="+item.lect_num' class="text-body text-decoration-none">
                             <b-container class="d-flex">
                                 <div class="w-25 p-3">
                                     <b-img thumbnail rounded class="w-100 h-100" :src="item.thumbnail"></b-img>
@@ -21,7 +21,7 @@
                                 <span class="d-flex">
                                     <p class="teacher-name">{{ item.teacher }} 선생님</p><p>총 {{ item.total }}강</p>
                                 </span>
-                                <p class="text-secondary">수강기간 : {{ item.duration }}일</p>
+                                <p class="text-secondary">수강기간 : {{ item.lect_period }}일</p>
                             </div>
                             <div class="ms-auto my-auto">
                                 <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>
@@ -29,7 +29,7 @@
                         </b-container>
                     </b-link>
                     </li>
-                    <InfiniteLoading @infinite="infiniteHandler">
+                    <InfiniteLoading @infinite="infiniteHandler" :distance="distance" ref="infiniteLoading">
                         <template #spinner> <!-- 로딩중일때 보여질 부분 -->
                         </template>
                         <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
@@ -55,33 +55,11 @@ export default{
             keyword: "",
             total: 0,
             lectures: [],
-            page : 1
+            page : 1,
+            distance : 1,
         };
     },
     methods: {
-        /** 검색했을때 동작.
-         * 스크롤 이벤트에서는 동작하지 않음
-         */
-        search(){ 
-            this.$router.push({
-                name : 'lectureSearch',
-                query:{
-                    keyword : this.keyword
-                }
-            })
-            this.$route.query.keyword = this.keyword
-            this.getTotal();
-            this.$axios.get("/api/lectureSearch", {
-                params: {
-                    keyword: this.keyword,
-                    page : this.page
-                }
-            })
-            .then((res) => {
-                    this.lectures = res.data.item;
-            })
-                .catch((err) => { console.log(err); });  
-        },
         /** 스크롤 이벤트 동작 메서드 */
         infiniteHandler($state){
             this.$axios.get("/api/lectureSearch", {
@@ -95,7 +73,7 @@ export default{
                     this.page++;
                     this.lectures.push(...res.data.item);
                     $state.loaded(); // 로드를 계속하도록 함
-                } else{
+                } else {
                    $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
             })
@@ -111,13 +89,34 @@ export default{
                 this.total = res.data
             })
             .catch((err)=>{console.log(err)});
+        },
+        search(){
+            this.$router.push({
+                name : 'lectureSearch',
+                query : {
+                    keyword : this.keyword
+                }
+            })
+        }
+    },
+    watch:{
+        '$route.query.keyword':{
+            immediate:true,
+            handler(newKeyword){
+                this.keyword = newKeyword;
+                if(this.$refs.infiniteLoading){
+                    this.lectures = [];
+                    this.page = 1;
+                    this.$refs.infiniteLoading.stateChanger.reset();
+                    this.getTotal();
+                }
+            }
         }
     },
     created() {
     },
     mounted() {
         this.keyword = this.$route.query.keyword,
-        this.infiniteHandler();
         this.getTotal();
     },
     components: { InfiniteLoading }
