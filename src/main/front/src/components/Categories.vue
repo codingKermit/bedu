@@ -4,7 +4,7 @@
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                 <b-nav-item v-for="(item, index) in categories" :key="index">
-                    <b-link :to='"/lectureCategories/"+index' class="text-body text-decoration-none">
+                    <b-link :to='"/lectureCategories/"+item.cate_code+"?cnt_mid_cate="+item.children[0].cate_code' class="text-body text-decoration-none">
                         <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                             <b-img :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
                         </b-container>
@@ -27,12 +27,38 @@
             },
             methods: {
                 getTop(){
-                this.$axios.get('/api/getTop')
+                this.$axios.get('/api/getCategory')
                 .then((res)=>{
-                    this.categories = res.data.item
+                    this.convertToHierarchy(res.data)
                 })
                 .catch((err)=>{err})
-                }
+                },
+
+                /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+                convertToHierarchy(data) {
+                    const map = {}; // 부모-자식 관계를 저장할 맵
+                    // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
+                    data.forEach(category => {
+                        category.children = []; // 자식 카테고리를 저장할 배열 생성
+                        map[category.cate_code] = category;
+                    });
+                    
+                    const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
+                    
+                    // 부모-자식 관계 설정
+                    data.forEach(category => {
+                        const parentCode = category.parent_code;
+                        if (parentCode) {
+                        const parent = map[parentCode];
+                        if (parent) {
+                            parent.children.push(category);
+                        }
+                        } else {
+                        hierarchy.push(category);
+                        }
+                        this.categories = hierarchy;
+                    });
+                },
             },
             created() {
 

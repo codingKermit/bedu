@@ -143,7 +143,7 @@ public class LectureServiceImpl implements LectureService{
 		ArrayList<Integer> likes = new ArrayList<>();
 		likes = dao.getLikeList("123");
 		for(int i = 0; i< dto.size();i++){
-			if(likes.contains(dto.get(i).getNum())){
+			if(likes.contains(dto.get(i).getLect_num())){
 				dto.get(i).setLikeYn(1);
 			} else {
 				dto.get(i).setLikeYn(0);

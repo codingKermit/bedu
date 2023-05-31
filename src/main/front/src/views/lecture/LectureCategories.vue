@@ -21,10 +21,15 @@
                                 <!-- 중분류 -->
                                 <li v-for="(mid, mid_index) in top.children" :key="mid_index" class="list-unstyled py-2"
                                 >
-                                    <a @click="midCategoryChanger(top,mid)" 
-                                    :class="mid.cate_code == cnt_mid_cate && top.cate_code == cnt_top_cate ? 'cnt_selected':'text-body'"
-                                    class="text-decoration-none"
-                                    >{{ mid.cate_kor }}</a>
+                                <router-link
+                                :to='"/lectureCategories/"+top.cate_code+"?cnt_mid_cate="+mid.cate_code'
+                                class="text-decoration-none"
+                                :class="mid.cate_code == cnt_mid_cate && top.cate_code == cnt_top_cate ? 'cnt_selected':'text-body'"
+                                >
+                                    <a>
+                                        {{ mid.cate_kor }}
+                                    </a>
+                                </router-link>
                                 </li>
                             </ul>
                         </div>
@@ -90,7 +95,6 @@ export default{
     name : 'lectureCategories',
     data() {
         return {
-
             categories: [],
             cnt_mid_cate : '', // 현재 어떤 중분류를 보고있는지를 코드로 저장
             cnt_mid_cate_kor : '', // 현재 보고 있는 대분류의 한글 코드명
@@ -106,6 +110,8 @@ export default{
             this.cnt_mid_cate_kor = mid.cate_kor;
             this.cnt_top_cate = top.cate_code;
             this.cnt_top_cate_kor = top.cate_kor;
+            this.$route.params.index = top.cate_code;
+            this.$route.query.mid = mid.cate_code;
         },
         /* 현재 선택된 대분류, 중분류를 기준으로 소분류 데이터 반환 */
         getCurrCurriculum() {
@@ -148,11 +154,9 @@ export default{
                 }
             });
             this.categories = hierarchy;
-            const index = this.$route.params.index;
-            this.cnt_top_cate = this.categories[index].cate_code;
-            this.cnt_top_cate_kor = this.categories[index].cate_kor;
-            this.cnt_mid_cate = this.categories[index].children[0].cate_code;
-            this.cnt_mid_cate_kor = this.categories[index].children[0].cate_kor;
+            this.cnt_top_cate = this.$route.params.index;
+            this.cnt_mid_cate = this.$route.query.cnt_mid_cate;
+
         },
 
             /** 중분류에 따른 강의 정보 조회 함수 */
@@ -169,11 +173,10 @@ export default{
             }
     },
     created() {
-
-        
     },
     mounted() {
         this.getCategory(); // 마운트시 카테고리 목록부터 조회
+
     },
     watch:{
         cnt_mid_cate: function(){ // 중분류 변경되면 그에맞는 소분류, 강의 목록 조회
@@ -182,13 +185,23 @@ export default{
             if(collapses){
                 collapses.forEach((col)=>{
                     col.classList.remove('show') /* 중분류 변경시 콜랩스 닫기 */
-                    console.log(collapses[0].classList.add('show')) /* 첫번째 스텝만 보여주기 */
+                    collapses[0].classList.add('show') /* 첫번째 스텝만 보여주기 */
                 })
-
             }
         },
-        cnt_bot_cate(){
-        
+        '$route.params.index':{
+            immediate: true,
+            handler(newTop){
+                this.cnt_top_cate = newTop;
+            }
+        },
+        '$route.query.cnt_mid_cate':{
+            immediate: true,
+            handler(newMid){
+                if(newMid != undefined){
+                    this.cnt_mid_cate = newMid;
+                }
+            }
         }
     }
 }
@@ -212,8 +225,8 @@ a{
 
 
 .cnt_selected{
-    color : var(--blue);
-    font-weight: bold;
+    color : var(--blue) !important;
+    font-weight: bold !important;
 }
 
 .curriculum-list-even::before, .curriculum-list-odd::before{
