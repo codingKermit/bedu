@@ -1,6 +1,8 @@
 package com.care.bedu.user.controller;
 
 import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import org.springframework.http.ResponseEntity;
@@ -67,6 +69,10 @@ public class MemberController {
 	            .email(memberDto.getEmail())
 	            .password(encPassword)
 	            .nickname(memberDto.getNickname())
+	            .cls("USER") 
+	            .udy(0) 
+	            .regDate(LocalDateTime.now()) // regDate 값을 현재 시간으로 설정
+	            .userRegDate(LocalDate.now()) // userRegDate 값을 현재 날짜로 설정
 	            .build();
 
 	    MemberEntity savedUser = memberRepository.save(memberEntity);
