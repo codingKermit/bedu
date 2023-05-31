@@ -17,57 +17,71 @@
     </div>
 </template>
 
-    <script>
-        export default {
-            name: 'lectureCategories',
-            data() {
-                return {
-                    categories: [],
-                }
-            },
-            methods: {
-                getTop(){
-                this.$axios.get('/api/getCategory')
-                .then((res)=>{
-                    this.convertToHierarchy(res.data)
+<script>
+    export default {
+        name: 'lectureCategories',
+        data() {
+            return {
+                categories: [],
+            }
+        },
+        methods: {
+            // 이미지 주소를 변환시켜주는 함수
+            // getImg(imgUrl){
+            //     console.log('url ::: ', imgUrl)
+            //     // const url = require('@'+imgUrl)
+            //     const url = require('@/assets/imgs/categories/free-icon-base.png')
+            //     //                      @/assets/imgs/categories/free-icon-base.png'
+            //     // api로 받아온 이미지를 변수로 가져옴
+            //     // img: require('@/assets/imgs/categories/free-icon-base.png')
+            //     console.log('img url ::: ', url)
+            //     return url
+            // },
+            getData(){
+                let cateData = [];
+                /* eslint-disable no-debugger */
+                debugger
+                this.$axiosSend('get', '/api/getCategory')
+                .then((res) => {
+                    console.log('res::: ', res)
+                    if (!this.$isEmpty(res?.data)) {
+                        cateData = res?.data;
+                    }
+                    console.log('cateData ::: ', cateData)
+                    this.convertToHierarchy(cateData)
+
                 })
-                .catch((err)=>{err})
-                },
 
-                /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-                convertToHierarchy(data) {
-                    const map = {}; // 부모-자식 관계를 저장할 맵
-                    // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                    data.forEach(category => {
-                        category.children = []; // 자식 카테고리를 저장할 배열 생성
-                        map[category.cate_code] = category;
-                    });
-                    
-                    const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-                    
-                    // 부모-자식 관계 설정
-                    data.forEach(category => {
-                        const parentCode = category.parent_code;
-                        if (parentCode) {
+            },
+            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+            convertToHierarchy(data) {
+                const map = {}; // 부모-자식 관계를 저장할 맵
+                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
+                data.forEach(category => {
+                    category.children = []; // 자식 카테고리를 저장할 배열 생성
+                    map[category.cate_code] = category;
+                });
+                
+                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
+                
+                // 부모-자식 관계 설정
+                data.forEach(category => {
+                    const parentCode = category.parent_code;
+                    if (parentCode) {
                         const parent = map[parentCode];
-                        if (parent) {
-                            parent.children.push(category);
-                        }
-                        } else {
+                        if (parent) parent.children.push(category)
+                    } else {
                         hierarchy.push(category);
-                        }
-                        this.categories = hierarchy;
-                    });
-                },
-            },
-            created() {
-
-            },
-            mounted() {
-                this.getTop();
-            },
+                    }
+                    this.categories = hierarchy;
+                });
+            }
+        },
+        mounted() {
+            this.getData();
         }
-    </script>
+    }
+</script>
 
     <style scoped="scoped">
         img {

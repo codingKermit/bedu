@@ -70,7 +70,7 @@ export default {
       this.isDropdownOpen = false;
     },
     getTop() {
-      this.$axios.get('/api/getTop')
+      this.$axiosSend('get','/api/getTop')
         .then((res) => {
           this.categories = res.data.item
         })
