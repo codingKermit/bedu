@@ -1,5 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import store from "../vuex/store";
+
+const requireAuth = () => (from, to, next) => {
+  const token = localStorage.getItem('user_token')
+  if (token) {
+    store.state.isLogin = true
+    return next()
+  } // isLogin === true면 페이지 이동
+  next('/login') // isLogin === false면 다시 로그인 화면으로 이동
+}
+
 const routes = [
   {
     path: '/',
@@ -42,7 +53,8 @@ const routes = [
   {
     path: '/companyStudy',
     name: 'companyStudy',
-    component: () => import('../views/CompanyStudy.vue')
+    component: () => import('../views/CompanyStudy.vue'),
+    beforeEnter: requireAuth()
   }
   ,
   {
@@ -54,9 +66,15 @@ const routes = [
   {
     path: '/regist',
     name: 'regist',
-    component: () => import('../views/user/RegistView.vue')
+    component: () => import('../views/user/RegistView.vue'),
   }
-
+  ,
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: () => import('../views/user/MypageView.vue'),
+    beforeEnter: requireAuth()
+  }
   ,
   {
     path: '/comm/freBd',
@@ -130,6 +148,11 @@ const routes = [
     path: '/reviewWrite',
     name: 'reviewWrite',
     component: () => import('../views/Review/ReviewWrite.vue')
+  },
+  {
+    path: '/statistics',
+    name: 'statistics',
+    component: () => import('../views/statistics/StatisticsMain.vue')
   },
 ]
 
