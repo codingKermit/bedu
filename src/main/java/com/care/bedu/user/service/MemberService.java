@@ -1,42 +1,47 @@
 package com.care.bedu.user.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.user.entity.MemberEntity;
-import com.care.bedu.user.entity.MemberRepository;
+import com.care.bedu.user.mapper.MemberMapper;
+import com.care.bedu.user.vo.MemberVo;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
-public class MemberService implements UserDetailsService{
-	
-    private final MemberRepository memberRepository;
-    
-    public boolean checkEmailDuplicate(String email) {
-    	return memberRepository.existsByEmail(email);
+@RequiredArgsConstructor
+public class MemberService {
+
+    @Autowired
+    MemberMapper memberMapper;
+
+    @Transactional
+    public void regist(MemberVo memberVo){
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberVo.setPassword(passwordEncoder.encode(memberVo.getPassword()));
+        memberVo.setEmail(memberVo.getEmail());
+        memberVo.setNickname(memberVo.getNickname());
+        memberVo.setCls("USER");
+        memberVo.setUdy(0);
+        memberVo.setRegDate(LocalDateTime.now());
+        memberVo.setUserRegDate(LocalDate.now());
+        memberMapper.regist(memberVo);
     }
     
-    public boolean checkNicknameDuplicate(String nickname) {
-    	return memberRepository.existsByNickname(nickname);
+    // 이메일 중복 체크
+    public boolean isEmailDuplicate(String email) {
+        int count = memberMapper.countByEmail(email);
+        return count > 0;
     }
-    
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    	List<GrantedAuthority> authorities = new ArrayList<>();
 
-    	MemberEntity memberEntity = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
-
-        return new User(memberEntity.getEmail(), memberEntity.getPassword(), authorities);
+    // 닉네임 중복 체크
+    public boolean isNicknameDuplicate(String nickname) {
+        int count = memberMapper.countByNickname(nickname);
+        return count > 0;
     }
 }

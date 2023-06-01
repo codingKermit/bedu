@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -45,13 +45,16 @@ export default {
     }
   },
   methods: {
+    // 체크박스 토글
     toggleCheckbox() {
       const checkbox = this.$refs.saveIdCheckbox;
       checkbox.checked = !checkbox.checked;
     },
-    ...mapActions(['login']),     //vuex/actions에 있는 login 함수
-
-    async fnLogin() {       //async 함수로 변경
+    // Vuex의 login 액션을 매핑하여 사용
+    ...mapActions(['login']),
+    
+    // 로그인 함수를 비동기로 변경
+    async fnLogin() {
       if (this.email === '') {
         alert('ID를 입력하세요.')
         return
@@ -62,10 +65,10 @@ export default {
         return
       }
 
-      //로그인 API 호출 
       try {
-        let loginResult = await this.login({email: this.email, password: this.password})
-        if (loginResult) this.goToPages()
+        // 로그인 액션을 호출하고 결과를 받아옴
+        let loginResult = await this.login({ email: this.email, password: this.password })
+        if (loginResult) this.goToPages();
       } catch (err) {
         if (err.message.indexOf('Network Error') > -1) {
           alert('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
@@ -74,6 +77,8 @@ export default {
         }
       }
     },
+    
+    // 페이지 이동 함수
     goToPages() {
       this.$router.push({
         name: 'main'

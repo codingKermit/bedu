@@ -47,7 +47,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'PageHeader',
   mounted() {
-    this.getUserNickname();
     this.getCategory();
   },
 

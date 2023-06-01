@@ -1,24 +1,24 @@
-import {EMAIL, IS_AUTH, ERROR_STATE, NICKNAME} from './mutation_types'
+import {EMAIL, IS_AUTH, ERROR_STATE} from './mutation_types'
 import loginAPI from '../service/loginAPI'
-import jwtDecode from 'jwt-decode'
 
-let setEmail = ({commit}, data) => {
+
+// 이메일 상태를 설정합니다.
+let setEmail = ({ commit }, data) => {
   commit(EMAIL, data)
 }
 
-let setErrorState = ({commit}, data) => {
+// 에러 상태를 설정합니다.
+let setErrorState = ({ commit }, data) => {
   commit(ERROR_STATE, data)
 }
 
-let setIsAuth = ({commit}, data) => {
+// 인증 상태를 설정합니다.
+let setIsAuth = ({ commit }, data) => {
   commit(IS_AUTH, data)
 }
 
-let setNickname = ({ commit }, data) => {
-  commit(NICKNAME, data)
-}
 
-// 백엔드에서 반환한 결과값을 가지고 로그인 성공 실패 여부를 vuex에 넣어준다.
+// 백엔드에서 반환된 결과값을 처리하여 로그인 성공 여부를 Vuex에 반영합니다.
 let processResponse = (store, loginResponse) => {
   switch (loginResponse) {
     case 'notFound':
@@ -27,29 +27,17 @@ let processResponse = (store, loginResponse) => {
       break
     default:
       setEmail(store, loginResponse.email)
-      setNickname(store, loginResponse.nickname)
       setErrorState(store, '')
       setIsAuth(store, true)
   }
 }
 
 export default {
+  // 로그인 액션을 수행합니다.
   async login(store, { email, password }) {
     let loginResponse = await loginAPI.doLogin(email, password)
     processResponse(store, loginResponse)
     return store.getters.getIsAuth
   },
 
-  async getUserNickname({ commit }) {
-    try {
-      const token = localStorage.getItem('user_token')
-      if (token) {
-        const decodedToken = jwtDecode(token)
-        const nickname = decodedToken.nickname // Extract the nickname from the decoded token
-        commit(NICKNAME, nickname)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  },
 }
