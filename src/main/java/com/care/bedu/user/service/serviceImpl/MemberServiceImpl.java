@@ -6,20 +6,20 @@ import java.time.LocalDateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.user.dao.memberDAO;
+import com.care.bedu.user.dao.MemberDAO;
 import com.care.bedu.user.service.MemberService;
-import com.care.bedu.user.vo.memberVO;
+import com.care.bedu.user.vo.MemberVO;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class memberServiceImpl implements MemberService {
-    private final memberDAO memberDao;
+public class MemberServiceImpl implements MemberService {
+    private final MemberDAO memberDao;
 
     @Transactional
-    public void regist(memberVO memberVo) {
+    public void regist(MemberVO memberVo) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberVo.setPassword(passwordEncoder.encode(memberVo.getPassword()));
         memberVo.setEmail(memberVo.getEmail());
