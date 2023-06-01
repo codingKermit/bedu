@@ -28,8 +28,6 @@
         methods: {
             getData(){
                 let cateData = [];
-                /* eslint-disable no-debugger */
-                debugger
                 this.$axiosSend('get', '/api/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)
