@@ -2,9 +2,9 @@ package com.care.bedu.user.service;
 
 import com.care.bedu.user.vo.memberVO;
 
-public interface memberService {
+public interface MemberService {
 
-	void regist(memberVO memberVo);
+	void regist(memberVO memberVo); 
     boolean isEmailDuplicate(String email);
     boolean isNicknameDuplicate(String nickname);
 }

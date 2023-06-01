@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.user.service.memberService;
+import com.care.bedu.user.service.MemberService;
 import com.care.bedu.user.vo.memberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class memberController {
     
 	@Autowired
-    private memberService memService;
+    private MemberService memService;
 
 	// 회원 가입 요청
 	@PostMapping("/register")

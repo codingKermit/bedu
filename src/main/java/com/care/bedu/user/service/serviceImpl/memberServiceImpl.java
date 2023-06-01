@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.user.dao.memberDAO;
-import com.care.bedu.user.service.memberService;
+import com.care.bedu.user.service.MemberService;
 import com.care.bedu.user.vo.memberVO;
 
 import jakarta.transaction.Transactional;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class memberServiceImpl implements memberService {
+public class memberServiceImpl implements MemberService {
     private final memberDAO memberDao;
 
     @Transactional
