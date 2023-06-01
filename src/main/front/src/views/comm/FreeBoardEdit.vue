@@ -12,7 +12,7 @@
       </b-form>
       <b-button type="submit" class="btn-custom ms-2" :to="'/comm/freBd'">목록</b-button>
     </b-container>
-  </template>
+</template>
 
 <script>
 import router from '@/router';
