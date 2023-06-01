@@ -5,34 +5,34 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.care.bedu.review.dao.reviewDAO;
-import com.care.bedu.review.service.reviewService;
-import com.care.bedu.review.vo.reviewVO;
+import com.care.bedu.review.dao.ReviewDAO;
+import com.care.bedu.review.service.ReviewService;
+import com.care.bedu.review.vo.ReviewVO;
 
 @Service
-public class reviewServiceImpl implements reviewService {
-    private final reviewDAO reviewDAO;
+public class ReviewServiceImpl implements ReviewService {
+    private final ReviewDAO reviewDAO;
 
     @Autowired
-    public reviewServiceImpl(reviewDAO reviewDAO) {
+    public ReviewServiceImpl(ReviewDAO reviewDAO) {
         this.reviewDAO = reviewDAO;
     }
 
     @Override
-    public Page<reviewVO> getAllReviews(int page, int size) {
+    public Page<ReviewVO> getAllReviews(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return reviewDAO.getAllReviews(pageable);
     }
 
     @Override
-    public reviewVO createReview(reviewVO reviewVO) {
+    public ReviewVO createReview(ReviewVO reviewVO) {
         reviewDAO.createReview(reviewVO);
         return reviewVO;
     }
 
     @Override
-    public reviewVO updateReview(int id, reviewVO updatedReviewVO) {
-    	reviewVO reviewVO = reviewDAO.getReviewById(id);
+    public ReviewVO updateReview(int id, ReviewVO updatedReviewVO) {
+    	ReviewVO reviewVO = reviewDAO.getReviewById(id);
         if (reviewVO != null) {
             updatedReviewVO.setId(id);
             reviewDAO.updateReview(updatedReviewVO);
@@ -43,13 +43,13 @@ public class reviewServiceImpl implements reviewService {
     }
 
     @Override
-    public Page<reviewVO> getMoreReviews(int page, int size) {
+    public Page<ReviewVO> getMoreReviews(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return reviewDAO.getMoreReviews(pageable);
     }
 
 	@Override
-	public reviewVO getReviewById(int id) {
+	public ReviewVO getReviewById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
