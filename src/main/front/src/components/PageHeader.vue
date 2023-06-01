@@ -49,7 +49,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'PageHeader',
   mounted() {
-    this.getUserNickname();
     this.getCategory();
     window.addEventListener('scroll',this.scrollHandler)
   },

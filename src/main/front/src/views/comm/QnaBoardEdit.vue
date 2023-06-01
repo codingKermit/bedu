@@ -40,7 +40,7 @@ export default{
     methods: {
 
         qnadetail(qnum){ // 게시글 데이터 조회
-            this.$axios.get('/api/qna/qnaDetail',{
+            this.$axiosSend('get','/api/qna/qnaDetail',{
                 params : {
                     num : qnum,
                 },
@@ -60,7 +60,7 @@ export default{
           form.append("content", this.form.content);
           console.log('글번호:', this.form.qna_bd_num);
           alert('게시글을 수정합니다.');
-          this.$axios.post('/api/qna/qnaEdit', form)
+          this.$axiosSend('get','/api/qna/qnaEdit', form)
           .then(res => {
               console.log('완료!', res);
               this.$swal('Success','수정완료!','success'),
@@ -104,7 +104,7 @@ export default{
 //           form.append("contents",this.form.contents);
 //           form.append("writer",this.form.writer);
 
-//           this.$axios.post('/api/community/writer',form)
+//           this.$axiosSendt'get',('/api/community/writer',form)
 //           .then(
 //               this.$swal('Success','작성완료!','success'),
 //               router.push({
@@ -122,7 +122,7 @@ export default{
 
     //   communityRead(result){ // 게시글 데이터 조회
     //         alert(num);
-    //         this.$axios.get('/api/community/detail',{
+    //         this.$axiosSend('get','/api/community/detail',{
     //             params : {
     //                 num : result,
     //             }

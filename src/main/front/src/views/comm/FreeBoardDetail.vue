@@ -60,7 +60,7 @@ export default{
     methods: {
         communityRead(num){ // 게시글 데이터 조회
             // console.log('번호:', num);
-            this.$axios.get('/api/community/detail',{
+            this.$axiosSend('get','/api/community/detail',{
                 params : {
                     num : num,
                 }
@@ -72,7 +72,7 @@ export default{
         },
         communitydelete() {
             alert('게시글을 삭제합니다.');
-            this.$axios.get('/api/community/delete', {
+            this.$axiosSend('get','/api/community/delete', {
                 params: {
                     num: this.result,
                 }

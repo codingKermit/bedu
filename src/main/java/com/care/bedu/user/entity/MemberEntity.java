@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="t_bedu_user")
+@Table(name="bedu_db.t_bedu_user")
 @Entity
 public class MemberEntity {
 	

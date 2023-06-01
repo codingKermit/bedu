@@ -59,7 +59,7 @@ export default {
           form.append("title",this.form.title);
           form.append("content",this.form.content);
 
-          this.$axios.post('/api/qna/qnaWrite', form)
+          this.$axiosSend('post','/api/qna/qnaWrite', form)
           .then(
               this.$swal('Success','작성완료!','success'),
               router.push({

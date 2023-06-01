@@ -58,7 +58,7 @@ export default {
           form.append("title",this.form.title);
           form.append("content",this.form.content);
 
-          this.$axios.post('/api/community/write',form)
+          this.$axiosSend('post','/api/community/write',form)
           .then(res => {
               console.log(res.data);
               if(res.data === 1){
