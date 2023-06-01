@@ -62,11 +62,9 @@ export default{
     methods: {
         /** 스크롤 이벤트 동작 메서드 */
         infiniteHandler($state){
-            this.$axios.get("/api/lectureSearch", {
-                params: {
+            this.$axiosSend("get","/api/lectureSearch", {
                     keyword: this.keyword,
                     page : this.page
-                }
             })
             .then((res) => {
                 if(res.data.item.length){ // 조회 데이터의 길이가 0이 아닐때 동작
@@ -80,10 +78,8 @@ export default{
                 .catch((err) => { console.log(err); });
         },
         getTotal(){ // 20개씩이 아니라 키워드에 해당하는 전체 강의 갯수
-            this.$axios.get('/api/searchTotal',{
-                params:{
+            this.$axiosSend('get','/api/searchTotal',{
                     keyword : this.keyword
-                }
             })
             .then((res)=>{
                 this.total = res.data

@@ -145,10 +145,8 @@ export default{
     },
     methods: {
         getDetail(){
-            this.$axios.get('/api/lectureDetail',{
-                params:{
+            this.$axiosSend('get','/api/lectureDetail',{
                     num : this.form.num
-                }
             })
             .then((res)=>{
                 console.log(res.data)
@@ -167,10 +165,8 @@ export default{
             .catch((err)=>{console.log(err)})
         },
         getVideoList(){
-            this.$axios.get('/api/getVideoList',{
-                params:{
+            this.$axiosSend('get','/api/getVideoList',{
                     num : this.form.num
-                }
             })
             .then((res)=>{
                 this.videos = res.data;

@@ -317,7 +317,7 @@ export default{
     },
     methods: {
         getLectures(){
-            this.$axios.get('/api/getLectureField')
+            this.$axiosSend('get','/api/getLectureField')
             .then((res)=>{
                 this.base = res.data.base;
                 this.data = res.data.data;

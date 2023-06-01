@@ -63,7 +63,7 @@ export default{
   },
   methods: {
     search(){ // 네비에서 버튼 눌러서 왔을때 동작
-      this.$axios.get('/api/lectureList',{
+      this.$axiosSend('get','/api/lectureList',{
         params:{
           category : this.category,
           page : 1,
@@ -77,7 +77,7 @@ export default{
       .catch((err)=>{console.log(err)})
     },
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
-      this.$axios.get('/api/lectureList',{
+      this.$axiosSend('get','/api/lectureList',{
         params:{
           category : this.category,
           page : this.page,
@@ -96,7 +96,7 @@ export default{
     }
   },
   mounted() {
-    this.$axios.get('/api/getLikeList',{
+    this.$axiosSend('get','/api/getLikeList',{
       params:{
         userId : '123'
       }

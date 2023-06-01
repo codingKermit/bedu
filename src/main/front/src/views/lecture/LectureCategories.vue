@@ -120,7 +120,7 @@ export default{
 
         /** 마운트시 카테고리 조회하는 함수 */
         getCategory(){
-            this.$axios.get('/api/getCategory')
+            this.$axiosSend('get','/api/getCategory')
             .then((res)=>{
                 const data = res.data;
                 this.convertToHierarchy(data); // 트리구조로 변경하는 함수 호출
@@ -158,10 +158,8 @@ export default{
         },
             /** 중분류에 따른 강의 정보 조회 함수 */
             getLectureList(){
-                this.$axios.get('/api/lectureList',{
-                    params:{
+                this.$axiosSend('get','/api/lectureList',{
                         category : this.cnt_mid_cate
-                    }
                 })
                 .then((res)=>{
                     this.lectures = res.data.item;

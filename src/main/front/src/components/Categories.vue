@@ -26,17 +26,6 @@
             }
         },
         methods: {
-            // 이미지 주소를 변환시켜주는 함수
-            // getImg(imgUrl){
-            //     console.log('url ::: ', imgUrl)
-            //     // const url = require('@'+imgUrl)
-            //     const url = require('@/assets/imgs/categories/free-icon-base.png')
-            //     //                      @/assets/imgs/categories/free-icon-base.png'
-            //     // api로 받아온 이미지를 변수로 가져옴
-            //     // img: require('@/assets/imgs/categories/free-icon-base.png')
-            //     console.log('img url ::: ', url)
-            //     return url
-            // },
             getData(){
                 let cateData = [];
                 /* eslint-disable no-debugger */
@@ -49,9 +38,7 @@
                     }
                     console.log('cateData ::: ', cateData)
                     this.convertToHierarchy(cateData)
-
                 })
-
             },
             /** 받은 카테고리를 트리 구조로 변경하는 함수 */
             convertToHierarchy(data) {
