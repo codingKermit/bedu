@@ -35,13 +35,9 @@
                         cateData = res?.data;
                     }
                     console.log('cateData ::: ', cateData)
-<<<<<<< HEAD
-                    this.convertToHierarchy(cateData)
-=======
                     if(cateData.length != 0){
                         this.convertToHierarchy(cateData)
                     }
->>>>>>> 66c6a093c55ed9b9a1665a625da8bf22a0473666
                 })
             },
             /** 받은 카테고리를 트리 구조로 변경하는 함수 */
