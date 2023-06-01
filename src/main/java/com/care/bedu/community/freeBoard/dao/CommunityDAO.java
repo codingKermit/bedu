@@ -1,10 +1,10 @@
-package com.care.bedu.community.dao;
+package com.care.bedu.community.freeBoard.dao;
 
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.community.dto.CommunityDTO;
+import com.care.bedu.community.freeBoard.dto.CommunityDTO;
 
 @Mapper
 public interface CommunityDAO {
