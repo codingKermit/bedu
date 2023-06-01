@@ -20,7 +20,7 @@
     <router-link to="/comm/freBd">커뮤니티</router-link>
     <router-link to="/review">수강후기</router-link>
     <router-link to="/companyStudy">기업교육</router-link>
-    <router-link to="/StatisticsMain">통계</router-link>
+    <router-link to="/statisticsMain">통계</router-link>
   </div>
   <div id="nav2">
     <div class="search-popup">
@@ -107,16 +107,16 @@ export default {
       this.isDropdownOpen = false;
     },
     getCategory() {
-      let cateData = [];
-                this.$axiosSend('get', '/api/getCategory')
-                .then((res) => {
-                    console.log('res::: ', res)
-                    if (!this.$isEmpty(res?.data)) {
-                        cateData = res?.data;
-                    }
-                    console.log('cateData ::: ', cateData)
-                    this.convertToHierarchy(cateData)
-                })
+        let cateData = [];
+        this.$axiosSend('get', '/api/getCategory')
+        .then((res) => {
+            console.log('res::: ', res)
+            if (this.$isNotEmpty(res?.data)) {
+                cateData = res?.data;
+            }
+            console.log('cateData ::: ', cateData)
+            this.convertToHierarchy(cateData)
+        })
     },
   },
 };

@@ -143,9 +143,9 @@ const routes = [
     component: () => import('../views/Review/ReviewWrite.vue')
   },
   {
-    path: '/StatisticsMain',
-    name: 'StatisticsMain',
-    component: () => import('../views/statistics/StatisticsMain.vue')
+    path: '/statisticsMain',
+    name: 'statisticsMain',
+    component: () => import('../views/statistics/statisticsMain.vue')
   },
 ]
 

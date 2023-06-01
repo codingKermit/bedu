@@ -1,14 +1,14 @@
-package com.care.bedu.user.mapper;
+package com.care.bedu.user.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.user.vo.MemberVo;
+import com.care.bedu.user.vo.memberVO;
 
 @Mapper
-public interface MemberMapper {
+public interface memberDAO {
 
 	// 회원 가입
-	void regist(MemberVo member);
+	void regist(memberVO member);
 	
     // 이메일 중복 체크
     int countByEmail(String email);
