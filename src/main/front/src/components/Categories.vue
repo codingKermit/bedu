@@ -31,17 +31,18 @@
                 this.$axiosSend('get', '/api/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)
-                    if (!this.$isEmpty(res?.data)) {
+                    if (this.$isNotEmpty(res?.data)) {
                         cateData = res?.data;
                     }
                     console.log('cateData ::: ', cateData)
-                    // this.convertToHierarchy(cateData)
+                    if(cateData.length != 0){
+                        this.convertToHierarchy(cateData)
+                    }
                 })
             },
             /** 받은 카테고리를 트리 구조로 변경하는 함수 */
             convertToHierarchy(data) {
                 const map = {}; // 부모-자식 관계를 저장할 맵
-                console.log(data)
                 // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
                 data.forEach(category => {
                     category.children = []; // 자식 카테고리를 저장할 배열 생성

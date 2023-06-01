@@ -20,6 +20,7 @@ public class HomeController {
 	@RequestMapping("/api/hello")
 	@ResponseBody
 	public String hello() {
+		System.out.println("hello world!");
 		return "hello~!";
 	}
 }

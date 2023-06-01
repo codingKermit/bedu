@@ -32,8 +32,10 @@
     <router-link to="/login">로그인</router-link>
     <router-link to="/regist">회원가입</router-link>
   </div>
-  <div class="position-fixed d-flex scrollTop rounded-circle">
-    <span class="text-white fs-5 position-relative">맨위로</span>
+  <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
+  :class="{ 'show': showButton }"
+  >
+   <font-awesome-icon class="text-white fs-5 position-relative" :icon="['fas', 'angles-up']" />
   </div>
 </template>
 
@@ -42,12 +44,14 @@ export default {
   name: 'PageHeader',
   mounted() {
     this.getCategory();
+    window.addEventListener('scroll',this.scrollHandler)
   },
 
   data() {
     return {
       isDropdownOpen: false,
-      categories: []
+      categories: [],
+      showButton : false,
     };
   },
   methods: {
@@ -60,29 +64,38 @@ export default {
         }
       });
     },
-    /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-    convertToHierarchy(data) {
+      /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+      convertToHierarchy(data) {
       const map = {}; // 부모-자식 관계를 저장할 맵
       // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
       data.forEach(category => {
-        category.children = []; // 자식 카테고리를 저장할 배열 생성
-        map[category.cate_code] = category;
+          category.children = []; // 자식 카테고리를 저장할 배열 생성
+          map[category.cate_code] = category;
       });
-
+      
       const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-
+      
       // 부모-자식 관계 설정
       data.forEach(category => {
-        const parentCode = category.parent_code;
-        if (parentCode) {
-          const parent = map[parentCode];
-          if (parent) parent.children.push(category)
-        } else {
-          hierarchy.push(category);
-        }
-        this.categories = hierarchy;
+          const parentCode = category.parent_code;
+          if (parentCode) {
+              const parent = map[parentCode];
+              if (parent) parent.children.push(category)
+          } else {
+              hierarchy.push(category);
+          }
+          this.categories = hierarchy;
       });
-    },
+  },
+  scrollHandler(){ /** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
+    this.showButton = window.scrollY > 200;
+  },
+  scrollToTop(){ /** 최상단으로 올리는 메서드 */
+    window.scrollTo({
+      top:0,
+    })
+  }
+  ,
     navigateTo(route) {
       this.$router.push(route);
     },
@@ -93,17 +106,15 @@ export default {
       this.isDropdownOpen = false;
     },
     getCategory() {
-      let cateData = [];
-      /* eslint-disable no-debugger */
-      debugger
-      this.$axiosSend('get', '/api/getCategory')
+        let cateData = [];
+        this.$axiosSend('get', '/api/getCategory')
         .then((res) => {
-          console.log('res::: ', res)
-          if (!this.$isEmpty(res?.data)) {
-            cateData = res?.data;
-          }
-          console.log('cateData ::: ', cateData)
-          this.convertToHierarchy(cateData)
+            console.log('res::: ', res)
+            if (this.$isNotEmpty(res?.data)) {
+                cateData = res?.data;
+            }
+            console.log('cateData ::: ', cateData)
+            this.convertToHierarchy(cateData)
         })
     },
   },
@@ -113,12 +124,20 @@ export default {
 <style scoped>
 .scrollTop {
   background-color: var(--black);
-  top: 85%;
-  right: 6%;
+  top : 85%;
+  right : 6%;
   width: 80px;
   height: 80px;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  cursor: default;
+}
+
+.scrollTop.show {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .dropdown:hover .dropdown-menu {
