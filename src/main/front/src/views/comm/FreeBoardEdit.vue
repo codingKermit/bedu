@@ -39,7 +39,7 @@ export default{
 
     methods: {
         communitydetail(cnum){ // 게시글 데이터 조회
-            this.$axios.get('/api/community/detail',{
+            this.$axiosSend('get','/api/community/detail',{
                 params : {
                     num : cnum,
                 },
@@ -57,7 +57,7 @@ export default{
           form.append("title",this.form.title);
           form.append("content",this.form.content);
           console.log('글번호:', this.form.comm_num);
-          this.$axios.post('/api/community/edit',form)
+          this.$axiosSend('post','/api/community/edit',form)
           .then(res => {
               console.log('완료!', res);
               this.$swal('Success','수정완료!','success'),
@@ -101,7 +101,7 @@ export default{
 //           form.append("contents",this.form.contents);
 //           form.append("writer",this.form.writer);
 
-//           this.$axios.post('/api/community/writer',form)
+//           this.$axiosSend('post','/api/community/writer',form)
 //           .then(
 //               this.$swal('Success','작성완료!','success'),
 //               router.push({
@@ -119,7 +119,7 @@ export default{
 
     //   communityRead(result){ // 게시글 데이터 조회
     //         alert(num);
-    //         this.$axios.get('/api/community/detail',{
+    //         this.$axiosSend('get','/api/community/detail',{
     //             params : {
     //                 num : result,
     //             }

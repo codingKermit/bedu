@@ -59,7 +59,7 @@ export default{
 
         qnaRead(qnanum){ // 게시글 데이터 조회
             console.log('번호:', qnanum);
-            this.$axios.get('/api/qna/qnaDetail',{
+            this.$axiosSend('get','/api/qna/qnaDetail',{
                 params : {
                     num : qnanum,
                 }
@@ -71,7 +71,7 @@ export default{
         },
         qnadelete() {
             alert('게시글을 삭제합니다.');
-            this.$axios.get('/api/qna/qnaDelete', {
+            this.$axiosSend('get','/api/qna/qnaDelete', {
                 params: {
                     num: this.result,
                 }

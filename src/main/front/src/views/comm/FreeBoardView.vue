@@ -84,7 +84,7 @@ export default {
 
   methods: {
     List() {
-      this.$axios.get('/api/community/boardList', {
+      this.$axiosSend('get','/api/community/boardList', {
         params:{
           page: this.currentPage,
         }
@@ -99,8 +99,7 @@ export default {
     search() {                                   
       const form = new FormData();
       form.append('keyword', this.form.keyword);
-      this.$axios
-        .post('/api/community/boardList', form)
+      this.$axiosSend('post','/api/community/boardList', form)
         .then(res => {
           this.communitylist = res.data;
         })
@@ -110,7 +109,7 @@ export default {
     },
 
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
-      this.$axios.get('/api/community/boardList',{
+      this.$axiosSend('get','/api/community/boardList',{
         params:{
           page : this.page,
         }
@@ -130,7 +129,7 @@ export default {
     },
 
     getTotal(){ // 게시글 총 갯수 조회
-          this.$axios.get('/api/community/total')
+          this.$axiosSend('get','/api/community/total')
           .then((response)=>{
             this.totalItems = response.data;
             this.totalPage = Math.ceil(this.totalItems/10);
@@ -153,7 +152,7 @@ export default {
 
     freelikeUp(num) {
       this.pathnum = num;
-      this.$axios.get('/api/community/likeUp', {
+      this.$axiosSend('get','/api/community/likeUp', {
         params: {
           num: num
         }

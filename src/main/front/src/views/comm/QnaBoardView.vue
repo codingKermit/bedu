@@ -90,7 +90,7 @@ export default {
   methods: {
 
     List() {
-      this.$axios.get('/api/qna/qnaList', {
+      this.$axiosSend('get','/api/qna/qnaList', {
         params: {
           page: this.currentPage,
         }
@@ -109,8 +109,7 @@ export default {
 
       const form = new FormData();
       form.append('keyword', this.form.keyword);
-      this.$axios
-        .post('/api/qna/qnaList', form)
+      this.$axiosSend('post','/api/qna/qnaList', form)
         .then(res => {
           this.qnalist = res.data;
         })
@@ -120,7 +119,7 @@ export default {
     },
 
     getTotal() {
-      this.$axios.get('/api/qna/total')
+      this.$axiosSend('get','/api/qna/total')
         .then((response) => {
           this.totalItems = response.data;
           this.totalPage = Math.ceil(this.totalItems / 10);
@@ -143,7 +142,7 @@ export default {
     },
 
     qnalikeUp(qnum){
-      this.$axios.get('/api/qna/likeUp', {
+      this.$axiosSend('get','/api/qna/likeUp', {
         params: {
           num: qnum
         }
@@ -160,7 +159,7 @@ export default {
     },
 
     infiniteHandler($state){
-      this.$axios.get('/api/qna/qnaList',{
+      this.$axiosSend('get','/api/qna/qnaList',{
         params:{
           page : this.page,
         }

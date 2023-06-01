@@ -173,8 +173,7 @@ export default {
     // 이메일 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 이메일 중복 여부를 요청하고 결과에 따라 emailChecked와 valid.emailChk 값을 업데이트합니다.
     checkEmailDuplicate() {
       this.isChecking = true;
-      this.$axios
-        .get(`/api/register/emil/${this.member.email}`)
+      this.$axiosSend('get',`/api/register/emil/${this.member.email}`)
         .then((response) => {
           const isDuplicate = response.data;
           this.emailChecked = true;
@@ -211,8 +210,7 @@ export default {
     // 닉네임 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 닉네임 중복 여부를 요청하고 결과에 따라 nickChecked와 valid.nickChk 값을 업데이트합니다.
     checkNickDuplicate() {
       this.isChecking = true;
-      this.$axios
-        .get(`/api/register/nickname/${this.member.nickname}`)
+      this.$axiosSend('get',`/api/register/nickname/${this.member.nickname}`)
         .then((response) => {
           const isDuplicate = response.data;
           this.nickChecked = true;
@@ -263,7 +261,7 @@ export default {
         this.valid.password && this.member.password && this.member.password == this.confirmPassword && (this.member.password.length >= 6 && this.member.password.length <= 15)
       ) {
         // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
-        this.$axios.post("/api/register", this.member)
+        this.$axiosSend('post',"/api/register", this.member)
           .then((response) => {
             alert(response.data);
             // 문제없이 보냈다면 'login'으로 router이동
