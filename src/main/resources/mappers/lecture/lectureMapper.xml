@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.lecture.dao.lectureDao">
+<mapper namespace="com.care.bedu.lecture.dao.lectureDAO">
 
 <select id="getLectureList" resultType="com.care.bedu.lecture.vo.lectureVO" parameterType="hashmap">
 	SELECT 
@@ -104,7 +104,7 @@
     ;
 </select>
 
-<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailvo">
+<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
 	SELECT 
 		LECT_NUM, 
 		LECT_NUM, 

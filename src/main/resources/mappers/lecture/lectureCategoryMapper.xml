@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.lecture.dao.lectureCategoryDao">
+<mapper namespace="com.care.bedu.lecture.dao.lectureCategoryDAO">
 
     <select id="getCategories" resultType="com.care.bedu.lecture.vo.lectureCategoriesVO">
         select
@@ -37,11 +37,11 @@
             NUM;
     </select>
 
-    <select id="getBot" resultType="com.care.bedu.lecture.vo.lectureCategoriesvo">
+    <select id="getBot" resultType="com.care.bedu.lecture.vo.lectureCategoriesVO">
         SELECT * FROM bedu_db.t_bedu_lect_bot_cate WHERE parent_code = #{mid}
     </select>
 
-    <select id="getTop" resultType="com.care.bedu.lecture.vo.lectureCategoriesvo">
+    <select id="getTop" resultType="com.care.bedu.lecture.vo.lectureCategoriesVO">
         SELECT * FROM bedu_db.t_bedu_lect_top_cate
     </select>
 
