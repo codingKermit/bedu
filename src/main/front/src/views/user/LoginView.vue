@@ -14,7 +14,7 @@
         <p>강의는 역시 B:EDU</p>
       </div>
       <div class="login-container">
-        <form class="login-form" @submit.prevent="fnLogin">
+        <form class="login-form">
           <div class="form-group">
             <input v-model="email" class="email" placeholder="사용자 이메일">
           </div>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -50,46 +49,9 @@ export default {
       const checkbox = this.$refs.saveIdCheckbox;
       checkbox.checked = !checkbox.checked;
     },
-    // Vuex의 login 액션을 매핑하여 사용
-    ...mapActions(['login']),
     
-    // 로그인 함수를 비동기로 변경
-    async fnLogin() {
-      if (this.email === '') {
-        alert('ID를 입력하세요.')
-        return
-      }
-
-      if (this.password === '') {
-        alert('비밀번호를 입력하세요.')
-        return
-      }
-
-      try {
-        // 로그인 액션을 호출하고 결과를 받아옴
-        let loginResult = await this.login({ email: this.email, password: this.password })
-        if (loginResult) this.goToPages();
-      } catch (err) {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
-        } else {
-          alert('로그인 정보를 확인할 수 없습니다.')
-        }
-      }
-    },
-    
-    // 페이지 이동 함수
-    goToPages() {
-      this.$router.push({
-        name: 'main'
-      })
-    }
   },
-  computed: {
-    ...mapGetters({
-      errorState: 'getErrorState'
-    })
-  }
+
 }
 </script>
 

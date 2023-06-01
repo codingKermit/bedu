@@ -11,11 +11,9 @@
       </a>
       <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
         <li v-for="item in categories" :key="item.cate_code">
-          <router-link
-          :to='"/lectureCategories/"+item.cate_code+"?cnt_mid_cate="+item.children[0].cate_code' 
-          >
-          <a style="cursor: pointer;" class="dropdown-item">{{ item.cate_kor }}</a>
-        </router-link>
+          <router-link :to='"/lectureCategories/" + item.cate_code + "?cnt_mid_cate=" + item.children[0].cate_code'>
+            <a style="cursor: pointer;" class="dropdown-item">{{ item.cate_kor }}</a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -31,10 +29,8 @@
         <b-form-input class="border-0 me-2"></b-form-input>
       </div>
     </div>
-    <router-link to="/login" v-if="!this.$store.state.isLogin">로그인</router-link>
-    <router-link to="/mypage" v-if="this.$store.state.isLogin">마이페이지{{ getNickname }}</router-link>
-    <a v-if="this.$store.state.isLogin" @click="fnLogout">로그아웃</a>
-    <router-link v-if="!this.$store.state.isLogin" to="/regist">회원가입</router-link>
+    <router-link to="/login">로그인</router-link>
+    <router-link to="/regist">회원가입</router-link>
   </div>
   <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
   :class="{ 'show': showButton }"
@@ -44,8 +40,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   name: 'PageHeader',
   mounted() {
@@ -114,6 +108,7 @@ export default {
     getCategory() {
       let cateData = [];
                 /* eslint-disable no-debugger */
+                debugger
                 this.$axiosSend('get', '/api/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)
@@ -124,26 +119,17 @@ export default {
                     this.convertToHierarchy(cateData)
                 })
     },
-    fnLogout() {
-      localStorage.removeItem("user_token")
-      location.reload()
-    },
-    ...mapActions(['getUserNickname']),
   },
-  computed: {
-    ...mapGetters(['getNickname']),
-
-  }
 };
 </script>
   
 <style scoped>
-.scrollTop{
+.scrollTop {
   background-color: var(--black);
   top : 85%;
   right : 6%;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   align-items: center;
   justify-content: center;
   opacity: 0;

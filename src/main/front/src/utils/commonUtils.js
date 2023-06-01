@@ -51,11 +51,6 @@ export const commonRouter = {
     }
 }
 
-// store 함수
-export const commonStore = {
-
-}
-
 // 인피니티스크롤 공통쪽으로 개발
 export const commonScroll = {
 
