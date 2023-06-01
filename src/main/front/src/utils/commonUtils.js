@@ -10,7 +10,7 @@ export default {
         const globalProperties = app?.config.globalProperties
         globalProperties.$axiosSend = commonAxios.axiosSend;
         globalProperties.$routerPush = commonRouter.routerPush;
-        globalProperties.$isEmpty = commonValid.isEmpty;
+        globalProperties.$isNotEmpty = commonValid.isNotEmpty;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
@@ -60,14 +60,15 @@ export const commonScroll = {
 
 // 공통 밸리데이션
 export const commonValid = {
-    isEmpty: (value) => {
+    // 빈 데이터 감지용
+    isNotEmpty: (value) => {
         console.log('isEmpty ::: ', value)
-        if (value === '') return true
-        if (value === null) return true
-        if (value === undefined) return true
-        // if (Object.isObject(value) && value === {}) return true
-        // if (Array.isArray(value) && value === []) return true
-        return false
+        if (value === '') return false
+        if (value === null) return false
+        if (value === undefined) return false
+        if (value === {}) return false
+        if (Array?.isArray(value) && value === []) return false
+        return true
     }
     
 }

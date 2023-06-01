@@ -106,18 +106,16 @@ export default {
       this.isDropdownOpen = false;
     },
     getCategory() {
-      let cateData = [];
-                /* eslint-disable no-debugger */
-                debugger
-                this.$axiosSend('get', '/api/getCategory')
-                .then((res) => {
-                    console.log('res::: ', res)
-                    if (!this.$isEmpty(res?.data)) {
-                        cateData = res?.data;
-                    }
-                    console.log('cateData ::: ', cateData)
-                    this.convertToHierarchy(cateData)
-                })
+        let cateData = [];
+        this.$axiosSend('get', '/api/getCategory')
+        .then((res) => {
+            console.log('res::: ', res)
+            if (this.$isNotEmpty(res?.data)) {
+                cateData = res?.data;
+            }
+            console.log('cateData ::: ', cateData)
+            this.convertToHierarchy(cateData)
+        })
     },
   },
 };

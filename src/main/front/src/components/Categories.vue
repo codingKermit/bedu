@@ -31,7 +31,7 @@
                 this.$axiosSend('get', '/api/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)
-                    if (!this.$isEmpty(res?.data)) {
+                    if (this.$isNotEmpty(res?.data)) {
                         cateData = res?.data;
                     }
                     console.log('cateData ::: ', cateData)
