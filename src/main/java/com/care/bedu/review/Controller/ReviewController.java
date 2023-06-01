@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import com.care.bedu.review.service.reviewService;
-import com.care.bedu.review.vo.reviewVO;
+import com.care.bedu.review.service.ReviewService;
+import com.care.bedu.review.vo.ReviewVO;
 
 @RestController
 @RequestMapping("/api")
-public class reviewController {
+public class ReviewController {
 
     @Autowired
-    private reviewService reviewService;
+    private ReviewService reviewService;
 
     @GetMapping("/reviews")
-    public Page<reviewVO> getAllReviews(
+    public Page<ReviewVO> getAllReviews(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
@@ -23,7 +23,7 @@ public class reviewController {
     }
 
     @GetMapping("/reviews/more")
-    public Page<reviewVO> fetchMoreReviews(
+    public Page<ReviewVO> fetchMoreReviews(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
@@ -31,17 +31,17 @@ public class reviewController {
     }
     
     @GetMapping("/{id}")
-    public reviewVO getReviewById(@PathVariable int id) {
+    public ReviewVO getReviewById(@PathVariable int id) {
         return reviewService.getReviewById(id);
     }
 
     @PostMapping
-    public reviewVO createReview(@RequestBody reviewVO reviewVO) {
+    public ReviewVO createReview(@RequestBody ReviewVO reviewVO) {
         return reviewService.createReview(reviewVO);
     }
 
     @PutMapping("/{id}")
-    public reviewVO updateReview(@PathVariable int id, @RequestBody reviewVO updatedReviewVO) {
+    public ReviewVO updateReview(@PathVariable int id, @RequestBody ReviewVO updatedReviewVO) {
         return reviewService.updateReview(id, updatedReviewVO);
     }
 

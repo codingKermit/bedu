@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.user.service.MemberService;
-import com.care.bedu.user.vo.memberVO;
+import com.care.bedu.user.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class memberController {
+public class MemberController {
     
 	@Autowired
-    private MemberService memService;
+    private MemberService memberService;
 
 	// 회원 가입 요청
 	@PostMapping("/register")
-    public ResponseEntity<?> signUp(@RequestBody memberVO memberVo) {
+    public ResponseEntity<?> signUp(@RequestBody MemberVO memberVo) {
         try {
-        	memService.regist(memberVo);
+        	memberService.regist(memberVo);
             return ResponseEntity.ok("회원가입에 성공했습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입에 실패했습니다.");
@@ -37,14 +37,14 @@ public class memberController {
 	// 이메일 중복 체크
     @GetMapping("/register/email/{email}")
     public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email) {
-        boolean isDuplicate = memService.isEmailDuplicate(email);
+        boolean isDuplicate = memberService.isEmailDuplicate(email);
         return ResponseEntity.ok(isDuplicate);
     }
 
     // 닉네임 중복 체크
     @GetMapping("/register/nickname/{nickname}")
     public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname) {
-        boolean isDuplicate = memService.isNicknameDuplicate(nickname);
+        boolean isDuplicate = memberService.isNicknameDuplicate(nickname);
         return ResponseEntity.ok(isDuplicate);
     }
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.review.dao.reviewDAO">
+<mapper namespace="com.care.bedu.review.dao.ReviewDAO">
 
-    <select id="getReviewById" resultType="com.care.bedu.review.vo.reviewVO">
+    <select id="getReviewById" resultType="com.care.bedu.review.vo.ReviewVO">
         SELECT * FROM bedu_db.t_bedu_rw_bd WHERE RW_NUM = #{id};
     </select>
 
-    <insert id="createReview" parameterType="com.care.bedu.review.vo.reviewVO">
+    <insert id="createReview" parameterType="com.care.bedu.review.vo.ReviewVO">
         INSERT INTO
             bedu_db.t_bedu_rw_bd
                 (TITLE,
@@ -31,7 +31,7 @@
                 #{registeredUserId});
     </insert>
 
-    <update id="updateReview" parameterType="com.care.bedu.review.vo.reviewVO">
+    <update id="updateReview" parameterType="com.care.bedu.review.vo.ReviewVO">
         UPDATE
             bedu_db.t_bedu_rw_bd
                 SET TITLE = #{title},
@@ -46,11 +46,11 @@
                 RW_NUM = #{id};
     </update>
 
-    <select id="getAllReviews" resultType="com.care.bedu.review.vo.reviewVO">
+    <select id="getAllReviews" resultType="com.care.bedu.review.vo.ReviewVO">
         SELECT * FROM bedu_db.t_bedu_rw_bd;
     </select>
     
-    <select id="getAllReviewsPageable" resultType="com.care.bedu.review.vo.reviewVO">
+    <select id="getAllReviewsPageable" resultType="com.care.bedu.review.vo.ReviewVO">
         SELECT * FROM bedu_db.t_bedu_rw_bd
     </select>
 
