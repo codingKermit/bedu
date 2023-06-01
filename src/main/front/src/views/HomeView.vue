@@ -11,7 +11,6 @@
     </b-form>
     
     <b-container class="mb-5">
-        <b-button @click="test">응애</b-button>
         <p class="fw-bold fs-4 text-start">분야별 강의</p>
         <categories></categories>
       </b-container>
@@ -58,16 +57,9 @@ export default{
 
   },
   computed: {
-    isLogin() {
-      return this.$store.state.isLogin
-    },
   },
   mounted() {
     this.category = this.$route.params.category
-    const token = localStorage.getItem('user_token')
-    if (token) {
-      this.$store.state.isLogin = true
-    }
   },
   created() {
   
