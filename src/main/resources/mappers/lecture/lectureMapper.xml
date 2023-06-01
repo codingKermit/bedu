@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.lecture.dao.LectureDao">
+<mapper namespace="com.care.bedu.lecture.dao.lectureDao">
 
-<select id="getLectureList" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="hashmap">
+<select id="getLectureList" resultType="com.care.bedu.lecture.vo.lectureVO" parameterType="hashmap">
 	SELECT 
 		A.LECT_NUM, 
 		A.TITLE, 
@@ -30,7 +30,7 @@
 	;
 </select>
 
-<select id="getLectureDetail" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="int">
+<select id="getLectureDetail" resultType="com.care.bedu.lecture.vo.lectureVO" parameterType="int">
 	SELECT 
 		A.LECT_NUM, 
 		A.TITLE, 
@@ -72,7 +72,7 @@
 </select>
 
 
-<select id="getLectureField" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="String">
+<select id="getLectureField" resultType="com.care.bedu.lecture.vo.lectureVO" parameterType="String">
 	SELECT 
 		A.LECT_NUM, 
 		A.TITLE, 
@@ -104,7 +104,7 @@
     ;
 </select>
 
-<select id="getVideoList" resultType="com.care.bedu.lecture.dto.LectureDetailDto">
+<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailvo">
 	SELECT 
 		LECT_NUM, 
 		LECT_NUM, 
@@ -115,7 +115,7 @@
 	WHERE LECT_NUM = #{LECT_NUM};
 </select>
 
-<select id="lectureSearch" resultType="com.care.bedu.lecture.dto.LectureDto"
+<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.lectureVO"
 parameterType="hashmap">
 	SELECT 
 		A.LECT_NUM, 
@@ -165,7 +165,7 @@ parameterType="hashmap">
 	FROM bedu_db.t_bedu_lectLIKE WHERE USERID = '123';
 </select>
 
-<select id="getNewestLecture" resultType="com.care.bedu.lecture.dto.LectureDto">
+<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.lectureVO">
 	SELECT 
 		A.LECT_NUM, 
 		A.TITLE, 
