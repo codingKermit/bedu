@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import store from './vuex/store'
 
 /** Bootstrap, Bootstrap-vue-3 */
 import { BootstrapVue3 } from 'bootstrap-vue-3'
@@ -34,7 +33,6 @@ const app = createApp(App);
 // axios, router는 공통유틸 함수를 이용하도록 변경
 // app.config.globalProperties.$axios = axios;
 app.config.globalProperties.$router = router;
-app.config.globalProperties.$store = store;
 
 
 /** CkEditor 임포트 */
@@ -49,7 +47,6 @@ import commonUtils from './utils/commonUtils'
 
 app
 .use(router)
-.use(store)
 .use(BootstrapVue3)
 .use(CKEditor)
 .use(VueSweetalert2)

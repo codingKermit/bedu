@@ -11,11 +11,9 @@
       </a>
       <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
         <li v-for="item in categories" :key="item.cate_code">
-          <router-link
-          :to='"/lectureCategories/"+item.cate_code+"?cnt_mid_cate="+item.children[0].cate_code' 
-          >
-          <a style="cursor: pointer;" class="dropdown-item">{{ item.cate_kor }}</a>
-        </router-link>
+          <router-link :to='"/lectureCategories/" + item.cate_code + "?cnt_mid_cate=" + item.children[0].cate_code'>
+            <a style="cursor: pointer;" class="dropdown-item">{{ item.cate_kor }}</a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -31,10 +29,8 @@
         <b-form-input class="border-0 me-2"></b-form-input>
       </div>
     </div>
-    <router-link to="/login" v-if="!this.$store.state.isLogin">로그인</router-link>
-    <router-link to="/mypage" v-if="this.$store.state.isLogin">마이페이지{{ getNickname }}</router-link>
-    <a v-if="this.$store.state.isLogin" @click="fnLogout">로그아웃</a>
-    <router-link v-if="!this.$store.state.isLogin" to="/regist">회원가입</router-link>
+    <router-link to="/login">로그인</router-link>
+    <router-link to="/regist">회원가입</router-link>
   </div>
   <div class="position-fixed d-flex scrollTop rounded-circle">
     <span class="text-white fs-5 position-relative">맨위로</span>
@@ -42,12 +38,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   name: 'PageHeader',
   mounted() {
-    this.getUserNickname();
     this.getCategory();
   },
 
@@ -67,29 +60,29 @@ export default {
         }
       });
     },
-                /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-                convertToHierarchy(data) {
-                const map = {}; // 부모-자식 관계를 저장할 맵
-                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                data.forEach(category => {
-                    category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cate_code] = category;
-                });
-                
-                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-                
-                // 부모-자식 관계 설정
-                data.forEach(category => {
-                    const parentCode = category.parent_code;
-                    if (parentCode) {
-                        const parent = map[parentCode];
-                        if (parent) parent.children.push(category)
-                    } else {
-                        hierarchy.push(category);
-                    }
-                    this.categories = hierarchy;
-                });
-            },
+    /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+    convertToHierarchy(data) {
+      const map = {}; // 부모-자식 관계를 저장할 맵
+      // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
+      data.forEach(category => {
+        category.children = []; // 자식 카테고리를 저장할 배열 생성
+        map[category.cate_code] = category;
+      });
+
+      const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
+
+      // 부모-자식 관계 설정
+      data.forEach(category => {
+        const parentCode = category.parent_code;
+        if (parentCode) {
+          const parent = map[parentCode];
+          if (parent) parent.children.push(category)
+        } else {
+          hierarchy.push(category);
+        }
+        this.categories = hierarchy;
+      });
+    },
     navigateTo(route) {
       this.$router.push(route);
     },
@@ -101,36 +94,27 @@ export default {
     },
     getCategory() {
       let cateData = [];
-                /* eslint-disable no-debugger */
-                debugger
-                this.$axiosSend('get', '/api/getCategory')
-                .then((res) => {
-                    console.log('res::: ', res)
-                    if (!this.$isEmpty(res?.data)) {
-                        cateData = res?.data;
-                    }
-                    console.log('cateData ::: ', cateData)
-                    this.convertToHierarchy(cateData)
-                })
+      /* eslint-disable no-debugger */
+      debugger
+      this.$axiosSend('get', '/api/getCategory')
+        .then((res) => {
+          console.log('res::: ', res)
+          if (!this.$isEmpty(res?.data)) {
+            cateData = res?.data;
+          }
+          console.log('cateData ::: ', cateData)
+          this.convertToHierarchy(cateData)
+        })
     },
-    fnLogout() {
-      localStorage.removeItem("user_token")
-      location.reload()
-    },
-    ...mapActions(['getUserNickname']),
   },
-  computed: {
-    ...mapGetters(['getNickname']),
-
-  }
 };
 </script>
   
 <style scoped>
-.scrollTop{
+.scrollTop {
   background-color: var(--black);
-  top : 85%;
-  right : 6%;
+  top: 85%;
+  right: 6%;
   width: 80px;
   height: 80px;
   align-items: center;
