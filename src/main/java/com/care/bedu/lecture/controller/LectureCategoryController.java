@@ -23,7 +23,6 @@ public class LectureCategoryController {
         ArrayList<LectureCategoriesDto> list = new ArrayList<>();
 
         list = service.getCategory();
-
         return list;
     }
 
