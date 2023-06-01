@@ -35,7 +35,7 @@
   <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
   :class="{ 'show': showButton }"
   >
-   <font-awesome-icon class="text-white fs-5 position-relative" :icon="['fas', 'angles-up']" />
+   <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
   </div>
 </template>
 
