@@ -19,110 +19,184 @@
         <p class="fw-bold fs-3 text-start" style="margin-top:20px">수강후기</p>
         <div class="search-bar">
           <div class="search-input">
-            <input type="text" placeholder="검색어를 입력하세요" v-model="searchKeyword">
+            <input type="text" placeholder="검색어를 입력하세요" v-model="searchKeyword" @keyup.enter="searchReviews">
             <button @click="searchReviews">검색</button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="review-sort" style="float: right;">
-      <select v-model="sortOption" @change="sortReviews" style="border:none;">
+      <div class="review-sort" style="float: right;">
+      <select v-model="sortOption" @change="sortReviews" style="border: none;">
         <option value="default">최신 순</option>
         <option value="highRating">평점 높은 순</option>
         <option value="lowRating">평점 낮은 순</option>
       </select>
     </div>
-
-    <table class="review-table">
-      <thead>
-        <tr>
-          <th>번호</th>
-          <th style="padding-right: 10%;">강좌</th>
-          <th style="padding-right: 20%;">수강후기</th>
-          <th>별점</th>
-          <th>작성자</th> 
+    </div>
+    <div class="scroll-container">
+      <table class="review-table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th style="padding-right: 10%;">강좌</th>
+            <th style="padding-right: 20%;">수강후기</th>
+            <th>별점</th>
+            <th>작성자</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(review, index) in searchedReviews" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td style="padding-right: 10%;">{{ review.title }}</td>
+            <td>
+              <span class="review-content">{{ review.content }}</span>
+            </td>
+            <td>
+              <div class="star-rating">
+                <span class="star" v-for="star in review.star" :key="star">&#9733;</span>
+              </div>
+            </td>
+            <td style="padding-right: 20px;">{{ review.writer }}</td>
+          </tr>
+        </tbody>
+        <tr v-if="isLoading">
+          <td colspan="5" class="loading-text">
+            로딩 중...
+          </td>
         </tr>
-      </thead>
-      <tbody>
-  <tr v-for="(review, index) in filteredReviews" :key="index">
-    <td>{{ index + 1 }}</td>
-    <td style="padding-right: 10%;">{{ review.title }}</td>
-    <td>
-      <span class="review-writer" style="padding-right: 20%;">{{ review.writer }}</span>
-    </td>
-    <td>
-      <div class="star-rating">
-        <span class="star" v-for="star in review.star" :key="star">&#9733;</span>
+      </table>
+      <div class="infinite-loading-container">
+        <infinite-loading @infinite="fetchMoreReviews">
+          <template #no-more>마지막 후기 입니다.</template>
+        </infinite-loading>
       </div>
-    </td>
-    <td>{{ review.author }}</td>
-  </tr>
-</tbody>
-    </table>
+      <button class="top-button" @click="scrollToTop" v-show="shouldShowTopButton">
+        Top
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import InfiniteLoading from 'infinite-loading-vue3-ts';
 
 export default {
   props: {
     reviews: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
+  },
+  components: {
+    InfiniteLoading,
   },
   data() {
     return {
       searchKeyword: '',
-      fetchedReviews: [], // 빈 배열로 초기화
+      fetchedReviews: [],
+      searchedReviews: [],
       sortOption: 'default',
-      writer: ''
+      content: '',
+      isLoading: false,
+      currentPage: 0,
+      itemsPerPage: 20,
+      totalItems: 0,
+      shouldShowTopButton: false,
     };
-  },
-  computed: {
-    filteredReviews() {
-      if (this.searchKeyword) {
-        const keyword = this.searchKeyword.toLowerCase();
-        return this.fetchedReviews.filter(review =>
-          review.title.toLowerCase().includes(keyword) ||
-          review.author.toLowerCase().includes(keyword)
-        );
-      } else {
-        return this.fetchedReviews;
-      }
-    },
   },
   methods: {
     fetchReviews() {
-  axios.get('/api/reviews')
-    .then(response => {
-      this.fetchedReviews = response.data;
+  this.isLoading = true;
+  this.$axiosSend('get', '/api/reviews', { 
+            page: this.currentPage,
+            size: this.itemsPerPage, 
     })
-    .catch(error => {
+    .then((response) => {
+      const { content, totalElements } = response.data;
+      this.fetchedReviews = content;
+      this.totalItems = totalElements;
+      this.isLoading = false;
+
+      this.searchReviews(); // 검색 수행
+      this.sortReviews(); // 정렬 수행
+    })
+    .catch((error) => {
       console.error(error);
+      this.isLoading = false;
     });
 },
-    sortReviews() {
-      switch (this.sortOption) {
-        case 'highRating':
-          this.fetchedReviews.sort((a, b) => b.star - a.star); // 평점이 높은 순으로 정렬
-          break;
-        case 'lowRating':
-          this.fetchedReviews.sort((a, b) => a.star - b.star); // 평점이 낮은 순으로 정렬
-          break;
-        default:
-          // 변경: 최신순으로 정렬 (createdAt 또는 updatedAt 필드를 사용)
-          this.fetchedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          break;
-      }
+fetchMoreReviews($state) {
+  this.isLoading = true;
+  const nextPage = this.currentPage + 1;
+  this.$axiosSend('get', '/api/reviews/more', { 
+            page: this.nextPage,
+            size: this.itemsPerPage, 
+      })
+      .then((response) => {
+        const { content } = response.data;
+        this.fetchedReviews = [...this.fetchedReviews, ...content];
+        this.currentPage = nextPage;
+        this.isLoading = false;
+
+        this.searchReviews(); // 검색 수행
+        this.sortReviews(); // 정렬 수행
+
+        $state.loaded(); // 추가 리뷰 로딩 완료
+        if (content.length < this.itemsPerPage) {
+          $state.complete(); // 추가 리뷰 없음
+        }
+      })
+        .catch((error) => {
+          console.error(error);
+          this.isLoading = false;
+          $state.complete(); // 추가 리뷰 로딩 실패
+        });
     },
-    searchReviews() {
-      // 검색 기능 구현 (필요한 경우 추가해주세요)
+sortReviews() {
+  switch (this.sortOption) {
+    case 'highRating':
+      this.searchedReviews = [...this.searchedReviews].sort((a, b) => b.star - a.star);
+      break;
+    case 'lowRating':
+      this.searchedReviews = [...this.searchedReviews].sort((a, b) => a.star - b.star);
+      break;
+    default:
+      this.searchedReviews = [...this.searchedReviews].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      break;
+  }
+},
+searchReviews() {
+  const keyword = this.searchKeyword ? this.searchKeyword.toLowerCase() : '';
+  const filteredReviews = this.fetchedReviews.filter((review) => {
+    return (
+      review.title.toLowerCase().includes(keyword) ||
+      review.content.toLowerCase().includes(keyword) ||
+      review.writer.toLowerCase().includes(keyword)
+    );
+  });
+
+  this.searchedReviews = filteredReviews;
+  this.sortReviews(); // 검색 후 정렬을 수행하도록 수정
+},
+    handleScroll() {
+      console.log('Scroll event occurred');
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      this.shouldShowTopButton = scrollTop > 100;
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
   },
   mounted() {
-    this.fetchReviews();
+  this.fetchReviews();
+  window.addEventListener('scroll', this.handleScroll);
+},
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
 };
 </script>
@@ -224,6 +298,8 @@ a {
   width: 200px; 
   white-space: nowrap;
   text-overflow: ellipsis;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .review-write-button-container {
   display: flex;
@@ -238,6 +314,34 @@ a {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
 }
+.scroll-container {
+  position: relative;
+}
 
+.infinite-loading-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: none;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.top-button:hover {
+  background-color: #555;
+}
 
 </style>
