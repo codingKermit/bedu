@@ -2,10 +2,11 @@ package com.care.bedu.user.vo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
-public class MemberVo {
+public class memberVO {
 
 	private Long usernum;
 	private String email;
