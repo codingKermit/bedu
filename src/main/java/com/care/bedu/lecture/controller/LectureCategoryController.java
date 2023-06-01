@@ -17,14 +17,14 @@ import com.care.bedu.lecture.vo.LectureCategoriesVO;
 public class LectureCategoryController {
 
     @Autowired
-    LectureCategoryServiceImpl lectCateservice;
+    LectureCategoryServiceImpl lectCateService;
 
     /* 대중소 카테고리 전체 조회 */
     @RequestMapping("/getCategory")
     public ArrayList<LectureCategoriesVO> getCategory(){
         ArrayList<LectureCategoriesVO> list = new ArrayList<>();
 
-        list = lectCateservice.getCategory();
+        list = lectCateService.getCategory();
         return list;
     }
 
@@ -35,7 +35,7 @@ public class LectureCategoryController {
 
         ArrayList<LectureCategoriesVO> tops = new ArrayList<>();
 
-        tops = lectCateservice.getTop();
+        tops = lectCateService.getTop();
 
         map.put("item", tops);
 
