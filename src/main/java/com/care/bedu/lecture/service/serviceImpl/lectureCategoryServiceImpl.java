@@ -5,26 +5,26 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.lecture.dao.lectureCategoryDAO;
-import com.care.bedu.lecture.service.lectureCategoryService;
-import com.care.bedu.lecture.vo.lectureCategoriesVO;
+import com.care.bedu.lecture.dao.LectureCategoryDAO;
+import com.care.bedu.lecture.service.LectureCategoryService;
+import com.care.bedu.lecture.vo.LectureCategoriesVO;
 
 @Service
-public class lectureCategoryServiceImpl implements lectureCategoryService{
+public class LectureCategoryServiceImpl implements LectureCategoryService{
 
     @Autowired
-    lectureCategoryDAO dao;
+    LectureCategoryDAO dao;
 
     @Override
-    public ArrayList<lectureCategoriesVO> getCategory() {
-        ArrayList<lectureCategoriesVO> list = new ArrayList<>();
+    public ArrayList<LectureCategoriesVO> getCategory() {
+        ArrayList<LectureCategoriesVO> list = new ArrayList<>();
         list = dao.getCategories();
         return list;
     }
 
     @Override
-    public ArrayList<lectureCategoriesVO> getTop() {
-        ArrayList<lectureCategoriesVO> tops = new ArrayList<>();
+    public ArrayList<LectureCategoriesVO> getTop() {
+        ArrayList<LectureCategoriesVO> tops = new ArrayList<>();
 
         tops = dao.getTop();
 

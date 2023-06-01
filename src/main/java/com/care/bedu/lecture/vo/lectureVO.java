@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class lectureVO {
+public class LectureVO {
 	private int lectNum; // 강의 고유번호
 	private String title; // 강의 이름
 	private String teacher; // 강사명

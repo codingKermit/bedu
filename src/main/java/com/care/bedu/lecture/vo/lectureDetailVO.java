@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class lectureDetailVO {
+public class LectureDetailVO {
 
 	private int lectDtlNum;
 	private int lectNum;

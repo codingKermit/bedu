@@ -6,22 +6,22 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.lecture.dao.lectureCategoryDAO;
-import com.care.bedu.lecture.dao.lectureDAO;
-import com.care.bedu.lecture.service.lectureService;
-import com.care.bedu.lecture.vo.lectureCategoriesVO;
-import com.care.bedu.lecture.vo.lectureDetailVO;
-import com.care.bedu.lecture.vo.lectureVO;
+import com.care.bedu.lecture.dao.LectureCategoryDAO;
+import com.care.bedu.lecture.dao.LectureDAO;
+import com.care.bedu.lecture.service.LectureService;
+import com.care.bedu.lecture.vo.LectureCategoriesVO;
+import com.care.bedu.lecture.vo.LectureDetailVO;
+import com.care.bedu.lecture.vo.LectureVO;
 
 
 @Service
-public class lectureServiceImpl implements lectureService{
+public class LectureServiceImpl implements LectureService{
 
 	@Autowired
-	private lectureDAO lectureDao;
+	private LectureDAO lectureDao;
 
 	@Autowired
-	private lectureCategoryDAO cateDao;
+	private LectureCategoryDAO cateDao;
 
 	
 	/* 카테고리별 강의를 들어갔을 때 동영상 조회 */
@@ -30,16 +30,16 @@ public class lectureServiceImpl implements lectureService{
 		/* 중분류에 따른 소분류 조회 -> 소분류에 따른 강의 목록 조회
 		 * -> 자료 구조 정리하여 반환
 		 */
-		ArrayList<lectureCategoriesVO> dtos = new ArrayList<>(); // 소분류 카테고리 조회
+		ArrayList<LectureCategoriesVO> dtos = new ArrayList<>(); // 소분류 카테고리 조회
 		dtos = cateDao.getBot(category);
 		HashMap<String, Object> map = new HashMap<>(); // 파라미터 맵
 
-		ArrayList<lectureVO> list = new ArrayList<>(); // 강의 목록
+		ArrayList<LectureVO> list = new ArrayList<>(); // 강의 목록
 
 		ArrayList<Object> result = new ArrayList<>(); // 반환 값
 		
 
-		for(lectureCategoriesVO dto : dtos){
+		for(LectureCategoriesVO dto : dtos){
 			HashMap<String,Object> lect = new HashMap<>(); // 
 			map.put("category", dto.getCateCode());
 			list = lectureDao.getLectureList(map); // 소분류에 따른 강의 목록
@@ -56,8 +56,8 @@ public class lectureServiceImpl implements lectureService{
 
 	/* 강의 상세 정보 조회 */
 	@Override
-	public lectureVO getLectureDetail(int num) {
-		lectureVO dto = new lectureVO();
+	public LectureVO getLectureDetail(int num) {
+		LectureVO dto = new LectureVO();
 		dto = lectureDao.getLectureDetail(num);
 		
 		return dto;
@@ -67,9 +67,9 @@ public class lectureServiceImpl implements lectureService{
 	 * 분야별로 평점이 높은것으로 4개씩 조회하여 map에 담아 리턴
 	 */
 	@Override
-	public HashMap<String, ArrayList<lectureVO>> getLectureField() {
-		HashMap<String, ArrayList<lectureVO>> map = new HashMap<>();
-		ArrayList<lectureVO> dto = new ArrayList<>();
+	public HashMap<String, ArrayList<LectureVO>> getLectureField() {
+		HashMap<String, ArrayList<LectureVO>> map = new HashMap<>();
+		ArrayList<LectureVO> dto = new ArrayList<>();
 
 		dto = lectureDao.getLectureField("base");map.put("base", likeCheck(dto));
 		dto = lectureDao.getLectureField("data"); map.put("data", likeCheck(dto));
@@ -87,8 +87,8 @@ public class lectureServiceImpl implements lectureService{
 	
 	/* 해당 강의에 포함되어있는 커리큘럼을 조회 */
 	@Override
-	public ArrayList<lectureDetailVO> getVideoList(int num) {
-		ArrayList<lectureDetailVO> list = new ArrayList<>();
+	public ArrayList<LectureDetailVO> getVideoList(int num) {
+		ArrayList<LectureDetailVO> list = new ArrayList<>();
 		
 		list = lectureDao.getVideoList(num);
 		
@@ -97,9 +97,9 @@ public class lectureServiceImpl implements lectureService{
 
 	/* 검색을 통한 결과 조회 */
 	@Override
-	public HashMap<String, ArrayList<lectureVO>> lectureSearch(String keyword, int page) {
-		HashMap<String, ArrayList<lectureVO>> map = new HashMap<>();
-		ArrayList<lectureVO> dto = new ArrayList<>();
+	public HashMap<String, ArrayList<LectureVO>> lectureSearch(String keyword, int page) {
+		HashMap<String, ArrayList<LectureVO>> map = new HashMap<>();
+		ArrayList<LectureVO> dto = new ArrayList<>();
 
 		HashMap<String, Object> arg = new HashMap<>();
 		arg.put("keyword", keyword); 
@@ -132,7 +132,7 @@ public class lectureServiceImpl implements lectureService{
 
 
 	/* 내가 좋아요한 목록을 조회하고 likeYn 컬럼에 값 넣기 위한 메서드 */
-	public ArrayList<lectureVO> likeCheck(ArrayList<lectureVO> dto){
+	public ArrayList<LectureVO> likeCheck(ArrayList<LectureVO> dto){
 		ArrayList<Integer> likes = new ArrayList<>();
 		likes = lectureDao.getLikeList("123");
 		for(int i = 0; i< dto.size();i++){
@@ -151,7 +151,7 @@ public class lectureServiceImpl implements lectureService{
 	@Override
 	public HashMap<String, Object> getNewestLecture() {
 		HashMap<String, Object> map = new HashMap<>();
-		ArrayList<lectureVO> list = new ArrayList<>();
+		ArrayList<LectureVO> list = new ArrayList<>();
 
 		list = lectureDao.getNewestLecture();
 

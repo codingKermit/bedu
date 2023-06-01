@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class lectureCategoriesVO {
+public class LectureCategoriesVO {
     int num;
     int cateCode;
     String cateKor;

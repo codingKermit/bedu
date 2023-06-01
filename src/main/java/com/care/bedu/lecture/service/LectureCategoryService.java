@@ -2,10 +2,10 @@ package com.care.bedu.lecture.service;
 
 import java.util.ArrayList;
 
-import com.care.bedu.lecture.vo.lectureCategoriesVO;
+import com.care.bedu.lecture.vo.LectureCategoriesVO;
 
-public interface lectureCategoryService {
+public interface LectureCategoryService {
     
-    public ArrayList<lectureCategoriesVO> getCategory(); /* 대중소 카테고리 전체 조회 */
-    public ArrayList<lectureCategoriesVO> getTop(); /* 대분류 조회 */
+    public ArrayList<LectureCategoriesVO> getCategory(); /* 대중소 카테고리 전체 조회 */
+    public ArrayList<LectureCategoriesVO> getTop(); /* 대분류 조회 */
 }

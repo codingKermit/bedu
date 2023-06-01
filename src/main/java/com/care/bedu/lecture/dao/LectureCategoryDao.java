@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.lecture.vo.lectureCategoriesVO;
+import com.care.bedu.lecture.vo.LectureCategoriesVO;
 
 @Mapper
-public interface lectureCategoryDAO {
-    public ArrayList<lectureCategoriesVO> getCategories();
-    public ArrayList<lectureCategoriesVO> getBot(String mid);
-    public ArrayList<lectureCategoriesVO> getTop();
+public interface LectureCategoryDAO {
+    public ArrayList<LectureCategoriesVO> getCategories();
+    public ArrayList<LectureCategoriesVO> getBot(String mid);
+    public ArrayList<LectureCategoriesVO> getTop();
 }

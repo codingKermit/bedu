@@ -7,23 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.lecture.service.lectureService;
-import com.care.bedu.lecture.vo.lectureDetailVO;
-import com.care.bedu.lecture.vo.lectureVO;
+import com.care.bedu.lecture.service.LectureService;
+import com.care.bedu.lecture.vo.LectureDetailVO;
+import com.care.bedu.lecture.vo.LectureVO;
 
 @RestController
 @RequestMapping("/api")
-public class lectureController {
+public class LectureController {
 	
 	@Autowired
-	private lectureService lectureService;
-	
+	private LectureService LectureService;
+
 	/* 강의 리스트 조회 */
 	@RequestMapping("/lectureList")
 	public HashMap<String, Object> getLectureList(String category){
 		ArrayList<Object> list = new ArrayList<>();
 		HashMap<String, Object> map = new HashMap<>();
-		list = lectureService.getLectureList(category);
+		list = LectureService.getLectureList(category);
 		
 		map.put("item", list);
 		return map;
@@ -31,10 +31,10 @@ public class lectureController {
 	
 	/* 강의 상세정보 조회 */
 	@RequestMapping("/lectureDetail")
-	public lectureVO getLectureDetail(int num) {
-		lectureVO dto = new lectureVO();
+	public LectureVO getLectureDetail(int num) {
+		LectureVO dto = new LectureVO();
 		
-		dto = lectureService.getLectureDetail(num);
+		dto = LectureService.getLectureDetail(num);
 		
 		return dto;
 	}
@@ -44,35 +44,35 @@ public class lectureController {
 	public HashMap<String, Object> getNewestLecture(){
 		HashMap<String, Object> map = new HashMap<>();
 
-		map = lectureService.getNewestLecture();
+		map = LectureService.getNewestLecture();
 
 		return map;
 	}
 	
 	/* 분야별 강의 평점순으로 4개씩 조회 */
 	@RequestMapping("/getLectureField")
-	public HashMap<String,ArrayList<lectureVO>> getLectureField(){
-		HashMap<String,ArrayList<lectureVO>> map = new HashMap<>();
-		map = lectureService.getLectureField();
+	public HashMap<String,ArrayList<LectureVO>> getLectureField(){
+		HashMap<String,ArrayList<LectureVO>> map = new HashMap<>();
+		map = LectureService.getLectureField();
 		return map;
 	}
 	
 	/* 강의 동영상 목록 조회 */
 	@RequestMapping("/getVideoList")
-	public ArrayList<lectureDetailVO> getVideoList(int num){
-		ArrayList<lectureDetailVO> list = new ArrayList<>();
+	public ArrayList<LectureDetailVO> getVideoList(int num){
+		ArrayList<LectureDetailVO> list = new ArrayList<>();
 		
-		list = lectureService.getVideoList(num);
+		list = LectureService.getVideoList(num);
 		
 		return list;
 	}
 
 	/* 검색화면 조회 */
 	@RequestMapping("/lectureSearch")
-	public HashMap<String,ArrayList<lectureVO>> lectureSearch(String keyword, int page){
-		HashMap<String, ArrayList<lectureVO>> map = new HashMap<>();
+	public HashMap<String,ArrayList<LectureVO>> lectureSearch(String keyword, int page){
+		HashMap<String, ArrayList<LectureVO>> map = new HashMap<>();
 		
-		map = lectureService.lectureSearch(keyword, page);
+		map = LectureService.lectureSearch(keyword, page);
 		
 		return map;
 	}
@@ -80,7 +80,7 @@ public class lectureController {
 	/* 검색화면 조회시 토탈 갯수 */
 	@RequestMapping("/searchTotal")
 	public int searchTotal(String keyword){
-		int total = lectureService.searchTotal(keyword);
+		int total = LectureService.searchTotal(keyword);
 		return total;
 	}
 
@@ -89,7 +89,7 @@ public class lectureController {
 	public ArrayList<Integer> getLikeList(String userId){
 		ArrayList<Integer> list = new ArrayList<>();
 
-		list = lectureService.getLikeList(userId);
+		list = LectureService.getLikeList(userId);
 
 		return list;
 

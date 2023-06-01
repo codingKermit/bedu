@@ -9,7 +9,7 @@ import com.care.bedu.lecture.vo.lectureDetailVO;
 import com.care.bedu.lecture.vo.lectureVO;
 
 @Mapper
-public interface lectureDAO {
+public interface LectureDAO {
 
 	
 	public ArrayList<lectureVO> getLectureList(HashMap<String, Object> map);
