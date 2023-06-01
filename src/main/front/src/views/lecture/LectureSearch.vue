@@ -2,40 +2,58 @@
     <div>
         <b-container class="py-5">
             <b-form class="w-50 mx-auto" @submit="search()">
-                <div class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu mt-5">
-                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                <div
+                    class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu mt-5">
+                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
                     <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
                 </div>
             </b-form>
             <p class="fs-2 fw-bold">강좌 검색결과 ({{ total }})</p>
-            <div class="search-result-container p-3 border-opacity-25 border-secondary border mb-5">
+            <div
+                class="search-result-container p-3 border-opacity-25 border-secondary border mb-5">
                 <ul class="list-unstyled">
                     <li v-for="(item, index) in lectures" :key="index">
-                        <b-link :to='"/lectureDetail?num="+item.lect_num' class="text-body text-decoration-none">
+                        <b-link
+                            :to='"/lectureDetail?num="+item.lect_num'
+                            class="text-body text-decoration-none">
                             <b-container class="d-flex">
                                 <div class="w-25 p-3">
-                                    <b-img thumbnail rounded class="w-100 h-100" :src="item.thumbnail"></b-img>
-                            </div>
-                            <div class="p-3">
-                                <p class="fs-5 fw-bold">{{ item.title }}</p>
-                                <span class="d-flex">
-                                    <p class="teacher-name">{{ item.teacher }} 선생님</p><p>총 {{ item.total }}강</p>
-                                </span>
-                                <p class="text-secondary">수강기간 : {{ item.lect_period }}일</p>
-                            </div>
-                            <div class="ms-auto my-auto">
-                                <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>
-                            </div>
-                        </b-container>
-                    </b-link>
+                                    <b-img
+                                        thumbnail="thumbnail"
+                                        rounded="rounded"
+                                        class="w-100 h-100"
+                                        :src="item.thumbnail"></b-img>
+                                </div>
+                                <div class="p-3">
+                                    <p class="fs-5 fw-bold">{{ item.title }}</p>
+                                    <span class="d-flex">
+                                        <p class="teacher-name">{{ item.teacher }}
+                                            선생님</p>
+                                        <p>총
+                                            {{ item.total }}강</p>
+                                    </span>
+                                    <p class="text-secondary">수강기간 :
+                                        {{ item.lect_period }}일</p>
+                                </div>
+                                <div class="ms-auto my-auto">
+                                    <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>
+                                </div>
+                            </b-container>
+                        </b-link>
                     </li>
-                    <InfiniteLoading @infinite="infiniteHandler" :distance="distance" ref="infiniteLoading">
-                        <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+                    <InfiniteLoading
+                        @infinite="infiniteHandler"
+                        :distance="distance"
+                        ref="infiniteLoading">
+                        <template #spinner>
+                            <!-- 로딩중일때 보여질 부분 -->
                         </template>
-                        <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+                        <template #no-more>
+                            <!-- 처리 완료 후, 최하단에 보여질 부분-->
                             <span></span>
                         </template>
-                        <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+                        <template #no-results>
+                            <!-- 처리 실패 후, 보여질 부분 -->
                         </template>
                     </InfiniteLoading>
                 </ul>
@@ -75,7 +93,7 @@ export default{
                    $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
             })
-                .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err); });
         },
         getTotal(){ // 20개씩이 아니라 키워드에 해당하는 전체 강의 갯수
             this.$axiosSend('get','/api/searchTotal',{
@@ -87,12 +105,13 @@ export default{
             .catch((err)=>{console.log(err)});
         },
         search(){
-            this.$router.push({
-                name : 'lectureSearch',
-                query : {
+            this.$routerPush(
+                'lectureSearch',
+                {
                     keyword : this.keyword
-                }
-            })
+                },
+                true
+            )
         }
     },
     watch:{

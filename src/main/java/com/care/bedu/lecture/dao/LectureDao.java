@@ -5,19 +5,19 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.lecture.dto.LectureDetailDto;
-import com.care.bedu.lecture.dto.LectureDto;
+import com.care.bedu.lecture.vo.lectureDetailVO;
+import com.care.bedu.lecture.vo.lectureVO;
 
 @Mapper
-public interface LectureDao {
+public interface lectureDAO {
 
 	
-	public ArrayList<LectureDto> getLectureList(HashMap<String, Object> map);
-	public LectureDto getLectureDetail(int num);
-	public ArrayList<LectureDto> getLectureField(String category);
-	public ArrayList<LectureDetailDto> getVideoList(int num);
-	public ArrayList<LectureDto> lectureSearch(HashMap<String, Object> arg);
+	public ArrayList<lectureVO> getLectureList(HashMap<String, Object> map);
+	public lectureVO getLectureDetail(int num);
+	public ArrayList<lectureVO> getLectureField(String category);
+	public ArrayList<lectureDetailVO> getVideoList(int num);
+	public ArrayList<lectureVO> lectureSearch(HashMap<String, Object> arg);
 	public int searchTotal(String keyword);
 	public ArrayList<Integer> getLikeList(String userId);
-	public ArrayList<LectureDto> getNewest();
+	public ArrayList<lectureVO> getNewestLecture();
 }

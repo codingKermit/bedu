@@ -56,13 +56,14 @@ export default {
   },
   methods: {
     categoryChange(item) {
-      this.$router.push({
-        name: 'course',
-        query: {
+      this.$routerPush(
+        'course',
+        {
           category: item.cate_code,
           korCategory: item.cate_kor
-        }
-      });
+        },
+        true
+      );
     },
       /** 받은 카테고리를 트리 구조로 변경하는 함수 */
       convertToHierarchy(data) {
@@ -107,8 +108,6 @@ export default {
     },
     getCategory() {
       let cateData = [];
-                /* eslint-disable no-debugger */
-                debugger
                 this.$axiosSend('get', '/api/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)

@@ -7,22 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.lecture.dto.LectureCategoriesDto;
-import com.care.bedu.lecture.serviceImpl.LectureCategoryServiceImpl;
+import com.care.bedu.lecture.service.serviceImpl.lectureCategoryServiceImpl;
+import com.care.bedu.lecture.vo.lectureCategoriesVO;
+
+
 
 @RestController
 @RequestMapping("/api")
-public class LectureCategoryController {
+public class lectureCategoryController {
 
     @Autowired
-    LectureCategoryServiceImpl service;
+    lectureCategoryServiceImpl lectCateservice;
 
     /* 대중소 카테고리 전체 조회 */
     @RequestMapping("/getCategory")
-    public ArrayList<LectureCategoriesDto> getCategory(){
-        ArrayList<LectureCategoriesDto> list = new ArrayList<>();
+    public ArrayList<lectureCategoriesVO> getCategory(){
+        ArrayList<lectureCategoriesVO> list = new ArrayList<>();
 
-        list = service.getCategory();
+        list = lectCateservice.getCategory();
         return list;
     }
 
@@ -31,9 +33,9 @@ public class LectureCategoryController {
     public HashMap<String, Object> getTop(){
         HashMap<String, Object> map = new HashMap<>();
 
-        ArrayList<LectureCategoriesDto> tops = new ArrayList<>();
+        ArrayList<lectureCategoriesVO> tops = new ArrayList<>();
 
-        tops = service.getTop();
+        tops = lectCateservice.getTop();
 
         map.put("item", tops);
 

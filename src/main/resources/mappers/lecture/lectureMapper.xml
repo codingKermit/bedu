@@ -4,10 +4,26 @@
 <mapper namespace="com.care.bedu.lecture.dao.LectureDao">
 
 <select id="getLectureList" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="hashmap">
-	SELECT A.LECT_NUM, A.TITLE, A.TEACHER, COUNT(B.LECT_NUM) AS TOTAL, A.LECT_PERIOD,
-	A.THUMBNAIL, A.LECT_CNT, A.REG_DATE, A.PRICE, A.LECT_DESC,
-	SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE CATEGORY = #{category})  AS A 
+	SELECT 
+		A.LECT_NUM, 
+		A.TITLE, 
+		A.TEACHER, 
+		COUNT(B.LECT_NUM) AS TOTAL, 
+		A.LECT_PERIOD,
+		A.THUMBNAIL, 
+		A.LECT_CNT, 
+		A.REG_DATE, 
+		FORMAT(A.PRICE, 0) AS PRICE,
+		A.LECT_DESC,
+		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+		A.CATEGORY, 
+		A.KORCATEGORY
+	FROM (
+		SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect WHERE CATEGORY = #{category}
+	)  AS A 
 	LEFT JOIN bedu_db.t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
@@ -15,25 +31,70 @@
 </select>
 
 <select id="getLectureDetail" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="int">
-	SELECT A.LECT_NUM, A.TITLE, A.TEACHER, B.TOTAL AS TOTAL, A.LECT_PERIOD,
-	A.THUMBNAIL, A.LECT_CNT, A.REG_DATE, FORMAT(A.PRICE, 0) AS PRICE, A.LECT_DESC,
-	ROUND(AVG(C.LECT_SCO_SCORE)) AS SCORE, COUNT(C.LECT_SCO_USERID) AS SCOREUSERS, 
-	SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  AS A 
-	LEFT JOIN (SELECT COUNT(LECT_NUM) AS TOTAL, SUM(LECT_DTL_TIME) AS TOTALTIMES, LECT_NUM FROM bedu_db.t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
+	SELECT 
+		A.LECT_NUM, 
+		A.TITLE, 
+		A.TEACHER, 
+		B.TOTAL AS TOTAL, 
+		A.LECT_PERIOD,
+		A.THUMBNAIL, 
+		A.LECT_CNT, 
+		A.REG_DATE, 
+		FORMAT(A.PRICE, 0) AS PRICE, 
+		A.LECT_DESC,
+		ROUND(AVG(C.LECT_SCO_SCORE)) AS SCORE, 
+		COUNT(C.LECT_SCO_USERID) AS SCOREUSERS, 
+		SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, 
+		A.CATEGORY, 
+		A.KORCATEGORY
+	FROM (
+		SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
+		AS A 
+	LEFT JOIN (
+		SELECT 
+			COUNT(LECT_NUM) AS TOTAL, 
+			SUM(LECT_DTL_TIME) AS TOTALTIMES, 
+			LECT_NUM 
+		FROM 
+			bedu_db.t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
 	ON A.LECT_NUM = B.LECT_NUM 
-	LEFT JOIN (SELECT * FROM bedu_db.t_bedu_lect_score WHERE LECT_SCO_LECT_ID = #{LECT_NUM}) C
+	LEFT JOIN (
+		SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect_score 
+		WHERE LECT_SCO_LECT_ID = #{LECT_NUM}) C
 	ON A.LECT_NUM = C.LECT_SCO_LECT_ID
 	GROUP BY A.LECT_NUM, B.TOTAL;
 </select>
 
 
 <select id="getLectureField" resultType="com.care.bedu.lecture.dto.LectureDto" parameterType="String">
-	SELECT A.LECT_NUM, A.TITLE, A.TEACHER, COUNT(DISTINCT B.LECT_NUM) AS TOTAL, A.LECT_PERIOD,
-	A.THUMBNAIL, A.LECT_CNT, A.REG_DATE, A.PRICE, A.LECT_DESC,
-	AVG(C.LECT_SCO_SCORE) AS SCORE,
-	SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE CATEGORY = #{category})  AS A 
+	SELECT 
+		A.LECT_NUM, 
+		A.TITLE, 
+		A.TEACHER, 
+		COUNT(DISTINCT B.LECT_NUM) AS TOTAL, 
+		A.LECT_PERIOD,
+		A.THUMBNAIL, 
+		A.LECT_CNT, 
+		A.REG_DATE, 
+		A.PRICE, 
+		A.LECT_DESC,
+		AVG(C.LECT_SCO_SCORE) AS SCORE,
+		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+		A.CATEGORY, 
+		A.KORCATEGORY
+	FROM (
+		SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect 
+		WHERE CATEGORY = #{category})  
+		AS A 
 	LEFT JOIN bedu_db.t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM 
 	LEFT JOIN bedu_db.t_bedu_lect_score C
@@ -44,15 +105,40 @@
 </select>
 
 <select id="getVideoList" resultType="com.care.bedu.lecture.dto.LectureDetailDto">
-	SELECT LECT_NUM, LECT_NUM, LECT_DTL_TITLE, SEC_TO_TIME(LECT_DTL_TIME) AS TIMES FROM bedu_db.t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM};
+	SELECT 
+		LECT_NUM, 
+		LECT_NUM, 
+		LECT_DTL_TITLE, 
+		SEC_TO_TIME(LECT_DTL_TIME) AS TIMES
+	FROM 
+		bedu_db.t_bedu_lect_dtl 
+	WHERE LECT_NUM = #{LECT_NUM};
 </select>
 
 <select id="lectureSearch" resultType="com.care.bedu.lecture.dto.LectureDto"
 parameterType="hashmap">
-	SELECT A.LECT_NUM, A.TITLE, A.TEACHER, COUNT(B.LECT_NUM) AS TOTAL, A.LECT_PERIOD,
-	A.THUMBNAIL, A.LECT_CNT, A.REG_DATE, A.PRICE, A.LECT_DESC,
-	SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE TITLE LIKE CONCAT('%',#{keyword},'%'))  AS A 
+	SELECT 
+		A.LECT_NUM, 
+		A.TITLE, 
+		A.TEACHER, 
+		COUNT(B.LECT_NUM) AS TOTAL, 
+		A.LECT_PERIOD,
+		A.THUMBNAIL, 
+		A.LECT_CNT, 
+		A.REG_DATE, 
+		A.PRICE, 
+		A.LECT_DESC,
+		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+		A.CATEGORY, 
+		A.KORCATEGORY
+	FROM 
+		(SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect
+		WHERE 
+			TITLE LIKE CONCAT('%',#{keyword},'%')
+		) AS A 
 	LEFT JOIN bedu_db.t_bedu_lect_dtl AS B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
@@ -61,8 +147,16 @@ parameterType="hashmap">
 </select>
 
 <select id="searchTotal" resultType="int">
-	SELECT COUNT(A.LECT_NUM)
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect WHERE TITLE LIKE CONCAT('%',#{keyword},'%'))  AS A 
+	SELECT 
+		COUNT(A.LECT_NUM)
+	 FROM 
+	 	(SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect 
+		WHERE 
+			TITLE LIKE CONCAT('%',#{keyword},'%'))  
+		AS A 
 	;
 </select>
 
@@ -71,11 +165,27 @@ parameterType="hashmap">
 	FROM bedu_db.t_bedu_lectLIKE WHERE USERID = '123';
 </select>
 
-<select id="getNewest" resultType="com.care.bedu.lecture.dto.LectureDto">
-	SELECT A.LECT_NUM, A.TITLE, A.TEACHER, COUNT(B.LECT_NUM) AS TOTAL, A.LECT_PERIOD,
-	A.THUMBNAIL, A.LECT_CNT, A.REG_DATE, A.PRICE, A.LECT_DESC,
-	SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, A.CATEGORY, A.KORCATEGORY
-	 FROM (SELECT * FROM bedu_db.t_bedu_lect)  AS A 
+<select id="getNewestLecture" resultType="com.care.bedu.lecture.dto.LectureDto">
+	SELECT 
+		A.LECT_NUM, 
+		A.TITLE, 
+		A.TEACHER, 
+		COUNT(B.LECT_NUM) AS TOTAL, 
+		A.LECT_PERIOD,
+		A.THUMBNAIL, 
+		A.LECT_CNT, 
+		A.REG_DATE, 
+		FORMAT(A.PRICE, 0) AS PRICE,
+		A.LECT_DESC,
+		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+		A.CATEGORY, 
+		A.KORCATEGORY
+	FROM (
+		SELECT 
+			* 
+		FROM 
+			bedu_db.t_bedu_lect)  
+		AS A 
 	LEFT JOIN bedu_db.t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
