@@ -1,13 +1,13 @@
-package com.care.bedu.community.serviceimpl;
+package com.care.bedu.community.freeBoard.service.serviceimpl;
 
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.community.dao.CommunityDAO;
-import com.care.bedu.community.dto.CommunityDTO;
-import com.care.bedu.community.service.CommunityService;
+import com.care.bedu.community.freeBoard.dao.CommunityDAO;
+import com.care.bedu.community.freeBoard.dto.CommunityDTO;
+import com.care.bedu.community.freeBoard.service.CommunityService;
 
 @Service
 public class CommunityServiceImpl implements CommunityService{

@@ -1,4 +1,4 @@
-package com.care.bedu.community.controller;
+package com.care.bedu.community.freeBoard.controller;
 
 import java.util.ArrayList;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.community.dto.CommunityDTO;
-import com.care.bedu.community.service.CommunityService;
+import com.care.bedu.community.freeBoard.dto.CommunityDTO;
+import com.care.bedu.community.freeBoard.service.CommunityService;
 
 @RestController
 @RequestMapping("/api")

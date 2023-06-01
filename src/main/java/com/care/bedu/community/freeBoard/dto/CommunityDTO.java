@@ -1,4 +1,4 @@
-package com.care.bedu.community.dto;
+package com.care.bedu.community.freeBoard.dto;
 
 import lombok.Data;
 import lombok.ToString;

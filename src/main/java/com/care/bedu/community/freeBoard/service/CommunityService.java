@@ -1,8 +1,8 @@
-package com.care.bedu.community.service;
+package com.care.bedu.community.freeBoard.service;
 
 import java.util.ArrayList;
 
-import com.care.bedu.community.dto.CommunityDTO;
+import com.care.bedu.community.freeBoard.dto.CommunityDTO;
 
 public interface CommunityService {
 	
