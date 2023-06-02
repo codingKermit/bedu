@@ -93,6 +93,7 @@
                                                     <hr>
                                                     <p>총{{ lect.total }}강</p>
                                                     <p class="text-secondary">수강 기간 : {{ lect.lectPeriod }}일</p>
+                                                    <p class="text-end"><span class="fw-bold">{{ lect.price }}</span>원</p>
                                                 </b-container>
                                             </b-link>
                                         </b-col>

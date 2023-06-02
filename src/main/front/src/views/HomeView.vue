@@ -11,28 +11,29 @@
             </div>
         </b-form>
 
-        <b-container class="mb-5">
+        <b-container>
             <p class="fw-bold fs-4 text-start">분야별 강의</p>
             <categories></categories>
         </b-container>
 
         <!-- 신규 오픈 강좌 컨테이너 -->
         <b-container class="mb-5 py-3">
-            <p class="fs-4 fw-bold">신규 오픈 강좌</p>
+            <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>
             <div>
                 <b-row cols="4" class="justify-content-center">
                     <b-col v-for="(item, index) in newestLectures" :key="index">
                         <b-link
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
-                            <b-container class="border">
+                            <b-container class="border rounded-4 lecture_item">
                                 <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
                                 <div class="ps-2">
                                     <p class="fs-5 pt-3">{{ item.title }}</p>
                                     <p class="text-secondary">{{ item.lectSum }}</p>
-                                    <p>{{ item.teacher }}</p>
+                                    <p>{{ item.teacher }} 선생님</p>
                                     <hr>
-                                    <p class="text-secondary fs-6">{{ item.korCategory }}</p>
+                                    <p>총 {{ item.total }}강</p>
+                                    <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
                                     <div class="text-end mb-3">
                                         <span class="fw-bold">{{ item.price }}</span>
                                         원
@@ -46,22 +47,23 @@
         </b-container>
 
         <!-- 금주의 인기 강좌 컨테이너 인기 기준이 없는 관계로 임시로 신규 강의와 동일한 데이터 출력 -->
-        <b-container>
-            <p class="fs-4 fw-bold">금주의 인기 강좌</p>
+        <b-container class="mb-5">
+            <p class="fs-4 mb-5 fw-bold">금주의 인기 강좌</p>
             <div>
                 <b-row cols="4" class="justify-content-center">
                     <b-col v-for="(item, index) in newestLectures" :key="index">
                         <b-link
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
-                            <b-container class="border">
+                            <b-container class="border rounded-4 lecture_item">
                                 <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
                                 <div class="ps-3">
                                     <p class="fs-5 pt-3">{{ item.title }}</p>
                                     <p class="text-secondary">{{ item.lectSum }}</p>
-                                    <p>{{ item.teacher }}</p>
+                                    <p>{{ item.teacher }} 선생님</p>
                                     <hr>
-                                    <p class="text-secondary fs-6">{{ item.korCategory }}</p>
+                                    <p>총 {{ item.total }}강</p>
+                                    <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
                                     <div class="text-end mb-3">
                                         <span class="fw-bold">{{ item.price }}</span>
                                         원
@@ -104,10 +106,11 @@ export default{
         true
       )
     },
+
+    /** 최근 업로드된 강의 4개 조회하는 메서드 */
     getNewestLecture(){
       this.$axiosSend('get','/api/getNewestLecture')
       .then((res)=>{
-        console.log(res);
         this.newestLectures = res.data.item;
       })
       .catch((err)=>{console.log(err)})
@@ -128,6 +131,11 @@ export default{
 </script>
 
 <style scoped>
+.lecture_item:hover{
+    transition: 0.1s;
+    box-shadow: 0px 0px 0px 3px black inset !important;
+    scale: 102%;
+}
 
 .border-bedu {
   border-color: var(--yellow) !important;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="md">
+        <b-navbar>
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                 <b-nav-item v-for="(item, index) in categories" :key="index">

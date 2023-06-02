@@ -53,7 +53,12 @@
                             <span></span>
                         </template>
                         <template #no-results>
-                            <!-- 처리 실패 후, 보여질 부분 -->
+                            <!-- 조회 데이터가 없을 때 보여질 부분 -->
+                            <b-container class="text-center py-5">
+                                <p class="fw-bold">검색 결과가 없습니다</p>
+                                <p>단어의 철자가 정확한지 확인해 보세요.</p>
+                                <p>띄어쓰기 또는 넓은 의미의 단어를 사용해 보세요.</p>
+                            </b-container>
                         </template>
                     </InfiniteLoading>
                 </ul>
@@ -132,6 +137,7 @@ export default{
     },
     mounted() {
         this.keyword = this.$route.query.keyword,
+        this.$refs.infiniteLoading.stateChanger.reset()
         this.getTotal();
     },
     components: { InfiniteLoading }

@@ -43,7 +43,7 @@
                             <span class="text-secondary col-2">수강기간</span>
                             <span class="text-body col">
                                 구매일로부터
-                                {{ form.lect_period }}일</span>
+                                {{ form.lectPeriod }}일</span>
                         </div>
                         <div class="mb-2 row">
                             <span class="text-secondary col-2">학습시간</span>
@@ -80,8 +80,8 @@
             <!-- 소개, 목록, 후기 탭 -->
             <div class="form-contents-container">
                 <ul class="nav nav-tabs nav-fill">
-                    <li class="nav-item">
-                        <a class="nav-link py-4 text-body " href="#description-body">강좌소개</a>
+                    <li class="nav-item ">
+                        <a class="nav-link py-4 text-body " href="#description-body"><span class="py-4">강좌소개</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link py-4 text-body" href="#videoList-container">강의목록</a>
@@ -105,7 +105,7 @@
                             v-for="(video,i) in videos"
                             :key="i"
                             class="py-3 fs-5 border-bottom border-1  d-flex">
-                            <span class="me-auto ms-3 fw-bold">
+                            <span class="me-auto ms-3 fw-bold" @click="toLesson(video)">
                                 {{video.lectDtlTitle}}
                             </span>
                             <span class="ms-auto me-3">
@@ -160,13 +160,17 @@
                     likeYn: '',
                     totalTimes: 0,
                     category: '',
-                    stars: []
+                    stars: [],
+                    videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 },
                 videos: [],
                 reviews: []
             }
         },
         methods: {
+            toLesson(val){
+                this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
+            },
             getDetail() {
                 this
                     .$axiosSend('get', '/api/lectureDetail', {num: this.form.num})
@@ -219,10 +223,11 @@
         width: 100%;
     }
 
-    .nav-link:hover {
+    /* .nav-link:hover {
         transition: 0.25s;
         font-size: 20px;
-    }
+        box-sizing: border-box !important;
+    } */
 
     .form-contents-container {
         border-top: 3px solid black;

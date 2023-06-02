@@ -107,6 +107,7 @@
 
 <select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
 	SELECT 
+		LECT_DTL_NUM as lectDtlNum,
 		LECT_NUM as lectNum, 
 		LECT_DTL_TITLE as lectDtlTitle, 
 		SEC_TO_TIME(LECT_DTL_TIME) AS TIMES

@@ -5,10 +5,17 @@
       <img src="@/assets/imgs/Logo.png" width="150">
     </router-link>
     <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-      <a class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen"
-        @click="navigateTo('/lectureField')">
-        분야별 강의
-      </a>
+
+        <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
+        <a v-if='categories.length' class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+          <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
+            분야별 강의
+          </router-link>
+        </a>    
+        <a v-else class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+          분야별 강의
+        </a>
+
       <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
         <li v-for="item in categories" :key="item.cateCode">
           <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
@@ -26,7 +33,9 @@
     <div class="search-popup">
       <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
         <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
-        <b-form-input class="border-0 me-2"></b-form-input>
+        <form @submit.prevent="lectSearch">
+          <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+        </form>
       </div>
     </div>
     <router-link to="/login">로그인</router-link>
@@ -40,86 +49,100 @@
 </template>
 
 <script>
-export default {
-  name: 'PageHeader',
-  mounted() {
-    this.getCategory();
-    window.addEventListener('scroll',this.scrollHandler)
-  },
-
-  data() {
-    return {
-      isDropdownOpen: false,
-      categories: [],
-      showButton : false,
-    };
-  },
-  methods: {
-    categoryChange(item) {
-      this.$routerPush(
-        'course',
-        {
-          category: item.cateCode,
-          korCategory: item.cateKor
+    export default {
+        name: 'PageHeader',
+        mounted() {
+            window.addEventListener('scroll', this.scrollHandler)
         },
-        true
-      );
-    },
-      /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-      convertToHierarchy(data) {
-      const map = {}; // 부모-자식 관계를 저장할 맵
-      // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-      data.forEach(category => {
-          category.children = []; // 자식 카테고리를 저장할 배열 생성
-          map[category.cateCode] = category;
-      });
-      
-      const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-      
-      // 부모-자식 관계 설정
-      data.forEach(category => {
-          const parentCode = category.parentCode;
-          if (parentCode) {
-              const parent = map[parentCode];
-              if (parent) parent.children.push(category)
-          } else {
-              hierarchy.push(category);
-          }
-          this.categories = hierarchy;
-      });
-  },
-  scrollHandler(){ /** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
-    this.showButton = window.scrollY > 200;
-  },
-  scrollToTop(){ /** 최상단으로 올리는 메서드 */
-    window.scrollTo({
-      top:0,
-    })
-  }
-  ,
-    navigateTo(route) {
-      this.$router.push(route);
-    },
-    openDropdown() {
-      this.isDropdownOpen = true;
-    },
-    closeDropdown() {
-      this.isDropdownOpen = false;
-    },
-    getCategory() {
-        let cateData = [];
-        this.$axiosSend('get', '/api/getCategory')
-        .then((res) => {
-            console.log('res::: ', res)
-            if (this.$isNotEmpty(res?.data)) {
-                cateData = res?.data;
+        created(){
+            this.getCategory();
+        },
+        data() {
+            return {
+              isDropdownOpen: false, 
+              categories: [], 
+              showButton: false,
+              keyword : '',
+            };
+        },
+        methods: {
+          /** 검색 메서드 */
+          lectSearch(){
+            this.$routerPush(
+              'lectureSearch',
+              {
+                keyword : this.keyword
+              },
+              true
+            )
+          },
+            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+            convertToHierarchy(data) {
+                const map = {}; // 부모-자식 관계를 저장할 맵
+                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
+                data.forEach(category => {
+                    category.children = []; // 자식 카테고리를 저장할 배열 생성
+                    map[category.cateCode] = category;
+                });
+
+                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
+
+                // 부모-자식 관계 설정
+                data.forEach(category => {
+                    const parentCode = category.parentCode;
+                    if (parentCode) {
+                        const parent = map[parentCode];
+                        if (parent) 
+                            parent
+                                .children
+                                .push(category)
+                        } else {
+                        hierarchy.push(category);
+                    }
+                    this.categories = hierarchy;
+                });
+            },
+            scrollHandler() {/** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
+                this.showButton = window.scrollY > 200;
+            },
+            scrollToTop() {/** 최상단으로 올리는 메서드 */
+                window.scrollTo({top: 0})
+            },
+            navigateTo(route) {
+                this
+                    .$router
+                    .push(route);
+            },
+            openDropdown() {
+                this.isDropdownOpen = true;
+            },
+            closeDropdown() {
+                this.isDropdownOpen = false;
+            },
+            getCategory() { /** 카테고리 조회 */
+                let cateData = [];
+                this
+                    .$axiosSend('get', '/api/getCategory')
+                    .then((res) => {
+                        console.log('res::: ', res)
+                        if (this.$isNotEmpty(
+                            res
+                                ?.data
+                        )) {
+                            cateData = res
+                                ?.data;
+                        }
+                        console.log('cateData ::: ', cateData)
+                        this.convertToHierarchy(cateData)
+                    })
             }
-            console.log('cateData ::: ', cateData)
-            this.convertToHierarchy(cateData)
-        })
-    },
-  },
-};
+          },
+          watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
+            '$route'(){
+              this.keyword = '' 
+            }
+          }
+    };
 </script>
   
 <style scoped>
