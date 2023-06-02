@@ -4,7 +4,7 @@
       <div class="m-select">
         <ul class="mk-c-tab col8 tab-event">
           <li><a href="#">전체</a></li>
-          <li><a href="#">기초강의</a></li>         
+          <li><a href="#">기초강의</a></li>
           <li><a href="#">데이터분석</a></li>
           <li><a href="#">웹 개발</a></li>
           <li><a href="#">프로그래밍 언어</a></li>
@@ -16,187 +16,154 @@
         </ul>
       </div>
       <div class="review-search">
-        <p class="fw-bold fs-3 text-start" style="margin-top:20px">수강후기</p>
+        <p class="fw-bold fs-3 text-start" style="margin-top: 20px">수강후기</p>
         <div class="search-bar">
           <div class="search-input">
-            <input type="text" placeholder="검색어를 입력하세요" v-model="searchKeyword" @keyup.enter="searchReviews">
+            <input
+              type="text"
+              placeholder="검색어를 입력하세요"
+              v-model="searchKeyword"
+              @keyup.enter="searchReviews"
+            />
             <button @click="searchReviews">검색</button>
           </div>
         </div>
       </div>
-      <div class="review-sort" style="float: right;">
-      <select v-model="sortOption" @change="sortReviews" style="border: none;">
-        <option value="default">최신 순</option>
-        <option value="highRating">평점 높은 순</option>
-        <option value="lowRating">평점 낮은 순</option>
-      </select>
-    </div>
+      <div class="review-sort" style="float: right">
+        <select v-model="sortOption" @change="sortReviews" style="border: none">
+          <option value="default">최신 순</option>
+          <option value="highRating">평점 높은 순</option>
+          <option value="lowRating">평점 낮은 순</option>
+        </select>
+      </div>
     </div>
     <div class="scroll-container">
       <table class="review-table">
         <thead>
           <tr>
             <th>번호</th>
-            <th style="padding-right: 10%;">강좌</th>
-            <th style="padding-right: 20%;">수강후기</th>
+            <th style="padding-right: 10%">강좌</th>
+            <th style="padding-right: 20%">수강후기</th>
             <th>별점</th>
             <th>작성자</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(review, index) in searchedReviews" :key="index">
+          <tr v-for="(reviews, index) in searchedReviews" :key="index">
             <td>{{ index + 1 }}</td>
-            <td style="padding-right: 10%;">{{ review.title }}</td>
+            <td style="padding-right: 10%">{{ reviews.title }}</td>
             <td>
-              <span class="review-content">{{ review.content }}</span>
+              <span class="review-content">{{ reviews.content }}</span>
             </td>
             <td>
               <div class="star-rating">
-                <span class="star" v-for="star in review.star" :key="star">&#9733;</span>
+                <span class="star" v-for="star in reviews.star" :key="star"
+                  >&#9733;</span
+                >
               </div>
             </td>
-            <td style="padding-right: 20px;">{{ review.writer }}</td>
+            <td style="padding-right: 20px">{{ reviews.writer }}</td>
           </tr>
         </tbody>
         <tr v-if="isLoading">
-          <td colspan="5" class="loading-text">
-            로딩 중...
-          </td>
+          <td colspan="5" class="loading-text">로딩 중...</td>
         </tr>
       </table>
       <div class="infinite-loading-container">
-        <infinite-loading @infinite="fetchMoreReviews">
+        <infinite-loading @infinite="fetchReviews">
           <template #no-more>마지막 후기 입니다.</template>
         </infinite-loading>
       </div>
-      <button class="top-button" @click="scrollToTop" v-show="shouldShowTopButton">
-        Top
-      </button>
     </div>
   </div>
 </template>
 
 <script>
-import InfiniteLoading from 'infinite-loading-vue3-ts';
+import InfiniteLoading from "infinite-loading-vue3-ts";
 
 export default {
-  props: {
-    reviews: {
-      type: Array,
-      required: true,
-    },
-  },
   components: {
     InfiniteLoading,
   },
   data() {
     return {
-      searchKeyword: '',
+      searchKeyword: "",
       fetchedReviews: [],
       searchedReviews: [],
-      sortOption: 'default',
-      content: '',
+      sortOption: "default",
+      content: "",
       isLoading: false,
-      currentPage: 0,
+      currentPage: 1,
       itemsPerPage: 20,
       totalItems: 0,
-      shouldShowTopButton: false,
     };
   },
   methods: {
     fetchReviews() {
-  this.isLoading = true;
-  this.$axiosSend('get', '/api/reviews', { 
-            page: this.currentPage,
-            size: this.itemsPerPage, 
-    })
-    .then((response) => {
-      const { content, totalElements } = response.data;
-      this.fetchedReviews = content;
-      this.totalItems = totalElements;
-      this.isLoading = false;
-
-      this.searchReviews(); // 검색 수행
-      this.sortReviews(); // 정렬 수행
-    })
-    .catch((error) => {
-      console.error(error);
-      this.isLoading = false;
-    });
-},
-fetchMoreReviews($state) {
-  this.isLoading = true;
-  const nextPage = this.currentPage + 1;
-  this.$axiosSend('get', '/api/reviews/more', { 
-            page: this.nextPage,
-            size: this.itemsPerPage, 
+      this.isLoading = true;
+      this.$axiosSend("get", "/api/reviews", {
+        page: this.currentPage, 
+        size: this.itemsPerPage,
       })
-      .then((response) => {
-        const { content } = response.data;
-        this.fetchedReviews = [...this.fetchedReviews, ...content];
-        this.currentPage = nextPage;
-        this.isLoading = false;
+        .then((response) => {
+          const { content, totalElements } = response.data;
+          if (Array.isArray(content)) {
+            this.fetchedReviews = content;
+          } else {
+            this.fetchedReviews = [];
+          }
+          this.totalItems = totalElements;
+          this.isLoading = false;
 
-        this.searchReviews(); // 검색 수행
-        this.sortReviews(); // 정렬 수행
-
-        $state.loaded(); // 추가 리뷰 로딩 완료
-        if (content.length < this.itemsPerPage) {
-          $state.complete(); // 추가 리뷰 없음
-        }
-      })
+          this.searchReviews(); // 검색 수행
+          this.sortReviews(); // 정렬 수행
+        })
         .catch((error) => {
           console.error(error);
           this.isLoading = false;
-          $state.complete(); // 추가 리뷰 로딩 실패
         });
     },
-sortReviews() {
-  switch (this.sortOption) {
-    case 'highRating':
-      this.searchedReviews = [...this.searchedReviews].sort((a, b) => b.star - a.star);
-      break;
-    case 'lowRating':
-      this.searchedReviews = [...this.searchedReviews].sort((a, b) => a.star - b.star);
-      break;
-    default:
-      this.searchedReviews = [...this.searchedReviews].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      break;
-  }
-},
-searchReviews() {
-  const keyword = this.searchKeyword ? this.searchKeyword.toLowerCase() : '';
-  const filteredReviews = this.fetchedReviews.filter((review) => {
-    return (
-      review.title.toLowerCase().includes(keyword) ||
-      review.content.toLowerCase().includes(keyword) ||
-      review.writer.toLowerCase().includes(keyword)
-    );
-  });
-
-  this.searchedReviews = filteredReviews;
-  this.sortReviews(); // 검색 후 정렬을 수행하도록 수정
-},
-    handleScroll() {
-      console.log('Scroll event occurred');
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      this.shouldShowTopButton = scrollTop > 100;
+    sortReviews() {
+      switch (this.sortOption) {
+        case "highRating":
+          this.fetchedReviews = [...this.fetchedReviews].sort(
+            (a, b) => b.star - a.star
+          );
+          break;
+        case "lowRating":
+          this.fetchedReviews = [...this.fetchedReviews].sort(
+            (a, b) => a.star - b.star
+          );
+          break;
+        default:
+          this.fetchedReviews = [...this.fetchedReviews].sort(
+            (a, b) => new Date(b.reviewDate) - new Date(a.reviewDate) // reviewDate 필드로 수정
+          );
+          break;
+      }
     },
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+    searchReviews() {
+      const keyword = this.searchKeyword
+        ? this.searchKeyword.toLowerCase()
+        : "";
+
+      if (Array.isArray(this.fetchedReviews)) {
+        const filteredReviews = this.fetchedReviews.filter((review) => {
+          return (
+            (review.title && review.title.toLowerCase().includes(keyword)) ||
+            (review.content &&
+              review.content.toLowerCase().includes(keyword)) ||
+            (review.writer && review.writer.toLowerCase().includes(keyword))
+          );
+        });
+
+        this.searchedReviews = filteredReviews;
+        this.sortReviews(); // 검색 후 정렬을 수행하도록 수정
+      }
     },
   },
   mounted() {
-  this.fetchReviews();
-  window.addEventListener('scroll', this.handleScroll);
-},
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    this.fetchReviews();
   },
 };
 </script>
@@ -220,13 +187,13 @@ searchReviews() {
   margin-bottom: 20px;
 }
 
-.mk-c-tab>li {
+.mk-c-tab > li {
   display: inline-block;
   width: 20%;
   text-align: center;
 }
 
-.mk-c-tab>li>a {
+.mk-c-tab > li > a {
   display: block;
   padding: 12px 10px;
   background: #f8f8f8;
@@ -295,7 +262,7 @@ a {
 
 .review-table .review-writer {
   display: block;
-  width: 200px; 
+  width: 200px;
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
@@ -325,23 +292,4 @@ a {
   bottom: 0;
   text-align: center;
 }
-
-.top-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: none;
-  padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.top-button:hover {
-  background-color: #555;
-}
-
 </style>

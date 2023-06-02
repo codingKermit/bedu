@@ -15,7 +15,6 @@
                 CONTENT,
                 RW_GRADE,
                 LECT_NUM,
-                REPLY_NUM,
                 RW_DATE,
                 REG_DATE,
                 REG_ID)
@@ -25,33 +24,13 @@
                 #{content},
                 #{star},
                 #{lectureNumber},
-                #{replyNumber},
                 #{reviewDate},
                 #{registrationDate},
                 #{registeredUserId});
     </insert>
 
-    <update id="updateReview" parameterType="com.care.bedu.review.vo.ReviewVO">
-        UPDATE
-            bedu_db.t_bedu_rw_bd
-                SET TITLE = #{title},
-                USER_ID = #{writer},
-                CONTENT = #{content},
-                RW_GRADE = #{star},
-                LECT_NUM = #{lectureNumber},
-                RW_DATE = #{reviewDate},
-                REG_DATE =#{registrationDate},
-                REG_ID = #{registeredUserId}
-        WHERE
-                RW_NUM = #{id};
-    </update>
-
-    <select id="getAllReviews" resultType="com.care.bedu.review.vo.ReviewVO">
+    <select id="getAllReviews" resultType="java.util.HashMap">
         SELECT * FROM bedu_db.t_bedu_rw_bd;
-    </select>
-    
-    <select id="getAllReviewsPageable" resultType="com.care.bedu.review.vo.ReviewVO">
-        SELECT * FROM bedu_db.t_bedu_rw_bd
     </select>
 
 </mapper>
