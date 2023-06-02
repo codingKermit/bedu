@@ -17,18 +17,21 @@
         </b-container>
 
         <!-- 신규 오픈 강좌 컨테이너 -->
-        <b-container class="mb-5">
+        <b-container class="mb-5 py-3">
             <p class="fs-4 fw-bold">신규 오픈 강좌</p>
             <div>
                 <b-row cols="4" class="justify-content-center">
                     <b-col v-for="(item, index) in newestLectures" :key="index">
                         <b-link
                             class="text-decoration-none text-body"
-                            :to='"/lectureDetail?num="+item.lect_num'>
+                            :to='"/lectureDetail?num="+item.lectNum'>
                             <b-container class="border">
-                                <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img>
-                                <div class="ps-3">
-                                    <p class="fs-5">{{ item.title }}</p>
+                                <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
+                                <div class="ps-2">
+                                    <p class="fs-5 pt-3">{{ item.title }}</p>
+                                    <p class="text-secondary">{{ item.lectSum }}</p>
+                                    <p>{{ item.teacher }}</p>
+                                    <hr>
                                     <p class="text-secondary fs-6">{{ item.korCategory }}</p>
                                     <div class="text-end mb-3">
                                         <span class="fw-bold">{{ item.price }}</span>
@@ -50,11 +53,14 @@
                     <b-col v-for="(item, index) in newestLectures" :key="index">
                         <b-link
                             class="text-decoration-none text-body"
-                            :to='"/lectureDetail?num="+item.lect_num'>
+                            :to='"/lectureDetail?num="+item.lectNum'>
                             <b-container class="border">
-                                <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img>
+                                <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
                                 <div class="ps-3">
-                                    <p class="fs-5">{{ item.title }}</p>
+                                    <p class="fs-5 pt-3">{{ item.title }}</p>
+                                    <p class="text-secondary">{{ item.lectSum }}</p>
+                                    <p>{{ item.teacher }}</p>
+                                    <hr>
                                     <p class="text-secondary fs-6">{{ item.korCategory }}</p>
                                     <div class="text-end mb-3">
                                         <span class="fw-bold">{{ item.price }}</span>

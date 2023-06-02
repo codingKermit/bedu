@@ -4,11 +4,11 @@
             <b-collapse id="categories" is-nav>
             <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                 <b-nav-item v-for="(item, index) in categories" :key="index">
-                    <b-link :to='"/lectureCategories/"+item.cate_code+"?cnt_mid_cate="+item.children[0].cate_code' class="text-body text-decoration-none">
+                    <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
                         <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                             <b-img :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
                         </b-container>
-                        <text class="fw-bold d-block">{{ item.cate_kor }}</text>
+                        <text class="fw-bold d-block">{{ item.cateKor }}</text>
                     </b-link>
                     </b-nav-item>
                     </b-navbar-nav>
@@ -57,14 +57,14 @@
                 // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
                 data.forEach(category => {
                     category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cate_code] = category;
+                    map[category.cateCode] = category;
                 });
                 
                 const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
                 
                 // 부모-자식 관계 설정
                 data.forEach(category => {
-                    const parentCode = category.parent_code;
+                    const parentCode = category.parentCode;
                     if (parentCode) {
                         const parent = map[parentCode];
                         if (parent) parent.children.push(category)

@@ -14,7 +14,7 @@
                 <ul class="list-unstyled">
                     <li v-for="(item, index) in lectures" :key="index">
                         <b-link
-                            :to='"/lectureDetail?num="+item.lect_num'
+                            :to='"/lectureDetail?num="+item.lectNum'
                             class="text-body text-decoration-none">
                             <b-container class="d-flex">
                                 <div class="w-25 p-3">
@@ -33,7 +33,7 @@
                                             {{ item.total }}강</p>
                                     </span>
                                     <p class="text-secondary">수강기간 :
-                                        {{ item.lect_period }}일</p>
+                                        {{ item.lectPeriod }}일</p>
                                 </div>
                                 <div class="ms-auto my-auto">
                                     <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>

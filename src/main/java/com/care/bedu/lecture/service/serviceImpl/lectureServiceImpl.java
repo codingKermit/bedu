@@ -43,8 +43,8 @@ public class LectureServiceImpl implements LectureService{
 			HashMap<String,Object> lect = new HashMap<>(); // 
 			map.put("category", dto.getCateCode());
 			list = lectureDao.getLectureList(map); // 소분류에 따른 강의 목록
-			lect.put("cate_code", dto.getCateCode()); // 소분류 코드
-			lect.put("cate_kor", dto.getCateKor()); // 소분류 한글
+			lect.put("cateCode", dto.getCateCode()); // 소분류 코드
+			lect.put("cateKor", dto.getCateKor()); // 소분류 한글
 			lect.put("item",list); // 소분류 강의 목록
 			result.add(lect);
 		}

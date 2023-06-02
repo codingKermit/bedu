@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+/* 강의 목록에 사용할 VO */
 public class LectureVO {
 	private int lectNum; // 강의 고유번호
 	private String title; // 강의 이름
@@ -26,4 +27,5 @@ public class LectureVO {
 	private Time totalTimes; // 총 강의 시간
 	private String category; // 강의 카테고리 --> 코드 혹은 영어로 저장
 	private String korCategory; // 강의 카테고리 --> 한글로 저장
+	private String lectSum; // 강의 설명 요약
 }

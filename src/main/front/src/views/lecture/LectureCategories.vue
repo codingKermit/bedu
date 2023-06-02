@@ -15,8 +15,8 @@
                             <a
                                 class="fs-5 text-body text-decoration-none d-flex"
                                 data-bs-toggle="collapse"
-                                :href='"#top-"+top.cate_code'>
-                                <p>{{ top.cate_kor }}</p>
+                                :href='"#top-"+top.cateCode'>
+                                <p>{{ top.cateKor }}</p>
                                 <p class="ms-auto">
                                     <font-awesome-icon :icon="['fas','caret-down']"/>
                                 </p>
@@ -24,8 +24,8 @@
                         </span>
                         <div
                             class="collapse text-secondary text-secondary mid-cate-container"
-                            :id='"top-"+top.cate_code'
-                            :class='cnt_top_cate == top.cate_code ? "show":""'>
+                            :id='"top-"+top.cateCode'
+                            :class='cnt_top_cate == top.cateCode ? "show":""'>
                             <ul class="ps-2">
                                 <!-- 중분류 -->
                                 <li
@@ -33,10 +33,10 @@
                                     :key="mid_index"
                                     class="list-unstyled py-2">
                                     <router-link
-                                        :to='"/lectureCategories/"+top.cate_code+"?cnt_mid_cate="+mid.cate_code'
+                                        :to='"/lectureCategories/"+top.cateCode+"?cnt_mid_cate="+mid.cateCode'
                                         class="text-decoration-none"
-                                        :class="mid.cate_code == cnt_mid_cate && top.cate_code == cnt_top_cate ? 'cnt_selected':'text-body'">
-                                        {{ mid.cate_kor }}
+                                        :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'">
+                                        {{ mid.cateKor }}
                                     </router-link>
                                 </li>
                             </ul>
@@ -63,7 +63,7 @@
                                 <span class="bot-cate-step">STEP
                                     {{ index+1 }}</span>
                                 <div class="bot-cate-split"></div>
-                                <span class="text-body">{{ bot.cate_kor }}</span>
+                                <span class="text-body">{{ bot.cateKor }}</span>
                                 <span class="ms-auto">
                                     <font-awesome-icon :icon="['fas','caret-down']"/>
                                 </span>
@@ -75,23 +75,24 @@
                                 ref="lecture_list"
                                 :class='index == 0 ? "show":""'>
                                 <b-container>
-                                    <b-row cols="2">
+                                    <b-row cols="3">
                                         <!-- 커리큘럼 목록 -->
-                                        <b-col v-for="(lect, index) in bot.item" :key="index">
+                                        <b-col v-for="(lect, index) in bot.item" :key="index" >
                                             <b-link
                                                 class="text-body text-decoration-none"
-                                                :to='"/lectureDetail?num="+lect.lect_num'>
-                                                <b-container class="border p-3 mb-4">
-                                                    <b-img thumbnail="thumbnail" :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img>
+                                                :to='"/lectureDetail?num="+lect.lectNum'>
+                                                <b-container class="border rounded-3 p-3 mb-4 lecture_item">
+                                                    <!-- <b-img thumbnail="thumbnail" :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img> -->
                                                     <p class="fs-5 fw-bold">{{ lect.title }}</p>
-                                                    <div class="d-flex">
-                                                        <p class="teacher-container">{{ lect.teacher }}
-                                                            선생님</p>
-                                                        <p>총
-                                                            {{ lect.total }}강</p>
+                                                    <div>
+                                                        <p class="text-secondary">
+                                                            {{ lect.lectSum }}
+                                                        </p>
                                                     </div>
-                                                    <p class="text-secondary">수강 기간 :
-                                                        {{ lect.lect_period }}일</p>
+                                                        <p>{{ lect.teacher }} 선생님</p>
+                                                    <hr>
+                                                    <p>총{{ lect.total }}강</p>
+                                                    <p class="text-secondary">수강 기간 : {{ lect.lectPeriod }}일</p>
                                                 </b-container>
                                             </b-link>
                                         </b-col>
@@ -121,20 +122,20 @@
         methods: {
             /** 카테고리 변경체크 */
             midCategoryChanger(top, mid) {
-                this.cnt_mid_cate = mid.cate_code;
-                this.cnt_mid_cate_kor = mid.cate_kor;
-                this.cnt_top_cate = top.cate_code;
-                this.cnt_top_cate_kor = top.cate_kor;
-                this.$route.params.index = top.cate_code;
-                this.$route.query.mid = mid.cate_code;
+                this.cnt_mid_cate = mid.cateCode;
+                this.cnt_mid_cate_kor = mid.cateKor;
+                this.cnt_top_cate = top.cateCode;
+                this.cnt_top_cate_kor = top.cateKor;
+                this.$route.params.index = top.cateCode;
+                this.$route.query.mid = mid.cateCode;
             },
             /* 현재 선택된 대분류, 중분류를 기준으로 소분류 데이터 반환 */
             getCurrCurriculum() {
                 const curriculum = this
                     .categories
-                    .find((category) => category.cate_code === this.cnt_top_cate)
+                    .find((category) => category.cateCode === this.cnt_top_cate)
                         ?.children
-                            .find((children) => children.cate_code === this.cnt_mid_cate)
+                            .find((children) => children.cateCode === this.cnt_mid_cate)
                                 ?.children;
                 return curriculum || [];
             },
@@ -158,14 +159,14 @@
                 // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
                 data.forEach(category => {
                     category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cate_code] = category;
+                    map[category.cateCode] = category;
                 });
 
                 const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
 
                 // 부모-자식 관계 설정
                 data.forEach(category => {
-                    const parentCode = category.parent_code;
+                    const parentCode = category.parentCode;
                     if (parentCode) {
                         const parent = map[parentCode];
                         if (parent) {
@@ -233,6 +234,12 @@
 </script>
 
 <style scoped="scoped">
+.lecture_item:hover{
+    transition: 0.1s;
+    /* border: 3px solid black !important; */
+    box-shadow: 0px 0px 0px 3px black inset !important;
+    scale: 102%;
+}
 
     .mid-cate-container::after {
         content: '';

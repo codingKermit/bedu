@@ -6,30 +6,30 @@
     <select id="getCategories" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         select
             num,
-            cate_code,
-            cate_kor,
+            cate_code as cateCode,
+            cate_kor as cateKor,
             icon,
-            null as parent_code,
-            null as parent_num
+            null as parentCode,
+            null as parentNum
         from
             bedu_db.t_bedu_lect_top_cate
         union all
         select 
             num,
-            cate_code,
-            cate_kor,
-            parent_num,
-            parent_code,
+            cate_code as cateCode,
+            cate_kor as cateKor,
+            parent_num as parentNum,
+            parent_code as parentCode,
             null as icon
         from 
             bedu_db.t_bedu_lect_mid_cate
         union all
         select
             num,
-            cate_code,
-            cate_kor,
-            parent_num,
-            parent_code,
+            cate_code as cateCode,
+            cate_kor as cateKor,
+            parent_num parnetNum,
+            parent_code parentCode,
             null as icon
         from 
             bedu_db.t_bedu_lect_bot_cate
@@ -38,11 +38,26 @@
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
-        SELECT * FROM bedu_db.t_bedu_lect_bot_cate WHERE parent_code = #{mid}
+        SELECT 
+            num,
+            cate_code as cateCode,
+            cate_kor as cateKor,
+            parent_code as parentCode,
+            parent_num as parentNum 
+        FROM 
+            bedu_db.t_bedu_lect_bot_cate 
+        WHERE parent_code = #{mid}
     </select>
 
     <select id="getTop" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
-        SELECT * FROM bedu_db.t_bedu_lect_top_cate
+        SELECT
+            num,
+            cate_code as cateCode,
+            cate_kor as cateKor,
+            parent_code as parentCode,
+            parent_num as parentNum 
+        FROM 
+            bedu_db.t_bedu_lect_top_cate
     </select>
 
 </mapper>

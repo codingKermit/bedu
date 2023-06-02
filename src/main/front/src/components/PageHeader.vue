@@ -10,9 +10,9 @@
         분야별 강의
       </a>
       <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
-        <li v-for="item in categories" :key="item.cate_code">
-          <router-link :to='"/lectureCategories/" + item.cate_code + "?cnt_mid_cate=" + item.children[0].cate_code'>
-            <a style="cursor: pointer;" class="dropdown-item">{{ item.cate_kor }}</a>
+        <li v-for="item in categories" :key="item.cateCode">
+          <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
+            <a style="cursor: pointer;" class="dropdown-item">{{ item.cateKor }}</a>
           </router-link>
         </li>
       </ul>
@@ -59,8 +59,8 @@ export default {
       this.$routerPush(
         'course',
         {
-          category: item.cate_code,
-          korCategory: item.cate_kor
+          category: item.cateCode,
+          korCategory: item.cateKor
         },
         true
       );
@@ -71,14 +71,14 @@ export default {
       // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
       data.forEach(category => {
           category.children = []; // 자식 카테고리를 저장할 배열 생성
-          map[category.cate_code] = category;
+          map[category.cateCode] = category;
       });
       
       const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
       
       // 부모-자식 관계 설정
       data.forEach(category => {
-          const parentCode = category.parent_code;
+          const parentCode = category.parentCode;
           if (parentCode) {
               const parent = map[parentCode];
               if (parent) parent.children.push(category)

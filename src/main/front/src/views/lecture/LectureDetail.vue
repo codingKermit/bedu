@@ -79,7 +79,6 @@
 
             <!-- 소개, 목록, 후기 탭 -->
             <div class="form-contents-container">
-
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item">
                         <a class="nav-link py-4 text-body " href="#description-body">강좌소개</a>
@@ -95,8 +94,8 @@
                 <!-- 강좌 소개 -->
                 <b-container class="px-4">
                     <h2 class="fw-bold my-5" id="description-body">강좌 소개</h2>
-                    <div class="w-100 overflow-visible ">
-                        <div v-html="form.lect_desc" class="w-100 justify-content-center "></div>
+                    <div class="w-100 overflow-visible">
+                        <div v-html="form.lectDesc" class="w-100 "></div>
                     </div>
 
                     <!-- 강의 목록 -->
@@ -107,7 +106,7 @@
                             :key="i"
                             class="py-3 fs-5 border-bottom border-1  d-flex">
                             <span class="me-auto ms-3 fw-bold">
-                                {{video.lect_dtl_title}}
+                                {{video.lectDtlTitle}}
                             </span>
                             <span class="ms-auto me-3">
                                 {{ video.times }}
