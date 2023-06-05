@@ -175,7 +175,6 @@
                 this
                     .$axiosSend('get', '/api/lectureDetail', {num: this.form.num})
                     .then((res) => {
-                        console.log(res.data)
                         this.form = res.data;
                         this.form.stars = [];
 
