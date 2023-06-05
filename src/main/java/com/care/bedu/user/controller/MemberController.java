@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.user.service.MemberService;
 import com.care.bedu.user.vo.MemberVO;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/api")
 public class MemberController {
@@ -28,7 +26,7 @@ public class MemberController {
 
 	// 회원 가입 요청
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody MemberVO memberVo) {
+    public ResponseEntity<String> register(MemberVO memberVo) {
         memberService.register(memberVo);
 
         return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED);
