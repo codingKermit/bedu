@@ -49,7 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(reviews, index) in searchedReviews" :key="index">
+          <tr v-for="(reviews, index) in fetchedReviews" :key="index">
             <td>{{ index + 1 }}</td>
             <td style="padding-right: 10%">{{ reviews.title }}</td>
             <td>
@@ -64,16 +64,19 @@
             </td>
             <td style="padding-right: 20px">{{ reviews.writer }}</td>
           </tr>
+          <infinite-loading @infinite="fetchReviews">
+            <template #no-more>마지막 후기 입니다.</template>
+          </infinite-loading>
         </tbody>
         <tr v-if="isLoading">
           <td colspan="5" class="loading-text">로딩 중...</td>
         </tr>
+        <div class="infinite-loading-container">
+          <!-- <infinite-loading @infinite="fetchReviews">
+            <template #no-more>마지막 후기 입니다.</template>
+          </infinite-loading> -->
+        </div>
       </table>
-      <div class="infinite-loading-container">
-        <infinite-loading @infinite="fetchReviews">
-          <template #no-more>마지막 후기 입니다.</template>
-        </infinite-loading>
-      </div>
     </div>
   </div>
 </template>
@@ -99,18 +102,22 @@ export default {
     };
   },
   methods: {
-    fetchReviews() {
+    fetchReviews($state) {
       this.isLoading = true;
+      console.log("page : " + this.currentPage)
       this.$axiosSend("get", "/api/reviews", {
         page: this.currentPage, 
         size: this.itemsPerPage,
       })
         .then((response) => {
-          const { content, totalElements } = response.data;
-          if (Array.isArray(content)) {
-            this.fetchedReviews = content;
-          } else {
-            this.fetchedReviews = [];
+          const {  totalElements } = response.data;
+          if (response.data.length) {
+            this.fetchedReviews.push(...response.data);
+            this.currentPage++;
+            $state.loaded();
+          } 
+          else {
+            $state.complete();
           }
           this.totalItems = totalElements;
           this.isLoading = false;
@@ -163,7 +170,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchReviews();
+
   },
 };
 </script>

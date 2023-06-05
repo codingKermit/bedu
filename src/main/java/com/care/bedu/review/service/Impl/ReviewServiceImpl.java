@@ -1,5 +1,6 @@
 package com.care.bedu.review.service.Impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,9 +23,14 @@ public class ReviewServiceImpl implements ReviewService {
     
     @Override
     public List<HashMap<String, Object>> getAllReviews(int page, int size) {
-        int startIndex = page * size;
+        int startIndex = (page-1) * size;
         int endIndex = startIndex + size;
         List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
+        if(startIndex>Math.min(endIndex, allReviews.size())){
+            List<HashMap<String, Object>> map = new ArrayList<>();
+            return map; 
+        }
+        
         return allReviews.subList(startIndex, Math.min(endIndex, allReviews.size()));
     }
 
