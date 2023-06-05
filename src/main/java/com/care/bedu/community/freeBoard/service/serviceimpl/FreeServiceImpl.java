@@ -16,7 +16,7 @@ public class FreeServiceImpl implements FreeService{
 	private FreeDAO freeDAO;
 	
 	@Override
-	public ArrayList<FreeVO> listProc(FreeVO freeVO) {
+	public ArrayList<FreeVO> listProc(FreeVO freeVO) {					//게시글 조회
 		freeVO.setPage((freeVO.getPage()-1)*5);			//시작할 현재 페이지 로직
 		if(freeVO.getKeyword() != null) {				//검색 키워드 조건 (키워드 없으면 기본 조회)
 			return freeDAO.viewsearch(freeVO);
@@ -34,18 +34,18 @@ public class FreeServiceImpl implements FreeService{
 	}
 
 	@Override
-	public FreeVO viewone(int num) {
-		freeDAO.cntUp(num);
+	public FreeVO viewone(int num) {			//게시글 상세보기
+		freeDAO.cntUp(num);						//조회수 증가
 		return freeDAO.viewone(num);
 	}
 
 	@Override
-	public int viewdelete(int num) {
+	public int viewdelete(int num) {			//게시글 삭제
 		return freeDAO.viewdelete(num);
 	}
 
 	@Override
-	public int viewupdate(FreeVO freeVO) {
+	public int viewupdate(FreeVO freeVO) {			//게시글 수정
 		return freeDAO.viewupdate(freeVO);
 	}
 
@@ -55,7 +55,7 @@ public class FreeServiceImpl implements FreeService{
 	}
 
 	@Override
-	public int likeUp(int num) {
+	public int likeUp(int num) {					//게시글 좋아요증가
 		return freeDAO.likeUp(num);	
 	}
 	

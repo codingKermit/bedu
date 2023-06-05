@@ -51,9 +51,4 @@
 		SELECT COUNT(*) FROM t_bedu_comm
 	</select>
 	
-	<select id="getlike" resultType="int">
-		select comm_like_yn from t_bedu_comm
-		WHERE COMM_NUM = #{num}		
-	</select>
-	
 </mapper>
