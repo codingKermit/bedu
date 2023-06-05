@@ -56,19 +56,10 @@ export default{
         }
     },
     methods: {
-                /** 카테고리 변경체크 */
-                midCategoryChanger(top, mid) {
-                this.cnt_mid_cate = mid.cateCode;
-                this.cnt_mid_cate_kor = mid.cateKor;
-                this.cnt_top_cate = top.cateCode;
-                this.cnt_top_cate_kor = top.cateKor;
-                this.$route.params.index = top.cateCode;
-                this.$route.query.mid = mid.cateCode;
-            },            
             /** 마운트시 카테고리 조회하는 함수 */
             getCategory() {
                 this
-                    .$axiosSend('get', '/api/getCategory')
+                    .$axiosSend('get', '/api/lect/getCategory')
                     .then((res) => {
                         const data = res.data;
                         this.convertToHierarchy(data); // 트리구조로 변경하는 함수 호출
@@ -115,14 +106,11 @@ export default{
     mounted() {
         this.getCategory(); // 마운트시 카테고리 목록부터 조회
     },
-    props:{
-        // cnt_mid_cate : String,
-        // cnt_mid_cate_kor : String,
-        // cnt_top_cate : String,
-        // cnt_top_cate_kor : String,
-    },
     watch:{
-        '$route.params.index': {
+        '$route.params.index': { 
+            /** LectureCategories.vue 와 중복되는 내용이지만 
+             * 해당 이 부분은 화면에 css를 적용하기 위한 기능, 조회기능 X
+            */
                 immediate: true,
                 handler(newTop) {
                     this.cnt_top_cate = newTop;

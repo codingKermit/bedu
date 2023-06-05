@@ -12,7 +12,7 @@
             null as parentCode,
             null as parentNum
         from
-            t_bedu_lect_top_cate
+            bedu_db.t_bedu_lect_top_cate
         union all
         select 
             num,
@@ -22,7 +22,7 @@
             parent_code as parentCode,
             null as icon
         from 
-            t_bedu_lect_mid_cate
+            bedu_db.t_bedu_lect_mid_cate
         union all
         select
             num,
@@ -32,7 +32,7 @@
             parent_code parentCode,
             null as icon
         from 
-            t_bedu_lect_bot_cate
+            bedu_db.t_bedu_lect_bot_cate
         order by 
             NUM;
     </select>
@@ -45,19 +45,9 @@
             parent_code as parentCode,
             parent_num as parentNum 
         FROM 
-            t_bedu_lect_bot_cate 
+            bedu_db.t_bedu_lect_bot_cate 
         WHERE parent_code = #{mid}
     </select>
 
-    <select id="getTop" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
-        SELECT
-            num,
-            cate_code as cateCode,
-            cate_kor as cateKor,
-            parent_code as parentCode,
-            parent_num as parentNum 
-        FROM 
-            t_bedu_lect_top_cate
-    </select>
 
 </mapper>

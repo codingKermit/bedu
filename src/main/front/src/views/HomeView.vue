@@ -26,7 +26,6 @@
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
                             <b-container class="border rounded-4 lecture_item">
-                                <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
                                 <div class="ps-2">
                                     <p class="fs-5 pt-3">{{ item.title }}</p>
                                     <p class="text-secondary">{{ item.lectSum }}</p>
@@ -56,7 +55,6 @@
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
                             <b-container class="border rounded-4 lecture_item">
-                                <!-- <b-img :src='item.thumbnail' class="w-100 h-100 mb-3" thumbnail="thumbnail"></b-img> -->
                                 <div class="ps-3">
                                     <p class="fs-5 pt-3">{{ item.title }}</p>
                                     <p class="text-secondary">{{ item.lectSum }}</p>
@@ -87,17 +85,12 @@ export default{
   name : 'lectureView',
   data() {
     return {
-      keyword : '',
-      newestLectures:[],
+      keyword : '', /** 검색 키워드 */
+      newestLectures:[], /** 최신 강의 목록 데이터 */
     }
   },
   methods: {
-    test(){
-      this.$axiosSend('get','/api/hello')
-      .then((res)=>console.log(res.data))
-      .catch((error)=>{error})
-    },
-    lectSearch(){
+    lectSearch(){ /** 검색할때 동작 */
       this.$routerPush(
         'lectureSearch',
         {
@@ -109,7 +102,7 @@ export default{
 
     /** 최근 업로드된 강의 4개 조회하는 메서드 */
     getNewestLecture(){
-      this.$axiosSend('get','/api/getNewestLecture')
+      this.$axiosSend('get','/api/lect/getNewestLecture')
       .then((res)=>{
         this.newestLectures = res.data.item;
       })
@@ -131,6 +124,10 @@ export default{
 </script>
 
 <style scoped>
+
+a{
+  cursor: pointer !important;
+}
 .lecture_item:hover{
     transition: 0.1s;
     box-shadow: 0px 0px 0px 3px black inset !important;
