@@ -13,7 +13,7 @@ public class ReviewVO {
     @Column(name = "TITLE")
     private String title;
     
-    @Column(name = "USER_ID")
+    @Column(name = "USER_NAME")
     private String writer;
     
     @Column(name = "CONTENT")

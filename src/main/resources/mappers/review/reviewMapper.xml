@@ -11,7 +11,7 @@
         INSERT INTO
             t_bedu_rw_bd
                 (TITLE,
-                USER_ID,
+                USER_NAME,
                 CONTENT,
                 RW_GRADE,
                 LECT_NUM,
@@ -32,7 +32,7 @@
     <select id="getAllReviews" resultType="java.util.HashMap">
         SELECT 
         		TITLE as title,
-        		USER_ID as writer,	
+        		USER_NAME as writer,	
         		CONTENT as content,
         		RW_GRADE as star
         FROM t_bedu_rw_bd;

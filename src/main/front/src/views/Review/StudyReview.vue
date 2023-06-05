@@ -37,7 +37,7 @@
         </select>
       </div>
     </div>
-    <div class="scroll-container">
+    <div class="scroll-container" style="padding: 25px;">
       <table class="review-table">
         <thead>
           <tr>
@@ -63,7 +63,7 @@
             <td>{{ reviews.writer }}</td>
           </tr>
           <infinite-loading @infinite="fetchReviews">
-            <!-- <template #no-more>마지막 후기 입니다.</template> -->
+            <template #no-more>마지막 후기 입니다.</template>
           </infinite-loading>
         </tbody>
         <tr v-if="isLoading">
@@ -245,7 +245,8 @@ a {
 
 .review-table {
   width: 100%;
-  border-collapse: collapse;
+
+
 }
 
 .review-table th,
@@ -255,10 +256,6 @@ a {
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
 }
-
-
-
-
 
 .star-rating {
   display: flex;
@@ -302,4 +299,8 @@ a {
   bottom: 0;
   text-align: center;
 }
+.review-sort {
+  margin-bottom: 10px;
+}
+
 </style>
