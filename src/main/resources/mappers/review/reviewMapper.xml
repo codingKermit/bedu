@@ -30,7 +30,12 @@
     </insert>
 
     <select id="getAllReviews" resultType="java.util.HashMap">
-        SELECT * FROM bedu_db.t_bedu_rw_bd;
+        SELECT 
+        		TITLE as title,
+        		USER_ID as writer,	
+        		CONTENT as content,
+        		RW_GRADE as star
+        FROM bedu_db.t_bedu_rw_bd;
     </select>
 
 </mapper>
