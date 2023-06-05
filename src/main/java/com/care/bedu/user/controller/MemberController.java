@@ -17,21 +17,21 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructor
 public class MemberController {
     
-	@Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
+    
+    @Autowired
+    public MemberController(MemberService memberService) {
+    	this.memberService = memberService;
+    }
 
 	// 회원 가입 요청
-	@PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody MemberVO memberVo) {
-        try {
-        	memberService.register(memberVo);
-            return ResponseEntity.ok("회원가입에 성공했습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입에 실패했습니다.");
-        }
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody MemberVO memberVo) {
+        memberService.register(memberVo);
+
+        return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 	
 	// 이메일 중복 체크

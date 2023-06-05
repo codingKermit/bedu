@@ -3,7 +3,7 @@
 
 <mapper namespace="com.care.bedu.user.dao.MemberDAO">
 
-	<insert id="regist" parameterType="com.care.bedu.user.vo.MemberVO">
+	<insert id="register" parameterType="com.care.bedu.user.vo.MemberVO">
 	      		INSERT INTO bedu_db.t_bedu_user (
 		      		USER_NUM, 
 		      		USER_ID, 
@@ -20,7 +20,7 @@
 		      		#{nickname}, 
 		      		#{regDate}, 
 		      		#{cls}, 
-		      		#{userRegDate}, 
+		      		#{urd}, 
 		      		#{udy})
 	</insert>
 
