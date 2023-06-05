@@ -173,8 +173,9 @@
             },
             getDetail() {
                 this
-                    .$axiosSend('get', '/api/lectureDetail', {num: this.form.num})
+                    .$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.num})
                     .then((res) => {
+                        console.log(res)
                         this.form = res.data;
                         this.form.stars = [];
 
@@ -197,15 +198,20 @@
                         console.log(err)
                     })
                 },
-            getVideoList() {
+            getVideoList() { /** 동영상 목록 조회 */
                 this
-                    .$axiosSend('get', '/api/getVideoList', {num: this.form.num})
+                    .$axiosSend('get', '/api/lect/getVideoList', {num: this.form.num})
                     .then((res) => {
                         this.videos = res.data;
                     })
                     .catch((err) => {
                         console.log(err)
                     });
+            },
+            getReview(){ 
+                this.$axiosSend('get','/api/lect/getReview',{num : this.form.num})
+                .then((res)=>{console.log(res)})
+                .catch((err)=>{console.log(err)})
             }
         },
         mounted() {
@@ -221,12 +227,6 @@
     b-img {
         width: 100%;
     }
-
-    /* .nav-link:hover {
-        transition: 0.25s;
-        font-size: 20px;
-        box-sizing: border-box !important;
-    } */
 
     .form-contents-container {
         border-top: 3px solid black;

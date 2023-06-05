@@ -16,19 +16,10 @@ public class LectureCategoryServiceImpl implements LectureCategoryService{
     LectureCategoryDAO dao;
 
     @Override
-    public ArrayList<LectureCategoriesVO> getCategory() {
+    public ArrayList<LectureCategoriesVO> getCategory() { /* 대중소 카테고리 조회 */
         ArrayList<LectureCategoriesVO> list = new ArrayList<>();
         list = dao.getCategories();
         return list;
     }
 
-    @Override
-    public ArrayList<LectureCategoriesVO> getTop() {
-        ArrayList<LectureCategoriesVO> tops = new ArrayList<>();
-
-        tops = dao.getTop();
-
-        return tops;
-    }
-    
 }
