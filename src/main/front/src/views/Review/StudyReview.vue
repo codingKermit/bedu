@@ -41,19 +41,17 @@
       <table class="review-table">
         <thead>
           <tr>
-            <th>번호</th>
-            <th style="padding-right: 10%">강좌</th>
-            <th style="padding-right: 20%">수강후기</th>
+            <th>강좌</th>
+            <th style="padding-right: 40px">수강후기</th>
             <th>별점</th>
             <th>작성자</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(reviews, index) in fetchedReviews" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td style="padding-right: 10%">{{ reviews.title }}</td>
+            <td class="review-title">{{ reviews.title }}</td>
             <td>
-              <span class="review-content">{{ reviews.content }}</span>
+              <span class="review-content" style="padding-right: 40px">{{ reviews.content }}</span>
             </td>
             <td>
               <div class="star-rating">
@@ -62,10 +60,10 @@
                 >
               </div>
             </td>
-            <td style="padding-right: 20px">{{ reviews.writer }}</td>
+            <td>{{ reviews.writer }}</td>
           </tr>
           <infinite-loading @infinite="fetchReviews">
-            <template #no-more>마지막 후기 입니다.</template>
+            <!-- <template #no-more>마지막 후기 입니다.</template> -->
           </infinite-loading>
         </tbody>
         <tr v-if="isLoading">
@@ -255,7 +253,12 @@ a {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
+
+
+
+
 
 .star-rating {
   display: flex;
