@@ -36,7 +36,7 @@ export default{
 
     methods: {
         freedetail(num){ // 게시글 데이터 조회
-            this.$axiosSend('get','/api/community/detail',{
+            this.$axiosSend('get','/api/freBd/detail',{
                     num : num,
             })
             .then(response=>{
@@ -54,7 +54,7 @@ export default{
           form.append("title",this.form.title);
           form.append("content",this.form.content);
           
-          this.$axiosSend('post','/api/community/edit', this.form)
+          this.$axiosSend('post','/api/freBd/edit', this.form)
           .then(res => {
               if(res.data === 1){
                 this.$swal('Success','수정완료!','success'),

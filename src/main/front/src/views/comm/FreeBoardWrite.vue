@@ -59,7 +59,7 @@ export default {
       form.append("title", this.form.title);
       form.append("content", this.form.content);
 
-      this.$axiosSend('post', '/api/community/write', this.form)
+      this.$axiosSend('post', '/api/freBd/write', this.form)
         .then((res) => {
           if (res.data === 1) {
             this.$swal('Success', '작성완료!', 'success'),

@@ -82,7 +82,7 @@ export default {
   methods: {
 
     freeList() {
-      this.$axiosSend('get','/api/community/boardList', {
+      this.$axiosSend('get','/api/freBd/boardList', {
           page: this.currentPage,
       })
       .then(res=>{
@@ -96,7 +96,7 @@ export default {
     search() {                                   
       const form = new FormData();
       form.append('keyword', this.form.keyword);
-      this.$axiosSend('post','/api/community/boardList', this.form)
+      this.$axiosSend('post','/api/freBd/boardList', this.form)
       .then(res=>{
           this.freelist = res.data;
       })
@@ -106,7 +106,7 @@ export default {
     },
 
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
-      this.$axiosSend('get','/api/community/boardList',{
+      this.$axiosSend('get','/api/freBd/boardList',{
           page : this.currentPage,
       })
       .then(res=>{
@@ -124,7 +124,7 @@ export default {
     },
 
     getTotal(){ // 게시글 총 갯수 조회
-          this.$axiosSend('get', '/api/community/total')
+          this.$axiosSend('get', '/api/freBd/total')
           .then(response=>{
             this.totalItems = response.data;
             this.totalPage = Math.ceil(this.totalItems/5);
@@ -135,7 +135,7 @@ export default {
     },
 
     freelikeUp(num) {
-      this.$axiosSend('get', '/api/community/likeUp', {
+      this.$axiosSend('get', '/api/freBd/likeUp', {
           num: num
       })
         .then(res => {

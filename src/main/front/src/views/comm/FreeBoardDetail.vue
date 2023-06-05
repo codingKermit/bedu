@@ -61,7 +61,7 @@ export default{
     methods: {
         freeRead(num){ // 게시글 데이터 조회
             // console.log('번호:', num);
-            this.$axiosSend('get','/api/community/detail',{
+            this.$axiosSend('get','/api/freBd/detail',{
                     num : num,
             })
             .then(response=>{
@@ -71,7 +71,7 @@ export default{
         },
         freedelete() {
             alert('게시글을 삭제합니다.');
-            this.$axiosSend('get','/api/community/delete', {
+            this.$axiosSend('get','/api/freBd/delete', {
                     num: this.result,
             })
                 .then(res => {

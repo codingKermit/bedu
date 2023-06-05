@@ -17,41 +17,41 @@ public class FreeController {
 	@Autowired
 	private FreeService freeService;
 	
-	@RequestMapping(value="/community/boardList", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<FreeVO> freeList(FreeVO freeVO){
 		return freeService.listProc(freeVO);
 		
 	}
 	
-	@RequestMapping(value="/community/write", method=RequestMethod.POST)
+	@RequestMapping(value="/freBd/write", method=RequestMethod.POST)
 	public int freeWrite(FreeVO freeVO){
 		int result = freeService.boardwrite(freeVO);
 		return result == 1 ? 1: 0;
 	}
 	
-	@RequestMapping(value="/community/detail", method=RequestMethod.GET)
+	@RequestMapping(value="/freBd/detail", method=RequestMethod.GET)
 	public FreeVO freeDetail(int num){
 		return freeService.viewone(num);	
 	}
 	
-	@RequestMapping(value="/community/edit", method=RequestMethod.POST)
+	@RequestMapping(value="/freBd/edit", method=RequestMethod.POST)
 	public int freeEdit(FreeVO freeVO){
 		int result = freeService.viewupdate(freeVO);
 		return result == 1? 1:0;	
 	}
 	
-	@RequestMapping(value="/community/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/freBd/delete", method=RequestMethod.GET)
 	public int freeDelete(int num){
 		int result = freeService.viewdelete(num);
 		return result == 1? 1:0;
 	}
 	
-	@RequestMapping("/community/total")
+	@RequestMapping("/freBd/total")
 	public int getTotal(){
 		return freeService.getTotal();
 	}
 	
-	@RequestMapping(value="/community/likeUp", method = RequestMethod.GET)
+	@RequestMapping(value="/freBd/likeUp", method = RequestMethod.GET)
 	public int likeUp(int num){
 		return freeService.likeUp(num);
 	}

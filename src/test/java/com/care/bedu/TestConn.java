@@ -22,12 +22,12 @@ public class TestConn {
     public void Connection() {
 		for(int i=0; i<20; i++) {
 			FreeVO dto = new FreeVO();
-			dto.setUser_id("user25");
+			dto.setUser_id("test@test.com");
 			dto.setReg_id(dto.getUser_id());
 			dto.setComm_like_yn(0);
 			dto.setComm_cnt(0);
-			dto.setTitle("질문");
-			dto.setContent("내용");
+			dto.setTitle("질문제목");
+			dto.setContent("질문내용");
 			community.viewWrite(dto);
 		}
 	}
@@ -36,12 +36,12 @@ public class TestConn {
     public void qnaConnection() {
 		for(int i=0; i<20; i++) {
 			QnaVO dto = new QnaVO();
-			dto.setUser_id("user99");
+			dto.setUser_id("test2@test.com");
 			dto.setReg_id(dto.getUser_id());
 			dto.setQna_like_yn(0);
 			dto.setQna_cnt(0);
-			dto.setTitle("질문");
-			dto.setContent("내용");
+			dto.setTitle("질문제목");
+			dto.setContent("질문내용");
 			qnaDAO.viewWrite(dto);
 		}
 	}
