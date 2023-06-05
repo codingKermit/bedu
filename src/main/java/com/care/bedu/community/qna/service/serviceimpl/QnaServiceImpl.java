@@ -25,7 +25,7 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int boardwrite(QnaVO qnaDTO) {
-		qnaDTO.setUser_id("hong55"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
+		qnaDTO.setUser_id("test2@test.com"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
 		qnaDTO.setReg_id(qnaDTO.getUser_id());
 		qnaDTO.setQna_cnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
 		qnaDTO.setQna_like_yn(0);

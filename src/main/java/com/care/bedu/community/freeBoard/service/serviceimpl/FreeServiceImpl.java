@@ -26,7 +26,7 @@ public class FreeServiceImpl implements FreeService{
 
 	@Override
 	public int boardwrite(FreeVO freeVO) {
-		freeVO.setUser_id("user45"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
+		freeVO.setUser_id("test@test.com"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
 		freeVO.setReg_id(freeVO.getUser_id());
 		freeVO.setComm_cnt(0);
 		freeVO.setComm_like_yn(0);
