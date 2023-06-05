@@ -17,36 +17,36 @@
       <div class="freeboard-main-1">
         <table class="w3-table-all">
           <tbody>
-            <tr v-for="community in communitylist" :key="community.comm_cnt">
+            <tr v-for="free in freelist" :key="free.comm_num">
               <td>
-                <b-link class="text-start" :to="'/comm/freBdDetail/' + community.comm_num">
-                  {{ community.title }}
+                <b-link class="text-start" :to="'/comm/freBdDetail/' + free.comm_num">
+                  {{ free.title }}
                 </b-link>
               </td>
-              <td>{{ community.user_id }}</td>
-              <td>{{ community.comm_date }}</td>
+              <td>{{ free.user_id }}</td>
+              <td>{{ free.comm_date }}</td>
               <td>
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.comm_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(community.comm_num)" />
-                <text class="fw-bold ms-2">
-                  {{ community.comm_like_yn }}
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(free.comm_num)" />
+                <text class="fw-bold ms-2" id="likes">
+                  {{ free.comm_like_yn }}
                 </text>
               </td>
             </tr>
           </tbody>
         </table>
+        <hr>
+        <InfiniteLoading @infinite="infiniteHandler" @distance="1">
+    <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+    </template>
+    <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+      <span></span>
+    </template>
+     <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+    </template>
+    </InfiniteLoading>
       </div>
     </div>
-    <hr>
-    <InfiniteLoading @infinite="infiniteHandler">
-      <template #spinner> <!-- 로딩중일때 보여질 부분 -->
-      </template>
-      <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
-        <span></span>
-      </template>
-      <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
-      </template>
-    </InfiniteLoading>
   </div>
 </template>
 <script>
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       page : 1,
-      communitylist:[],
+      freelist:[],
       form: {
         keyword: '',
       },
@@ -66,10 +66,8 @@ export default {
     };
   },
   mounted() {
-    this.infiniteHandler();
     this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-    this.getTotal();          //끝페이지 번호 설정
-    this.List();              //설정한 페이지 번호를 기반으로 게시물 조회
+    this.getTotal();
   },
 
   components:{
@@ -78,93 +76,79 @@ export default {
 
   created(){
     this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-    this.getTotal();          //끝페이지 번호 설정
-    this.List();           //설정한 페이지 번호를 기반으로 게시물 조회
+    this.getTotal();
   },
 
   methods: {
-    List() {
+
+    freeList() {
       this.$axiosSend('get','/api/community/boardList', {
-        params:{
           page: this.currentPage,
-        }
       })
-        .then(res => {
-          this.communitylist = res.data;
-        })
-        .catch(error => {
-          console.log(error, '실패함!!');
-        });
+      .then(res=>{
+          this.freelist = res.data;
+      })
+      .catch((err)=>{
+        alert(err);
+      })
     },
+
     search() {                                   
       const form = new FormData();
       form.append('keyword', this.form.keyword);
-      this.$axiosSend('post','/api/community/boardList', form)
-        .then(res => {
-          this.communitylist = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$axiosSend('post','/api/community/boardList', this.form)
+      .then(res=>{
+          this.freelist = res.data;
+      })
+      .catch((err)=>{
+        alert(err);
+      })
     },
 
     infiniteHandler($state){ // 스크롤 이벤트 핸들러
       this.$axiosSend('get','/api/community/boardList',{
-        params:{
-          page : this.page,
-        }
+          page : this.currentPage,
       })
       .then(res=>{
         if(res.data.length){
-          this.page++;
-          this.communitylist.push(...res.data);
+          this.currentPage++;
+          this.freelist.push(...res.data);
           $state.loaded();
         } else{
           $state.complete();
         }
       })
       .catch(err=>{
-        console.log(err);
+        alert(err);
       })
     },
 
     getTotal(){ // 게시글 총 갯수 조회
-          this.$axiosSend('get','/api/community/total')
-          .then((response)=>{
+          this.$axiosSend('get', '/api/community/total')
+          .then(response=>{
             this.totalItems = response.data;
-            this.totalPage = Math.ceil(this.totalItems/10);
+            this.totalPage = Math.ceil(this.totalItems/5);
           })
           .catch((error)=>{
-            console.log(error)
+            alert(error);
           })
-    },
-
-    pageChange(val){ // 페이지 변경
-          if(val<=0){
-            return;
-          }
-          if(val>this.totalPage){
-            return;
-          }
-          this.currentPage = val;
-          this.List();
     },
 
     freelikeUp(num) {
-      this.pathnum = num;
-      this.$axiosSend('get','/api/community/likeUp', {
-        params: {
+      this.$axiosSend('get', '/api/community/likeUp', {
           num: num
-        }
       })
         .then(res => {
-          console.log(res.data);
           if(res.data === 1){
-            this.List();
+            for(var i=0; i<this.freelist.length; i++){
+            if(num === this.freelist[i].comm_num){
+              this.freelist[i].comm_like_yn++;
+            }
+          }
           }
         })
         .catch((error) => {
-          console.log(error);
+          alert(error);
         })
     }
 
@@ -181,6 +165,11 @@ export default {
         margin-left:auto; 
         margin-right:auto;
         width: 500px;
+    }
+
+    td{
+      font-size: 140%;
+      height: 100px;
     }
 
     .freeboard-main{

@@ -19,7 +19,7 @@ import router from '@/router';
 
 export default {
   
-    name: 'communityWrite',
+    name: 'freeWrite',
     data() {
         return {
             form:{
@@ -30,50 +30,49 @@ export default {
     },
 
     methods: {
-      submit(){
-         
-          if(this.form.title == null || this.form.title == ""){
-            this.$swal({
-                title :'warning!',
-                text :"제목을 입력해주세요",
-                type :'warning',
-                icon : 'warning',
-                didClose: () => {
-                  this.$refs.title.focus()
-                }
-              }
-            )
-            return;
-          }
-          if(this.form.content == null || this.form.content == ""){
-            this.$swal({
-              title :'warning!',
-              text :"내용을 입력하세요",
-              type :'warning',
-              icon : 'warning',
-            })
-            return;
-          }
-          const form = new FormData();
-          form.append("title",this.form.title);
-          form.append("content",this.form.content);
+      
+      submit() {
 
-          this.$axiosSend('post','/api/community/write',form)
-          .then(res => {
-              console.log(res.data);
-              if(res.data === 1){
-                this.$swal('Success','작성완료!','success'),
-                router.push({
-                  name:"freeBoard"
-                })
-              }
-            }
-          )
-          .catch((error)=>{
-            console.log(error)
-            this.$swal('Error','게시글이 정상적으로 작성되지 않았습니다','error')
-          })
+      if (this.form.title == null || this.form.title == "") {
+        this.$swal({
+          title: 'warning!',
+          text: "제목을 입력해주세요",
+          type: 'warning',
+          icon: 'warning',
+          didClose: () => {
+            this.$refs.title.focus()
+          }
+        })
+        return;
       }
+      if (this.form.content == null || this.form.content == "") {
+        this.$swal({
+          title: 'warning!',
+          text: "내용을 입력하세요",
+          type: 'warning',
+          icon: 'warning',
+        })
+        return;
+      }
+
+      var form = new FormData();
+      form.append("title", this.form.title);
+      form.append("content", this.form.content);
+
+      this.$axiosSend('post', '/api/community/write', this.form)
+        .then((res) => {
+          if (res.data === 1) {
+            this.$swal('Success', '작성완료!', 'success'),
+              router.push({
+                name: "freeBoard"
+              })
+          }
+        }
+        )
+        .catch((error) => {
+          this.$swal('Error', '게시글이 정상적으로 작성되지 않았습니다.', error);
+        })
+    }
 
     },
 }

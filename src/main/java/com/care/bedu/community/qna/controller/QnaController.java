@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.community.qna.dto.QnaDTO;
 import com.care.bedu.community.qna.service.QnaService;
+import com.care.bedu.community.qna.vo.QnaVO;
 
 @RestController
 @RequestMapping("/api")
@@ -18,24 +18,23 @@ public class QnaController {
 	private QnaService qnaService;
 	
 	@RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})
-	public ArrayList<QnaDTO> qnaList(QnaDTO qnaDTO){
-		ArrayList<QnaDTO> list = qnaService.listProc(qnaDTO);
-		return list;
+	public ArrayList<QnaVO> qnaList(QnaVO qnaDTO){
+		return qnaService.listProc(qnaDTO);
 	}
 	
 	@RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)
-	public String qnaWrite(QnaDTO qnaDTO){
+	public String qnaWrite(QnaVO qnaDTO){
 		int result = qnaService.boardwrite(qnaDTO);
 		return result > 0 ? "Y": "N";
 	}
 	
 	@RequestMapping(value="/qna/qnaDetail", method=RequestMethod.GET)
-	public QnaDTO qnaDetail(int num){
+	public QnaVO qnaDetail(int num){
 		return qnaService.viewone(num);
 	}
 	
 	@RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)
-	public String qnaEdit(QnaDTO qnaDTO){
+	public String qnaEdit(QnaVO qnaDTO){
 		int result = qnaService.viewupdate(qnaDTO);
 		return result> 0? "Y":"N";	
 	}
@@ -54,8 +53,8 @@ public class QnaController {
 	
 	@RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)
 	public int likeUp(int num){
-		int result = qnaService.likeUp(num);
-		return result == 1? 1:0;
+		return qnaService.likeUp(num);
+		
 	}
 
 }

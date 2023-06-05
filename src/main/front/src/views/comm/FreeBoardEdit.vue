@@ -21,7 +21,7 @@ export default{
     data(){
         return {
             form:{
-                comm_num:0,  
+                comm_num : 0,  
                 title: '',
                 content: '',
             }
@@ -29,114 +29,50 @@ export default{
     },
 
     mounted() {
-        // console.log(this.$route.params.num)
-        const cnum = this.$route.params.num;
-        console.log(cnum);
-        this.communitydetail(cnum);
-        // this.path(cnum);
-        // path(num);
+        const num = this.$route.params.num;
+        this.freedetail(num);
+        
     },
 
     methods: {
-        communitydetail(cnum){ // 게시글 데이터 조회
+        freedetail(num){ // 게시글 데이터 조회
             this.$axiosSend('get','/api/community/detail',{
-                params : {
-                    num : cnum,
-                },
+                    num : num,
             })
             .then(response=>{
-                console.log('확인:', response);
                 this.form = response.data;
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{
+                alert(error);
+            })
         },
+
         edit(){
           alert('게시글을 수정합니다.');
           const form = new FormData();
           form.append("comm_num",this.form.comm_num);
           form.append("title",this.form.title);
           form.append("content",this.form.content);
-          console.log('글번호:', this.form.comm_num);
-          this.$axiosSend('post','/api/community/edit',form)
+          
+          this.$axiosSend('post','/api/community/edit', this.form)
           .then(res => {
-              console.log('완료!', res);
-              this.$swal('Success','수정완료!','success'),
-              router.push({
-                  name:"freeBoard"
-              })
+              if(res.data === 1){
+                this.$swal('Success','수정완료!','success'),
+                router.push({
+                   name:"freeBoard"
+                })
+              }
             }
           )
           .catch((error)=>{
-            console.log(error)
-            this.$swal('Error','게시글이 정상적으로 수정되지 않았습니다','error')
+            this.$swal('Error','게시글이 정상적으로 수정되지 않았습니다',error);
           })
 
         }
-        // path(cnum){
-        //     this.num = cnum;
-        // },
 
     },
 
 }
-// import router from '@/router';
-
-// export default {
-  
-//     name: 'communityedit',
-//     data() {
-//         return {
-//             community:{
-//                 title:'',
-//                 contents : '',
-//                 writer: '',
-//             }
-//         };
-//     },
-
-//     methods: {
-//       submit(){
-//           const form = new FormData();
-//           form.append("title",this.form.title);
-//           form.append("contents",this.form.contents);
-//           form.append("writer",this.form.writer);
-
-//           this.$axiosSend('post','/api/community/writer',form)
-//           .then(
-//               this.$swal('Success','작성완료!','success'),
-//               router.push({
-//                   name:"community"
-//               })
-//           )
-//           .catch((error)=>{
-//             console.log(error)
-//             this.$swal('Error','게시글이 정상적으로 작성되지 않았습니다','error')
-//           })
-//       },
-    //   path(num){
-    //     this.result = num;
-    //   },
-
-    //   communityRead(result){ // 게시글 데이터 조회
-    //         alert(num);
-    //         this.$axiosSend('get','/api/community/detail',{
-    //             params : {
-    //                 num : result,
-    //             }
-    //         })
-    //         .then(response=>{
-    //             this.community = response.data;
-    //         })
-    //         .catch((error)=>{console.log(error)})
-    //     },
-
-    
-
-    // mounted() {
-    //     const num = this.$route.params.num;
-    //     communityRead(num);
-    //     path(num);
-    // },
 </script>
 <style scoped>
 .btn-custom{

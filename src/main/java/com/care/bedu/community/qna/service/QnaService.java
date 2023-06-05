@@ -2,15 +2,15 @@ package com.care.bedu.community.qna.service;
 
 import java.util.ArrayList;
 
-import com.care.bedu.community.qna.dto.QnaDTO;
+import com.care.bedu.community.qna.vo.QnaVO;
 
 public interface QnaService {
 	
-	public ArrayList<QnaDTO> listProc(QnaDTO qnaDTO);
-	public int boardwrite(QnaDTO qnaDTO);
-	public QnaDTO viewone(int num);
+	public ArrayList<QnaVO> listProc(QnaVO qnaDTO);
+	public int boardwrite(QnaVO qnaDTO);
+	public QnaVO viewone(int num);
 	public int viewdelete(int num);
-	public int viewupdate(QnaDTO qnaDTO);
+	public int viewupdate(QnaVO qnaDTO);
 	public int getTotal();
 	public int likeUp(int num);
 }

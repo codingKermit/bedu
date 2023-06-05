@@ -17,38 +17,36 @@
       <div class="qna-main-1">
       <table class="w3-table-all">
         <tbody>
-          <tr v-for="qna in qnalist" :key="qna.num">
+          <tr v-for="qna in qnalist" :key="qna">
             <td>
               <b-link class="text-start" :to="'/comm/qnaDetail/' + qna.qna_bd_num">
                 {{ qna.title }}
               </b-link>
             </td>
             <td>{{ qna.user_id }}</td>
-            <td>{{ qna.date }}</td>
+            <td>{{ qna.qna_date }}</td>
             <td>
               <b-container class="ms-auto text-end">
                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)"/> 
-                <text class="fw-bold ms-2">
                     {{ qna.qna_like_yn }}
-                </text>
             </b-container>
           </td>
           </tr>
         </tbody>
       </table>
+      <hr>
+        <InfiniteLoading @infinite="infiniteHandler" @distance="1">
+    <template #spinner> <!-- 로딩중일때 보여질 부분 -->
+    </template>
+    <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
+      <span></span>
+    </template>
+     <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
+    </template>
+    </InfiniteLoading>
       </div>
     </div>
-    <hr>
-    <InfiniteLoading @infinite="infiniteHandler">
-      <template #spinner> <!-- 로딩중일때 보여질 부분 -->
-      </template>
-      <template #no-more> <!-- 처리 완료 후, 최하단에 보여질 부분-->
-        <span></span>
-      </template>
-      <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
-      </template>
-    </InfiniteLoading>
   </div>
 </template>
 
@@ -58,8 +56,8 @@ export default {
 
   data() {
     return {
-      page : 1,
-      qnalist: [],
+      qnalist: [
+      ],
       form: {
         keyword: '',
       },
@@ -73,14 +71,11 @@ export default {
   created() {
     this.currentPage = 1;
     this.getTotal();
-    this.List();
   },
 
   mounted() {
-    this.infiniteHandler();
     this.currentPage = 1;
     this.getTotal();
-    this.List();
   },
 
   components:{
@@ -91,30 +86,26 @@ export default {
 
     List() {
       this.$axiosSend('get','/api/qna/qnaList', {
-        params: {
           page: this.currentPage,
-        }
       })
         .then(res => {
           this.qnalist = res.data;
-
         })
         .catch(error => {
-          console.log(error, '실패함!!');
+          alert(error);
         });
     },
 
 
     qnasearch() {
-
       const form = new FormData();
       form.append('keyword', this.form.keyword);
-      this.$axiosSend('post','/api/qna/qnaList', form)
+      this.$axiosSend('post','/api/qna/qnaList', this.form)
         .then(res => {
           this.qnalist = res.data;
         })
         .catch(error => {
-          console.log(error);
+          alert(error);
         });
     },
 
@@ -122,10 +113,10 @@ export default {
       this.$axiosSend('get','/api/qna/total')
         .then((response) => {
           this.totalItems = response.data;
-          this.totalPage = Math.ceil(this.totalItems / 10);
+          this.totalPage = Math.ceil(this.totalItems / 5);
         })
         .catch((error) => {
-          console.log(error);
+          alert(error);
         })
     },
     pageChange(val) { // 페이지 변경
@@ -141,32 +132,31 @@ export default {
       this.List();
     },
 
-    qnalikeUp(qnum){
-      this.$axiosSend('get','/api/qna/likeUp', {
-        params: {
-          num: qnum
-        }
+    qnalikeUp(qnum) {
+      this.$axiosSend('get', '/api/qna/likeUp', {
+        num: qnum
       })
         .then(res => {
-          console.log(res.data);
-          if(res.data === 1){
-            this.List();
+          if (res.data === 1) {
+            for (var i = 0; i < this.qnalist.length; i++) {
+              if (qnum === this.qnalist[i].qna_bd_num) {
+                this.qnalist[i].qna_like_yn++;
+              }
+            }
           }
         })
         .catch((error) => {
-          console.log(error);
+          alert(error);
         })
     },
 
     infiniteHandler($state){
       this.$axiosSend('get','/api/qna/qnaList',{
-        params:{
-          page : this.page,
-        }
+          page : this.currentPage,
       })
       .then(res=>{
         if(res.data.length){
-          this.page++;
+          this.currentPage++;
           this.qnalist.push(...res.data);
           $state.loaded();
         } else{
@@ -174,7 +164,7 @@ export default {
         }
       })
       .catch(err=>{
-        console.log(err);
+        alert(err);
       })
     }
 
@@ -188,6 +178,11 @@ export default {
         margin-left:auto; 
         margin-right:auto;
         width: 500px;
+    }
+
+    td{
+      font-size: 140%;
+      height: 100px;
     }
 
     .qna-main{

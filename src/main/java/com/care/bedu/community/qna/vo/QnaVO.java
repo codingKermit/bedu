@@ -1,11 +1,11 @@
-package com.care.bedu.community.qna.dto;
+package com.care.bedu.community.qna.vo;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class QnaDTO {					//질문답변게시판 객체(qna)
+public class QnaVO {					//질문답변게시판 객체(qna)
 	
 	private Integer qna_bd_num;	//글번호
 	private int page;	//페이지번호

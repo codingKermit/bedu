@@ -31,7 +31,7 @@ export default {
 
     methods: {
       submit(){
-         
+
           if(this.form.title == null || this.form.title == ""){
             this.$swal({
                 title :'warning!',
@@ -59,16 +59,15 @@ export default {
           form.append("title",this.form.title);
           form.append("content",this.form.content);
 
-          this.$axiosSend('post','/api/qna/qnaWrite', form)
+          this.$axiosSend('post','/api/qna/qnaWrite', this.form)
           .then(
               this.$swal('Success','작성완료!','success'),
               router.push({
-                  name:"qnaBoard"
+                  name: "qnaBoard"
               })
           )
           .catch((error)=>{
-            console.log(error)
-            this.$swal('Error','게시글이 정상적으로 작성되지 않았습니다','error')
+             this.$swal('Error','게시글이 정상적으로 작성되지 않았습니다',error)
           })
       }
 

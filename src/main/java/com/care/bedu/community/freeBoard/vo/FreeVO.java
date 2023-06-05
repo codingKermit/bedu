@@ -1,11 +1,11 @@
-package com.care.bedu.community.freeBoard.dto;
+package com.care.bedu.community.freeBoard.vo;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class CommunityDTO {
+public class FreeVO {
 	
 	private Integer comm_num;	//글번호
 	private int page;	//페이지번호

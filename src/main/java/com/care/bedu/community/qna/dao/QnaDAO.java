@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.community.qna.dto.QnaDTO;
+import com.care.bedu.community.qna.vo.QnaVO;
 
 @Mapper
 public interface QnaDAO {
 	
-	public ArrayList<QnaDTO> viewlist(QnaDTO qnaDTO);
-	public int viewWrite(QnaDTO qnaDTO);
-	public QnaDTO viewone(int num);
-	public int viewupdate(QnaDTO qnaDTO);
+	public ArrayList<QnaVO> viewlist(QnaVO qnaDTO);
+	public int viewWrite(QnaVO qnaDTO);
+	public QnaVO viewone(int num);
+	public int viewupdate(QnaVO qnaDTO);
 	public int viewdelete(int qnanum);
-	public ArrayList<QnaDTO> viewsearch(QnaDTO qnaDTO);
+	public ArrayList<QnaVO> viewsearch(QnaVO qnaDTO);
 	public int getTotal();
 	public void qnaCntUp(int num);
 	public int likeUp(int num);

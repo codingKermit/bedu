@@ -57,38 +57,37 @@ export default{
 
     methods: {
 
-        qnaRead(qnanum){ // 게시글 데이터 조회
-            console.log('번호:', qnanum);
+        qnaRead(num){ // 게시글 데이터 조회
             this.$axiosSend('get','/api/qna/qnaDetail',{
-                params : {
-                    num : qnanum,
-                }
+                    num : num,
             })
             .then(res=>{
                 this.qna = res.data;
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{
+                alert(error);
+            })
         },
+
         qnadelete() {
             alert('게시글을 삭제합니다.');
             this.$axiosSend('get','/api/qna/qnaDelete', {
-                params: {
                     num: this.result,
-                }
             })
                 .then(res => {
+                    if(res.data ===1){
                     this.$swal('Success', '글삭제완료!', 'success'),
-                        console.log(res);
-                    router.push({
-                        name: "qnaBoard"
-                    })
+                        router.push({
+                            name: "qnaBoard"
+                        })
+                    }    
                 })
                 .catch(error => {
-                    console.log(error)
+                    alert(error);
                 })
         },
         qnaeditPath(){
-            this.$router.push({
+            router.push({
                 name: 'qnaBoardedit', 
                 params:{
                     num :this.result

@@ -6,26 +6,26 @@
         <hr>
         <b-container class="justify-content-start text-start">
             <h5>
-                {{ community.user_id}}
+                {{ free.user_id}}
             </h5>
-            {{ community.comm_date }} 
+            {{ free.comm_date }} 
             <h2 class="mt-3 mb-5 fw-bold">
-                {{ community.title }}
+                {{ free.title }}
             </h2>
-            <div v-html="community.content"></div>
+            <div v-html="free.content"></div>
 
             <b-container class="ms-auto text-end">
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ community.comm_cnt }}
+                <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
                 <text class="fw-bold ms-2">
-                    {{ community.comm_like_yn }}
+                    {{ free.comm_like_yn }}
                 </text>
             </b-container>
-            <b-button type="submit" class="btn-custom ms-2" @click="communityeditPath()">글수정</b-button>
-            <b-button type="submit" class="btn-custom ms-2" @click="communitydelete()">삭제</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="freeeditPath()">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="freedelete()">삭제</b-button>
             <hr class="my-5">
 
-            <b-button type="submit" class="btn-custom ms-2" @click="communitypath()">목록</b-button>
+            <b-button type="submit" class="btn-custom ms-2" @click="freeBoardpath()">목록</b-button>
         </b-container>
     </div>
     
@@ -39,7 +39,8 @@ export default{
     data() {
         return {
             result : 0,
-            community : {
+            free : {
+                comm_num:0,
                 title : '',
                 content : '',
                 user_id : '',
@@ -53,34 +54,29 @@ export default{
     mounted() {
         const num = this.$route.params.num;
         
-        this.communityRead(num);
+        this.freeRead(num);
         this.path(num);
     },
 
     methods: {
-        communityRead(num){ // 게시글 데이터 조회
+        freeRead(num){ // 게시글 데이터 조회
             // console.log('번호:', num);
             this.$axiosSend('get','/api/community/detail',{
-                params : {
                     num : num,
-                }
             })
             .then(response=>{
-                this.community = response.data;
+                this.free = response.data;
             })
             .catch((error)=>{console.log(error)})
         },
-        communitydelete() {
+        freedelete() {
             alert('게시글을 삭제합니다.');
             this.$axiosSend('get','/api/community/delete', {
-                params: {
                     num: this.result,
-                }
             })
                 .then(res => {
                     if(res.data === 1){
                         this.$swal('Success', '글삭제완료!', 'success'),
-                        console.log(res);
                     router.push({
                         name: "freeBoard"
                     })
@@ -91,8 +87,8 @@ export default{
                     console.log(error)
                 })
         },
-        communityeditPath(){
-            this.$router.push({
+        freeeditPath(){
+            router.push({
                 name: 'freeBoardEdit', 
                 params:{
                     num :this.result
@@ -100,13 +96,9 @@ export default{
             })
                 
         },
-        communitypath(){
-
-            this.$router.push({
+        freeBoardpath(){
+            router.push({
                 name: 'freeBoard', 
-                params:{
-                    num :this.result
-                }
             })
         },
 
