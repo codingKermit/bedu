@@ -82,73 +82,27 @@ import CategoryNaviVue from '@/components/CategoryNavi.vue';
             }
         },
         methods: {
-            /** 카테고리 변경체크 */
-            midCategoryChanger(top, mid) {
-                this.cnt_mid_cate = mid.cateCode;
-                this.cnt_mid_cate_kor = mid.cateKor;
-                this.cnt_top_cate = top.cateCode;
-                this.cnt_top_cate_kor = top.cateKor;
-                this.$route.params.index = top.cateCode;
-                this.$route.query.mid = mid.cateCode;
-            },
+
             /* 현재 선택된 대분류, 중분류를 기준으로 소분류 데이터 반환 */
             getCurrCurriculum() {
                 const curriculum = this
-                    .categories
-                    .find((category) => category.cateCode === this.cnt_top_cate)
+                    .categories 
+                    /**  this.categories 배열의 각 요소를 category 로 명명 하여 사용하고
+                     * 카테고리의 코드가 현재 선택된 대분류와 같은지를 체크
+                     */
+                    .find((category) => category.cateCode === this.cnt_top_cate) 
                         ?.children
+                        /** 중분류도 동일한 로직을 사용 */
                             .find((children) => children.cateCode === this.cnt_mid_cate)
                                 ?.children;
                 return curriculum || [];
             },
 
-            /** 마운트시 카테고리 조회하는 함수 */
-            getCategory() {
-                this
-                    .$axiosSend('get', '/api/getCategory')
-                    .then((res) => {
-                        const data = res.data;
-                        this.convertToHierarchy(data); // 트리구조로 변경하는 함수 호출
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                },
 
-            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-            convertToHierarchy(data) {
-                const map = {}; // 부모-자식 관계를 저장할 맵
-                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                data.forEach(category => {
-                    category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cateCode] = category;
-                });
-
-                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-
-                // 부모-자식 관계 설정
-                data.forEach(category => {
-                    const parentCode = category.parentCode;
-                    if (parentCode) {
-                        const parent = map[parentCode];
-                        if (parent) {
-                            parent
-                                .children
-                                .push(category);
-                        }
-                    } else {
-                        hierarchy.push(category);
-                    }
-                });
-                this.categories = hierarchy;
-                this.cnt_top_cate = this.$route.params.index;
-                this.cnt_mid_cate = this.$route.query.cnt_mid_cate;
-
-            },
             /** 중분류에 따른 강의 정보 조회 함수 */
             getLectureList() {
                 this
-                    .$axiosSend('get', '/api/lectureList', {category: this.cnt_mid_cate})
+                    .$axiosSend('get', '/api/lect/lectureList', {category: this.cnt_mid_cate})
                     .then((res) => {
                         this.lectures = res.data.item;
                     })
@@ -159,7 +113,6 @@ import CategoryNaviVue from '@/components/CategoryNavi.vue';
         },
         created() {},
         mounted() {
-            this.getCategory(); // 마운트시 카테고리 목록부터 조회
 
         },
         watch: {
@@ -177,7 +130,7 @@ import CategoryNaviVue from '@/components/CategoryNavi.vue';
                         })
                 }
             },
-            '$route.params.index': {
+            '$route.params.index': { 
                 immediate: true,
                 handler(newTop) {
                     this.cnt_top_cate = newTop;

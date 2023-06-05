@@ -39,7 +39,7 @@
             // },
             getData(){
                 let cateData = [];
-                this.$axiosSend('get', '/api/getCategory')
+                this.$axiosSend('get', '/api/lect/getCategory')
                 .then((res) => {
                     console.log('res::: ', res)
                     if (this.$isNotEmpty(res?.data)) {

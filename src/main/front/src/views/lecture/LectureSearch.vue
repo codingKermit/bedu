@@ -85,7 +85,7 @@ export default{
     methods: {
         /** 스크롤 이벤트 동작 메서드 */
         infiniteHandler($state){
-            this.$axiosSend("get","/api/lectureSearch", {
+            this.$axiosSend("get","/api/lect/lectureSearch", {
                     keyword: this.keyword,
                     page : this.page
             })
@@ -101,15 +101,16 @@ export default{
             .catch((err) => { console.log(err); });
         },
         getTotal(){ // 20개씩이 아니라 키워드에 해당하는 전체 강의 갯수
-            this.$axiosSend('get','/api/searchTotal',{
+            this.$axiosSend('get','/api/lect/searchTotal',{
                     keyword : this.keyword
             })
             .then((res)=>{
+                console.log(res)
                 this.total = res.data
             })
             .catch((err)=>{console.log(err)});
         },
-        search(){
+        search(){ /** 키워드 바꿔서 검색하면 동작 */
             this.$routerPush(
                 'lectureSearch',
                 {
