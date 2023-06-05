@@ -1,7 +1,6 @@
 package com.care.bedu.lecture.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,7 @@ import com.care.bedu.lecture.vo.LectureCategoriesVO;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/lect")
 public class LectureCategoryController {
 
     @Autowired
@@ -27,19 +26,4 @@ public class LectureCategoryController {
         list = lectCateService.getCategory();
         return list;
     }
-
-    /* 대분류 카테고리만 조회 */
-    @RequestMapping("/getTop")
-    public HashMap<String, Object> getTop(){
-        HashMap<String, Object> map = new HashMap<>();
-
-        ArrayList<LectureCategoriesVO> tops = new ArrayList<>();
-
-        tops = lectCateService.getTop();
-
-        map.put("item", tops);
-
-        return map;
-    }
-    
 }

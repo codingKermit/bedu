@@ -6,11 +6,11 @@ import com.care.bedu.community.freeBoard.vo.FreeVO;
 
 public interface FreeService {
 	
-	public ArrayList<FreeVO> listProc(FreeVO freeVO);
-	public int boardwrite(FreeVO freeVO);
-	public FreeVO viewone(int num);
-	public int viewdelete(int num);
-	public int viewupdate(FreeVO freeVO);
-	public int getTotal();
-	public int likeUp(int num);
+	public ArrayList<FreeVO> listProc(FreeVO freeVO); 	//게시글 조회
+	public int boardwrite(FreeVO freeVO);				//게시글 등록
+	public FreeVO viewone(int num);						//게시글 상세보기
+	public int viewdelete(int num);						//게시글 삭제
+	public int viewupdate(FreeVO freeVO);				//게시글 수정
+	public int getTotal();								//게시글 전체 개수	
+	public int likeUp(int num);							//게시글 좋아요 증가
 }
