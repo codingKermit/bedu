@@ -15,4 +15,6 @@ public interface MemberDAO {
 
     // 닉네임 중복 체크
     int countByNickname(String nickname);
+    
+    String getPasswordByEmail(String email);
 }

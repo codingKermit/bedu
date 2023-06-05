@@ -39,6 +39,7 @@
             </div>
         </div>
         <router-link to="/login">로그인</router-link>
+        <button @click="logout">로그아웃</button>
         <router-link to="/regist">회원가입</router-link>
     </div>
     <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"

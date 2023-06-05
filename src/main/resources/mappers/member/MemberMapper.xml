@@ -37,4 +37,10 @@
         FROM t_bedu_user 
         WHERE USER_NAME = #{nickname}
     </select>
+    
+	<select id="getPasswordByEmail" parameterType="java.lang.String" resultType="java.lang.String">
+	    SELECT USER_PW
+	    FROM t_bedu_user
+	    WHERE USER_ID = #{email}
+	</select>
 </mapper>

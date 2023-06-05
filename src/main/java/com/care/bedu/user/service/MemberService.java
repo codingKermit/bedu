@@ -7,4 +7,5 @@ public interface MemberService {
 	void register(MemberVO memberVo); 
     boolean isEmailDuplicate(String email);
     boolean isNicknameDuplicate(String nickname);
+    String getPasswordByEmail(String email);
 }

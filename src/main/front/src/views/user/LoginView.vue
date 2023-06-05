@@ -14,7 +14,7 @@
                 <p>강의는 역시 B:EDU</p>
             </div>
             <div class="login-container">
-                <form class="login-form">
+                <form class="login-form" @submit.prevent="login">
                     <div class="form-group">
                         <input
                             v-model="email"
@@ -62,6 +62,25 @@ export default {
             const checkbox = this.$refs.saveIdCheckbox;
             checkbox.checked = !checkbox.checked;
         },
+        login() {
+            this.$axiosSend("post", "/api/login", {
+                email: this.email,
+                password: this.password,
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        localStorage.setItem("isLoggedIn", "true");
+                        this.$router.push("/");
+                        alert("로그인 성공");
+                    } else {
+                        alert("로그인 실패");
+                    }
+                })
+                .catch((error) => {
+                        console.log(error);
+                        alert("로그인 실패");
+                });
+        }
     },
 };
 </script>

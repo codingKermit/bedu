@@ -2,9 +2,9 @@ package com.care.bedu.user.service.serviceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.user.dao.MemberDAO;
@@ -16,18 +16,18 @@ import jakarta.transaction.Transactional;
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDao;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberServiceImpl(MemberDAO memberDao, BCryptPasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberDAO memberDao) {
     	this.memberDao = memberDao;
-    	this.passwordEncoder = passwordEncoder;
     }
     
     @Transactional
     @Override
     public void register(MemberVO memberVo) {
-    	memberVo.setPassword(passwordEncoder.encode(memberVo.getPassword()));
+    	byte[] password = memberVo.getPassword().getBytes();
+    	String encodePwd= Base64.getEncoder().encodeToString(password);
+        memberVo.setPassword(encodePwd);
         memberVo.setEmail(memberVo.getEmail());
         memberVo.setNickname(memberVo.getNickname());
         memberVo.setRegDate(LocalDateTime.now());
@@ -46,4 +46,9 @@ public class MemberServiceImpl implements MemberService {
         int count = memberDao.countByNickname(nickname);
         return count > 0;
     }
+    
+    public String getPasswordByEmail(String email) {
+        return memberDao.getPasswordByEmail(email);
+    }
+    
 }
