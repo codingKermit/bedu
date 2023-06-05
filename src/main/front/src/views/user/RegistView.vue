@@ -273,88 +273,88 @@
 </template>
 
 <script>
-import fileText1 from "raw-loader!./이용 약관 동의.txt";
-import fileText2 from "raw-loader!./개인정보 수집, 이용 동의.txt";
-import fileText3 from "raw-loader!./이벤트 수신 동의.txt";
+    import fileText1 from "raw-loader!./이용 약관 동의.txt";
+    import fileText2 from "raw-loader!./개인정보 수집, 이용 동의.txt";
+    import fileText3 from "raw-loader!./이벤트 수신 동의.txt";
 
-export default {
-    data() {
-        return {
-            allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
-            selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
-            agreements: [
-                // 이용약관과 개인정보 수집에 대한 동의 항목을 포함
-                { value: 1, label: "이용약관 동의", optional: false },
-                {
-                    value: 2,
-                    label: "개인정보 수집, 이용 동의",
-                    optional: false,
+    export default {
+        data() {
+            return {
+                allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
+                selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
+                agreements: [
+                    // 이용약관과 개인정보 수집에 대한 동의 항목을 포함
+                    { value: 1, label: "이용약관 동의", optional: false },
+                    {
+                        value: 2,
+                        label: "개인정보 수집, 이용 동의",
+                        optional: false,
+                    },
+                    { value: 3, label: "이벤트 수신 동의", optional: true },
+                ],
+                // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장하는 변수입니다.
+                fileText1: fileText1,
+                fileText2: fileText2,
+                fileText3: fileText3,
+                showForm: false, // showForm은 회원가입 양식을 보여줄지 여부를 결정하는 데이터 속성
+                confirmPassword: "", //  비밀번호 확인을 위해 입력된 값을 저장하는 변수입니다.
+                // 중복 체크 상태를 나타내는 변수들입니다.
+                isChecking: false,
+                emailChecked: false,
+                nickChecked: false,
+                // 회원의 이메일, 닉네임, 비밀번호를 저장하는 객체입니다.
+                member: {
+                    email: "",
+                    nickname: "",
+                    password: "",
                 },
-                { value: 3, label: "이벤트 수신 동의", optional: true },
-            ],
-            // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장하는 변수입니다.
-            fileText1: fileText1,
-            fileText2: fileText2,
-            fileText3: fileText3,
-            showForm: false, // showForm은 회원가입 양식을 보여줄지 여부를 결정하는 데이터 속성
-            confirmPassword: "", //  비밀번호 확인을 위해 입력된 값을 저장하는 변수입니다.
-            // 중복 체크 상태를 나타내는 변수들입니다.
-            isChecking: false,
-            emailChecked: false,
-            nickChecked: false,
-            // 회원의 이메일, 닉네임, 비밀번호를 저장하는 객체입니다.
-            member: {
-                email: "",
-                nickname: "",
-                password: "",
+                // 이메일, 닉네임, 비밀번호 등의 유효성을 나타내는 변수들입니다.
+                valid: {
+                    email: false,
+                    nickname: false,
+                    password: false,
+                    emailChk: false,
+                    nickChk: false,
+                },
+            };
+        },
+        watch: {
+            "member.email": function () {
+                this.checkEmail();
             },
-            // 이메일, 닉네임, 비밀번호 등의 유효성을 나타내는 변수들입니다.
-            valid: {
-                email: false,
-                nickname: false,
-                password: false,
-                emailChk: false,
-                nickChk: false,
+            "member.nickname": function () {
+                this.checkNick();
             },
-        };
-    },
-    watch: {
-        "member.email": function () {
-            this.checkEmail();
+            "member.password": function () {
+                this.checkPassword();
+            },
         },
-        "member.nickname": function () {
-            this.checkNick();
-        },
-        "member.password": function () {
-            this.checkPassword();
-        },
-    },
-    methods: {
-        // 이메일의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 이메일 형식을 확인하고 valid.email과 emailChecked 값을 업데이트합니다.
-        checkEmail() {
-            const validateEmail =
-                /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+        methods: {
+            // 이메일의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 이메일 형식을 확인하고 valid.email과 emailChecked 값을 업데이트합니다.
+            checkEmail() {
+                const validateEmail =
+                    /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
 
-            if (!this.member.email) {
+                if (!this.member.email) {
+                    this.valid.email = false;
+                    this.emailChecked = false;
+                    return;
+                }
+
+                if (!validateEmail.test(this.member.email)) {
+                    this.valid.email = true;
+                    this.emailChecked = false;
+                    return;
+                }
+
                 this.valid.email = false;
+                this.valid.emailChk = false;
                 this.emailChecked = false;
-                return;
-            }
-
-            if (!validateEmail.test(this.member.email)) {
-                this.valid.email = true;
-                this.emailChecked = false;
-                return;
-            }
-
-            this.valid.email = false;
-            this.valid.emailChk = false;
-            this.emailChecked = false;
-        },
-        // 이메일 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 이메일 중복 여부를 요청하고 결과에 따라 emailChecked와 valid.emailChk 값을 업데이트합니다.
-        checkEmailDuplicate() {
-            this.isChecking = true;
-            this.$axiosSend("get", `/api/register/email/${this.member.email}`)
+            },
+            // 이메일 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 이메일 중복 여부를 요청하고 결과에 따라 emailChecked와 valid.emailChk 값을 업데이트합니다.
+            checkEmailDuplicate() {
+                this.isChecking = true;
+                this.$axiosSend("get", `/api/register/email/${this.member.email}`)
                 .then((response) => {
                     const isDuplicate = response.data;
                     this.emailChecked = true;
@@ -367,34 +367,34 @@ export default {
                 .finally(() => {
                     this.isChecking = false;
                 });
-        },
-        // 네임의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 닉네임 형식을 확인하고 valid.nickname과 nickChecked 값을 업데이트합니다.
-        checkNick() {
-            const validateNick = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/;
+            },
+            // 네임의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 닉네임 형식을 확인하고 valid.nickname과 nickChecked 값을 업데이트합니다.
+            checkNick() {
+                const validateNick = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/;
 
-            if (!this.member.nickname) {
+                if (!this.member.nickname) {
+                    this.valid.nickname = false;
+                    this.nickChecked = false;
+                    return;
+                }
+
+                if (!validateNick.test(this.member.nickname)) {
+                    this.valid.nickname = true;
+                    this.nickChecked = false;
+                    return;
+                }
+
                 this.valid.nickname = false;
+                this.valid.nickChk = false;
                 this.nickChecked = false;
-                return;
-            }
-
-            if (!validateNick.test(this.member.nickname)) {
-                this.valid.nickname = true;
-                this.nickChecked = false;
-                return;
-            }
-
-            this.valid.nickname = false;
-            this.valid.nickChk = false;
-            this.nickChecked = false;
-        },
-        // 닉네임 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 닉네임 중복 여부를 요청하고 결과에 따라 nickChecked와 valid.nickChk 값을 업데이트합니다.
-        checkNickDuplicate() {
-            this.isChecking = true;
-            this.$axiosSend(
-                "get",
-                `/api/register/nickname/${this.member.nickname}`
-            )
+            },
+            // 닉네임 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 닉네임 중복 여부를 요청하고 결과에 따라 nickChecked와 valid.nickChk 값을 업데이트합니다.
+            checkNickDuplicate() {
+                this.isChecking = true;
+                this.$axiosSend(
+                    "get",
+                    `/api/register/nickname/${this.member.nickname}`
+                )
                 .then((response) => {
                     const isDuplicate = response.data;
                     this.nickChecked = true;
@@ -407,60 +407,60 @@ export default {
                 .finally(() => {
                     this.isChecking = false;
                 });
-        },
-        // 비밀번호의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 비밀번호 형식을 확인하고 valid.password 값을 업데이트합니다.
-        checkPassword() {
-            const validatePassword = /^.{6,15}$/;
-            if (
-                !validatePassword.test(this.member.password) ||
-                !this.member.password ||
-                this.member.password.length < 6 ||
-                this.member.password.length > 15 ||
-                this.member.password !== this.confirmPassword
-            ) {
-                this.valid.password = true;
-                return;
-            }
-            this.valid.password = false;
-        },
-        // "모든 이용 약관에 동의" 체크박스 토글(1개이상 체크박스 체크 빠질시 "모든 이용 약관에 동의" 체크박스 해제)
-        toggleAllAgreements(event) {
-            this.selectedAgreements = event.target.checked
-                ? this.agreements.map((item) => item.value)
-                : [];
-            this.updateAllChecked();
-        },
-        // 체크박스 상태에 따라 "모든 이용 약관에 동의" 체크박스 업데이트
-        updateAllChecked() {
-            this.allChecked =
-                this.selectedAgreements.length === this.agreements.length;
-        },
-        // 개별 약관 체크박스 토글
-        toggleCheckbox(value) {
-            const checkbox = document.getElementById(`agree_${value}`);
-            checkbox.checked = !checkbox.checked;
-            this.updateAllChecked();
-        },
-        // 회원가입 양식을 보여주기 위해 showForm 값을 변경
-        showRegistrationForm() {
-            this.showForm = true;
-        },
-        // 사용자의 회원가입을 처리하는 메서드입니다. 이메일, 닉네임, 비밀번호의 유효성을 확인하고
-        // 중복 체크를 완료한 경우 서버에 회원가입 요청을 보냅니다. 회원가입에 성공하면 로그인 페이지로 이동합니다.
-        register() {
-            if (
-                this.emailChecked &&
-                this.valid.emailChk &&
-                this.nickChecked &&
-                this.valid.nickChk &&
-                this.valid.password &&
-                this.member.password &&
-                this.member.password == this.confirmPassword &&
-                this.member.password.length >= 6 &&
-                this.member.password.length <= 15
-            ) {
-                // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
-                this.$axiosSend('post', '/api/register', this.member)
+            },
+            // 비밀번호의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 비밀번호 형식을 확인하고 valid.password 값을 업데이트합니다.
+            checkPassword() {
+                const validatePassword = /^.{6,15}$/;
+                if (
+                    !validatePassword.test(this.member.password) ||
+                    !this.member.password ||
+                    this.member.password.length < 6 ||
+                    this.member.password.length > 15 ||
+                    this.member.password !== this.confirmPassword
+                ) {
+                    this.valid.password = true;
+                    return;
+                }
+                this.valid.password = false;
+            },
+            // "모든 이용 약관에 동의" 체크박스 토글(1개이상 체크박스 체크 빠질시 "모든 이용 약관에 동의" 체크박스 해제)
+            toggleAllAgreements(event) {
+                this.selectedAgreements = event.target.checked
+                    ? this.agreements.map((item) => item.value)
+                    : [];
+                this.updateAllChecked();
+            },
+            // 체크박스 상태에 따라 "모든 이용 약관에 동의" 체크박스 업데이트
+            updateAllChecked() {
+                this.allChecked =
+                    this.selectedAgreements.length === this.agreements.length;
+            },
+            // 개별 약관 체크박스 토글
+            toggleCheckbox(value) {
+                const checkbox = document.getElementById(`agree_${value}`);
+                checkbox.checked = !checkbox.checked;
+                this.updateAllChecked();
+            },
+            // 회원가입 양식을 보여주기 위해 showForm 값을 변경
+            showRegistrationForm() {
+                this.showForm = true;
+            },
+            // 사용자의 회원가입을 처리하는 메서드입니다. 이메일, 닉네임, 비밀번호의 유효성을 확인하고
+            // 중복 체크를 완료한 경우 서버에 회원가입 요청을 보냅니다. 회원가입에 성공하면 로그인 페이지로 이동합니다.
+            register() {
+                if (
+                    this.emailChecked &&
+                    this.valid.emailChk &&
+                    this.nickChecked &&
+                    this.valid.nickChk &&
+                    this.valid.password &&
+                    this.member.password &&
+                    this.member.password == this.confirmPassword &&
+                    this.member.password.length >= 6 &&
+                    this.member.password.length <= 15
+                ) {
+                    // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
+                    this.$axiosSend('post', '/api/register', this.member)
                     .then((response) => {
                         alert(response.data);
                         // 문제없이 보냈다면 'login'으로 router이동
@@ -472,233 +472,233 @@ export default {
                         console.log(error);
                         alert("회원가입 실패");
                     });
-            } else {
-                alert("회원가입 양식을 다시 확인해주세요.");
-                return;
-            }
+                } else {
+                    alert("회원가입 양식을 다시 확인해주세요.");
+                    return;
+                }
+            },
         },
-    },
 
-    // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
-    computed: {
-        // 필수 약관에 동의한 경우 '동의합니다' 버튼 색변경과 텍스트색 변경
-        submitButtonColor() {
-            return this.selectedAgreements.includes(1) &&
-                this.selectedAgreements.includes(2)
-                ? "#303076"
-                : "";
+        // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
+        computed: {
+            // 필수 약관에 동의한 경우 '동의합니다' 버튼 색변경과 텍스트색 변경
+            submitButtonColor() {
+                return this.selectedAgreements.includes(1) &&
+                    this.selectedAgreements.includes(2)
+                    ? "#303076"
+                    : "";
+            },
+            submitButtonTextColor() {
+                return this.selectedAgreements.includes(1) &&
+                    this.selectedAgreements.includes(2)
+                    ? "white"
+                    : "";
+            },
         },
-        submitButtonTextColor() {
-            return this.selectedAgreements.includes(1) &&
-                this.selectedAgreements.includes(2)
-                ? "white"
-                : "";
-        },
-    },
-};
+    };
 </script>
 
 <style scoped>
-.regist {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: auto;
-    text-align: center;
-    padding-top: 15%;
-    padding-bottom: 20%;
-}
-
-.change {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loginbtn {
-    width: 300px;
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    color: black;
-    background: white;
-    border-bottom: 3px solid #303076;
-}
-
-@keyframes fadein {
-    from {
-        opacity: 0;
+    .regist {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: auto;
+        text-align: center;
+        padding-top: 15%;
+        padding-bottom: 20%;
     }
 
-    to {
-        opacity: 1;
+    .change {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-}
 
-.registbtn {
-    width: 300px;
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    color: white;
-    background: #303076;
-    animation: fadein 0.5s;
-    border-bottom: 3px solid #303076;
-}
+    .loginbtn {
+        width: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        color: black;
+        background: white;
+        border-bottom: 3px solid #303076;
+    }
 
-.container {
-    position: relative;
-    background: white;
-    width: 600px;
-    height: auto;
-    padding-bottom: 40px;
-}
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
 
-.regist-container {
-    margin-left: 30px;
-    margin-top: 30px;
-}
+        to {
+            opacity: 1;
+        }
+    }
 
-.areeAll {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
+    .registbtn {
+        width: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        color: white;
+        background: #303076;
+        animation: fadein 0.5s;
+        border-bottom: 3px solid #303076;
+    }
 
-.regist-container .choice {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 15px;
-}
+    .container {
+        position: relative;
+        background: white;
+        width: 600px;
+        height: auto;
+        padding-bottom: 40px;
+    }
 
-.regist-container a {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
+    .regist-container {
+        margin-left: 30px;
+        margin-top: 30px;
+    }
 
-.regist-container label input {
-    margin-right: 10px;
-}
+    .areeAll {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
 
-.regist-container label span {
-    font-size: 17px;
-    white-space: nowrap;
-}
+    .regist-container .choice {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-textarea {
-    margin-top: 15px;
-    width: 95%;
-    font-size: 1em;
-    resize: none;
-    align-self: flex-start;
-}
+    .regist-container a {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
 
-input[type="checkbox"] {
-    padding: 10px;
-}
+    .regist-container label input {
+        margin-right: 10px;
+    }
 
-.submit,
-.submit2 {
-    width: 90%;
-    padding: 0.8rem;
-    margin-top: 40px;
-    margin-left: -23px;
-    font-size: 1.3rem;
-    font-weight: 400;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-    color: #303076;
-    border: 3px solid #303076;
-}
+    .regist-container label span {
+        font-size: 17px;
+        white-space: nowrap;
+    }
 
-.submit2:active {
-    box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203),
-        inset -1px 0px 3px 0px rgb(203, 203, 203);
-}
+    textarea {
+        margin-top: 15px;
+        width: 95%;
+        font-size: 1em;
+        resize: none;
+        align-self: flex-start;
+    }
 
-.container2 {
-    padding-bottom: 30px;
-}
+    input[type="checkbox"] {
+        padding: 10px;
+    }
 
-.form-group {
-    margin-bottom: 8%;
-}
+    .submit,
+    .submit2 {
+        width: 90%;
+        padding: 0.8rem;
+        margin-top: 40px;
+        margin-left: -23px;
+        font-size: 1.3rem;
+        font-weight: 400;
+        border: none;
+        cursor: pointer;
+        background-color: white;
+        color: #303076;
+        border: 3px solid #303076;
+    }
 
-.email {
-    width: 74%;
-    padding: 0.8rem;
-    margin-top: 40px;
-    margin-left: -23px;
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+    .submit2:active {
+        box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203),
+            inset -1px 0px 3px 0px rgb(203, 203, 203);
+    }
 
-.emailChk {
-    width: 20%;
-    padding: 0.8rem;
-    margin-left: -23px;
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: white;
-    background-color: #707070;
-}
+    .container2 {
+        padding-bottom: 30px;
+    }
 
-.input-error {
-    margin-left: 30px;
-    position: absolute;
-    color: red;
-}
+    .form-group {
+        margin-bottom: 8%;
+    }
 
-.input-correct {
-    margin-left: 30px;
-    position: absolute;
-    color: rgb(0, 182, 0);
-}
+    .email {
+        width: 74%;
+        padding: 0.8rem;
+        margin-top: 40px;
+        margin-left: -23px;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
 
-.nickname {
-    width: 74%;
-    padding: 0.8rem;
-    margin-left: -23px;
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+    .emailChk {
+        width: 20%;
+        padding: 0.8rem;
+        margin-left: -23px;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: white;
+        background-color: #707070;
+    }
 
-.nickChk {
-    width: 20%;
-    padding: 0.8rem;
-    margin-left: -23px;
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: white;
-    background-color: #707070;
-}
+    .input-error {
+        margin-left: 30px;
+        position: absolute;
+        color: red;
+    }
 
-.password {
-    width: 90%;
-    padding: 0.8rem;
-    margin-left: -23px;
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+    .input-correct {
+        margin-left: 30px;
+        position: absolute;
+        color: rgb(0, 182, 0);
+    }
 
-.submitformbtn {
-    width: 90%;
-    padding: 0.8rem;
-    margin-top: 50px;
-    margin-left: -23px;
-    font-size: 1.3rem;
-    font-weight: 400;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-    color: #303076;
-    border: 3px solid #303076;
-}
+    .nickname {
+        width: 74%;
+        padding: 0.8rem;
+        margin-left: -23px;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    .nickChk {
+        width: 20%;
+        padding: 0.8rem;
+        margin-left: -23px;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: white;
+        background-color: #707070;
+    }
+
+    .password {
+        width: 90%;
+        padding: 0.8rem;
+        margin-left: -23px;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    .submitformbtn {
+        width: 90%;
+        padding: 0.8rem;
+        margin-top: 50px;
+        margin-left: -23px;
+        font-size: 1.3rem;
+        font-weight: 400;
+        border: none;
+        cursor: pointer;
+        background-color: white;
+        color: #303076;
+        border: 3px solid #303076;
+    }
 </style>

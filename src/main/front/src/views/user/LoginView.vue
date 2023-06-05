@@ -67,110 +67,110 @@ export default {
 </script>
 
 <style scoped>
-.login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: auto;
-    text-align: center;
-    padding-top: 15%;
-    padding-bottom: 20%;
-}
-
-.change {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loginbtn {
-    width: 300px;
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    color: #ffffff;
-    background: #303076;
-    border-bottom: 3px solid #303076;
-    animation: fadein 0.5s;
-}
-
-@keyframes fadein {
-    from {
-        opacity: 0;
+    .login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: auto;
+        text-align: center;
+        padding-top: 15%;
+        padding-bottom: 20%;
     }
 
-    to {
-        opacity: 1;
+    .change {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-}
 
-.registbtn {
-    width: 300px;
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    color: black;
-    background: white;
-    border-bottom: 3px solid #303076;
-}
+    .loginbtn {
+        width: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        color: #ffffff;
+        background: #303076;
+        border-bottom: 3px solid #303076;
+        animation: fadein 0.5s;
+    }
 
-.container {
-    position: relative;
-    background: white;
-    width: 600px;
-    height: 460px;
-}
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
 
-.logo-container {
-    position: relative;
-    font-size: 1.5rem;
-    border-radius: 1rem;
-    background: white;
-    margin-top: 50px;
-}
+        to {
+            opacity: 1;
+        }
+    }
 
-.email,
-.password {
-    position: relative;
-    width: 90%;
-    padding: 0.8rem;
-    margin-top: 15px;
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+    .registbtn {
+        width: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        color: black;
+        background: white;
+        border-bottom: 3px solid #303076;
+    }
 
-.idrm {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 20px;
-    margin-left: 30px;
-}
+    .container {
+        position: relative;
+        background: white;
+        width: 600px;
+        height: 460px;
+    }
 
-input[type="checkbox"] {
-    padding: 10px;
-}
+    .logo-container {
+        position: relative;
+        font-size: 1.5rem;
+        border-radius: 1rem;
+        background: white;
+        margin-top: 50px;
+    }
 
-.idrm span {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-left: 10px;
-    margin-top: 3px;
-}
+    .email,
+    .password {
+        position: relative;
+        width: 90%;
+        padding: 0.8rem;
+        margin-top: 15px;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
 
-.submit {
-    position: relative;
-    width: 90%;
-    padding: 0.8rem;
-    margin-top: 40px;
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: #ffffff;
-    background: #303076;
-}
+    .idrm {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 20px;
+        margin-left: 30px;
+    }
+
+    input[type="checkbox"] {
+        padding: 10px;
+    }
+
+    .idrm span {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-left: 10px;
+        margin-top: 3px;
+    }
+
+    .submit {
+        position: relative;
+        width: 90%;
+        padding: 0.8rem;
+        margin-top: 40px;
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #ffffff;
+        background: #303076;
+    }
 </style>

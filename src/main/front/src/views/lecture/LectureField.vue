@@ -448,46 +448,46 @@ export default{
 
 
 <style scoped>
-img{
-  width: 100%;
-  height: 150px;
-}
+    img{
+    width: 100%;
+    height: 150px;
+    }
 
 
-.like-off, .like-on{
-    height: 50px;
-    width: 50px;
-    /* background: url(@/assets/imgs/icon_like_off.png) no-repeat center; */
-    top: -40px;
-    right : -10px;
-    text-align: center;
-    font-size : 24px;
-}
-/* .like-on{
-    height: 50px;
-    width: 50px;
-    background: url(@/assets/imgs/icon_like_on.png) no-repeat center;
-    top: -40px;
-    right : -10px;
-    text-align: center;
-    font-size : 24px;
-} */
+    .like-off, .like-on{
+        height: 50px;
+        width: 50px;
+        /* background: url(@/assets/imgs/icon_like_off.png) no-repeat center; */
+        top: -40px;
+        right : -10px;
+        text-align: center;
+        font-size : 24px;
+    }
+    /* .like-on{
+        height: 50px;
+        width: 50px;
+        background: url(@/assets/imgs/icon_like_on.png) no-repeat center;
+        top: -40px;
+        right : -10px;
+        text-align: center;
+        font-size : 24px;
+    } */
 
-.red-button{
-    color: red;
-}
-.white-button{
-    color:white;
-}
+    .red-button{
+        color: red;
+    }
+    .white-button{
+        color:white;
+    }
 
-.teacher-name::after{
-  content: '';
-  width: 1px;
-  background-color: black;
-  margin: 0rem 0.5rem;
-  background: black;
-  height: 14px;
-  display: inline-block;
-  vertical-align: middle;
-}
+    .teacher-name::after{
+    content: '';
+    width: 1px;
+    background-color: black;
+    margin: 0rem 0.5rem;
+    background: black;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    }
 </style>

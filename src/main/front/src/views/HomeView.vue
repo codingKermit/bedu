@@ -1,6 +1,6 @@
 <template>
-<div class="lecture py-5">
-    <img src="@/assets/imgs/character/im.png" class="character">
+    <div class="lecture py-5">
+        <img src="@/assets/imgs/character/im.png" class="character">
         <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
         <p class="fs-5 fw-light fw-bold text-center" style="color: blueviolet;">What's wanna be?</p>
         <b-form class="w-50 mx-auto" @submit="lectSearch">
@@ -77,77 +77,74 @@
 </template>
 
 <script>
-import Categories from '../components/Categories.vue'
+    import Categories from '../components/Categories.vue'
 
-
-export default{
-  components: { Categories },
-  name : 'lectureView',
-  data() {
-    return {
-      keyword : '', /** 검색 키워드 */
-      newestLectures:[], /** 최신 강의 목록 데이터 */
-    }
-  },
-  methods: {
-    lectSearch(){ /** 검색할때 동작 */
-      this.$routerPush(
-        'lectureSearch',
-        {
-          keyword : this.keyword
+    export default{
+        components: { Categories },
+        name : 'lectureView',
+        data() {
+            return {
+                keyword : '', /** 검색 키워드 */
+                newestLectures:[], /** 최신 강의 목록 데이터 */
+            }
         },
-        true
-      )
-    },
+        methods: {
+            lectSearch(){ /** 검색할때 동작 */
+            this.$routerPush(
+                'lectureSearch',
+                {
+                    keyword : this.keyword
+                },
+                true
+            )
+            },
 
-    /** 최근 업로드된 강의 4개 조회하는 메서드 */
-    getNewestLecture(){
-      this.$axiosSend('get','/api/lect/getNewestLecture')
-      .then((res)=>{
-        this.newestLectures = res.data.item;
-      })
-      .catch((err)=>{console.log(err)})
+            /** 최근 업로드된 강의 4개 조회하는 메서드 */
+            getNewestLecture(){
+                this.$axiosSend('get','/api/lect/getNewestLecture')
+                .then((res)=>{
+                    this.newestLectures = res.data.item;
+                })
+                .catch((err)=>{console.log(err)})
+            }
+
+        },
+        computed: {
+            
+        },
+        mounted() {
+            this.getNewestLecture();
+        },
+        created() {
+        
+        },
     }
-
-  },
-  computed: {
-  },
-  mounted() {
-    this.getNewestLecture();
-  },
-  created() {
-  
-  },
-}
-
-
 </script>
 
 <style scoped>
 
-a{
-  cursor: pointer !important;
-}
-.lecture_item:hover{
-    transition: 0.1s;
-    box-shadow: 0px 0px 0px 3px black inset !important;
-    scale: 102%;
-}
+    a{
+        cursor: pointer !important;
+    }
+    .lecture_item:hover{
+        transition: 0.1s;
+        box-shadow: 0px 0px 0px 3px black inset !important;
+        scale: 102%;
+    }
 
-.border-bedu {
-  border-color: var(--yellow) !important;
-}
+    .border-bedu {
+        border-color: var(--yellow) !important;
+    }
 
-.fs-bedu-yellow{
-  color : var(--blue) !important;
-}
+    .fs-bedu-yellow{
+        color : var(--blue) !important;
+    }
 
-.character{
-  position: absolute;
-  top : 11%;
-  left : -130px;
-  height: 30%;
-}
-
+    .character{
+        position: absolute;
+        top : 11%;
+        left : -130px;
+        height: 30%;
+    }
 
 </style>

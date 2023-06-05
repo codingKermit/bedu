@@ -1,46 +1,46 @@
 <template>
-            <div class="w-25 ps-5 me-5">
-                <!-- 네비 컨테이너 -->
-                <p class="fs-2 fw-bold mb-3">분야별 강의</p>
-                <ul class="nav flex-column w-100">
-                    <!-- 대분류 -->
-                    <li
-                        class="nav-item me-4"
-                        v-for="(top, top_index) in categories"
-                        :key="top_index">
-                        <span>
-                            <a
-                                class="fs-5 text-body text-decoration-none d-flex"
-                                data-bs-toggle="collapse"
-                                :href='"#top-"+top.cateCode'>
-                                <p>{{ top.cateKor }}</p>
-                                <p class="ms-auto">
-                                    <font-awesome-icon :icon="['fas','caret-down']"/>
-                                </p>
-                            </a>
-                        </span>
-                        <div
-                            class="collapse text-secondary text-secondary mid-cate-container"
-                            :id='"top-"+top.cateCode'
-                            :class='cnt_top_cate == top.cateCode ? "show":""'>
-                            <ul class="ps-2">
-                                <!-- 중분류 -->
-                                <li
-                                    v-for="(mid, mid_index) in top.children"
-                                    :key="mid_index"
-                                    class="list-unstyled py-2">
-                                    <router-link
-                                        :to='"/lectureCategories/"+top.cateCode+"?cnt_mid_cate="+mid.cateCode'
-                                        class="text-decoration-none"
-                                        :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'">
-                                        {{ mid.cateKor }}
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+    <div class="w-25 ps-5 me-5">
+        <!-- 네비 컨테이너 -->
+        <p class="fs-2 fw-bold mb-3">분야별 강의</p>
+        <ul class="nav flex-column w-100">
+            <!-- 대분류 -->
+            <li
+                class="nav-item me-4"
+                v-for="(top, top_index) in categories"
+                :key="top_index">
+                <span>
+                    <a
+                        class="fs-5 text-body text-decoration-none d-flex"
+                        data-bs-toggle="collapse"
+                        :href='"#top-"+top.cateCode'>
+                        <p>{{ top.cateKor }}</p>
+                        <p class="ms-auto">
+                            <font-awesome-icon :icon="['fas','caret-down']"/>
+                        </p>
+                    </a>
+                </span>
+                <div
+                    class="collapse text-secondary text-secondary mid-cate-container"
+                    :id='"top-"+top.cateCode'
+                    :class='cnt_top_cate == top.cateCode ? "show":""'>
+                    <ul class="ps-2">
+                        <!-- 중분류 -->
+                        <li
+                            v-for="(mid, mid_index) in top.children"
+                            :key="mid_index"
+                            class="list-unstyled py-2">
+                            <router-link
+                                :to='"/lectureCategories/"+top.cateCode+"?cnt_mid_cate="+mid.cateCode'
+                                class="text-decoration-none"
+                                :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'">
+                                {{ mid.cateKor }}
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -56,49 +56,49 @@ export default{
         }
     },
     methods: {
-            /** 마운트시 카테고리 조회하는 함수 */
-            getCategory() {
-                this
-                    .$axiosSend('get', '/api/lect/getCategory')
-                    .then((res) => {
-                        const data = res.data;
-                        this.convertToHierarchy(data); // 트리구조로 변경하는 함수 호출
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                },
-
-            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-            convertToHierarchy(data) {
-                const map = {}; // 부모-자식 관계를 저장할 맵
-                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                data.forEach(category => {
-                    category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cateCode] = category;
-                });
-
-                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-
-                // 부모-자식 관계 설정
-                data.forEach(category => {
-                    const parentCode = category.parentCode;
-                    if (parentCode) {
-                        const parent = map[parentCode];
-                        if (parent) {
-                            parent
-                                .children
-                                .push(category);
-                        }
-                    } else {
-                        hierarchy.push(category);
-                    }
-                });
-                this.categories = hierarchy;
-                this.cnt_top_cate = this.$route.params.index;
-                this.cnt_mid_cate = this.$route.query.cnt_mid_cate;
-
+        /** 마운트시 카테고리 조회하는 함수 */
+        getCategory() {
+            this
+                .$axiosSend('get', '/api/lect/getCategory')
+                .then((res) => {
+                    const data = res.data;
+                    this.convertToHierarchy(data); // 트리구조로 변경하는 함수 호출
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             },
+
+        /** 받은 카테고리를 트리 구조로 변경하는 함수 */
+        convertToHierarchy(data) {
+            const map = {}; // 부모-자식 관계를 저장할 맵
+            // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
+            data.forEach(category => {
+                category.children = []; // 자식 카테고리를 저장할 배열 생성
+                map[category.cateCode] = category;
+            });
+
+            const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
+
+            // 부모-자식 관계 설정
+            data.forEach(category => {
+                const parentCode = category.parentCode;
+                if (parentCode) {
+                    const parent = map[parentCode];
+                    if (parent) {
+                        parent
+                            .children
+                            .push(category);
+                    }
+                } else {
+                    hierarchy.push(category);
+                }
+            });
+            this.categories = hierarchy;
+            this.cnt_top_cate = this.$route.params.index;
+            this.cnt_mid_cate = this.$route.query.cnt_mid_cate;
+
+        },
     },
     created() {
         

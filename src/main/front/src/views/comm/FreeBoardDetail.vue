@@ -110,34 +110,34 @@ export default{
 }
 </script>
 <style scoped>
-.category{
-    align-items: center;
-    display: flex;
-}
-.category::before{
-    line-height: 0px;
-    height: 1px;
-    background : black;
-    margin : 0px 10px;
-    flex-grow: 1;
-    content : "";
-}
-.category::after{
-    line-height: 0px;
-    height: 1px;
-    background : black;
-    margin : 0px 10px;
-    flex-grow: 6;
-    content : "";
-}
+    .category{
+        align-items: center;
+        display: flex;
+    }
+    .category::before{
+        line-height: 0px;
+        height: 1px;
+        background : black;
+        margin : 0px 10px;
+        flex-grow: 1;
+        content : "";
+    }
+    .category::after{
+        line-height: 0px;
+        height: 1px;
+        background : black;
+        margin : 0px 10px;
+        flex-grow: 6;
+        content : "";
+    }
 
-.thisCategory{
-    color : #3498db;
-}
+    .thisCategory{
+        color : #3498db;
+    }
 
-blockquote {
-    background-color: skyblue;
-    margin : 10px;
-}
+    blockquote {
+        background-color: skyblue;
+        margin : 10px;
+    }
 
 </style>

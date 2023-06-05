@@ -81,9 +81,9 @@
     }
 </script>
 
-    <style scoped="scoped">
-        img {
-            width: 65%;
-            height: 65%;
-        }
-    </style>
+<style scoped="scoped">
+    img {
+        width: 65%;
+        height: 65%;
+    }
+</style>

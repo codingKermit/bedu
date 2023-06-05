@@ -30,50 +30,50 @@
 </template>
 
 <script>
-import router from '@/router';
+    import router from '@/router';
 
-export default{
-    
-    data() {
-        return {
-            result : 0,
-            qna : {
-                title : '',
-                content : '',
-                user_id : '',
-                date : '',
-                qna_cnt : 0,
-                qna_like_yn : 0,
-            }
-        }
-    },
-
-    mounted() {
-        const num = this.$route.params.num;
+    export default{
         
-        this.qnaRead(num);
-        this.path(num);
-    },
-
-    methods: {
-
-        qnaRead(num){ // 게시글 데이터 조회
-            this.$axiosSend('get','/api/qna/qnaDetail',{
-                    num : num,
-            })
-            .then(res=>{
-                this.qna = res.data;
-            })
-            .catch((error)=>{
-                alert(error);
-            })
+        data() {
+            return {
+                result : 0,
+                qna : {
+                    title : '',
+                    content : '',
+                    user_id : '',
+                    date : '',
+                    qna_cnt : 0,
+                    qna_like_yn : 0,
+                }
+            }
         },
 
-        qnadelete() {
-            alert('게시글을 삭제합니다.');
-            this.$axiosSend('get','/api/qna/qnaDelete', {
-                    num: this.result,
-            })
+        mounted() {
+            const num = this.$route.params.num;
+            
+            this.qnaRead(num);
+            this.path(num);
+        },
+
+        methods: {
+
+            qnaRead(num){ // 게시글 데이터 조회
+                this.$axiosSend('get','/api/qna/qnaDetail',{
+                        num : num,
+                })
+                .then(res=>{
+                    this.qna = res.data;
+                })
+                .catch((error)=>{
+                    alert(error);
+                })
+            },
+
+            qnadelete() {
+                alert('게시글을 삭제합니다.');
+                this.$axiosSend('get','/api/qna/qnaDelete', {
+                        num: this.result,
+                })
                 .then(res => {
                     if(res.data ===1){
                     this.$swal('Success', '글삭제완료!', 'success'),
@@ -85,53 +85,53 @@ export default{
                 .catch(error => {
                     alert(error);
                 })
-        },
-        qnaeditPath(){
-            router.push({
-                name: 'qnaBoardedit', 
-                params:{
-                    num :this.result
-                }
-            })
-                
-        },
+            },
+            qnaeditPath(){
+                router.push({
+                    name: 'qnaBoardedit', 
+                    params:{
+                        num :this.result
+                    }
+                })
+                    
+            },
 
-        path(num){
-            this.result = num;
-        },
+            path(num){
+                this.result = num;
+            },
 
-    },
-}
+        },
+    }
 </script>
 <style scoped>
-.category{
-    align-items: center;
-    display: flex;
-}
-.category::before{
-    line-height: 0px;
-    height: 1px;
-    background : black;
-    margin : 0px 10px;
-    flex-grow: 1;
-    content : "";
-}
-.category::after{
-    line-height: 0px;
-    height: 1px;
-    background : black;
-    margin : 0px 10px;
-    flex-grow: 6;
-    content : "";
-}
+    .category{
+        align-items: center;
+        display: flex;
+    }
+    .category::before{
+        line-height: 0px;
+        height: 1px;
+        background : black;
+        margin : 0px 10px;
+        flex-grow: 1;
+        content : "";
+    }
+    .category::after{
+        line-height: 0px;
+        height: 1px;
+        background : black;
+        margin : 0px 10px;
+        flex-grow: 6;
+        content : "";
+    }
 
-.thisCategory{
-    color : #3498db;
-}
+    .thisCategory{
+        color : #3498db;
+    }
 
-blockquote {
-    background-color: skyblue;
-    margin : 10px;
-}
+    blockquote {
+        background-color: skyblue;
+        margin : 10px;
+    }
 
 </style>

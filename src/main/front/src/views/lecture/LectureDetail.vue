@@ -172,41 +172,33 @@
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
             },
             getDetail() {
-                this
-                    .$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.num})
-                    .then((res) => {
-                        console.log(res)
-                        this.form = res.data;
-                        this.form.stars = [];
+                this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.num})
+                .then((res) => {
+                    console.log(res)
+                    this.form = res.data;
+                    this.form.stars = [];
 
-                        // 별점 체크하기 위한 배열 생성
-                        for (var i = 0; i < 5; i++) {
-                            if (i < this.form.score) {
-                                this
-                                    .form
-                                    .stars
-                                    .push('y')
-                            } else {
-                                this
-                                    .form
-                                    .stars
-                                    .push('n')
-                            }
+                    // 별점 체크하기 위한 배열 생성
+                    for (var i = 0; i < 5; i++) {
+                        if (i < this.form.score) {
+                            this.form.stars.push('y')
+                        } else {
+                            this.form.stars.push('n')
                         }
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                },
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            },
             getVideoList() { /** 동영상 목록 조회 */
-                this
-                    .$axiosSend('get', '/api/lect/getVideoList', {num: this.form.num})
-                    .then((res) => {
-                        this.videos = res.data;
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
+                this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.num})
+                .then((res) => {
+                    this.videos = res.data;
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
             },
             getReview(){ 
                 this.$axiosSend('get','/api/lect/getReview',{num : this.form.num})
