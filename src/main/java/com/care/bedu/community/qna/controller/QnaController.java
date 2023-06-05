@@ -18,13 +18,13 @@ public class QnaController {
 	private QnaService qnaService;
 	
 	@RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	public ArrayList<QnaVO> qnaList(QnaVO qnaDTO){
-		return qnaService.listProc(qnaDTO);
+	public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
+		return qnaService.listProc(qnaVO);
 	}
 	
 	@RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
-	public String qnaWrite(QnaVO qnaDTO){
-		int result = qnaService.boardwrite(qnaDTO);
+	public String qnaWrite(QnaVO qnaVO){
+		int result = qnaService.boardwrite(qnaVO);
 		return result > 0 ? "Y": "N";
 	}
 	
@@ -34,8 +34,8 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)				//게시글 수정
-	public String qnaEdit(QnaVO qnaDTO){
-		int result = qnaService.viewupdate(qnaDTO);
+	public String qnaEdit(QnaVO qnaVO){
+		int result = qnaService.viewupdate(qnaVO);
 		return result> 0? "Y":"N";	
 	}
 	
