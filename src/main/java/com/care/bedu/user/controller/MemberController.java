@@ -25,9 +25,9 @@ public class MemberController {
 
 	// 회원 가입 요청
 	@PostMapping("/register")
-    public ResponseEntity<?> signUp(@RequestBody MemberVO memberVo) {
+    public ResponseEntity<?> register(@RequestBody MemberVO memberVo) {
         try {
-        	memberService.regist(memberVo);
+        	memberService.register(memberVo);
             return ResponseEntity.ok("회원가입에 성공했습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입에 실패했습니다.");

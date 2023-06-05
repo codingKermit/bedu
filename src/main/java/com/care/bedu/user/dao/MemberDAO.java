@@ -8,7 +8,7 @@ import com.care.bedu.user.vo.MemberVO;
 public interface MemberDAO {
 
 	// 회원 가입
-	void regist(MemberVO memberVo);
+	void register(MemberVO memberVo);
 	
     // 이메일 중복 체크
     int countByEmail(String email);

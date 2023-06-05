@@ -17,10 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDao;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    public void regist(MemberVO memberVo) {
-    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public void register(MemberVO memberVo) {
         memberVo.setPassword(passwordEncoder.encode(memberVo.getPassword()));
         memberVo.setEmail(memberVo.getEmail());
         memberVo.setNickname(memberVo.getNickname());
@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
         memberVo.setUdy(0);
         memberVo.setRegDate(LocalDateTime.now());
         memberVo.setUserRegDate(LocalDate.now());
-        memberDao.regist(memberVo);
+        memberDao.register(memberVo);
     }
 
     public boolean isEmailDuplicate(String email) {
