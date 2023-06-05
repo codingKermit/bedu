@@ -4,7 +4,7 @@
 <mapper namespace="com.care.bedu.user.dao.MemberDAO">
 
 	<insert id="register" parameterType="com.care.bedu.user.vo.MemberVO">
-	      		INSERT INTO bedu_db.t_bedu_user (
+	      		INSERT INTO t_bedu_user (
 		      		USER_NUM, 
 		      		USER_ID, 
 		      		USER_PW, 
@@ -27,14 +27,14 @@
     <!-- 이메일 중복 체크 -->
     <select id="countByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT COUNT(*) 
-        FROM bedu_db.t_bedu_user 
+        FROM t_bedu_user 
         WHERE USER_ID = #{email}
     </select>
 
     <!-- 닉네임 중복 체크 -->
     <select id="countByNickname" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT COUNT(*) 
-        FROM bedu_db.t_bedu_user 
+        FROM t_bedu_user 
         WHERE USER_NAME = #{nickname}
     </select>
 </mapper>

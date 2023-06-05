@@ -23,9 +23,9 @@
 		SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect WHERE CATEGORY = #{category}
+			t_bedu_lect WHERE CATEGORY = #{category}
 	)  AS A 
-	LEFT JOIN bedu_db.t_bedu_lect_dtl B
+	LEFT JOIN t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
 	;
@@ -52,7 +52,7 @@
 		SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
+			t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
 		AS A 
 	LEFT JOIN (
 		SELECT 
@@ -60,13 +60,13 @@
 			SUM(LECT_DTL_TIME) AS TOTALTIMES, 
 			LECT_NUM as lectNum 
 		FROM 
-			bedu_db.t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
+			t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
 	ON A.LECT_NUM = B.lectNum 
 	LEFT JOIN (
 		SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect_score 
+			t_bedu_lect_score 
 		WHERE LECT_SCO_LECT_ID = #{LECT_NUM}) C
 	ON A.LECT_NUM = C.LECT_SCO_LECT_ID
 	GROUP BY A.LECT_NUM, B.TOTAL;
@@ -93,12 +93,12 @@
 		SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect 
+			t_bedu_lect 
 		WHERE CATEGORY = #{category})  
 		AS A 
-	LEFT JOIN bedu_db.t_bedu_lect_dtl B
+	LEFT JOIN t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM 
-	LEFT JOIN bedu_db.t_bedu_lect_score C
+	LEFT JOIN t_bedu_lect_score C
 	ON A.LECT_NUM = C.LECT_SCO_LECT_ID
 	GROUP BY A.LECT_NUM
     ORDER BY C.LECT_SCO_SCORE DESC LIMIT 0, 4
@@ -112,7 +112,7 @@
 		LECT_DTL_TITLE as lectDtlTitle, 
 		SEC_TO_TIME(LECT_DTL_TIME) AS TIMES
 	FROM 
-		bedu_db.t_bedu_lect_dtl 
+		t_bedu_lect_dtl 
 	WHERE LECT_NUM = #{LECT_NUM};
 </select>
 
@@ -136,11 +136,11 @@ parameterType="hashmap">
 		(SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect
+			t_bedu_lect
 		WHERE 
 			TITLE LIKE CONCAT('%',#{keyword},'%')
 		) AS A 
-	LEFT JOIN bedu_db.t_bedu_lect_dtl AS B
+	LEFT JOIN t_bedu_lect_dtl AS B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
 	LIMIT #{begin}, 5
@@ -154,7 +154,7 @@ parameterType="hashmap">
 	 	(SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect 
+			t_bedu_lect 
 		WHERE 
 			TITLE LIKE CONCAT('%',#{keyword},'%'))  
 		AS A 
@@ -163,7 +163,7 @@ parameterType="hashmap">
 
 <select id="getLikeList" resultType="int">
 	SELECT LECT_NUM as lectNum
-	FROM bedu_db.t_bedu_lectLIKE WHERE USERID = '123';
+	FROM t_bedu_lectLIKE WHERE USERID = '123';
 </select>
 
 <select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
@@ -186,9 +186,9 @@ parameterType="hashmap">
 		SELECT 
 			* 
 		FROM 
-			bedu_db.t_bedu_lect)  
+			t_bedu_lect)  
 		AS A 
-	LEFT JOIN bedu_db.t_bedu_lect_dtl B
+	LEFT JOIN t_bedu_lect_dtl B
 	ON A.LECT_NUM = B.LECT_NUM
 	GROUP BY A.LECT_NUM
 	ORDER BY A.REG_DATE DESC
