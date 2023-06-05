@@ -460,7 +460,7 @@ export default {
                 this.member.password.length <= 15
             ) {
                 // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
-                this.$axiosSend("post", "/api/register", this.member)
+                this.$axiosSend('post', '/api/register', this.member)
                     .then((response) => {
                         alert(response.data);
                         // 문제없이 보냈다면 'login'으로 router이동

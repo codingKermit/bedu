@@ -92,8 +92,9 @@ public class LectureController {
 		list = LectureService.getLikeList(userId);
 
 		return list;
-
 	}
+
+	/* 강의의 후기 목록  */
 	
 
 }

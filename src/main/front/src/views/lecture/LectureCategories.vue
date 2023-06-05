@@ -2,48 +2,7 @@
     <div>
         <div class="p-5 w-100 d-flex">
             <!-- 좌측 네비, 커리큘럼 컨테이너 -->
-            <div class="w-25 ps-5 me-5">
-                <!-- 네비 컨테이너 -->
-                <p class="fs-2 fw-bold mb-3">분야별 강의</p>
-                <ul class="nav flex-column w-100">
-                    <!-- 대분류 -->
-                    <li
-                        class="nav-item me-4"
-                        v-for="(top, top_index) in categories"
-                        :key="top_index">
-                        <span>
-                            <a
-                                class="fs-5 text-body text-decoration-none d-flex"
-                                data-bs-toggle="collapse"
-                                :href='"#top-"+top.cateCode'>
-                                <p>{{ top.cateKor }}</p>
-                                <p class="ms-auto">
-                                    <font-awesome-icon :icon="['fas','caret-down']"/>
-                                </p>
-                            </a>
-                        </span>
-                        <div
-                            class="collapse text-secondary text-secondary mid-cate-container"
-                            :id='"top-"+top.cateCode'
-                            :class='cnt_top_cate == top.cateCode ? "show":""'>
-                            <ul class="ps-2">
-                                <!-- 중분류 -->
-                                <li
-                                    v-for="(mid, mid_index) in top.children"
-                                    :key="mid_index"
-                                    class="list-unstyled py-2">
-                                    <router-link
-                                        :to='"/lectureCategories/"+top.cateCode+"?cnt_mid_cate="+mid.cateCode'
-                                        class="text-decoration-none"
-                                        :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'">
-                                        {{ mid.cateKor }}
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <CategoryNaviVue></CategoryNaviVue> <!-- 좌측 카테고리 네비게이션 컴포넌트화 -->
             <div class="w-75 pe-5">
                 <!-- 강의 기본정보 & 커리큘럼 컨테이너-->
                 <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p>
@@ -109,8 +68,10 @@
 </template>
 
 <script>
+import CategoryNaviVue from '@/components/CategoryNavi.vue';
     export default {
         name: 'lectureCategories',
+        components:{CategoryNaviVue},
         data() {
             return {
                 categories: [], cnt_mid_cate: '', // 현재 어떤 중분류를 보고있는지를 코드로 저장
@@ -235,29 +196,6 @@
 </script>
 
 <style scoped="scoped">
-.lecture_item:hover{
-    transition: 0.1s;
-    /* border: 3px solid black !important; */
-    box-shadow: 0px 0px 0px 3px black inset !important;
-    scale: 102%;
-}
-
-    .mid-cate-container::after {
-        content: '';
-        width: 100%;
-        margin: 1rem 0;
-        background: gray;
-        height: 1px;
-        display: flex;
-    }
-    a {
-        cursor: pointer;
-    }
-
-    .cnt_selected {
-        color: var(--blue) !important;
-        font-weight: bold !important;
-    }
 
     .curriculum-list-even::before,
     .curriculum-list-odd::before {
@@ -285,13 +223,4 @@
         vertical-align: middle;
     }
 
-    .teacher-container::after {
-        content: '';
-        width: 2px;
-        margin: 0 0.5rem;
-        background: gray;
-        height: 1.2rem;
-        display: inline-block;
-        vertical-align: middle;
-    }
 </style>

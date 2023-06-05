@@ -12,12 +12,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "bedu_db")
 public class MemberVO {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_NUM")
 	private Long usernum;
 	
@@ -37,7 +33,7 @@ public class MemberVO {
 	private String cls;
 	
 	@Column(name = "USER_REG_DATE")
-	private LocalDate userRegDate;
+	private LocalDate urd;
 	
 	@Column(name = "USER_WITH_DRAW_YN")
 	private int udy;
