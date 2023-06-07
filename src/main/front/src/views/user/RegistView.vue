@@ -1,19 +1,19 @@
 <template>
-    <div class="regist">
+    <div id="registChangeContainer">
         <!-- 로그인 및 회원가입 이동 버튼 -->
-        <div class="change">
-            <button @click="$router.push('/login')" class="loginbtn">
+        <div id="registChangeSection">
+            <button @click="$router.push('/login')" id="reLoginChangeBtn">
                 로그인
             </button>
-            <button @click="$router.push('/regist')" class="registbtn">
+            <button @click="$router.push('/regist')" id="reRegistChangeBtn">
                 회원가입
             </button>
         </div>
-        <div class="container">
+        <div id="registContainer">
             <!-- 이용약관 동의 섹션 -->
-            <div v-if="!showForm" class="regist-container">
+            <div v-if="!showForm" id="registCheckBox">
                 <!-- "모든 이용 약관에 동의" 체크박스 -->
-                <label class="areeAll" for="agree_all">
+                <label id="registChkAll" for="agree_all">
                     <input
                         class="form-check-input"
                         type="checkbox"
@@ -27,7 +27,7 @@
 
                 <!-- 개별 약관 체크박스 -->
                 <label
-                    class="choice"
+                    id="registChoice"
                     v-for="(item, index) in agreements"
                     :key="index"
                     :for="'agree_' + item.value"
@@ -83,7 +83,7 @@
                             selectedAgreements.includes(1) &&
                             selectedAgreements.includes(2)
                         "
-                        class="submit"
+                        id="registSubmit"
                         :style="{
                             background: submitButtonColor,
                             color: submitButtonTextColor,
@@ -99,7 +99,7 @@
                             selectedAgreements.includes(1) ||
                             selectedAgreements.includes(2)
                         "
-                        class="submit2"
+                        id="registSubmit2"
                         :style="{
                             background: submitButtonColor,
                             color: submitButtonTextColor,
@@ -112,7 +112,7 @@
                     <!-- 약관에 동의하지 않은 경우 회원가입 섹션으로 이동X -->
                     <button
                         v-else
-                        class="submit2"
+                        id="registSubmit2"
                         :style="{
                             background: submitButtonColor,
                             color: submitButtonTextColor,
@@ -126,18 +126,18 @@
             </div>
 
             <!-- 회원가입 양식 섹션 -->
-            <div class="container2" v-else>
+            <div id="registSection" v-else>
                 <div class="regist-container2">
                     <form class="regist-form" @submit.prevent="register">
                         <!-- 이메일 입력 필드 -->
-                        <div class="form-group">
+                        <div id="registFormGroup">
                             <input
-                                class="email"
+                                id="registEmail"
                                 placeholder="이메일 입력"
                                 v-model="member.email"
                             />
                             <button
-                                class="emailChk"
+                                id="registEmailChk"
                                 @click="checkEmailDuplicate"
                                 :disabled="
                                     isChecking || valid.email || !member.email
@@ -147,33 +147,33 @@
                             </button>
                             <p
                                 v-show="valid.email && member.email"
-                                class="input-error"
+                                id="registInputError"
                             >
                                 이메일 주소를 정확히 입력해주세요. 예)
                                 bedu@bedu.com
                             </p>
                             <p
                                 v-show="emailChecked && !valid.emailChk"
-                                class="input-error"
+                                id="registInputError"
                             >
                                 중복된 이메일 입니다.
                             </p>
                             <p
                                 v-show="emailChecked && valid.emailChk"
-                                class="input-correct"
+                                id="registInputCorrect"
                             >
                                 사용가능한 이메일 입니다.
                             </p>
                         </div>
                         <!-- 닉네임 입력 필드 -->
-                        <div class="form-group">
+                        <div id="registFormGroup">
                             <input
-                                class="nickname"
+                                id="registNickname"
                                 placeholder="닉네임 입력"
                                 v-model="member.nickname"
                             />
                             <button
-                                class="nickChk"
+                                id="registNickChk"
                                 @click="checkNickDuplicate"
                                 :disabled="
                                     isChecking ||
@@ -185,29 +185,29 @@
                             </button>
                             <p
                                 v-show="valid.nickname && member.nickname"
-                                class="input-error"
+                                id="registInputError"
                             >
                                 닉네임은 2자리 이상 10자리 이하이며 특수문자는
                                 사용하실 수 없습니다.
                             </p>
                             <p
                                 v-show="nickChecked && !valid.nickChk"
-                                class="input-error"
+                                id="registInputError"
                             >
                                 중복된 닉네임 입니다.
                             </p>
                             <p
                                 v-show="nickChecked && valid.nickChk"
-                                class="input-correct"
+                                id="registInputCorrect"
                             >
                                 사용 가능한 닉네임 입니다.
                             </p>
                         </div>
                         <!-- 비밀번호 입력 필드 -->
-                        <div class="form-group">
+                        <div id="registFormGroup">
                             <input
                                 type="password"
-                                class="password"
+                                id="registPassword"
                                 placeholder="비밀번호 입력"
                                 v-model="member.password"
                             />
@@ -218,17 +218,17 @@
                                     (member.password.length < 6 ||
                                         member.password.length > 15)
                                 "
-                                class="input-error"
+                                id="registInputError"
                             >
                                 비밀번호는 6자리 이상 15자리 이하로
                                 작성해주세요.
                             </p>
                         </div>
                         <!-- 비밀번호 확인 필드 -->
-                        <div class="form-group">
+                        <div id="registFormGroup">
                             <input
                                 type="password"
-                                class="password"
+                                id="registPassword"
                                 placeholder="비밀번호 입력 확인"
                                 v-model="confirmPassword"
                             />
@@ -238,7 +238,7 @@
                                     member.password &&
                                     member.password !== confirmPassword
                                 "
-                                class="input-error"
+                                id="registInputError"
                             >
                                 비밀번호가 일치하지 않습니다.
                             </p>
@@ -250,15 +250,15 @@
                                     member.password.length >= 6 &&
                                     member.password.length <= 15
                                 "
-                                class="input-correct"
+                                id="registInputCorrect"
                             >
                                 사용가능한 비밀번호 입니다.
                             </p>
                         </div>
                         <!-- 회원가입 Submit 버튼 -->
-                        <div class="form-group">
+                        <div id="registFormGroup">
                             <button
-                                class="submitformbtn"
+                                id="registSubmitFormBtn"
                                 type="submit"
                                 :disabled="isChecking || member.email === ''"
                             >
@@ -499,7 +499,7 @@
 </script>
 
 <style scoped>
-    .regist {
+    #registChangeContainer {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -509,13 +509,13 @@
         padding-bottom: 20%;
     }
 
-    .change {
+    #registChangeSection {
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .loginbtn {
+    #reLoginChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;
@@ -527,7 +527,7 @@
         border-bottom: 3px solid #303076;
     }
 
-    @keyframes fadein {
+    @keyframes registFadein {
         from {
             opacity: 0;
         }
@@ -537,7 +537,7 @@
         }
     }
 
-    .registbtn {
+    #reRegistChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;
@@ -546,11 +546,11 @@
         cursor: pointer;
         color: white;
         background: #303076;
-        animation: fadein 0.5s;
+        animation: registFadein 0.5s;
         border-bottom: 3px solid #303076;
     }
 
-    .container {
+    #registContainer {
         position: relative;
         background: white;
         width: 600px;
@@ -558,40 +558,40 @@
         padding-bottom: 40px;
     }
 
-    .regist-container {
+    #registCheckBox {
         margin-left: 30px;
         margin-top: 30px;
     }
 
-    .areeAll {
+    #registChkAll {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
     }
 
-    .regist-container .choice {
+    #registContainer #registChoice {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         margin-bottom: 15px;
     }
 
-    .regist-container a {
+    #registCheckBox a {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
     }
 
-    .regist-container label input {
+    #registContainer label input {
         margin-right: 10px;
     }
 
-    .regist-container label span {
+    #registContainer label span {
         font-size: 17px;
         white-space: nowrap;
     }
 
-    textarea {
+    #registCheckBox textarea {
         margin-top: 15px;
         width: 95%;
         font-size: 1em;
@@ -599,12 +599,12 @@
         align-self: flex-start;
     }
 
-    input[type="checkbox"] {
+    #registCheckBox input[type="checkbox"] {
         padding: 10px;
     }
 
-    .submit,
-    .submit2 {
+    #registSubmit,
+    #registSubmit2 {
         width: 90%;
         padding: 0.8rem;
         margin-top: 40px;
@@ -618,20 +618,20 @@
         border: 3px solid #303076;
     }
 
-    .submit2:active {
+    #registSubmit2:active {
         box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203),
             inset -1px 0px 3px 0px rgb(203, 203, 203);
     }
 
-    .container2 {
+    #registSection {
         padding-bottom: 30px;
     }
 
-    .form-group {
+    #registFormGroup {
         margin-bottom: 8%;
     }
 
-    .email {
+    #registEmail {
         width: 74%;
         padding: 0.8rem;
         margin-top: 40px;
@@ -640,7 +640,7 @@
         font-weight: 400;
     }
 
-    .emailChk {
+    #registEmailChk {
         width: 20%;
         padding: 0.8rem;
         margin-left: -23px;
@@ -650,19 +650,19 @@
         background-color: #707070;
     }
 
-    .input-error {
+    #registInputError {
         margin-left: 30px;
         position: absolute;
         color: red;
     }
 
-    .input-correct {
+    #registInputCorrect {
         margin-left: 30px;
         position: absolute;
         color: rgb(0, 182, 0);
     }
 
-    .nickname {
+    #registNickname {
         width: 74%;
         padding: 0.8rem;
         margin-left: -23px;
@@ -670,7 +670,7 @@
         font-weight: 400;
     }
 
-    .nickChk {
+    #registNickChk {
         width: 20%;
         padding: 0.8rem;
         margin-left: -23px;
@@ -680,7 +680,7 @@
         background-color: #707070;
     }
 
-    .password {
+    #registPassword {
         width: 90%;
         padding: 0.8rem;
         margin-left: -23px;
@@ -688,7 +688,7 @@
         font-weight: 400;
     }
 
-    .submitformbtn {
+    #registSubmitFormBtn {
         width: 90%;
         padding: 0.8rem;
         margin-top: 50px;
