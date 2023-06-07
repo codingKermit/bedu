@@ -9,7 +9,12 @@ import com.care.bedu.review.vo.ReviewVO;
 
 @Mapper
 public interface ReviewDAO {
-     ReviewVO getReviewById(int id);
-     void createReview(ReviewVO reviewVO);
-     List<HashMap<String, Object>> getAllReviews();
+	// 특정 후기를 ID로 가져오는 메서드입니다.
+    ReviewVO getReviewById(int id);
+    
+    // 후기를 생성하는 메서드입니다.
+    void createReview(ReviewVO reviewVO);
+    
+    // 모든 후기를 가져오는 메서드입니다.
+    List<HashMap<String, Object>> getAllReviews();
 }

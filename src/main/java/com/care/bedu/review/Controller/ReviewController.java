@@ -21,16 +21,22 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
     
+    // GET 요청을 처리하는 엔드포인트로, 모든 후기 목록을 가져옵니다.
+    // page와 size는 요청 매개변수로 받아서 페이징 처리를 수행합니다.
     @RequestMapping("/reviews")
     public List<HashMap<String, Object>> getAllReviews(@RequestParam int page, @RequestParam int size) {
         return reviewService.getAllReviews(page, size);
     }
-
+    
+    // GET 요청을 처리하는 엔드포인트로, 특정 후기를 가져옵니다.
+    // id는 경로 변수로 받아서 해당 ID에 해당하는 후기를 반환합니다
     @RequestMapping("/{id}")
     public ReviewVO getReviewById(@PathVariable int id) {
         return reviewService.getReviewById(id);
     }
-
+    
+    // POST 요청을 처리하는 엔드포인트로, 새로운 후기를 생성합니다.
+    // 요청 본문에 있는 ReviewVO 객체를 받아서 후기를 생성하고 생성된 후기를 반환합니다.
     @PostMapping
     public ReviewVO createReview(@RequestBody ReviewVO reviewVO) {
         return reviewService.createReview(reviewVO);
