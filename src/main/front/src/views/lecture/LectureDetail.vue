@@ -10,7 +10,7 @@
             <div class="d-flex mb-4">
                 <!-- thumbnail -->
                 <div class="w-50 me-5">
-                    <b-img thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
+                    <b-img class="w-100" thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
                 </div>
 
                 <!-- info start-->
@@ -20,10 +20,10 @@
                     <!-- score start-->
                     <div class="d-flex mb-3">
                         <div>
-                            <span v-for="(star, i) in form.stars" :key="i" class="mx-1 fs-5">
+                            <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
                                 <font-awesome-icon
-                                    :class="star =='y' ? 'text-danger' : 'text-secondary'"
-                                    :icon="star =='y' ? ['fas','star'] : ['fas','star']"/>
+                                    :class="form.score >= star ? 'text-danger' : 'text-secondary'"
+                                    :icon="['fas','star']"/>
                             </span>
                         </div>
                         <div class="ms-2 pt-1 align-middle">
@@ -78,7 +78,7 @@
             </div>
 
             <!-- 소개, 목록, 후기 탭 -->
-            <div class="form-contents-container">
+            <div id="lect-dtl-form-contents-container">
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item ">
                         <a class="nav-link py-4 text-body " href="#description-body"><span class="py-4">강좌소개</span></a>
@@ -95,7 +95,7 @@
                 <b-container class="px-4">
                     <h2 class="fw-bold my-5" id="description-body">강좌 소개</h2>
                     <div class="w-100 overflow-visible">
-                        <div v-html="form.lectDesc" class="w-100 "></div>
+                        <div id="lect-dtl-content" v-html="form.lectDesc" class="w-100 "></div>
                     </div>
 
                     <!-- 강의 목록 -->
@@ -116,13 +116,14 @@
 
                     <!-- 수강 후기 -->
                     <div class="mb-5">
-                        <div class="d-flex">
+                        <div class="d-flex mb-5">
                             <p class="fs-2 fw-bold me-auto" id="lecture-review-container">수강후기</p>
                             <div>
-                                <span v-for="(star, i) in form.stars" :key="i" class="mx-1 fs-5">
+                                <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
                                     <font-awesome-icon
-                                        :class="star =='y' ? 'text-danger' : 'text-secondary'"
-                                        :icon="star =='y' ? ['fas','star'] : ['fas','star']"/>
+                                    :class="form.score < star ? 'text-secondary' : 'text-danger'"
+                                    :icon="['fas','star']"
+                                        />
                                 </span>
                             </div>
                             <div class="ms-2 pt-1 align-middle">
@@ -132,7 +133,30 @@
                                 개)
                             </div>
                         </div>
-                        <div class="bg-secondary p-5 bg-opacity-10"></div>
+                        <div class="">
+                            <ul>
+                                <li 
+                                    class="list-unstyled mb-5"
+                                    v-for="(review, index) in reviews" :key="index">
+                                    <div>
+                                        <div class="d-flex mb-1">
+                                            <div class="me-auto">{{ review.writer }}</div>
+                                            <div class="ms-auto">
+                                                <span v-for="(star,index) in 5" :key="index">
+                                                    <font-awesome-icon
+                                                        :class="review.star < star ? 'text-secondary' : 'text-danger'"
+                                                        :icon ="['fas','star']"
+                                                    />
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-secondary bg-opacity-10 p-4">
+                                            {{ review.content }}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </b-container>
             </div>
@@ -174,18 +198,7 @@
             getDetail() {
                 this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.num})
                 .then((res) => {
-                    console.log(res)
                     this.form = res.data;
-                    this.form.stars = [];
-
-                    // 별점 체크하기 위한 배열 생성
-                    for (var i = 0; i < 5; i++) {
-                        if (i < this.form.score) {
-                            this.form.stars.push('y')
-                        } else {
-                            this.form.stars.push('n')
-                        }
-                    }
                 })
                 .catch((err) => {
                     console.log(err)
@@ -200,34 +213,40 @@
                     console.log(err)
                 });
             },
-            getReview(){ 
+            getReview(){ /** 후기 조회 */
                 this.$axiosSend('get','/api/lect/getReview',{num : this.form.num})
-                .then((res)=>{console.log(res)})
-                .catch((err)=>{console.log(err)})
+                .then((res)=>{
+                    this.reviews = res.data.item;
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            },
+            toPayment(){ /** 결제 페이지 이동 */
+                
             }
         },
         mounted() {
+        },
+        created() {
             this.getDetail();
             this.getVideoList();
-        },
-        created() {}
+            this.getReview();
+        }
     }
 </script>
 
 <style scoped="scoped">
 
-    b-img {
-        width: 100%;
-    }
 
-    .form-contents-container {
+    #lect-dtl-form-contents-container {
         border-top: 3px solid black;
         border-left: 1px solid #e6e7e8;
         border-right: 1px solid #e6e7e8;
         border-bottom: 1px solid #e6e7e8;
     }
 
-    div ::v-deep img {
+    #lect-dtl-content ::v-deep img {
         width: auto !important;
         height: auto !important;
         max-width: 100%;

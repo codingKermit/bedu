@@ -11,6 +11,8 @@ import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
+import jakarta.xml.ws.Service;
+
 @RestController
 @RequestMapping("/api/lect")
 public class LectureController {
@@ -78,6 +80,14 @@ public class LectureController {
 	}
 
 	/* 강의 후기 조회 */
+	@RequestMapping("/getReview")
+	public HashMap<String, Object> getReview(int num){
+		HashMap<String, Object> map = new HashMap<>();
+
+		map = LectureService.getReview(num);
+
+		return map;
+	}
 	
 
 }

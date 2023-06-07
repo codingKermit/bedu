@@ -12,6 +12,7 @@ import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureCategoriesVO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import com.care.bedu.review.vo.ReviewVO;
 
 
 @Service
@@ -139,6 +140,24 @@ public class LectureServiceImpl implements LectureService{
 		list = lectureDao.getNewestLecture();
 
 		map.put("item", list);
+		return map;
+	}
+
+
+
+	/* 후기 조회
+	 * 아직까지 후기 조회의 기준이 없어서 임시로 최신순으로 조회하도록 구현
+	 */
+	@Override
+	public HashMap<String, Object> getReview(int num) {
+		HashMap<String, Object> map = new HashMap<>();
+
+		ArrayList<ReviewVO> result = new ArrayList<>();
+
+		result = lectureDao.getReview(num);
+
+		map.put("item", result);
+
 		return map;
 	}
 	

@@ -3,14 +3,14 @@
         <b-container class="py-5">
             <b-form class="w-50 mx-auto" @submit="search()">
                 <div
-                    class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu mt-5">
+                    class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 lect-search-border-bedu mt-5">
                     <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
                     <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
                 </div>
             </b-form>
             <p class="fs-2 fw-bold">강좌 검색결과 ({{ total }})</p>
             <div
-                class="search-result-container p-3 border-opacity-25 border-secondary border mb-5">
+                class="lect-search-result-container p-3 border-opacity-25 border-secondary border mb-5">
                 <ul class="list-unstyled">
                     <li v-for="(item, index) in lectures" :key="index">
                         <b-link
@@ -27,7 +27,7 @@
                                 <div class="p-3">
                                     <p class="fs-5 fw-bold">{{ item.title }}</p>
                                     <span class="d-flex">
-                                        <p class="teacher-name">{{ item.teacher }}
+                                        <p class="lect-search-teacher-name">{{ item.teacher }}
                                             선생님</p>
                                         <p>총
                                             {{ item.total }}강</p>
@@ -148,22 +148,22 @@ export default{
 </script>
 
 <style scoped>
-.border-bedu{
-    border-color: var(--yellow) !important;
-}
+    .lect-search-border-bedu{
+        border-color: var(--yellow) !important;
+    }
 
-.search-result-container{
-    border-top: 3px solid black !important;
-}
+    .lect-search-result-container{
+        border-top: 3px solid black !important;
+    }
 
-.teacher-name::after{
-    content : '';
-    width: 1px;
-    height: 1rem;
-    background-color: gray;
-    margin : 0rem 0.5rem;
-    display: inline-block;
-    vertical-align: middle;
-}
+    .lect-search-teacher-name::after{
+        content : '';
+        width: 1px;
+        height: 1rem;
+        background-color: gray;
+        margin : 0rem 0.5rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
 
 </style>

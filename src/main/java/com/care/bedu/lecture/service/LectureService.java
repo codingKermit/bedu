@@ -16,4 +16,5 @@ public interface LectureService {
 	public int searchTotal(String keyword); /* 검색어에 따른 총 데이터 갯수 조회 */
 	public ArrayList<Integer> getLikeList(String userId); /* 좋아요한 강의 고유번호 목록 반환 */
 	public HashMap<String, Object> getNewestLecture(); /* 신규 오픈 강좌 4개 조회 */
+	public HashMap<String, Object> getReview(int num);
 }

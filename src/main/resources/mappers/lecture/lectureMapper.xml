@@ -3,198 +3,211 @@
 
 <mapper namespace="com.care.bedu.lecture.dao.LectureDAO">
 
-<select id="getLectureList" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="hashmap">
-	SELECT 
-		A.LECT_NUM as lectNum, 
-		A.TITLE, 
-		A.TEACHER, 
-		COUNT(B.LECT_NUM) AS TOTAL, 
-		A.LECT_PERIOD as lectPeriod,
-		A.THUMBNAIL, 
-		A.LECT_CNT as lectCnt, 
-		A.REG_DATE as regDate, 
-		FORMAT(A.PRICE, 0) AS PRICE,
-		A.LECT_DESC as lectDesc,
-		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
-		A.CATEGORY, 
-		A.KORCATEGORY,
-		A.LECT_SUMMARY AS lectSum
-	FROM (
+	<select id="getLectureList" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="hashmap">
 		SELECT 
-			* 
-		FROM 
-			t_bedu_lect WHERE CATEGORY = #{category}
-	)  AS A 
-	LEFT JOIN t_bedu_lect_dtl B
-	ON A.LECT_NUM = B.LECT_NUM
-	GROUP BY A.LECT_NUM
-	;
-</select>
+			A.LECT_NUM as lectNum, 
+			A.TITLE, 
+			A.TEACHER, 
+			COUNT(B.LECT_NUM) AS TOTAL, 
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL, 
+			A.LECT_CNT as lectCnt, 
+			A.REG_DATE as regDate, 
+			FORMAT(A.PRICE, 0) AS PRICE,
+			A.LECT_DESC as lectDesc,
+			SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+			A.CATEGORY, 
+			A.KORCATEGORY,
+			A.LECT_SUMMARY AS lectSum
+		FROM (
+			SELECT 
+				* 
+			FROM 
+				t_bedu_lect WHERE CATEGORY = #{category}
+		)  AS A 
+		LEFT JOIN t_bedu_lect_dtl B
+		ON A.LECT_NUM = B.LECT_NUM
+		GROUP BY A.LECT_NUM
+		;
+	</select>
 
-<select id="getLectureDetail" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="int">
-	SELECT 
-		A.LECT_NUM as lectNum, 
-		A.TITLE, 
-		A.TEACHER, 
-		B.TOTAL AS TOTAL, 
-		A.LECT_PERIOD as lectPeriod,
-		A.THUMBNAIL, 
-		A.LECT_CNT as lectCnt, 
-		A.REG_DATE as regDate, 
-		FORMAT(A.PRICE, 0) AS PRICE, 
-		A.LECT_DESC as lectDesc,
-		ROUND(AVG(C.LECT_SCO_SCORE)) AS SCORE, 
-		COUNT(C.LECT_SCO_USERID) AS SCOREUSERS, 
-		SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, 
-		A.CATEGORY, 
-		A.KORCATEGORY
-	FROM (
+	<select id="getLectureDetail" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="int">
 		SELECT 
-			* 
-		FROM 
-			t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
-		AS A 
-	LEFT JOIN (
+			A.LECT_NUM as lectNum, 
+			A.TITLE, 
+			A.TEACHER, 
+			B.TOTAL AS TOTAL, 
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL, 
+			A.LECT_CNT as lectCnt, 
+			A.REG_DATE as regDate, 
+			FORMAT(A.PRICE, 0) AS PRICE, 
+			A.LECT_DESC as lectDesc,
+			ROUND(AVG(C.RW_GRADE)) AS SCORE, 
+			COUNT(C.LECT_NUM) AS SCOREUSERS, 
+			SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, 
+			A.CATEGORY, 
+			A.KORCATEGORY
+		FROM (
+			SELECT 
+				* 
+			FROM 
+				t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
+			AS A 
+		LEFT JOIN (
+			SELECT 
+				COUNT(LECT_NUM) AS TOTAL, 
+				SUM(LECT_DTL_TIME) AS TOTALTIMES, 
+				LECT_NUM as lectNum 
+			FROM 
+				t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
+		ON A.LECT_NUM = B.lectNum 
+		LEFT JOIN (
+			SELECT 
+				* 
+			FROM 
+				t_bedu_rw_bd 
+			WHERE LECT_NUM = #{LECT_NUM}) C
+		ON A.LECT_NUM = C.LECT_NUM
+		GROUP BY A.LECT_NUM, B.TOTAL;
+	</select>
+
+
+	<select id="getLectureField" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="String">
 		SELECT 
-			COUNT(LECT_NUM) AS TOTAL, 
-			SUM(LECT_DTL_TIME) AS TOTALTIMES, 
-			LECT_NUM as lectNum 
-		FROM 
-			t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}) B
-	ON A.LECT_NUM = B.lectNum 
-	LEFT JOIN (
+			A.LECT_NUM as lectNum, 
+			A.TITLE, 
+			A.TEACHER, 
+			COUNT(DISTINCT B.LECT_NUM) AS TOTAL, 
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL, 
+			A.LECT_CNT as lectCnt, 
+			A.REG_DATE as regDate, 
+			A.PRICE, 
+			A.LECT_DESC as lectDesc,
+			AVG(C.LECT_SCO_SCORE) AS SCORE,
+			SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+			A.CATEGORY, 
+			A.KORCATEGORY
+		FROM (
+			SELECT 
+				* 
+			FROM 
+				t_bedu_lect 
+			WHERE CATEGORY = #{category})  
+			AS A 
+		LEFT JOIN t_bedu_lect_dtl B
+		ON A.LECT_NUM = B.LECT_NUM 
+		LEFT JOIN t_bedu_lect_score C
+		ON A.LECT_NUM = C.LECT_SCO_LECT_ID
+		GROUP BY A.LECT_NUM
+		ORDER BY C.LECT_SCO_SCORE DESC LIMIT 0, 4
+		;
+	</select>
+
+	<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
 		SELECT 
-			* 
+			LECT_DTL_NUM as lectDtlNum,
+			LECT_NUM as lectNum, 
+			LECT_DTL_TITLE as lectDtlTitle, 
+			SEC_TO_TIME(LECT_DTL_TIME) AS TIMES
 		FROM 
-			t_bedu_lect_score 
-		WHERE LECT_SCO_LECT_ID = #{LECT_NUM}) C
-	ON A.LECT_NUM = C.LECT_SCO_LECT_ID
-	GROUP BY A.LECT_NUM, B.TOTAL;
-</select>
+			t_bedu_lect_dtl 
+		WHERE LECT_NUM = #{LECT_NUM};
+	</select>
 
-
-<select id="getLectureField" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="String">
-	SELECT 
-		A.LECT_NUM as lectNum, 
-		A.TITLE, 
-		A.TEACHER, 
-		COUNT(DISTINCT B.LECT_NUM) AS TOTAL, 
-		A.LECT_PERIOD as lectPeriod,
-		A.THUMBNAIL, 
-		A.LECT_CNT as lectCnt, 
-		A.REG_DATE as regDate, 
-		A.PRICE, 
-		A.LECT_DESC as lectDesc,
-		AVG(C.LECT_SCO_SCORE) AS SCORE,
-		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
-		A.CATEGORY, 
-		A.KORCATEGORY
-	FROM (
+	<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.LectureVO"
+	parameterType="hashmap">
 		SELECT 
-			* 
+			A.LECT_NUM as lectNum, 
+			A.TITLE, 
+			A.TEACHER, 
+			COUNT(B.LECT_NUM) AS TOTAL, 
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL, 
+			A.LECT_CNT as lectCnt, 
+			A.REG_DATE as regDate, 
+			A.PRICE, 
+			A.LECT_DESC as lectDesc,
+			SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+			A.CATEGORY, 
+			A.KORCATEGORY
 		FROM 
-			t_bedu_lect 
-		WHERE CATEGORY = #{category})  
-		AS A 
-	LEFT JOIN t_bedu_lect_dtl B
-	ON A.LECT_NUM = B.LECT_NUM 
-	LEFT JOIN t_bedu_lect_score C
-	ON A.LECT_NUM = C.LECT_SCO_LECT_ID
-	GROUP BY A.LECT_NUM
-    ORDER BY C.LECT_SCO_SCORE DESC LIMIT 0, 4
-    ;
-</select>
+			(SELECT 
+				* 
+			FROM 
+				t_bedu_lect
+			WHERE 
+				TITLE LIKE CONCAT('%',#{keyword},'%')
+			) AS A 
+		LEFT JOIN t_bedu_lect_dtl AS B
+		ON A.LECT_NUM = B.LECT_NUM
+		GROUP BY A.LECT_NUM
+		LIMIT #{begin}, 5
+		;
+	</select>
 
-<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
-	SELECT 
-		LECT_DTL_NUM as lectDtlNum,
-		LECT_NUM as lectNum, 
-		LECT_DTL_TITLE as lectDtlTitle, 
-		SEC_TO_TIME(LECT_DTL_TIME) AS TIMES
-	FROM 
-		t_bedu_lect_dtl 
-	WHERE LECT_NUM = #{LECT_NUM};
-</select>
-
-<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.LectureVO"
-parameterType="hashmap">
-	SELECT 
-		A.LECT_NUM as lectNum, 
-		A.TITLE, 
-		A.TEACHER, 
-		COUNT(B.LECT_NUM) AS TOTAL, 
-		A.LECT_PERIOD as lectPeriod,
-		A.THUMBNAIL, 
-		A.LECT_CNT as lectCnt, 
-		A.REG_DATE as regDate, 
-		A.PRICE, 
-		A.LECT_DESC as lectDesc,
-		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
-		A.CATEGORY, 
-		A.KORCATEGORY
-	FROM 
-		(SELECT 
-			* 
-		FROM 
-			t_bedu_lect
-		WHERE 
-			TITLE LIKE CONCAT('%',#{keyword},'%')
-		) AS A 
-	LEFT JOIN t_bedu_lect_dtl AS B
-	ON A.LECT_NUM = B.LECT_NUM
-	GROUP BY A.LECT_NUM
-	LIMIT #{begin}, 5
-	;
-</select>
-
-<select id="searchTotal" resultType="int">
-	SELECT 
-		COUNT(A.LECT_NUM)
-	 FROM 
-	 	(SELECT 
-			* 
-		FROM 
-			t_bedu_lect 
-		WHERE 
-			TITLE LIKE CONCAT('%',#{keyword},'%'))  
-		AS A 
-	;
-</select>
-
-<select id="getLikeList" resultType="int">
-	SELECT LECT_NUM as lectNum
-	FROM t_bedu_lectLIKE WHERE USERID = '123';
-</select>
-
-<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
-	SELECT 
-		A.LECT_NUM as lectNum, 
-		A.TITLE, 
-		A.TEACHER, 
-		COUNT(B.LECT_NUM) AS TOTAL, 
-		A.LECT_PERIOD as lectPeriod,
-		A.THUMBNAIL, 
-		A.LECT_CNT as lectCnt, 
-		A.REG_DATE as regDate, 
-		FORMAT(A.PRICE, 0) AS PRICE,
-		A.LECT_DESC as lectDesc,
-		SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
-		A.CATEGORY, 
-		A.KORCATEGORY,
-		A.LECT_SUMMARY AS lectSum
-	FROM (
+	<select id="searchTotal" resultType="int">
 		SELECT 
-			* 
+			COUNT(A.LECT_NUM)
 		FROM 
-			t_bedu_lect)  
-		AS A 
-	LEFT JOIN t_bedu_lect_dtl B
-	ON A.LECT_NUM = B.LECT_NUM
-	GROUP BY A.LECT_NUM
-	ORDER BY A.REG_DATE DESC
-	LIMIT 0, 4
-	;
-</select>
+			(SELECT 
+				* 
+			FROM 
+				t_bedu_lect 
+			WHERE 
+				TITLE LIKE CONCAT('%',#{keyword},'%'))  
+			AS A 
+		;
+	</select>
+
+	<select id="getLikeList" resultType="int">
+		SELECT LECT_NUM as lectNum
+		FROM t_bedu_lectLIKE WHERE USERID = '123';
+	</select>
+
+	<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
+		SELECT 
+			A.LECT_NUM as lectNum, 
+			A.TITLE, 
+			A.TEACHER, 
+			COUNT(B.LECT_NUM) AS TOTAL, 
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL, 
+			A.LECT_CNT as lectCnt, 
+			A.REG_DATE as regDate, 
+			FORMAT(A.PRICE, 0) AS PRICE,
+			A.LECT_DESC as lectDesc,
+			SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
+			A.CATEGORY, 
+			A.KORCATEGORY,
+			A.LECT_SUMMARY AS lectSum
+		FROM (
+			SELECT 
+				* 
+			FROM 
+				t_bedu_lect)  
+			AS A 
+		LEFT JOIN t_bedu_lect_dtl B
+		ON A.LECT_NUM = B.LECT_NUM
+		GROUP BY A.LECT_NUM
+		ORDER BY A.REG_DATE DESC
+		LIMIT 0, 4
+		;
+	</select>
+
+	<select id="getReview" resultType="com.care.bedu.review.vo.ReviewVO">
+		SELECT 
+			title, 
+			USER_NAME as writer,	
+			CONTENT as content,
+			RW_GRADE as star,
+			RW_DATE as reviewDate
+		FROM 
+			t_bedu_rw_bd WHERE LECT_NUM = #{num}
+		ORDER BY RW_DATE
+		LIMIT 0, 5;
+	</select>
 
 
 
