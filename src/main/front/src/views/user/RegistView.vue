@@ -498,6 +498,3 @@
         },
     };
 </script>
-
-<style scoped>
-</style>

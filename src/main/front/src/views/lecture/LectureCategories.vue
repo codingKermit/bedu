@@ -69,7 +69,7 @@
 
 <script>
 import CategoryNaviVue from '@/components/CategoryNavi.vue';
-import '@/assets/css/lectureStyle.css'
+import '@/assets/css/lectureStyle.css';
     export default {
         name: 'lectureCategories',
         components:{CategoryNaviVue},
