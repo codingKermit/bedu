@@ -1,11 +1,11 @@
 <template>
-    <div class="regist">
+    <div id="registChangeContainer">
         <!-- 로그인 및 회원가입 이동 버튼 -->
-        <div class="change">
-            <button @click="$router.push('/login')" class="loginbtn">
+        <div id="registChangeSection">
+            <button @click="$router.push('/login')" id="reLoginChangeBtn">
                 로그인
             </button>
-            <button @click="$router.push('/regist')" class="registbtn">
+            <button @click="$router.push('/regist')" id="reRegistChangeBtn">
                 회원가입
             </button>
         </div>
@@ -499,7 +499,7 @@
 </script>
 
 <style scoped>
-    .regist {
+    #registChangeContainer {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -509,13 +509,13 @@
         padding-bottom: 20%;
     }
 
-    .change {
+    #registChangeSection {
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .loginbtn {
+    #reLoginChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;
@@ -537,7 +537,7 @@
         }
     }
 
-    .registbtn {
+    #reRegistChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;

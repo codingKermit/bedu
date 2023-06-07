@@ -1,35 +1,35 @@
 <template>
-    <div class="login">
-        <div class="change">
-            <button @click="$router.push('/login')" class="loginbtn">
+    <div id="loginChangeContainer">
+        <div id="loginChangeSection">
+            <button @click="$router.push('/login')" id="loLoginChangeBtn">
                 로그인
             </button>
-            <button @click="$router.push('/regist')" class="registbtn">
+            <button @click="$router.push('/regist')" id="loRegistChangeBtn" class="registbtn">
                 회원가입
             </button>
         </div>
-        <div class="container">
-            <div class="logo-container">
-                <img src="@/assets/imgs/Logo2.png" width="180" /><br />
+        <div id="loginContainer">
+            <div id="loginLogoContainer">
+                <img id="loginLogo" src="@/assets/imgs/Logo2.png" /><br />
                 <p>강의는 역시 B:EDU</p>
             </div>
-            <div class="login-container">
+            <div id="loginSection">
                 <form class="login-form" @submit.prevent="login">
                     <div class="form-group">
                         <input
+                            id="emailInputSection"
                             v-model="email"
-                            class="email"
                             placeholder="사용자 이메일"
                         />
                     </div>
                     <div class="form-group">
                         <input
+                            id="pwdInputSection"
                             v-model="password"
-                            class="password"
                             placeholder="비밀번호"
                         />
                     </div>
-                    <div class="idrm">
+                    <div id="idRememberSection">
                         <input
                             class="form-check-input"
                             type="checkbox"
@@ -40,7 +40,7 @@
                         >
                     </div>
                     <div>
-                        <button class="submit" type="submit">로그인</button>
+                        <button id="loginSubmitBtn" type="submit">로그인</button>
                     </div>
                 </form>
             </div>
@@ -70,6 +70,7 @@ export default {
                 .then((response) => {
                     if (response.status === 200) {
                         localStorage.setItem("isLoggedIn", "true");
+                        this.isLoggedIn = true;
                         this.$router.push("/");
                         alert("로그인 성공");
                     } else {
@@ -86,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-    .login {
+    #loginChangeContainer {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -96,13 +97,13 @@ export default {
         padding-bottom: 20%;
     }
 
-    .change {
+    #loginChangeSection {
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .loginbtn {
+    #loLoginChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;
@@ -125,7 +126,7 @@ export default {
         }
     }
 
-    .registbtn {
+    #loRegistChangeBtn {
         width: 300px;
         padding: 1rem;
         font-size: 1rem;
@@ -137,14 +138,14 @@ export default {
         border-bottom: 3px solid #303076;
     }
 
-    .container {
+    #loginContainer {
         position: relative;
         background: white;
         width: 600px;
         height: 460px;
     }
 
-    .logo-container {
+    #loginLogoContainer {
         position: relative;
         font-size: 1.5rem;
         border-radius: 1rem;
@@ -152,8 +153,12 @@ export default {
         margin-top: 50px;
     }
 
-    .email,
-    .password {
+    #loginLogo {
+        width: 180px;
+    }
+
+    #emailInputSection,
+    #pwdInputSection {
         position: relative;
         width: 90%;
         padding: 0.8rem;
@@ -162,7 +167,7 @@ export default {
         font-weight: 400;
     }
 
-    .idrm {
+    #idRememberSection {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -170,11 +175,7 @@ export default {
         margin-left: 30px;
     }
 
-    input[type="checkbox"] {
-        padding: 10px;
-    }
-
-    .idrm span {
+    #idRememberSection span {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -182,7 +183,7 @@ export default {
         margin-top: 3px;
     }
 
-    .submit {
+    #loginSubmitBtn {
         position: relative;
         width: 90%;
         padding: 0.8rem;

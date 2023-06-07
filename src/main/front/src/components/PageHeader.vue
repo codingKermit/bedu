@@ -63,6 +63,7 @@
                 categories: [], 
                 showButton: false,
                 keyword : '',
+                isLoggedIn: false,
             };
         },
         methods: {
@@ -127,7 +128,11 @@
                     console.log('cateData ::: ', cateData)
                     this.convertToHierarchy(cateData)
                 })
-            }
+            },
+            logout() {
+                localStorage.removeItem("isLoggedIn");
+                this.$router.push("/");
+            },
           },
           watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
             '$route'(){
