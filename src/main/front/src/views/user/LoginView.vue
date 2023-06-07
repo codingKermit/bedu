@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import '@/assets/css/userStyle.css';
+
 export default {
     data() {
         return {
@@ -85,112 +87,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-    #loginChangeContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: auto;
-        text-align: center;
-        padding-top: 15%;
-        padding-bottom: 20%;
-    }
-
-    #loginChangeSection {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #loLoginChangeBtn {
-        width: 300px;
-        padding: 1rem;
-        font-size: 1rem;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        color: #ffffff;
-        background: #303076;
-        border-bottom: 3px solid #303076;
-        animation: loginFadein 0.5s;
-    }
-
-    @keyframes loginFadein {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    #loRegistChangeBtn {
-        width: 300px;
-        padding: 1rem;
-        font-size: 1rem;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        color: black;
-        background: white;
-        border-bottom: 3px solid #303076;
-    }
-
-    #loginContainer {
-        position: relative;
-        background: white;
-        width: 600px;
-        height: 460px;
-    }
-
-    #loginLogoContainer {
-        position: relative;
-        font-size: 1.5rem;
-        border-radius: 1rem;
-        background: white;
-        margin-top: 50px;
-    }
-
-    #loginLogo {
-        width: 180px;
-    }
-
-    #emailInputSection,
-    #pwdInputSection {
-        position: relative;
-        width: 90%;
-        padding: 0.8rem;
-        margin-top: 15px;
-        font-size: 1.1rem;
-        font-weight: 400;
-    }
-
-    #idRememberSection {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        margin-top: 20px;
-        margin-left: 30px;
-    }
-
-    #idRememberSection span {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        margin-left: 10px;
-        margin-top: 3px;
-    }
-
-    #loginSubmitBtn {
-        position: relative;
-        width: 90%;
-        padding: 0.8rem;
-        margin-top: 40px;
-        font-size: 1.3rem;
-        font-weight: 400;
-        color: #ffffff;
-        background: #303076;
-    }
-</style>

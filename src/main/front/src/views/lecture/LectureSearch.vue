@@ -70,6 +70,7 @@
 
 <script>
 import { InfiniteLoading } from 'infinite-loading-vue3-ts';
+import '@/assets/css/lectureStyle.css';
 
 export default{
     name: "lectureSearch",
@@ -146,24 +147,3 @@ export default{
 
 
 </script>
-
-<style scoped>
-    .lect-search-border-bedu{
-        border-color: var(--yellow) !important;
-    }
-
-    .lect-search-result-container{
-        border-top: 3px solid black !important;
-    }
-
-    .lect-search-teacher-name::after{
-        content : '';
-        width: 1px;
-        height: 1rem;
-        background-color: gray;
-        margin : 0rem 0.5rem;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-</style>

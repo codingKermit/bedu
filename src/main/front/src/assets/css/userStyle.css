@@ -1,0 +1,311 @@
+/* LoginView css */ 
+#loginChangeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+    text-align: center;
+    padding-top: 15%;
+    padding-bottom: 20%;
+}
+
+#loginChangeSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loLoginChangeBtn {
+    width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    background: #303076;
+    border-bottom: 3px solid #303076;
+    animation: loginFadein 0.5s;
+}
+
+@keyframes loginFadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#loRegistChangeBtn {
+    width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: black;
+    background: white;
+    border-bottom: 3px solid #303076;
+}
+
+#loginContainer {
+    position: relative;
+    background: white;
+    width: 600px;
+    height: 460px;
+}
+
+#loginLogoContainer {
+    position: relative;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    background: white;
+    margin-top: 50px;
+}
+
+#loginLogo {
+    width: 180px;
+}
+
+#emailInputSection,
+#pwdInputSection {
+    position: relative;
+    width: 90%;
+    padding: 0.8rem;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+#idRememberSection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+#idRememberSection span {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+#loginSubmitBtn {
+    position: relative;
+    width: 90%;
+    padding: 0.8rem;
+    margin-top: 40px;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #ffffff;
+    background: #303076;
+}
+
+/* RegistView css */ 
+#registChangeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+    text-align: center;
+    padding-top: 15%;
+    padding-bottom: 20%;
+}
+
+#registChangeSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reLoginChangeBtn {
+    width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: black;
+    background: white;
+    border-bottom: 3px solid #303076;
+}
+
+@keyframes registFadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#reRegistChangeBtn {
+    width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: #303076;
+    animation: registFadein 0.5s;
+    border-bottom: 3px solid #303076;
+}
+
+#registContainer {
+    position: relative;
+    background: white;
+    width: 600px;
+    height: auto;
+    padding-bottom: 40px;
+}
+
+#registCheckBox {
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+#registChkAll {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#registContainer #registChoice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#registCheckBox a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#registContainer label input {
+    margin-right: 10px;
+}
+
+#registContainer label span {
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+#registCheckBox textarea {
+    margin-top: 15px;
+    width: 95%;
+    font-size: 1em;
+    resize: none;
+    align-self: flex-start;
+}
+
+#registCheckBox input[type="checkbox"] {
+    padding: 10px;
+}
+
+#registSubmit,
+#registSubmit2 {
+    width: 90%;
+    padding: 0.8rem;
+    margin-top: 40px;
+    margin-left: -23px;
+    font-size: 1.3rem;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #303076;
+    border: 3px solid #303076;
+}
+
+#registSubmit2:active {
+    box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203),
+        inset -1px 0px 3px 0px rgb(203, 203, 203);
+}
+
+#registSection {
+    padding-bottom: 30px;
+}
+
+#registFormGroup {
+    margin-bottom: 8%;
+}
+
+#registEmail {
+    width: 74%;
+    padding: 0.8rem;
+    margin-top: 40px;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+#registEmailChk {
+    width: 20%;
+    padding: 0.8rem;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: white;
+    background-color: #707070;
+}
+
+#registInputError {
+    margin-left: 30px;
+    position: absolute;
+    color: red;
+}
+
+#registInputCorrect {
+    margin-left: 30px;
+    position: absolute;
+    color: rgb(0, 182, 0);
+}
+
+#registNickname {
+    width: 74%;
+    padding: 0.8rem;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+#registNickChk {
+    width: 20%;
+    padding: 0.8rem;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: white;
+    background-color: #707070;
+}
+
+#registPassword {
+    width: 90%;
+    padding: 0.8rem;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+#registSubmitFormBtn {
+    width: 90%;
+    padding: 0.8rem;
+    margin-top: 50px;
+    margin-left: -23px;
+    font-size: 1.3rem;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #303076;
+    border: 3px solid #303076;
+}

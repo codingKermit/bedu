@@ -165,6 +165,8 @@
 </template>
 
 <script>
+import '@/assets/css/lectureStyle.css';
+
     export default {
         name: 'lectureDetail',
         data() {
@@ -243,20 +245,3 @@
         }
     }
 </script>
-
-<style scoped="scoped">
-
-
-    #lect-dtl-form-contents-container {
-        border-top: 3px solid black;
-        border-left: 1px solid #e6e7e8;
-        border-right: 1px solid #e6e7e8;
-        border-bottom: 1px solid #e6e7e8;
-    }
-
-    #lect-dtl-content ::v-deep img {
-        width: auto !important;
-        height: auto !important;
-        max-width: 100%;
-    }
-</style>

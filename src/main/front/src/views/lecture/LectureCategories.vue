@@ -69,6 +69,7 @@
 
 <script>
 import CategoryNaviVue from '@/components/CategoryNavi.vue';
+import '@/assets/css/lectureStyle.css'
     export default {
         name: 'lectureCategories',
         components:{CategoryNaviVue},
@@ -147,33 +148,3 @@ import CategoryNaviVue from '@/components/CategoryNavi.vue';
         }
     }
 </script>
-
-<style scoped="scoped">
-
-    .curriculum-list-even::before,
-    .curriculum-list-odd::before {
-        content: '';
-        width: 100%;
-        margin: 1rem 0;
-        height: 3px;
-        display: flex;
-    }
-    .curriculum-list-odd::before {
-        background: var(--yellow);
-
-    }
-    .curriculum-list-even::before {
-        background: var(--blue);
-    }
-
-    .bot-cate-step::after {
-        content: '';
-        width: 2px;
-        margin: 0 0.5rem;
-        background: black;
-        height: 1em;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-</style>
