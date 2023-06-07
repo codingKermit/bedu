@@ -113,10 +113,10 @@ export default {
         color: #ffffff;
         background: #303076;
         border-bottom: 3px solid #303076;
-        animation: fadein 0.5s;
+        animation: loginFadein 0.5s;
     }
 
-    @keyframes fadein {
+    @keyframes loginFadein {
         from {
             opacity: 0;
         }
