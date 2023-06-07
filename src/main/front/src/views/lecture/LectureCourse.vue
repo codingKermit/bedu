@@ -16,7 +16,7 @@
                         :to='"/lectureDetail?num="+item.num'
                         :id='"link-"+index'>
                         <div class="border-1 border-opacity-10">
-                            <img :src="item.thumbnail">
+                            <img id="lect-course-img" :src="item.thumbnail">
                             <b-container class="p-4 border">
                                 <div>
                                     <p class="fw-bold">{{ item.title }}</p>
@@ -146,7 +146,7 @@
 </script>
 
 <style scoped>
-    img{
+    #lect-course-img{
         width: 100%;
         height: 150px;
     }

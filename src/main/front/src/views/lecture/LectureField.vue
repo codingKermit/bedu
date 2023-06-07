@@ -21,7 +21,7 @@
                             :to='"/lectureDetail?num="+item.num'>
                             <div class="border-1 border-opacity-10">
                                 <div class="position-relative">
-                                    <img :src="item.thumbnail"></div>
+                                    <img class="lect-field-img" :src="item.thumbnail"></div>
                                     <b-container class="p-4 border position-relative">
                                         <span class="position-absolute like-off">
                                             <font-awesome-icon
@@ -67,7 +67,7 @@
                                 class="text-decoration-none text-body"
                                 :to='"/lectureDetail?num="+item.num'>
                                 <div class="border-1 border-opacity-10">
-                                    <img :src="item.thumbnail">
+                                    <img class="lect-field-img" :src="item.thumbnail">
                                         <b-container class="p-4 border position-relative">
                                             <span class="position-absolute like-on">
                                                 <font-awesome-icon
@@ -113,7 +113,7 @@
                                     class="text-decoration-none text-body"
                                     :to='"/lectureDetail?num="+item.num'>
                                     <div class="border-1 border-opacity-10">
-                                        <img :src="item.thumbnail">
+                                        <img class="lect-field-img" :src="item.thumbnail">
                                             <b-container class="p-4 border">
                                                 <div>
                                                     <p class="fw-bold">{{ item.title }}</p>
@@ -154,7 +154,7 @@
                                         class="text-decoration-none text-body"
                                         :to='"/lectureDetail?num="+item.num'>
                                         <div class="border-1 border-opacity-10">
-                                            <img :src="item.thumbnail">
+                                            <img class="lect-field-img" :src="item.thumbnail">
                                                 <b-container class="p-4 border">
                                                     <div>
                                                         <p class="fw-bold">{{ item.title }}</p>
@@ -195,7 +195,7 @@
                                             class="text-decoration-none text-body"
                                             :to='"/lectureDetail?num="+item.num'>
                                             <div class="border-1 border-opacity-10">
-                                                <img :src="item.thumbnail">
+                                                <img class="lect-field-img" :src="item.thumbnail">
                                                     <b-container class="p-4 border">
                                                         <div>
                                                             <p class="fw-bold">{{ item.title }}</p>
@@ -236,7 +236,7 @@
                                                 class="text-decoration-none text-body"
                                                 :to='"/lectureDetail?num="+item.num'>
                                                 <div class="border-1 border-opacity-10">
-                                                    <img :src="item.thumbnail">
+                                                    <img class="lect-field-img" :src="item.thumbnail">
                                                         <b-container class="p-4 border">
                                                             <div>
                                                                 <p class="fw-bold">{{ item.title }}</p>
@@ -277,7 +277,7 @@
                                                     class="text-decoration-none text-body"
                                                     :to='"/lectureDetail?num="+item.num'>
                                                     <div class="border-1 border-opacity-10">
-                                                        <img :src="item.thumbnail">
+                                                        <img class="lect-field-img" :src="item.thumbnail">
                                                             <b-container class="p-4 border">
                                                                 <div>
                                                                     <p class="fw-bold">{{ item.title }}</p>
@@ -318,7 +318,7 @@
                                                         class="text-decoration-none text-body"
                                                         :to='"/lectureDetail?num="+item.num'>
                                                         <div class="border-1 border-opacity-10">
-                                                            <img :src="item.thumbnail">
+                                                            <img class="lect-field-img" :src="item.thumbnail">
                                                                 <b-container class="p-4 border">
                                                                     <div>
                                                                         <p class="fw-bold">{{ item.title }}</p>
@@ -359,7 +359,7 @@
                                                             class="text-decoration-none text-body"
                                                             :to='"/lectureDetail?num="+item.num'>
                                                             <div class="border-1 border-opacity-10">
-                                                                <img :src="item.thumbnail">
+                                                                <img class="lect-field-img" :src="item.thumbnail">
                                                                     <b-container class="p-4 border">
                                                                         <div>
                                                                             <p class="fw-bold">{{ item.title }}</p>
@@ -448,7 +448,7 @@ export default{
 
 
 <style scoped>
-    img{
+    .lect-field-img{
     width: 100%;
     height: 150px;
     }

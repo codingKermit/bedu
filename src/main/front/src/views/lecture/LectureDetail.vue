@@ -67,7 +67,7 @@
                         <span>원</span>
                     </div>
                     <div class="w-10">
-                        <b-button class="d-block mb-1 w-auto px-5 py-2">
+                        <b-button class="d-block mb-1 w-auto px-5 py-2" @click="toPayment()">
                             결제하기
                         </b-button>
                         <b-button class="px-5">
@@ -223,7 +223,15 @@
                 })
             },
             toPayment(){ /** 결제 페이지 이동 */
-                
+                const loginChk = JSON.parse(localStorage.getItem('isLoggedIn'))
+                if(loginChk != true){
+                    this.$swal({
+                        title: '경고',
+                        icon: 'warning',
+                        text : '로그인 후 사용해주세요'
+                    })
+                    return;
+                }
             }
         },
         mounted() {
