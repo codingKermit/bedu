@@ -160,5 +160,25 @@ public class LectureServiceImpl implements LectureService{
 
 		return map;
 	}
+
+
+
+	@Override
+	public int addToCart(int lectNum, int userNum) {
+		int result = 0;
+
+		HashMap<String, Object> arg = new HashMap<>();
+
+		/* userId는 필요 없어질 경우 사용하지 않는 것으로 수정 */
+		arg.put("userId", "tet@tet.tet");
+		arg.put("lectNum", lectNum);
+		arg.put("userNum", userNum);
+
+		result = lectureDao.addToCart(arg);
+
+
+		return result;
+	
+	}
 	
 }

@@ -1,50 +1,52 @@
 <!-- PageHeader.vue -->
 <template>
-    <div id="nav1">
-        <router-link to="/">
-            <img src="@/assets/imgs/Logo.png" width="150">
-        </router-link>
-        <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+    <div class="w-100 d-flex">
+        <div id="nav1" class="me-auto">
+            <router-link to="/">
+                <img id="bedu-logo" src="@/assets/imgs/Logo.png" width="150">
+            </router-link>
+            <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
 
-            <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
-            <a v-if='categories.length' class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
-                    분야별 강의
-                </router-link>
-            </a>    
-            <a v-else class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                분야별 강의
-            </a>
-
-            <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
-                <li v-for="item in categories" :key="item.cateCode">
-                    <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
-                        <a style="cursor: pointer;" class="dropdown-item">{{ item.cateKor }}</a>
+                <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
+                <a v-if='categories.length' class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                    <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
+                        분야별 강의
                     </router-link>
-                </li>
-            </ul>
-        </div>
-        <router-link to="/comm/freBd">커뮤니티</router-link>
-        <router-link to="/review">수강후기</router-link>
-        <router-link to="/companyStudy">기업교육</router-link>
-        <router-link to="/statisticsMain">통계</router-link>
-    </div>
-    <div id="nav2">
-        <div class="search-popup">
-            <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
-                <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
-                <form @submit.prevent="lectSearch">
-                    <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
-                </form>
+                </a>    
+                <a v-else class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                    분야별 강의
+                </a>
+
+                <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
+                    <li v-for="item in categories" :key="item.cateCode">
+                        <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
+                            <a style="cursor: pointer;" class="dropdown-item">{{ item.cateKor }}</a>
+                        </router-link>
+                    </li>
+                </ul>
             </div>
+            <router-link to="/comm/freBd">커뮤니티</router-link>
+            <router-link to="/review">수강후기</router-link>
+            <router-link to="/companyStudy">기업교육</router-link>
+            <router-link to="/statisticsMain">통계</router-link>
         </div>
-        <router-link to="/login">로그인</router-link>
-        <button @click="logout">로그아웃</button>
-        <router-link to="/regist">회원가입</router-link>
-    </div>
-    <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
-    :class="{ 'show': showButton }">
-        <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
+        <div id="nav2" class="ms-auto">
+            <div class="search-popup">
+                <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                    <form @submit.prevent="lectSearch">
+                        <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                    </form>
+                </div>
+            </div>
+            <router-link to="/login">로그인</router-link>
+            <button @click="logout">로그아웃</button>
+            <router-link to="/regist">회원가입</router-link>
+        </div>
+        <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
+        :class="{ 'show': showButton }">
+            <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
+        </div>
     </div>
 </template>
 
@@ -175,7 +177,7 @@
         align-items: center;
     }
 
-    #nav1 img {
+    #nav1 #bedu-logo {
         margin-right: 20px;
     }
 

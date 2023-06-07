@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -87,6 +88,17 @@ public class LectureController {
 		map = LectureService.getReview(num);
 
 		return map;
+	}
+
+	/* 결제하기 버튼 사용시 장바구니에 추가 */
+	@RequestMapping("/addToCart")
+	public int addToCart(int lectNum, int userNum){
+
+		int result = 0;
+
+		result = LectureService.addToCart(lectNum, userNum);
+
+		return result;
 	}
 	
 

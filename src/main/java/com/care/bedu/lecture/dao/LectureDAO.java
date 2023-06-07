@@ -22,4 +22,5 @@ public interface LectureDAO {
 	public ArrayList<Integer> getLikeList(String userId); /* 좋아요한 강의 고유번호 목록 */
 	public ArrayList<LectureVO> getNewestLecture(); /* 최신순으로 강의 4개 조회 */
 	public ArrayList<ReviewVO> getReview(int num); /* 후기 조회 */
+	public int addToCart(HashMap<String, Object> arg); /* 장바구니 추가 */
 }

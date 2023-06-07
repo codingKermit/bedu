@@ -209,6 +209,28 @@
 		LIMIT 0, 5;
 	</select>
 
+	<insert id="addToCart" parameterType="hashmap">
+		INSERT INTO 
+			t_bedu_cart(
+				cart_user_id, 
+				car_lect_num, 
+				cart_user_num) 
+		SELECT
+			#{userId},
+			#{lectNum},
+			#{userNum}
+		FROM DUAL
+		WHERE NOT EXISTS(
+			SELECT 1 
+			FROM 
+				t_bedu_cart
+			WHERE
+				cart_user_id = #{userId} AND
+				car_lect_num = #{lectNum} AND
+				cart_user_num = #{userNum}
+		)
+	</insert>
+
 
 
 </mapper>

@@ -172,7 +172,7 @@ import '@/assets/css/lectureStyle.css';
         data() {
             return {
                 form: {
-                    num: this.$route.query.num,
+                    lectNum: this.$route.query.num,
                     title: '',
                     score: 0,
                     scoreUsers: 0,
@@ -198,7 +198,7 @@ import '@/assets/css/lectureStyle.css';
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
             },
             getDetail() {
-                this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.num})
+                this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.lectNum})
                 .then((res) => {
                     this.form = res.data;
                 })
@@ -207,7 +207,7 @@ import '@/assets/css/lectureStyle.css';
                 })
             },
             getVideoList() { /** 동영상 목록 조회 */
-                this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.num})
+                this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.lectNum})
                 .then((res) => {
                     this.videos = res.data;
                 })
@@ -216,7 +216,7 @@ import '@/assets/css/lectureStyle.css';
                 });
             },
             getReview(){ /** 후기 조회 */
-                this.$axiosSend('get','/api/lect/getReview',{num : this.form.num})
+                this.$axiosSend('get','/api/lect/getReview',{num : this.form.lectNum})
                 .then((res)=>{
                     this.reviews = res.data.item;
                 })
@@ -233,6 +233,19 @@ import '@/assets/css/lectureStyle.css';
                         text : '로그인 후 사용해주세요'
                     })
                     return;
+                } else {
+                    this.$axiosSend('get','/api/lect/addToCart',{
+                        lectNum : this.form.lectNum,
+                        userNum : 10,
+                    })
+                    .then((res)=>{
+                        console.log(res);
+                        this.$routerPush('',{},false)
+                        
+                    })
+                    .catch((err)=>{
+                        console.log(err);
+                    })
                 }
             }
         },
