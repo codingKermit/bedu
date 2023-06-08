@@ -34,8 +34,23 @@
         		TITLE as title,
         		USER_NAME as writer,	
         		CONTENT as content,
-        		RW_GRADE as star
+        		RW_GRADE as star,
+        		RW_DATE as reviewDate
         FROM t_bedu_rw_bd;
     </select>
+    
+    <select id="getSearchedReviews" resultType="java.util.HashMap">
+  		SELECT 
+    			TITLE as title,
+    			USER_NAME as writer,	
+   				CONTENT as content,
+    			RW_GRADE as star,
+    			RW_DATE as reviewDate
+  		FROM t_bedu_rw_bd
+  			WHERE
+    			TITLE LIKE CONCAT('%', #{keyword}, '%') OR
+    			CONTENT LIKE CONCAT('%', #{keyword}, '%') OR
+    			USER_NAME LIKE CONCAT('%', #{keyword}, '%');
+</select>
 
 </mapper>
