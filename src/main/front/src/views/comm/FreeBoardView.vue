@@ -1,24 +1,32 @@
 <template>
-    <div class="freeboard">
-        <div class="freeboard-left">
+    <div class="freeboard" id="freeboard">
+        <div class="freeboard-left" id="freeboard-left">
             <h4>커뮤니티</h4>
             <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
             <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
         </div>
-        <div class="freeboard-main">
+        <div class="freeboard-main" id="freeboard-main">
             <div id="freeboard-box">
                 <h1>자유게시판</h1>
-                <b-form @submit="search()">
-                <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
-                <b-button type="submit" class="btn btn-primary">검색</b-button>
-                </b-form>
-                <b-button :to="'/comm/freBdWrite'" style="margin-left: 200px;">글쓰기</b-button>
+                    <b-form @submit="search()">
+                        <input type="text" class="search-form" ref="keyword" v-model="form.keyword">       
+                        <b-button type="submit" class="btn btn-primary">검색</b-button>
+                    </b-form>
+                <div class="freewrite" id="freewrite">
+                    <b-button type="button" :to="'/comm/freBdWrite'" id="keywordbtn" class="btn btn-primary">글쓰기</b-button>
+                </div>
             </div>
-            <div class="freeboard-main-1">
-                <table class="w3-table-all">
+            <div class="freeboard-reviews" id="freeboard-reviews">
+                <select v-model="freeOption" @change="sortReviews" style="border: none">
+                    <option value="default">최신 순</option>
+                    <option value="highRating">추천순</option>
+                </select>
+            </div>
+            <div class="freeboard-main-1" id="freeboard-reviews">
+                <table class="w3-table-all" id="freeboard-table">
                     <tbody>
                         <tr v-for="free in freelist" :key="free.comm_num">
-                        <td>
+                        <td id="freeboard-table-tds">
                             <b-link class="text-start" :to="'/comm/freBdDetail/' + free.comm_num">
                             {{ free.title }}
                             </b-link>
@@ -60,6 +68,7 @@
                 form: {
                     keyword: '',
                 },
+                freeOption: "default",
                 totalItems : 0,
                 totalPage : 0,
                 currentPage : 1,
@@ -170,16 +179,32 @@
       height: 100px;
     }
 
+    #freewrite{
+        margin-left: 70px;
+    }
+
+    .freeboard-reviews{
+        width: 100px;
+        margin-left: 700px;
+        
+    }
+
     .freeboard-main{
         margin-left:auto; 
         margin-right:auto;
         width: 1000px;
        
     }
+    .freeboard-main-1{
+        margin-right: 100px;
+    }
     #freeboard-box{
       display: flex;
       margin-left: 200px;
       max-width: 1000px;
-     
+    }
+
+    #keywordbtn{
+        margin-left: -600px;
     }
 </style>
