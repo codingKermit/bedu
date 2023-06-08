@@ -48,19 +48,20 @@ public class MemberController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<String> login(MemberVO memberVo) {
+    public ResponseEntity<MemberVO> login(MemberVO memberVo) {
         String email = memberVo.getEmail();
         String password = memberVo.getPassword();
-        
+
         String encodedPassword = memberService.getPasswordByEmail(email);
         byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
         String decodedPassword = new String(decodedBytes);
-        
+
         if (decodedPassword.equals(password)) {
-            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+            MemberVO loggedInMember = memberService.getMemberByEmail(email);
+
+            return ResponseEntity.ok(loggedInMember);
         } else {
-            return new ResponseEntity<>("로그인 실패", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
-
 }

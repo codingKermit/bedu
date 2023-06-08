@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
+import store from "./vuex/store"
 
 /** Bootstrap, Bootstrap-vue-3 */
 import { BootstrapVue3 } from 'bootstrap-vue-3'
@@ -49,6 +50,7 @@ app
 .use(router)
 .use(BootstrapVue3)
 .use(CKEditor)
+.use(store)
 .use(VueSweetalert2)
 .use(commonUtils)
 .component("font-awesome-icon",FontAwesomeIcon) 

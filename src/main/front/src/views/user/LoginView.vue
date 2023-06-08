@@ -65,24 +65,28 @@ export default {
             checkbox.checked = !checkbox.checked;
         },
         login() {
-            this.$axiosSend("post", "/api/login", {
+                this.$axiosSend("post", "/api/login", {
                 email: this.email,
                 password: this.password,
             })
-                .then((response) => {
-                    if (response.status === 200) {
-                        localStorage.setItem("isLoggedIn", "true");
-                        this.isLoggedIn = true;
-                        this.$router.push("/");
-                        alert("로그인 성공");
-                    } else {
-                        alert("로그인 실패");
-                    }
-                })
-                .catch((error) => {
-                        console.log(error);
-                        alert("로그인 실패");
-                });
+            .then((response) => {
+                if (response.status === 200) {
+                    const loggedInUser = {
+                    nickname: response.data.nickname,
+                    usernum: response.data.usernum,
+                    };
+                    this.$store.dispatch("loginSuccess", loggedInUser);
+                    localStorage.setItem("isLoggedIn", "true");
+                    this.$router.push("/");
+                    alert("로그인 성공");
+                } else {
+                    alert("로그인 실패");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("로그인 실패");
+            });
         }
     },
 };
