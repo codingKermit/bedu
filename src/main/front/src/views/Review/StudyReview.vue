@@ -29,6 +29,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="review-sort" style="float: right">
                 <select v-model="sortOption" @change="sortReviews" style="border: none">
                     <option value="default">최신 순</option>
@@ -45,10 +46,11 @@
                         <th style="padding-right: 40px">수강후기</th>
                         <th>별점</th>
                         <th>작성자</th>
+                        <th>작성일</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(reviews, index) in fetchedReviews" :key="index">
+                    <tr v-for="(reviews, index) in displayedReviews" :key="index">
                         <td class="review-title">{{ reviews.title }}</td>
                         <td>
                             <span class="review-content" style="padding-right: 40px">{{ reviews.content }}</span>
@@ -61,8 +63,9 @@
                             </div>
                         </td>
                         <td>{{ reviews.writer }}</td>
+                        <td>{{ formatDateTime(reviews.reviewDate) }}</td>
                     </tr>
-                    <infinite-loading @infinite="fetchReviews" style= "padding: 50px;">
+                    <infinite-loading @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true" style= "padding: 50px;">
                         <template #no-more>마지막 후기 입니다.</template>
                     </infinite-loading>
                 </tbody>
@@ -97,34 +100,95 @@
                 totalItems: 0, // 총 아이템 수
             };
         },
+        computed: {
+            displayedReviews() {
+                return this.searchKeyword ? this.searchedReviews : this.fetchedReviews;
+            },
+        },
+        created() {
+            this.fetchReviews(); 
+        },
         methods: {
             // 후기 가져오기
-            fetchReviews($state) {
+            fetchReviews() {
                 this.isLoading = true;
+                this.fetchedReviews = [];
                 this.$axiosSend("get", "/api/reviews", {
-                    page: this.currentPage, 
+                    page: this.currentPage,
                     size: this.itemsPerPage,
+                    keyword: this.searchKeyword,
                 })
                 .then((response) => {
-                    const {  totalElements } = response.data;
-                    if (response.data.length) {
-                         // 가져온 후기를 fetchedReviews 배열에 추가
+                    const { totalElements } = response.data;
+                        if (response.data.length) {
+                        // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
-                        $state.loaded();
-                    } 
-                    else {
-                        $state.complete();
-                    }
-                    this.totalItems = totalElements;
+                        }
+                        
+                        this.totalItems = totalElements;
+                        this.isLoading = false;
+                        // 검색 및 정렬 수행
+                        this.fetchSearchedReviews(); // 검색 수행
+                        this.sortReviews(); // 정렬 수행
+                })
+                .catch((error) => {
+                     console.error(error);
                     this.isLoading = false;
-
-                    this.searchReviews(); // 검색 수행
-                    this.sortReviews(); // 정렬 수행
+                });
+            },
+            fetchSearchedReviews(){
+                const keyword = this.searchKeyword.trim().toLowerCase();
+                    if (keyword === "") {
+                        this.searchedReviews = []; // 키워드가 비어있을 경우 검색된 후기를 초기화합니다.
+                    } else {
+                    this.$axiosSend("get", "/api/reviews/search", {
+                    keyword: this.searchKeyword,
+                })
+                .then((response) => {
+                    this.searchedReviews = response.data;
                 })
                 .catch((error) => {
                     console.error(error);
-                    this.isLoading = false;
+                });
+                    }
+            },
+            handleScroll() {
+                const scrollHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset;
+                const clientHeight = document.documentElement.clientHeight;
+                const bottomOffset = 20;
+
+                if (scrollHeight - scrollTop - clientHeight <= bottomOffset && !this.isFetching) {
+                    // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우
+                    this.fetchMoreReviews();
+                }
+            },
+            fetchMoreReviews() {
+                this.isFetching = true;
+                // 데이터를 불러오는 비동기 작업 수행
+                this.$axiosSend("get", "/api/reviews", {
+                    page: this.currentPage,
+                    size: this.itemsPerPage,
+                    keyword: this.searchKeyword,
+                })
+                .then((response) => {
+                const { totalElements } = response.data;
+                    if (response.data.length) {
+                        // 가져온 후기를 fetchedReviews 배열에 추가
+                        this.fetchedReviews.push(...response.data);
+                        this.currentPage++;
+                    }
+                        this.totalItems = totalElements;
+                        this.isFetching = false;
+
+                        // 검색 및 정렬 수행
+                        this.fetchSearchedReviews(); // 검색 수행
+                        this.sortReviews(); // 정렬 수행
+                })
+                .catch((error) => {
+                    console.error(error);
+                    this.isFetching = false;
                 });
             },
             //별점순, 최신순 정렬
@@ -144,36 +208,49 @@
                     break;
                     default:
                         // 최신 순으로 후기 정렬
-                        this.fetchedReviews = [...this.fetchedReviews].sort(
-                            (a, b) => new Date(b.reviewDate) - new Date(a.reviewDate)
-                        );
+                        this.fetchedReviews = [...this.fetchedReviews].sort((a, b) => {
+                            const dateA = new Date(a.reviewDate);
+                            const dateB = new Date(b.reviewDate);
+                        return dateB - dateA;
+                        });
                     break;
                 }
             },
             // 후기 검색
             searchReviews() {
-                const keyword = this.searchKeyword
-                    ? this.searchKeyword.toLowerCase()
-                    : "";
+                this.searchedReviews = [];
+                this.currentPage = 1; // 페이지 번호 초기화
+                this.fetchReviews(); // 후기 가져오기 호출
+            },
+            formatDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
 
-                if (Array.isArray(this.fetchedReviews)) {
-                    // fetchedReviews 배열에서 검색어와 일치하는 후기 필터링
-                    const filteredReviews = this.fetchedReviews.filter((review) => {
-                        return (
-                            (review.title && review.title.toLowerCase().includes(keyword)) ||
-                            (review.content &&
-                            review.content.toLowerCase().includes(keyword)) ||
-                            (review.writer && review.writer.toLowerCase().includes(keyword))
-                        );
-                    });
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const diffInDays = Math.floor(diffInHours / 24);
 
-                    this.searchedReviews = filteredReviews; // 검색 결과를 searchedReviews 배열에 저장
-                    this.sortReviews(); // 검색 후 정렬을 수행하도록 수정
+                if (diffInDays > 0) {
+                    return `${diffInDays}일 전`;
+                } else if (diffInHours > 0) {
+                     return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
                 }
             },
         },
         mounted() {
-
+            window.addEventListener('scroll', this.handleScroll);
         },
+        beforeUnmount() {
+            window.removeEventListener('scroll', this.handleScroll);
+        },
+            
+            
     };
 </script>

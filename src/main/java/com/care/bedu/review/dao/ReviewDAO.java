@@ -17,4 +17,7 @@ public interface ReviewDAO {
     
     // 모든 후기를 가져오는 메서드입니다.
     List<HashMap<String, Object>> getAllReviews();
+    
+    // 검색된 후기를 가져오는 메서드입니다.
+    List<HashMap<String, Object>> getSearchedReviews(String keyword);
 }

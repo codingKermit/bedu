@@ -48,4 +48,22 @@ public class ReviewServiceImpl implements ReviewService {
         // 특정 후기를 ID로 가져오는 로직입니다.
         return reviewDAO.getReviewById(id);
     }
+    
+    @Override
+    public List<HashMap<String, Object>> getSearchedReviews(String keyword) {
+      // 검색 키워드에 기반하여 후기 필터링
+      List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
+      List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
+      for (HashMap<String, Object> review : allReviews) {
+        String title = (String) review.get("title");
+        String content = (String) review.get("content");
+        String writer = (String) review.get("writer");
+        if (title.toLowerCase().contains(keyword) ||
+            content.toLowerCase().contains(keyword) ||
+            writer.toLowerCase().contains(keyword)) {
+          searchedReviews.add(review);
+        }
+      }
+      return searchedReviews;
+    }
 }

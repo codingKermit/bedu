@@ -41,4 +41,10 @@ public class ReviewController {
     public ReviewVO createReview(@RequestBody ReviewVO reviewVO) {
         return reviewService.createReview(reviewVO);
     }
+    // GET 요청을 처리하는 엔드포인트로, 검색된 후기 목록을 가져옵니다.
+    // keyword는 요청 매개변수로 받아서 검색에 사용합니다.
+    @RequestMapping("/reviews/search")
+    public List<HashMap<String, Object>> getSearchedReviews(@RequestParam String keyword) {
+        return reviewService.getSearchedReviews(keyword);
+    }
 }
