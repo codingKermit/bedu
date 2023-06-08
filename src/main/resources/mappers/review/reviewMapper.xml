@@ -36,7 +36,9 @@
         		CONTENT as content,
         		RW_GRADE as star,
         		RW_DATE as reviewDate
-        FROM t_bedu_rw_bd;
+        FROM 
+        	t_bedu_rw_bd
+        ORDER BY RW_DATE DESC;
     </select>
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
