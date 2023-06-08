@@ -88,7 +88,7 @@
                                     </b-container>
                                 </div>
                                 <div class="modal-footer my-2">
-                                    <b-button class="m-auto fs-5 px-4 py-2" @click="toPayment">
+                                    <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toPayment">
                                         결제하기
                                     </b-button>
                                     <b-button class="m-auto fs-5 px-4 py-2">

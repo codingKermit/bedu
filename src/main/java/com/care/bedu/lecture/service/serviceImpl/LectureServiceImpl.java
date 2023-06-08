@@ -167,18 +167,43 @@ public class LectureServiceImpl implements LectureService{
 	public int addToCart(int lectNum, int userNum) {
 		int result = 0;
 
+		/* 파라미터를 담을 맵 */
 		HashMap<String, Object> arg = new HashMap<>();
 
-		/* userId는 필요 없어질 경우 사용하지 않는 것으로 수정 */
-		arg.put("userId", "tet@tet.tet");
+		/* 강의 고유번호를 기준으로 데이터 조회 */
+		LectureVO lect = lectureDao.getLectureDetail(lectNum);
+
+
+		// /* 파라미터 맵에 저장 */
 		arg.put("lectNum", lectNum);
 		arg.put("userNum", userNum);
+		arg.put("title",lect.getTitle());
+		arg.put("teacher",lect.getTeacher());
+		arg.put("summary", lect.getLectSum());
+		arg.put("thumbnail", lect.getThumbnail());
+		arg.put("price", Integer.parseInt(lect.getPrice().replace(",", "")));
 
+		/* 장바구니에 추가 */
 		result = lectureDao.addToCart(arg);
 
 
 		return result;
 	
+	}
+
+
+
+	@Override
+	public HashMap<String, Object> getCart(int num) {
+		HashMap<String, Object> result = new HashMap<>();
+
+		ArrayList<LectureVO> carts = new ArrayList<>();
+
+		carts = lectureDao.getCart(num);
+
+		result.put("item", carts);
+
+		return result;
 	}
 	
 }

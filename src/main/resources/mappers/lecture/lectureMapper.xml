@@ -47,7 +47,8 @@
 			COUNT(C.LECT_NUM) AS SCOREUSERS, 
 			SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, 
 			A.CATEGORY, 
-			A.KORCATEGORY
+			A.KORCATEGORY,
+			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
 				* 
@@ -214,22 +215,35 @@
 			t_bedu_cart(
 				cart_user_id, 
 				car_lect_num, 
-				cart_user_num) 
+				cart_user_num,
+				title,
+				teacher,
+				LECT_SUMMARY,
+				THUMBNAIL,
+				PRICE) 
 		SELECT
 			#{userId},
 			#{lectNum},
-			#{userNum}
+			#{userNum},
+			#{title},
+			#{teacher},
+			#{summary},
+			#{thumbnail},
+			#{price}
 		FROM DUAL
 		WHERE NOT EXISTS(
 			SELECT 1 
 			FROM 
 				t_bedu_cart
 			WHERE
-				cart_user_id = #{userId} AND
 				car_lect_num = #{lectNum} AND
 				cart_user_num = #{userNum}
 		)
 	</insert>
+
+	<select id="getCart" resultType="com.care.bedu.lecture.vo.LectureVO">
+		
+	</select>
 
 
 

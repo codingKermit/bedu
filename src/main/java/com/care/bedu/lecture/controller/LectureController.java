@@ -19,14 +19,14 @@ import jakarta.xml.ws.Service;
 public class LectureController {
 	
 	@Autowired
-	private LectureService LectureService;
+	private LectureService lectureService;
 
 	/* 강의 리스트 조회 */
 	@RequestMapping("/lectureList")
 	public HashMap<String, Object> getLectureList(String category){
 		ArrayList<Object> list = new ArrayList<>();
 		HashMap<String, Object> map = new HashMap<>();
-		list = LectureService.getLectureList(category);
+		list = lectureService.getLectureList(category);
 		
 		map.put("item", list);
 		return map;
@@ -37,7 +37,7 @@ public class LectureController {
 	public LectureVO getLectureDetail(int num) {
 		LectureVO dto = new LectureVO();
 		
-		dto = LectureService.getLectureDetail(num);
+		dto = lectureService.getLectureDetail(num);
 		
 		return dto;
 	}
@@ -47,7 +47,7 @@ public class LectureController {
 	public HashMap<String, Object> getNewestLecture(){
 		HashMap<String, Object> map = new HashMap<>();
 
-		map = LectureService.getNewestLecture();
+		map = lectureService.getNewestLecture();
 
 		return map;
 	}
@@ -58,7 +58,7 @@ public class LectureController {
 	public ArrayList<LectureDetailVO> getVideoList(int num){
 		ArrayList<LectureDetailVO> list = new ArrayList<>();
 		
-		list = LectureService.getVideoList(num);
+		list = lectureService.getVideoList(num);
 		
 		return list;
 	}
@@ -68,7 +68,7 @@ public class LectureController {
 	public HashMap<String,ArrayList<LectureVO>> lectureSearch(String keyword, int page){
 		HashMap<String, ArrayList<LectureVO>> map = new HashMap<>();
 		
-		map = LectureService.lectureSearch(keyword, page);
+		map = lectureService.lectureSearch(keyword, page);
 		
 		return map;
 	}
@@ -76,7 +76,7 @@ public class LectureController {
 	/* 검색화면 조회시 토탈 갯수 */
 	@RequestMapping("/searchTotal")
 	public int searchTotal(String keyword){
-		int total = LectureService.searchTotal(keyword);
+		int total = lectureService.searchTotal(keyword);
 		return total;
 	}
 
@@ -85,7 +85,7 @@ public class LectureController {
 	public HashMap<String, Object> getReview(int num){
 		HashMap<String, Object> map = new HashMap<>();
 
-		map = LectureService.getReview(num);
+		map = lectureService.getReview(num);
 
 		return map;
 	}
@@ -95,8 +95,16 @@ public class LectureController {
 	public int addToCart(int lectNum, int userNum){
 
 		int result = 0;
+		result = lectureService.addToCart(lectNum, userNum);
+		return result;
+	}
 
-		result = LectureService.addToCart(lectNum, userNum);
+	/* 회원번호 기준으로 장바구니 조회 */
+	@RequestMapping("/getCart")
+	public HashMap<String, Object> getCart(int userNum){
+		HashMap<String, Object> result = new HashMap<>();
+
+		result = lectureService.getCart(userNum);
 
 		return result;
 	}
