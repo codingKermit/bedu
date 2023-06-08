@@ -3,11 +3,11 @@
         <h1>질문 / 답변</h1>
         <b-form @submit="edit()">
             <input type="hidden" v-model="form.comm_num" ref="qna_bd_num"/>
-            <b-form-input class="my-5" ref="title" v-model="form.title"></b-form-input>
-            <b-form-textarea class="form-control col-sm-5" rows="5" ref="content" v-model="form.content"></b-form-textarea>
+            <b-form-input class="my-5 qna-edit-title" ref="title" id="qna-edit-title" v-model="form.title"></b-form-input>
+            <b-form-textarea class="form-control col-sm-5 qna-edit-content" id="qna-edit-content" rows="5" ref="content" v-model="form.content"></b-form-textarea>
             <b-container class="my-3 justify-content-md-end d-md-flex">
-                <b-button class="" type="reset">취소</b-button>
-                <b-button type="submit" class="btn-custom ms-2">수정</b-button>
+                <b-button class="btn-custom ms-2 qna-edit-censell" id="qna-edit-censell" type="reset">취소</b-button>
+                <b-button type="submit" class="btn-custom ms-2 qna-edit" id="qna-edit">수정</b-button>
             </b-container>
         </b-form>
         <b-button :to="'/comm/qna'">목록</b-button>

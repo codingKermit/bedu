@@ -1,24 +1,24 @@
 <template>
-    <div class="qna">
-        <div class="qna-left">
+    <div class="qna" id="qna">
+        <div class="qna-left" id="qna-left">
             <h4>커뮤니티</h4>
             <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
             <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
         </div>
-        <div class="qna-main">
-            <div id="qna-box">
+        <div class="qna-main" id="qna-main">
+            <div class="qna-box" id="qna-box">
                 <h2>질문 / 답변</h2>
                 <b-form @submit="qnasearch()">
                     <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
-                    <b-button type="submit" class="btn btn-primary">검색</b-button>
+                    <b-button type="submit" class="btn btn-primary" id="qna-search-btn">검색</b-button>
                 </b-form>
-                <b-button :to="'/comm/qnaWrite'" style="margin-left: 200px;">글쓰기</b-button>
+                <b-button :to="'/comm/qnaWrite'" style="margin-left: 200px;" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
             </div>
-            <div class="qna-main-1">
-                <table class="w3-table-all">
+            <div class="qna-main-1" id="qna-main-1">
+                <table class="w3-table-all" id="qnaboard-table">
                     <tbody>
                         <tr v-for="qna in qnalist" :key="qna">
-                            <td>
+                            <td id="qnaboard-table-tds">
                                 <b-link class="text-start" :to="'/comm/qnaDetail/' + qna.qna_bd_num">
                                     {{ qna.title }}
                                 </b-link>

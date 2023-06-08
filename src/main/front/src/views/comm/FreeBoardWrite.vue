@@ -1,12 +1,11 @@
 <template>
     <b-container class="w-50">
         <h1>자유게시판</h1>
-            
         <b-form @submit="submit()">
-            <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
-            <b-form-textarea class="form-control col-sm-5" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-            <b-container class="my-3 justify-content-md-end d-md-flex">
-                <b-button class="" type="reset">취소</b-button>
+            <b-form-input placeholder="제목을 작성해주세요" class="my-5" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
+            <b-form-textarea class="form-control col-sm-5" rows="5" id="freeboard-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+            <b-container class="my-3 justify-content-md-end d-md-flex" id="freeboard-write-conbtn">
+                <b-button type="reset">취소</b-button>
                 <b-button type="submit" class="btn-custom ms-2">등록</b-button>
             </b-container>
         </b-form>

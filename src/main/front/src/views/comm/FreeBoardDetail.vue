@@ -1,6 +1,6 @@
 <template>
-    <div class="container w-75 mt-5 mb-3">
-        <div class="mb-3">
+    <div class="container w-75 mt-5 mb-3 freeboard-detail-main" id="freeboard-detail-main">
+        <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
             <h1>자유게시판</h1>
         </div>
         <hr>
@@ -9,23 +9,24 @@
                 {{ free.user_id}}
             </h5>
             {{ free.comm_date }} 
-            <h2 class="mt-3 mb-5 fw-bold">
+            <h2 class="mt-3 mb-5 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}
             </h2>
-            <div v-html="free.content"></div>
+            <div id="freeboard-detail-contents">
+                {{ free.content }}
+            </div>
 
             <b-container class="ms-auto text-end">
                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
-                <text class="fw-bold ms-2">
+                <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                     {{ free.comm_like_yn }}
                 </text>
             </b-container>
-            <b-button type="submit" class="btn-custom ms-2" @click="freeeditPath()">글수정</b-button>
-            <b-button type="submit" class="btn-custom ms-2" @click="freedelete()">삭제</b-button>
-            <hr class="my-5">
-
-            <b-button type="submit" class="btn-custom ms-2" @click="freeBoardpath()">목록</b-button>
+            <b-button type="submit" class="btn-custom ms-2 freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2 freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+            <b-button type="submit" class="btn-custom ms-2 freeboard-detail-viewbtn" @click="freeBoardpath()">목록</b-button>
+            <hr>
         </b-container>
     </div>
     
@@ -69,6 +70,7 @@ export default{
             })
             .catch((error)=>{console.log(error)})
         },
+
         freedelete() {
             alert('게시글을 삭제합니다.');
             this.$axiosSend('get','/api/freBd/delete', {
@@ -84,7 +86,7 @@ export default{
                     }
                 })
                 .catch(error => {
-                    console.log(error)
+                    this.$swal('Error', '게시글이 정상적으로 삭제되지 않았습니다.', error);
                 })
         },
         freeeditPath(){
@@ -102,6 +104,10 @@ export default{
             })
         },
 
+        // freeBoardReply(num){
+
+        // },
+
         path(num){
             this.result = num;
         },
@@ -109,35 +115,3 @@ export default{
     },
 }
 </script>
-<style scoped>
-    .category{
-        align-items: center;
-        display: flex;
-    }
-    .category::before{
-        line-height: 0px;
-        height: 1px;
-        background : black;
-        margin : 0px 10px;
-        flex-grow: 1;
-        content : "";
-    }
-    .category::after{
-        line-height: 0px;
-        height: 1px;
-        background : black;
-        margin : 0px 10px;
-        flex-grow: 6;
-        content : "";
-    }
-
-    .thisCategory{
-        color : #3498db;
-    }
-
-    blockquote {
-        background-color: skyblue;
-        margin : 10px;
-    }
-
-</style>
