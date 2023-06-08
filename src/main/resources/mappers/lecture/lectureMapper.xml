@@ -213,11 +213,11 @@
 	<insert id="addToCart" parameterType="hashmap">
 		INSERT INTO 
 			t_bedu_cart(
-				cart_user_id, 
-				car_lect_num, 
+				CART_USER_ID, 
+				CART_LECT_NUM, 
 				cart_user_num,
-				title,
-				teacher,
+				TITLE,
+				TEACHER,
 				LECT_SUMMARY,
 				THUMBNAIL,
 				PRICE) 
@@ -236,13 +236,23 @@
 			FROM 
 				t_bedu_cart
 			WHERE
-				car_lect_num = #{lectNum} AND
-				cart_user_num = #{userNum}
+				CART_LECT_NUM = #{lectNum} AND
+				CART_USER_NUM = #{userNum}
 		)
 	</insert>
 
 	<select id="getCart" resultType="com.care.bedu.lecture.vo.LectureVO">
-		
+		SELECT
+			CART_LECT_NUM AS lectNum,
+			TITLE,
+			TEACHER,
+			LECT_SUMMARY as lectSum,
+			THUMBNAIL,
+			FORMAT(PRICE, 0) AS PRICE
+		FROM
+			t_bedu_cart
+		WHERE
+			CART_USER_NUM = #{num}
 	</select>
 
 

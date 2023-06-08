@@ -264,10 +264,9 @@ import '@/assets/css/lectureStyle.css';
                         lectNum : this.form.lectNum,
                         userNum : 10,
                     })
-                    .then((res)=>{
-                        console.log(res);
+                    .then(
                         this.$routerPush('lecturePayment')
-                    })
+                    )
                     .catch((err)=>{
                         console.log(err);
                     })

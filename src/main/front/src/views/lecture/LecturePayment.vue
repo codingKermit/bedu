@@ -11,6 +11,7 @@
                         <label class="form-check-label" for="check-all">
                             전체선택
                         </label>
+                        {{ paymentList.length }}  / {{ carts.length }}
                     </div>
                     <b-button>선택삭제 <font-awesome-icon :icon="['fas', 'xmark']" /></b-button>
                 </div>
@@ -19,7 +20,27 @@
                 <div>
                     <ul class="list-unstyled">
                         <li v-for="(cart, index ) in carts" :key="index">
-                            
+                            <div class="d-flex mb-3 border p-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" :id="'cart-check-'+index">
+                                </div>
+                                <div class="cart-payment-thumbnail-container">
+                                    <b-img :src="cart.thumbnail" class="w-100 h-100"></b-img>
+                                </div>
+                                <div class="w-75 ms-3 row">
+                                    <span></span>
+                                    <span class="d-block">{{ cart.title }}</span>
+                                    <span class="text-secondary">{{ cart.teacher }}</span>
+                                </div>
+                                <div class="d-flex cart-payment-price-container">
+                                    <div class="align-self-center d-flex px-4">
+                                        <span class="text-danger fw-bold">
+                                            {{ cart.price }} 
+                                        </span>
+                                        &nbsp;원
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -29,8 +50,12 @@
             <b-container class="w-25 ms-auto py-5">
                 <b-container class="border rounded-3 py-3 mb-2">
                     <p class="fw-bold">구매자 정보</p>
-                    <p>닉네임 :</p> {{ userInfo.nickname }}
-                    <p>이메일 : </p> {{ userInfo.email }}
+                    <p>
+                        <span>닉네임 :</span> {{ userInfo.nickname }}
+                    </p>
+                    <p>
+                        <span>이메일 : </span> {{ userInfo.email }}
+                    </p>
                 </b-container>
                 <b-container class="border rounded-3 py-3">
                     <div class="d-flex">
@@ -53,6 +78,8 @@
 </template>
 
 <script>
+import '@/assets/css/lectureStyle.css';
+
 export default{
     name : 'lecturePayment',
     data() {
@@ -61,10 +88,10 @@ export default{
             carts : [], // 수강 바구니 강의 목록 (array)
             paymentList : [], // 결제할 강의 목록
             userInfo : {
-                usernum : 0,
+                usernum : this.$store.state.usernum,
                 email : '',
                 password : '',
-                nickname : '',
+                nickname : this.$store.state.nickname,
                 regDate : '',
                 cls : '',
                 urd : '',
@@ -74,15 +101,25 @@ export default{
         }
     },
     methods: {
-        getCarts(){
-            const userNum = localStorage.getItem();
+        getCarts(){ /** 장바구니 조회 */
+            const userNum = this.$store.state.usernum;
             this.$axiosSend('get','/api/lect/getCart',{
                 userNum : userNum
             })
+            .then((res)=>{
+                console.log(res);
+                this.carts = res.data.item;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+        intoPayment(item){
+            console.log(item)
         }
     },
     created() {
-        
+        this.getCarts();
     },
     mounted() {
         

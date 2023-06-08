@@ -175,6 +175,7 @@ public class LectureServiceImpl implements LectureService{
 
 
 		// /* 파라미터 맵에 저장 */
+		arg.put("userId", "tet@tet.tet");
 		arg.put("lectNum", lectNum);
 		arg.put("userNum", userNum);
 		arg.put("title",lect.getTitle());
@@ -183,7 +184,7 @@ public class LectureServiceImpl implements LectureService{
 		arg.put("thumbnail", lect.getThumbnail());
 		arg.put("price", Integer.parseInt(lect.getPrice().replace(",", "")));
 
-		/* 장바구니에 추가 */
+		/* 장바구니에 담기 */
 		result = lectureDao.addToCart(arg);
 
 

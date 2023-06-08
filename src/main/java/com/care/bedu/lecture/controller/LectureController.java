@@ -103,11 +103,8 @@ public class LectureController {
 	@RequestMapping("/getCart")
 	public HashMap<String, Object> getCart(int userNum){
 		HashMap<String, Object> result = new HashMap<>();
-
 		result = lectureService.getCart(userNum);
 
 		return result;
 	}
-	
-
 }

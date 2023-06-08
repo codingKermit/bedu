@@ -117,3 +117,18 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+
+/* LecturePayment css */
+
+.cart-payment-price-container::before{
+    content : '';
+    width: 1px;
+    height: 100%;
+    background: var(--bs-border-color);
+}
+
+.cart-payment-thumbnail-container{
+ width: 20%;   
+
+}
