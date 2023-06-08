@@ -1,23 +1,23 @@
 <template>
     <div>
         <b-container class="py-5">
-            <!-- category -->
+            <!-- 카테고리 -->
             <div>
                 <p class="text-secondary fs-5 ms-3">{{ form.korCategory }}</p>
             </div>
 
             <!-- 썸네일, 강의정보 컨테이너-->
             <div class="d-flex mb-4">
-                <!-- thumbnail -->
+                <!-- 썸네일 컨테이너 -->
                 <div class="w-50 me-5">
                     <b-img class="w-100" thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
                 </div>
 
-                <!-- info start-->
+                <!-- 강의 정보 컨테이너 시작 -->
                 <div class="w-50">
                     <p class="fw-bold fs-3">{{ form.title }}</p>
 
-                    <!-- score start-->
+                    <!-- 강의 평점 컨테이너 시작 -->
                     <div class="d-flex mb-3">
                         <div>
                             <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
@@ -33,7 +33,8 @@
                             개)
                         </div>
                     </div>
-                    <!-- score end-->
+                    <!-- 강의 평점 컨테이너 종료 -->
+
                     <div class="list-unstyled align-middle w-100">
                         <div class="mb-2 row">
                             <span class="text-secondary col-2">강사</span>
@@ -52,7 +53,7 @@
                     </div>
 
                 </div>
-                <!-- info end-->
+                <!-- 강의 정보 컨테이너 종료 -->
             </div>
 
             <!-- 결제, 장바구니 컨테이너 -->
@@ -67,12 +68,35 @@
                         <span>원</span>
                     </div>
                     <div class="w-10">
-                        <b-button class="d-block mb-1 w-auto px-5 py-2" @click="toPayment()">
+                        <b-button class="d-block mb-1 w-auto px-5 py-2" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
                             결제하기
                         </b-button>
                         <b-button class="px-5">
                             장바구니
                         </b-button>
+                    </div>
+                    <div class="modal fade" id="paymentTypeModal">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p class="fs-3">멤버쉽 안내</p>
+                                </div>
+                                <div class="modal-body">
+                                    <b-container class="mb-3">
+                                        <p>멤버쉽 가입시 최대 31% 할인된 가격에 모든 강의를 이용할 수 있습니다</p>
+                                        <p>멤버쉽에 대해 알아보시겠습니까?</p>
+                                    </b-container>
+                                </div>
+                                <div class="modal-footer my-2">
+                                    <b-button class="m-auto fs-5 px-4 py-2" @click="toPayment">
+                                        결제하기
+                                    </b-button>
+                                    <b-button class="m-auto fs-5 px-4 py-2">
+                                        멤버쉽 알아보기
+                                    </b-button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </b-container>
             </div>
@@ -190,7 +214,9 @@ import '@/assets/css/lectureStyle.css';
                     videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 },
                 videos: [],
-                reviews: []
+                reviews: [],
+                payPerMonth : "39,800",
+                payPerYear : "27,417",
             }
         },
         methods: {
@@ -240,8 +266,7 @@ import '@/assets/css/lectureStyle.css';
                     })
                     .then((res)=>{
                         console.log(res);
-                        this.$routerPush('',{},false)
-                        
+                        this.$routerPush('lecturePayment')
                     })
                     .catch((err)=>{
                         console.log(err);

@@ -16,6 +16,27 @@
             <categories></categories>
         </b-container>
 
+        <!-- 멤버쉽 광고 컨테이너 -->
+        <b-container>
+            <p class="fs-4 fw-bold">멤버쉽 안내</p>
+            <div style="height: 200px; width: 100%; background-color: var(--blue);" class="rounded-4">
+                <b-container class="text-white fw-bold d-flex">
+                    <div class="me-auto">
+                        <p>마참내!</p>
+                        <p>월정액을!</p>
+                        <p>즐겁다!</p>
+                        <p>뭐어?! 최대 31% 할인이라고오~~~!?!?!?! 당장 사야지~~!!</p>
+                        <p>대충 광고 문구 주저리주저리...</p>
+                    </div>
+                    <div>
+                        <b-button class="py-2 px-4 fs-3 d-flex">
+                            맴버쉽 안내
+                        </b-button>
+                    </div>
+                </b-container>
+            </div>
+        </b-container>
+
         <!-- 신규 오픈 강좌 컨테이너 -->
         <b-container class="mb-5 py-3">
             <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>

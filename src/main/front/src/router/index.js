@@ -44,6 +44,12 @@ const routes = [
         name : 'lectureLesson',
 
         component : () => import('@/views/lecture/LectureLesson.vue')
+    },
+    {
+        path : '/lecturePayment',
+        name : 'lecturePayment',
+
+        component : () => import('@/views/lecture/LecturePayment.vue')
     }
     ,
     {
