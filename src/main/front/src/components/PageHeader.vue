@@ -39,8 +39,9 @@
                     </form>
                 </div>
             </div>
-            <router-link to="/login">로그인</router-link>
-            <button @click="logout">로그아웃</button>
+            <router-link v-if="!this.$store.state.isLoggedIn" to="/login">로그인</router-link>
+            <button v-if="this.$store.state.isLoggedIn" @click="logout">로그아웃</button>
+            <span v-if="this.$store.state.isLoggedIn">{{ this.$store.state.nickname }}</span>
             <router-link to="/regist">회원가입</router-link>
         </div>
         <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     export default {
         name: 'PageHeader',
         mounted() {
@@ -58,6 +60,7 @@
         },
         created(){
             this.getCategory();
+            this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         },
         data() {
             return {
@@ -65,8 +68,10 @@
                 categories: [], 
                 showButton: false,
                 keyword : '',
-                isLoggedIn: false,
             };
+        },
+        computed: {
+            ...mapGetters(['isLoggedIn', 'nickname']),
         },
         methods: {
             /** 검색 메서드 */
@@ -132,8 +137,9 @@
                 })
             },
             logout() {
-                localStorage.removeItem("isLoggedIn");
-                this.$router.push("/");
+                this.$store.dispatch('logout');
+                localStorage.removeItem('isLoggedIn');
+                this.$router.push('/');
             },
           },
           watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */

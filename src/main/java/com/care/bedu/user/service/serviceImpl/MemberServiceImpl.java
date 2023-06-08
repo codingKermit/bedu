@@ -51,4 +51,8 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.getPasswordByEmail(email);
     }
     
+    public MemberVO getMemberByEmail(String email) {
+        return memberDao.getMemberByEmail(email);
+    }
+
 }

@@ -8,4 +8,5 @@ public interface MemberService {
     boolean isEmailDuplicate(String email);
     boolean isNicknameDuplicate(String nickname);
     String getPasswordByEmail(String email);
+    MemberVO getMemberByEmail(String email);
 }

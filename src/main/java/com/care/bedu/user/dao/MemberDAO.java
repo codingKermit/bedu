@@ -17,4 +17,8 @@ public interface MemberDAO {
     int countByNickname(String nickname);
     
     String getPasswordByEmail(String email);
+    
+    MemberVO getMemberByEmail(String email);
+    
+    String getNicknameByEmail(String email);
 }

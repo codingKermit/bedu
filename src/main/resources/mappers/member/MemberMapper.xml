@@ -43,4 +43,17 @@
 	    FROM t_bedu_user
 	    WHERE USER_ID = #{email}
 	</select>
+		
+	<select id="getMemberByEmail" parameterType="java.lang.String" resultType="com.care.bedu.user.vo.MemberVO">
+	    SELECT 
+	        USER_NUM AS usernum,
+	        USER_NAME AS nickname,
+	        REG_DATE AS regDate, 
+      		USER_CLS AS cls, 
+      		USER_REG_DATE AS urd, 
+      		USER_WITH_DRAW_YN AS udy
+	    FROM t_bedu_user
+	    WHERE USER_ID = #{email}
+	</select>
+	
 </mapper>
