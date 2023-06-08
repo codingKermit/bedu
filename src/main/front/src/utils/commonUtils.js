@@ -11,6 +11,8 @@ export default {
         globalProperties.$axiosSend = commonAxios.axiosSend;
         globalProperties.$routerPush = commonRouter.routerPush;
         globalProperties.$isNotEmpty = commonValid.isNotEmpty;
+        globalProperties.$isNotEmptyObj = commonValid.isNotEmptyObj;
+        globalProperties.$isNotEmptyArray = commonValid.isNotEmptyArray;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
@@ -69,7 +71,24 @@ export const commonValid = {
         if (value === {}) return false
         if (Array?.isArray(value) && value === []) return false
         return true
+    },
+    isNotEmptyObj : (obj) => {
+        console.log("isEmptyObj ::: " , obj)
+       
+        if ((obj === '') || (obj === null) || (obj === undefined) || (obj === {}) || (obj === Object && Object.keys(obj).length === 0)){
+            return false
+        }
+        return true
+       
+        
+    },
+    isNotEmptyArray : (array) => {
+        console.log("isEmptyArray ::: " , array)
+        
+        if ((array === '') || (array === null) || (array === undefined) || (Array?.isArray(array) && array === [])){
+            return false
+        }
+        return true
     }
     
 }
-
