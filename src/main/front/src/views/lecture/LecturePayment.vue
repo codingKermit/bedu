@@ -7,7 +7,7 @@
                 <p class="fs-3 fw-bold">수강 바구니</p>
                 <div class="d-flex">
                     <div class="form-check me-auto">
-                        <input class="form-check-input" type="checkbox" id="check-all">
+                        <input class="form-check-input" type="checkbox" id="check-all" @change="selectAll">
                         <label class="form-check-label" for="check-all">
                             전체선택
                         </label>
@@ -67,17 +67,19 @@
                     </p>
                 </b-container>
                 <b-container class="border rounded-3 py-3">
-                    <div class="d-flex">
+                    <!-- <div class="d-flex">
                         <span class="mb-3 me-auto">선택상품 금액</span>
                         <span class="ms-auto"></span>
                     </div>
                     <div class="d-flex">
                         <span class="mb-3 me-auto">할인 금액</span>
                         <span class="ms-auto"></span>
-                    </div>
+                    </div> -->
                     <div class="d-flex mb-3">
                         <span class="me-auto fw-bold fs-5">총 결제 금액</span>
-                        <span></span>
+                        <span>
+                            {{ getCurrencyPrice }}
+                        </span>
                     </div>
                     <b-button class="w-100">결제하기</b-button>
                 </b-container>
@@ -96,7 +98,7 @@ export default{
             total : 0, // 수강 바구니에 있는 강의 전체 갯수 (int)
             carts : [], // 수강 바구니 강의 목록 (array)
             paymentList : [], // 결제할 강의 목록
-            userInfo : {
+            userInfo : { // 사용자 정보
                 userNum : this.$store.state.usernum,
                 email : '',
                 password : '',
@@ -106,7 +108,8 @@ export default{
                 urd : '',
                 udy : 0
 
-            }, // 사용자 정보
+            }, 
+            totalPrice : 0,
         }
     },
     methods: {
@@ -122,31 +125,56 @@ export default{
             })
         },
         removeFromCart(item){ /** 장바구니에서 삭제 메서드 */
-            console.log(item)
+            
+            /** 장바구니에서 지울 강의 고유번호만 파라미터로 전달하기위해 리스트 생성 */
+            const arg = [];
+            for(var i =0;i<item.length;i++){
+                arg.push(item[i].lectNum);
+            }
+
             this.$axiosSend('post','/api/lect/removeFromCart'
             ,{
                 userNum : this.userInfo.userNum,
-                list : item,
+                list : arg.join(","),
                 // list : encodeURIComponent(JSON.stringify(item)),
             }
             )
-            .then((res)=>{
-                console.log(res)
+            .then(()=>{
+                this.getCarts();
+                this.paymentList=[];
             })
             .catch((err)=>{
                 console.log(err)
             })
         },
         selectAll(){ /** 전체 선택  */
-
+            if(this.paymentList == this.carts){
+                this.paymentList = [];
+            } else {
+                this.paymentList = this.carts;
+            }
         }
     },
     created() {
-        this.getCarts();
+
     },
     mounted() {
-        
+        this.getCarts();
     },
+    computed:{
+        getCurrencyPrice(){
+            return this.totalPrice.toLocaleString('ko-KR');
+        }
+    },
+    watch:{
+        paymentList:function(){
+            this.totalPrice = 0;
+            for(var i =0; i < this.paymentList.length;i++){
+                this.totalPrice +=  Number(this.paymentList[i].price.replace(",",""));
+            }
+            // console.log(this.totalPrice)
+        }
+    }
 }
 
 </script>

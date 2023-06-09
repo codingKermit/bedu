@@ -170,19 +170,9 @@ public class LectureServiceImpl implements LectureService{
 		/* 파라미터를 담을 맵 */
 		HashMap<String, Object> arg = new HashMap<>();
 
-		/* 강의 고유번호를 기준으로 데이터 조회 */
-		LectureVO lect = lectureDao.getLectureDetail(lectNum);
-
-
 		// /* 파라미터 맵에 저장 */
-		arg.put("userId", "tet@tet.tet");
 		arg.put("lectNum", lectNum);
 		arg.put("userNum", userNum);
-		arg.put("title",lect.getTitle());
-		arg.put("teacher",lect.getTeacher());
-		arg.put("summary", lect.getLectSum());
-		arg.put("thumbnail", lect.getThumbnail());
-		arg.put("price", Integer.parseInt(lect.getPrice().replace(",", "")));
 
 		/* 장바구니에 담기 */
 		result = lectureDao.addToCart(arg);
@@ -203,6 +193,26 @@ public class LectureServiceImpl implements LectureService{
 		carts = lectureDao.getCart(num);
 
 		result.put("item", carts);
+
+		return result;
+	}
+
+
+
+	@Override
+	public int removeFromCart(int[] list, int userNum) {
+		int result = 0;
+
+		HashMap<String, Object> arg = new HashMap<>();
+		arg.put("userNum", userNum);
+
+		for(int i =0; i<list.length;i++){
+			arg.put("lectNum", list[i]);
+			result = lectureDao.removeFromCart(arg);
+			if(result == 0){
+				return 0;
+			}
+		}
 
 		return result;
 	}

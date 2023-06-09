@@ -24,4 +24,5 @@ public interface LectureDAO {
 	public ArrayList<ReviewVO> getReview(int num); /* 후기 조회 */
 	public int addToCart(HashMap<String, Object> arg); /* 장바구니 추가 */
 	public ArrayList<LectureVO> getCart(int num); /* 장바구니 조회 */
+	public int removeFromCart(HashMap<String, Object> arg); /* 장바구니에서 삭제 */
 }

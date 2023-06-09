@@ -264,14 +264,15 @@ import '@/assets/css/lectureStyle.css';
                         lectNum : this.form.lectNum,
                         userNum : 10,
                     })
-                    .then(
+                    .then(()=>{
                         this.$routerPush('lecturePayment')
+                    }
                     )
                     .catch((err)=>{
                         console.log(err);
                     })
                 }
-            }
+            },
         },
         mounted() {
         },

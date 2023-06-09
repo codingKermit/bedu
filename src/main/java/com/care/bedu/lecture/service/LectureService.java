@@ -19,4 +19,5 @@ public interface LectureService {
 	public HashMap<String, Object> getReview(int num); /* 강의 하단에 보여줄 수강 후기 최신순 5개 조회 */
 	public int addToCart(int lectNum, int userNum); /* 장바구니에 추가 */
 	public HashMap<String, Object> getCart(int num); /* 장바구니 조회 */
+	public int removeFromCart(int[] list, int userNum);
 }

@@ -292,23 +292,12 @@
 	<insert id="addToCart" parameterType="hashmap">
 		INSERT INTO 
 			t_bedu_cart(
-				CART_USER_ID, 
 				CART_LECT_NUM, 
-				cart_user_num,
-				TITLE,
-				TEACHER,
-				LECT_SUMMARY,
-				THUMBNAIL,
-				PRICE) 
+				cart_user_num
+			)
 		SELECT
-			#{userId},
 			#{lectNum},
-			#{userNum},
-			#{title},
-			#{teacher},
-			#{summary},
-			#{thumbnail},
-			#{price}
+			#{userNum}
 		FROM DUAL
 		WHERE NOT EXISTS(
 			SELECT 1 
@@ -322,17 +311,27 @@
 
 	<select id="getCart" resultType="com.care.bedu.lecture.vo.LectureVO">
 		SELECT
-			CART_LECT_NUM AS lectNum,
-			TITLE,
-			TEACHER,
-			LECT_SUMMARY as lectSum,
-			THUMBNAIL,
-			FORMAT(PRICE, 0) AS PRICE
+			A.CART_LECT_NUM AS lectNum,
+			B.TITLE,
+			B.TEACHER,
+			B.LECT_SUMMARY as lectSum,
+			B.THUMBNAIL,
+			FORMAT(B.PRICE, 0) AS PRICE
 		FROM
-			t_bedu_cart
+			t_bedu_cart AS A 
+		LEFT JOIN t_bedu_lect AS B
+		ON A.CART_LECT_NUM = B.LECT_NUM
 		WHERE
-			CART_USER_NUM = #{num}
+			A.CART_USER_NUM = #{num}
 	</select>
+
+	<delete id="removeFromCart" parameterType="hashmap">
+		DELETE FROM 
+			t_bedu_cart 
+		WHERE 
+			CART_USER_NUM = #{userNum} AND
+			CART_LECT_NUM = #{lectNum}
+	</delete>
 
 
 
