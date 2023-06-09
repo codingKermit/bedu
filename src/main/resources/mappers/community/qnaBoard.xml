@@ -5,27 +5,27 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT 
-		 QNA_BD_NUM, 
+		 QS_BD_NUM AS qna_bd_num, 
 		 TITLE, 
 		 CONTENT, 
-		 QNA_CNT, 
-		 QNA_LIKE_YN, 
-		 USER_ID, 
-		 QNA_DATE, 
+		 QS_CNT AS qna_cnt, 
+		 QS_LIKE_YN AS qna_like_yn, 
+		 USER_ID,
+		 QS_DATE AS qna_date, 
 		 REG_ID 
-		FROM T_BEDU_QNA
-		ORDER BY QNA_BD_NUM DESC
+		FROM T_BEDU_QS
+		ORDER BY QS_BD_NUM DESC
 		 LIMIT 5 OFFSET #{page}
 	</select>
 	
 	<insert id="viewWrite">
-		INSERT INTO T_BEDU_QNA(
+		INSERT INTO T_BEDU_QS(
 		  USER_ID,
 		  TITLE, 
 		  CONTENT,
-		  QNA_CNT,
-		  QNA_LIKE_YN,
-		  QNA_DATE,
+		  QS_CNT,
+		  QS_LIKE_YN,
+		  QS_DATE,
 		  REG_DATE,
 		  REG_ID
 		)VALUES(
@@ -41,40 +41,40 @@
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT * FROM T_BEDU_QNA
-		WHERE QNA_BD_NUM = #{num}
+		SELECT * FROM T_BEDU_QS
+		WHERE QS_BD_NUM = #{num}
 	</select>
 	
 	<update id="viewupdate">
-		UPDATE T_BEDU_QNA SET TITLE = #{title}, CONTENT = #{content}
-		WHERE QNA_BD_NUM = #{qna_bd_num}
+		UPDATE T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}
+		WHERE QS_BD_NUM = #{qna_bd_num}
 	</update>
 	
 	<delete id="viewdelete">
-		DELETE FROM T_BEDU_QNA
-		WHERE QNA_BD_NUM = #{qnanum}
+		DELETE FROM T_BEDU_QS
+		WHERE QS_BD_NUM = #{qnanum}
 	</delete>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT QNA_BD_NUM, TITLE, CONTENT, USER_ID, QNA_DATE, QNA_CNT, QNA_LIKE_YN, REG_ID FROM T_BEDU_QNA
+		SELECT QS_BD_NUM, TITLE, CONTENT, USER_ID, QS_DATE, QS_CNT, QS_LIKE_YN, REG_ID FROM T_BEDU_QS
 		<if test="keyword != null">
 			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENT LIKE CONCAT ('%', #{keyword},'%')
-			 ORDER BY QNA_BD_NUM DESC
+			 ORDER BY QS_BD_NUM DESC
 		 </if>
 	</select>
 	
 	<select id="getTotal" resultType="int">
-		SELECT COUNT(*) FROM T_BEDU_QNA
+		SELECT COUNT(*) FROM T_BEDU_QS
 	</select>
 	
 	<update id="qnaCntUp">
-		UPDATE T_BEDU_QNA SET QNA_CNT = QNA_CNT + 1
-		WHERE QNA_BD_NUM = #{num}
+		UPDATE T_BEDU_QS SET QS_CNT = QS_CNT + 1
+		WHERE QS_BD_NUM = #{num}
 	</update>
 	
 	<update id="likeUp">
-		UPDATE T_BEDU_QNA SET QNA_LIKE_YN = QNA_LIKE_YN + 1
-		WHERE QNA_BD_NUM = #{num}
+		UPDATE T_BEDU_QS SET QS_LIKE_YN = QS_LIKE_YN + 1
+		WHERE QS_BD_NUM = #{num}
 	</update>
 	
 </mapper>

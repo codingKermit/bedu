@@ -1,9 +1,17 @@
 <template>
-    <div class="freeboard" id="freeboard">
-        <div class="freeboard-left" id="freeboard-left">
-            <h4>커뮤니티</h4>
-            <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
-            <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
+    <div class="freeboard-view" id="freeboard-view">
+        <div class="free-view-side" id="free-view-side">
+            <ul>
+                <li>
+                    <div>
+                        <h3>커뮤니티</h3>
+                    </div>
+                </li>
+                <ul>
+                    <li><div class="qna-view-freepath" id="qna-view-freepath" @click="freepath()">자유게시판</div></li>
+                    <li><div div class="qna-view-qnapath" id="qna-view-qnapath" @click="qnapath()">질문답변</div></li>
+                </ul>
+            </ul>
         </div>
         <div class="freeboard-main" id="freeboard-main">
             <div id="freeboard-box">
@@ -58,6 +66,7 @@
     </div>
 </template>
 <script>
+    import router from '@/router';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     export default {
     
@@ -98,7 +107,7 @@
                     this.freelist = res.data;
                 })
                 .catch((err)=>{
-                    alert(err);
+                    console.log(err);
                 })
             },
 
@@ -113,6 +122,8 @@
                     alert(err);
                 })
             },
+
+            
 
             infiniteHandler($state){ // 스크롤 이벤트 핸들러
                 this.$axiosSend('get','/api/freBd/boardList',{
@@ -129,6 +140,18 @@
                 })
                 .catch(err=>{
                     alert(err);
+                })
+            },
+
+            freepath(){
+                router.push({
+                    name: "freeBoard"
+                })
+            },
+
+            qnapath(){
+                router.push({
+                    name: "qnaBoard"
                 })
             },
 
@@ -187,6 +210,16 @@
       height: 100px;
     }
 
+    #free-view-side{
+        margin-left: 60px;
+    }
+
+    #freeboard-view{
+        margin-left:auto; 
+        margin-right:auto;
+        width: 1400px;
+    }
+
     #freewrite{
         margin-left: 70px;
     }
@@ -218,5 +251,11 @@
 
     #free-view-keyword{
         border-radius: 5px 5px / 5px 5px;
+    }
+
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;   	    /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */    
     }
 </style>

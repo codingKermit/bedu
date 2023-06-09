@@ -21,11 +21,11 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
-		replyVO.setLecturenum(437);	//강의 정보 글번호
-		replyVO.setRwNum(151);	//강의 후기 테이블 번호
-		replyVO.setCommNum(44);	//자유게시판 글번호
-		replyVO.setUserId("test@test.com");
-		replyVO.setRegId(replyVO.getUserId());
+//		replyVO.setLecturenum(437);	//강의 정보 글번호
+//		replyVO.setRwNum(151);	//강의 후기 테이블 번호
+//		replyVO.setCommNum(44);	//자유게시판 글번호
+//		replyVO.setUserId("test@test.com");
+//		replyVO.setRegId(replyVO.getUserId());
 		return replyDAO.viewWrite(replyVO);
 	}
 

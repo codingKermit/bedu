@@ -1,9 +1,17 @@
 <template>
-    <div class="qna" id="qna">
-        <div class="qna-left" id="qna-left">
-            <h4>커뮤니티</h4>
-            <router-link class="bedu-hd-cate-le" to="/comm/qna">질문/답변</router-link><br>
-            <router-link class="bedu-hd-cate-le" to="/comm/freBd">자유게시판</router-link>
+    <div class="qna-view" id="qna-view">
+        <div class="qna-view-side" id="qna-view-side">
+            <ul>
+                <li>
+                    <div>
+                        <h3>커뮤니티</h3>
+                    </div>
+                </li>
+                <ul>
+                    <li><div class="qna-view-freepath" id="qna-view-freepath" @click="freepath()">자유게시판</div></li>
+                    <li><div div class="qna-view-qnapath" id="qna-view-qnapath" @click="qnapath()">질문답변</div></li>
+                </ul>
+            </ul>
         </div>
         <div class="qna-main" id="qna-main">
             <div class="qna-box" id="qna-box">
@@ -53,6 +61,7 @@
 </template>
 
 <script>
+    import router from '@/router';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     export default {
 
@@ -95,7 +104,7 @@
                 this.qnalist = res.data;
             })
             .catch(error => {
-                alert(error);
+                console.log(error);
             });
         },
 
@@ -137,6 +146,18 @@
             this.List();
         },
 
+        freepath(){
+            router.push({
+                name: "freeBoard"
+            })
+        },
+
+        qnapath(){
+            router.push({
+                name: "qnaBoard"
+            })
+        },      
+
         qnalikeUp(qnum) {
             this.$axiosSend('get', '/api/qna/likeUp', {
                 num: qnum
@@ -151,7 +172,7 @@
                 }
             })
             .catch((error) => {
-            alert(error);
+                alert(error);
             })
         },
 
@@ -169,7 +190,7 @@
                 }
             })
             .catch(err=>{
-                alert(err);
+                console.log(err);
             })
         }
     },
@@ -186,6 +207,12 @@
     td{
       font-size: 140%;
       height: 100px;
+    }
+    
+    #qna-view{
+        margin-left:auto; 
+        margin-right:auto;
+        width: 1400px;
     }
 
     .qna-main{
@@ -217,5 +244,15 @@
 
     #qna-main-write{
         margin-left: 100px;
+    }
+
+    #qna-view-side{
+        margin-left: 60px;
+    }
+
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;   	    /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */    
     }
 </style>
