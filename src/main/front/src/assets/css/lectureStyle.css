@@ -130,5 +130,8 @@
 
 .cart-payment-thumbnail-container{
  width: 20%;   
+}
 
+.cart-payment-delete-xmark{
+    width: 5%;
 }

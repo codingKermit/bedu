@@ -260,7 +260,7 @@ import '@/assets/css/lectureStyle.css';
                     })
                     return;
                 } else {
-                    this.$axiosSend('get','/api/lect/addToCart',{
+                    this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : 10,
                     })

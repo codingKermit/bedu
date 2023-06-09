@@ -13,7 +13,9 @@
                         </label>
                         {{ paymentList.length }}  / {{ carts.length }}
                     </div>
-                    <b-button>선택삭제 <font-awesome-icon :icon="['fas', 'xmark']" /></b-button>
+                    <b-button @click="removeFromCart(paymentList)">
+                        선택삭제 <font-awesome-icon :icon="['fas', 'xmark']" />
+                    </b-button>
                 </div>
                 <hr>
                 <!-- 장바구니 목록  -->
@@ -22,7 +24,9 @@
                         <li v-for="(cart, index ) in carts" :key="index">
                             <div class="d-flex mb-3 border p-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" :id="'cart-check-'+index">
+                                    <input class="form-check-input cart-list" type="checkbox" :id="'cart-check-'+index" 
+                                    v-model="paymentList" :value="cart"
+                                    >
                                 </div>
                                 <div class="cart-payment-thumbnail-container">
                                     <b-img :src="cart.thumbnail" class="w-100 h-100"></b-img>
@@ -31,6 +35,11 @@
                                     <span></span>
                                     <span class="d-block">{{ cart.title }}</span>
                                     <span class="text-secondary">{{ cart.teacher }}</span>
+                                </div>
+                                <div class="cart-payment-delete-xmark">
+                                    <font-awesome-icon :icon="['fas', 'xmark']" role="button"
+                                    @click="removeFromCart([cart])"
+                                    />
                                 </div>
                                 <div class="d-flex cart-payment-price-container">
                                     <div class="align-self-center d-flex px-4">
@@ -88,7 +97,7 @@ export default{
             carts : [], // 수강 바구니 강의 목록 (array)
             paymentList : [], // 결제할 강의 목록
             userInfo : {
-                usernum : this.$store.state.usernum,
+                userNum : this.$store.state.usernum,
                 email : '',
                 password : '',
                 nickname : this.$store.state.nickname,
@@ -102,20 +111,34 @@ export default{
     },
     methods: {
         getCarts(){ /** 장바구니 조회 */
-            const userNum = this.$store.state.usernum;
             this.$axiosSend('get','/api/lect/getCart',{
-                userNum : userNum
+                userNum : this.$store.state.usernum
             })
             .then((res)=>{
-                console.log(res);
                 this.carts = res.data.item;
             })
             .catch((err)=>{
                 console.log(err)
             })
         },
-        intoPayment(item){
+        removeFromCart(item){ /** 장바구니에서 삭제 메서드 */
             console.log(item)
+            this.$axiosSend('post','/api/lect/removeFromCart'
+            ,{
+                userNum : this.userInfo.userNum,
+                list : item,
+                // list : encodeURIComponent(JSON.stringify(item)),
+            }
+            )
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+        selectAll(){ /** 전체 선택  */
+
         }
     },
     created() {

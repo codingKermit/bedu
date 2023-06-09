@@ -21,7 +21,20 @@
 			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect WHERE CATEGORY = #{category}
 		)  AS A 
@@ -51,7 +64,20 @@
 			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
 			AS A 
@@ -65,7 +91,8 @@
 		ON A.LECT_NUM = B.lectNum 
 		LEFT JOIN (
 			SELECT 
-				* 
+				RW_GRADE,
+				LECT_NUM
 			FROM 
 				t_bedu_rw_bd 
 			WHERE LECT_NUM = #{LECT_NUM}) C
@@ -92,7 +119,20 @@
 			A.KORCATEGORY
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect 
 			WHERE CATEGORY = #{category})  
@@ -135,7 +175,20 @@
 			A.KORCATEGORY
 		FROM 
 			(SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect
 			WHERE 
@@ -153,7 +206,20 @@
 			COUNT(A.LECT_NUM)
 		FROM 
 			(SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect 
 			WHERE 
@@ -185,7 +251,20 @@
 			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect)  
 			AS A 

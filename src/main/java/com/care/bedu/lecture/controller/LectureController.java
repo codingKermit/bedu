@@ -2,17 +2,17 @@ package com.care.bedu.lecture.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
-import jakarta.xml.ws.Service;
 
 @RestController
 @RequestMapping("/api/lect")
@@ -106,5 +106,19 @@ public class LectureController {
 		result = lectureService.getCart(userNum);
 
 		return result;
+	}
+
+	/* 장바구니에서 삭제 */
+	@RequestMapping("/removeFromCart")
+	public HashMap<String, Object> removeFromCart(
+		@RequestParam(value = "list") String list,
+		int userNum
+		){
+
+			System.out.println("userNum : " + userNum);
+			System.out.println(list);
+		HashMap<String, Object> map = new HashMap<>();
+
+		return map;
 	}
 }
