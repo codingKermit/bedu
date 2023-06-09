@@ -13,6 +13,7 @@ export default {
         globalProperties.$isNotEmpty = commonValid.isNotEmpty;
         globalProperties.$isNotEmptyObj = commonValid.isNotEmptyObj;
         globalProperties.$isNotEmptyArray = commonValid.isNotEmptyArray;
+        globalProperties.$dateFormat = commonDate.dateFormat;
         // globalProperties.$convertFullDate = commonConvert.convertFullDate;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
@@ -108,5 +109,25 @@ export const commonValid = {
     }
 }
 
+//날짜값 변경해주는 함수
+export const commonDate = {
+    dateFormat : (value) => {
+        console.log('dateFormat ::: ', value)
+        var date = new Date(value)
 
+        //년,월,일
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
 
+        //월 1자리일 경우 앞에 0 붙임
+        if (month < 10) {
+            month = "0" + month
+        }
+        //일 1자리일 경우에 앞에 0 붙임
+        if (day < 10){
+            day = "0" + day
+        }
+        return year + "-" + month + "-" + day
+    }
+}

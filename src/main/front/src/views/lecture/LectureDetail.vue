@@ -5,14 +5,12 @@
             <div>
                 <p class="text-secondary fs-5 ms-3">{{ form.korCategory }}</p>
             </div>
-
             <!-- 썸네일, 강의정보 컨테이너-->
             <div class="d-flex mb-4">
                 <!-- 썸네일 컨테이너 -->
                 <div class="w-50 me-5">
                     <b-img class="w-100" thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
                 </div>
-
                 <!-- 강의 정보 컨테이너 시작 -->
                 <div class="w-50">
                     <p class="fw-bold fs-3">{{ form.title }}</p>
@@ -88,7 +86,7 @@
                                     </b-container>
                                 </div>
                                 <div class="modal-footer my-2">
-                                    <b-button class="m-auto fs-5 px-4 py-2" @click="toPayment">
+                                    <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toPayment">
                                         결제하기
                                     </b-button>
                                     <b-button class="m-auto fs-5 px-4 py-2">
@@ -220,13 +218,22 @@ import '@/assets/css/lectureStyle.css';
             }
         },
         methods: {
-            toLesson(val){
+            toLesson(val){ /** 동영상 재생 페이지로 이동 */
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
             },
-            getDetail() {
+            getDetail() { /** 강의 상세 정보 조회 */
                 this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.lectNum})
                 .then((res) => {
-                    this.form = res.data;
+                    if(this.$isNotEmptyObj(res.data)){
+                        this.form = res.data;
+                    } else {
+                        this.$swal({
+                            title : 'ERROR!',
+                            icon : 'error',
+                            text : '데이터를 불러오는데 에러가 발생했습니다.'
+                        })
+                        return;
+                    }
                 })
                 .catch((err) => {
                     console.log(err)
@@ -235,16 +242,34 @@ import '@/assets/css/lectureStyle.css';
             getVideoList() { /** 동영상 목록 조회 */
                 this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.lectNum})
                 .then((res) => {
-                    this.videos = res.data;
+                    if(this.$isNotEmptyArray(res.data)){
+                        this.videos = res.data;
+                    } else {
+                        this.$swal({
+                            title : 'ERROR!',
+                            icon : 'error',
+                            text : '데이터를 불러오는데 에러가 발생했습니다.'
+                        })
+                        return;
+                    }
                 })
                 .catch((err) => {
                     console.log(err)
                 });
             },
-            getReview(){ /** 후기 조회 */
+            getReview(){ /** 후기 최신순 5개 조회 */
                 this.$axiosSend('get','/api/lect/getReview',{num : this.form.lectNum})
                 .then((res)=>{
-                    this.reviews = res.data.item;
+                    if(this.$isNotEmptyArray(res.data.item)){
+                        this.reviews = res.data.item;
+                    } else{
+                        this.$swal({
+                            title : 'ERROR!',
+                            icon : 'error',
+                            text : '데이터를 불러오는데 에러가 발생했습니다.'
+                        })
+                        return;  
+                    }
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -260,19 +285,19 @@ import '@/assets/css/lectureStyle.css';
                     })
                     return;
                 } else {
-                    this.$axiosSend('get','/api/lect/addToCart',{
+                    this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : 10,
                     })
-                    .then((res)=>{
-                        console.log(res);
+                    .then(()=>{
                         this.$routerPush('lecturePayment')
-                    })
+                    }
+                    )
                     .catch((err)=>{
                         console.log(err);
                     })
                 }
-            }
+            },
         },
         mounted() {
         },

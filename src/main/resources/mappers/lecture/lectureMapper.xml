@@ -21,7 +21,20 @@
 			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect WHERE CATEGORY = #{category}
 		)  AS A 
@@ -47,10 +60,24 @@
 			COUNT(C.LECT_NUM) AS SCOREUSERS, 
 			SEC_TO_TIME(B.TOTALTIMES) AS TOTALTIMES, 
 			A.CATEGORY, 
-			A.KORCATEGORY
+			A.KORCATEGORY,
+			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect WHERE LECT_NUM = #{LECT_NUM})  
 			AS A 
@@ -64,7 +91,8 @@
 		ON A.LECT_NUM = B.lectNum 
 		LEFT JOIN (
 			SELECT 
-				* 
+				RW_GRADE,
+				LECT_NUM
 			FROM 
 				t_bedu_rw_bd 
 			WHERE LECT_NUM = #{LECT_NUM}) C
@@ -91,7 +119,20 @@
 			A.KORCATEGORY
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect 
 			WHERE CATEGORY = #{category})  
@@ -134,7 +175,20 @@
 			A.KORCATEGORY
 		FROM 
 			(SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect
 			WHERE 
@@ -152,7 +206,20 @@
 			COUNT(A.LECT_NUM)
 		FROM 
 			(SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect 
 			WHERE 
@@ -184,7 +251,20 @@
 			A.LECT_SUMMARY AS lectSum
 		FROM (
 			SELECT 
-				* 
+				LECT_NUM,
+				TITLE,
+				TEACHER,
+				LECT_DESC,
+				THUMBNAIL,
+				LECT_CNT,
+				LECT_LIKE_CNT,
+				LECT_PERIOD,
+				PRICE,
+				CATEGORY,
+				KORCATEGORY,
+				REG_DATE,
+				REG_ID,
+				LECT_SUMMARY
 			FROM 
 				t_bedu_lect)  
 			AS A 
@@ -212,11 +292,10 @@
 	<insert id="addToCart" parameterType="hashmap">
 		INSERT INTO 
 			t_bedu_cart(
-				cart_user_id, 
-				car_lect_num, 
-				cart_user_num) 
+				CART_LECT_NUM, 
+				cart_user_num
+			)
 		SELECT
-			#{userId},
 			#{lectNum},
 			#{userNum}
 		FROM DUAL
@@ -225,11 +304,34 @@
 			FROM 
 				t_bedu_cart
 			WHERE
-				cart_user_id = #{userId} AND
-				car_lect_num = #{lectNum} AND
-				cart_user_num = #{userNum}
+				CART_LECT_NUM = #{lectNum} AND
+				CART_USER_NUM = #{userNum}
 		)
 	</insert>
+
+	<select id="getCart" resultType="com.care.bedu.lecture.vo.LectureVO">
+		SELECT
+			A.CART_LECT_NUM AS lectNum,
+			B.TITLE,
+			B.TEACHER,
+			B.LECT_SUMMARY as lectSum,
+			B.THUMBNAIL,
+			FORMAT(B.PRICE, 0) AS PRICE
+		FROM
+			t_bedu_cart AS A 
+		LEFT JOIN t_bedu_lect AS B
+		ON A.CART_LECT_NUM = B.LECT_NUM
+		WHERE
+			A.CART_USER_NUM = #{num}
+	</select>
+
+	<delete id="removeFromCart" parameterType="hashmap">
+		DELETE FROM 
+			t_bedu_cart 
+		WHERE 
+			CART_USER_NUM = #{userNum} AND
+			CART_LECT_NUM = #{lectNum}
+	</delete>
 
 
 

@@ -5,10 +5,10 @@
 
     <select id="getCategories" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         select
-            num,
-            cate_code as cateCode,
-            cate_kor as cateKor,
-            icon,
+            NUM,
+            CATE_CODE as cateCode,
+            CATE_KOR as cateKor,
+            ICON,
             null as parentCode,
             null as parentNum
         from
@@ -16,20 +16,20 @@
         union all
         select 
             num,
-            cate_code as cateCode,
-            cate_kor as cateKor,
-            parent_num as parentNum,
-            parent_code as parentCode,
+            CATE_CODE as cateCode,
+            CATE_KOR as cateKor,
+            PARENT_NUM as parentNum,
+            PARENT_CODE as parentCode,
             null as icon
         from 
             t_bedu_lect_mid_cate
         union all
         select
             num,
-            cate_code as cateCode,
-            cate_kor as cateKor,
-            parent_num parnetNum,
-            parent_code parentCode,
+            CATE_CODE as cateCode,
+            CATE_KOR as cateKor,
+            PARENT_NUM parnetNum,
+            PARENT_CODE parentCode,
             null as icon
         from 
             t_bedu_lect_bot_cate
@@ -40,13 +40,13 @@
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT 
             num,
-            cate_code as cateCode,
-            cate_kor as cateKor,
-            parent_code as parentCode,
+            CATE_CODE as cateCode,
+            CATE_KOR as cateKor,
+            PARENT_CODE as parentCode,
             parent_num as parentNum 
         FROM 
             t_bedu_lect_bot_cate 
-        WHERE parent_code = #{mid}
+        WHERE PARENT_CODE = #{mid}
     </select>
 
 
