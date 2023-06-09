@@ -25,7 +25,6 @@
             </b-container>
             <b-button type="submit" class="btn-custom ms-2 freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2 freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-            <b-button type="submit" class="btn-custom ms-2 freeboard-detail-viewbtn" @click="freeBoardpath()">목록</b-button>
             <hr>
         </b-container>
     </div>
