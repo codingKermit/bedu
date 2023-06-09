@@ -83,36 +83,29 @@ import '@/assets/css/lectureStyle.css';
             }
         },
         methods: {
-
-            /* 현재 선택된 대분류, 중분류를 기준으로 소분류 데이터 반환 */
-            getCurrCurriculum() {
-                const curriculum = this
-                    .categories 
-                    /**  this.categories 배열의 각 요소를 category 로 명명 하여 사용하고
-                     * 카테고리의 코드가 현재 선택된 대분류와 같은지를 체크
-                     */
-                    .find((category) => category.cateCode === this.cnt_top_cate) 
-                        ?.children
-                        /** 중분류도 동일한 로직을 사용 */
-                            .find((children) => children.cateCode === this.cnt_mid_cate)
-                                ?.children;
-                return curriculum || [];
-            },
-
-
             /** 중분류에 따른 강의 정보 조회 함수 */
             getLectureList() {
                 this
                     .$axiosSend('get', '/api/lect/lectureList', {category: this.cnt_mid_cate})
                     .then((res) => {
-                        this.lectures = res.data.item;
+                        if(this.$isNotEmptyArray(res.data.item)){
+                            this.lectures = res.data.item;
+                        } else {
+                            this.$swal({
+                                title : '에러',
+                                icon:'error',
+                                text : '목록을 불러오는데 에러가 발생했습니다.'
+                            })
+                        }
                     })
                     .catch((err) => {
                         console.log(err)
                     })
                 }
         },
-        created() {},
+        created() {
+            
+        },
         mounted() {
 
         },

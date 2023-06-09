@@ -7,7 +7,7 @@
                 <p class="fs-3 fw-bold">수강 바구니</p>
                 <div class="d-flex">
                     <div class="form-check me-auto">
-                        <input class="form-check-input" type="checkbox" id="check-all" @change="selectAll">
+                        <input class="form-check-input" type="checkbox" id="check-all" @change="selectAll" v-model="allChecked">
                         <label class="form-check-label" for="check-all">
                             전체선택
                         </label>
@@ -110,6 +110,7 @@ export default{
 
             }, 
             totalPrice : 0,
+            allChecked : false,
         }
     },
     methods: {
@@ -136,7 +137,6 @@ export default{
             ,{
                 userNum : this.userInfo.userNum,
                 list : arg.join(","),
-                // list : encodeURIComponent(JSON.stringify(item)),
             }
             )
             .then(()=>{
@@ -172,7 +172,11 @@ export default{
             for(var i =0; i < this.paymentList.length;i++){
                 this.totalPrice +=  Number(this.paymentList[i].price.replace(",",""));
             }
-            // console.log(this.totalPrice)
+            if(this.paymentList.length == this.carts.length){
+                this.allChecked = true;
+            } else {
+                this.allChecked = false;
+            }
         }
     }
 }
