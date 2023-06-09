@@ -111,12 +111,12 @@
         methods: {
             // 후기 가져오기
             fetchReviews() {
-                this.isLoading = true;
-                this.fetchedReviews = [];
+                this.isLoading = true; // 로딩 중 상태를 true로 설정합니다.
+                this.fetchedReviews = []; // fetchedReviews 배열을 초기화합니다.
                 this.$axiosSend("get", "/api/reviews", {
-                    page: this.currentPage,
-                    size: this.itemsPerPage,
-                    keyword: this.searchKeyword,
+                    page: this.currentPage, // 현재 페이지 번호를 파라미터로 전달합니다.
+                    size: this.itemsPerPage, // 한 페이지에 보여줄 아이템 수를 파라미터로 전달합니다.
+                    keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
                 })
                 .then((response) => {
                     const { totalElements } = response.data;
@@ -126,15 +126,15 @@
                         this.currentPage++;
                         }
                         
-                        this.totalItems = totalElements;
-                        this.isLoading = false;
+                        this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다.
+                        this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
                         // 검색 및 정렬 수행
                         this.fetchSearchedReviews(); // 검색 수행
                         this.sortReviews(); // 정렬 수행
                 })
                 .catch((error) => {
                      console.error(error);
-                    this.isLoading = false;
+                    this.isLoading = false; // 에러 발생 시 로딩 중 상태를 false로 설정합니다.
                 });
             },
             fetchSearchedReviews(){
@@ -143,10 +143,10 @@
                         this.searchedReviews = []; // 키워드가 비어있을 경우 검색된 후기를 초기화합니다.
                     } else {
                     this.$axiosSend("get", "/api/reviews/search", {
-                    keyword: this.searchKeyword,
+                    keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
                 })
                 .then((response) => {
-                    this.searchedReviews = response.data;
+                    this.searchedReviews = response.data; 
                 })
                 .catch((error) => {
                     console.error(error);
@@ -160,7 +160,7 @@
                 const bottomOffset = 20;
 
                 if (scrollHeight - scrollTop - clientHeight <= bottomOffset && !this.isFetching) {
-                    // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우
+                     // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우 fetchMoreReviews 함수를 호출합니다.
                     this.fetchMoreReviews();
                 }
             },
@@ -218,7 +218,7 @@
             },
             // 후기 검색
             searchReviews() {
-                this.searchedReviews = [];
+                this.searchedReviews = []; //검색된 후기를 초기화
                 this.currentPage = 1; // 페이지 번호 초기화
                 this.fetchReviews(); // 후기 가져오기 호출
             },
@@ -245,9 +245,11 @@
             },
         },
         mounted() {
-            window.addEventListener('scroll', this.handleScroll);
+            // 스크롤 이벤트를 감지하기 위해 window 객체에 이벤트 리스너를 추가합니다.
+            window.addEventListener('scroll', this.handleScroll); 
         },
         beforeUnmount() {
+            // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
             window.removeEventListener('scroll', this.handleScroll);
         },
             
