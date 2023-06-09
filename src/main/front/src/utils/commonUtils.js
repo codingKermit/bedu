@@ -13,7 +13,7 @@ export default {
         globalProperties.$isNotEmpty = commonValid.isNotEmpty;
         globalProperties.$isNotEmptyObj = commonValid.isNotEmptyObj;
         globalProperties.$isNotEmptyArray = commonValid.isNotEmptyArray;
-        // globalProperties.$axiosSend = commonAxios.axiosSend;
+        // globalProperties.$convertFullDate = commonConvert.convertFullDate;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
 
@@ -64,31 +64,49 @@ export const commonScroll = {
 export const commonValid = {
     // 빈 데이터 감지용
     isNotEmpty: (value) => {
-        console.log('isEmpty ::: ', value)
+        // console.log('isNotEmpty ::: ', value)
         if (value === '') return false
         if (value === null) return false
         if (value === undefined) return false
-        if (value === {}) return false
-        if (Array?.isArray(value) && value === []) return false
+        // obj 및 array형식감지는 새로운 함수로 대체
+        // if (value === {}) return false
+        // if (Array?.isArray(value) && value === []) return false
         return true
     },
-    isNotEmptyObj : (obj) => {
-        console.log("isEmptyObj ::: " , obj)
-       
-        if ((obj === '') || (obj === null) || (obj === undefined) || (obj === {}) || (obj === Object && Object.keys(obj).length === 0)){
-            return false
+    // obj데이터가 빈값이 아닌지
+    isNotEmptyObj : (objValue) => {
+        // console.log("isNotEmptyObj ::: " , objValue)
+        // 받아온 데이터 타입이 obj일경우
+        if (typeof objValue === 'object') {
+            // console.log('obj ::: ', typeof objValue === 'object')
+            // 받아온값이 빈값이면 false 반환
+            if ((objValue === '') || (objValue === null) || (objValue === undefined) || (objValue === {}) || (Object.keys(objValue).length === 0)){
+                return false
+            }
+        } else {
+            // 받아온 데이터가 obj형태가 아니면 false 반환
+            return false 
         }
         return true
-       
-        
     },
-    isNotEmptyArray : (array) => {
-        console.log("isEmptyArray ::: " , array)
-        
-        if ((array === '') || (array === null) || (array === undefined) || (Array?.isArray(array) && array === [])){
+    // array데이터가 빈값이 아닌지
+    isNotEmptyArray : (arrayValue) => {
+        // console.log("isNotEmptyArray ::: " , arrayValue)
+        // 1. 받아온 데이터 타입이 array일경우
+        // eslint-disable-next-line valid-typeof
+        if (Array.isArray(arrayValue)) {
+            // console.log('array ::: ', Array.isArray(arrayValue))
+            // 2. 받아온값이 빈값이면 false 반환
+            if ((arrayValue === '') || (arrayValue === null) || (arrayValue === undefined) || arrayValue === []){
+                return false
+            }
+        } else {
+            // 받아온 데이터가 array형태가 아니면 false반환
             return false
         }
         return true
     }
-    
 }
+
+
+
