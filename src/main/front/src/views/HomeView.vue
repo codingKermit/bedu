@@ -3,9 +3,9 @@
         <img src="@/assets/imgs/character/im.png" class="character">
         <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
         <p class="fs-5 fw-light fw-bold text-center" style="color: blueviolet;">What's wanna be?</p>
-        <b-form class="w-50 mx-auto" @submit="lectSearch">
+        <b-form class="w-50 w-md-75 mx-auto" @submit="lectSearch">
             <div
-                class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 border-bedu">
+                class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-100 m-auto mb-5 border-bedu">
                 <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
                 <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
             </div>
@@ -13,7 +13,9 @@
 
         <b-container>
             <p class="fw-bold fs-4 text-start">분야별 강의</p>
-            <categories></categories>
+            <div >
+                <categories></categories>
+            </div>
         </b-container>
 
         <!-- 멤버쉽 광고 컨테이너 -->
@@ -41,8 +43,8 @@
         <b-container class="mb-5 py-3">
             <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>
             <div>
-                <b-row cols="4" class="justify-content-center">
-                    <b-col v-for="(item, index) in newestLectures" :key="index">
+                <b-row class="justify-content-center d-block d-md-flex">
+                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-1">
                         <b-link
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
@@ -70,8 +72,8 @@
         <b-container class="mb-5">
             <p class="fs-4 mb-5 fw-bold">금주의 인기 강좌</p>
             <div>
-                <b-row cols="4" class="justify-content-center">
-                    <b-col v-for="(item, index) in newestLectures" :key="index">
+                <b-row class="justify-content-center d-block d-md-flex">
+                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-1">
                         <b-link
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
