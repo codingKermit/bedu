@@ -13,6 +13,7 @@ export default {
         globalProperties.$isNotEmpty = commonValid.isNotEmpty;
         globalProperties.$isNotEmptyObj = commonValid.isNotEmptyObj;
         globalProperties.$isNotEmptyArray = commonValid.isNotEmptyArray;
+        globalProperties.$dateFormat = commonDate.dateFormat;
         // globalProperties.$convertFullDate = commonConvert.convertFullDate;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
         // globalProperties.$axiosSend = commonAxios.axiosSend;
