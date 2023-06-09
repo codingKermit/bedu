@@ -1,5 +1,5 @@
 <template>
-    <b-container class="w-50">
+    <b-container class="w-50 qna-write" id="qna-write">
         <h1>질문 / 답변</h1>
             
         <b-form @submit="submit()">

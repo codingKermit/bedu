@@ -40,10 +40,9 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				//게시글 삭제
-	public String qnaDelete(String num){
+	public int qnaDelete(String num){
 		int strnum = Integer.parseInt(num);
-		int result = qnaService.viewdelete(strnum);
-		return result> 0? "Y":"N";
+		return qnaService.viewdelete(strnum);
 	}
 
 	@RequestMapping("/qna/total")													//게시글 전체 개수 조회

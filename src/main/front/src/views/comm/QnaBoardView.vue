@@ -9,10 +9,12 @@
             <div class="qna-box" id="qna-box">
                 <h2>질문 / 답변</h2>
                 <b-form @submit="qnasearch()">
-                    <input type="text" class="search-form" ref="keyword" v-model="form.keyword">
-                    <b-button type="submit" class="btn btn-primary" id="qna-search-btn">검색</b-button>
+                    <input placeholder="제목, 내용" class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword">
+                    <b-button type="submit" class="btn-primary qna-search-btn" id="qna-search-btn">검색</b-button>
                 </b-form>
-                <b-button :to="'/comm/qnaWrite'" style="margin-left: 200px;" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
+                <div id="qna-main-write">
+                    <b-button :to="'/comm/qnaWrite'" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
+                </div>
             </div>
             <div class="qna-main-1" id="qna-main-1">
                 <table class="w3-table-all" id="qnaboard-table">
@@ -85,6 +87,7 @@
     methods: {
 
         List() {
+            
             this.$axiosSend('get','/api/qna/qnaList', {
                 page: this.currentPage,
             })
@@ -98,8 +101,10 @@
 
 
         qnasearch() {
+
             const form = new FormData();
             form.append('keyword', this.form.keyword);
+
             this.$axiosSend('post','/api/qna/qnaList', this.form)
             .then(res => {
                 this.qnalist = res.data;
@@ -188,9 +193,29 @@
         margin-right:auto;
         width: 1000px;
     }
+    .qna-main-1{
+        margin-right: 100px;
+    }
+
     #qna-box{
       display: flex;
       margin-left: 200px;
       max-width: 1000px;
+    }
+
+    #qna-view-keyword{
+        border-radius: 5px 5px / 5px 5px;
+    }
+
+    #qna-writepath-btn{
+        margin-left: -600px;
+    }
+
+    #qna-search-btn{
+        margin-left: 20px;
+    }
+
+    #qna-main-write{
+        margin-left: 100px;
     }
 </style>

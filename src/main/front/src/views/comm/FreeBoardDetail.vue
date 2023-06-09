@@ -68,7 +68,9 @@ export default{
             .then(response=>{
                 this.free = response.data;
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{
+                this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
+            })
         },
 
         freedelete() {
@@ -103,10 +105,6 @@ export default{
                 name: 'freeBoard', 
             })
         },
-
-        // freeBoardReply(num){
-
-        // },
 
         path(num){
             this.result = num;

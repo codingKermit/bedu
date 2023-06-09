@@ -1,5 +1,5 @@
 <template>
-    <b-container class="w-50">
+    <b-container class="w-50 qna-edit" id="qna-edit">
         <h1>질문 / 답변</h1>
         <b-form @submit="edit()">
             <input type="hidden" v-model="form.comm_num" ref="qna_bd_num"/>
@@ -29,7 +29,6 @@
         },
 
         mounted() {
-            // console.log(this.$route.params.num)
             const qnum = this.$route.params.num;
             this.qnadetail(qnum);
         },
@@ -37,7 +36,6 @@
         methods: {
 
             qnadetail(num){ // 게시글 데이터 조회
-                console.log('받아온번호:', num);
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : num,
                 })

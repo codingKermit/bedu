@@ -4,51 +4,85 @@
 <mapper namespace="com.care.bedu.community.freeBoard.dao.FreeDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, COMM_LIKE_YN, REG_ID FROM T_BEDU_COMM 
+		SELECT
+		 COMM_NUM,
+		 TITLE,
+		 CONTENT,
+		 USER_ID,
+		 COMM_DATE,
+		 COMM_CNT,
+		 COMM_LIKE_YN, 
+		 REG_ID
+		FROM T_BEDU_COMM 
 		ORDER BY COMM_NUM DESC
 		 LIMIT 5 OFFSET #{page}
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, REG_ID FROM t_bedu_comm
+		SELECT 
+		 COMM_NUM,
+		 TITLE, 
+		 CONTENT, 
+		 USER_ID, 
+		 COMM_DATE, 
+		 COMM_CNT, 
+		 REG_ID 
+		FROM T_BEDU_COMM
 		<if test="keyword != null">
 			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENT LIKE CONCAT ('%', #{keyword},'%')
-			 ORDER BY COMM_NUM DESC
 		 </if>
+		 ORDER BY COMM_NUM DESC
 	</select>
 	
 	<insert id="viewWrite">
-		INSERT INTO T_BEDU_COMM(USER_ID, TITLE, CONTENT, COMM_CNT, COMM_LIKE_YN, COMM_DATE, REG_DATE, REG_ID)
-		VALUES(#{user_id}, #{title}, #{content}, #{comm_cnt}, #{comm_like_yn}, SYSDATE(), SYSDATE(), #{reg_id})
+		INSERT INTO T_BEDU_COMM(
+		  USER_ID, 
+          TITLE, 
+          CONTENT, 
+          COMM_CNT, 
+          COMM_LIKE_YN, 
+          COMM_DATE, 
+          REG_DATE, 
+          REG_ID
+		)VALUES(
+          #{user_id}, 
+          #{title}, 
+          #{content}, 
+          #{comm_cnt}, 
+          #{comm_like_yn}, 
+          SYSDATE(), 
+          SYSDATE(), 
+          #{reg_id}
+		)
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT * FROM t_bedu_comm
+		SELECT * FROM T_BEDU_COMM
 		WHERE COMM_NUM = #{num}
 	</select>
 	
 	<delete id="viewdelete">
-		DELETE FROM t_bedu_comm 
+		DELETE FROM T_BEDU_COMM 
 		WHERE COMM_NUM = #{num}
 	</delete>
 	
 	<update id="cntUp">
-		UPDATE t_bedu_comm SET COMM_CNT = COMM_CNT + 1
+		UPDATE T_BEDU_COMM SET COMM_CNT = COMM_CNT + 1
 		WHERE COMM_NUM = #{num}
 	</update>
 	
 	<update id="viewupdate">
-		UPDATE t_bedu_comm SET TITLE = #{title}, CONTENT = #{content}
+		UPDATE T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}
 		WHERE COMM_NUM = #{comm_num}
 	</update>
 	
 	<update id="likeUp">
-		UPDATE t_bedu_comm SET COMM_LIKE_YN = COMM_LIKE_YN + 1
+		UPDATE T_BEDU_COMM SET COMM_LIKE_YN = COMM_LIKE_YN + 1
 		WHERE COMM_NUM = #{num}
 	</update>
 	
 	<select id="getTotal" resultType="int">
-		SELECT COUNT(*) FROM t_bedu_comm
+		SELECT COUNT(*) FROM T_BEDU_COMM
 	</select>
 	
 </mapper>
