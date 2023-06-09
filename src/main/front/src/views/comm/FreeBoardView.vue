@@ -9,21 +9,21 @@
             <div id="freeboard-box">
                 <h1>자유게시판</h1>
                     <b-form @submit="search()">
-                        <input type="text" class="search-form" ref="keyword" v-model="form.keyword">       
-                        <b-button type="submit" class="btn btn-primary">검색</b-button>
+                        <input type="text" class="search-form free-view-keyword" id="free-view-keyword" ref="keyword" v-model="form.keyword">       
+                        <b-button type="submit" class="btn btn-primary free-view-keywordbtn" id="free-view-keywordbtn">검색</b-button>
                     </b-form>
                 <div class="freewrite" id="freewrite">
-                    <b-button type="button" :to="'/comm/freBdWrite'" id="keywordbtn" class="btn btn-primary">글쓰기</b-button>
+                    <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                 </div>
             </div>
-            <div class="freeboard-reviews" id="freeboard-reviews">
-                <select v-model="freeOption" @change="sortReviews" style="border: none">
-                    <option value="default">최신 순</option>
-                    <option value="highRating">추천순</option>
-                </select>
-            </div>
             <div class="freeboard-main-1" id="freeboard-reviews">
-                <table class="w3-table-all" id="freeboard-table">
+                <div class="freeboard-reviews" id="freeboard-reviews">
+                    <select v-model="freeOption" @change="freeReview()" class="freeboard-reviews-select" id="freeboard-reviews-select">
+                        <option value="recent">최신순</option>
+                        <option value="highRating">추천순</option>
+                    </select>
+                </div>
+                <table class="w3-table-all freeboard-table" id="freeboard-table">
                     <tbody>
                         <tr v-for="free in freelist" :key="free.comm_num">
                         <td id="freeboard-table-tds">
@@ -68,7 +68,7 @@
                 form: {
                     keyword: '',
                 },
-                freeOption: "default",
+                freeOption: "recent",
                 totalItems : 0,
                 totalPage : 0,
                 currentPage : 1,
@@ -143,6 +143,14 @@
                 })
             },
 
+            freeReview(){
+                // const freeselect = document.getElementById("freeboard-reviews-select").value;
+                // this.$axiosSend('get', '/api/freBd/boardList', {
+                    
+                // })
+
+            },
+
             freelikeUp(num) {
                 this.$axiosSend('get', '/api/freBd/likeUp', {
                     num: num
@@ -204,7 +212,11 @@
       max-width: 1000px;
     }
 
-    #keywordbtn{
+    #free-keywordbtn{
         margin-left: -600px;
+    }
+
+    #free-view-keyword{
+        border-radius: 5px 5px / 5px 5px;
     }
 </style>

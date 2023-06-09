@@ -4,14 +4,40 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT QNA_BD_NUM, TITLE, CONTENT, QNA_CNT, QNA_LIKE_YN, USER_ID, QNA_DATE, REG_ID FROM T_BEDU_QNA
-		 ORDER BY QNA_BD_NUM DESC
-		  LIMIT 5 OFFSET #{page}
+		SELECT 
+		 QNA_BD_NUM, 
+		 TITLE, 
+		 CONTENT, 
+		 QNA_CNT, 
+		 QNA_LIKE_YN, 
+		 USER_ID, 
+		 QNA_DATE, 
+		 REG_ID 
+		FROM T_BEDU_QNA
+		ORDER BY QNA_BD_NUM DESC
+		 LIMIT 5 OFFSET #{page}
 	</select>
 	
 	<insert id="viewWrite">
-		INSERT INTO T_BEDU_QNA(USER_ID, title, content, QNA_CNT, QNA_LIKE_YN, QNA_DATE, REG_DATE, REG_ID)
-		VALUES(#{user_id}, #{title}, #{content}, #{qna_cnt}, #{qna_like_yn}, SYSDATE(), SYSDATE(), #{reg_id})
+		INSERT INTO T_BEDU_QNA(
+		  USER_ID,
+		  TITLE, 
+		  CONTENT,
+		  QNA_CNT,
+		  QNA_LIKE_YN,
+		  QNA_DATE,
+		  REG_DATE,
+		  REG_ID
+		)VALUES(
+		  #{user_id},
+		  #{title},
+		  #{content},
+		  #{qna_cnt},
+		  #{qna_like_yn},
+		  SYSDATE(),
+		  SYSDATE(),
+		  #{reg_id}
+	    )
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.qna.vo.QnaVO">

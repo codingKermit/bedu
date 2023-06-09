@@ -16,7 +16,7 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
-		return null;
+		return replyDAO.viewList(replyVO);
 	}
 
 	@Override
