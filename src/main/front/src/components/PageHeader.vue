@@ -46,24 +46,22 @@
                 </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto">
-                <b-nav-item>
-                    <div class="search-popup">
-                        <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
-                            <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
-                            <form @submit.prevent="lectSearch">
-                                <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
-                            </form>
-                        </div>
+                <div class="search-popup">
+                    <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+                        <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                        <form @submit.prevent="lectSearch">
+                            <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                        </form>
                     </div>
+                </div>
+                <b-nav-item v-if="!this.$store.state.isLoggedIn" class="fs-5">
+                    <router-link  to="/login">로그인</router-link>
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link v-if="!this.$store.state.isLoggedIn" to="/login">로그인</router-link>
+                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
+                    <button  @click="logout">로그아웃</button>
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <button v-if="this.$store.state.isLoggedIn" @click="logout">로그아웃</button>
-                </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <span v-if="this.$store.state.isLoggedIn">{{ this.$store.state.nickname }}</span>
+                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
+                    <span >{{ this.$store.state.nickname }}</span>
                 </b-nav-item>
                 <b-nav-item class="fs-5">
                     <router-link to="/regist">회원가입</router-link>
