@@ -4,18 +4,9 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT 
-		 QS_BD_NUM AS qna_bd_num, 
-		 TITLE, 
-		 CONTENT, 
-		 QS_CNT AS qna_cnt, 
-		 QS_LIKE_YN AS qna_like_yn, 
-		 USER_ID,
-		 QS_DATE AS qna_date, 
-		 REG_ID 
-		FROM T_BEDU_QS
-		ORDER BY QS_BD_NUM DESC
-		 LIMIT 5 OFFSET #{page}
+		SELECT * FROM (SELECT ROWNUM rnum, COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, REG_ID
+		 FROM(SELECT * FROM T_BEDU_COMM ORDER BY COMM_NUM DESC)) 
+		<if test="keyword != null">WHERE rnum >= #{page} AND 5 >= rnum </if>
 	</select>
 	
 	<insert id="viewWrite">
@@ -24,7 +15,7 @@
 		  TITLE, 
 		  CONTENT,
 		  QS_CNT,
-		  QS_LIKE_YN,
+		  QS_LIKE_CNT,
 		  QS_DATE,
 		  REG_DATE,
 		  REG_ID
@@ -41,24 +32,44 @@
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT * FROM T_BEDU_QS
+		SELECT
+		 QS_BD_NUM AS qna_bd_num, 
+		 TITLE, 
+		 CONTENT, 
+		 QS_CNT AS qna_cnt, 
+		 QS_LIKE_CNT AS qna_like_yn, 
+		 USER_ID,
+		 QS_DATE AS qna_date, 
+		 REG_ID
+		FROM T_BEDU_QS
 		WHERE QS_BD_NUM = #{num}
 	</select>
 	
 	<update id="viewupdate">
-		UPDATE T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}
+		UPDATE
+		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}
 		WHERE QS_BD_NUM = #{qna_bd_num}
 	</update>
 	
 	<delete id="viewdelete">
-		DELETE FROM T_BEDU_QS
+		DELETE
+		 FROM T_BEDU_QS
 		WHERE QS_BD_NUM = #{qnanum}
 	</delete>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT QS_BD_NUM, TITLE, CONTENT, USER_ID, QS_DATE, QS_CNT, QS_LIKE_YN, REG_ID FROM T_BEDU_QS
+		SELECT 
+		 QS_BD_NUM AS qna_bd_num, 
+		 TITLE, 
+		 CONTENT, 
+		 QS_CNT AS qna_cnt, 
+		 QS_LIKE_CNT AS qna_like_yn, 
+		 USER_ID,
+		 QS_DATE AS qna_date, 
+		 REG_ID
+		FROM T_BEDU_QS
 		<if test="keyword != null">
-			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENT LIKE CONCAT ('%', #{keyword},'%')
+			WHERE CONTENT LIKE '%'||#{keyword}||'%' and TITLE LIKE '%'||#{keyword}||'%'
 			 ORDER BY QS_BD_NUM DESC
 		 </if>
 	</select>
@@ -68,12 +79,14 @@
 	</select>
 	
 	<update id="qnaCntUp">
-		UPDATE T_BEDU_QS SET QS_CNT = QS_CNT + 1
+		UPDATE
+		 T_BEDU_QS SET QS_CNT = QS_CNT + 1
 		WHERE QS_BD_NUM = #{num}
 	</update>
 	
 	<update id="likeUp">
-		UPDATE T_BEDU_QS SET QS_LIKE_YN = QS_LIKE_YN + 1
+		UPDATE
+		 T_BEDU_QS SET QS_LIKE_YN = QS_LIKE_YN + 1
 		WHERE QS_BD_NUM = #{num}
 	</update>
 	

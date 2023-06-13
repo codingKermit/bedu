@@ -5,17 +5,19 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT
-		 COMM_NUM,
-		 TITLE,
-		 CONTENT,
-		 USER_ID,
-		 COMM_DATE,
-		 COMM_CNT,
-		 COMM_LIKE_YN, 
-		 REG_ID
-		FROM T_BEDU_COMM 
-		ORDER BY COMM_NUM DESC
-		 LIMIT 5 OFFSET #{page}
+		 * FROM (SELECT
+		  ROWNUM rnum,
+		  COMM_NUM,
+		  TITLE,
+		  CONTENT,
+		  USER_ID,
+		  COMM_DATE,
+		  COMM_CNT,
+		  REG_ID
+		 FROM(SELECT * FROM T_BEDU_COMM ORDER BY COMM_NUM DESC)) 
+		<if test="keyword != null">
+			WHERE rnum >= #{page} and 5 >= rnum 
+		</if>
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
@@ -29,9 +31,9 @@
 		 REG_ID 
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
-			WHERE TITLE LIKE concat ('%', #{keyword},'%') OR CONTENT LIKE CONCAT ('%', #{keyword},'%')
+			WHERE CONTENT LIKE '%'||#{keyword}||'%' and TITLE LIKE '%'||#{keyword}||'%'
 		 </if>
-		 ORDER BY COMM_NUM DESC
+		 ORDER BY LPAD(COMM_NUM, 5 ) DESC
 	</select>
 	
 	<insert id="viewWrite">
@@ -57,27 +59,40 @@
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT * FROM T_BEDU_COMM
+		SELECT 
+		 COMM_NUM,
+		 TITLE,
+		 CONTENT,
+		 USER_ID,
+		 COMM_DATE,
+		 COMM_CNT,
+		 COMM_LIKE_YN, 
+		 REG_ID
+		FROM T_BEDU_COMM
 		WHERE COMM_NUM = #{num}
 	</select>
 	
 	<delete id="viewdelete">
-		DELETE FROM T_BEDU_COMM 
+		DELETE
+		 FROM T_BEDU_COMM 
 		WHERE COMM_NUM = #{num}
 	</delete>
 	
 	<update id="cntUp">
-		UPDATE T_BEDU_COMM SET COMM_CNT = COMM_CNT + 1
+		UPDATE
+		 T_BEDU_COMM SET COMM_CNT = COMM_CNT + 1
 		WHERE COMM_NUM = #{num}
 	</update>
 	
 	<update id="viewupdate">
-		UPDATE T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}
+		UPDATE
+		 T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}
 		WHERE COMM_NUM = #{comm_num}
 	</update>
 	
 	<update id="likeUp">
-		UPDATE T_BEDU_COMM SET COMM_LIKE_YN = COMM_LIKE_YN + 1
+		UPDATE
+		 T_BEDU_COMM SET COMM_LIKE_YN = COMM_LIKE_YN + 1
 		WHERE COMM_NUM = #{num}
 	</update>
 	

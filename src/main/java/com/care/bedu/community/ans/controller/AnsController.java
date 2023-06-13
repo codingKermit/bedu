@@ -1,0 +1,31 @@
+package com.care.bedu.community.ans.controller;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.care.bedu.community.ans.service.AnsService;
+import com.care.bedu.community.ans.vo.AnsVO;
+
+@RestController
+@RequestMapping("/api")
+public class AnsController {
+	
+	@Autowired
+	private AnsService ansService;
+	
+	@RequestMapping(value="/ans/getans", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
+	public ArrayList<AnsVO> getReply(AnsVO ansVO){
+		ArrayList<AnsVO> list = ansService.getlist(ansVO);
+		System.out.println(list);
+		return list;
+	}
+	
+	@RequestMapping(value="/ans/write", method=RequestMethod.POST)				//게시글 작성
+	public int ansWrite(AnsVO ansVO){
+		return ansService.boardwrite(ansVO);
+	}
+}

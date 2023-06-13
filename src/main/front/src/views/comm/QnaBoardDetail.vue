@@ -1,7 +1,6 @@
 <template>
     <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
         <div class="mb-3 qna-detail-top" id="qna-detail-top">
-            <h1>질문 / 답변</h1>
         </div>
         <hr>
         <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
@@ -25,9 +24,6 @@
             <b-button type="submit" class="btn-custom ms-2 qna-detail-editpath" id="qna-detail-editpath" @click="qnaeditPath()">글수정</b-button>
             <b-button type="submit" class="btn-custom ms-2 qna-detail-deletepath" id="qna-detail-deletepath" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
             <div class="qna-detail-btncontent" id="qna-detail-btncontent">
-                <div class="qna-detail-viewbtn" id="qna-detail-viewbtn">
-                    <b-button class="btn-custom ms-2 qna-detail-viewpath" id="qna-detail-viewpath" :to="'/comm/qna'">목록</b-button>
-                </div>
                 <div class="qna-detail-openbtn" id="qna-detail-openbtn">
                     <b-button type="button" class="btn-custom ms-1 qna-detail-replybtn" id="qna-detail-replybtn" @click="replyopen()">답글작성</b-button>
                 </div>
