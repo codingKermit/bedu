@@ -28,7 +28,7 @@
             <router-link to="/comm/qna">커뮤니티</router-link>
             <router-link to="/review">수강후기</router-link>
             <router-link to="/companyStudy">기업교육</router-link>
-            <router-link to="/statisticsMain">통계</router-link>
+            <router-link to="/fileUpload">영상업로드</router-link>
         </div>
         <div id="nav2" class="ms-auto">
             <div class="search-popup">
