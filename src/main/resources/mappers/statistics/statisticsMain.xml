@@ -3,6 +3,4 @@
 
 <mapper namespace="com.care.bedu.statistics.dao.StatisticsDAO">
 
-
-
 </mapper>

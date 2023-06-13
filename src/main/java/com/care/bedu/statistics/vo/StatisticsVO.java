@@ -10,9 +10,9 @@ import lombok.Setter;
 @Data
 public class StatisticsVO {
     
-    private int statNum;
-    private String statTitle;
-    private int statLikeCnt;
-    private int statPayAvg;
+    private int lectNum;
+    private String title;
+    private int lectLikeCnt;
+    private int price;
     private float statStarAvg;
 }
