@@ -1,24 +1,17 @@
 package com.care.bedu.lecture.controller;
 
-import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriUtils;
 
 import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController

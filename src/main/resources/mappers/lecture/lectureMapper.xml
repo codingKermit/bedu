@@ -37,7 +37,7 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				t_bedu_lect WHERE CATE_CODE = #{category}) A
+				BEDU.t_bedu_lect WHERE CATE_CODE = #{category}) A
 		LEFT JOIN t_bedu_lect_dtl B
 		ON A.LECT_NUM = B.LECT_NUM
 		GROUP BY 
@@ -81,14 +81,14 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				t_bedu_lect WHERE LECT_NUM = #{LECT_NUM}) A 
+				BEDU.T_BEDU_LECT WHERE LECT_NUM = #{LECT_NUM}) A 
 		LEFT JOIN (
 			SELECT 
 				COUNT(LECT_NUM) AS TOTAL, 
 				SUM(LECT_DTL_TIME) AS TOTALTIMES, 
 				LECT_NUM as lectNum 
 			FROM 
-				t_bedu_lect_dtl WHERE LECT_NUM = #{LECT_NUM}
+				BEDU.T_BEDU_LECT_DTL WHERE LECT_NUM = #{LECT_NUM}
 			GROUP BY LECT_NUM	
 			) B
 		ON A.LECT_NUM = B.lectNum 
@@ -97,7 +97,7 @@
 				RW_GRADE,
 				LECT_NUM
 			FROM 
-				t_bedu_rw_bd 
+				BEDU.T_BEDU_RW_BD 
 			WHERE LECT_NUM = #{LECT_NUM}) C
 		ON A.LECT_NUM = C.LECT_NUM
 		GROUP BY 
@@ -142,15 +142,15 @@
 					REG_ID,
 					LECT_SUMMARY
 				FROM
-					T_BEDU_LECT
+					BEDU.T_BEDU_LECT
 				WHERE CATE_CODE = #{category}
 			) A
-			LEFT OUTER JOIN T_BEDU_LECT_DTL B	ON A.LECT_NUM = B.LECT_NUM
-			LEFT JOIN T_BEDU_RW_BD C ON A.LECT_NUM = C.LECT_NUM
+			LEFT OUTER JOIN BEDU.T_BEDU_LECT_DTL B	ON A.LECT_NUM = B.LECT_NUM
+			LEFT JOIN BEDU.T_BEDU_RW_BD C ON A.LECT_NUM = C.LECT_NUM
 			GROUP BY 
 				ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR
 			) LEC
-		WHERE #{begin} <= RNUM AND RNUM <= (#{begin}+5)
+		WHERE #{begin} <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
 	</select>
 
 	<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
@@ -200,16 +200,16 @@
 						REG_ID,
 						LECT_SUMMARY
 					FROM 
-						t_bedu_lect
+						BEDU.T_BEDU_LECT
 					WHERE 
 						TITLE LIKE '%'||#{keyword}||'%'
 					) A 
-				LEFT JOIN T_BEDU_LECT_DTL B
+				LEFT JOIN BEDU.T_BEDU_LECT_DTL B
 				ON A.LECT_NUM = B.LECT_NUM
 				GROUP BY ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR
 				ORDER BY A.REG_DATE DESC
 			)
-		WHERE #{begin} <= RNUM AND RNUM <= (#{begin}+5)
+		WHERE #{begin} <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
 	</select>
 
 	<select id="searchTotal" resultType="int">
@@ -232,7 +232,7 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				t_bedu_lect 
+				BEDU.T_BEDU_LECT  
 			WHERE 
 				TITLE LIKE '%'||#{keyword}||'%'
 				) A 
@@ -240,7 +240,7 @@
 
 	<select id="getLikeList" resultType="int">
 		SELECT LECT_NUM as lectNum
-		FROM t_bedu_lectLIKE WHERE USERID = '123'
+		FROM t_bedu_lect_LIKE WHERE USERID = '123'
 	</select>
 
 	<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
@@ -285,8 +285,7 @@
 			ORDER BY A.REG_DATE DESC
 			)
 		WHERE
-			0 <= RNUM AND RNUM <= (0+5)
-		
+			0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (0+5)
 	</select>
 
 	<select id="getReview" resultType="com.care.bedu.review.vo.ReviewVO">
@@ -304,26 +303,14 @@
 			t_bedu_rw_bd WHERE LECT_NUM = #{num}
 		ORDER BY RW_DATE
 		)
-	WHERE 0<= RNUM AND RNUM <=5
+	WHERE 0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>=5
 	</select>
 
 	<insert id="addToCart" parameterType="hashmap">
-		INSERT INTO 
-			t_bedu_cart(
-				CART_LECT_NUM, 
-				cart_user_num
-			)
-		SELECT
+		INSERT INTO BEDU.T_BEDU_CART VALUES(
+			BEDU_CART_SEQ.NEXTVAL,
 			#{lectNum},
 			#{userNum}
-		FROM DUAL
-		WHERE NOT EXISTS(
-			SELECT 1 
-			FROM 
-				t_bedu_cart
-			WHERE
-				CART_LECT_NUM = #{lectNum} AND
-				CART_USER_NUM = #{userNum}
 		)
 	</insert>
 

@@ -13,22 +13,21 @@
         <b-collapse id="header-collapse" is-nav>
             <b-navbar-nav id="nav1" class="me-auto">
                 <b-nav-item class="dropdown fs-5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-
                     <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
-                    <a v-if='categories.length' class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                    <!-- <a v-if='categories.length' class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
                         <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
                             분야별 강의
                         </router-link>
                     </a>    
                     <a v-else class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
                         분야별 강의
-                    </a>
+                    </a> -->
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" :class="isDropdownOpen == true ? 'dropdown-menu-show':''">
-                        <li v-for="item in categories" :key="item.cateCode" class="dropdown-item my-2">
-                            <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
+                        <li v-for="(item,index) in categories" :key="index" class="dropdown-item my-2">
+                            <!-- <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
                                 <a  style="cursor: pointer;" class="">{{ item.cateKor }}</a>
-                            </router-link>
+                            </router-link> -->
                         </li>
                     </ul>
                 </b-nav-item>
@@ -130,6 +129,7 @@
                     }
                     this.categories = hierarchy;
                 });
+                // console.log(hierarchy)
             },
             scrollHandler() {/** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
                 this.showButton = window.scrollY > 200;
