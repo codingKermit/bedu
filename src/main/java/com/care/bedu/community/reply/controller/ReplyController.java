@@ -20,7 +20,9 @@ public class ReplyController {
 	
 	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
 	public ArrayList<ReplyVO> getReply(ReplyVO replyVO){
-		return replyService.getreply(replyVO);
+		ArrayList<ReplyVO> list = replyService.getreply(replyVO);
+		System.out.println(list);
+		return list;
 	}
 	
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				//게시글 작성

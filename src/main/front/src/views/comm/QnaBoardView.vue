@@ -45,7 +45,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <hr>
                 <InfiniteLoading @infinite="infiniteHandler" @distance="1">
                     <template #spinner> <!-- 로딩중일때 보여질 부분 -->
                     </template>

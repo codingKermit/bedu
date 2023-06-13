@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class ReplyVO{
+public class ReplyVO{					//댓글
 	
 	private Integer replyNum;
 	private String userId;
