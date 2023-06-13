@@ -1,19 +1,16 @@
 <template>
     <div>
-
-
-        
         <b-navbar toggleable="md">
             <b-navbar-toggle target="categories" class="bedu-cate-toggle"></b-navbar-toggle>
             <b-collapse id="categories" is-nav>
                 <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
                     <b-nav-item v-for="(item, index) in categories" :key="index">
-                        <!-- <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
+                        <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
                             <b-container class=" d-none d-md-block bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                                 <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
                             </b-container>
                             <text class="fw-bold d-block">{{ item.cateKor }}</text>
-                        </b-link> -->
+                        </b-link>
                     </b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
@@ -70,9 +67,9 @@ import '@/assets/css/lectureStyle.css';
                 
                 // 부모-자식 관계 설정
                 data.forEach(category => {
-                    const parentCode = category.parentCode;
-                    if (parentCode) {
-                        const parent = map[parentCode];
+                    const parentNum = category.parentNum;
+                    if (parentNum) {
+                        const parent = map[parentNum];
                         if (parent) parent.children.push(category)
                     } else {
                         hierarchy.push(category);
