@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="review-search">
-                <p class="fw-bold fs-3 text-start" style="margin-top: 20px">수강후기</p>
+                <p id="fw-bold fs-3 text-start" class="fw-bold fs-3 text-start">수강후기</p>
                 <div class="review-search-bar">
                     <div class="review-search-input">
                         <input
@@ -30,20 +30,20 @@
                 </div>
             </div>
             
-            <div class="review-sort" style="float: right">
-                <select v-model="sortOption" @change="sortReviews" style="border: none">
+            <div id="review-sort">
+                <select id="sortOption" v-model="sortOption" @change="sortReviews">
                     <option value="default">최신 순</option>
                     <option value="highRating">평점 높은 순</option>
                     <option value="lowRating">평점 낮은 순</option>
                 </select>
             </div>
         </div>
-        <div class="scroll-container" style="padding: 25px;">
-            <table class="review-table" style="margin-bottom:100px;">
+        <div id="scroll-container">
+            <table id="review-table">
                 <thead>
                     <tr>
                         <th>강좌</th>
-                        <th style="padding-right: 40px">수강후기</th>
+                        <th>수강후기</th>
                         <th>별점</th>
                         <th>작성자</th>
                         <th>작성일</th>
@@ -51,21 +51,21 @@
                 </thead>
                 <tbody>
                     <tr v-for="(reviews, index) in displayedReviews" :key="index">
-                        <td class="review-title">{{ reviews.title }}</td>
+                        <td class="review-title">{{ reviews.TITLE }}</td>
                         <td>
-                            <span class="review-content" style="padding-right: 40px">{{ reviews.content }}</span>
+                            <span class="review-content">{{ reviews.CONTENT }}</span>
                         </td>
                         <td>
                             <div class="review-star-rating">
-                                <span class="review-star" v-for="star in reviews.star" :key="star"
+                                <span class="review-star" v-for="star in reviews.STAR" :key="star"
                                 >&#9733;</span
                                 >
                             </div>
                         </td>
-                        <td>{{ reviews.writer }}</td>
-                        <td>{{ formatDateTime(reviews.reviewDate) }}</td>
+                        <td>{{ reviews.WRITER }}</td>
+                        <td>{{ formatDateTime(reviews.REVIEWDATE) }}</td>
                     </tr>
-                    <infinite-loading @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true" style= "padding: 50px;">
+                    <infinite-loading id="infiniteReview" @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true">
                         <template #no-more>마지막 후기 입니다.</template>
                     </infinite-loading>
                 </tbody>
@@ -126,7 +126,8 @@
                         this.currentPage++;
                         }
                         
-                        this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다.
+                        this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
+
                         this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
                         // 검색 및 정렬 수행
                         this.fetchSearchedReviews(); // 검색 수행
@@ -136,7 +137,7 @@
                      console.error(error);
                     this.isLoading = false; // 에러 발생 시 로딩 중 상태를 false로 설정합니다.
                 });
-            },
+            },        
             fetchSearchedReviews(){
                 const keyword = this.searchKeyword.trim().toLowerCase();
                     if (keyword === "") {
@@ -197,20 +198,20 @@
                     case "highRating":
                         // 별점 높은 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort(
-                            (a, b) => b.star - a.star
+                            (a, b) => b.STAR - a.STAR
                         );
                     break;
                     case "lowRating":
                         // 별점 낮은 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort(
-                            (a, b) => a.star - b.star
+                            (a, b) => a.STAR - b.STAR
                         );
                     break;
                     default:
                         // 최신 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort((a, b) => {
-                            const dateA = new Date(a.reviewDate);
-                            const dateB = new Date(b.reviewDate);
+                            const dateA = new Date(a.REVIEWDATE);
+                            const dateB = new Date(b.REVIEWDATE);
                         return dateB - dateA;
                         });
                     break;
