@@ -4,6 +4,9 @@
 <mapper namespace="com.care.bedu.user.dao.MemberDAO">
 
 	<insert id="register" parameterType="com.care.bedu.user.vo.MemberVO">
+				<selectKey keyProperty="usernum" resultType="int" order="BEFORE">
+					select user_seq.nextval FROM t_bedu_user
+				</selectKey>
 	      		INSERT INTO t_bedu_user (
 		      		USER_NUM, 
 		      		USER_ID, 
