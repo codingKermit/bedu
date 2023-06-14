@@ -1,0 +1,55 @@
+/*StudyReview css*/
+#freeboard-main {
+    padding-top: 5%;
+    margin-left: 20%;
+    padding-right: 30px;
+}
+
+#freeboard-table {
+    width: 100%;
+    padding: 25px;
+}
+
+#free-view-side {
+    padding-top: 3%;
+    margin-left: 4%;
+    float: left;
+}
+
+#freeboard-table th,
+#freeboard-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+#freeboard-reviews {
+    margin-bottom: 15px;
+}
+
+#freeboard-reviews-select {
+    border: none;
+}
+
+#free-view-keyword {
+    height: 35px;
+    border-radius: 10px;
+}
+
+#free-view-keywordbtn {
+    margin-left: 15px;
+}
+
+#free-keywordbtn {
+    margin-left: 15px;
+}
+
+#freeBoradSearch {
+    float: right;
+    margin-bottom: 15px;
+}
+
+h1 {
+    margin-bottom: 30px;
+}

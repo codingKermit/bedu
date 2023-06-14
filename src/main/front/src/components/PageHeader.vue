@@ -1,27 +1,25 @@
 <!-- PageHeader.vue -->
 <template>
-    <div class="w-100 d-flex">
-        <div id="nav1" class="me-auto">
+    <b-navbar class="w-100 d-flex" toggleable="lg">
+
+        <b-navbar-brand>
             <router-link to="/">
                 <img id="bedu-logo" src="@/assets/imgs/Logo.png" width="150">
             </router-link>
-            <div class="dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+        </b-navbar-brand>
 
-                <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
-                <a v-if='categories.length' class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                    <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
-                        분야별 강의
-                    </router-link>
-                </a>    
-                <a v-else class="dropdown-toggle no-arrow" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                    분야별 강의
-                </a>
-
-                <ul class="dropdown-menu" v-show="isDropdownOpen" aria-labelledby="dropdownMenuButton1">
-                    <li v-for="item in categories" :key="item.cateCode">
-                        <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
-                            <a style="cursor: pointer;" class="dropdown-item">{{ item.cateKor }}</a>
+        <b-navbar-toggle target="header-collapse"></b-navbar-toggle>
+        
+        <b-collapse id="header-collapse" is-nav>
+            <b-navbar-nav id="nav1" class="me-auto">
+                <b-nav-item class="dropdown fs-5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+                    
+                    <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
+                    <a v-if='categories.length' class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                        <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
+                            분야별 강의
                         </router-link>
+<<<<<<< HEAD
                     </li>
                 </ul>
             </div>
@@ -37,18 +35,62 @@
                     <form @submit.prevent="lectSearch">
                         <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
                     </form>
+=======
+                    </a>    
+                    <a v-else class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                        분야별 강의
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" :class="isDropdownOpen == true ? 'dropdown-menu-show':''">
+                        <li v-for="(item,index) in categories" :key="index" class="dropdown-item my-2">
+                            <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
+                                <a  style="cursor: pointer;" class="">{{ item.cateKor }}</a>
+                            </router-link>
+                        </li>
+                    </ul>
+                </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/comm/qna">커뮤니티</router-link>
+                </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/review">수강후기</router-link>
+                </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/companyStudy">기업교육</router-link>
+                </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/statisticsMain">통계</router-link>
+                </b-nav-item>
+            </b-navbar-nav>
+            <b-navbar-nav id="nav2" class="ms-auto">
+                <div class="search-popup">
+                    <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+                        <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                        <form @submit.prevent="lectSearch">
+                            <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                        </form>
+                    </div>
+>>>>>>> 6bf93245012ee4a7843c0d78ec06b196b7c9e553
                 </div>
-            </div>
-            <router-link v-if="!this.$store.state.isLoggedIn" to="/login">로그인</router-link>
-            <button v-if="this.$store.state.isLoggedIn" @click="logout">로그아웃</button>
-            <span v-if="this.$store.state.isLoggedIn">{{ this.$store.state.nickname }}</span>
-            <router-link to="/regist">회원가입</router-link>
-        </div>
+                <b-nav-item v-if="!this.$store.state.isLoggedIn" class="fs-5">
+                    <router-link  to="/login">로그인</router-link>
+                </b-nav-item>
+                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
+                    <button  @click="logout">로그아웃</button>
+                </b-nav-item>
+                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
+                    <span >{{ this.$store.state.nickname }}</span>
+                </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/regist">회원가입</router-link>
+                </b-nav-item>
+            </b-navbar-nav>
+      </b-collapse>   
         <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
         :class="{ 'show': showButton }">
             <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
         </div>
-    </div>
+    </b-navbar>
 </template>
 
 <script>
@@ -97,15 +139,16 @@
 
                 // 부모-자식 관계 설정
                 data.forEach(category => {
-                    const parentCode = category.parentCode;
-                    if (parentCode) {
-                        const parent = map[parentCode];
+                    const parentNum = category.parentNum;
+                    if (parentNum != 0) {
+                        const parent = map[parentNum];
                         if (parent) parent.children.push(category)
                     } else {
                         hierarchy.push(category);
                     }
                     this.categories = hierarchy;
                 });
+                console.log(hierarchy)
             },
             scrollHandler() {/** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
                 this.showButton = window.scrollY > 200;
@@ -227,5 +270,9 @@
 
     .no-arrow::after {
         display: none;
+    }
+
+    .dropdown-menu-show{
+        height: auto;
     }
 </style>

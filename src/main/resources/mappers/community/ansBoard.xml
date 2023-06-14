@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.community.ans.dao.AnsDAO">
+	
+	<insert id="viewWrite" parameterType="com.care.bedu.community.ans.vo.AnsVO">
+		INSERT INTO T_BEDU_ANS(
+		  USER_ID,
+		  CONTENT,
+		  QS_BD_NUM,
+		  ANS_DATE,
+		  REG_DATE,
+		  REG_ID
+		)VALUES(
+		  #{userId},
+		  #{content},
+		  #{qsBdNum},
+		  #{ansDate},
+		  SYSDATE(),
+		  SYSDATE(),
+		  #{regId}
+		)
+	</insert>
+	
+	<select id="viewList" resultType="com.care.bedu.community.ans.vo.AnsVO">
+		SELECT 
+		 ANS_BD_NUM AS ansBdNum,
+		 USER_ID AS userId,
+		 QS_BD_NUM AS qsBdNum,
+		 ANS_LIKE_CNT AS ansLikeCnt,
+		 CONTENT,
+		 REG_DATE AS regDate,
+		 ANS_DATE AS ansDate 
+		FROM T_BEDU_ANS
+		WHERE ANS_BD_NUM = #{ansBdNum}
+		ORDER BY ANS_BD_NUM DESC
+	</select>
+	
+</mapper>

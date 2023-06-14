@@ -25,6 +25,13 @@
     vertical-align: middle;
 }
 
+.lecture_item:hover{
+    transition: 0.1s;
+    box-shadow: 0px 0px 0px 3px black inset !important;
+    scale: 102%;
+}
+
+
 /*LectureCourse css*/
 #img2{
     width: 100%;
@@ -132,4 +139,16 @@
 
 .cart-payment-delete-xmark{
     width: 5%;
+}
+
+
+/* Categories css */
+
+.bedu-cate-toggle{
+    background-color: var(--yellow);
+}
+
+.category-icon {
+    width: 65%;
+    height: 65%;
 }

@@ -62,19 +62,8 @@
                     <p>
                         <span>닉네임 :</span> {{ userInfo.nickname }}
                     </p>
-                    <p>
-                        <span>이메일 : </span> {{ userInfo.email }}
-                    </p>
                 </b-container>
                 <b-container class="border rounded-3 py-3">
-                    <!-- <div class="d-flex">
-                        <span class="mb-3 me-auto">선택상품 금액</span>
-                        <span class="ms-auto"></span>
-                    </div>
-                    <div class="d-flex">
-                        <span class="mb-3 me-auto">할인 금액</span>
-                        <span class="ms-auto"></span>
-                    </div> -->
                     <div class="d-flex mb-3">
                         <span class="me-auto fw-bold fs-5">총 결제 금액</span>
                         <span>
@@ -127,6 +116,11 @@ export default{
         },
         removeFromCart(item){ /** 장바구니에서 삭제 메서드 */
             
+            /** 아무것도 체크하지 않고 선택 삭제시 바로 리턴 */
+            if(item.length == 0){
+                return;
+            }
+
             /** 장바구니에서 지울 강의 고유번호만 파라미터로 전달하기위해 리스트 생성 */
             const arg = [];
             for(var i =0;i<item.length;i++){
@@ -162,16 +156,17 @@ export default{
         this.getCarts();
     },
     computed:{
-        getCurrencyPrice(){
+        getCurrencyPrice(){ /** 가격을 원화 형태로 변경하여 리턴 */
             return this.totalPrice.toLocaleString('ko-KR');
         }
     },
     watch:{
-        paymentList:function(){
+        paymentList:function(){ /** 체크박스 변경될 때마다 결제해야할 가격, 전체 체크 박스의 변경 */
             this.totalPrice = 0;
             for(var i =0; i < this.paymentList.length;i++){
                 this.totalPrice +=  Number(this.paymentList[i].price.replace(",",""));
             }
+
             if(this.paymentList.length == this.carts.length){
                 this.allChecked = true;
             } else {

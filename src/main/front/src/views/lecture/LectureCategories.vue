@@ -36,7 +36,7 @@
                                 <b-container>
                                     <b-row cols="3">
                                         <!-- 커리큘럼 목록 -->
-                                        <b-col v-for="(lect, index) in bot.item" :key="index" >
+                                        <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item">
                                             <b-link
                                                 class="text-body text-decoration-none"
                                                 :to='"/lectureDetail?num="+lect.lectNum'>

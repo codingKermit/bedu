@@ -82,9 +82,9 @@ export default{
 
             // 부모-자식 관계 설정
             data.forEach(category => {
-                const parentCode = category.parentCode;
-                if (parentCode) {
-                    const parent = map[parentCode];
+                const parentNum = category.parentNum;
+                if (parentNum) {
+                    const parent = map[parentNum];
                     if (parent) {
                         parent
                             .children

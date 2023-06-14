@@ -8,33 +8,33 @@
             NUM,
             CATE_CODE as cateCode,
             CATE_KOR as cateKor,
-            ICON,
+            ICON AS Icon,
             null as parentCode,
             null as parentNum
         from
-            t_bedu_lect_top_cate
+            BEDU.T_BEDU_LECT_TOP_CATE 
         union all
         select 
             num,
             CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
+            CATE_KOR as cateKor,  
+            null as icon,
             PARENT_NUM as parentNum,
-            PARENT_CODE as parentCode,
-            null as icon
+            PARENT_CODE as parentCode            
         from 
-            t_bedu_lect_mid_cate
+            BEDU.T_BEDU_LECT_MID_CATE
         union all
         select
             num,
             CATE_CODE as cateCode,
             CATE_KOR as cateKor,
-            PARENT_NUM parnetNum,
-            PARENT_CODE parentCode,
-            null as icon
+            null as icon,
+            PARENT_NUM AS parnetNum,
+            PARENT_CODE as parentCode
         from 
-            t_bedu_lect_bot_cate
+            BEDU.T_BEDU_LECT_BOT_CATE
         order by 
-            NUM;
+            NUM
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
