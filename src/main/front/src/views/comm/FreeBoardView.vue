@@ -1,53 +1,72 @@
 <template>
     <div class="freeboard-view" id="freeboard-view">
         <div class="free-view-side" id="free-view-side">
-            <ul>
-                <li>
-                    <div>
-                        <h3>커뮤니티</h3>
-                    </div>
+            <p class="fs-2 fw-bold mb-3 mt-15">커뮤니티</p>
+            <ul class="nav flex-column w-100">
+                <li class="nav-item me-4" style="width: 150px;">
+                    <span class="qna-view-freepath" id="qna-view-freepath">
+                        <a class="fs-5 text-body text-decoration-none" @click="freepath()"
+                        style="cursor: pointer; text-align: right;">
+                            <p>자유게시판</p>
+                        </a>
+                    </span>
                 </li>
-                <ul>
-                    <li><div class="qna-view-freepath" id="qna-view-freepath" @click="freepath()">자유게시판</div></li>
-                    <li><div div class="qna-view-qnapath" id="qna-view-qnapath" @click="qnapath()">질문답변</div></li>
-                </ul>
+                <li class="nav-item me-4" style="width: 150px;">
+                    <span class="qna-view-qnapath" id="qna-view-qnapath">
+                        <a class="fs-5 text-body text-decoration-none" @click="qnapath()"
+                        style="cursor: pointer; text-align: right;">
+                            <p>질문 & 답변</p>
+                        </a>
+                    </span>
+                </li>
             </ul>
         </div>
         <div class="freeboard-main" id="freeboard-main">
             <div id="freeboard-box">
                 <h1>자유게시판</h1>
+                <div class="freeBoradSearch" id="freeBoradSearch">
                     <b-form @submit="search()">
                         <input type="text" class="search-form free-view-keyword" id="free-view-keyword" ref="keyword" v-model="form.keyword">       
                         <b-button type="submit" class="btn btn-primary free-view-keywordbtn" id="free-view-keywordbtn">검색</b-button>
+                        <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                     </b-form>
-                <div class="freewrite" id="freewrite">
-                    <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                 </div>
             </div>
-            <div class="freeboard-main-1" id="freeboard-reviews">
+            <div class="freeboard-main-1">
                 <div class="freeboard-reviews" id="freeboard-reviews">
                     <select v-model="freeOption" @change="freeReview()" class="freeboard-reviews-select" id="freeboard-reviews-select">
                         <option value="recent">최신순</option>
                         <option value="highRating">추천순</option>
                     </select>
                 </div>
-                <table class="w3-table-all freeboard-table" id="freeboard-table">
+                <table class="w3-table-all freeboard-table" id="freeboard-table" style="margin-bottom:100px;">
+                    <thead>
+                        <tr>
+                            <th>내용</th>
+                            <th>작성자</th>
+                            <th>좋아요 수</th>
+                            <th>작성일자</th>
+                            <th>조회 수</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr v-for="free in freelist" :key="free.comm_num">
-                        <td id="freeboard-table-tds">
-                            <b-link class="text-start" :to="'/comm/freBdDetail/' + free.comm_num">
-                            {{ free.title }}
-                            </b-link>
-                        </td>
-                        <td>{{ free.user_id }}</td>
-                        <td>{{ free.comm_date }}</td>
-                        <td>
-                            <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
-                            <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(free.comm_num)" />
-                            <text class="fw-bold ms-2" id="likes">
-                            {{ free.comm_like_yn }}
-                            </text>
-                        </td>
+                            <td id="freeboard-table-tds">
+                                <b-link class="text-start" :to="'/comm/freBdDetail/' + free.comm_num">
+                                {{ free.title }}
+                                </b-link>
+                            </td>
+                            <td>{{ free.user_id }}</td>
+                            <td>
+                                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(free.comm_num)" />
+                                <text class="fw-bold ms-2" id="likes">
+                                {{ free.comm_like_yn }}
+                                </text>
+                            </td>
+                            <td>{{ free.comm_date }}</td>
+                            <td>
+                                <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
+                            </td>  
                         </tr>
                     </tbody>
                 </table>
@@ -68,6 +87,7 @@
 <script>
     import router from '@/router';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
+    import '@/assets/css/freeBoardStyle.css';
     export default {
     
         data() {
@@ -199,63 +219,5 @@
 
 <style scoped>
     
-    table{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 500px;
-    }
-
-    td{
-      font-size: 140%;
-      height: 100px;
-    }
-
-    #free-view-side{
-        margin-left: 60px;
-    }
-
-    #freeboard-view{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 1400px;
-    }
-
-    #freewrite{
-        margin-left: 70px;
-    }
-
-    .freeboard-reviews{
-        width: 100px;
-        margin-left: 700px;
-        
-    }
-
-    .freeboard-main{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 1000px;
-       
-    }
-    .freeboard-main-1{
-        margin-right: 100px;
-    }
-    #freeboard-box{
-      display: flex;
-      margin-left: 200px;
-      max-width: 1000px;
-    }
-
-    #free-keywordbtn{
-        margin-left: -600px;
-    }
-
-    #free-view-keyword{
-        border-radius: 5px 5px / 5px 5px;
-    }
-
-    body, ul, li {
-        margin: 0;
-        padding: 0;
-        list-style: none;   	    /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */    
-    }
+    
 </style>
