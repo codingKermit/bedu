@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import store from "./vuex/store"
+import store from './vuex/store'
 
 /** Bootstrap, Bootstrap-vue-3 */
 import { BootstrapVue3 } from 'bootstrap-vue-3'

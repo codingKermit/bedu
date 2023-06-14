@@ -1,4 +1,8 @@
 export default {
-    getUserNum: state => state.userNum,
-    getNickname: state => state.nickName,
+  getEmail: state => state.email,
+  getErrorState: state => state.errorState,
+  getIsAuth: state => state.isAuth,
+  loggedIn(state) {
+    return !!state.user
   }
+}

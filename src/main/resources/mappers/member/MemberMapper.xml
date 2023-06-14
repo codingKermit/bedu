@@ -21,7 +21,7 @@
 		      		#{regDate}, 
 		      		#{cls}, 
 		      		#{urd}, 
-		      		#{udy});
+		      		#{udy})
 	</insert>
 
     <!-- 이메일 중복 체크 -->
@@ -45,8 +45,9 @@
 	</select>
 		
 	<select id="getMemberByEmail" parameterType="java.lang.String" resultType="com.care.bedu.user.vo.MemberVO">
-	    SELECT 
-	        USER_NUM AS usernum,
+	    SELECT
+	    	USER_NUM AS usernum,
+	    	USER_ID AS email, 
 	        USER_NAME AS nickname,
 	        REG_DATE AS regDate, 
       		USER_CLS AS cls, 

@@ -1,6 +1,8 @@
 package com.care.bedu.user.controller;
 
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,9 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.care.bedu.user.security.JwtUtil;
 import com.care.bedu.user.service.MemberService;
 import com.care.bedu.user.vo.MemberVO;
 
@@ -19,10 +23,12 @@ import com.care.bedu.user.vo.MemberVO;
 public class MemberController {
     
     private final MemberService memberService;
+    private final JwtUtil jwtUtil;
     
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, JwtUtil jwtUtil) {
     	this.memberService = memberService;
+		this.jwtUtil = jwtUtil;
     }
 
 	// 회원 가입 요청
@@ -48,20 +54,29 @@ public class MemberController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<MemberVO> login(MemberVO memberVo) {
-        String email = memberVo.getEmail();
-        String password = memberVo.getPassword();
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> paramMap) {
+        String email = paramMap.get("email");
+        String password = paramMap.get("password");
 
+        MemberVO loginUser = memberService.getMemberByEmail(email);
         String encodedPassword = memberService.getPasswordByEmail(email);
         byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
         String decodedPassword = new String(decodedBytes);
-
+        
+            
         if (decodedPassword.equals(password)) {
-            MemberVO loggedInMember = memberService.getMemberByEmail(email);
-
-            return ResponseEntity.ok(loggedInMember);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum());
+            
+            Map<String, Object> result = new HashMap<>();
+            
+            result.put("email", loginUser.getEmail());
+            result.put("user_token", accessToken);
+            
+            return ResponseEntity.ok(result);
         }
+        
+        Map<String, Object> error = new HashMap<>();
+        error.put("message", "Invalid email or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 }
