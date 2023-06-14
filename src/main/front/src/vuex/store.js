@@ -1,15 +1,14 @@
-import { createStore } from "vuex";
+import {createStore} from "vuex";
 import getters from "./getters";
 import mutations from "./mutations";
-import actions from "./actions";
+import actions from "./actions";    
 
 export default createStore({
   state: {
-    isLoggedIn: false,
-    nickname: "",
-    usernum: "",
+    user: null,
+    isLogin: false,
   },
   mutations,
   getters,
-  actions,
+  actions    
 });

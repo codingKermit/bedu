@@ -1,14 +1,13 @@
-import * as types from "./mutation_types";
+import * as types from './mutation_types'
 
 export default {
-  [types.LOGIN_SUCCESS](state, payload) {
-    state.isLoggedIn = true;
-    state.nickname = payload.nickname;
-    state.usernum = payload.usernum;
-  },
-  [types.LOGOUT](state) {
-    state.isLoggedIn = false;
-    state.nickname = "";
-    state.usernum = "";
-  },
-};
+    [types.EMAIL] (state, email) {
+        state.email = email
+    },
+    [types.ERROR_STATE] (state, errorState) {
+        state.errorState = errorState
+    },
+    [types.IS_AUTH] (state, isAuth) {
+        state.isAuth = isAuth
+    }
+}

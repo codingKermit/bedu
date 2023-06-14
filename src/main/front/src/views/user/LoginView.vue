@@ -14,7 +14,7 @@
                 <p>강의는 역시 B:EDU</p>
             </div>
             <div id="loginSection">
-                <form class="login-form" @submit.prevent="login">
+                <form class="login-form" @submit.prevent="fnLogin">
                     <div class="form-group">
                         <input
                             id="emailInputSection"
@@ -50,44 +50,56 @@
 
 <script>
 import '@/assets/css/userStyle.css';
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     data() {
         return {
-            email: "",
-            password: "",
+            email: '',
+            password: '',
         };
     },
     methods: {
+        ...mapActions(['login']),
+
         // 체크박스 토글
         toggleCheckbox() {
             const checkbox = this.$refs.saveIdCheckbox;
             checkbox.checked = !checkbox.checked;
         },
-        login() {
-                this.$axiosSend("post", "/api/login", {
-                email: this.email,
-                password: this.password,
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    const loggedInUser = {
-                    nickname: response.data.nickname,
-                    usernum: response.data.usernum,
-                    };
-                    this.$store.dispatch("loginSuccess", loggedInUser);
-                    localStorage.setItem("isLoggedIn", "true");
-                    this.$router.push("/");
-                    alert("로그인 성공");
+        async fnLogin() {
+        if (this.email === '') {
+            alert('ID를 입력하세요.')
+            return
+        }
+
+        if (this.password === '') {
+            alert('비밀번호를 입력하세요.')
+            return
+        }
+
+        try {
+            let loginResult = await this.login({email: this.email, password: this.password})
+            if (loginResult) this.goToPages()
+        } catch (err) {
+            if (err.message.indexOf('Network Error') > -1) {
+                    alert('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
                 } else {
-                    alert("로그인 실패");
+                    alert('로그인 정보를 확인할 수 없습니다.')
                 }
+            }
+        },
+        goToPages() {
+            this.$router.push({
+                name: '/'
             })
-            .catch((error) => {
-                console.log(error);
-                alert("로그인 실패");
-            });
         }
     },
-};
+    computed: {
+        ...mapGetters({
+            errorState: 'getErrorState'
+        })
+    }
+}
+
 </script>
