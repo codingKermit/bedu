@@ -5,7 +5,6 @@
 
 	<select id="getLectureList" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="hashmap">
 		SELECT 
-			ROWNUM AS RNUM,
 			A.LECT_NUM as lectNum, 
 			A.TITLE, 
 			A.TEACHER, 
@@ -37,17 +36,16 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				BEDU.t_bedu_lect WHERE CATE_CODE = #{category}) A
-		LEFT JOIN t_bedu_lect_dtl B
+				BEDU.T_BEDU_LECT WHERE CATE_CODE = #{category}) A
+		LEFT JOIN T_BEDU_LECT_DTL B
 		ON A.LECT_NUM = B.LECT_NUM
 		GROUP BY 
-			ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
-		ORDER BY RNUM
+			A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
+		ORDER BY LECTNUM
 	</select>
 
 	<select id="getLectureDetail" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="int">
 		SELECT 
-			ROWNUM AS RNUM,
 			A.LECT_NUM as lectNum, 
 			A.TITLE, 
 			A.TEACHER, 
@@ -101,7 +99,7 @@
 			WHERE LECT_NUM = #{LECT_NUM}) C
 		ON A.LECT_NUM = C.LECT_NUM
 		GROUP BY 
-			ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY,
+			A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY,
 			B.TOTAL, B.TOTALTIMES
 	</select>
 
@@ -160,7 +158,7 @@
 			LECT_DTL_TITLE as lectDtlTitle, 
 			TO_CHAR(TRUNC(SYSDATE)+NUMTODSINTERVAL(LECT_DTL_TIME, 'second')  ,'hh24:mi:ss') AS TIMES
 		FROM 
-			t_bedu_lect_dtl 
+			BEDU.T_BEDU_LECT_DTL 
 		WHERE LECT_NUM = #{LECT_NUM}
 	</select>
 
@@ -240,7 +238,7 @@
 
 	<select id="getLikeList" resultType="int">
 		SELECT LECT_NUM as lectNum
-		FROM t_bedu_lect_LIKE WHERE USERID = '123'
+		FROM BEDU.T_BEDU_LECT_LIKE WHERE USERID = '123'
 	</select>
 
 	<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
@@ -278,8 +276,8 @@
 					REG_ID,
 					LECT_SUMMARY
 				FROM 
-					T_BEDU_LECT) A 
-			LEFT JOIN T_BEDU_LECT_DTL B
+					BEDU.T_BEDU_LECT) A 
+			LEFT JOIN BEDU.T_BEDU_LECT_DTL B
 			ON A.LECT_NUM = B.LECT_NUM
 			GROUP BY ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
 			ORDER BY A.REG_DATE DESC
@@ -300,7 +298,7 @@
 			RW_GRADE as star,
 			RW_DATE as reviewDate
 		FROM 
-			t_bedu_rw_bd WHERE LECT_NUM = #{num}
+			BEDU.T_BEDU_RW_BD WHERE LECT_NUM = #{num}
 		ORDER BY RW_DATE
 		)
 	WHERE 0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>=5
@@ -332,7 +330,7 @@
 
 	<delete id="removeFromCart" parameterType="hashmap">
 		DELETE FROM 
-			t_bedu_cart 
+			BEDU.T_BEDU_CART 
 		WHERE 
 			CART_USER_NUM = #{userNum} AND
 			CART_LECT_NUM = #{lectNum}

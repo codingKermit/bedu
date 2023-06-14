@@ -80,6 +80,7 @@ export default{
 
             const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
 
+            console.log(data)
             // 부모-자식 관계 설정
             data.forEach(category => {
                 const parentNum = category.parentNum;

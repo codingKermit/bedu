@@ -33,8 +33,6 @@
             PARENT_CODE as parentCode
         from 
             BEDU.T_BEDU_LECT_BOT_CATE
-        order by 
-            NUM
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
@@ -47,6 +45,7 @@
         FROM 
             t_bedu_lect_bot_cate 
         WHERE PARENT_CODE = #{mid}
+        ORDER BY NUM
     </select>
 
 
