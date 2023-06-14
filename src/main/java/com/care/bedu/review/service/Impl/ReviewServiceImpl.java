@@ -23,19 +23,16 @@ public class ReviewServiceImpl implements ReviewService {
     
     @Override
     public List<HashMap<String, Object>> getAllReviews(int page, int size) {
-        // 요청된 페이지와 사이즈에 맞게 후기 목록을 가져오는 로직입니다.
-        int startIndex = (page-1) * size;
+        int startIndex = (page - 1) * size;
         int endIndex = startIndex + size;
         List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
-        if(startIndex > Math.min(endIndex, allReviews.size())) {
-            // 시작 인덱스가 후기 목록의 범위를 벗어나면 빈 리스트를 반환합니다.
-            List<HashMap<String, Object>> map = new ArrayList<>();
-            return map; 
+        if (startIndex > Math.min(endIndex, allReviews.size())) {
+            return new ArrayList<>(); // 시작 인덱스가 후기 목록의 범위를 벗어나면 빈 리스트를 반환합니다.
         }
-        
+
         return allReviews.subList(startIndex, Math.min(endIndex, allReviews.size()));
     }
-
+    
     @Override
     public ReviewVO createReview(ReviewVO reviewVO) {
         // 후기를 생성하는 로직입니다.
@@ -55,9 +52,9 @@ public class ReviewServiceImpl implements ReviewService {
       List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
       List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
       for (HashMap<String, Object> review : allReviews) {
-        String title = (String) review.get("title");
-        String content = (String) review.get("content");
-        String writer = (String) review.get("writer");
+        String title = (String) review.get("TITLE");
+        String content = (String) review.get("CONTENT");
+        String writer = (String) review.get("WRITER");
         if (title.toLowerCase().contains(keyword) ||
             content.toLowerCase().contains(keyword) ||
             writer.toLowerCase().contains(keyword)) {

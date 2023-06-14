@@ -67,13 +67,14 @@
     font-weight: inherit;
 }
 
-.review-table {
+#review-table {
     width: 100%;
     padding: 25px;
+    margin-bottom:100px;
 }
 
-.review-table th,
-.review-table td {
+#review-table th,
+#review-table td {
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid #ccc;
@@ -90,7 +91,7 @@
     color: gold;
 }
 
-.review-table .review-writer {
+#review-table .review-writer {
     display: block;
     width: 200px;
     white-space: nowrap;
@@ -111,8 +112,9 @@
     background-color: #f8f8f8;
     border: 1px solid #ccc;
 }
-.scroll-container {
+#scroll-container {
     position: relative;
+    padding: 25px;
 }
 
 .infinite-loading-container {
@@ -122,6 +124,19 @@
     bottom: 0;
     text-align: center;
 }
-.review-sort {
+#review-sort {
     margin-bottom: 10px;
+    float: right;
+}
+
+#fw-bold fs-3 text-start {
+    margin-top: 20px;
+}
+
+#sortOption {
+    border: none;
+}
+
+#infiniteReview{
+    padding: 50px;
 }

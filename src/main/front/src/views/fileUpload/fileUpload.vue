@@ -1,12 +1,26 @@
 <template>
     <div>
-        <b-form class="">
-            <input @change="onInputVideo()" id="input" type="file" accept="video/*">
-        </b-form>
+        <h2>강의업로드</h2>
     </div>
-    <button class="send-button" @click="onClickFormButton">
-        영상업로드
-    </button>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small">
+</div>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">강사이름</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small">
+</div>
+
+<div class="mb-3">
+    <label for="formFile" class="form-label"></label>
+    <input class="form-control" type="file" id="formFile">
+</div>
+
+<div>
+    <button>Upload</button>
+</div>
 </template>
 
 
