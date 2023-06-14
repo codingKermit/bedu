@@ -41,7 +41,6 @@
                                                 class="text-body text-decoration-none"
                                                 :to='"/lectureDetail?num="+lect.lectNum'>
                                                 <b-container class="border rounded-3 p-3 mb-4 lecture_item">
-                                                    <!-- <b-img thumbnail="thumbnail" :src="lect.thumbnail" class="w-100 h-100 mb-2"></b-img> -->
                                                     <p class="fs-5 fw-bold">{{ lect.title }}</p>
                                                     <div>
                                                         <p class="text-secondary">
