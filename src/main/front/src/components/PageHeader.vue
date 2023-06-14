@@ -19,6 +19,23 @@
                         <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
                             분야별 강의
                         </router-link>
+<<<<<<< HEAD
+                    </li>
+                </ul>
+            </div>
+            <router-link to="/comm/qna">커뮤니티</router-link>
+            <router-link to="/review">수강후기</router-link>
+            <router-link to="/companyStudy">기업교육</router-link>
+            <router-link to="/fileUpload">영상업로드</router-link>
+        </div>
+        <div id="nav2" class="ms-auto">
+            <div class="search-popup">
+                <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
+                    <form @submit.prevent="lectSearch">
+                        <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                    </form>
+=======
                     </a>    
                     <a v-else class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
                         분야별 강의
@@ -53,6 +70,7 @@
                             <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
                         </form>
                     </div>
+>>>>>>> 6bf93245012ee4a7843c0d78ec06b196b7c9e553
                 </div>
                 <b-nav-item v-if="!this.$store.state.isLoggedIn" class="fs-5">
                     <router-link  to="/login">로그인</router-link>
