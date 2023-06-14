@@ -122,4 +122,13 @@ public class LectureController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+	/* 동영상 재생, 수강 여부 확인 */
+	@RequestMapping("/getLesson")
+	public HashMap<String,Object> getLesson(int num){
+		HashMap<String, Object> map = new HashMap<>();
+		
+
+		return map;
+	}
 }

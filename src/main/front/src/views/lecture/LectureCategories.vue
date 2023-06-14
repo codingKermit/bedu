@@ -22,7 +22,7 @@
                                 <span class="bot-cate-step">STEP
                                     {{ index+1 }}</span>
                                 <div class="bot-cate-split"></div>
-                                <span class="text-body">{{ bot.cateKor }} / {{ bot.cateCode}}</span>
+                                <span class="text-body">{{ bot.cateKor }}</span>
                                 <span class="ms-auto">
                                     <font-awesome-icon :icon="['fas','caret-down']"/>
                                 </span>

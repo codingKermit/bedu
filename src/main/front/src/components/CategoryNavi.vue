@@ -22,9 +22,8 @@
                 <div
                     class="collapse text-secondary text-secondary mid-cate-container"
                     :id='"top-"+top.cateCode'
+                    :class='cnt_top_cate == top.cateCode ? "show":""'
                     >
-                    <!-- 2차 분류 변경시 다른 분류 콜랩스 닫기 -->
-                    <!-- :class='cnt_top_cate == top.cateCode ? "show":""' -->
                     <ul class="ps-2">
                         <!-- 중분류 -->
                         <li

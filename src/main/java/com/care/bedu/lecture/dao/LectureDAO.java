@@ -11,8 +11,6 @@ import com.care.bedu.review.vo.ReviewVO;
 
 @Mapper
 public interface LectureDAO {
-
-	
 	public ArrayList<LectureVO> getLectureList(HashMap<String, Object> map); /* 강의 목록 조회 */
 	public LectureVO getLectureDetail(int num); /* 강의 상세페이지 조회 */
 	public ArrayList<LectureVO> getLectureField(String category); /* 카테고리별 평점순 4개 조회 => 사용 안함 */
@@ -25,4 +23,5 @@ public interface LectureDAO {
 	public int addToCart(HashMap<String, Object> arg); /* 장바구니 추가 */
 	public ArrayList<LectureVO> getCart(int num); /* 장바구니 조회 */
 	public int removeFromCart(HashMap<String, Object> arg); /* 장바구니에서 삭제 */
+	public ArrayList<LectureDetailVO> getLesson(int num); /* 동영상 재생 정보 조회 */
 }

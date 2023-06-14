@@ -216,5 +216,16 @@ public class LectureServiceImpl implements LectureService{
 
 		return result;
 	}
+
+
+
+	@Override
+	public HashMap<String, Object> getLesson(int num) {
+		HashMap<String, Object> map = new HashMap<>();
+
+		
+
+		return map;
+	}
 	
 }
