@@ -22,7 +22,9 @@
                 <div
                     class="collapse text-secondary text-secondary mid-cate-container"
                     :id='"top-"+top.cateCode'
-                    :class='cnt_top_cate == top.cateCode ? "show":""'>
+                    >
+                    <!-- 2차 분류 변경시 다른 분류 콜랩스 닫기 -->
+                    <!-- :class='cnt_top_cate == top.cateCode ? "show":""' -->
                     <ul class="ps-2">
                         <!-- 중분류 -->
                         <li
@@ -138,7 +140,6 @@ export default{
 
 .lecture_item:hover{
     transition: 0.1s;
-    /* border: 3px solid black !important; */
     box-shadow: 0px 0px 0px 3px black inset !important;
     scale: 102%;
 }
@@ -150,9 +151,6 @@ export default{
         background: gray;
         height: 1px;
         display: flex;
-    }
-    a {
-        cursor: pointer;
     }
 
     .cnt_selected {

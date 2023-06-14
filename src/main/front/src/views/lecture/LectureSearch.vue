@@ -13,6 +13,7 @@
                 class="lect-search-result-container p-3 border-opacity-25 border-secondary border mb-5">
                 <ul class="list-unstyled">
                     <li v-for="(item, index) in lectures" :key="index">
+                        {{ item.lectNum }}
                         <b-link
                             :to='"/lectureDetail?num="+item.lectNum'
                             class="text-body text-decoration-none">
@@ -96,7 +97,8 @@ export default{
                     this.lectures.push(...res.data.item);
                     $state.loaded(); // 로드를 계속하도록 함
                 } else {
-                   $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
+                    $state.reset()
+                    $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
             })
             .catch((err) => { console.log(err); });
@@ -106,7 +108,6 @@ export default{
                     keyword : this.keyword
             })
             .then((res)=>{
-                console.log(res)
                 this.total = res.data
             })
             .catch((err)=>{console.log(err)});
@@ -139,7 +140,6 @@ export default{
     },
     mounted() {
         this.keyword = this.$route.query.keyword,
-        this.$refs.infiniteLoading.stateChanger.reset()
         this.getTotal();
     },
     components: { InfiniteLoading }

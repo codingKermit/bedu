@@ -81,7 +81,7 @@ public class LectureServiceImpl implements LectureService{
 	public HashMap<String, ArrayList<LectureVO>> lectureSearch(String keyword, int page) {
 		HashMap<String, ArrayList<LectureVO>> map = new HashMap<>();
 		ArrayList<LectureVO> dto = new ArrayList<>();
-
+		
 		HashMap<String, Object> arg = new HashMap<>(); // 파라미터 맵 생성
 		arg.put("keyword", keyword); // 검색 키워드
 		arg.put("begin", (page-1)*5); // 시작 인덱스 설정

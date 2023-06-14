@@ -164,11 +164,14 @@
 
 	<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.LectureVO"
 	parameterType="hashmap">
-		SELECT  *
-		FROM
-			(	
+		SELECT
+			*
+		FROM(
+			SELECT
+				ROWNUM AS RNUM,
+				C.*
+			FROM(
 				SELECT 
-					ROWNUM AS RNUM,
 					A.LECT_NUM as lectNum, 
 					A.TITLE, 
 					A.TEACHER, 
@@ -177,12 +180,14 @@
 					A.THUMBNAIL, 
 					A.LECT_CNT as lectCnt, 
 					A.REG_DATE as regDate, 
-					A.PRICE, 
+					TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
 					A.LECT_DESC as lectDesc,
+					TO_CHAR(TRUNC(SYSDATE)+ NUMTODSINTERVAL(SUM(B.LECT_DTL_TIME),'second'),'hh24:mi:ss' ) AS TOTALTIMES, 
 					A.CATE_CODE, 
-					A.CATE_KOR
-				FROM 
-					(SELECT 
+					A.CATE_KOR,
+					A.LECT_SUMMARY AS lectSum
+				FROM (
+					SELECT 
 						LECT_NUM,
 						TITLE,
 						TEACHER,
@@ -198,16 +203,15 @@
 						REG_ID,
 						LECT_SUMMARY
 					FROM 
-						BEDU.T_BEDU_LECT
-					WHERE 
-						TITLE LIKE '%'||#{keyword}||'%'
-					) A 
-				LEFT JOIN BEDU.T_BEDU_LECT_DTL B
+						BEDU.T_BEDU_LECT WHERE TITLE LIKE '%'||#{keyword}||'%' ) A
+				LEFT JOIN T_BEDU_LECT_DTL B
 				ON A.LECT_NUM = B.LECT_NUM
-				GROUP BY ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR
+				GROUP BY 
+					A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
 				ORDER BY A.REG_DATE DESC
-			)
-		WHERE #{begin} <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
+			) C
+		) LEC
+		WHERE #{begin} <![CDATA[ < ]]> RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
 	</select>
 
 	<select id="searchTotal" resultType="int">
