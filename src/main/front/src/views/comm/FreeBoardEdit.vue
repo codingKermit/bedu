@@ -58,7 +58,9 @@
                 .then(res => {
                     if(res.data === 1){
                         this.$swal('Success','수정완료!','success'),
-                        router.push({name:"freeBoard"})
+                        router.push({
+                            name:"freeBoard"
+                        })
                     }
                 })
                 .catch((error)=>{

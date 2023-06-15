@@ -22,6 +22,7 @@
         data() {
             return {
                 form:{
+                    user_id: 'test@bedu.com',
                     title:'',
                     content : '',
                 }

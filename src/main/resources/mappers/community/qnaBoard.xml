@@ -4,31 +4,49 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT * FROM (SELECT ROWNUM rnum, COMM_NUM, TITLE, CONTENT, USER_ID, COMM_DATE, COMM_CNT, REG_ID
-		 FROM(SELECT * FROM T_BEDU_COMM ORDER BY COMM_NUM DESC)) 
-		<if test="keyword != null">WHERE rnum >= #{page} AND 5 >= rnum </if>
+		SELECT
+		 * FROM 
+		(SELECT
+		 ROWNUM rnum,
+		 QS_BD_NUM as qna_bd_num,
+		 TITLE,
+		 CONTENT,
+		 USER_ID,
+		 QS_DATE as qna_date,
+		 QS_CNT as qna_cnt,
+		 QS_LIKE_CNT as qna_like_yn,
+		 REG_ID
+		FROM(SELECT
+		* FROM
+		 T_BEDU_QS
+		 ORDER BY QS_BD_NUM DESC)) 
+		<if test="page > 0">
+			WHERE rnum >= #{page} AND 5 >= rnum
+		</if>
 	</select>
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(
+	      QS_BD_NUM,
 		  USER_ID,
-		  TITLE, 
+		  TITLE,
 		  CONTENT,
 		  QS_CNT,
 		  QS_LIKE_CNT,
 		  QS_DATE,
-		  REG_DATE,
+		  REG_DATE, 
 		  REG_ID
 		)VALUES(
+		  BEDU_QS.NEXTVAL,
 		  #{user_id},
 		  #{title},
 		  #{content},
 		  #{qna_cnt},
 		  #{qna_like_yn},
-		  SYSDATE(),
-		  SYSDATE(),
+		  SYSDATE,
+		  SYSDATE,
 		  #{reg_id}
-	    )
+		)
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.qna.vo.QnaVO">
@@ -69,9 +87,9 @@
 		 REG_ID
 		FROM T_BEDU_QS
 		<if test="keyword != null">
-			WHERE CONTENT LIKE '%'||#{keyword}||'%' and TITLE LIKE '%'||#{keyword}||'%'
-			 ORDER BY QS_BD_NUM DESC
+			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%' || #{keyword} || '%'
 		 </if>
+		 ORDER BY QS_BD_NUM DESC
 	</select>
 	
 	<select id="getTotal" resultType="int">

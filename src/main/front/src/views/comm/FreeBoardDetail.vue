@@ -10,7 +10,7 @@
             <h5>
                 {{ free.user_id}}
             </h5>
-            {{ free.comm_date }} 
+            {{ free.str_comm_date }} 
             <h2 class="mt-3 mb-5 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}
             </h2>
@@ -51,7 +51,7 @@
                         </h5>
                     </div>
                     <h5>
-                        {{ reply.date }}
+                        {{ reply.strRegDate }}
                     </h5>
                 </span>
             </div>
@@ -74,7 +74,7 @@ export default{
                 replyNum: 0,
                 userId: '',
                 content: '',
-                date: '',
+                replyDate: '',
                 faqNum: 0,
                 rwNum: 0,
                 lecturenum: 0,
@@ -86,7 +86,7 @@ export default{
                 title : '',
                 content : '',
                 user_id : '',
-                comm_date : '',
+                str_comm_date:'',
                 comm_cnt : 0,
                 comm_like_yn : 0,
             }
@@ -95,17 +95,16 @@ export default{
 
     mounted() {
         const num = this.$route.params.num;
-        this.path(num);
         this.freeRead(num);
         this.replyread(num);
-
+        this.path(num);
     },
 
     methods: {
-        freeRead(num){ // 게시글 데이터 조회
+        freeRead(commnum){ // 게시글 데이터 조회
             // console.log('번호:', num);
             this.$axiosSend('get','/api/freBd/detail',{
-                    num : num,
+                    num : commnum,
             })
             .then(response=>{
                 this.free = response.data;
@@ -115,9 +114,9 @@ export default{
             })
         },
 
-        replyread(freenum) {
+        replyread(commnum) {
             this.$axiosSend('get', '/api/reply/getreply', {
-                commNum: freenum
+                commNum: commnum
             }).then(res => {
                 this.replylist = res.data;
             })
@@ -133,12 +132,12 @@ export default{
                     num: this.result,
             })
                 .then(res => {
-                    if(res.data === 1){
+                    if (res.data === 1) {
                         this.$swal('Success', '글삭제완료!', 'success'),
-                    router.push({
-                        name: "freeBoard"
-                    })
-                        
+                            router.push({
+                                name: "freeBoard"
+                            })
+
                     }
                 })
                 .catch(error => {
@@ -157,10 +156,12 @@ export default{
                     })
                     return;
                 }
-                var commnum = this.free.comm_num;
+                
+                this.form.commNum = this.free.comm_num;
+                var commNum = this.form.commNum;
                 
                 const form = new FormData();
-                form.append("faqNum",this.form.faqNum);
+                form.append("commNum",this.form.commNum);
                 form.append("content",this.form.content);
 
                 this.$axiosSend('post', '/api/reply/write', this.form)
@@ -168,7 +169,7 @@ export default{
                     if(res.data === 1){
                         this.$swal('Success','작성완료!','success'),
                         this.censells();
-                        this.replyread(commnum);
+                        this.replyread(commNum);
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }
@@ -183,7 +184,7 @@ export default{
             router.push({
                 name: 'freeBoardEdit', 
                 params:{
-                    num :this.result
+                    num :this.free.comm_num
                 }
             })
                 
@@ -199,8 +200,8 @@ export default{
             document.getElementById("free-detail-replywrite").style.display="block";
         },
 
-        path(num){
-            this.result = num;
+        path(commnum){
+            this.result = commnum;
         },
 
     },

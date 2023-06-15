@@ -1,6 +1,8 @@
 package com.care.bedu.community.freeBoard.service.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.community.freeBoard.dao.FreeDAO;
 import com.care.bedu.community.freeBoard.service.FreeService;
 import com.care.bedu.community.freeBoard.vo.FreeVO;
+import com.care.bedu.user.dao.MemberDAO;
 
 @Service
 public class FreeServiceImpl implements FreeService{
@@ -15,18 +18,30 @@ public class FreeServiceImpl implements FreeService{
 	@Autowired
 	private FreeDAO freeDAO;
 	
+	@Autowired MemberDAO memberDAO;
+	
 	@Override
 	public ArrayList<FreeVO> listProc(FreeVO freeVO) {					//게시글 조회
-		freeVO.setPage((freeVO.getPage()-1)*5);			//시작할 현재 페이지 로직
+		freeVO.setPage((freeVO.getPage()-1)*5 +1);			//시작할 현재 페이지 로직
 		if(freeVO.getKeyword() != null) {				//검색 키워드 조건 (키워드 없으면 기본 조회)
 			return freeDAO.viewsearch(freeVO);
 		}
-		return freeDAO.viewlist(freeVO);
+		ArrayList<FreeVO> list = freeDAO.viewlist(freeVO);
+		for(FreeVO free : list) {
+			free.setStr_comm_date(regdates(free.getComm_date()));
+		}
+		return list;
+	}
+	
+	// 예시된 날짜(예시: 2023-05-30) 형태로 변환하는 로직
+	private String regdates(Date regdate) {
+		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+		String strRegdate = simple.format(regdate);
+		return strRegdate;
 	}
 
 	@Override
 	public int boardwrite(FreeVO freeVO) {
-		freeVO.setUser_id("test@test.com"); //테스트를 위해 임시로 넣음 회원객체에서 userId가지고 와야함
 		freeVO.setReg_id(freeVO.getUser_id());
 		freeVO.setComm_cnt(0);
 		freeVO.setComm_like_yn(0);
@@ -36,7 +51,9 @@ public class FreeServiceImpl implements FreeService{
 	@Override
 	public FreeVO viewone(int num) {			//게시글 상세보기
 		freeDAO.cntUp(num);						//조회수 증가
-		return freeDAO.viewone(num);
+		FreeVO freeVO = freeDAO.viewone(num);
+		freeVO.setStr_comm_date(regdates(freeVO.getComm_date()));
+		return freeVO;
 	}
 
 	@Override
@@ -45,7 +62,11 @@ public class FreeServiceImpl implements FreeService{
 	}
 
 	@Override
-	public int viewupdate(FreeVO freeVO) {			//게시글 수정
+	public int viewupdate(int comm_num, String title, String content) {			//게시글 수정
+		FreeVO freeVO = new FreeVO();
+		freeVO.setComm_num(comm_num);
+		freeVO.setTitle(title);
+		freeVO.setContent(content);
 		return freeDAO.viewupdate(freeVO);
 	}
 

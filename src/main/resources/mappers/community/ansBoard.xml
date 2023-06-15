@@ -5,6 +5,7 @@
 	
 	<insert id="viewWrite" parameterType="com.care.bedu.community.ans.vo.AnsVO">
 		INSERT INTO T_BEDU_ANS(
+		  ANS_BD_NUM,
 		  USER_ID,
 		  CONTENT,
 		  QS_BD_NUM,
@@ -12,12 +13,12 @@
 		  REG_DATE,
 		  REG_ID
 		)VALUES(
+		  BEDU_ANS.NEXTVAL,
 		  #{userId},
 		  #{content},
 		  #{qsBdNum},
-		  #{ansDate},
-		  SYSDATE(),
-		  SYSDATE(),
+		  SYSDATE,
+		  SYSDATE,
 		  #{regId}
 		)
 	</insert>
@@ -32,7 +33,7 @@
 		 REG_DATE AS regDate,
 		 ANS_DATE AS ansDate 
 		FROM T_BEDU_ANS
-		WHERE ANS_BD_NUM = #{ansBdNum}
+		WHERE QS_BD_NUM = #{qsBdNum}
 		ORDER BY ANS_BD_NUM DESC
 	</select>
 	

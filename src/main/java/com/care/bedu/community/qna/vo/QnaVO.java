@@ -1,5 +1,7 @@
 package com.care.bedu.community.qna.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,11 +11,14 @@ public class QnaVO {					//질문답변게시판 객체(qna)
 	
 	private Integer qna_bd_num;	//글번호
 	private int page;	//페이지번호
+	private int limit;
 	private String reg_id;	// 타 테이블에서 구분
 	private String user_id;	//작성자
 	private String content;	//내용
-	private String qna_date;	//작성시간
-	private String reg_date;	//게시판 시간
+	private Date qna_date;	//작성시간
+	private Date reg_date;	//게시판 시간
+	private String str_qna_date;
+	private String str_reg_date;
 	private String title;	//제목
 	private Integer qna_cnt;	//조회수
 	private Integer qna_like_yn;	//좋아요

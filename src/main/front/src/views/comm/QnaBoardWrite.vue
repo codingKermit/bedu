@@ -3,6 +3,7 @@
         <h1>질문 / 답변</h1>
             
         <b-form @submit="submit()">
+
             <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
             <b-form-textarea class="form-control col-sm-5 qna-write-content" id="qna-write-content" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
             <b-container class="my-3 justify-content-md-end d-md-flex">
@@ -23,6 +24,7 @@
         data() {
             return {
                 form:{
+                    user_id: 'test@bedu.com',
                     title:'',
                     content : '',
                 }
@@ -54,16 +56,19 @@
                     return;
                 }
                 const form = new FormData();
+                form.append("user_id", this.form.user_id);
                 form.append("title",this.form.title);
                 form.append("content",this.form.content);
 
                 this.$axiosSend('post','/api/qna/qnaWrite', this.form)
-                .then(
-                    this.$swal('Success','작성완료!','success'),
-                    router.push({
-                        name: "qnaBoard"
-                    })
-                )
+                .then((response) =>{
+                    if(response.data === 1){
+                        this.$swal('Success','작성완료!','success'),
+                        router.push({
+                            name: "qnaBoard"
+                        })
+                    }
+                })
                 .catch((error)=>{
                     this.$swal('Error','게시글이 정상적으로 작성되지 않았습니다',error)
                 })

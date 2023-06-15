@@ -1,6 +1,8 @@
 package com.care.bedu.community.ans.service.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,21 @@ public class AnsServiceImpl implements AnsService{
 	
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
-		return ansDAO.viewList(ansVO);
+		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
+		for(AnsVO ans : list) {
+			ans.setStrAnsDate(regdates(ans.getAnsDate()));
+		}
+		return list;
+	}
+	
+	private String regdates(Date regdate) {
+		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+		String strRegdate = simple.format(regdate);
+		return strRegdate;
 	}
 
 	@Override
 	public int boardwrite(AnsVO ansVO) {
-		ansVO.setUserId("tet@tet.tet");
 		ansVO.setRegId(ansVO.getUserId());
 		return ansDAO.viewWrite(ansVO);
 	}

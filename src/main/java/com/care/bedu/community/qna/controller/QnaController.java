@@ -14,46 +14,50 @@ import com.care.bedu.community.qna.vo.QnaVO;
 @RequestMapping("/api")
 public class QnaController {
 	
-	@Autowired
-	private QnaService qnaService;
+	 @Autowired
+	 private QnaService qnaService;
 	
-	@RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
-		return qnaService.listProc(qnaVO);
-	}
+	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
+	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
+		ArrayList<QnaVO> list = qnaService.listProc(qnaVO);
+	 	return list;
+	 }
 	
-	@RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
-	public String qnaWrite(QnaVO qnaVO){
-		int result = qnaService.boardwrite(qnaVO);
-		return result > 0 ? "Y": "N";
-	}
+	 @RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
+	 public int qnaWrite(QnaVO qnaVO){
+		 return qnaService.boardwrite(qnaVO);
+	 }
 	
-	@RequestMapping(value="/qna/qnaDetail", method=RequestMethod.GET)				//게시글 상세보기
-	public QnaVO qnaDetail(int num){
-		return qnaService.viewone(num);
-	}
+	 @RequestMapping(value="/qna/qnaDetail", method=RequestMethod.GET)				//게시글 상세보기
+	 public QnaVO qnaDetail(int num){
+	 	return qnaService.viewone(num);
+	 }
 	
-	@RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)				//게시글 수정
-	public String qnaEdit(QnaVO qnaVO){
-		int result = qnaService.viewupdate(qnaVO);
-		return result> 0? "Y":"N";	
-	}
+	 @RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)				//게시글 수정
+	 public int qnaEdit(String title, String content, int qna_bd_num){
+		QnaVO qnaVO = new QnaVO();
+		qnaVO.setContent(content);
+		qnaVO.setQna_bd_num(qna_bd_num);
+		qnaVO.setTitle(title);
+	 	int result = qnaService.viewupdate(qnaVO);
+	 	return result> 0? 1:0;	
+	 }
 	
-	@RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				//게시글 삭제
-	public int qnaDelete(String num){
-		int strnum = Integer.parseInt(num);
-		return qnaService.viewdelete(strnum);
-	}
+	 @RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				//게시글 삭제
+	 public int qnaDelete(String num){
+	 	int strnum = Integer.parseInt(num);
+	 	return qnaService.viewdelete(strnum);
+	 }
 
-	@RequestMapping("/qna/total")													//게시글 전체 개수 조회
-	public int getTotal(){
-		return qnaService.getTotal();
-	}
+	 @RequestMapping("/qna/total")													//게시글 전체 개수 조회
+	 public int getTotal(){
+	 	return qnaService.getTotal();
+	 }
 	
-	@RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
-	public int likeUp(int num){
-		return qnaService.likeUp(num);
+	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
+	 public int likeUp(int num){
+	 	return qnaService.likeUp(num);
 		
-	}
+	 }
 
 }

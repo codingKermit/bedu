@@ -7,7 +7,7 @@
             <h5>
                 {{ qna.user_id}}
             </h5>
-            {{ qna.date }} 
+            {{ qna.str_qna_date }} 
             <h2 class="mt-3 mb-5 fw-bold qna-detail-title" id="qna-detail-title">
                 {{ qna.title }}
             </h2>
@@ -33,8 +33,9 @@
 
         <div class="w-50 qna-detail-replywrite" id="qna-detail-replywrite" style="display: none;">
             <h4>답글을 작성하시오</h4>
-            <b-form @submit="replywrite()">
+            <b-form @submit="answrite()">
                 <b-form-textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+
                 <b-container class="my-3 justify-content-md-end d-md-flex qna-detail-replycont" id="qna-detail-replycont">
                     <b-button type="reset" class="btn-custom ms-2" id="qna-detail-replycont">취소</b-button>
                     <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">닫기</b-button>
@@ -44,18 +45,18 @@
         </div>
         
         <div>
-            <div v-for="reply in replylist" :key="reply.replyNum" class="qna-detail-replylist" id="qna-detail-replylist">
+            <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-anslist" id="qna-detail-anslist">
                 <span>
                     <h5>
-                        {{ reply.userId }}
+                        {{ ans.userId }}
                     </h5>
                     <div>
                         <h5>
-                            {{ reply.content }}
+                            {{ ans.content }}
                         </h5>
                     </div>
                     <h5>
-                        {{ reply.date }}
+                        {{ ans.strAnsDate }}
                     </h5>
                 </span>
             </div>
@@ -72,15 +73,14 @@
         data() {
             return {
                 qnum : 0,
-                replylist:[],
+                anslist:[],
                 form:{
-                    replyNum:0,
-                    userId:'',
+                    ansBdNum:0,
+                    userId:'test@bedu.com',
                     content:'',
-                    date:'',
-                    faqNum:0,
-                    rwNum:0,
-                    lecturenum:0,
+                    ansDate:'',
+                    ansLikeNum:0,
+                    qsBdNum:0,
                     regDate:'',
                     regId:'',
                 },
@@ -89,7 +89,7 @@
                     title : '',
                     content : '',
                     user_id : '',
-                    date : '',
+                    str_qna_date : '',
                     qna_cnt : 0,
                     qna_like_yn : 0,
                 }
@@ -100,8 +100,8 @@
             const qnanum = this.$route.params.num;
             this.path(qnanum);
             this.qnaRead(qnanum);
-            this.replyread(qnanum);
-            this.form.faqNum = qnanum;
+            this.ansread(qnanum);
+            this.form.ansBdNum = qnanum;
         },
 
         methods: {
@@ -118,12 +118,13 @@
                 })
             },
 
-            replyread(qnanum) {
+            //답글 게시글조회
+            ansread(qnanum) {
 
-                this.$axiosSend('get', '/api/reply/getreply', {
-                    faqNum: qnanum
+                this.$axiosSend('get', '/api/ans/getans', {
+                    qsBdNum: qnanum
                 }).then(res => {
-                    this.replylist = res.data;
+                    this.anslist = res.data;
                 })
                 .catch((error) => {
                     this.$swal('Error', '게시글이 정상적으로 작성되지 않았습니다.', error);
@@ -131,7 +132,6 @@
             },
 
             qnadelete(qnanum) {
-                alert('게시글을 삭제합니다.');
                 this.$axiosSend('get','/api/qna/qnaDelete', {
                         num: qnanum,
                 })
@@ -162,7 +162,7 @@
                 document.getElementById("qna-detail-replybtn").style.display="block";
             },
 
-            replywrite(){
+            answrite(){
 
                 if(this.form.content == null || this.form.content == ""){
                     this.$swal({
@@ -173,18 +173,22 @@
                     })
                     return;
                 }
-                var qnum = this.qna.qna_bd_num;
+
+                console.log('질문글:', this.qna.qna_bd_num);
                 
                 const form = new FormData();
-                form.append("faqNum",this.form.faqNum);
-                form.append("content",this.form.content);
+                this.form.qsBdNum = this.qna.qna_bd_num;
+                var qnanum = this.form.qsBdNum;
+                form.append("userId", this.form.userId);
+                form.append("qsBdNum", this.form.qsBdNum);
+                form.append("content", this.form.content);
 
-                this.$axiosSend('post', '/api/reply/write', this.form)
+                this.$axiosSend('post', '/api/ans/write', this.form)
                 .then(res=>{
                     if(res.data === 1){
                         this.$swal('Success','작성완료!','success'),
                         this.censells();
-                        this.replyread(qnum);
+                        this.ansread(qnanum);
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }

@@ -11,7 +11,7 @@
 		  DATE,
 		  FAQ_NUM,
 		  RW_NUM,
-		  lecturenum,
+		  LECTURE_NUM,
 		  REG_DATE,
 		  REG_ID
 		)VALUES(
@@ -35,10 +35,10 @@
 		 RW_NUM AS rwNum,
 		 FAQ_NUM AS faqNum,
 		 CONTENT,
-		 DATE,
-		 lecturenum 
+		 REPLY_DATE AS replyDate,
+		 LECTURE_NUM AS lecturenum 
 		FROM T_BEDU_REPLY
-		WHERE FAQ_NUM = #{faqNum}
+		WHERE COMM_NUM = #{commNum}
 		ORDER BY REPLY_NUM DESC
 	</select>
 	

@@ -24,6 +24,8 @@
                     qna_bd_num: 0,  
                     title: '',
                     content: '',
+                    // str_qna_date:'',
+                    // str_reg_date:'',
                 }
             }
         },
