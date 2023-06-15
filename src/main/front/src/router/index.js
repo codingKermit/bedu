@@ -59,6 +59,12 @@ const routes = [
     }
     ,
     {
+        path: '/review/reviewWrite',
+        name: 'reviewWrite',
+        component: () => import('../views/Review/ReviewWrite.vue')
+    }
+    ,
+    {
         path: '/companyStudy',
         name: 'companyStudy',
         component: () => import('../views/CompanyStudy.vue')
@@ -150,11 +156,6 @@ const routes = [
         component: () => import('../views/Notice/PrivacyView.vue')
     }
     ,
-    {
-        path: '/reviewWrite',
-        name: 'reviewWrite',
-        component: () => import('../views/Review/ReviewWrite.vue')
-    },
     {
         path: '/fileUpload',
         name: 'fileUpload',

@@ -18,7 +18,7 @@
             <div class="review-search">
                 <p id="fw-bold fs-3 text-start" class="fw-bold fs-3 text-start">수강후기</p>
                 <div class="review-search-bar">
-                    <div class="review-search-input">
+                    <div id="review-search-input">
                         <input
                         type="text"
                         placeholder="검색어를 입력하세요"
@@ -29,15 +29,15 @@
                     </div>
                 </div>
             </div>
-            
             <div id="review-sort">
                 <select id="sortOption" v-model="sortOption" @change="sortReviews">
                     <option value="default">최신 순</option>
                     <option value="highRating">평점 높은 순</option>
                     <option value="lowRating">평점 낮은 순</option>
                 </select>
-            </div>
+            </div>  
         </div>
+        <!-- <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button> -->
         <div id="scroll-container">
             <table id="review-table">
                 <thead>
@@ -219,6 +219,11 @@
             },
             // 후기 검색
             searchReviews() {
+                if (this.searchKeyword === "") {
+                // 검색어가 비어있을 경우, 알림창을 표시합니다.
+                    alert("검색어를 입력해주세요");
+                return; // 메소드를 종료합니다.
+                }
                 this.searchedReviews = []; //검색된 후기를 초기화
                 this.currentPage = 1; // 페이지 번호 초기화
                 this.fetchReviews(); // 후기 가져오기 호출

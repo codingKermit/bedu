@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,11 +36,10 @@ public class ReviewController {
     
     // POST 요청을 처리하는 엔드포인트로, 새로운 후기를 생성합니다.
     // 요청 본문에 있는 ReviewVO 객체를 받아서 후기를 생성하고 생성된 후기를 반환합니다.
-    @PostMapping
+    @RequestMapping("/reviews/write")
     public ReviewVO createReview(@RequestBody ReviewVO reviewVO) {
         return reviewService.createReview(reviewVO);
     }
-    
     // GET 요청을 처리하는 엔드포인트로, 검색된 후기 목록을 가져옵니다.
     // keyword는 요청 매개변수로 받아서 검색에 사용합니다.
     @RequestMapping("/reviews/search")

@@ -43,7 +43,7 @@
     align-items: center;
 }
 
-.review-search-input input {
+#review-search-input input {
     width: 200px;
     padding: 5px;
     margin-right: 10px;
@@ -51,7 +51,7 @@
     border-radius: 4px;
 }
 
-.review-search-input button {
+#review-search-input button {
     padding: 5px 10px;
     background-color: #f8f8f8;
     border: 1px solid #ccc;
@@ -139,4 +139,55 @@
 
 #infiniteReview{
     padding: 50px;
+}
+
+/*Review Write css*/
+
+.review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#review-write {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+#review-label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.star-rating {
+    font-size: 24px;
+}
+
+.star-rating span {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.star-rating span.filled {
+    color: gold;
+}
+
+#review-WriteBtn {
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }

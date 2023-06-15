@@ -49,7 +49,7 @@
     	ORDER BY
         		RW_DATE DESC
     		) 
-</select>
+	</select>
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
   		SELECT 
