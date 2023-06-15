@@ -44,9 +44,6 @@
                 <b-nav-item class="fs-5">
                     <router-link to="/fileUpload">영상업로드</router-link>
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link to="/statisticsMain">통계</router-link>
-                </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto">
                 <div class="search-popup">
