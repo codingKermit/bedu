@@ -97,7 +97,6 @@ export default{
                     this.lectures.push(...res.data.item);
                     $state.loaded(); // 로드를 계속하도록 함
                 } else {
-                    $state.reset()
                     $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
             })

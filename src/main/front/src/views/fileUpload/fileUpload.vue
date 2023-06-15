@@ -35,7 +35,7 @@
                                         <div class="border rounded-3 p-3 d-flex">
                                             <div class="align-self-center me-3">
                                                 <b-form-radio 
-                                                v-model="input.lectNum" 
+                                                v-model="form.lectNum" 
                                                 name="lect-num" 
                                                 :value="item.lectNum"
                                                 ></b-form-radio>
@@ -56,8 +56,7 @@
                 <!-- 우측 폼 컨테이너-->
                 <div class="w-50">
                     <b-container class="py-4">
-                        <b-form>
-
+                        <b-form @submit.prevent="uploadVideo">
                             <!-- 제목 입력 -->
                             <b-form-group
                             label="동영상 제목"
@@ -66,7 +65,7 @@
                             class="mb-5"
                             >
                                 <b-form-input id="video-title"
-                                    v-model="input.videoTitle"
+                                    v-model="form.videoTitle"
                                     required :state="state" trim
                                     class="form-control-lg"
                                 ></b-form-input>
@@ -81,7 +80,7 @@
                             >
                                 <b-form-input
                                     id="video-time"
-                                    v-model="input.videoTime"
+                                    v-model="form.videoTime"
                                     required
                                     :state="state"
                                     trim
@@ -101,7 +100,10 @@
                                     @change="fileChange"
                                     >
                             </div>
-                            <b-button class="w-100 py-3 bedu-submit-button-lg fs-5">
+                            <b-button 
+                                class="w-100 py-3 bedu-submit-button-lg fs-5"
+                                type="submit"
+                            >
                                 등록하기
                             </b-button>
                         </b-form>
@@ -109,7 +111,6 @@
                 </div>
             </b-container>
         </b-container>
-        {{ input }}
     </div>
 </template>
 
@@ -120,30 +121,74 @@ export default{
     data() {
         return {
             keyword : '',
-            input: {
+            form: {
                 lectNum : 0,
                 videoTitle: '',
                 videoTime: 0,
-                videoFile : null,
             },
+            videoFile : null,
             lists:[],
         }
     },
     methods: {
+        /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
         getLectureList(){
             this.$axiosSend('post','/api/file/getLectureList',{
                 keyword : this.keyword
             })
             .then((res)=>{
                 this.lists = res.data.item
-                console.log(res)
             })
             .catch((err)=>{
                 console.log(err)
             })
         },
+        /** 파일 변경, 업로드시 데이터 바인딩을 위한 메서드 */
         fileChange(e){
-            this.input.videoFile= e.target.files;
+            this.videoFile = e.target.files;
+        },
+        uploadVideo(){
+            if(this.form.lectNum == 0){
+                this.$swal({
+                    title : '경고!',
+                    icon : 'error',
+                    text : '강의를 선택해주세요'
+                })
+                return;
+            }
+            if(this.form.videoTime<=0){
+                this.$swal({
+                    title: '경고!',
+                    icon : 'error',
+                    text : '동영상 재생 시간을 확인해주세요'
+                })
+                return;
+            }
+            if(this.videoFile == null){
+                this.$swal({
+                    title: '경고!',
+                    icon : 'error',
+                    text : '동영상 파일을 확인해주세요'
+                })
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("lectNum",this.form.lectNum);
+            formData.append("videoTime",this.form.videoTime);
+            formData.append("videoFile",this.videoFile);
+
+            console.log(this.videoFile)
+            console.log(formData)
+            this.$axiosSend('post','/api/file/uploadFormAction',{
+                request : formData,
+            })
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         }
     },
 }
