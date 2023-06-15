@@ -12,6 +12,9 @@ export default createStore({
   state: {
     user: null,
     isLogin: isLoggedIn(),
+    nickname: null,
+    email: null,
+    usernum: null
   },
   mutations,
   getters,
