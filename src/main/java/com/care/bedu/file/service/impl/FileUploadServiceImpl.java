@@ -2,6 +2,8 @@ package com.care.bedu.file.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import com.care.bedu.file.dao.FileUploadDao;
 import com.care.bedu.file.service.FileUploadService;
 import com.care.bedu.file.vo.FileUploadVO;
@@ -29,7 +31,8 @@ public class FileUploadServiceImpl implements FileUploadService{
     private FileUploadDao dao;
 
     @Override
-    public boolean upload(MultipartFile file) {
+    public boolean upload(MultipartFile[] uploadFile, Model model) {
+        MultipartFile file = uploadFile[0];
         if(file.isEmpty()) {
             return false;
         }
