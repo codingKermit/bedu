@@ -129,8 +129,12 @@
 
 
         qnasearch() {
-
+            if(this.form.keyword === null || this.form.keyword ===''){
+                alert('검색어를 입력해주세요!');
+                return;
+            }
             const form = new FormData();
+
             form.append('keyword', this.form.keyword);
 
             this.$axiosSend('post','/api/qna/qnaList', this.form)
