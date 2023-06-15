@@ -57,11 +57,13 @@
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
                 </b-nav-item>
+                <b-nav-item class="fs-5" v-if="isLoggedIn">
+                    <a class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
+                        {{ getNickname }}
+                    </a>
+                </b-nav-item>
                 <b-nav-item class="fs-5">
                     <button v-if="isLoggedIn" @click="logout">로그아웃</button>
-                </b-nav-item>
-                <b-nav-item v-if="isLoggedIn" class="fs-5">
-                    <span >{{ this.$store.state.nickname }}</span>
                 </b-nav-item>
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
@@ -96,6 +98,9 @@
         computed: {
             isLoggedIn() {
                 return this.$store.getters.getIsAuth
+            },
+            getNickname() {
+                return this.$store.getters.getNickname;
             }
         },
         methods: {
@@ -164,6 +169,9 @@
             logout() {
                 localStorage.removeItem("user_token")
                 this.$store.commit('IS_AUTH', false);
+                this.$store.commit('NICKNAME', null);
+                this.$store.commit('USERNUM', null);
+                this.$store.commit('EMAIL', null);
                 location.reload()
             },
           },
