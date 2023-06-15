@@ -34,7 +34,7 @@
                                 </b-link>
                             </td>
                             <td>{{ qna.user_id }}</td>
-                            <td>{{ qna.qna_date }}</td>
+                            <td>{{ qna.str_qna_date }}</td>
                             <td>
                                 <b-container class="ms-auto text-end">
                                     <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
@@ -66,14 +66,14 @@
 
     data() {
         return {
-        qnalist: [
-        ],
-        form: {
-            keyword: '',
-        },
-        totalItems: 0,
-        totalPage: 0,
-        currentPage: 1,
+            qnalist: [
+            ],
+            form: {
+                keyword: '',
+            },
+            totalItems: 0,
+            totalPage: 0,
+            currentPage: 1,
         };
 
     },
@@ -140,7 +140,6 @@
             if (val > this.totalPage) {
                 return;
             }
-            this.currentPage = 1;
             this.currentPage = val;
             this.List();
         },

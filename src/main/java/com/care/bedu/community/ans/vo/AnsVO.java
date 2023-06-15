@@ -1,5 +1,7 @@
 package com.care.bedu.community.ans.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,10 +12,12 @@ public class AnsVO{						//답글
 	private Integer ansBdNum;
 	private String userId;
 	private String content;
-	private String ansDate;
+	private Date ansDate;
 	private Integer qsBdNum;
 	private Integer ansLikeCnt;
-	private String regDate;
+	private Date regDate;
 	private String regId;
+	private String strAnsDate;
+	private String strRegDate;
 
 }

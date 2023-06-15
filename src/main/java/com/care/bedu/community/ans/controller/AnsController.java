@@ -17,14 +17,15 @@ public class AnsController {
 	@Autowired
 	private AnsService ansService;
 	
-	@RequestMapping(value="/ans/getans", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
+	//답글게시글 조회
+	@RequestMapping(value="/ans/getans", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<AnsVO> getReply(AnsVO ansVO){
 		ArrayList<AnsVO> list = ansService.getlist(ansVO);
-		System.out.println(list);
 		return list;
 	}
 	
-	@RequestMapping(value="/ans/write", method=RequestMethod.POST)				//게시글 작성
+	//답글게시글 작성
+	@RequestMapping(value="/ans/write", method=RequestMethod.POST)
 	public int ansWrite(AnsVO ansVO){
 		return ansService.boardwrite(ansVO);
 	}

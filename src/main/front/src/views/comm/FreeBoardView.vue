@@ -63,7 +63,7 @@
                                 {{ free.comm_like_yn }}
                                 </text>
                             </td>
-                            <td>{{ free.comm_date }}</td>
+                            <td>{{ free.str_comm_date }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
                             </td>  
@@ -105,7 +105,7 @@
         },
         mounted() {
             this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-            this.getTotal();
+            this.freeList();
         },
 
         components:{
@@ -114,7 +114,7 @@
 
         created(){
             this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-            this.getTotal();
+            this.freeList();
         },
 
         methods: {

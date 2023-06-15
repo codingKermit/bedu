@@ -35,8 +35,8 @@ public class FreeController {
 	}
 	
 	@RequestMapping(value="/freBd/edit", method=RequestMethod.POST)					//게시글 수정
-	public int freeEdit(FreeVO freeVO){
-		int result = freeService.viewupdate(freeVO);
+	public int freeEdit(int comm_num, String title, String content){
+		int result = freeService.viewupdate(comm_num, title, content);
 		return result == 1? 1:0;	
 	}
 	
