@@ -33,12 +33,6 @@
                 </div>
             </div>
             <div class="freeboard-main-1">
-                <div class="freeboard-reviews" id="freeboard-reviews">
-                    <select v-model="freeOption" @change="freeReview()" class="freeboard-reviews-select" id="freeboard-reviews-select">
-                        <option value="recent">최신순</option>
-                        <option value="highRating">추천순</option>
-                    </select>
-                </div>
                 <table class="w3-table-all freeboard-table" id="freeboard-table">
                     <thead>
                         <tr>
@@ -105,7 +99,6 @@
         },
         mounted() {
             this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-            this.freeList();
         },
 
         components:{
@@ -114,7 +107,6 @@
 
         created(){
             this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
-            this.freeList();
         },
 
         methods: {
@@ -184,14 +176,6 @@
                 .catch((error)=>{
                     alert(error);
                 })
-            },
-
-            freeReview(){
-                // const freeselect = document.getElementById("freeboard-reviews-select").value;
-                // this.$axiosSend('get', '/api/freBd/boardList', {
-                    
-                // })
-
             },
 
             freelikeUp(num) {

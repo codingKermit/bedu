@@ -4,8 +4,7 @@
 <mapper namespace="com.care.bedu.community.freeBoard.dao.FreeDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT
-		 * FROM (SELECT
+		SELECT * FROM (SELECT
 		  ROWNUM rnum,
 		  COMM_NUM,
 		  TITLE,
@@ -15,10 +14,9 @@
 		  COMM_CNT,
 		  COMM_LIKE_YN,
 		  REG_ID
-		 FROM(SELECT
-		  * FROM T_BEDU_COMM
-		   ORDER BY COMM_NUM DESC
-		 )) 
+	    FROM BEDU.T_BEDU_COMM
+		ORDER BY COMM_NUM DESC
+		) 
 		<if test="page > 0">
 			WHERE rnum >= #{page} and 5 >= rnum 
 		</if>
