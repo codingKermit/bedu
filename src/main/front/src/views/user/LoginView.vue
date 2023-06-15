@@ -26,6 +26,7 @@
                         <input
                             id="pwdInputSection"
                             v-model="password"
+                            type="password" 
                             placeholder="비밀번호"
                         />
                     </div>
@@ -91,7 +92,7 @@ export default {
         },
         goToPages() {
             this.$router.push({
-                name: '/'
+                name: 'main'
             })
         }
     },

@@ -22,7 +22,8 @@
         components: {
         PageFooter,
         PageHeader
-        }
+        },
+        
     }
 </script>
   
