@@ -58,6 +58,9 @@
                     <h5>
                         {{ ans.strAnsDate }}
                     </h5>
+                    <h5>
+                        {{ ans.ansLikeCnt }}
+                    </h5>
                 </span>
             </div>
         </div>
@@ -79,7 +82,6 @@
                     userId:'test@bedu.com',
                     content:'',
                     ansDate:'',
-                    ansLikeNum:0,
                     qsBdNum:0,
                     regDate:'',
                     regId:'',

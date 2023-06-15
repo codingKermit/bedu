@@ -20,13 +20,16 @@ public class AnsController {
 	//답글게시글 조회
 	@RequestMapping(value="/ans/getans", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<AnsVO> getReply(AnsVO ansVO){
-		ArrayList<AnsVO> list = ansService.getlist(ansVO);
-		return list;
+		return ansService.getlist(ansVO);
 	}
 	
 	//답글게시글 작성
 	@RequestMapping(value="/ans/write", method=RequestMethod.POST)
-	public int ansWrite(AnsVO ansVO){
+	public int ansWrite(int qsBdNum, String userId, String content){
+		AnsVO ansVO = new AnsVO();
+		ansVO.setQsBdNum(qsBdNum);
+		ansVO.setUserId(userId);
+		ansVO.setContent(content);
 		return ansService.boardwrite(ansVO);
 	}
 }

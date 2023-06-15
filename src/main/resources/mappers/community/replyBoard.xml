@@ -5,24 +5,20 @@
 	
 	<insert id="viewWrite" parameterType="com.care.bedu.community.reply.vo.ReplyVO">
 		INSERT INTO T_BEDU_REPLY(
+		  REPLY_NUM,
 		  USER_ID,
 		  CONTENT,
 		  COMM_NUM,
-		  DATE,
-		  FAQ_NUM,
-		  RW_NUM,
-		  LECTURE_NUM,
+		  REPLY_DATE,
 		  REG_DATE,
 		  REG_ID
 		)VALUES(
+		  BEDU_REPLY.NEXTVAL,
 		  #{userId},
 		  #{content},
 		  #{commNum},
-		  SYSDATE(),
-		  #{faqNum},
-		  #{rwNum},
-		  #{lecturenum},
-		  SYSDATE(),
+		  SYSDATE,
+		  SYSDATE,
 		  #{regId}
 		)
 	</insert>
@@ -33,9 +29,11 @@
 		 USER_ID AS userId,
 		 COMM_NUM AS commNum,
 		 RW_NUM AS rwNum,
-		 FAQ_NUM AS faqNum,
+		 ANS_NUM AS ansNum,
+		 QS_NUM AS qsNum,
 		 CONTENT,
 		 REPLY_DATE AS replyDate,
+		 REG_DATE AS regDate,
 		 LECTURE_NUM AS lecturenum 
 		FROM T_BEDU_REPLY
 		WHERE COMM_NUM = #{commNum}

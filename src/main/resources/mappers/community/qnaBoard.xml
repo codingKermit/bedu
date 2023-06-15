@@ -104,7 +104,7 @@
 	
 	<update id="likeUp">
 		UPDATE
-		 T_BEDU_QS SET QS_LIKE_YN = QS_LIKE_YN + 1
+		 T_BEDU_QS SET QS_LIKE_CNT = QS_LIKE_CNT + 1
 		WHERE QS_BD_NUM = #{num}
 	</update>
 	

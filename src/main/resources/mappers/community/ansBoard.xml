@@ -9,6 +9,7 @@
 		  USER_ID,
 		  CONTENT,
 		  QS_BD_NUM,
+		  ANS_LIKE_CNT,
 		  ANS_DATE,
 		  REG_DATE,
 		  REG_ID
@@ -17,6 +18,7 @@
 		  #{userId},
 		  #{content},
 		  #{qsBdNum},
+		  #{ansLikeCnt},
 		  SYSDATE,
 		  SYSDATE,
 		  #{regId}
@@ -28,8 +30,8 @@
 		 ANS_BD_NUM AS ansBdNum,
 		 USER_ID AS userId,
 		 QS_BD_NUM AS qsBdNum,
-		 ANS_LIKE_CNT AS ansLikeCnt,
 		 CONTENT,
+		 ANS_LIKE_CNT AS ansLikeCnt,
 		 REG_DATE AS regDate,
 		 ANS_DATE AS ansDate 
 		FROM T_BEDU_ANS
