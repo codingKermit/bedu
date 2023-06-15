@@ -133,7 +133,6 @@
                     }
                     this.categories = hierarchy;
                 });
-                console.log(hierarchy)
             },
             scrollHandler() {/** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
                 this.showButton = window.scrollY > 200;

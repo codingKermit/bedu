@@ -15,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Service
@@ -61,5 +63,18 @@ public class FileUploadServiceImpl implements FileUploadService{
     private String extractExt(String fileName) {
         int pos = fileName.lastIndexOf(".");
         return fileName.substring(pos + 1);
+    }
+
+    @Override
+    public HashMap<String, Object> getLectureList(String keyword) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        ArrayList<FileUploadVO> list = new ArrayList<>();
+
+        list = dao.getLectureList(keyword);
+
+        map.put("item", list);
+
+        return map;
     }
 }
