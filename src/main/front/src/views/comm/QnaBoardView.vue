@@ -1,31 +1,48 @@
 <template>
     <div class="qna-view" id="qna-view">
         <div class="qna-view-side" id="qna-view-side">
-            <ul>
-                <li>
-                    <div>
-                        <h3>커뮤니티</h3>
-                    </div>
+            <p class="fs-2 fw-bold mb-3 mt-15">커뮤니티</p>
+            <ul class="nav flex-column w-100">
+                <li class="nav-item me-4" style="width: 150px;">
+                    <span class="qna-view-freepath" id="qna-view-freepath">
+                        <a class="fs-5 text-body text-decoration-none" @click="freepath()"
+                        style="cursor: pointer; text-align: right;">
+                            <p>자유게시판</p>
+                        </a>
+                    </span>
                 </li>
-                <ul>
-                    <li><div class="qna-view-freepath" id="qna-view-freepath" @click="freepath()">자유게시판</div></li>
-                    <li><div div class="qna-view-qnapath" id="qna-view-qnapath" @click="qnapath()">질문답변</div></li>
-                </ul>
+                <li class="nav-item me-4" style="width: 150px;">
+                    <span class="qna-view-qnapath" id="qna-view-qnapath">
+                        <a class="fs-5 text-body text-decoration-none" @click="qnapath()"
+                        style="cursor: pointer; text-align: right;">
+                            <p>질문 & 답변</p>
+                        </a>
+                    </span>
+                </li>
             </ul>
         </div>
         <div class="qna-main" id="qna-main">
             <div class="qna-box" id="qna-box">
-                <h2>질문 / 답변</h2>
-                <b-form @submit="qnasearch()">
-                    <input placeholder="제목, 내용" class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword">
-                    <b-button type="submit" class="btn-primary qna-search-btn" id="qna-search-btn">검색</b-button>
-                </b-form>
-                <div id="qna-main-write">
-                    <b-button :to="'/comm/qnaWrite'" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
+                <h1>질문 & 답변</h1>
+                <div class="qnaBoradSearch" id="qnaBoradSearch">
+                    <b-form @submit="qnasearch()">
+                        <input placeholder="검색어를 입력해주세요." class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword">
+                        <b-button type="submit" class="btn-primary qna-search-btn" id="qna-search-btn">검색</b-button>
+                        <b-button :to="'/comm/qnaWrite'" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
+                    </b-form>
                 </div>
             </div>
             <div class="qna-main-1" id="qna-main-1">
                 <table class="w3-table-all" id="qnaboard-table">
+                    <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>좋아요 수</th>
+                            <th>작성일자</th>
+                            <th>조회 수</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr v-for="qna in qnalist" :key="qna">
                             <td id="qnaboard-table-tds">
@@ -34,14 +51,16 @@
                                 </b-link>
                             </td>
                             <td>{{ qna.user_id }}</td>
+                            <td>
+                                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)" />
+                                <text class="fw-bold ms-2" id="likes">
+                                    {{ qna.qna_like_yn }}
+                                </text>
+                            </td>
                             <td>{{ qna.str_qna_date }}</td>
                             <td>
-                                <b-container class="ms-auto text-end">
-                                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                                    <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)"/> 
-                                        {{ qna.qna_like_yn }}
-                                </b-container>
-                            </td>
+                                <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                            </td>  
                         </tr>
                     </tbody>
                 </table>
@@ -62,6 +81,7 @@
 <script>
     import router from '@/router';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
+    import '@/assets/css/qnaStyle.css';
     export default {
 
     data() {
@@ -73,7 +93,7 @@
             },
             totalItems: 0,
             totalPage: 0,
-            currentPage: 1,
+            currentPage: 1
         };
 
     },
@@ -196,61 +216,5 @@
 </script>
 <style scoped>
     
-    table{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 500px;
-    }
-
-    td{
-      font-size: 140%;
-      height: 100px;
-    }
     
-    #qna-view{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 1400px;
-    }
-
-    .qna-main{
-        margin-left:auto; 
-        margin-right:auto;
-        width: 1000px;
-    }
-    .qna-main-1{
-        margin-right: 100px;
-    }
-
-    #qna-box{
-      display: flex;
-      margin-left: 200px;
-      max-width: 1000px;
-    }
-
-    #qna-view-keyword{
-        border-radius: 5px 5px / 5px 5px;
-    }
-
-    #qna-writepath-btn{
-        margin-left: -600px;
-    }
-
-    #qna-search-btn{
-        margin-left: 20px;
-    }
-
-    #qna-main-write{
-        margin-left: 100px;
-    }
-
-    #qna-view-side{
-        margin-left: 60px;
-    }
-
-    body, ul, li {
-        margin: 0;
-        padding: 0;
-        list-style: none;   	    /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */    
-    }
 </style>

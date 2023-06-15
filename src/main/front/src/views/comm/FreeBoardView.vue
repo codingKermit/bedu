@@ -26,7 +26,7 @@
                 <h1>자유게시판</h1>
                 <div class="freeBoradSearch" id="freeBoradSearch">
                     <b-form @submit="search()">
-                        <input type="text" class="search-form free-view-keyword" id="free-view-keyword" ref="keyword" v-model="form.keyword">       
+                        <input type="text" class="search-form free-view-keyword" id="free-view-keyword" placeholder="검색어를 입력하세요" ref="keyword" v-model="form.keyword">       
                         <b-button type="submit" class="btn btn-primary free-view-keywordbtn" id="free-view-keywordbtn">검색</b-button>
                         <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                     </b-form>
@@ -39,7 +39,7 @@
                         <option value="highRating">추천순</option>
                     </select>
                 </div>
-                <table class="w3-table-all freeboard-table" id="freeboard-table" style="margin-bottom:100px;">
+                <table class="w3-table-all freeboard-table" id="freeboard-table">
                     <thead>
                         <tr>
                             <th>내용</th>
