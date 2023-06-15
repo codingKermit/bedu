@@ -54,17 +54,17 @@
                         </form>
                     </div>
                 </div>
-                <b-nav-item v-if="!this.$store.state.isLoggedIn" class="fs-5">
-                    <router-link  to="/login">로그인</router-link>
+                <b-nav-item class="fs-5">
+                    <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
                 </b-nav-item>
-                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
-                    <button  @click="logout">로그아웃</button>
+                <b-nav-item class="fs-5">
+                    <button v-if="isLoggedIn" @click="logout">로그아웃</button>
                 </b-nav-item>
-                <b-nav-item v-if="this.$store.state.isLoggedIn" class="fs-5">
+                <b-nav-item v-if="isLoggedIn" class="fs-5">
                     <span >{{ this.$store.state.nickname }}</span>
                 </b-nav-item>
                 <b-nav-item class="fs-5">
-                    <router-link to="/regist">회원가입</router-link>
+                    <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
                 </b-nav-item>
             </b-navbar-nav>
       </b-collapse>   
@@ -76,7 +76,6 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
     export default {
         name: 'PageHeader',
         mounted() {
@@ -95,7 +94,9 @@
             };
         },
         computed: {
-            ...mapGetters(['isLoggedIn', 'nickname']),
+            isLoggedIn() {
+                return this.$store.getters.getIsAuth
+            }
         },
         methods: {
             /** 검색 메서드 */
@@ -161,9 +162,9 @@
                 })
             },
             logout() {
-                this.$store.dispatch('logout');
-                localStorage.removeItem('isLoggedIn');
-                this.$router.push('/');
+                localStorage.removeItem("user_token")
+                this.$store.commit('IS_AUTH', false);
+                location.reload()
             },
           },
           watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
