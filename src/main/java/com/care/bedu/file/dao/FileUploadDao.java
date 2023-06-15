@@ -10,6 +10,6 @@ import com.care.bedu.file.vo.FileUploadVO;
 @Mapper
 public interface FileUploadDao {
 
-    public int upload(FileUploadVO param);
+    public int upload(FileUploadVO vo);
     public ArrayList<FileUploadVO> getLectureList(String keyword);
 }

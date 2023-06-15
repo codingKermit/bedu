@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -50,12 +49,6 @@ public class FileUploadServiceImpl implements FileUploadService{
 
         FileUploadVO vo = new FileUploadVO();
 
-        vo.setOriginFileName(originFileName);
-        vo.setFileName(saveFileName);
-        vo.setExt(ext);
-        vo.setPath(fileBaseDir + saveFileName);
-        vo.setSize(Long.toString(file.getSize()));
-
         return dao.upload(vo);
 
     }
@@ -67,14 +60,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 
     @Override
     public HashMap<String, Object> getLectureList(String keyword) {
-        HashMap<String, Object> map = new HashMap<>();
-
-        ArrayList<FileUploadVO> list = new ArrayList<>();
-
-        list = dao.getLectureList(keyword);
-
-        map.put("item", list);
-
-        return map;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getLectureList'");
     }
 }
