@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.file.dao.FileUploadDao;
 import com.care.bedu.file.service.FileUploadService;
 import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.lecture.vo.LectureVO;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -60,7 +62,14 @@ public class FileUploadServiceImpl implements FileUploadService{
 
     @Override
     public HashMap<String, Object> getLectureList(String keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getLectureList'");
+        HashMap<String, Object> map = new HashMap<>();
+
+        ArrayList<LectureVO> list = new ArrayList<>();
+
+        list = dao.getLectureList(keyword);
+
+        map.put("item", list);
+
+        return map;
     }
 }
