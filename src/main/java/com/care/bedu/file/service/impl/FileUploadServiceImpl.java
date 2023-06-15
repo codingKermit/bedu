@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.file.dao.FileUploadDao;
 import com.care.bedu.file.service.FileUploadService;
 import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.lecture.vo.LectureVO;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,11 +51,11 @@ public class FileUploadServiceImpl implements FileUploadService{
 
         FileUploadVO vo = new FileUploadVO();
 
-        vo.setOriginFileName(originFileName);
-        vo.setFileName(saveFileName);
-        vo.setExt(ext);
-        vo.setPath(fileBaseDir + saveFileName);
-        vo.setSize(Long.toString(file.getSize()));
+        // vo.setOriginFileName(originFileName);
+        // vo.setFileName(saveFileName);
+        // vo.setExt(ext);
+        // vo.setPath(fileBaseDir + saveFileName);
+        // vo.setSize(Long.toString(file.getSize()));
 
         return dao.upload(vo);
 
@@ -69,7 +70,7 @@ public class FileUploadServiceImpl implements FileUploadService{
     public HashMap<String, Object> getLectureList(String keyword) {
         HashMap<String, Object> map = new HashMap<>();
 
-        ArrayList<FileUploadVO> list = new ArrayList<>();
+        ArrayList<LectureVO> list = new ArrayList<>();
 
         list = dao.getLectureList(keyword);
 
