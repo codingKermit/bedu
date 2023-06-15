@@ -27,9 +27,9 @@ public class FileUploadServiceImpl implements FileUploadService{
     private FileUploadDao dao;
 
     @Override
-    public int upload(MultipartFile file) {
+    public boolean upload(MultipartFile file) {
         if(file.isEmpty()) {
-            return -1;
+            return false;
         }
 
         long time = System.currentTimeMillis();
@@ -44,12 +44,12 @@ public class FileUploadServiceImpl implements FileUploadService{
         try {
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch(IOException e) {
-            return 0;
+            return false;
         }
 
         FileUploadVO vo = new FileUploadVO();
 
-        return dao.upload(vo);
+        return true;
 
     }
 

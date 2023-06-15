@@ -3,9 +3,9 @@
 
 <mapper namespace="com.care.bedu.file.dao.FileUploadDao">
 
-    <select id="getLectureList" resultType="com.care.bedu.file.vo.FileUploadVO">
+    <select id="getLectureList" resultType="com.care.bedu.lecture.vo.LectureVO">
         SELECT
-            LECT_NUM, 
+            LECT_NUM as lectNUm, 
             TITLE,
             TEACHER,
             LECT_SUMMARY,

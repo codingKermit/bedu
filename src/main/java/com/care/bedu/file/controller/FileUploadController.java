@@ -1,21 +1,26 @@
 package com.care.bedu.file.controller;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.care.bedu.file.service.FileUploadService;
 
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
+@Slf4j
 @RequestMapping(value = "/api/file")
 public class FileUploadController {
+    
+    private String uploadPath = "";
+
 
     @RequestMapping("/test")
     public String test(){
@@ -31,11 +36,23 @@ public class FileUploadController {
         return mv;
     }
 
-    @PostMapping(value = "/uploadProcess.do", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseBody
-    public int uploadProcess(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-        return service.upload(file);
-    }
+    @PostMapping("/uploadFormAction")
+	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
+
+		for(MultipartFile multipartFile : uploadFile) {
+			log.info("----------------------------");
+			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size: " + multipartFile.getSize());
+	
+			File saveFile = new File(uploadPath + multipartFile.getOriginalFilename());
+			
+			try {
+				multipartFile.transferTo(saveFile);
+			}catch(Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+	}
 
     @RequestMapping("/getLectureList")
     public HashMap<String, Object> getLectureList(String keyword){
