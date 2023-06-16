@@ -79,17 +79,14 @@
                 <div>
                     <!-- 1,2 약관에 동의한 경우 '동의합니다' 버튼 색변경 및 회원가입 섹션으로 이동 -->
                     <button
-                        v-if="
-                            selectedAgreements.includes(1) &&
-                            selectedAgreements.includes(2)
-                        "
+                        v-if="selectedAgreements.includes(1) && selectedAgreements.includes(2)"
                         id="registSubmit"
                         :style="{
-                            background: submitButtonColor,
-                            color: submitButtonTextColor,
+                        background: submitButtonColor,
+                        color: submitButtonTextColor,
                         }"
                         type="button"
-                        @click="showRegistrationForm"
+                        @click="handleAgreementSubmit"
                     >
                         동의합니다
                     </button>
@@ -441,6 +438,14 @@
                 const checkbox = document.getElementById(`agree_${value}`);
                 checkbox.checked = !checkbox.checked;
                 this.updateAllChecked();
+            },
+            handleAgreementSubmit() {
+                // 스크롤을 페이지 상단으로 이동
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth', // 스무스한 스크롤링 효과
+                });
+                this.showForm = true;
             },
             // 회원가입 양식을 보여주기 위해 showForm 값을 변경
             showRegistrationForm() {

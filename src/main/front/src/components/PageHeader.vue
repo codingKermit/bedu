@@ -57,19 +57,21 @@
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
                 </b-nav-item>
-                <b-dropdown v-if="isLoggedIn" class="fs-5">
-                    <template #button-content>
-                        <span class="no-arrow">{{ getNickname }}</span>
-                    </template>
-                    <b-dropdown-item>
-                        <router-link to="/mypage">마이페이지</router-link>
-                    </b-dropdown-item>
-                    <b-dropdown-item>
-                        <router-link to="/csc">고객센터</router-link>
-                    </b-dropdown-item>
-                </b-dropdown>
+                <b-nav-item v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
+                    <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
+                        <span class="fs-5">{{ getNickname }}</span>
+                    </button>
+                    <ul class="dropdown-menu" v-show="isDropdownOpen">
+                        <b-dropdown-item>
+                            <router-link to="/mypage">마이 페이지</router-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item>
+                            <router-link to="/csc">고객 센터</router-link>
+                        </b-dropdown-item>
+                    </ul>
+                </b-nav-item>
                 <b-nav-item class="fs-5">
-                    <button v-if="isLoggedIn" @click="logout">로그아웃</button>
+                    <button id="headerLogout" v-if="isLoggedIn" @click="logout">로그아웃</button>
                 </b-nav-item>
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
@@ -266,6 +268,16 @@
 
     .no-arrow::after {
         display: none;
+    }
+
+    #nicknameToggle {
+        background-color: #EDC268;
+        border: #EDC268;
+    }
+
+    #headerLogout {
+        background-color: #EDC268;
+        border: #EDC268;
     }
 
     .dropdown-menu-show{
