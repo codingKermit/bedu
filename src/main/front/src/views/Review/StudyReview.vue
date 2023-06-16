@@ -258,7 +258,5 @@
             // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
             window.removeEventListener('scroll', this.handleScroll);
         },
-            
-            
     };
 </script>

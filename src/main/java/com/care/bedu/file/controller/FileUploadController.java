@@ -41,11 +41,14 @@ public class FileUploadController {
     }
 
     @PostMapping("/uploadFormAction")
-	public void uploadFormPost(MultipartHttpServletRequest request, Model model) throws IOException{
-        System.out.println("request : ");
-        System.out.println(request);
-        // List<MultipartFile> uploadFile =  request.getFiles("uploadPath");
-    } 
+	public void uploadFormPost(
+        @RequestParam MultipartFile videoFile, 
+        String lectNum, 
+        String videoTime) throws IOException{
+        System.out.println(videoFile);
+        System.out.println(lectNum);
+        System.out.println(videoTime);
+    }  
 
     @RequestMapping("/getLectureList")
     public HashMap<String, Object> getLectureList(String keyword){

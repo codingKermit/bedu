@@ -33,7 +33,7 @@ export const commonAxios = {
             method,
             url, 
             params,
-            headers
+            headers,
         })
     }
 }

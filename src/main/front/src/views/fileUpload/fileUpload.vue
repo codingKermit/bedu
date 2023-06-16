@@ -173,25 +173,23 @@ export default{
                 return;
             }
 
+            const headers = {
+                "Content-Encoding" : 'multipart/form-data',
+                "test" : "why not",
+                "Content-Type" : 'multipart/form-data',
+            }
+
+
             const formData = new FormData();
             formData.append("lectNum",this.form.lectNum);
             formData.append("videoTime",this.form.videoTime);
             formData.append("videoFile",this.videoFile);
 
-            console.log(formData);
-            const headers = {
-                'Content-Type': 'multipart/form-data',
-                processData: false,
-                contentType: false,
-            }
-
             const params = {
-                request : formData
+                lectNum : this.form.lectNum,
+                videoTime : this.form.videoTime,
+                videoFile : this.form.videoTime
             }
-
-            // var request = new XMLHttpRequest();
-            // request.open("POST", "http://localhost:8080/test");
-            // request.send(formData);
 
             this.$axiosSend('post','/api/file/uploadFormAction',formData, headers)
             .then((res)=>{
