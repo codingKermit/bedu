@@ -161,6 +161,11 @@ const routes = [
         name: 'fileUpload',
         component: () => import('../views/fileUpload/fileUpload.vue')
     },
+    {
+        path: '/adminPage',
+        name: 'adminPage',
+        component: () => import('../views/adminPage/adminPage.vue')
+    },
 ]
 
 const router = createRouter({

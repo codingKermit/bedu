@@ -20,13 +20,14 @@ public class JwtUtil {
 	@Value("${jwt.secret}")
     String secret;
 
-    public String createToken(String email, String nickname, int usernum) {
+    public String createToken(String email, String nickname, int usernum, String cls) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
                 .withIssuer("front")
                 .withClaim("usernum", usernum)
                 .withClaim("email", email)
                 .withClaim("nickname", nickname)
+                .withClaim("cls", cls)
                 .withIssuedAt(new Date())
                 .sign(algorithm);
     }

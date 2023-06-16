@@ -65,7 +65,7 @@ public class MemberController {
         
             
         if (decodedPassword.equals(password)) {
-            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum());
+            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls());
             
             Map<String, Object> result = new HashMap<>();
             

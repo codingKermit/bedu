@@ -15,5 +15,8 @@ export default {
     },
     [types.IS_AUTH](state, isAuth) {
         state.isAuth = isAuth
+    },
+    [types.CLS](state, cls) {
+        state.cls = cls
     }
 }
