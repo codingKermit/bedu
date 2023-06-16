@@ -1,6 +1,7 @@
 package com.care.bedu.file.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,11 +41,11 @@ public class FileUploadController {
     }
 
     @PostMapping("/uploadFormAction")
-	public void uploadFormPost(MultipartHttpServletRequest request, Model model) {
+	public void uploadFormPost(MultipartHttpServletRequest request, Model model) throws IOException{
         System.out.println("request : ");
         System.out.println(request);
         // List<MultipartFile> uploadFile =  request.getFiles("uploadPath");
-    }
+    } 
 
     @RequestMapping("/getLectureList")
     public HashMap<String, Object> getLectureList(String keyword){

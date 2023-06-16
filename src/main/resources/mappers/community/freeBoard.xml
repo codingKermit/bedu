@@ -15,11 +15,9 @@
 		  COMM_LIKE_YN,
 		  REG_ID
 	    FROM BEDU.T_BEDU_COMM
-		ORDER BY COMM_NUM DESC
-		) 
-		<if test="page > 0">
-			WHERE rnum >= #{page} and 5 >= rnum 
-		</if>
+		ORDER BY COMM_NUM DESC)
+		WHERE rnum >= #{page} and #{limit} >= rnum 
+	
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">

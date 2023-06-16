@@ -20,8 +20,8 @@
 		* FROM
 		 T_BEDU_QS
 		 ORDER BY QS_BD_NUM DESC)) 
-		<if test="page > 0">
-			WHERE rnum >= #{page} AND 5 >= rnum
+		<if test="page > 0 and limit > 0">
+			WHERE rnum >= #{page} AND #{limit} >= rnum
 		</if>
 	</select>
 	

@@ -99,12 +99,10 @@
     },
 
     created() {
-        this.currentPage = 1;
         this.getTotal();
     },
 
     mounted() {
-        this.currentPage = 1;
         this.getTotal();
     },
 
@@ -165,7 +163,6 @@
                 return;
             }
             this.currentPage = val;
-            this.List();
         },
 
         freepath(){
