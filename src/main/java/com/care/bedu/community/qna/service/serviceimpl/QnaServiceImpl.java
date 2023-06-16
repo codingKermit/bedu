@@ -25,11 +25,14 @@ public class QnaServiceImpl implements QnaService{
 		return strRegdate;
 	}
 
+	//조회
 	@Override
 	public ArrayList<QnaVO> listProc(QnaVO qnaVO) {
-		qnaVO.setPage((qnaVO.getPage()-1)*5 + 1);
-		if(qnaVO.getKeyword() != null) {
-			return qnaDAO.viewsearch(qnaVO); 			//키워드검색
+		qnaVO.setLimit(5);
+		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit() + 1);			//시작할 첫번쨰 글번호 행
+		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);					//끝 글번호 행
+		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
+			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
 		}
 		ArrayList<QnaVO> list = qnaDAO.viewlist(qnaVO);
 		for(QnaVO qna : list) {
