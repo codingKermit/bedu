@@ -178,15 +178,22 @@ export default{
             formData.append("videoTime",this.form.videoTime);
             formData.append("videoFile",this.videoFile);
 
+            console.log(formData);
             const headers = {
-                    'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                processData: false,
+                contentType: false,
             }
 
             const params = {
-                "request" : formData
+                request : formData
             }
 
-            this.$axiosSend('post','/api/file/uploadFormAction',params, headers)
+            // var request = new XMLHttpRequest();
+            // request.open("POST", "http://localhost:8080/test");
+            // request.send(formData);
+
+            this.$axiosSend('post','/api/file/uploadFormAction',formData, headers)
             .then((res)=>{
                 console.log(res)
             })
