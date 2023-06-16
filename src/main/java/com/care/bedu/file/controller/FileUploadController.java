@@ -44,7 +44,7 @@ public class FileUploadController {
         System.out.println("request : ");
         System.out.println(request);
         // List<MultipartFile> uploadFile =  request.getFiles("uploadPath");
-    }
+    } 
 
     @RequestMapping("/getLectureList")
     public HashMap<String, Object> getLectureList(String keyword){
