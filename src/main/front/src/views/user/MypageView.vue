@@ -1,11 +1,6 @@
 <!-- npm install v-pagination-3 설치해야함 -->
 <template>
     <b-container>
-    <div class="mypage">
-        <p class="fs-4 fw-bold" padding="20px">마이페이지</p>
-    </div>
-    </b-container>
-    <b-container>
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <div style="height: 100px; width: 100%; background-color: var(--yellow);" class="rounded-6">
                 <b-container class="text-white fw-bold d-flex">
