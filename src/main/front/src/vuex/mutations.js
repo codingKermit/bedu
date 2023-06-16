@@ -5,15 +5,15 @@ export default {
         state.email = email
     },
     [types.NICKNAME](state, nickname) {
-    state.nickname = nickname
+        state.nickname = nickname
     },
     [types.USERNUM](state, usernum) {
-    state.usernum = usernum
+        state.usernum = usernum
     },
     [types.ERROR_STATE](state, errorState) {
-    state.errorState = errorState
+        state.errorState = errorState
     },
     [types.IS_AUTH](state, isAuth) {
-    state.isAuth = isAuth
+        state.isAuth = isAuth
     }
 }

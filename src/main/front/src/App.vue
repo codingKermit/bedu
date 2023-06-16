@@ -7,37 +7,37 @@ import BeduView from '@/components/BeduView'
 import jwt_decode from 'jwt-decode';
 
 export default {
-  name: 'App',
-  components: {
-    BeduView
-  },
-  created() {
+    name: 'App',
+    components: {
+        BeduView
+    },
+    created() {
         this.checkToken()
     },
     methods: {
-      checkToken() {
-        const token = localStorage.getItem('user_token');
-        if (token) {
-          try {
-            const decodedToken = jwt_decode(token);
-            this.$store.commit('NICKNAME', decodedToken.nickname);
-            this.$store.commit('USERNUM', decodedToken.usernum);
-            this.$store.commit('EMAIL', decodedToken.email);
-            this.$store.commit('IS_AUTH', true);
-          } catch (error) {
-            console.error('Invalid token:', error);
-            this.logout();
-          }
-        } else {
-          this.logout();
+        checkToken() {
+            const token = localStorage.getItem('user_token');
+            if (token) {
+                try {
+                    const decodedToken = jwt_decode(token);
+                    this.$store.commit('NICKNAME', decodedToken.nickname);
+                    this.$store.commit('USERNUM', decodedToken.usernum);
+                    this.$store.commit('EMAIL', decodedToken.email);
+                    this.$store.commit('IS_AUTH', true);
+                } catch (error) {
+                    console.error('Invalid token:', error);
+                    this.logout();
+                }
+            } else {
+                this.logout();
+            }
+        },
+        logout() {
+            this.$store.commit('IS_AUTH', false);
+            this.$store.commit('NICKNAME', null);
+            this.$store.commit('USERNUM', null);
+            this.$store.commit('EMAIL', null);
         }
-      },
-      logout() {
-        this.$store.commit('IS_AUTH', false);
-        this.$store.commit('NICKNAME', null);
-        this.$store.commit('USERNUM', null);
-        this.$store.commit('EMAIL', null);
-      }
     }
 }
 </script>
