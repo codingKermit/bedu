@@ -215,7 +215,3 @@
     },
     };
 </script>
-<style scoped>
-    
-    
-</style>
