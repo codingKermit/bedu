@@ -36,11 +36,6 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
-		replyVO.setLecturenum(null);	//강의 정보 글번호
-		replyVO.setRwNum(null);	//강의 후기 테이블 번호
-		replyVO.setFaqNum(null);//Qna 글번호
-//		replyVO.setCommNum(44);	//자유게시판 글번호
-		replyVO.setUserId("tet@tet.tet");
 		replyVO.setRegId(replyVO.getUserId());
 		return replyDAO.viewWrite(replyVO);
 	}

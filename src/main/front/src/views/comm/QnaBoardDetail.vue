@@ -32,16 +32,20 @@
         <br>
 
         <div class="w-50 qna-detail-replywrite" id="qna-detail-replywrite" style="display: none;">
-            <h4>답글을 작성하시오</h4>
-            <b-form @submit="answrite()">
-                <b-form-textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+            <div>
+                <h4>답글을 작성하시오</h4>
+            </div>
+            <div>
+                <b-form @submit="answrite()">
+                    <b-form-textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
 
-                <b-container class="my-3 justify-content-md-end d-md-flex qna-detail-replycont" id="qna-detail-replycont">
-                    <b-button type="reset" class="btn-custom ms-2" id="qna-detail-replycont">취소</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">닫기</b-button>
-                    <b-button type="submit" class="btn-custom ms-2" id="qna-detail-rewrite">답변등록</b-button>
-                </b-container>
-            </b-form>
+                    <b-container class="my-3 justify-content-md-end d-md-flex qna-detail-replycont" id="qna-detail-replycont">
+                        <b-button type="reset" class="btn-custom ms-2" id="qna-detail-replycont">취소</b-button>
+                        <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">닫기</b-button>
+                        <b-button type="submit" class="btn-custom ms-2" id="qna-detail-rewrite">답변등록</b-button>
+                    </b-container>
+                </b-form>
+            </div>
         </div>
         
         <div>
@@ -57,6 +61,9 @@
                     </div>
                     <h5>
                         {{ ans.strAnsDate }}
+                    </h5>
+                    <h5>
+                        {{ ans.ansLikeCnt }}
                     </h5>
                 </span>
             </div>
@@ -79,7 +86,6 @@
                     userId:'test@bedu.com',
                     content:'',
                     ansDate:'',
-                    ansLikeNum:0,
                     qsBdNum:0,
                     regDate:'',
                     regId:'',
@@ -173,15 +179,9 @@
                     })
                     return;
                 }
-
-                console.log('질문글:', this.qna.qna_bd_num);
                 
-                const form = new FormData();
                 this.form.qsBdNum = this.qna.qna_bd_num;
                 var qnanum = this.form.qsBdNum;
-                form.append("userId", this.form.userId);
-                form.append("qsBdNum", this.form.qsBdNum);
-                form.append("content", this.form.content);
 
                 this.$axiosSend('post', '/api/ans/write', this.form)
                 .then(res=>{
@@ -224,6 +224,9 @@
     #qna-detail-btncontent{
         margin-top: 60px;
         display: flex;
+    }
+    #qna-detail-replywrite{
+        float: left;
     }
 
 </style>

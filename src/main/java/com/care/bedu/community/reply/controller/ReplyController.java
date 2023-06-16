@@ -20,13 +20,16 @@ public class ReplyController {
 	
 	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
 	public ArrayList<ReplyVO> getReply(ReplyVO replyVO){
-		ArrayList<ReplyVO> list = replyService.getreply(replyVO);
-		System.out.println(list);
-		return list;
+		return replyService.getreply(replyVO);
+		
 	}
 	
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				//게시글 작성
-	public int replyWrite(ReplyVO replyVO){
+	public int replyWrite(int commNum, String userId, String content){
+		ReplyVO replyVO = new ReplyVO();
+		replyVO.setCommNum(commNum);
+		replyVO.setUserId(userId);
+		replyVO.setContent(content);
 		return replyService.boardwrite(replyVO);
 	}
 }

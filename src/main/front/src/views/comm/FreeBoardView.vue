@@ -25,8 +25,8 @@
             <div id="freeboard-box">
                 <h1>자유게시판</h1>
                 <div class="freeBoradSearch" id="freeBoradSearch">
-                    <b-form @submit="search()">
-                        <input type="text" class="search-form free-view-keyword" id="free-view-keyword" placeholder="검색어를 입력하세요" ref="keyword" v-model="form.keyword">       
+                    <b-form @submit="freesearch()">
+                        <input type="text" class="search-form free-view-keyword" id="free-view-keyword" placeholder="검색어를 입력해주세요." ref="keyword" v-model="form.keyword">       
                         <b-button type="submit" class="btn btn-primary free-view-keywordbtn" id="free-view-keywordbtn">검색</b-button>
                         <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                     </b-form>
@@ -64,7 +64,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <hr>
                 <InfiniteLoading @infinite="infiniteHandler" @distance="1">
                     <template #spinner> <!-- 로딩중일때 보여질 부분 -->
                     </template>
@@ -123,7 +122,11 @@
                 })
             },
 
-            search() {                                   
+            freesearch() {    
+                if(this.form.keyword === null || this.form.keyword ===''){
+                    alert('검색어를 입력해주세요!');
+                    return;
+                }                               
                 const form = new FormData();
                 form.append('keyword', this.form.keyword);
                 this.$axiosSend('post','/api/freBd/boardList', this.form)
