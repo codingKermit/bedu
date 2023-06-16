@@ -77,7 +77,7 @@
                     <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
                 </b-nav-item>
             </b-navbar-nav>
-      </b-collapse>   
+        </b-collapse>   
         <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
         :class="{ 'show': showButton }">
             <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
@@ -115,11 +115,11 @@
             /** 검색 메서드 */
             lectSearch(){
                 this.$routerPush(
-                'lectureSearch',
-                {
-                    keyword : this.keyword
-                },
-                true
+                    'lectureSearch',
+                    {
+                        keyword : this.keyword
+                    },
+                    true
                 )
             },
             /** 받은 카테고리를 트리 구조로 변경하는 함수 */

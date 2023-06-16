@@ -42,12 +42,12 @@
                         v-model="selectedAgreements"
                         @change="updateAllChecked"
                     />
-                    <span style="cursor: pointer"
-                        >{{ item.label
-                        }}<strong v-if="item.optional" class="select_disable"
-                            >(선택)</strong
-                        ></span
-                    >
+                    <span style="cursor: pointer">
+                        {{ item.label}}
+                        <strong v-if="item.optional" class="select_disable">
+                            (선택)
+                        </strong>
+                    </span>
                     <!-- 약관 내용 표시 -->
                     <textarea
                         v-if="item.value === 1"

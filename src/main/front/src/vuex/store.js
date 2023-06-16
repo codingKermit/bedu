@@ -4,19 +4,19 @@ import mutations from "./mutations";
 import actions from "./actions";    
 
 const isLoggedIn = () => {
-  const token = localStorage.getItem('user_token');
-  return !!token;
+    const token = localStorage.getItem('user_token');
+    return !!token;
 };
 
 export default createStore({
-  state: {
-    user: null,
-    isLogin: isLoggedIn(),
-    nickname: null,
-    email: null,
-    usernum: null
-  },
-  mutations,
-  getters,
-  actions    
+    state: {
+        user: null,
+        isLogin: isLoggedIn(),
+        nickname: null,
+        email: null,
+        usernum: null
+    },
+    mutations,
+    getters,
+    actions    
 });
