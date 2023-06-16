@@ -28,12 +28,14 @@ export const commonAxios = {
     // 호출예시 : this.$axiosSend('get', '/api/something', {name: '123', value: '456'}, true)
     // header = {'cont-type' : '필요한거'}
     axiosSend(method, url, params, headers) {
-        console.log('Axios ready : method = %o, url = %o', method, url)
+        console.log('Axios ready : method = %o, url = %o, params= %o, headers = %o', method, url, params, headers)
         return axios({
             method,
             url, 
             params,
-            headers,
+            headers: {
+                headers
+            }
         })
     }
 }
