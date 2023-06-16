@@ -97,7 +97,7 @@
             };
         },
         mounted() {
-            this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
+            // this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
         },
 
         components:{
@@ -105,7 +105,7 @@
         },
 
         created(){
-            this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
+            // this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
         },
 
         methods: {

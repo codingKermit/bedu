@@ -1,41 +1,54 @@
 <template>
     <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
         <div class="mb-3 qna-detail-top" id="qna-detail-top">
+            <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
+                <table>
+                    <tr>
+                        <td>
+                            <h2 class="mt-3 mb-5 fw-bold qna-detail-title" id="qna-detail-title">
+                                {{ qna.title }}
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                        </td>
+                        <td>
+                            <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
+                                <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+                                {{ qna.qna_like_yn }}
+                            </text>
+                        </td>
+                        <td>
+                            {{ qna.str_qna_date }}
+                        </td>
+                        <td>
+                            <h5>
+                                {{ qna.user_id}}
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="qna-detail-contents">
+                                {{ qna.content }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+            </b-container>
+        </div>
+        <div class="qna-detail-btns" id="qna-detail-btns">
+            <b-button type="submit" class="btn-custom ms-2 qna-detail-editpath" id="qna-detail-editpath" @click="qnaeditPath()">글수정</b-button>
+            <b-button type="submit" class="btn-custom ms-2 qna-detail-deletepath" id="qna-detail-deletepath" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>                    
+            <b-button type="button" class="btn-custom ms-1 qna-detail-replybtn" id="qna-detail-replybtn" @click="replyopen()">답글작성</b-button>            
         </div>
         <hr>
-        <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
-            <h5>
-                {{ qna.user_id}}
-            </h5>
-            {{ qna.str_qna_date }} 
-            <h2 class="mt-3 mb-5 fw-bold qna-detail-title" id="qna-detail-title">
-                {{ qna.title }}
-            </h2>
-            <div id="qna-detail-contents">
-                {{ qna.content }}
-            </div>
-            <b-container class="ms-auto text-end qna-detail-textend" id="qna-detail-textend">
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
-                <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
-                    {{ qna.qna_like_yn }}
-                </text>
-            </b-container>
-            <b-button type="submit" class="btn-custom ms-2 qna-detail-editpath" id="qna-detail-editpath" @click="qnaeditPath()">글수정</b-button>
-            <b-button type="submit" class="btn-custom ms-2 qna-detail-deletepath" id="qna-detail-deletepath" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
-            <div class="qna-detail-btncontent" id="qna-detail-btncontent">
-                <div class="qna-detail-openbtn" id="qna-detail-openbtn">
-                    <b-button type="button" class="btn-custom ms-1 qna-detail-replybtn" id="qna-detail-replybtn" @click="replyopen()">답글작성</b-button>
-                </div>
-            </div>
-        </b-container>
-        <br>
-
         <div class="w-50 qna-detail-replywrite" id="qna-detail-replywrite" style="display: none;">
             <div>
                 <h4>답글을 작성하시오</h4>
-            </div>
-            <div>
                 <b-form @submit="answrite()">
                     <b-form-textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
 
@@ -213,7 +226,9 @@
     }
 </script>
 <style scoped>
-
+    #qna-detail-btns{
+        float: right;
+    }
     #qna-detail-replylist{
         border:1px solid;
         margin-top:20px;
@@ -224,9 +239,6 @@
     #qna-detail-btncontent{
         margin-top: 60px;
         display: flex;
-    }
-    #qna-detail-replywrite{
-        float: left;
     }
 
 </style>
