@@ -1,12 +1,11 @@
 package com.care.bedu.file.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.care.bedu.file.service.FileUploadService;
@@ -41,13 +40,17 @@ public class FileUploadController {
     }
 
     @PostMapping("/uploadFormAction")
-	public void uploadFormPost(
-        @RequestParam MultipartFile videoFile, 
-        String lectNum, 
-        String videoTime) throws IOException{
-        System.out.println(videoFile);
-        System.out.println(lectNum);
-        System.out.println(videoTime);
+	public ResponseEntity<String> uploadFormPost(MultipartHttpServletRequest request, Model model) throws IOException{
+        MultipartFile file = request.getFile("videoFile");
+
+        int chunkNumber = Integer.parseInt(request.getParameter("chunkNumber")) ;
+        int totalChunk = Integer.parseInt(request.getParameter("totalChunk"));
+
+        if(chunkNumber == totalChunk){
+            return ResponseEntity.ok("");
+        } else {
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
+        }
     }  
 
     @RequestMapping("/getLectureList")
