@@ -1,26 +1,6 @@
 <template>
     <div class="freeboard-view" id="freeboard-view">
-        <div class="free-view-side" id="free-view-side">
-            <p class="fs-2 fw-bold mb-3 mt-15">커뮤니티</p>
-            <ul class="nav flex-column w-100">
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-freepath" id="qna-view-freepath">
-                        <a class="fs-5 text-body text-decoration-none" @click="freepath()"
-                        style="cursor: pointer; text-align: right;">
-                            <p>자유게시판</p>
-                        </a>
-                    </span>
-                </li>
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-qnapath" id="qna-view-qnapath">
-                        <a class="fs-5 text-body text-decoration-none" @click="qnapath()"
-                        style="cursor: pointer; text-align: right;">
-                            <p>질문 & 답변</p>
-                        </a>
-                    </span>
-                </li>
-            </ul>
-        </div>
+        <CommCategory></CommCategory>
         <div class="freeboard-main" id="freeboard-main">
             <div id="freeboard-box">
                 <h1>자유게시판</h1>
@@ -36,9 +16,8 @@
                 <table class="w3-table-all freeboard-table" id="freeboard-table">
                     <thead>
                         <tr>
-                            <th>내용</th>
+                            <th>제목</th>
                             <th>작성자</th>
-                            <th>좋아요 수</th>
                             <th>작성일자</th>
                             <th>조회 수</th>
                         </tr>
@@ -51,12 +30,7 @@
                                 </b-link>
                             </td>
                             <td>{{ free.user_id }}</td>
-                            <td>
-                                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="freelikeUp(free.comm_num)" />
-                                <text class="fw-bold ms-2" id="likes">
-                                {{ free.comm_like_yn }}
-                                </text>
-                            </td>
+
                             <td>{{ free.str_comm_date }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
@@ -79,13 +53,13 @@
 </template>
 <script>
     import router from '@/router';
+    import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     import '@/assets/css/freeBoardStyle.css';
     export default {
     
         data() {
             return {
-                page : 1,
                 freelist:[],
                 form: {
                     keyword: '',
@@ -101,7 +75,7 @@
         },
 
         components:{
-            InfiniteLoading
+            InfiniteLoading, CommCategory
         },
 
         created(){
@@ -181,23 +155,23 @@
                 })
             },
 
-            freelikeUp(num) {
-                this.$axiosSend('get', '/api/freBd/likeUp', {
-                    num: num
-                })
-                .then(res => {
-                    if(res.data === 1){
-                        for(var i=0; i<this.freelist.length; i++){
-                            if(num === this.freelist[i].comm_num){
-                                this.freelist[i].comm_like_yn++;
-                            }
-                        }
-                    }
-                })
-                .catch((error) => {
-                    alert(error);
-                })
-            }
+            // freelikeUp(num) {
+            //     this.$axiosSend('get', '/api/freBd/likeUp', {
+            //         num: num
+            //     })
+            //     .then(res => {
+            //         if(res.data === 1){
+            //             for(var i=0; i<this.freelist.length; i++){
+            //                 if(num === this.freelist[i].comm_num){
+            //                     this.freelist[i].comm_like_yn++;
+            //                 }
+            //             }
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         alert(error);
+            //     })
+            // }
         }
     }
 

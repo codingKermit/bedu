@@ -16,7 +16,7 @@
                         </td>
                         <td>
                             <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
-                                <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+                                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)"/>
                                 {{ qna.qna_like_yn }}
                             </text>
                         </td>
@@ -176,6 +176,10 @@
                     
             },
 
+            qnalikeUp(qnum){
+                
+            },
+
             censells(){
                 document.getElementById("qna-detail-replywrite").style.display="none";
                 document.getElementById("qna-detail-replybtn").style.display="block";
@@ -217,6 +221,22 @@
                 document.getElementById("qna-detail-replybtn").style.display="none";
                 document.getElementById("qna-detail-replywrite").style.display="block";
             },
+
+            // qnalikeUp(qnum) {
+            //     this.$axiosSend('get', '/api/qna/likeUp', {
+            //         num: qnum
+            //     })
+            //     .then(res => {
+            //         if (res.data === 1) {
+            //             if (qnum === qna.qna_bd_num) {
+            //                 this.qna.qna_like_yn++;
+            //             }
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         alert(error);
+            //     })
+            // },
 
             path(qnanum){
                 this.qnum = qnanum;

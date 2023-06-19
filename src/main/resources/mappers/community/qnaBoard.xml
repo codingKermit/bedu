@@ -3,27 +3,22 @@
 
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
-	<select id="viewlist" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT
-		 * FROM 
-		(SELECT
-		 ROWNUM rnum,
-		 QS_BD_NUM as qna_bd_num,
-		 TITLE,
-		 CONTENT,
-		 USER_ID,
-		 QS_DATE as qna_date,
-		 QS_CNT as qna_cnt,
-		 QS_LIKE_CNT as qna_like_yn,
-		 REG_ID
+	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
+		SELECT * FROM (SELECT
+		  ROWNUM rnum,
+		  QS_BD_NUM as qna_bd_num,
+		  TITLE,
+		  CONTENT,
+		  USER_ID,
+		  QS_DATE as qna_date,
+		  QS_CNT as qna_cnt,
+		  QS_LIKE_CNT as qna_like_yn,
+		  REG_ID
 		FROM(SELECT
-		* FROM
-		 T_BEDU_QS
-		 ORDER BY QS_BD_NUM DESC)) 
-		<if test="page > 0 and limit > 0">
-			WHERE rnum >= #{page} AND #{limit} >= rnum
-		</if>
-	</select>
+		* FROM T_BEDU_QS
+		ORDER BY QS_BD_NUM DESC)) 
+		WHERE rnum >= #{startrow} AND #{endrow} >= rnum
+	 </select>
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(

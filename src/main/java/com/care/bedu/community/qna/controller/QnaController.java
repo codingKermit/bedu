@@ -19,8 +19,7 @@ public class QnaController {
 	
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
 	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
-		ArrayList<QnaVO> list = qnaService.listProc(qnaVO);
-	 	return list;
+		 return qnaService.listProc(qnaVO);
 	 }
 	
 	 @RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
