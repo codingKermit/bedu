@@ -1,68 +1,73 @@
 <template>
     <div class="container w-75 mt-5 mb-3 freeboard-detail-main" id="freeboard-detail-main">
-        <hr>
         <b-container class="justify-content-start text-start">
-            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-            </div>
-            <h5>
-                {{ free.user_id}}
-            </h5>
-            {{ free.str_comm_date }} 
-            <h2 class="mt-3 mb-5 fw-bold free-detail-title" id="free-detail-title">
+            <h2 class="pt-5 mb-3 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}
             </h2>
+            <div id="freeboard-userinfo">
+                <p id="freeboard-userid">
+                    {{ free.user_id}}
+                </p>
+                <p id="free-comm">
+                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
+                </p>
+                <p id="free-date">
+                    {{ free.str_comm_date }} 
+                </p>
+            </div>
+            <hr class="mt-0"/>
             <div id="freeboard-detail-contents">
                 {{ free.content }}
             </div>
-
-            <b-container class="ms-auto text-end">
-                <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
-                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
-                <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
-                    {{ free.comm_like_yn }}
-                </text>
-            </b-container>
-            <hr>
+            <div id="free-likeyn">
+                <button id="free-likebtn">
+                    <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
+                        <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
+                            {{ free.comm_like_yn }}
+                        </text>
+                </button>    
+            </div>
+            <hr  />
+            <div>
+                <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
+                    <h4>댓글을 작성하시오</h4>
+                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+                </div>
+                <div>
+                    <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
+                        <span>
+                            <h5>
+                                {{ reply.userId }}
+                            </h5>
+                            <div>
+                                <h5>
+                                    {{ reply.content }}
+                                </h5>
+                            </div>
+                            <h5>
+                                {{ reply.strReplyDate }}
+                            </h5>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
+                <b-button type="submit" class="btn-custom ms-2" id="qna-detail-rewrite" onclick="replywrite()">댓글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
+                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+            </div>
         </b-container>
         <br>
-        <div class="w-50 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
-            <h4>댓글을 작성하시오</h4>
-            <b-form @submit="replywrite()">
-                <b-form-textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                <b-container class="my-3 justify-content-md-end d-md-flex qna-detail-replycont" id="qna-detail-replycont">
-                    <b-button type="reset" class="btn-custom ms-2" id="qna-detail-replycont">취소</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">닫기</b-button>
-                    <b-button type="submit" class="btn-custom ms-2" id="qna-detail-rewrite">댓글등록</b-button>
-                </b-container>
-            </b-form>
-        </div>
-        <div>
-            <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
-                <span>
-                    <h5>
-                        {{ reply.userId }}
-                    </h5>
-                    <div>
-                        <h5>
-                            {{ reply.content }}
-                        </h5>
-                    </div>
-                    <h5>
-                        {{ reply.strReplyDate }}
-                    </h5>
-                </span>
-            </div>
-        </div>
+        
     </div>
     
 </template>
 
 <script>
 import router from '@/router';
-
+import '@/assets/css/freeBoardStyle.css';
 export default{
     
     data() {
@@ -127,11 +132,6 @@ export default{
             .catch((error) => {
                 console.log(error);
             })
-        },
-
-        censells(){
-            document.getElementById("free-detail-replywrite").style.display="none";
-            document.getElementById("free-detail-replybtn").style.display="block";
         },
 
 
@@ -206,7 +206,20 @@ export default{
 
         replyopen(){
             document.getElementById("free-detail-replybtn").style.display="none";
+            document.getElementById("qna-detail-rewrite").style.display="inline";
             document.getElementById("free-detail-replywrite").style.display="block";
+            document.getElementById("freeboard-detail-editbtn").style.display="none";
+            document.getElementById("freeboard-detail-deletebtn").style.display="none";
+            document.getElementById("qna-detail-recensell").style.display="inline";
+        },
+
+        censells(){
+            document.getElementById("free-detail-replybtn").style.display="inline";
+            document.getElementById("qna-detail-rewrite").style.display="none";
+            document.getElementById("free-detail-replywrite").style.display="none";
+            document.getElementById("freeboard-detail-editbtn").style.display="inline";
+            document.getElementById("freeboard-detail-deletebtn").style.display="inline";
+            document.getElementById("qna-detail-recensell").style.display="none";
         },
 
         path(commnum){
@@ -216,6 +229,3 @@ export default{
     },
 }
 </script>
-<style>
-
-</style>

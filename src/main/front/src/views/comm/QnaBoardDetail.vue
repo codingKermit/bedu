@@ -225,20 +225,3 @@
         },
     }
 </script>
-<style scoped>
-    #qna-detail-btns{
-        float: right;
-    }
-    #qna-detail-replylist{
-        border:1px solid;
-        margin-top:20px;
-        border-radius: 20px 20px / 20px 20px;
-        text-align: center;
-    }
-
-    #qna-detail-btncontent{
-        margin-top: 60px;
-        display: flex;
-    }
-
-</style>

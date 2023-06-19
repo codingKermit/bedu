@@ -23,6 +23,7 @@ export default {
                     this.$store.commit('NICKNAME', decodedToken.nickname);
                     this.$store.commit('USERNUM', decodedToken.usernum);
                     this.$store.commit('EMAIL', decodedToken.email);
+                    this.$store.commit('CLS', decodedToken.cls);
                     this.$store.commit('IS_AUTH', true);
                 } catch (error) {
                     console.error('Invalid token:', error);
@@ -37,6 +38,7 @@ export default {
             this.$store.commit('NICKNAME', null);
             this.$store.commit('USERNUM', null);
             this.$store.commit('EMAIL', null);
+            this.$store.commit('CLS', null);
         }
     }
 }

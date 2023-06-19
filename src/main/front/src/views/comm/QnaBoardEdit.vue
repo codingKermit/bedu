@@ -74,15 +74,3 @@
         },
     }
 </script>
-<style scoped>
-    .btn-custom{
-    --bs-btn-bg:#3498db !important;
-    --bs-btn-border-color : null !important;
-    }
-
-    .btn-custom:hover{
-    background-color: #7ebae2 !important;
-    }
-
-
-</style>

@@ -57,7 +57,12 @@
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
                 </b-nav-item>
-                <b-nav-item v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
+                <b-nav-item class="fs-5">
+                    <router-link v-if="isLoggedIn && getCls === 'ADMIN'" to="/adminPage">
+                        관리자 페이지
+                    </router-link>
+                </b-nav-item>
+                <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
                         <span class="fs-5">{{ getNickname }}</span>
                     </button>
@@ -109,6 +114,9 @@
             },
             getNickname() {
                 return this.$store.getters.getNickname;
+            },
+            getCls() {
+                return this.$store.getters.getCls;
             }
         },
         methods: {

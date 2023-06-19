@@ -14,7 +14,8 @@ export default createStore({
         isLogin: isLoggedIn(),
         nickname: null,
         email: null,
-        usernum: null
+        usernum: null,
+        cls: null
     },
     mutations,
     getters,
