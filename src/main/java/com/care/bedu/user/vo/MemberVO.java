@@ -22,6 +22,6 @@ public class MemberVO {
 	
 	private LocalDate urd;
 	
-	private int udy;
+	private String udy;
 	
 }

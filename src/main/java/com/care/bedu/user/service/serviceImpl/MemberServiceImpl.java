@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
         memberVo.setRegDate(LocalDateTime.now());
         memberVo.setCls("USER");
         memberVo.setUrd(LocalDate.now());
-        memberVo.setUdy(0);
+        memberVo.setUdy("N");
         memberDao.register(memberVo);
     }
 

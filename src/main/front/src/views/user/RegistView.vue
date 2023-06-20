@@ -128,11 +128,15 @@
                     <form class="regist-form" @submit.prevent="register">
                         <!-- 이메일 입력 필드 -->
                         <div id="registFormGroup">
-                            <input
+                            <input 
+                                list="emailList"
                                 id="registEmail"
                                 placeholder="이메일 입력"
-                                v-model="member.email"
+                                v-model="emailValue"
                             />
+                            <datalist id="emailList">
+                                <option v-for="(email, index) in emailList" :value="email" :key="index" />
+                            </datalist>
                             <button
                                 id="registEmailChk"
                                 @click="checkEmailDuplicate"
@@ -276,6 +280,7 @@
     import fileText3 from "raw-loader!./이벤트 수신 동의.txt";
 
     export default {
+        name: 'EmailInput',
         data() {
             return {
                 allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
@@ -300,6 +305,8 @@
                 isChecking: false,
                 emailChecked: false,
                 nickChecked: false,
+                emailValue: '',
+                emailList: [],
                 // 회원의 이메일, 닉네임, 비밀번호를 저장하는 객체입니다.
                 member: {
                     email: "",
@@ -325,6 +332,26 @@
             },
             "member.password": function () {
                 this.checkPassword();
+            },
+
+            emailValue(value) {
+                this.member.email = value;
+                const frequencyEmails = [
+                    '@naver.com',
+                    '@gmail.com',
+                    '@daum.net',
+                    '@hanmail.net',
+                    '@yahoo.com',
+                    '@outlook.com',
+                    '@nate.com',
+                    '@kakao.com',
+                ];
+
+                const userEmails = frequencyEmails.map((email) => {
+                    return value.includes('@') ? value.split('@')[0] + email : value + email;
+                });
+
+                this.emailList = userEmails;
             },
         },
         methods: {
