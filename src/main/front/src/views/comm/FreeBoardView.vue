@@ -119,6 +119,7 @@
                     page : this.currentPage,
                 })
                 .then(res=>{
+                    console.log('값:', res.data);
                     if(res.data.length){
                         this.currentPage++;
                         this.freelist.push(...res.data);
@@ -129,18 +130,6 @@
                 })
                 .catch(err=>{
                     alert(err);
-                })
-            },
-
-            freepath(){
-                router.push({
-                    name: "freeBoard"
-                })
-            },
-
-            qnapath(){
-                router.push({
-                    name: "qnaBoard"
                 })
             },
 

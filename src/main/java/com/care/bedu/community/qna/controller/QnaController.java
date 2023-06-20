@@ -1,6 +1,7 @@
 package com.care.bedu.community.qna.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api")
@@ -54,9 +58,19 @@ public class QnaController {
 	 }
 	
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
-	 public int likeUp(int num){
-	 	return qnaService.likeUp(num);
-		
+	 public HashMap<String, Object> likeUp(int num, String email, HttpServletRequest request){
+		 HashMap<String, Object> map = new HashMap<>();
+		 HttpSession session = request.getSession();
+		 String sessionEmail = (String)session.getAttribute("userEmail");
+		 if(sessionEmail != null || sessionEmail == email) {
+			 map.put("nums", 0);
+			 return map;
+		 }
+		 int result = qnaService.likeUp(num) == 1? num : 0;
+		 session.setAttribute("userEmail", email);
+		 map.put("email", email);
+		 map.put("nums", result);
+	 	 return map;
 	 }
 
 }

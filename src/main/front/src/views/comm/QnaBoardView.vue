@@ -143,7 +143,6 @@
                 startrow : this.currentPage,
             })
             .then(res=>{
-                console.log('값:', res.data);
                 if(res.data.length){
                     this.currentPage++;
                     this.qnalist.push(...res.data);

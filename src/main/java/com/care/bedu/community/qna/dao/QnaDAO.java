@@ -17,5 +17,5 @@ public interface QnaDAO {
 	public ArrayList<QnaVO> viewsearch(QnaVO qnaVO);			//게시글 키워드 검색
 	public int getTotal();										//게시글 전체 개수 조회
 	public void qnaCntUp(int num);								//게시글 조회수 1증가
-	public int likeUp(int num);										//게시글 좋아요 1증가
+	public int likeUp(int num, String userId);										//게시글 좋아요 1증가
 }
