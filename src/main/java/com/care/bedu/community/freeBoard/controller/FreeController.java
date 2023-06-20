@@ -53,8 +53,7 @@ public class FreeController {
 	
 	@RequestMapping(value="/freBd/likeUp", method = RequestMethod.GET)				//좋아요 1증가
 	public int likeUp(int num){
-		return freeService.likeUp(num);
+		return freeService.likeUp(num) ==1? num:0;
 	}
-	
 	
 }

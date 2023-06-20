@@ -11,6 +11,7 @@ import com.care.bedu.community.qna.dao.QnaDAO;
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
 import com.care.bedu.user.dao.MemberDAO;
+import com.care.bedu.user.vo.MemberVO;
 
 @Service
 public class QnaServiceImpl implements QnaService{
@@ -39,7 +40,7 @@ public class QnaServiceImpl implements QnaService{
 		for(QnaVO qna : list) {
 			qna.setStr_qna_date(regdates(qna.getQna_date()));
 		}
-		return list;						//게시글 조회
+		return list;						
 	}
 
 	@Override
@@ -76,7 +77,8 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int likeUp(int num) {
-		return qnaDAO.likeUp(num);						//게시글 좋아요 1 증가
+		MemberVO memberVO = memberDAO.getMemberByEmail("test@bedu.com");
+		return qnaDAO.likeUp(num, memberVO.getEmail());						//게시글 좋아요 1 증가
 	}
 
 }

@@ -100,7 +100,7 @@
 	<update id="likeUp">
 		UPDATE
 		 T_BEDU_QS SET QS_LIKE_CNT = QS_LIKE_CNT + 1
-		WHERE QS_BD_NUM = #{num}
+		WHERE QS_BD_NUM = #{num} and USER_ID=#{userId}
 	</update>
 	
 </mapper>

@@ -20,7 +20,7 @@
                 {{ free.content }}
             </div>
             <div id="free-likeyn">
-                <button id="free-likebtn">
+                <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
                     <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
                         <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                             {{ free.comm_like_yn }}
@@ -52,11 +52,11 @@
                 </div>
             </div>
             <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                <b-button type="submit" class="btn-custom ms-2" id="qna-detail-rewrite" onclick="replywrite()">댓글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
                 <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
                 <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
             </div>
         </b-container>
         <br>
@@ -78,7 +78,6 @@ export default{
                 commNum:0,
                 replyNum: 0,
                 userId:'test@bedu.com',
-                content: '',
                 replyDate: '',
                 faqNum: 0,
                 rwNum: 0,
@@ -220,6 +219,20 @@ export default{
             document.getElementById("freeboard-detail-editbtn").style.display="inline";
             document.getElementById("freeboard-detail-deletebtn").style.display="inline";
             document.getElementById("qna-detail-recensell").style.display="none";
+        },
+
+        freelikeUp(commnum){
+            this.$axiosSend('get','/api/freBd/likeUp', {
+                num: commnum,
+            })
+            .then(res => {
+                if(res.data === this.free.comm_num){
+                    this.free.comm_num++;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
         },
 
         path(commnum){
