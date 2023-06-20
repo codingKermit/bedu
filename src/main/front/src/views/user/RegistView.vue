@@ -141,22 +141,26 @@
                                 id="registEmailChk"
                                 @click="checkEmailDuplicate"
                                 :disabled="
-                                    isChecking || valid.email || !member.email || !valid.emailDomain
+                                    isChecking || valid.email || !member.email
                                 "
                             >
                                 중복체크
                             </button>
+                            <p
+                                v-show="valid.email && member.email"
+                                id="registInputError"
+                            >
+                                이메일 주소를 정확히 입력해주세요. 예)
+                                bedu@bedu.com
+                            </p>
                             <p
                                 v-show="emailChecked && !valid.emailChk"
                                 id="registInputError"
                             >
                                 중복된 이메일 입니다.
                             </p>
-                            <p
-                                v-show="valid.email || !valid.emailDomain"
-                                id="registInputError"
-                            >
-                                올바른 도메인을 사용해주세요.
+                            <p v-show="!valid.email && !valid.emailDomain && emailChecked" id="registInputError">
+                                도메인을 포함한 올바른 이메일 주소를 입력해주세요.
                             </p>
                             <p
                                 v-show="emailChecked && valid.emailChk && valid.emailDomain"
@@ -500,6 +504,7 @@
                 if (
                     this.emailChecked &&
                     this.valid.emailChk &&
+                    this.valid.emailDomain &&
                     this.nickChecked &&
                     this.valid.nickChk &&
                     this.valid.password &&
