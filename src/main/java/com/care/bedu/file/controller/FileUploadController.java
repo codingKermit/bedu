@@ -34,7 +34,7 @@ public class FileUploadController {
     private FileUploadService service;
 
     @GetMapping(value = "/upload.do")
-    public ModelAndView upload(jakarta.servlet.http.HttpServletRequest request, ModelAndView mv) {
+    public ModelAndView upload(MultipartHttpServletRequest request, ModelAndView mv) {
         mv.setViewName("/file/fileUpload");
         return mv;
     }
