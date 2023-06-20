@@ -27,7 +27,7 @@
                     <div class="p-4">
                         <b-container class="border rounded-4 pt-3 pb-5 vh-100 file-search-list">
                             <b-form-group
-                                class="fs-4"
+                                class="fs-4 text-center"
                                 label="조회된 강의 목록"
                             >
                                 <ul class="list-unstyled ">
@@ -42,7 +42,7 @@
                                             </div>
                                             <div class="me-5">
                                                 <p>강의 번호 : <span class="fw-bold">{{ item.lectNum }}</span></p>
-                                                <p>강의 제목 : <span class="fw-bold">{{ item.title }}</span></p>
+                                                <p>강의 제목 : <span class="fw-bold">{{ item.lectDtlTitle }}</span></p>
                                                 <p>강사 : <span class="fw-bold">{{ item.teacher }}</span></p>
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@
                             class="mb-5"
                             >
                                 <b-form-input id="video-title"
-                                    v-model="form.videoTitle"
+                                    v-model="form.lectDtlTitle"
                                     required :state="state" trim
                                     class="form-control-lg"
                                 ></b-form-input>
@@ -80,7 +80,7 @@
                             >
                                 <b-form-input
                                     id="video-time"
-                                    v-model="form.videoTime"
+                                    v-model="form.lectDtlTime"
                                     required
                                     :state="state"
                                     trim
@@ -116,6 +116,8 @@
 
 
 <script>
+import axios from 'axios'
+
 export default{
     name : 'fileUpload',
     data() {
@@ -123,8 +125,8 @@ export default{
             keyword : '',
             form: {
                 lectNum : 0,
-                videoTitle: '',
-                videoTime: 0,
+                lectDtlTitle: '',
+                lectDtlTime: 0,
             },
             videoFile : null,
             lists:[],
@@ -148,6 +150,8 @@ export default{
             this.videoFile = e.target.files[0];
         },
         uploadVideo(){
+        
+            // 데이터 공백 체크
             if(this.form.lectNum == 0){
                 this.$swal({
                     title : '경고!',
@@ -172,32 +176,64 @@ export default{
                 })
                 return;
             }
+            // 공백 체크 종료
 
-            const headers = {
-                "Content-Encoding" : 'multipart/form-data',
-                "test" : "why not",
-                "Content-Type" : 'multipart/form-data',
+            const fileSize =  this.videoFile.size // 업로드하는 파일 크기
+            
+            const chunkSize = 1024*1024; // 1mb 
+            
+            const totalChunk = Math.floor(fileSize/chunkSize)+1; // 청크 갯수
+
+            let currentChunk = 0; // 현재 청크 번호
+
+
+            /** 업로드된 파일을 10mb로 나누어 업로드 하는 재귀함수 */
+            const fileUpload = () => {
+
+                const begin = currentChunk * chunkSize;
+                const end = Math.min(begin+chunkSize, fileSize);
+
+                const chunk = this.videoFile.slice(begin,end)
+
+                const formData = new FormData();
+                formData.append("lectNum",this.form.lectNum);
+                formData.append("lectDtlTitle", this.form.lectDtlTitle);
+                formData.append("lectDtlTime",this.form.lectDtlTime);
+                formData.append("videoFile",chunk);
+                formData.append("chunkNumber",currentChunk);
+                formData.append("totalChunk",totalChunk);
+                
+                axios.post('/api/file/uploadFormAction',formData,{
+                    headers:{
+                        "Content-Type" : "multipart/form-data"
+                    }
+                })
+                .then((res)=>{
+                    console.log(res.status);
+                    currentChunk++;
+                    if(res.status == 206){ // 부분만 완료 되었으면 제귀함수 호출
+                        fileUpload();
+                    } else if (res.status == 200){ // 전체 완료시 종료, 이후 데이터 처리 코드는 추후 작성
+                        return;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
             }
 
+            fileUpload(); // 제귀함수 호출
 
-            const formData = new FormData();
-            formData.append("lectNum",this.form.lectNum);
-            formData.append("videoTime",this.form.videoTime);
-            formData.append("videoFile",this.videoFile);
 
-            const params = {
-                lectNum : this.form.lectNum,
-                videoTime : this.form.videoTime,
-                videoFile : this.form.videoTime
-            }
 
-            this.$axiosSend('post','/api/file/uploadFormAction',formData, headers)
-            .then((res)=>{
-                console.log(res)
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+            // 공통유틸의 axiosSend()로는 헤더 적용이 되지 않는 문제가 발생하여 바닐라 axios를 사용
+            // this.$axiosSend('post','/api/file/uploadFormAction',formData, this.headers)
+            // .then((res)=>{
+            //     console.log(res)
+            // })
+            // .catch((err)=>{
+            //     console.log(err)
+            // })
         }
     },
 }

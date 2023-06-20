@@ -14,9 +14,9 @@
 		  COMM_CNT,
 		  COMM_LIKE_YN,
 		  REG_ID
-	    FROM BEDU.T_BEDU_COMM
-		ORDER BY COMM_NUM DESC)
-		WHERE rnum >= #{page} and #{limit} >= rnum 
+	    FROM T_BEDU_COMM
+		 ORDER BY COMM_NUM DESC)
+		  WHERE rnum >= #{page} and #{limit} >= rnum 
 	
 	</select>
 	

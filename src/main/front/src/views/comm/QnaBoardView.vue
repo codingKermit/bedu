@@ -1,26 +1,6 @@
 <template>
     <div class="qna-view" id="qna-view">
-        <div class="qna-view-side" id="qna-view-side">
-            <p class="fs-2 fw-bold mb-3 mt-15">커뮤니티</p>
-            <ul class="nav flex-column w-100">
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-freepath" id="qna-view-freepath">
-                        <a class="fs-5 text-body text-decoration-none" @click="freepath()"
-                        style="cursor: pointer; text-align: right;">
-                            <p>자유게시판</p>
-                        </a>
-                    </span>
-                </li>
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-qnapath" id="qna-view-qnapath">
-                        <a class="fs-5 text-body text-decoration-none" @click="qnapath()"
-                        style="cursor: pointer; text-align: right;">
-                            <p>질문 & 답변</p>
-                        </a>
-                    </span>
-                </li>
-            </ul>
-        </div>
+        <CommCategory></CommCategory>
         <div class="qna-main" id="qna-main">
             <div class="qna-box" id="qna-box">
                 <h1>질문 & 답변</h1>
@@ -38,7 +18,6 @@
                         <tr>
                             <th>제목</th>
                             <th>작성자</th>
-                            <th>좋아요 수</th>
                             <th>작성일자</th>
                             <th>조회 수</th>
                         </tr>
@@ -51,12 +30,6 @@
                                 </b-link>
                             </td>
                             <td>{{ qna.user_id }}</td>
-                            <td>
-                                <font-awesome-icon :icon="['fas', 'thumbs-up']" @click="qnalikeUp(qna.qna_bd_num)" />
-                                <text class="fw-bold ms-2" id="likes">
-                                    {{ qna.qna_like_yn }}
-                                </text>
-                            </td>
                             <td>{{ qna.str_qna_date }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
@@ -79,7 +52,8 @@
 </template>
 
 <script>
-    import router from '@/router';
+    
+    import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     import '@/assets/css/qnaStyle.css';
     export default {
@@ -99,15 +73,14 @@
     },
 
     created() {
-        this.getTotal();
     },
 
     mounted() {
-        this.getTotal();
     },
 
     components:{
-        InfiniteLoading
+        InfiniteLoading,
+        CommCategory
     },
 
     methods: {
@@ -115,7 +88,7 @@
         List() {
             
             this.$axiosSend('get','/api/qna/qnaList', {
-                page: this.currentPage,
+                startrow: this.currentPage,
             })
             .then(res => {
                 this.qnalist = res.data;
@@ -163,43 +136,14 @@
                 return;
             }
             this.currentPage = val;
-        },
-
-        freepath(){
-            router.push({
-                name: "freeBoard"
-            })
-        },
-
-        qnapath(){
-            router.push({
-                name: "qnaBoard"
-            })
         },      
-
-        qnalikeUp(qnum) {
-            this.$axiosSend('get', '/api/qna/likeUp', {
-                num: qnum
-            })
-            .then(res => {
-                if (res.data === 1) {
-                    for (var i = 0; i < this.qnalist.length; i++) {
-                        if (qnum === this.qnalist[i].qna_bd_num) {
-                            this.qnalist[i].qna_like_yn++;
-                        }
-                    }
-                }
-            })
-            .catch((error) => {
-                alert(error);
-            })
-        },
 
         infiniteHandler($state){
             this.$axiosSend('get','/api/qna/qnaList',{
-                page : this.currentPage,
+                startrow : this.currentPage,
             })
             .then(res=>{
+                console.log('값:', res.data);
                 if(res.data.length){
                     this.currentPage++;
                     this.qnalist.push(...res.data);
