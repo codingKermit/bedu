@@ -1,6 +1,7 @@
 package com.care.bedu.file.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class FileUploadController {
         int totalChunk = Integer.parseInt(request.getParameter("totalChunk"));
 
         if(chunkNumber == totalChunk){
-            return ResponseEntity.ok("");
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
         }
@@ -60,5 +61,14 @@ public class FileUploadController {
         map = service.getLectureList(keyword);
 
         return map;
+    }
+
+    @RequestMapping("/getTotalLecture")
+    public ResponseEntity<Object> getTotalLecture(){
+        HashMap<String, Object> map = new HashMap<>();
+
+        map = service.getTotalLecture();
+
+        return new ResponseEntity<Object>(map, HttpStatus.OK);
     }
 }

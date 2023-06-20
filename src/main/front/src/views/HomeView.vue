@@ -31,7 +31,7 @@
                         <p>대충 광고 문구 주저리주저리...</p>
                     </div>
                     <div>
-                        <b-button class="py-2 px-4 fs-3 d-flex">
+                        <b-button class="py-2 px-4 fs-3 d-flex" to="/membership">
                             맴버쉽 안내
                         </b-button>
                     </div>

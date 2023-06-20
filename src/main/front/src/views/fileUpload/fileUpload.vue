@@ -9,7 +9,7 @@
                         <div class="me-4 w-75">
                             <b-form-input 
                             v-model="keyword" 
-                            class="w-100 m-auto form-control-lg py-1" 
+                            class="w-100 m-auto form-control-lg py-1"
                             type="search"
                             ></b-form-input>
                         </div>
@@ -28,8 +28,8 @@
                         <b-container class="border rounded-4 pt-3 pb-5 vh-100 file-search-list">
                             <b-form-group
                                 class="fs-4 text-center"
-                                label="조회된 강의 목록"
                             >
+                            <p class="text-center fs-3 mt-2 mb-4">조회된 강의 목록</p>
                                 <ul class="list-unstyled ">
                                     <li v-for="(item, index) in lists" :key="index" class="mb-3 fs-5">
                                         <div class="border rounded-3 p-3 d-flex">
@@ -40,9 +40,9 @@
                                                 :value="item.lectNum"
                                                 ></b-form-radio>
                                             </div>
-                                            <div class="me-5">
+                                            <div class="me-5 text-start">
                                                 <p>강의 번호 : <span class="fw-bold">{{ item.lectNum }}</span></p>
-                                                <p>강의 제목 : <span class="fw-bold">{{ item.lectDtlTitle }}</span></p>
+                                                <p>강의 제목 : <span class="fw-bold">{{ item.title }}</span></p>
                                                 <p>강사 : <span class="fw-bold">{{ item.teacher }}</span></p>
                                             </div>
                                         </div>
@@ -131,6 +131,9 @@ export default{
             videoFile : null,
             lists:[],
         }
+    },
+    created(){
+        this.getTotalLecture();
     },
     methods: {
         /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
@@ -234,7 +237,19 @@ export default{
             // .catch((err)=>{
             //     console.log(err)
             // })
+        },
+        /** 모든 강의 목록을 조회하는 메서드 */
+        getTotalLecture(){
+            this.$axiosSend('get','/api/file/getTotalLecture')
+            .then((res)=>{
+                console.log(res);
+                this.lists = res.data.item;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         }
+
     },
 }
 </script>

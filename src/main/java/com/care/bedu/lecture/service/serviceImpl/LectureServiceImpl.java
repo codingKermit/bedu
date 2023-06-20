@@ -183,7 +183,7 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 장바구니 조회 */
 	@Override
 	public HashMap<String, Object> getCart(int num) {
 		HashMap<String, Object> result = new HashMap<>();
@@ -198,7 +198,7 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 장바구니 삭제 */
 	@Override
 	public int removeFromCart(int[] list, int userNum) {
 		int result = 0;
@@ -218,10 +218,23 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 동영상 정보 조회 */
 	@Override
 	public HashMap<String, Object> getLesson(int num) {
 		HashMap<String, Object> map = new HashMap<>();
+
+		LectureDetailVO vo = new LectureDetailVO();
+
+		vo = lectureDao.getLesson(num);
+
+		map.put("lessonItem",vo);
+
+
+		ArrayList<LectureDetailVO> lessonList = new ArrayList<>();
+
+		lessonList = lectureDao.getVideoList(vo.getLectNum());
+
+		map.put("lessonList",lessonList);
 
 		
 

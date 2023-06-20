@@ -13,7 +13,6 @@
                 class="lect-search-result-container p-3 border-opacity-25 border-secondary border mb-5">
                 <ul class="list-unstyled">
                     <li v-for="(item, index) in lectures" :key="index">
-                        {{ item.lectNum }}
                         <b-link
                             :to='"/lectureDetail?num="+item.lectNum'
                             class="text-body text-decoration-none">

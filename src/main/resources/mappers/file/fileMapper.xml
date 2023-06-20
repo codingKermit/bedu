@@ -18,5 +18,19 @@
         WHERE TITLE LIKE '%'||#{keyword}||'%'
     </select>
 
+    <select id="getTotalLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
+        SELECT
+            LECT_NUM as lectNUm, 
+            TITLE,
+            TEACHER,
+            LECT_SUMMARY,
+            CATE_CODE,
+            CATE_KOR,
+            PRICE,
+            LECT_PERIOD
+        FROM
+            BEDU.T_BEDU_LECT
+    </select>
+
 
 </mapper>

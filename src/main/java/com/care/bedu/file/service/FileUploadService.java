@@ -10,4 +10,5 @@ public interface FileUploadService {
 
     public boolean upload(MultipartFile[] uploadFile, Model model);
     public HashMap<String, Object> getLectureList(String keyword);
+    public HashMap<String, Object> getTotalLecture();
 }

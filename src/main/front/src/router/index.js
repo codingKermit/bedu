@@ -166,6 +166,13 @@ const routes = [
         name: 'adminPage',
         component: () => import('../views/adminPage/adminPage.vue')
     },
+    {
+        path: '/membership',
+        name: 'membership',
+
+        component : () => import('@/views/Membership.vue')
+
+    }
 ]
 
 const router = createRouter({

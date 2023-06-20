@@ -126,13 +126,15 @@
                         <li
                             v-for="(video,i) in videos"
                             :key="i"
-                            class="py-3 fs-5 border-bottom border-1  d-flex">
-                            <span class="me-auto ms-3 fw-bold" @click="toLesson(video)">
-                                {{video.lectDtlTitle}}
-                            </span>
-                            <span class="ms-auto me-3">
-                                {{ video.times }}
-                            </span>
+                            class="py-3 fs-5 border-bottom border-1">
+                            <b-link class="d-flex text-body text-decoration-none" :to="'/lectureLesson?lectDtlNum='+video.lectDtlNum">
+                                <span class="me-auto ms-3 fw-bold">
+                                    {{video.lectDtlTitle}}
+                                </span>
+                                <span class="ms-auto me-3">
+                                    {{ video.times }}
+                                </span>
+                            </b-link>
                         </li>
                     </ul>
 
@@ -218,10 +220,12 @@ import '@/assets/css/lectureStyle.css';
             }
         },
         methods: {
-            toLesson(val){ /** 동영상 재생 페이지로 이동 */
+            /** 동영상 재생 페이지로 이동 */
+            toLesson(val){ 
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
             },
-            getDetail() { /** 강의 상세 정보 조회 */
+            /** 강의 상세 정보 조회 */
+            getDetail() { 
                 this.$axiosSend('get', '/api/lect/lectureDetail', {num: this.form.lectNum})
                 .then((res) => {
                     if(this.$isNotEmptyObj(res.data)){
@@ -239,7 +243,8 @@ import '@/assets/css/lectureStyle.css';
                     console.log(err)
                 })
             },
-            getVideoList() { /** 동영상 목록 조회 */
+            /** 동영상 목록 조회 */
+            getVideoList() { 
                 this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.lectNum})
                 .then((res) => {
                     if(this.$isNotEmptyArray(res.data)){
@@ -257,7 +262,8 @@ import '@/assets/css/lectureStyle.css';
                     console.log(err)
                 });
             },
-            getReview(){ /** 후기 최신순 5개 조회 */
+            /** 후기 최신순 5개 조회 */
+            getReview(){
                 this.$axiosSend('get','/api/lect/getReview',{num : this.form.lectNum})
                 .then((res)=>{
                     if(this.$isNotEmptyArray(res.data.item)){
@@ -275,9 +281,11 @@ import '@/assets/css/lectureStyle.css';
                     console.log(err)
                 })
             },
-            toPayment(){ /** 결제 페이지 이동 */
-                const loginChk = JSON.parse(localStorage.getItem('isLoggedIn'))
-                if(loginChk != true){
+            /** 결제 페이지 이동 */
+            toPayment(){ 
+                const loginChk = localStorage.getItem('user_token');
+                
+                if(loginChk == undefined){
                     this.$swal({
                         title: '경고',
                         icon: 'warning',
@@ -287,7 +295,7 @@ import '@/assets/css/lectureStyle.css';
                 } else {
                     this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
-                        userNum : 10,
+                        userNum : this.$store.getters.getUsernum,
                     })
                     .then(()=>{
                         this.$routerPush('lecturePayment')

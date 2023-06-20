@@ -156,7 +156,8 @@
 			LECT_DTL_NUM as lectDtlNum,
 			LECT_NUM as lectNum, 
 			LECT_DTL_TITLE as lectDtlTitle, 
-			TO_CHAR(TRUNC(SYSDATE)+NUMTODSINTERVAL(LECT_DTL_TIME, 'second')  ,'hh24:mi:ss') AS TIMES
+			TO_CHAR(TRUNC(SYSDATE)+NUMTODSINTERVAL(LECT_DTL_TIME, 'second')  ,'hh24:mi:ss') AS TIMES,
+			LECT_DTL_INDEX as lectDtlIndex
 		FROM 
 			BEDU.T_BEDU_LECT_DTL 
 		WHERE LECT_NUM = #{LECT_NUM}
@@ -309,10 +310,23 @@
 	</select>
 
 	<insert id="addToCart" parameterType="hashmap">
-		INSERT INTO BEDU.T_BEDU_CART VALUES(
+		INSERT INTO BEDU.T_BEDU_CART(
+			CART_NUM,
+			CART_LECT_NUM,
+			CART_USER_NUM
+		)
+		SELECT 
 			BEDU_CART_SEQ.NEXTVAL,
 			#{lectNum},
 			#{userNum}
+		FROM 
+			DUAL
+		WHERE NOT EXISTS (
+			SELECT 0 
+			FROM
+				BEDU.T_BEDU_CART
+			WHERE 
+				CART_LECT_NUM = #{lectNum} AND CART_USER_NUM = #{userNum}
 		)
 	</insert>
 
@@ -339,4 +353,17 @@
 			CART_USER_NUM = #{userNum} AND
 			CART_LECT_NUM = #{lectNum}
 	</delete>
+
+	<select id="getLesson" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
+		SELECT
+			LECT_DTL_NUM as lectDtlNum,
+			LECT_DTL_TITLE as lectDtlTitle,
+			LECT_NUM as lectNum,
+			LECT_VIDEO_URL as lessonUrl,
+			LECT_DTL_INDEX as lectDtlIndex
+		FROM
+			BEDU.T_BEDU_LECT_DTL
+		WHERE LECT_DTL_NUM = #{num}
+	</select>
+
 </mapper>

@@ -44,6 +44,9 @@
                 <b-nav-item class="fs-5">
                     <router-link to="/fileUpload">영상업로드</router-link>
                 </b-nav-item>
+                <b-nav-item class="fs-5">
+                    <router-link to="/membership">멤버쉽 안내</router-link>
+                </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto">
                 <div class="search-popup">
@@ -82,7 +85,8 @@
                     <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
                 </b-nav-item>
             </b-navbar-nav>
-        </b-collapse>   
+        </b-collapse>  
+        <!-- 화면 상단으로 끌어올리는 컨테이너 --> 
         <div ref="scrollTop" class="position-fixed d-flex scrollTop rounded-circle" @click="scrollToTop"
         :class="{ 'show': showButton }">
             <font-awesome-icon class="text-white fs-3 position-relative" :icon="['fas', 'angles-up']" />
@@ -211,6 +215,7 @@
         opacity: 0;
         transition: opacity 0.25s ease;
         cursor: default;
+        z-index: 100;
     }
 
     .scrollTop.show {

@@ -75,4 +75,18 @@ public class FileUploadServiceImpl implements FileUploadService{
 
         return map;
     }
+
+    @Override
+    public HashMap<String, Object> getTotalLecture() {
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        ArrayList<LectureVO> list = new ArrayList<>();
+
+        list = dao.getTotalLecture();
+
+        map.put("item", list);
+
+        return map;
+    }
 }
