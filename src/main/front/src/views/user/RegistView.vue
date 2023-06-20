@@ -141,18 +141,11 @@
                                 id="registEmailChk"
                                 @click="checkEmailDuplicate"
                                 :disabled="
-                                    isChecking || valid.email || !member.email
+                                    isChecking || valid.email || !member.email || !valid.emailDomain
                                 "
                             >
                                 중복체크
                             </button>
-                            <p
-                                v-show="valid.email && member.email"
-                                id="registInputError"
-                            >
-                                이메일 주소를 정확히 입력해주세요. 예)
-                                bedu@bedu.com
-                            </p>
                             <p
                                 v-show="emailChecked && !valid.emailChk"
                                 id="registInputError"
@@ -160,7 +153,13 @@
                                 중복된 이메일 입니다.
                             </p>
                             <p
-                                v-show="emailChecked && valid.emailChk"
+                                v-show="valid.email || !valid.emailDomain"
+                                id="registInputError"
+                            >
+                                올바른 도메인을 사용해주세요.
+                            </p>
+                            <p
+                                v-show="emailChecked && valid.emailChk && valid.emailDomain"
                                 id="registInputCorrect"
                             >
                                 사용가능한 이메일 입니다.
@@ -320,6 +319,7 @@
                     password: false,
                     emailChk: false,
                     nickChk: false,
+                    emailDomain: false
                 },
             };
         },
@@ -369,12 +369,28 @@
                 if (!validateEmail.test(this.member.email)) {
                     this.valid.email = true;
                     this.emailChecked = false;
+                    this.valid.emailDomain = false;
                     return;
                 }
 
                 this.valid.email = false;
                 this.valid.emailChk = false;
                 this.emailChecked = false;
+
+                const domain = this.member.email.split('@')[1];
+
+                const allowedDomains = [
+                    'naver.com',
+                    'gmail.com',
+                    'daum.net',
+                    'hanmail.net',
+                    'yahoo.com',
+                    'outlook.com',
+                    'nate.com',
+                    'kakao.com',
+                ];
+
+                this.valid.emailDomain = allowedDomains.includes(domain);
             },
             // 이메일 중복 체크를 수행하는 메서드입니다. axios를 사용하여 서버에 이메일 중복 여부를 요청하고 결과에 따라 emailChecked와 valid.emailChk 값을 업데이트합니다.
             checkEmailDuplicate() {
