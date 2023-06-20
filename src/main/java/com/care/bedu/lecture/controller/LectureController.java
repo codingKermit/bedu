@@ -128,6 +128,7 @@ public class LectureController {
 	public HashMap<String,Object> getLesson(int num){
 		HashMap<String, Object> map = new HashMap<>();
 		
+		map = lectureService.getLesson(num);
 
 		return map;
 	}

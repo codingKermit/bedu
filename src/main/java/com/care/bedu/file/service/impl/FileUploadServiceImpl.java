@@ -91,5 +91,11 @@ public class FileUploadServiceImpl implements FileUploadService{
         return map;
     }
 
-   
+    @Override
+    public HashMap<String, Object> getTotalLecture() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTotalLecture'");
+    }
+
+
 }

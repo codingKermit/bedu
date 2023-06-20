@@ -16,4 +16,5 @@ public class LectureDetailVO {
 	private String lectDtlTitle; // 동영상 이름
 	private Time times; // 동영상 재생 시간
 	private String lessonUrl; // 동영상 재생 경로
+	private int lectDtlIndex; // 동영상 재생 인덱스
 }
