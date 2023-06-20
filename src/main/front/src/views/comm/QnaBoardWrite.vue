@@ -5,19 +5,18 @@
         <b-form @submit="submit()">
 
             <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
-            <b-form-textarea class="form-control col-sm-5 qna-write-content" id="qna-write-content" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+            <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
             <b-container class="my-3 justify-content-md-end d-md-flex">
-                <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset">취소</b-button>
+                <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
                 <b-button type="submit" class="btn-custom ms-2 qna-writebtn" id="qna-writebtn">등록</b-button>
             </b-container>
         </b-form>
-        <b-button class="qna-qnaview-btn" id="qna-qnaview-btn" :to="'/comm/qna'">목록</b-button>
     </b-container>
 </template>
 
 <script>
     import router from '@/router';
-
+    import '@/assets/css/qnaStyle.css';
     export default {
     
         name: 'qnaWrite',

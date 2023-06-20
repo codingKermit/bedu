@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import '@/assets/css/freeBoardStyle.css';
 export default{
 
     name:'comm-main-side'
@@ -32,13 +33,3 @@ export default{
 }
 
 </script>
-<style>
-    .comm-main-cate{
-        list-style-type: none;
-    }
-
-    .comm-main-cate li{
-        margin-right: 100px;
-    }
-    
-</style>
