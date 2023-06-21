@@ -46,13 +46,17 @@ public class FileUploadController {
         int chunkNumber = Integer.parseInt(request.getParameter("chunkNumber")) ;
         int totalChunk = Integer.parseInt(request.getParameter("totalChunk"));
 
-        
+        Boolean result = false;
 
-
-        if(chunkNumber == totalChunk){
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
+        result = service.upload(file, chunkNumber, totalChunk);
+        if(result){
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).build();
+        } else{
+            if(chunkNumber == totalChunk){
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
+            }
         }
     }  
 
