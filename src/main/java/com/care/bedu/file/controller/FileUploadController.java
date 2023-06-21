@@ -43,9 +43,11 @@ public class FileUploadController {
     @PostMapping("/uploadFormAction")
 	public ResponseEntity<String> uploadFormPost(MultipartHttpServletRequest request, Model model) throws IOException{
         MultipartFile file = request.getFile("videoFile");
-
         int chunkNumber = Integer.parseInt(request.getParameter("chunkNumber")) ;
         int totalChunk = Integer.parseInt(request.getParameter("totalChunk"));
+
+        
+
 
         if(chunkNumber == totalChunk){
             return ResponseEntity.ok().build();
