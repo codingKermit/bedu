@@ -13,7 +13,7 @@ public class FreeVO {
 	private int page;	//페이지번호
 	private int limit;
 	private String reg_id;	// 타 테이블에서 구분
-	private String user_id;	//작성자
+	private String user_name;	//작성자
 	private String content;	//내용
 	private Date comm_date;	//작성시간
 	private Date reg_date;	//게시판 시간

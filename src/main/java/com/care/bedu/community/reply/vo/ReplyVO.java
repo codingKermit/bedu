@@ -10,7 +10,7 @@ import lombok.ToString;
 public class ReplyVO{					//댓글
 	
 	private Integer replyNum;
-	private String userId;
+	private String userName;
 	private String content;
 	private Date replyDate;
 	private Integer commNum;

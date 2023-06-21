@@ -25,10 +25,10 @@ public class AnsController {
 	
 	//답글게시글 작성
 	@RequestMapping(value="/ans/write", method=RequestMethod.POST)
-	public int ansWrite(int qsBdNum, String userId, String content){
+	public int ansWrite(int qsBdNum, String userName, String content){
 		AnsVO ansVO = new AnsVO();
 		ansVO.setQsBdNum(qsBdNum);
-		ansVO.setUserId(userId);
+		ansVO.setUserName(userName);
 		ansVO.setContent(content);
 		return ansService.boardwrite(ansVO);
 	}

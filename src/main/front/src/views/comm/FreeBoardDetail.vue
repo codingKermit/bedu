@@ -6,7 +6,7 @@
             </h2>
             <div id="freeboard-userinfo">
                 <p id="freeboard-userid">
-                    {{ free.user_id}}
+                    {{ free.user_name}}
                 </p>
                 <p id="free-comm">
                     <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
@@ -89,7 +89,7 @@ export default{
                 comm_num:0,
                 title : '',
                 content : '',
-                user_id : '',
+                user_name : '',
                 str_comm_date:'',
                 comm_cnt : 0,
                 comm_like_yn : 0,
@@ -168,7 +168,7 @@ export default{
                 var commNum = this.form.commNum;
                 
                 const form = new FormData();
-                form.append("userId",this.form.userId);
+                form.append("userName",this.form.userId);
                 form.append("commNum",this.form.commNum);
                 form.append("content",this.form.content);
 

@@ -6,7 +6,7 @@
 	<insert id="viewWrite" parameterType="com.care.bedu.community.ans.vo.AnsVO">
 		INSERT INTO T_BEDU_ANS(
 		  ANS_BD_NUM,
-		  USER_ID,
+		  USER_NAME,
 		  CONTENT,
 		  QS_BD_NUM,
 		  ANS_LIKE_CNT,
@@ -15,7 +15,7 @@
 		  REG_ID
 		)VALUES(
 		  BEDU_ANS.NEXTVAL,
-		  #{userId},
+		  #{userName},
 		  #{content},
 		  #{qsBdNum},
 		  #{ansLikeCnt},
@@ -28,7 +28,7 @@
 	<select id="viewList" resultType="com.care.bedu.community.ans.vo.AnsVO">
 		SELECT 
 		 ANS_BD_NUM AS ansBdNum,
-		 USER_ID AS userId,
+		 USER_NAME AS userName,
 		 QS_BD_NUM AS qsBdNum,
 		 CONTENT,
 		 ANS_LIKE_CNT AS ansLikeCnt,

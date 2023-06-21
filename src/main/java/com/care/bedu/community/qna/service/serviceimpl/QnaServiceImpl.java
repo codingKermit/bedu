@@ -45,7 +45,7 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int boardwrite(QnaVO qnaVO) {
-		qnaVO.setReg_id(qnaVO.getUser_id());
+		qnaVO.setReg_id(qnaVO.getUser_name());
 		qnaVO.setQna_cnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
 		qnaVO.setQna_like_yn(0);		//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
 		return qnaDAO.viewWrite(qnaVO);
@@ -76,9 +76,8 @@ public class QnaServiceImpl implements QnaService{
 	}
 
 	@Override
-	public int likeUp(int num) {
-		MemberVO memberVO = memberDAO.getMemberByEmail("test@bedu.com");
-		return qnaDAO.likeUp(num, memberVO.getEmail());						//게시글 좋아요 1 증가
+	public int likeUp(int num, String email) {
+		return qnaDAO.likeUp(num, email);						//게시글 좋아요 1 증가
 	}
 
 }

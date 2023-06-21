@@ -29,7 +29,7 @@
                                 {{ free.title }}
                                 </b-link>
                             </td>
-                            <td>{{ free.user_id }}</td>
+                            <td>{{ free.user_name }}</td>
 
                             <td>{{ free.str_comm_date }}</td>
                             <td>

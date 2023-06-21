@@ -6,7 +6,7 @@
             </h2>
             <div id="qna-userinfo">
                 <p id="qna-userid">
-                    {{ qna.user_id}}
+                    {{ qna.user_name}}
                 </p>
                 <p id="qna-comm">
                     <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
@@ -37,7 +37,7 @@
                     <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist" id="qna-detail-replylist">
                         <span>
                             <h5>
-                                {{ ans.userId }}
+                                {{ ans.userName }}
                             </h5>
                             <div>
                                 <h5>
@@ -71,11 +71,11 @@
         
         data() {
             return {
-                qnum : 0,
+                qnum:0,
                 anslist:[],
                 form:{
                     ansBdNum:0,
-                    userId:'test@bedu.com',
+                    userName:'test@bedu.com',
                     ansDate:'',
                     qsBdNum:0,
                     regDate:'',
@@ -85,7 +85,7 @@
                     qna_bd_num:0,
                     title : '',
                     content : '',
-                    user_id : 'test@bedu.com',
+                    user_name : '',
                     str_qna_date : '',
                     qna_cnt : 0,
                     qna_like_yn : 0,
@@ -95,7 +95,6 @@
 
         mounted() {
             const qnanum = this.$route.params.num;
-            this.path(qnanum);
             this.qnaRead(qnanum);
             this.ansread(qnanum);
             document.getElementById("qnaboard-detail-recensell").style.display="none";
@@ -149,15 +148,21 @@
             qnaeditPath(){
                 router.push({
                     name: 'qnaBoardedit', 
-                    params:{
-                        num :this.qnum,
-                    }
+                        num :this.qna.qna_bd_num,
                 })
-                    
             },
 
             qnalikeUp(qnum){
-                const email = this.qna.user_id;
+                const email = this.$store.getters.getNickname;
+                if(this.qna.user_name === email){
+                    alert('중복된 아이디는 한번밖에 증가 할수없음');
+                    return;
+                }
+                console.log('받은값:', email);
+                if(this.qna.user_name === email){
+                    alert('한번밖에 증가 가능');
+                    return;
+                }
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
                         email: email,
@@ -166,6 +171,8 @@
                     console.log('값', res.data.nums);
                     if(res.data.nums === this.qna.qna_bd_num){
                         this.qna.qna_like_yn++;
+                        this.qna.user_name = res.data.user_name;
+                        this.qnum++;
                     }else if(res.data.nums === 0){
                         alert('같은 아이디로는 한번밖에 증가하지 못합니다.');
                         return;
@@ -224,10 +231,6 @@
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                 document.getElementById("qnaboard-detail-recensell").style.display="inline";
-            },
-
-            path(qnanum){
-                this.qnum = qnanum;
             },
 
         },
