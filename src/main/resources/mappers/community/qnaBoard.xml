@@ -9,14 +9,15 @@
 		  QS_BD_NUM as qna_bd_num,
 		  TITLE,
 		  CONTENT,
-		  USER_NAME,
 		  QS_DATE as qna_date,
 		  QS_CNT as qna_cnt,
 		  QS_LIKE_CNT as qna_like_yn,
-		  REG_ID
-		FROM(SELECT
-		* FROM T_BEDU_QS
-		ORDER BY QS_BD_NUM DESC)) 
+		  REG_ID,
+		  u.USER_NAME,
+		  u.USER_ID,
+		  u.USER_NUM 
+		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
+		ORDER BY QS_BD_NUM DESC) 
 		WHERE rnum >= #{startrow} AND #{endrow} >= rnum
 	 </select>
 	
@@ -51,10 +52,11 @@
 		 CONTENT, 
 		 QS_CNT AS qna_cnt, 
 		 QS_LIKE_CNT AS qna_like_yn, 
-		 USER_NAME,
 		 QS_DATE AS qna_date, 
-		 REG_ID
-		FROM T_BEDU_QS
+		 REG_ID,
+		 u.USER_NAME,
+		 u.USER_NUM
+		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
 		WHERE QS_BD_NUM = #{num}
 	</select>
 	
@@ -85,6 +87,14 @@
 			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%' || #{keyword} || '%'
 		 </if>
 		 ORDER BY QS_BD_NUM DESC
+	</select>
+	
+	<select id="getuserId" resultType="com.care.bedu.community.qna.vo.QnaVO">
+		SELECT
+		 QS_BD_NUM AS qna_bd_num, 
+		 u.USER_ID
+		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
+		WHERE u.USER_NAME = #{userName}
 	</select>
 	
 	<select id="getTotal" resultType="int">

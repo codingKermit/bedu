@@ -57,6 +57,12 @@ public class QnaController {
 	 public int getTotal(){
 	 	return qnaService.getTotal();
 	 }
+	 
+	 @RequestMapping(value="/qna/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
+	 public ArrayList<QnaVO> getUserName(String userName){
+		 System.out.println(userName);
+	 	 return qnaService.getUserId(userName);
+	 }
 	
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
 	 public HashMap<String, Object> likeUp(int num, String email){

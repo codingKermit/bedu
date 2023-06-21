@@ -11,6 +11,7 @@ public interface QnaService {
 	public QnaVO viewone(int num);							//게시글 상세보기
 	public int viewdelete(int num);							//게시글 삭제
 	public int viewupdate(QnaVO qnaVO);						//게시글 수정
-	public int getTotal();									//게시글 전체 개수
+	public int getTotal();//게시글 전체 개수
+	public ArrayList<QnaVO> getUserId(String userName);
 	public int likeUp(int num, String email);								//게시글 좋아요 증가
 }

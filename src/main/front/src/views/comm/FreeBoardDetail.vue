@@ -37,7 +37,7 @@
                     <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
                         <span>
                             <h5>
-                                {{ reply.userId }}
+                                {{ reply.userName }}
                             </h5>
                             <div>
                                 <h5>
@@ -74,10 +74,10 @@ export default{
         return {
             result : 0,
             replylist:[],
+            userlist:[],
             form: {
                 commNum:0,
                 replyNum: 0,
-                userId:'test@bedu.com',
                 replyDate: '',
                 faqNum: 0,
                 rwNum: 0,
@@ -101,10 +101,28 @@ export default{
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
+        this.getUserId();
         this.path(num);
     },
 
     methods: {
+
+        getUserId(){
+            const nickname = this.$store.getters.getNickname;
+            this.$axiosSend('get', '/api/free/getUserId', {
+                userName: nickname
+            }).then(res => {
+                this.userlist = res.data;
+                for(var i=0; i< this.userlist.length; i++){
+                    this.form.userName = this.userlist[i].user_id;
+                }
+                console.log('값:',this.form.userName);
+            })
+            .catch((error) => {
+                this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+            })
+
+        },
 
         freeRead(commnum){ // 게시글 데이터 조회
             // console.log('번호:', num);
@@ -113,6 +131,8 @@ export default{
             })
             .then(response=>{
                 this.free = response.data;
+                const nickname = this.$store.getters.getNickname;
+                this.free.user_name = nickname;
             })
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
@@ -127,6 +147,7 @@ export default{
                 commNum: commnum
             }).then(res => {
                 this.replylist = res.data;
+                console.log('리스트즈:',this.replylist);
             })
             .catch((error) => {
                 console.log(error);
@@ -168,7 +189,7 @@ export default{
                 var commNum = this.form.commNum;
                 
                 const form = new FormData();
-                form.append("userName",this.form.userId);
+                form.append("userName",this.form.userName);
                 form.append("commNum",this.form.commNum);
                 form.append("content",this.form.content);
 

@@ -10,19 +10,17 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.community.reply.dao.ReplyDAO;
 import com.care.bedu.community.reply.service.ReplyService;
 import com.care.bedu.community.reply.vo.ReplyVO;
-import com.care.bedu.user.dao.MemberDAO;
 
 @Service
 public class ReplyServiceImpl implements ReplyService{
 	
 	@Autowired private ReplyDAO replyDAO;
-	@Autowired private MemberDAO memberDAO;
 	
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
 		ArrayList<ReplyVO> list =replyDAO.viewList(replyVO);
 		for(ReplyVO reply: list) {
-			reply.setStrReplyDate(regdates(reply.getRegDate()));
+			reply.setStrReplyDate(regdates(reply.getReplyDate()));
 		}
 		return list;
 	}

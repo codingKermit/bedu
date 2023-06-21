@@ -52,7 +52,7 @@
     </div>
 </template>
 <script>
-    import router from '@/router';
+    
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     import '@/assets/css/freeBoardStyle.css';
@@ -71,7 +71,6 @@
             };
         },
         mounted() {
-            // this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
         },
 
         components:{
@@ -79,22 +78,9 @@
         },
 
         created(){
-            // this.currentPage = 1;     //기본 첫 페이지 번호 초기 설정
         },
 
         methods: {
-
-            freeList() {
-                this.$axiosSend('get','/api/freBd/boardList', {
-                    page: this.currentPage,
-                })
-                .then(res=>{
-                    this.freelist = res.data;
-                })
-                .catch((err)=>{
-                    console.log(err);
-                })
-            },
 
             freesearch() {    
                 if(this.form.keyword === null || this.form.keyword ===''){
@@ -119,7 +105,7 @@
                     page : this.currentPage,
                 })
                 .then(res=>{
-                    console.log('값:', res.data);
+                    
                     if(res.data.length){
                         this.currentPage++;
                         this.freelist.push(...res.data);

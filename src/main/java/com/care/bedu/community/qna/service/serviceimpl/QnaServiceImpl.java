@@ -10,14 +10,11 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.community.qna.dao.QnaDAO;
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
-import com.care.bedu.user.dao.MemberDAO;
-import com.care.bedu.user.vo.MemberVO;
 
 @Service
 public class QnaServiceImpl implements QnaService{
 	
 	@Autowired private QnaDAO qnaDAO;
-	@Autowired private MemberDAO memberDAO;
 	
 	// 예시된 날짜(예시: 2023-05-30) 형태로 변환하는 로직
 	private String regdates(Date regdate) {
@@ -53,7 +50,7 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public QnaVO viewone(int num) {
-		qnaDAO.qnaCntUp(num);							//조회수 증가
+		qnaDAO.qnaCntUp(num);//조회수 증가
 		QnaVO qnaVO = qnaDAO.viewone(num);
 		String srtqnaDate = regdates(qnaVO.getQna_date());
 		qnaVO.setStr_qna_date(srtqnaDate);
@@ -78,6 +75,11 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int likeUp(int num, String email) {
 		return qnaDAO.likeUp(num, email);						//게시글 좋아요 1 증가
+	}
+
+	@Override
+	public ArrayList<QnaVO> getUserId(String userName) {
+		return qnaDAO.getuserId(userName);
 	}
 
 }

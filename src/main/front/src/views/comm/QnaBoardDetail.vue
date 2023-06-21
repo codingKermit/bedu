@@ -45,7 +45,7 @@
                                 </h5>
                             </div>
                             <h5>
-                                {{ ans.str_qna_date }}
+                                {{ ans.strAnsDate }}
                             </h5>
                         </span>
                     </div>
@@ -73,9 +73,9 @@
             return {
                 qnum:0,
                 anslist:[],
+                userlist:[],
                 form:{
                     ansBdNum:0,
-                    userName:'test@bedu.com',
                     ansDate:'',
                     qsBdNum:0,
                     regDate:'',
@@ -97,12 +97,30 @@
             const qnanum = this.$route.params.num;
             this.qnaRead(qnanum);
             this.ansread(qnanum);
+            this.getUserId();
             document.getElementById("qnaboard-detail-recensell").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="none";
             this.form.ansBdNum = qnanum;
         },
 
         methods: {
+
+            getUserId(){
+                const nickname = this.$store.getters.getNickname;
+                this.$axiosSend('get', '/api/qna/getUserId', {
+                    userName: nickname
+                }).then(res => {
+                    this.userlist = res.data;
+                    for(var i=0; i< this.userlist.length; i++){
+                        this.form.userName = this.userlist[i].user_id;
+                    }
+                    console.log('값:',this.form.userName);
+                })
+                .catch((error) => {
+                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                })
+
+            },
 
             qnaRead(qnanum){ // 게시글 데이터 조회
                 this.$axiosSend('get','/api/qna/qnaDetail',{
@@ -122,10 +140,12 @@
                 this.$axiosSend('get', '/api/ans/getans', {
                     qsBdNum: qnanum
                 }).then(res => {
+                    console.log('리스트',res.data);
                     this.anslist = res.data;
+                    console.log('확인', this.anslist.userName);
                 })
                 .catch((error) => {
-                    this.$swal('Error', '게시글이 정상적으로 작성되지 않았습니다.', error);
+                    this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
                 })
             },
 
@@ -153,19 +173,9 @@
             },
 
             qnalikeUp(qnum){
-                const email = this.$store.getters.getNickname;
-                if(this.qna.user_name === email){
-                    alert('중복된 아이디는 한번밖에 증가 할수없음');
-                    return;
-                }
-                console.log('받은값:', email);
-                if(this.qna.user_name === email){
-                    alert('한번밖에 증가 가능');
-                    return;
-                }
+                
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
-                        email: email,
                 })
                 .then(res => {
                     console.log('값', res.data.nums);

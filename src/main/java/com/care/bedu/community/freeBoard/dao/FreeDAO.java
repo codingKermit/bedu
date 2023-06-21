@@ -18,5 +18,5 @@ public interface FreeDAO {
 	public ArrayList<FreeVO> viewsearch(FreeVO freeVO);			//게시글 키워드 검색 기능		
 	public int cntUp(int num);						//조회수 1증가
 	public int likeUp(int num);						//좋아요 1증가					
-	
+	public ArrayList<FreeVO> getuserId(String userName);
 }

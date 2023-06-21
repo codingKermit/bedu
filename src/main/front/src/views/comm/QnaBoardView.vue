@@ -145,7 +145,13 @@
             .then(res=>{
                 if(res.data.length){
                     this.currentPage++;
+        
                     this.qnalist.push(...res.data);
+                    // const nickname = this.$store.getters.getNickname;
+                    // for(var i=0; i<res.data.length; i++){
+                    //     this.qnalist[i].user_name = nickname;
+                    // }
+
                     $state.loaded();
                 } else{
                     $state.complete();

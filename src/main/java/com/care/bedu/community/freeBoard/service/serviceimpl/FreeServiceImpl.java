@@ -81,6 +81,11 @@ public class FreeServiceImpl implements FreeService{
 	public int likeUp(int num) {					//게시글 좋아요증가
 		return freeDAO.likeUp(num);	
 	}
+
+	@Override
+	public ArrayList<FreeVO> getUserId(String userName) {
+		return freeDAO.getuserId(userName);
+	}
 	
 	
 

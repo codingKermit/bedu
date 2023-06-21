@@ -13,8 +13,10 @@ public class QnaVO {					//질문답변게시판 객체(qna)
 	private int startrow;	//글시작번호
 	private int endrow;	//글끝번호
 	private String reg_id;	// 타 테이블에서 구분
-	private String user_name;	//작성자
+	private String user_name;	//작성자닉네임
+	private String user_id;	//user회원테이블의 유저 아이디
 	private String content;	//내용
+	private String user_num; //회원글번호
 	private Date qna_date;	//작성시간
 	private Date reg_date;	//게시판 시간
 	private String str_qna_date;

@@ -24,20 +24,14 @@
 	</insert>
 	
 	<select id="viewList" resultType="com.care.bedu.community.reply.vo.ReplyVO">
-		SELECT 
+		SELECT * FROM (SELECT 
 		 REPLY_NUM AS replyNum,
-		 USER_NAME AS userName,
-		 COMM_NUM AS commNum,
-		 RW_NUM AS rwNum,
-		 ANS_NUM AS ansNum,
-		 QS_NUM AS qsNum,
 		 CONTENT,
 		 REPLY_DATE AS replyDate,
-		 REG_DATE AS regDate,
-		 LECTURE_NUM AS lecturenum 
-		FROM T_BEDU_REPLY
+		 u.USER_NAME AS userName 
+		FROM T_BEDU_REPLY r LEFT JOIN T_BEDU_USER u ON r.USER_NAME = u.USER_ID
 		WHERE COMM_NUM = #{commNum}
-		ORDER BY REPLY_NUM DESC
+		ORDER BY REPLY_NUM DESC)
 	</select>
 	
 </mapper>

@@ -13,6 +13,7 @@ public class ReplyVO{					//댓글
 	private String userName;
 	private String content;
 	private Date replyDate;
+	private Date regDate;
 	private Integer commNum;
 	private Integer qsNum;
 	private Integer ansNum;
@@ -20,7 +21,6 @@ public class ReplyVO{					//댓글
 	private Integer lecturenum;
 	private String strReplyDate;
 	private String strRegDate;
-	private Date regDate;
 	private String regId;
 
 }

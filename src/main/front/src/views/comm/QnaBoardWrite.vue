@@ -2,7 +2,7 @@
     <b-container class="w-50 qna-write" id="qna-write">
         <h1>질문 / 답변</h1>
             
-        <b-form @submit="submit()">
+        <b-form @submit="qnaWrite()">
 
             <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
             <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
@@ -23,15 +23,38 @@
         data() {
             return {
                 form:{
-                    user_name: 'dmlwns58@gmail.com',
+                    user_name: '',
                     title:'',
                     content : '',
-                }
+                },
+
+                userlist:[]
             };
         },
 
+        mounted() {
+            this.getUserId();
+        },
+
         methods: {
-            submit(){
+
+            getUserId(){
+                const nickname = this.$store.getters.getNickname;
+                this.$axiosSend('get', '/api/qna/getUserId', {
+                    userName: nickname
+                }).then(res => {
+                    this.userlist = res.data;
+                    for(var i=0; i< this.userlist.length; i++){
+                        this.form.user_name = this.userlist[i].user_id;
+                    }
+                })
+                .catch((error) => {
+                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                })
+
+            },
+
+            qnaWrite(){
 
                 if(this.form.title == null || this.form.title == ""){
                     this.$swal({
@@ -55,6 +78,7 @@
                     return;
                 }
                 const form = new FormData();
+                
                 form.append("user_name", this.form.user_name);
                 form.append("title",this.form.title);
                 form.append("content",this.form.content);

@@ -26,17 +26,15 @@
 	</insert>
 	
 	<select id="viewList" resultType="com.care.bedu.community.ans.vo.AnsVO">
-		SELECT 
-		 ANS_BD_NUM AS ansBdNum,
-		 USER_NAME AS userName,
-		 QS_BD_NUM AS qsBdNum,
-		 CONTENT,
-		 ANS_LIKE_CNT AS ansLikeCnt,
-		 REG_DATE AS regDate,
-		 ANS_DATE AS ansDate 
-		FROM T_BEDU_ANS
-		WHERE QS_BD_NUM = #{qsBdNum}
-		ORDER BY ANS_BD_NUM DESC
+		SELECT * FROM (SELECT
+		  ANS_BD_NUM as ansBdNum,
+		  CONTENT,
+		  ANS_DATE as ansDate,
+		  ANS_LIKE_CNT as ansLikeCnt,
+		  u.USER_NAME as userName
+		FROM T_BEDU_ANS a LEFT JOIN T_BEDU_USER u ON a.USER_NAME = u.USER_ID
+		WHERE QS_BD_NUM = #{qsBdNum} 
+		ORDER BY ANS_BD_NUM DESC)
 	</select>
 	
 </mapper>
