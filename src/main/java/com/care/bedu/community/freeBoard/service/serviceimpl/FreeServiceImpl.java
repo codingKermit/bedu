@@ -44,7 +44,7 @@ public class FreeServiceImpl implements FreeService{
 
 	@Override
 	public int boardwrite(FreeVO freeVO) {
-		freeVO.setReg_id(freeVO.getUser_id());
+		freeVO.setReg_id(freeVO.getUser_name());
 		freeVO.setComm_cnt(0);
 		freeVO.setComm_like_yn(0);
 		return freeDAO.viewWrite(freeVO);

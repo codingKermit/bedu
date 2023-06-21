@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
-		replyVO.setRegId(replyVO.getUserId());
+		replyVO.setRegId(replyVO.getUserName());
 		return replyDAO.viewWrite(replyVO);
 	}
 

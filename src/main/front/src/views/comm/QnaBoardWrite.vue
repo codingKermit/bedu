@@ -23,7 +23,7 @@
         data() {
             return {
                 form:{
-                    user_id: 'test@bedu.com',
+                    user_name: 'dmlwns58@gmail.com',
                     title:'',
                     content : '',
                 }
@@ -55,7 +55,7 @@
                     return;
                 }
                 const form = new FormData();
-                form.append("user_id", this.form.user_id);
+                form.append("user_name", this.form.user_name);
                 form.append("title",this.form.title);
                 form.append("content",this.form.content);
 

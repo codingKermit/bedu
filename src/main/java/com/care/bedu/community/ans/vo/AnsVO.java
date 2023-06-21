@@ -10,7 +10,7 @@ import lombok.ToString;
 public class AnsVO{						//답글
 	
 	private Integer ansBdNum;
-	private String userId;
+	private String userName;
 	private String content;
 	private Date ansDate;
 	private Integer qsBdNum;

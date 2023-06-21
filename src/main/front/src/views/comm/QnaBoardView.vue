@@ -29,7 +29,7 @@
                                     {{ qna.title }}
                                 </b-link>
                             </td>
-                            <td>{{ qna.user_id }}</td>
+                            <td>{{ qna.user_name }}</td>
                             <td>{{ qna.str_qna_date }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}

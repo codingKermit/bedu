@@ -25,10 +25,10 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				//게시글 작성
-	public int replyWrite(int commNum, String userId, String content){
+	public int replyWrite(int commNum, String userName, String content){
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setCommNum(commNum);
-		replyVO.setUserId(userId);
+		replyVO.setUserName(userName);
 		replyVO.setContent(content);
 		return replyService.boardwrite(replyVO);
 	}

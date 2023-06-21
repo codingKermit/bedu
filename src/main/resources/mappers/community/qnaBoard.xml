@@ -9,7 +9,7 @@
 		  QS_BD_NUM as qna_bd_num,
 		  TITLE,
 		  CONTENT,
-		  USER_ID,
+		  USER_NAME,
 		  QS_DATE as qna_date,
 		  QS_CNT as qna_cnt,
 		  QS_LIKE_CNT as qna_like_yn,
@@ -23,7 +23,7 @@
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(
 	      QS_BD_NUM,
-		  USER_ID,
+		  USER_NAME,
 		  TITLE,
 		  CONTENT,
 		  QS_CNT,
@@ -33,7 +33,7 @@
 		  REG_ID
 		)VALUES(
 		  BEDU_QS.NEXTVAL,
-		  #{user_id},
+		  #{user_name},
 		  #{title},
 		  #{content},
 		  #{qna_cnt},
@@ -51,7 +51,7 @@
 		 CONTENT, 
 		 QS_CNT AS qna_cnt, 
 		 QS_LIKE_CNT AS qna_like_yn, 
-		 USER_ID,
+		 USER_NAME,
 		 QS_DATE AS qna_date, 
 		 REG_ID
 		FROM T_BEDU_QS
@@ -74,10 +74,10 @@
 		SELECT 
 		 QS_BD_NUM AS qna_bd_num, 
 		 TITLE, 
-		 CONTENT, 
+		 CONTENT,
+		 USER_NAME, 
 		 QS_CNT AS qna_cnt, 
-		 QS_LIKE_CNT AS qna_like_yn, 
-		 USER_ID,
+		 QS_LIKE_CNT AS qna_like_yn,
 		 QS_DATE AS qna_date, 
 		 REG_ID
 		FROM T_BEDU_QS
