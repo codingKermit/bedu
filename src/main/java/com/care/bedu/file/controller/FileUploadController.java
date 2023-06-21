@@ -54,15 +54,6 @@ public class FileUploadController {
         }
     }  
 
-    @RequestMapping("/getLectureList")
-    public HashMap<String, Object> getLectureList(String keyword){
-        HashMap<String, Object> map = new HashMap<>();
-
-        map = service.getLectureList(keyword);
-
-        return map;
-    }
-
     @RequestMapping("/getTotalLecture")
     public ResponseEntity<Object> getTotalLecture(){
         HashMap<String, Object> map = new HashMap<>();

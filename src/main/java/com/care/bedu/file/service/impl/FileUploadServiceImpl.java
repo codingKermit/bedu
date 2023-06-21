@@ -63,18 +63,6 @@ public class FileUploadServiceImpl implements FileUploadService{
         return fileName.substring(pos + 1);
     }
 
-    @Override
-    public HashMap<String, Object> getLectureList(String keyword) {
-        HashMap<String, Object> map = new HashMap<>();
-
-        ArrayList<LectureVO> list = new ArrayList<>();
-
-        list = dao.getLectureList(keyword);
-
-        map.put("item", list);
-
-        return map;
-    }
 
     @Override
     public HashMap<String, Object> getTotalLecture() {

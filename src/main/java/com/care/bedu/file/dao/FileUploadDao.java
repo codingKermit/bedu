@@ -12,6 +12,5 @@ import com.care.bedu.lecture.vo.LectureVO;
 public interface FileUploadDao {
 
     public int upload(FileUploadVO param);
-     public ArrayList<LectureVO> getLectureList(String keyword);
-   public ArrayList<LectureVO> getTotalLecture();
+    public ArrayList<LectureVO> getTotalLecture();
 }

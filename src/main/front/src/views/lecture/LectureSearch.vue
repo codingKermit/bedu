@@ -43,7 +43,6 @@
                     </li>
                     <InfiniteLoading
                         @infinite="infiniteHandler"
-                        :distance="distance"
                         ref="infiniteLoading">
                         <template #spinner>
                             <!-- 로딩중일때 보여질 부분 -->
@@ -57,7 +56,6 @@
                             <b-container class="text-center py-5">
                                 <p class="fw-bold">검색 결과가 없습니다</p>
                                 <p>단어의 철자가 정확한지 확인해 보세요.</p>
-                                <p>띄어쓰기 또는 넓은 의미의 단어를 사용해 보세요.</p>
                             </b-container>
                         </template>
                     </InfiniteLoading>
@@ -76,11 +74,10 @@ export default{
     name: "lectureSearch",
     data() {
         return {
-            keyword: "",
+            keyword: this.$route.query.keyword,
             total: 0,
             lectures: [],
             page : 1,
-            distance : 1,
         };
     },
     methods: {
@@ -96,8 +93,12 @@ export default{
                     this.lectures.push(...res.data.item);
                     $state.loaded(); // 로드를 계속하도록 함
                 } else {
+                    if(this.page===1){
+                        $state.reset()
+                    }
                     $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
+                console.log($state)
             })
             .catch((err) => { console.log(err); });
         },
@@ -137,7 +138,7 @@ export default{
     created() {
     },
     mounted() {
-        this.keyword = this.$route.query.keyword,
+        // this.keyword = this.$route.query.keyword,
         this.getTotal();
     },
     components: { InfiniteLoading }

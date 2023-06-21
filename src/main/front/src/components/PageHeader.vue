@@ -25,11 +25,10 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" :class="isDropdownOpen == true ? 'dropdown-menu-show':''">
-                        <li v-for="(item,index) in categories" :key="index" class="dropdown-item my-2">
-                            <router-link :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
+                        <b-link v-for="(item,index) in categories" :key="index" class="dropdown-item my-2"
+                           :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
                                 <a  style="cursor: pointer;" class="">{{ item.cateKor }}</a>
-                            </router-link>
-                        </li>
+                        </b-link>
                     </ul>
                 </b-nav-item>
                 <b-nav-item class="fs-5">

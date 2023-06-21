@@ -130,6 +130,7 @@ export default{
             },
             videoFile : null,
             lists:[],
+            totalLists : [],
         }
     },
     created(){
@@ -138,15 +139,7 @@ export default{
     methods: {
         /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
         getLectureList(){
-            this.$axiosSend('post','/api/file/getLectureList',{
-                keyword : this.keyword
-            })
-            .then((res)=>{
-                this.lists = res.data.item
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+            this.lists = this.totalLists.filter((item)=> item.title.includes(this.keyword))
         },
         /** 파일 변경, 업로드시 데이터 바인딩을 위한 메서드 */
         fileChange(e){
@@ -243,6 +236,7 @@ export default{
             this.$axiosSend('get','/api/file/getTotalLecture')
             .then((res)=>{
                 console.log(res);
+                this.totalLists = res.data.item;
                 this.lists = res.data.item;
             })
             .catch((err)=>{
