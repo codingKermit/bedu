@@ -7,7 +7,7 @@
             <div
                 class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-100 m-auto mb-5 border-bedu">
                 <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
-                <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                <b-form-input class="border-0 me-2" v-model="keyword" id="bedu-home-search"></b-form-input>
             </div>
         </b-form>
 
@@ -168,6 +168,10 @@
         top : 11%;
         left : -130px;
         height: 30%;
+    }
+
+    #bedu-home-search:focus{
+        box-shadow: none !important;
     }
 
 </style>

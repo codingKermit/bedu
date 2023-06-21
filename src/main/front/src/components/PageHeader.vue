@@ -52,7 +52,7 @@
                     <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
                         <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
                         <form @submit.prevent="lectSearch">
-                            <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                            <b-form-input class="border-0 me-2" v-model="keyword" id="bedu-header-search"></b-form-input>
                         </form>
                     </div>
                 </div>
@@ -294,5 +294,9 @@
 
     .dropdown-menu-show{
         height: auto;
+    }
+
+    #bedu-header-search:focus{
+        box-shadow: none !important;
     }
 </style>
