@@ -13,7 +13,7 @@
                         </label>
                         {{ paymentList.length }}  / {{ carts.length }}
                     </div>
-                    <b-button @click="removeFromCart(paymentList)">
+                    <b-button @click="removeFromCart(paymentList)" variant="danger">
                         선택삭제 <font-awesome-icon :icon="['fas', 'xmark']" />
                     </b-button>
                 </div>
@@ -23,7 +23,7 @@
                     <ul class="list-unstyled">
                         <li v-for="(cart, index ) in carts" :key="index">
                             <div class="d-flex mb-3 border p-1">
-                                <div class="form-check">
+                                <div class="form-check mx-2">
                                     <input class="form-check-input cart-list" type="checkbox" :id="'cart-check-'+index" 
                                     v-model="paymentList" :value="cart"
                                     >
@@ -70,7 +70,7 @@
                             {{ getCurrencyPrice }}
                         </span>
                     </div>
-                    <b-button class="w-100">결제하기</b-button>
+                    <b-button class="w-100 bedu-custom-blue">결제하기</b-button>
                 </b-container>
             </b-container>
         </b-container>

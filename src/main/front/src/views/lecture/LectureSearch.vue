@@ -46,6 +46,11 @@
                         ref="infiniteLoading">
                         <template #spinner>
                             <!-- 로딩중일때 보여질 부분 -->
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
                         </template>
                         <template #no-more>
                             <!-- 처리 완료 후, 최하단에 보여질 부분-->

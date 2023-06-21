@@ -72,23 +72,6 @@
                             </b-form-group>
 
 
-                            <!-- 재생시간 입력 -->
-                            <b-form-group
-                            label="동영상 재생 시간"
-                            label-for="video-time"
-                            description="동영상의 재생시간을 입력해주세요"
-                            >
-                                <b-form-input
-                                    id="video-time"
-                                    v-model="form.lectDtlTime"
-                                    required
-                                    :state="state"
-                                    trim
-                                    type="number"
-                                    class="form-control-lg"
-                                ></b-form-input>
-                            </b-form-group>
-
                             <!-- 동영상 업로드 -->
                             <div class="mb-5">
                                 <label for="video-file" class="form-label"></label>
@@ -108,6 +91,10 @@
                             </b-button>
                         </b-form>
                     </b-container>
+                    <!-- 프로그레스 바 -->
+                    <div class="progress">
+                        <div class="progress-bar" id="file-upload-progress" ref="file_upload_progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                    </div>
                 </div>
             </b-container>
         </b-container>
@@ -131,6 +118,7 @@ export default{
             videoFile : null,
             lists:[],
             totalLists : [],
+            progress : 0
         }
     },
     created(){
@@ -144,6 +132,17 @@ export default{
         /** 파일 변경, 업로드시 데이터 바인딩을 위한 메서드 */
         fileChange(e){
             this.videoFile = e.target.files[0];
+            var video = document.createElement('video');
+            video.preload = 'metadata';
+            
+            var self = this;
+
+            video.onloadedmetadata = function() {
+                self.form.lectDtlTime =  Math.round(video.duration);
+            }
+
+            video.src = URL.createObjectURL(this.videoFile)
+
         },
         uploadVideo(){
         
@@ -186,6 +185,8 @@ export default{
             /** 업로드된 파일을 10mb로 나누어 업로드 하는 재귀함수 */
             const fileUpload = () => {
 
+
+
                 const begin = currentChunk * chunkSize;
                 const end = Math.min(begin+chunkSize, fileSize);
 
@@ -205,11 +206,17 @@ export default{
                     }
                 })
                 .then((res)=>{
-                    console.log(res.status);
                     currentChunk++;
                     if(res.status == 206){ // 부분만 완료 되었으면 제귀함수 호출
+                        this.progress = Math.round(currentChunk / totalChunk * 100 )
+                        this.$refs.file_upload_progress.style.width = this.progress + "%"
                         fileUpload();
                     } else if (res.status == 200){ // 전체 완료시 종료, 이후 데이터 처리 코드는 추후 작성
+                        this.$swal({
+                            title : 'Success',
+                            icon : 'success',
+                            text : '강의가 성공적으로 등록되었습니다'
+                        })
                         return;
                     }
                 })
@@ -219,23 +226,11 @@ export default{
             }
 
             fileUpload(); // 제귀함수 호출
-
-
-
-            // 공통유틸의 axiosSend()로는 헤더 적용이 되지 않는 문제가 발생하여 바닐라 axios를 사용
-            // this.$axiosSend('post','/api/file/uploadFormAction',formData, this.headers)
-            // .then((res)=>{
-            //     console.log(res)
-            // })
-            // .catch((err)=>{
-            //     console.log(err)
-            // })
         },
         /** 모든 강의 목록을 조회하는 메서드 */
         getTotalLecture(){
             this.$axiosSend('get','/api/file/getTotalLecture')
             .then((res)=>{
-                console.log(res);
                 this.totalLists = res.data.item;
                 this.lists = res.data.item;
             })
@@ -255,6 +250,10 @@ export default{
 
 .bedu-submit-button-lg{
     background: var(--blue) !important;
+}
+
+#file-upload-progress{
+    transition: 0.1s;
 }
 
 </style>

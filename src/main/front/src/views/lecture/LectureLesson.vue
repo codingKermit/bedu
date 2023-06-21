@@ -9,7 +9,7 @@
                     </span>
                 <div class="offcanvas offcanvas-start " tabindex="-1" id="lesson-list" aria-labelledby="lesson-list-Label">
                     <div class="offcanvas-header">
-                        <p class="offcanvas-title fs-3 fw-bold" id="lesson-list-Label">{{ lessonInfo.lectDtlTitle }}</p>
+                        <p class="offcanvas-title fs-3 fw-bold text-truncate d-inline-block" id="lesson-list-Label">{{ lessonInfo.lectDtlTitle }}</p>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
