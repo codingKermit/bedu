@@ -28,7 +28,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
-
+    // 파일 업로드 위치
     private String fileBaseDir = "C:/Desktop/";
 
     @Autowired
@@ -36,11 +36,6 @@ public class FileUploadServiceImpl implements FileUploadService{
 
     @Override
     public boolean upload(MultipartFile file, int chunkNumber, int totalChunks) throws IOException {
-
-
-        System.out.println("totalChunk : " + totalChunks + ", chunkNumber : " + chunkNumber + ", file : " + file.getOriginalFilename());
-    	// 파일 업로드 위치
-        String uploadDir = "video";
 
         File dir = new File(fileBaseDir);
         if (!dir.exists()) {
