@@ -3,6 +3,7 @@
     padding-top: 5%;
     margin-left: 20%;
     padding-right: 30px;
+    padding-bottom: 50px;
 }
 
 #freeboard-table {
@@ -63,7 +64,10 @@ h1 {
 #freeboard-userinfo {
     font-size: 1rem;
     display: flex;
+}
 
+#freeboard-detail-body {
+    width: 90%;
 }
 
 #freeboard-detail-contents {
@@ -121,15 +125,17 @@ h1 {
 
 .comm-main-cate{
     list-style-type: none;
+    padding: 0;
 }
 
-.comm-main-cate li{
-    margin-right: 100px;
-}
 
 /*freeBoardEdit*/
 #freeboard-edit-content {
     width: 100%;
     height: 200px;
     resize:none;
+}
+
+#freeboard-detail-contents {
+    word-wrap: break-word;
 }

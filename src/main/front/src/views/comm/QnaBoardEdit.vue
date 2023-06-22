@@ -1,4 +1,5 @@
 <template>
+    <CommCategory :titleShow="false"></CommCategory>
     <b-container class="w-50 qna-edit" id="qna-edit">
         <h1>질문 / 답변</h1>
         <b-form @submit="edit()">
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+    import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     export default{
 
@@ -27,6 +29,10 @@
                     // str_reg_date:'',
                 }
             }
+        },
+
+        components:{
+            CommCategory
         },
 
         mounted() {

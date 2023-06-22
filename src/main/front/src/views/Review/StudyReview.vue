@@ -165,7 +165,7 @@
                     this.fetchMoreReviews();
                 }
             },
-            fetchMoreReviews() {
+            fetchMoreReviews($state) {
                 this.isFetching = true;
                 // 데이터를 불러오는 비동기 작업 수행
                 this.$axiosSend("get", "/api/reviews", {
@@ -179,6 +179,9 @@
                         // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
+                        $state.loaded();
+                    } else {
+                        $state.complete(); 
                     }
                         this.totalItems = totalElements;
                         this.isFetching = false;

@@ -1,9 +1,9 @@
 <template>
+    <CommCategory :titleShow="false"></CommCategory>
     <b-container class="w-50 qna-write" id="qna-write">
         <h1>질문 / 답변</h1>
-            
-        <b-form @submit="qnaWrite()">
 
+        <b-form @submit="qnaWrite()">
             <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
             <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
             <b-container class="my-3 justify-content-md-end d-md-flex">
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     import '@/assets/css/qnaStyle.css';
     export default {
@@ -30,6 +31,10 @@
 
                 userlist:[]
             };
+        },
+
+        components:{
+            CommCategory
         },
 
         mounted() {
