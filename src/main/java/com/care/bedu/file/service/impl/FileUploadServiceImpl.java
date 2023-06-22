@@ -61,6 +61,7 @@ public class FileUploadServiceImpl implements FileUploadService{
                 Files.delete(chunkFile);
             }
 
+            
             String videoUrl = outputFile.getFileName().toString();
             
             vo.setLectVideoUrl(videoUrl);

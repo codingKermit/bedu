@@ -93,6 +93,7 @@
                                     v-model="form.lectDtlTitle"
                                     required :state="state" trim
                                     class="form-control-lg"
+                                    :disabled="form.lectNum == 0"
                                 ></b-form-input>
                             </b-form-group>
 
@@ -105,6 +106,7 @@
                                 v-model="form.lectDtlIndex"
                                 required
                                 :options="indexOptions"
+                                :disabled="form.lectNum == 0"
                                 ></b-form-select>
                             </b-form-group>
 
@@ -123,6 +125,7 @@
                                     id="video-file" 
                                     accept="video/mp4,video/mkv, video/x-m4v,video/*"
                                     @change="fileChange"
+                                    :disabled="form.lectNum == 0"
                                     >
                             </div>
                             <b-button 
@@ -182,7 +185,9 @@ export default{
                 self.form.lectDtlTime =  Math.round(video.duration);
             }
 
-            video.src = URL.createObjectURL(this.videoFile)
+            if(this.videoFile != undefined){ 
+                video.src = URL.createObjectURL(this.videoFile)
+            }
 
         },
         uploadVideo(){

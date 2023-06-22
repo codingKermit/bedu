@@ -2,7 +2,6 @@
     <b-container class="pt-5">
         <div class="mx-auto">
             <!-- 동영상 목록 콜랩스 -->
-            <!-- <div class="d-flex"> -->
                 <b-container>
                     <span type="button" data-bs-toggle="offcanvas" data-bs-target="#lesson-list" aria-controls="lesson-list">
                         <font-awesome-icon class="fs-1" :icon="['fas', 'bars']"/>
@@ -34,8 +33,6 @@
                 <p class="fs-2 fw-bold text-center">{{ lessonInfo.lectDtlTitle }}</p>
                 <iframe width="100%" height="650px" src="https://www.youtube.com/embed/wk8jsBXTG_A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </b-container>
-            <!-- </div> -->
-            <!-- {{ lessonList[lessonInfo.lectDtlIndex-1] }} -->
             
             <!-- 하단 네비 -->
             <b-container class="text-light" v-if="lessonList.length">
@@ -68,6 +65,10 @@
             </div>
             </b-container>
         </div>
+        <div class="ratio ratio-16x9">
+           <iframe :src="lessonInfo.lessonUrl" title="YouTube video" allowfullscreen></iframe>
+        </div>
+        {{ lessonInfo.lessonUrl }}
     </b-container>
 </template>
 
@@ -102,7 +103,6 @@ export default{
                 num : this.lessonInfo.lectDtlNum
             })
             .then((res)=>{
-                console.log(res)
                 this.lessonInfo = res.data.lessonItem
                 this.lessonList = res.data.lessonList
                 this.lessonList.indexOf()

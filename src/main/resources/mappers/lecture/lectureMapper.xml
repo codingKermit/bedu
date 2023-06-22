@@ -161,6 +161,7 @@
 		FROM 
 			BEDU.T_BEDU_LECT_DTL 
 		WHERE LECT_NUM = #{LECT_NUM}
+		ORDER BY LECT_DTL_INDEX ASC
 	</select>
 
 	<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.LectureVO"
