@@ -1,4 +1,5 @@
 <template>
+    <CommCategory :titleShow="false"></CommCategory>
     <b-container class="w-50 freeboard-write" id="freeboard-write">
         <h1 id="freeboard-title">자유게시판</h1>
         <b-form @submit="submit()">
@@ -14,6 +15,7 @@
 
 <script>
     import router from '@/router';
+    import CommCategory from '@/components/CommCategory.vue';
     import '@/assets/css/freeBoardStyle.css';
     export default {
     
@@ -29,6 +31,10 @@
                 userlist:[]
                 
             };
+        },
+
+        components:{
+            CommCategory
         },
 
         mounted() {
