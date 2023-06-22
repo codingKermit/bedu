@@ -123,6 +123,15 @@
     align-items: center;
 }
 
+#agreeItem {
+    border: 2px solid black;
+    width: 550px;
+    margin-top: 10px;
+    height: 230px;
+    overflow: auto;
+    text-align: left;
+}
+
 #reLoginChangeBtn {
     width: 300px;
     padding: 1rem;

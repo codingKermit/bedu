@@ -49,30 +49,24 @@
                         ></span
                     >
                     <!-- 약관 내용 표시 -->
-                    <textarea
+                    <div
+                        id="agreeItem"
                         v-if="item.value === 1"
-                        readonly
                         :name="'agree_' + item.value"
-                        v-model="fileText1"
-                        rows="7"
-                        cols="85"
-                    ></textarea>
-                    <textarea
+                        v-html="fileText1"
+                    ></div>
+                    <div
+                        id="agreeItem"
                         v-else-if="item.value === 2"
-                        readonly
                         :name="'agree_' + item.value"
-                        v-model="fileText2"
-                        rows="7"
-                        cols="85"
-                    ></textarea>
-                    <textarea
+                        v-html="fileText2"
+                    ></div>
+                    <div
+                        id="agreeItem"
                         v-else-if="item.value === 3"
-                        readonly
                         :name="'agree_' + item.value"
-                        v-model="fileText3"
-                        rows="7"
-                        cols="85"
-                    ></textarea>
+                        v-html="fileText3"
+                    ></div>
                 </label>
 
                 <!-- 약관 동의 여부에 따른 '동의합니다' 버튼 표시 -->
@@ -278,10 +272,6 @@
 
 <script>
     import '@/assets/css/userStyle.css';
-    import fileText1 from "raw-loader!./이용 약관 동의.txt";
-    import fileText2 from "raw-loader!./개인정보 수집, 이용 동의.txt";
-    import fileText3 from "raw-loader!./이벤트 수신 동의.txt";
-
     export default {
         name: 'EmailInput',
         data() {
@@ -299,9 +289,9 @@
                     { value: 3, label: "이벤트 수신 동의", optional: true },
                 ],
                 // fileText1 및 fileText2는 각각 이용약관과 개인정보 수집에 대한 내용을 담은 텍스트를 저장하는 변수입니다.
-                fileText1: fileText1,
-                fileText2: fileText2,
-                fileText3: fileText3,
+                fileText1: '',
+                fileText2: '',
+                fileText3: '',
                 showForm: false, // showForm은 회원가입 양식을 보여줄지 여부를 결정하는 데이터 속성
                 confirmPassword: "", //  비밀번호 확인을 위해 입력된 값을 저장하는 변수입니다.
                 // 중복 체크 상태를 나타내는 변수들입니다.
@@ -359,6 +349,27 @@
             },
         },
         methods: {
+            fetchAgreements() {
+                const ids = [0, 1, 2]; // 변경할 id 값들을 배열로 선언
+
+                // 각 id에 대해 순회하면서 약관 데이터 요청
+                ids.forEach(id => {
+                    this.$axiosSend("get", `/api/agree/${id}`)
+                    .then(response => {
+                        // console.log(response.data[0].content);
+                        if (id === 0) {
+                        this.fileText1 = response.data[0].content;
+                        } else if (id === 1) {
+                        this.fileText2 = response.data[0].content;
+                        } else if (id === 2) {
+                        this.fileText3 = response.data[0].content;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                });
+            },
             // 이메일의 유효성을 검사하는 메서드입니다. 정규식을 사용하여 이메일 형식을 확인하고 valid.email과 emailChecked 값을 업데이트합니다.
             checkEmail() {
                 const validateEmail =
@@ -531,6 +542,9 @@
                     return;
                 }
             },
+        },
+        created() {
+            this.fetchAgreements(); // 컴포넌트 생성 시 약관 동의 항목과 내용을 조회
         },
 
         // 약관 동의 여부에 따라 Submit 버튼의 스타일을 변경하는 속성
