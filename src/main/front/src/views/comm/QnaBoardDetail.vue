@@ -1,4 +1,5 @@
 <template>
+    <CommCategory :titleShow="false"></CommCategory>
     <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
         <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
             <h2 class="pt-5 mb-3 fw-bold qna-detail-title" id="qna-detail-title">
@@ -73,6 +74,7 @@
 </template>
 
 <script>
+    import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     import '@/assets/css/qnaStyle.css'; 
     export default{
@@ -94,6 +96,10 @@
                     user_name : '',
                 }
             }
+        },
+
+        components:{
+            CommCategory
         },
 
         mounted() {

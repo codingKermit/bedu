@@ -25,7 +25,6 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
-    
     // 파일 업로드 위치
     private String fileBaseDir = "C:/Desktop/";
 

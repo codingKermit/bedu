@@ -1,4 +1,5 @@
 <template>
+    <CommCategory :titleShow="false"></CommCategory>
     <b-container class="w-50 freeboard-edit" id="freeboard-edit">
         <h1>자유게시판</h1>
         <b-form @submit="edit()">
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+    import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     import '@/assets/css/freeBoardStyle.css';
     export default{
@@ -27,6 +29,11 @@
                 }
             }
         },
+
+        components:{
+            CommCategory
+        },
+
 
         mounted() {
             const num = this.$route.params.num;
