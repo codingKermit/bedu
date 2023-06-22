@@ -2,7 +2,6 @@ package com.care.bedu.file.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.care.bedu.file.dao.FileUploadDao;
 import com.care.bedu.file.service.FileUploadService;
@@ -11,7 +10,6 @@ import com.care.bedu.lecture.vo.LectureVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,19 +25,15 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
-
+    
+    // 파일 업로드 위치
     private String fileBaseDir = "C:/Desktop/";
 
     @Autowired
     private FileUploadDao dao;
 
     @Override
-    public boolean upload(MultipartFile file, int chunkNumber, int totalChunks) throws IOException {
-
-
-        System.out.println("totalChunk : " + totalChunks + ", chunkNumber : " + chunkNumber + ", file : " + file.getOriginalFilename());
-    	// 파일 업로드 위치
-        String uploadDir = "video";
+    public boolean upload(MultipartFile file, int chunkNumber, int totalChunks, FileUploadVO vo) throws IOException {
 
         File dir = new File(fileBaseDir);
         if (!dir.exists()) {
@@ -68,7 +61,12 @@ public class FileUploadServiceImpl implements FileUploadService{
                 // 합친 후 삭제
                 Files.delete(chunkFile);
             }
-            log.info("File uploaded successfully");
+
+            String videoUrl = outputFile.getFileName().toString();
+            
+            vo.setLectVideoUrl(videoUrl);
+            dao.upload(vo);
+
             return true;
         } else {
             return false;

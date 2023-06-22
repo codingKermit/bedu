@@ -1,7 +1,6 @@
 package com.care.bedu.file.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.care.bedu.file.service.FileUploadService;
-
-import lombok.extern.slf4j.Slf4j;
+import com.care.bedu.file.vo.FileUploadVO;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -19,13 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
-@Slf4j
 @RequestMapping(value = "/api/file")
 public class FileUploadController {
     
-    private String uploadPath = "";
-
-
     @RequestMapping("/test")
     public String test(){
         return "this is test";
@@ -45,18 +39,25 @@ public class FileUploadController {
         MultipartFile file = request.getFile("videoFile");
         int chunkNumber = Integer.parseInt(request.getParameter("chunkNumber")) ;
         int totalChunk = Integer.parseInt(request.getParameter("totalChunk"));
+        int userNum = Integer.parseInt(request.getParameter("userNum"));
+        String lectDtlTitle = request.getParameter("lectDtlTitle");
+        int lectDtlTime = Integer.parseInt(request.getParameter("lectDtlTime"));
+        int lectNum = Integer.parseInt(request.getParameter("lectNum"));
+        int lectDtlIndex = Integer.parseInt(request.getParameter("lectDtlIndex"));
 
-        Boolean result = false;
+        FileUploadVO vo = new FileUploadVO();
+        vo.setLectDtlTitle(lectDtlTitle);
+        vo.setLectDtlTime(lectDtlTime);
+        vo.setLectNum(lectNum);
+        vo.setRegId(userNum);
+        vo.setLectDtlIndex(lectDtlIndex);
 
-        result = service.upload(file, chunkNumber, totalChunk);
-        if(result){
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).build();
-        } else{
-            if(chunkNumber == totalChunk){
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
-            }
+
+        service.upload(file, chunkNumber, totalChunk, vo);
+        if(chunkNumber == totalChunk-1){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
         }
     }  
 

@@ -146,6 +146,7 @@
                             class="py-3 fs-5 border-bottom border-1">
                             <b-link class="d-flex text-body text-decoration-none" :to="'/lectureLesson?lectDtlNum='+video.lectDtlNum">
                                 <span class="me-auto ms-3 fw-bold">
+                                    {{ video.lectDtlIndex }}.
                                     {{video.lectDtlTitle}}
                                 </span>
                                 <span class="ms-auto me-3">

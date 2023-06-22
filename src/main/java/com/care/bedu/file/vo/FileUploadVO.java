@@ -13,12 +13,13 @@ import org.apache.ibatis.type.Alias;
 @Alias("fileVO")
 public class FileUploadVO {
 
-    private String lectDtlNum;              //강의고유번호
-    private String lectDtlTitle;            //강의제목
-    private String lectDtlTime;             //강의재생시간
-    private int lectNum;                    //강의번호
-    private Date regDate;                   //등록날짜
-    private String regId;                   //등록일
-    private String lectVideoUrl;            //동영상경로
+    private int lectDtlNum;             //강의고유번호
+    private String lectDtlTitle;        //강의제목
+    private int lectDtlTime;            //강의재생시간
+    private int lectNum;                //강의번호
+    private Date regDate;               //등록날짜
+    private int regId;                  //등록유저
+    private String lectVideoUrl;        //동영상경로
+    private int lectDtlIndex;           //동영상 재생 인덱스
 
 }

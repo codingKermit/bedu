@@ -4,20 +4,19 @@
             <!-- 상단 검색 부분 -->
             <div class="py-5">
                 <p class="text-center fs-4 fw-bold">강의를 조회하세요</p>
-                <b-form class="d-flex" @submit="getLectureList">
-                    <div class="d-flex m-auto w-75">
-                        <div class="me-4 w-75">
-                            <b-form-input 
-                            v-model="keyword" 
-                            class="w-100 m-auto form-control-lg py-1"
-                            type="search"
-                            ></b-form-input>
-                        </div>
-                        <div class="w-25">
-                            <b-button class="fs-5 px-5  py-2 bedu-submit-button-lg w-100" type="submit">검색</b-button>
-                        </div>
+                <div class="d-flex m-auto w-75">
+                    <div class="me-4 w-75">
+                        <b-form-input 
+                        v-model="keyword" 
+                        class="w-100 m-auto form-control-lg py-1"
+                        type="search"
+                        @keyup="getLectureList"
+                        ></b-form-input>
                     </div>
-                </b-form>
+                    <div class="w-25">
+                        <b-button class="fs-5 px-5  py-2 bedu-submit-button-lg w-100" type="submit">검색</b-button>
+                    </div>
+                </div>
             </div>
             
             <!-- 메인 컨테이너-->
@@ -25,7 +24,7 @@
                 <!-- 좌측 검색된 강의 목록 컨테이너-->
                 <div class="w-50">
                     <div class="p-4">
-                        <b-container class="border rounded-4 pt-3 pb-5 vh-100 file-search-list">
+                        <b-container class="border rounded-4 pt-3 pb-5 vh-100 scroll-y">
                             <b-form-group
                                 class="fs-4 text-center"
                             >
@@ -38,6 +37,7 @@
                                                 v-model="form.lectNum" 
                                                 name="lect-num" 
                                                 :value="item.lectNum"
+                                                @change="getVideoList"
                                                 ></b-form-radio>
                                             </div>
                                             <div class="me-5 text-start">
@@ -53,8 +53,33 @@
                     </div>
                 </div>
 
-                <!-- 우측 폼 컨테이너-->
+                <!-- 우측 컨테이너-->
                 <div class="w-50">
+                    <!-- 재생목록 컨테이너 -->
+                    <b-container class="pt-4">
+                        <b-container class="border rounded-4 pt-3 vh-50 scroll-y">
+                            <p class="text-center fs-3">재생목록</p>
+                            <ul class="list-unstyled">
+                                <li class="row">
+                                    <div class="col-1 fw-bold">No</div>
+                                    <div class="col-2 text-center fw-bold">Index</div>
+                                    <div class="col text-center fw-bold">Title</div>
+                                </li>
+                                <li v-for="(item, index) in videoList" :key="index" class="row mb-2">
+                                    <div class="col-1">
+                                        {{ item.lectDtlNum }}
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        {{ item.lectDtlIndex }}
+                                    </div>
+                                    <div class="col text-center">
+                                        {{ item.lectDtlTitle }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </b-container>
+                    </b-container>
+                    <!-- 폼 컨테이너 -->
                     <b-container class="py-4">
                         <b-form @submit.prevent="uploadVideo">
                             <!-- 제목 입력 -->
@@ -71,6 +96,23 @@
                                 ></b-form-input>
                             </b-form-group>
 
+                            <b-form-group
+                            label="동영상 재생 인덱스"
+                            label-for="video-index"
+                            description="동영상의 인덱스를 선택해주세요"
+                            >
+                                <b-form-select
+                                v-model="form.lectDtlIndex"
+                                required
+                                :options="indexOptions"
+                                ></b-form-select>
+                            </b-form-group>
+
+                            
+                            <!-- 프로그레스 바 -->
+                            <b-progress max="100">
+                                <b-progress-bar variant="warning" :value="progress" animated :label="progress+'%'"></b-progress-bar>
+                            </b-progress>
 
                             <!-- 동영상 업로드 -->
                             <div class="mb-5">
@@ -91,10 +133,6 @@
                             </b-button>
                         </b-form>
                     </b-container>
-                    <!-- 프로그레스 바 -->
-                    <div class="progress">
-                        <div class="progress-bar" id="file-upload-progress" ref="file_upload_progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
-                    </div>
                 </div>
             </b-container>
         </b-container>
@@ -114,11 +152,14 @@ export default{
                 lectNum : 0,
                 lectDtlTitle: '',
                 lectDtlTime: 0,
+                lectDtlIndex : 0,
             },
             videoFile : null,
             lists:[],
             totalLists : [],
-            progress : 0
+            progress : 0,
+            videoList : [],
+            indexOptions : [],
         }
     },
     created(){
@@ -186,7 +227,6 @@ export default{
             const fileUpload = () => {
 
 
-
                 const begin = currentChunk * chunkSize;
                 const end = Math.min(begin+chunkSize, fileSize);
 
@@ -196,10 +236,12 @@ export default{
                 formData.append("lectNum",this.form.lectNum);
                 formData.append("lectDtlTitle", this.form.lectDtlTitle);
                 formData.append("lectDtlTime",this.form.lectDtlTime);
-                formData.append("videoFile",chunk);
+                formData.append("videoFile",chunk,this.videoFile.name);
                 formData.append("chunkNumber",currentChunk);
                 formData.append("totalChunk",totalChunk);
-                
+                formData.append("userNum",this.$store.getters.getUsernum)
+                formData.append("lectDtlIndex", this.form.lectDtlIndex)
+
                 axios.post('/api/file/uploadFormAction',formData,{
                     headers:{
                         "Content-Type" : "multipart/form-data"
@@ -208,8 +250,7 @@ export default{
                 .then((res)=>{
                     currentChunk++;
                     if(res.status == 206){ // 부분만 완료 되었으면 제귀함수 호출
-                        this.progress = Math.round(currentChunk / totalChunk * 100 )
-                        this.$refs.file_upload_progress.style.width = this.progress + "%"
+                        this.progress = Math.round(currentChunk / (totalChunk-1) * 100 )
                         fileUpload();
                     } else if (res.status == 200){ // 전체 완료시 종료, 이후 데이터 처리 코드는 추후 작성
                         this.$swal({
@@ -221,6 +262,11 @@ export default{
                     }
                 })
                 .catch((err)=>{
+                    this.$swal({
+                        title:'Error!',
+                        icon : 'error',
+                        text : '동영상을 업로드 하는 중에 문제가 발생했습니다'
+                    })
                     console.log(err)
                 })
             }
@@ -237,14 +283,44 @@ export default{
             .catch((err)=>{
                 console.log(err)
             })
-        }
+        },
+        /** 선택된 강의에 따른 동영상 조회 메서드 */
+        getVideoList() { 
+            this.$nextTick(()=>{
+                this.$axiosSend('get', '/api/lect/getVideoList', {num: this.form.lectNum})
+                .then((res) => {
+                    if(this.$isNotEmptyArray(res.data)){
+                        this.indexOptions = [];
+                        this.videoList = res.data;
+                        if(res.data.length){
+                            for(var i =0; i < res.data.length; i++){
+                                this.indexOptions.push(i+1)
+                            }
+                            this.indexOptions.push(this.indexOptions.length+1)
+                        } else {
+                            this.indexOptions.push(1);
+                        }
+                    } else {
+                        this.$swal({
+                            title : 'ERROR!',
+                            icon : 'error',
+                            text : '데이터를 불러오는데 에러가 발생했습니다.'
+                        })
+                        return;
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+            })
+            },
 
     },
 }
 </script>
 
 <style scoped>
-.file-search-list{
+.scroll-y{
     overflow-y: scroll;
 }
 
@@ -254,6 +330,10 @@ export default{
 
 #file-upload-progress{
     transition: 0.1s;
+}
+
+.vh-50{
+    height: 50vh !important;
 }
 
 </style>

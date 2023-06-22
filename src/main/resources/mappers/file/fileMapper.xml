@@ -3,6 +3,17 @@
 
 <mapper namespace="com.care.bedu.file.dao.FileUploadDao">
 
+    <insert id="upload" parameterType="com.care.bedu.file.vo.FileUploadVO">
+        CALL BEDU_LECT_DTL_PRO(
+            #{lectDtlTime},
+            #{lectDtlTitle},
+            #{lectNum},
+            #{regId},
+            #{lectVideoUrl},
+            #{lectDtlIndex}    
+        )
+    </insert>
+
     <select id="getTotalLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
         SELECT
             LECT_NUM as lectNUm, 
