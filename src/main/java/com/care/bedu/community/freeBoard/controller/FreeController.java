@@ -58,7 +58,6 @@ public class FreeController {
 	
 	@RequestMapping(value="/free/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public ArrayList<FreeVO> getUserId(String userName){
-		 System.out.println(userName);
 	 	 return freeService.getUserId(userName);
 	 }
 	

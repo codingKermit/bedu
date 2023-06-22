@@ -35,19 +35,21 @@
                 </div>
                 <div>
                     <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
-                        <span>
-                            <h5>
-                                {{ reply.userName }}
-                            </h5>
-                            <div>
+                        <div>
+                            <span>
                                 <h5>
-                                    {{ reply.content }}
+                                    {{ reply.userName }}
                                 </h5>
-                            </div>
-                            <h5>
-                                {{ reply.strReplyDate }}
-                            </h5>
-                        </span>
+                                <div>
+                                    <h5>
+                                        {{ reply.content }}
+                                    </h5>
+                                </div>
+                                <h5>
+                                    {{ reply.strReplyDate }}
+                                </h5>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +118,7 @@ export default{
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.userName = this.userlist[i].user_id;
                 }
-                console.log('값:',this.form.userName);
+
             })
             .catch((error) => {
                 this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
@@ -147,7 +149,7 @@ export default{
                 commNum: commnum
             }).then(res => {
                 this.replylist = res.data;
-                console.log('리스트즈:',this.replylist);
+
             })
             .catch((error) => {
                 console.log(error);

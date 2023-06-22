@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
-import com.care.bedu.user.security.JwtUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -18,8 +17,6 @@ public class QnaController {
 	
 	 @Autowired
 	 private QnaService qnaService;
-	 @Autowired
-	 private JwtUtil jwtUtil;
 	
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
 	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
@@ -28,7 +25,6 @@ public class QnaController {
 	
 	 @RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
 	 public int qnaWrite(QnaVO qnaVO){
-		 System.out.println("값:"+qnaVO.getUser_name());
 		 return qnaService.boardwrite(qnaVO);
 	 }
 	
@@ -60,8 +56,8 @@ public class QnaController {
 	 
 	 @RequestMapping(value="/qna/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public ArrayList<QnaVO> getUserName(String userName){
-		 System.out.println(userName);
-	 	 return qnaService.getUserId(userName);
+		 ArrayList<QnaVO> list= qnaService.getUserId(userName);
+	 	 return list;
 	 }
 	
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가

@@ -106,10 +106,9 @@
 	
 	<select id="getuserId" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT
-		 COMM_NUM AS comm_num, 
-		 u.USER_ID
-		FROM T_BEDU_COMM c LEFT JOIN T_BEDU_USER u ON c.USER_NAME = u.USER_ID 
-		WHERE u.USER_NAME = #{userName}
+		 USER_ID
+		FROM T_BEDU_USER
+		WHERE USER_NAME = #{userName}
 	</select>
 	
 </mapper>

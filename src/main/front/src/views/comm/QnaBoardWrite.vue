@@ -40,13 +40,16 @@
 
             getUserId(){
                 const nickname = this.$store.getters.getNickname;
+            
                 this.$axiosSend('get', '/api/qna/getUserId', {
                     userName: nickname
                 }).then(res => {
+                    
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
                         this.form.user_name = this.userlist[i].user_id;
                     }
+                   
                 })
                 .catch((error) => {
                     this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);

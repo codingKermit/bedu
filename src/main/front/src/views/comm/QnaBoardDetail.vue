@@ -35,19 +35,27 @@
                 </div>
                 <div>
                     <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist" id="qna-detail-replylist">
-                        <span>
-                            <h5>
-                                {{ ans.userName }}
-                            </h5>
-                            <div>
+                        <div>
+                            <span>
                                 <h5>
-                                    {{ ans.content }}
+                                    {{ ans.userName }}
                                 </h5>
-                            </div>
-                            <h5>
-                                {{ ans.strAnsDate }}
-                            </h5>
-                        </span>
+                                <div>
+                                    <h5>
+                                        {{ ans.content }}
+                                    </h5>
+                                </div>
+                                <h5>
+                                    {{ ans.strAnsDate }}
+                                </h5>
+                                <button id="qna-likebtn">
+                                    <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
+                                        <text class="fw-bold ms-2 ans-detail-likeyn" id="ans-detail-likeyn">
+                                            {{ ans.ansLikeCnt }}
+                                        </text>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,12 +91,7 @@
                 },
                 qna:{
                     qna_bd_num:0,
-                    title : '',
-                    content : '',
                     user_name : '',
-                    str_qna_date : '',
-                    qna_cnt : 0,
-                    qna_like_yn : 0,
                 }
             }
         },
@@ -114,7 +117,6 @@
                     for(var i=0; i< this.userlist.length; i++){
                         this.form.userName = this.userlist[i].user_id;
                     }
-                    console.log('값:',this.form.userName);
                 })
                 .catch((error) => {
                     this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
@@ -140,9 +142,7 @@
                 this.$axiosSend('get', '/api/ans/getans', {
                     qsBdNum: qnanum
                 }).then(res => {
-                    console.log('리스트',res.data);
                     this.anslist = res.data;
-                    console.log('확인', this.anslist.userName);
                 })
                 .catch((error) => {
                     this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
