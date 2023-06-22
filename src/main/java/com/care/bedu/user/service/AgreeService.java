@@ -6,6 +6,5 @@ import com.care.bedu.user.vo.AgreeVO;
 
 public interface AgreeService {
 
-	List<AgreeVO> getAllAgreements();
 	List<AgreeVO> getAgreementById(Long id);
 }

@@ -19,11 +19,6 @@ public class AgreeController {
         this.agreeService = agreeService;
     }
 
-    @GetMapping
-    public List<AgreeVO> getAllAgreements() {
-        return agreeService.getAllAgreements();
-    }
-
     @GetMapping("/agree/{id}")
     public List<AgreeVO> getAgreementById(@PathVariable Long id) {
         return agreeService.getAgreementById(id);

@@ -41,9 +41,6 @@
                     <router-link to="/companyStudy">기업교육</router-link>
                 </b-nav-item>
                 <b-nav-item class="fs-5">
-                    <router-link to="/fileUpload">영상업로드</router-link>
-                </b-nav-item>
-                <b-nav-item class="fs-5">
                     <router-link to="/membership">멤버쉽 안내</router-link>
                 </b-nav-item>
             </b-navbar-nav>
@@ -59,11 +56,6 @@
                 <b-nav-item class="fs-5">
                     <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link v-if="isLoggedIn && getCls === 'ADMIN'" to="/adminPage">
-                        관리자 페이지
-                    </router-link>
-                </b-nav-item>
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
                         <span class="fs-5">{{ getNickname }}</span>
@@ -74,6 +66,9 @@
                         </b-dropdown-item>
                         <b-dropdown-item>
                             <router-link to="/csc">고객 센터</router-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item>
+                            <router-link v-if="isLoggedIn && getCls === 'ADMIN'" to="/fileUpload">영상 업로드</router-link>
                         </b-dropdown-item>
                     </ul>
                 </b-nav-item>

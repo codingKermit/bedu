@@ -19,11 +19,6 @@ public class AgreeServiceImpl implements AgreeService{
 	}
 
 	@Override
-	public List<AgreeVO> getAllAgreements() {
-		return agreeDao.getAllAgreements();
-	}
-
-	@Override
 	public List<AgreeVO> getAgreementById(Long id) {
 	    return agreeDao.getAgreementById(id);
 	}

@@ -8,7 +8,6 @@ import com.care.bedu.user.vo.AgreeVO;
 
 @Mapper
 public interface AgreeDAO {
-
-	List<AgreeVO> getAllAgreements();
+	
 	List<AgreeVO> getAgreementById(Long id);
 }
