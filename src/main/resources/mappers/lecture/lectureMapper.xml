@@ -248,46 +248,52 @@
 	</select>
 
 	<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
-		SELECT * 
-		FROM
+		SELECT 
+			*
+		FROM(
 			(SELECT 
 				ROWNUM AS RNUM,
-				A.LECT_NUM as lectNum, 
-				A.TITLE, 
-				A.TEACHER, 
-				COUNT(B.LECT_NUM) AS TOTAL, 
-				A.LECT_PERIOD as lectPeriod,
-				A.THUMBNAIL, 
-				A.LECT_CNT as lectCnt, 
-				A.REG_DATE as regDate, 
-				TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
-				A.LECT_DESC as lectDesc,
-				A.CATE_CODE, 
-				A.CATE_KOR,
-				A.LECT_SUMMARY AS lectSum
-			FROM (
-				SELECT 
-					LECT_NUM,
-					TITLE,
-					TEACHER,
-					LECT_DESC,
-					THUMBNAIL,
-					LECT_CNT,
-					LECT_LIKE_CNT,
-					LECT_PERIOD,
-					PRICE,
-					CATE_CODE,
-					CATE_KOR,
-					REG_DATE,
-					REG_ID,
-					LECT_SUMMARY
-				FROM 
-					BEDU.T_BEDU_LECT) A 
-			LEFT JOIN BEDU.T_BEDU_LECT_DTL B
-			ON A.LECT_NUM = B.LECT_NUM
-			GROUP BY ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
-			ORDER BY A.REG_DATE DESC
+				C.* 
+			FROM
+				(SELECT 
+					A.LECT_NUM as lectNum, 
+					A.TITLE, 
+					A.TEACHER, 
+					COUNT(B.LECT_NUM) AS TOTAL, 
+					A.LECT_PERIOD as lectPeriod,
+					A.THUMBNAIL, 
+					A.LECT_CNT as lectCnt, 
+					A.REG_DATE as regDate, 
+					TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
+					A.LECT_DESC as lectDesc,
+					A.CATE_CODE, 
+					A.CATE_KOR,
+					A.LECT_SUMMARY AS lectSum
+				FROM (
+					SELECT 
+						LECT_NUM,
+						TITLE,
+						TEACHER,
+						LECT_DESC,
+						THUMBNAIL,
+						LECT_CNT,
+						LECT_LIKE_CNT,
+						LECT_PERIOD,
+						PRICE,
+						CATE_CODE,
+						CATE_KOR,
+						REG_DATE,
+						REG_ID,
+						LECT_SUMMARY
+					FROM 
+						BEDU.T_BEDU_LECT) A 
+				LEFT JOIN BEDU.T_BEDU_LECT_DTL B
+				ON A.LECT_NUM = B.LECT_NUM
+				GROUP BY A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
+				ORDER BY A.REG_DATE DESC
+				) C
 			)
+		)
 		WHERE
 			0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (0+5)
 	</select>
