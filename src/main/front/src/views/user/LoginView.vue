@@ -70,23 +70,24 @@ export default {
         },
         async fnLogin() {
         if (this.email === '') {
-            alert('ID를 입력하세요.')
+            this.$swal('ID를 입력하세요.')
             return
         }
 
         if (this.password === '') {
-            alert('비밀번호를 입력하세요.')
+            this.$swal('비밀번호를 입력하세요.')
             return
         }
 
         try {
+            // this.$swal('로그인을 성공하셨습니다')
             let loginResult = await this.login({email: this.email, password: this.password})
             if (loginResult) this.goToPages()
         } catch (err) {
             if (err.message.indexOf('Network Error') > -1) {
-                    alert('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
+                    this.$swal('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
                 } else {
-                    alert('로그인 정보를 확인할 수 없습니다.')
+                    this.$swal('로그인 정보를 <br>확인할 수 없습니다.')
                 }
             }
         },

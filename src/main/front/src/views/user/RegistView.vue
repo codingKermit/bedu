@@ -418,7 +418,7 @@
                 })
                 .catch((error) => {
                     console.log(error);
-                    alert("이메일 중복 체크 실패");
+                    this.$swal("이메일 중복 체크 실패");
                 })
                 .finally(() => {
                     this.isChecking = false;
@@ -458,7 +458,7 @@
                 })
                 .catch((error) => {
                     console.log(error);
-                    alert("닉네임 중복 체크 실패");
+                    this.$swal("닉네임 중복 체크 실패");
                 })
                 .finally(() => {
                     this.isChecking = false;
@@ -527,7 +527,7 @@
                     // '/api/register'주소로 email,nickname,password를 member에 담아 보냄
                     this.$axiosSend('post', '/api/register', this.member)
                     .then((response) => {
-                        alert(response.data);
+                        this.$swal(response.data);
                         // 문제없이 보냈다면 'login'으로 router이동
                         this.$router.push({
                             name: "login",
@@ -535,10 +535,10 @@
                     })
                     .catch((error) => {
                         console.log(error);
-                        alert("회원가입 실패");
+                        this.$swal("회원가입 실패");
                     });
                 } else {
-                    alert("회원가입 양식을 다시 확인해주세요.");
+                    this.$swal("회원가입 양식을 <br>다시 확인해주세요.");
                     return;
                 }
             },
