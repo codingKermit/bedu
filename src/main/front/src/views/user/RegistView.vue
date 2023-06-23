@@ -122,15 +122,18 @@
                     <form class="regist-form" @submit.prevent="register">
                         <!-- 이메일 입력 필드 -->
                         <div id="registFormGroup">
-                            <input 
-                                list="emailList"
+                            <input
                                 id="registEmail"
                                 placeholder="이메일 입력"
                                 v-model="emailValue"
+                                @input="showEmailOptions"
                             />
-                            <datalist id="emailList">
-                                <option v-for="(email, index) in emailList" :value="email" :key="index" />
-                            </datalist>
+                            <!-- 이메일 목록 -->
+                            <ul v-show="showEmailList" id="emailOptions">
+                                <li v-for="(email, index) in filteredEmailList" :key="index" @click="selectEmailOption(email)">
+                                {{ email }}
+                                </li>
+                            </ul>
                             <button
                                 id="registEmailChk"
                                 @click="checkEmailDuplicate"
@@ -306,6 +309,8 @@
                     nickname: "",
                     password: "",
                 },
+                showEmailList: false, // 이메일 목록 표시 여부를 나타내는 변수입니다.
+                filteredEmailList: [], // 필터링된 이메일 목록을 저장하는 변수입니다.
                 // 이메일, 닉네임, 비밀번호 등의 유효성을 나타내는 변수들입니다.
                 valid: {
                     email: false,
@@ -349,6 +354,21 @@
             },
         },
         methods: {
+            showEmailOptions() {
+                if (this.emailValue) {
+                // 이메일 목록을 필터링하여 보여줄 목록을 설정합니다.
+                this.filteredEmailList = this.emailList.filter((email) =>
+                    email.includes(this.emailValue)
+                );
+                this.showEmailList = true;
+                } else {
+                this.showEmailList = false;
+                }
+            },
+            selectEmailOption(email) {
+                this.emailValue = email; // 이메일 값을 emailValue에 할당하여 <input> 요소에 반영합니다.
+                this.showEmailList = false;
+            },
             fetchAgreements() {
                 const ids = [0, 1, 2]; // 변경할 id 값들을 배열로 선언
 
@@ -565,3 +585,26 @@
         },
     };
 </script>
+
+<style>
+#emailOptions {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 3%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 999;
+  width: 90%;
+}
+
+#emailOptions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#emailOptions li:hover {
+  background-color: #f1f1f1;
+}
+</style>
