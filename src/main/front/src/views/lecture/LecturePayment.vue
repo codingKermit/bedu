@@ -70,7 +70,7 @@
                             {{ getCurrencyPrice }}
                         </span>
                     </div>
-                    <b-button class="w-100 bedu-custom-blue">결제하기</b-button>
+                    <b-button class="w-100 bedu-bg-custom-blue">결제하기</b-button>
                 </b-container>
             </b-container>
         </b-container>
@@ -79,6 +79,7 @@
 
 <script>
 import '@/assets/css/lectureStyle.css';
+import '@/assets/css/common.css';
 
 export default{
     name : 'lecturePayment',

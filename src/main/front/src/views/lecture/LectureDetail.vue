@@ -66,7 +66,7 @@
                         <span>원</span>
                     </div>
                     <div class="w-10">
-                        <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
+                        <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
                             결제하기
                         </b-button>
                         <b-button class="px-5" data-bs-toggle="modal" data-bs-target="#cartModal" @click="addToCart">
@@ -88,7 +88,7 @@
                                     </b-container>
                                 </div>
                                 <div class="modal-footer my-2">
-                                    <b-button class="m-auto fs-5 px-4 py-2 bedu-custom-blue" data-bs-dismiss="modal" @click="toPayment">
+                                    <b-button class="m-auto fs-5 px-4 py-2 bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPayment">
                                         결제하기
                                     </b-button>
                                     <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toMembership">
@@ -107,7 +107,7 @@
                                     강의가 장바구니에 담겼습니다. 이동하시겠습니까?
                                 </div>
                                 <div class="modal-footer">
-                                    <b-button class="bedu-custom-blue" data-bs-dismiss="modal" @click="toPaymentOnly">장바구니</b-button>
+                                    <b-button class="bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPaymentOnly">장바구니</b-button>
                                     <b-button data-bs-dismiss="modal">둘러보기</b-button>
                                 </div>
                             </div>
@@ -305,9 +305,15 @@ import '@/assets/css/lectureStyle.css';
                 
                 if(loginChk == undefined){
                     this.$swal({
-                        title: '경고',
-                        icon: 'warning',
-                        text : '로그인 후 사용해주세요'
+                        text : '로그인 후 사용 가능합니다',
+                        showCancelButton : true,
+                        cancelButtonText : '돌아가기',
+                        confirmButtonText : '로그인 페이지',
+                    })
+                    .then((result)=>{
+                        if(result.isConfirmed){
+                            this.$routerPush('login')
+                        }
                     })
                     return;
                 } else {
