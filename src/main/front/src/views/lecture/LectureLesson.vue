@@ -1,5 +1,5 @@
 <template>
-    <b-container class="pt-5">
+    <b-container class="py-5">
         <div class="mx-auto">
             <!-- 동영상 목록 콜랩스 -->
                 <b-container>
@@ -31,7 +31,9 @@
             <!-- 동영상 재생 컨테이너 -->
             <b-container class="mb-5">
                 <p class="fs-2 fw-bold text-center">{{ lessonInfo.lectDtlTitle }}</p>
-                <iframe width="100%" height="650px" src="https://www.youtube.com/embed/wk8jsBXTG_A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="ratio ratio-16x9">
+                    <iframe :src="lessonInfo.lessonUrl" title="YouTube video" allowfullscreen></iframe>
+                </div>
             </b-container>
             
             <!-- 하단 네비 -->
@@ -65,16 +67,14 @@
             </div>
             </b-container>
         </div>
-        <div class="ratio ratio-16x9">
-           <iframe :src="lessonInfo.lessonUrl" title="YouTube video" allowfullscreen></iframe>
-        </div>
-        {{ lessonInfo.lessonUrl }}
+
     </b-container>
 </template>
 
 <script>
 import '@/assets/css/lectureStyle.css'
 
+const baseUrl = "http://172.30.1.85:8081/";
 
 export default{
     name : 'lectureLesson',
@@ -85,7 +85,7 @@ export default{
                 lectDtlNum : 0,
                 lectDtlTitle : '',
                 lectNum : 0,
-                lessonUrl : 'file://172.30.1.7/%EA%B3%B5%EC%9C%A0%ED%8F%B4%EB%8D%94/BEDU/pexels-peter-fowler-1093667-1920x1080-30fps.mp4',
+                lessonUrl : '',
             },
             isAvailable : '',
             lessonList : [],
@@ -104,6 +104,7 @@ export default{
             })
             .then((res)=>{
                 this.lessonInfo = res.data.lessonItem
+                this.lessonInfo.lessonUrl = baseUrl+res.data.lessonItem.lessonUrl
                 this.lessonList = res.data.lessonList
                 this.lessonList.indexOf()
             })

@@ -1,15 +1,4 @@
-/* 공통 컬러 클래스 */
-.bedu-custom-blue{
-    background-color: var(--blue) !important;
-}
 
-.bedu-custom-yellow{
-    background-color: var(--yellow) !important;
-}
-
-.bedu-custom-black{
-    background-color: var(--black) !important;
-}
 
 
 

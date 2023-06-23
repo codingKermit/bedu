@@ -92,3 +92,28 @@ header {
     font-weight: bolder;
     src: url('../fonts/nanum-myeongjo/NanumMyeongjoExtraBold.otf');
 }
+
+/* 공통 컬러 클래스 */
+.bedu-bg-custom-blue{
+    background-color: var(--blue) !important;
+}
+
+.bedu-bg-custom-yellow{
+    background-color: var(--yellow) !important;
+}
+
+.bedu-bg-custom-black{
+    background-color: var(--black) !important;
+}
+
+.bedu-text-custom-blue{
+    color: var(--blue) !important;
+}
+
+.bedu-text-custom-yellow{
+    color: var(--yellow) !important;
+}
+
+.bedu-text-custom-black{
+    color: var(--black) !important;
+}

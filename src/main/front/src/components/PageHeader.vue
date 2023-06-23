@@ -53,8 +53,8 @@
                         </form>
                     </div>
                 </div>
-                <b-nav-item class="fs-5">
-                    <router-link v-if="!isLoggedIn" to="/login">로그인</router-link>
+                <b-nav-item class="fs-5" v-if="!isLoggedIn">
+                    <router-link  to="/login">로그인</router-link>
                 </b-nav-item>
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
