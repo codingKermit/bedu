@@ -21,7 +21,7 @@ export default {
             if (userInfoResponse.data.length === 0) {
                 return 'notFound'
             } else {
-                alert("로그인을 성공하셨습니다. 메인페이지로 이동합니다.")
+                // this.$swal("로그인을 성공하셨습니다. 메인페이지로 이동합니다.")
                 localStorage.setItem('user_token', userInfoResponse.data.user_token)
                 return userInfoResponse
             }

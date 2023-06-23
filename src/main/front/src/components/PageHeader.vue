@@ -181,21 +181,48 @@
                 })
             },
             logout() {
+                this.$swal({
+                    title: '로그아웃 하시겠습니까?',
+                    
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+                    confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    
+                    }).then(result => {
+                    // 만약 Promise리턴을 받으면,
+                    if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                        this.$swal({
+                            title: '로그아웃이 완료되었습니다.',
+                            timer: 3000,
+                        });
+                        localStorage.removeItem("user_token");
+                        this.$store.commit('IS_AUTH', false);
+                        this.$store.commit('NICKNAME', null);
+                        this.$store.commit('USERNUM', null);
+                        this.$store.commit('EMAIL', null);
+                    } else {
+                        // 취소(No)를 선택한 경우
+                        // 아무 작업도 하지 않음
+                    }
+                });
                 // "로그아웃 하시겠습니까?" 알림 표시
-                const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
 
-                if (confirmLogout) {
-                    // 확인(Yes)을 선택한 경우
-                    localStorage.removeItem("user_token");
-                    this.$store.commit('IS_AUTH', false);
-                    this.$store.commit('NICKNAME', null);
-                    this.$store.commit('USERNUM', null);
-                    this.$store.commit('EMAIL', null);
-                    location.reload();
-                } else {
-                    // 취소(No)를 선택한 경우
-                    // 아무 작업도 하지 않음
-                }
+                // const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+
+                // if (confirmLogout) {
+                //     // 확인(Yes)을 선택한 경우
+                //     localStorage.removeItem("user_token");
+                //     this.$store.commit('IS_AUTH', false);
+                //     this.$store.commit('NICKNAME', null);
+                //     this.$store.commit('USERNUM', null);
+                //     this.$store.commit('EMAIL', null);
+                //     location.reload();
+                // } else {
+                //     // 취소(No)를 선택한 경우
+                //     // 아무 작업도 하지 않음
+                // }
             },
           },
           watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
