@@ -6,18 +6,15 @@
 	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
 		SELECT * FROM (SELECT
 		  ROWNUM rnum,
-		  QS_BD_NUM as qna_bd_num,
+		  QS_BD_NUM as qna_bd_num,  
 		  TITLE,
 		  CONTENT,
 		  QS_DATE as qna_date,
 		  QS_CNT as qna_cnt,
 		  QS_LIKE_CNT as qna_like_yn,
-		  REG_ID,
-		  u.USER_NAME,
-		  u.USER_ID,
-		  u.USER_NUM 
-		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
-		ORDER BY QS_BD_NUM DESC) 
+		  u.USER_ID
+		FROM T_BEDU_QS q left join T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
+		ORDER BY QS_BD_NUM DESC)
 		WHERE rnum >= #{page} AND #{limit} >= rnum
 	 </select>
 	
@@ -111,5 +108,12 @@
 		 T_BEDU_QS SET QS_LIKE_CNT = QS_LIKE_CNT + 1
 		WHERE QS_BD_NUM = #{num}
 	</update>
+	
+	<select id="getuserName" resultType="com.care.bedu.community.qna.vo.QnaVO">
+		SELECT
+		 USER_NAME
+		FROM T_BEDU_USER
+		WHERE USER_ID = #{userId}
+	</select>
 	
 </mapper>
