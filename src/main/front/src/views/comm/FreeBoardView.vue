@@ -56,6 +56,7 @@
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     import '@/assets/css/freeBoardStyle.css';
+    import router from '@/router';
     export default {
     
         data() {
@@ -78,6 +79,13 @@
         },
 
         created(){
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "main"
+                })
+            }
         },
 
         methods: {

@@ -107,11 +107,22 @@ export default{
 
 
     mounted() {
+        const nick =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
         this.getUserId();
         this.path(num);
+    },
+
+    created() {
+        const nick =this.$store.getters.getNickname;
+        if(nick === '' || nick === null){
+            this.$swal('Error','로그인을 해주세요!');
+            router.push({
+                name: "main"
+            })
+        }
     },
 
     methods: {
@@ -140,6 +151,7 @@ export default{
             })
             .then(response=>{
                 this.free = response.data;
+                this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
                 const nickname = this.$store.getters.getNickname;
                 this.free.user_name = nickname;
             })
@@ -231,6 +243,28 @@ export default{
             router.push({
                 name: 'freeBoard', 
             })
+        },
+
+        freeDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
+
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const freeDays = Math.floor(diffInHours / 24);
+                
+                if (freeDays > 0) {
+                    return `${freeDays}일 전`;
+                } else if (diffInHours > 0) {
+                    return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
+                }
         },
 
         replyopen(){

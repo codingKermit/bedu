@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api")
 public class QnaController {
@@ -20,7 +23,10 @@ public class QnaController {
 	
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
 	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
-		 return qnaService.listProc(qnaVO);
+		 
+		 ArrayList<QnaVO> list = qnaService.listProc(qnaVO);
+		 System.out.println(list);
+		 return list;
 	 }
 	
 	 @RequestMapping(value="/qna/qnaWrite", method=RequestMethod.POST)				//게시글 작성
@@ -61,13 +67,13 @@ public class QnaController {
 	 }
 	
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
-	 public HashMap<String, Object> likeUp(int num, String email){
-		 System.out.println("값:"+ email);
+	 public HashMap<String, Object> likeUp(int num, String userName){
+		 
 		 HashMap<String, Object> map = new HashMap<>();
 		 
-		 int result = qnaService.likeUp(num, email) == 1? num : 0;
-		 
-		 map.put("email", email);
+		 int result = qnaService.likeUp(num, userName);
+		 System.out.println("결과"+result);
+		 map.put("email", userName);
 		 map.put("nums", result);
 	 	 return map;
 	 }
