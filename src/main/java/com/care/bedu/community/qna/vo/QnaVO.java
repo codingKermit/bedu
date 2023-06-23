@@ -10,8 +10,8 @@ import lombok.ToString;
 public class QnaVO {					//질문답변게시판 객체(qna)
 	
 	private Integer qna_bd_num;	//글번호
-	private int startrow;	//글시작번호
-	private int endrow;	//글끝번호
+	private int page;	//글시작번호
+	private int limit;	//글끝번호
 	private String reg_id;	// 타 테이블에서 구분
 	private String user_name;	//작성자닉네임
 	private String user_id;	//user회원테이블의 유저 아이디

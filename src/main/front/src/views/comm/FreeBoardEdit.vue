@@ -34,8 +34,23 @@
             CommCategory
         },
 
+        created() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "main"
+                })
+            }
+        },
+
 
         mounted() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                alert('로그인을 해주세요.');
+                window.history.back();
+            }
             const num = this.$route.params.num;
             this.freedetail(num);
             

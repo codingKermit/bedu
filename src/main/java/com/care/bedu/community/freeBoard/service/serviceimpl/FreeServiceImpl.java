@@ -22,7 +22,7 @@ public class FreeServiceImpl implements FreeService{
 	
 	@Override
 	public ArrayList<FreeVO> listProc(FreeVO freeVO) {					//게시글 조회
-		freeVO.setLimit(5);
+		freeVO.setLimit(10);
 		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit()+1);			//시작할 현재(첫번쨰) 글번호 로직
 		freeVO.setLimit(freeVO.getPage()+freeVO.getLimit()-1);				
 		if(freeVO.getKeyword() != null) {				//검색 키워드 조건 (키워드 없으면 기본 조회)

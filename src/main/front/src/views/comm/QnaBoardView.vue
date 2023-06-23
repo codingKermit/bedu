@@ -55,112 +55,127 @@
     
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
+    import router from '@/router';
     import '@/assets/css/qnaStyle.css';
     export default {
 
-    data() {
-        return {
-            qnalist: [
-            ],
-            form: {
-                keyword: '',
-            },
-            totalItems: 0,
-            totalPage: 0,
-            currentPage: 1
-        };
+        data() {
+            return {
+                qnalist: [
+                ],
+                form: {
+                    keyword: '',
+                },
+                totalItems: 0,
+                totalPage: 0,
+                currentPage: 1
+            };
 
-    },
-
-    created() {
-    },
-
-    mounted() {
-    },
-
-    components:{
-        InfiniteLoading,
-        CommCategory
-    },
-
-    methods: {
-
-        List() {
-            
-            this.$axiosSend('get','/api/qna/qnaList', {
-                startrow: this.currentPage,
-            })
-            .then(res => {
-                this.qnalist = res.data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
         },
 
-
-        qnasearch() {
-            if(this.form.keyword === null || this.form.keyword ===''){
-                alert('검색어를 입력해주세요!');
-                return;
+        created() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "main"
+                })
             }
-            const form = new FormData();
-
-            form.append('keyword', this.form.keyword);
-
-            this.$axiosSend('post','/api/qna/qnaList', this.form)
-            .then(res => {
-                this.qnalist = res.data;
-            })
-            .catch(error => {
-                alert(error);
-            });
         },
 
-        getTotal() {
-            this.$axiosSend('get','/api/qna/total')
-            .then((response) => {
-                this.totalItems = response.data;
-                this.totalPage = Math.ceil(this.totalItems / 5);
-            })
-            .catch((error) => {
-                alert(error);
-            })
+        components:{
+            InfiniteLoading,
+            CommCategory
+        },
+
+        mounted() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "main"
+                })
+            }
+        },
+
+        methods: {
+
+            List() {
+                
+                this.$axiosSend('get','/api/qna/qnaList', {
+                    page: this.currentPage,
+                })
+                .then(res => {
+                    this.qnalist = res.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             },
-            pageChange(val) { // 페이지 변경
 
-            if (val <= 0) {
-                return;
-            }
-            if (val > this.totalPage) {
-                return;
-            }
-            this.currentPage = val;
-        },      
 
-        infiniteHandler($state){
-            this.$axiosSend('get','/api/qna/qnaList',{
-                startrow : this.currentPage,
-            })
-            .then(res=>{
-                if(res.data.length){
-                    this.currentPage++;
-        
-                    this.qnalist.push(...res.data);
-                    // const nickname = this.$store.getters.getNickname;
-                    // for(var i=0; i<res.data.length; i++){
-                    //     this.qnalist[i].user_name = nickname;
-                    // }
-
-                    $state.loaded();
-                } else{
-                    $state.complete();
+            qnasearch() {
+                if(this.form.keyword === null || this.form.keyword ===''){
+                    alert('검색어를 입력해주세요!');
+                    return;
                 }
-            })
-            .catch(err=>{
-                console.log(err);
-            })
-        }
-    },
+                const form = new FormData();
+
+                form.append('keyword', this.form.keyword);
+
+                this.$axiosSend('post','/api/qna/qnaList', this.form)
+                .then(res => {
+                    this.qnalist = res.data;
+                })
+                .catch(error => {
+                    alert(error);
+                });
+            },
+
+            getTotal() {
+                this.$axiosSend('get','/api/qna/total')
+                .then((response) => {
+                    this.totalItems = response.data;
+                    this.totalPage = Math.ceil(this.totalItems / 5);
+                })
+                .catch((error) => {
+                    alert(error);
+                })
+                },
+                pageChange(val) { // 페이지 변경
+
+                if (val <= 0) {
+                    return;
+                }
+                if (val > this.totalPage) {
+                    return;
+                }
+                this.currentPage = val;
+            },      
+
+            infiniteHandler($state){
+                this.$axiosSend('get','/api/qna/qnaList',{
+                    page : this.currentPage,
+                })
+                .then(res=>{
+                    if(res.data.length){
+                        this.currentPage++;
+            
+                        this.qnalist.push(...res.data);
+                        // const nickname = this.$store.getters.getNickname;
+                        // for(var i=0; i<res.data.length; i++){
+                        //     this.qnalist[i].user_name = nickname;
+                        // }
+
+                        $state.loaded();
+                    } else{
+                        $state.complete();
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            }
+        },
     };
 </script>

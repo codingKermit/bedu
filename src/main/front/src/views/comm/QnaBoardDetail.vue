@@ -65,7 +65,7 @@
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                 <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
             </div>
                 
         </b-container>
@@ -112,6 +112,16 @@
             this.form.ansBdNum = qnanum;
         },
 
+        created() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "main"
+                })
+            }
+        },
+
         methods: {
 
             getUserId(){
@@ -136,6 +146,7 @@
                 })
                 .then(res=>{
                     this.qna = res.data;
+                    this.qna.str_qna_date = this.qnaDateTime(this.qna.str_qna_date);
                 })
                 .catch((error)=>{
                     alert(error);
@@ -188,7 +199,6 @@
                     if(res.data.nums === this.qna.qna_bd_num){
                         this.qna.qna_like_yn++;
                         this.qna.user_name = res.data.user_name;
-                        this.qnum++;
                     }else if(res.data.nums === 0){
                         alert('같은 아이디로는 한번밖에 증가하지 못합니다.');
                         return;
@@ -197,6 +207,30 @@
                 .catch(error => {
                     alert(error);
                 })
+            },
+
+            qnaDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
+
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const qnaDays = Math.floor(diffInHours / 24);
+                
+                if (qnaDays > 0) {
+                    console.log('실행!');
+                    return `${qnaDays}일 전`;
+                } else if (diffInHours > 0) {
+                    
+                    return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
+                }
             },
 
             answrite(){

@@ -26,9 +26,9 @@ public class QnaServiceImpl implements QnaService{
 	//조회
 	@Override
 	public ArrayList<QnaVO> listProc(QnaVO qnaVO) {
-		qnaVO.setEndrow(5);
-		qnaVO.setStartrow((qnaVO.getStartrow()-1)*qnaVO.getEndrow()+1);			//시작할 첫번쨰 글번호 행
-		qnaVO.setEndrow(qnaVO.getStartrow()+qnaVO.getEndrow()-1);
+		qnaVO.setLimit(10);
+		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
+		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
 						//끝 글번호 행
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
@@ -73,8 +73,9 @@ public class QnaServiceImpl implements QnaService{
 	}
 
 	@Override
-	public int likeUp(int num, String email) {
-		return qnaDAO.likeUp(num, email);						//게시글 좋아요 1 증가
+	public int likeUp(int num, String userName) {
+						//게시글 좋아요 1 증가
+		return qnaDAO.likeUp(num, userName);
 	}
 
 	@Override

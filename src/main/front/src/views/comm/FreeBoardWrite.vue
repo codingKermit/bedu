@@ -38,7 +38,20 @@
         },
 
         mounted() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                alert('로그인을 해주세요.');
+                window.history.back();
+            }
             this.getUserId();
+        },
+
+        created() {
+            const nick =this.$store.getters.getNickname;
+            if(nick === '' || nick === null){
+                alert('로그인을 해주세요.');
+                window.history.back();
+            }
         },
 
         methods: {
