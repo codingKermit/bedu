@@ -181,12 +181,21 @@
                 })
             },
             logout() {
-                localStorage.removeItem("user_token")
-                this.$store.commit('IS_AUTH', false);
-                this.$store.commit('NICKNAME', null);
-                this.$store.commit('USERNUM', null);
-                this.$store.commit('EMAIL', null);
-                location.reload()
+                // "로그아웃 하시겠습니까?" 알림 표시
+                const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+
+                if (confirmLogout) {
+                    // 확인(Yes)을 선택한 경우
+                    localStorage.removeItem("user_token");
+                    this.$store.commit('IS_AUTH', false);
+                    this.$store.commit('NICKNAME', null);
+                    this.$store.commit('USERNUM', null);
+                    this.$store.commit('EMAIL', null);
+                    location.reload();
+                } else {
+                    // 취소(No)를 선택한 경우
+                    // 아무 작업도 하지 않음
+                }
             },
           },
           watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
