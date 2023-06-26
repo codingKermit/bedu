@@ -1,77 +1,63 @@
 <template>
-    <div>
-        <CommCategory :titleShow="false"></CommCategory>
-        <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
-            <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
-                <h2 class="pt-5 mb-3 fw-bold qna-detail-title" id="qna-detail-title">
-                    {{ qna.title }}
-                </h2>
-                <div id="qna-userinfo">
-                    <p id="qna-userid">
-                        {{ qna.user_name}}
-                    </p>
-                    <p id="qna-comm">
-                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                    </p>
-                    <p id="qna-date">
-                        {{ qna.str_qna_date }} 
-                    </p>
+    <CommCategory></CommCategory>
+    <div class="container w-75   qna-detail-main" id="qna-detail-main">
+        <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
+            <h2 class="mb-3 fw-bold qna-detail-title" id="qna-detail-title">
+                {{ qna.title }}
+            </h2>
+            <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
+                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
+            </div>
+            <div id="qna-userinfo">
+                <p id="qna-userid">
+                    {{ qna.user_name}}
+                </p>
+                <p id="qna-comm">
+                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                </p>
+                <p id="qna-date">
+                    {{ qna.str_qna_date }} 
+                </p>
+            </div>
+            <hr class="mt-10">
+            <div id="qna-detail-contents">
+                {{ qna.content }}
+            </div>
+            <div id="qna-likeyn">
+                <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
+                    <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
+                        <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
+                            {{ qna.qna_like_yn }}
+                        </text>
+                </button>    
+            </div>
+            <hr style="margin-top: 9%;"/>
+            <h3>개의 답변이있어요</h3>
+            <div>
+                <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" style="display: none;">
+                    <h4>답글을 작성하시오</h4>
+                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
                 </div>
-                <hr class="mt-0"/>
-                <div id="qna-detail-contents">
-                    {{ qna.content }}
-                </div>
-                <div id="qna-likeyn">
-                    <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
-                        <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
-                            <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
-                                {{ qna.qna_like_yn }}
-                            </text>
-                    </button>    
-                </div>
-                <hr  />
-                <div>
-                    <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" style="display: none;">
-                        <h4>답글을 작성하시오</h4>
-                        <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
-                    </div>
-                    <div>
-                        <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist" id="qna-detail-replylist">
-                            <div>
-                                <span>
-                                    <h5>
-                                        {{ ans.userName }}
-                                    </h5>
-                                    <div>
-                                        <h5>
-                                            {{ ans.content }}
-                                        </h5>
-                                    </div>
-                                    <h5>
-                                        {{ ans.strAnsDate }}
-                                    </h5>
-                                    <button id="qna-likebtn">
-                                        <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
-                                            <text class="fw-bold ms-2 ans-detail-likeyn" id="ans-detail-likeyn">
-                                                {{ ans.ansLikeCnt }}
-                                            </text>
-                                    </button>
-                                </span>
-                            </div>
+                <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
+                    <div class="d-flex mb-3 mt-4">
+                        <div  class = "name">
+                            {{ ans.userName }}
+                        </div>
+                        <div  class = "date">
+                            {{ ans.strAnsDate }}
                         </div>
                     </div>
+                    <div class="qnaReplyContent">
+                        {{ ans.content }}
+                    </div>
                 </div>
-                <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
-                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
-                    <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
-                </div>
-                    
-            </b-container>
-            <br>
-        </div>
+            </div>
+        </b-container>
+        <br>
     </div>
 </template>
 
@@ -114,16 +100,6 @@
             this.form.ansBdNum = qnanum;
         },
 
-        created() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                this.$swal('Error','로그인을 해주세요!');
-                router.push({
-                    name: "main"
-                })
-            }
-        },
-
         methods: {
 
             getUserId(){
@@ -148,7 +124,6 @@
                 })
                 .then(res=>{
                     this.qna = res.data;
-                    this.qna.str_qna_date = this.qnaDateTime(this.qna.str_qna_date);
                 })
                 .catch((error)=>{
                     alert(error);
@@ -192,48 +167,24 @@
             },
 
             qnalikeUp(qnum){
-                var userid = this.form.userName;
-                console.log('아이디:', userid);
+                
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
-                        userName : userid,
                 })
                 .then(res => {
                     console.log('값', res.data.nums);
-                    if(res.data.nums === 1){
+                    if(res.data.nums === this.qna.qna_bd_num){
                         this.qna.qna_like_yn++;
                         this.qna.user_name = res.data.user_name;
+                        this.qnum++;
                     }else if(res.data.nums === 0){
-                        this.$swal('Success','같은 아이디로는 한번밖에 증가하지 못합니다. 따라서 좋아요가 취소됩니다.','success');
+                        alert('같은 아이디로는 한번밖에 증가하지 못합니다.');
                         return;
                     }    
                 })
                 .catch(error => {
                     alert(error);
                 })
-            },
-
-            qnaDateTime(value) {
-                // value는 날짜 값입니다
-                const now = new Date();
-                const date = new Date(value);
-
-                const diffInMilliseconds = now - date;
-                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-                const diffInMinutes = Math.floor(diffInSeconds / 60);
-                const diffInHours = Math.floor(diffInMinutes / 60);
-                const qnaDays = Math.floor(diffInHours / 24);
-                
-                if (qnaDays > 0) {
-                    return `${qnaDays}일 전`;
-                } else if (diffInHours > 0) {
-                    
-                    return `${diffInHours}시간 전`;
-                } else if (diffInMinutes > 0) {
-                    return `${diffInMinutes}분 전`;
-                } else {
-                    return '방금 전';
-                }
             },
 
             answrite(){
