@@ -12,7 +12,7 @@
         
         <b-collapse id="header-collapse" is-nav>
             <b-navbar-nav id="nav1" class="me-auto">
-                <b-nav-item v-if='categories.length' class="fs-5" @mouseenter="openDropdown" @mouseleave="closeDropdown"
+                <b-nav-item v-if='categories.length' class="fs-5 fw-bold" @mouseenter="openDropdown" @mouseleave="closeDropdown"
                 :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
                 분야별 강의
                 </b-nav-item>

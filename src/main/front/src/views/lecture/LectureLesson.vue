@@ -32,10 +32,17 @@
             <b-container class="mb-5">
                 <p class="fs-2 fw-bold text-center">{{ lessonInfo.lectDtlTitle }}</p>
                 <div class="ratio ratio-16x9" >
-                        <video @loadedmetadata="getMaxTime" @click="console.log('22')" :src="dummy.url" @timeupdate="updateProgressSituation" ref="bedu_video"></video>
-                        <!-- <video :src="lessonInfo.lessonUrl" @timeupdate="updateProgressSituation" ref="bedu_video"></video> -->
-                        <!-- 비디오 컨트롤러 -->
-                    <div class="bedu-video-controls-container text-light text-opacity-75">
+                    <video @loadedmetadata="getMaxTime" :src="lessonInfo.lessonUrl" @timeupdate="updateProgressSituation" ref="bedu_video"></video>
+                    <!-- 비디오 컨트롤러 -->
+                    <div class="bedu-video-controls-container text-light text-opacity-75" >
+                        <div class="w-100 h-100 d-block" @click="playToggleCenter">
+                            <span class="bedu-video-center-toggle">
+                                <font-awesome-icon 
+                                :icon="playPauseToggle? 'fa-solid fa-pause':'fa-solid fa-play'" class="fs-1"
+
+                                />
+                            </span>
+                        </div>
                         <div class="bedu-video-controls">
                             <div class="bedu-video-progress">
                                     <input id="bedu-video-progress-bar" class="w-100 h-100" type="range" :max="maxTime" min="0" step="1"
@@ -172,9 +179,15 @@ export default{
             // console.log(this.currentTime)
             // console.log(this.maxTime)
             // console.log(this.lessonInfo.lectDtlNum + "동영상의 현재 재생 시간 " + progress + "초(s)")
-            const minute = Math.round(this.currentTime / 60).toString().padStart(2,'0');
+            let minute = Math.round(this.currentTime / 60).toString().padStart(2,'0');
             const seconds = (this.currentTime%60).toString().padStart(2,'0') ;
-            this.currentTimeForUser = minute + ":"+ seconds
+            if(minute>=60){
+                const hour = Math.round(minute/60).toString().padStart(2,'0');
+                minute = Math.round(minute%60).toString().padStart(2,'0');
+                this.currentTimeForUser = hour + ":" + minute + ":" + seconds
+            } else{
+                this.currentTimeForUser = minute + ":"+ seconds
+            }
         },
         /** 동영상 플레이어 재생 버튼 토글 */
         playToggle(e){
@@ -193,9 +206,16 @@ export default{
         /** 동영상 메타데이터 로드 완료 후 동영상 재생 시간 구하는 메서드 */
         getMaxTime(e){
             this.maxTime = Math.round(e.target.duration);
-            const minute = Math.round(this.maxTime / 60);
+            let minute = Math.round(this.maxTime / 60);
             const seconds = this.maxTime%60;
-            this.maxTimeForUser = minute + ":"+ seconds
+            if(minute>=60){
+                const hour = Math.round(minute/60).toString().padStart(2,'0');
+                minute = Math.round(minute%60).toString().padStart(2,'0');
+                this.maxTimeForUser = hour + ":" + minute + ":" + seconds
+            } else{
+                this.maxTimeForUser = minute + ":"+ seconds
+            }
+
         },
         /** 컨트롤러의 재생바 값 변경시 동영상 재생시간 변경 메서드 */
         progressUpdate(e){
@@ -219,8 +239,8 @@ export default{
         volumeSliderToggleOff(){
             this.volumeSliderOver = false;
         },
+        /** 음소거 토글 */
         muteToggleFunc(){
-            // console.log(this.$refs.bedu_video.muted)
             if(this.muteToggle){
                 this.muteToggle = false;
                 this.$refs.bedu_video.muted=true
@@ -228,6 +248,9 @@ export default{
                 this.muteToggle = true;
                 this.$refs.bedu_video.muted=false
             }
+        },
+        playToggleCenter(){
+            
         }
 
         
@@ -307,5 +330,11 @@ export default{
         -webkit-appearance: none; 
         height: 100px;
         background: rgba(255,255,255,0.7);
+    }
+
+    .bedu-video-center-toggle{
+        position: relative;
+        top : 48%;
+        left : 48%;
     }
 </style>
