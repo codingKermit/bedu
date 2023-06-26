@@ -1,10 +1,17 @@
 <template>
-    <div class="container w-75 mt-5 mb-3 freeboard-detail-main" id="freeboard-detail-main">
-        <CommCategory :titleShow="false"></CommCategory>
+    <CommCategory></CommCategory>
+    <div class="container w-75 freeboard-detail-main" id="freeboard-detail-main">
         <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
-            <h2 class="pt-5 mb-3 fw-bold free-detail-title" id="free-detail-title">
+            <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}
             </h2>
+            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
+                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
+                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+            </div>
             <div id="freeboard-userinfo">
                 <p id="freeboard-userid">
                     {{ free.user_name}}
@@ -16,7 +23,7 @@
                     {{ free.str_comm_date }} 
                 </p>
             </div>
-            <hr class="mt-0"/>
+            <hr class="mt-10"/>
             <div id="freeboard-detail-contents">
                 {{ free.content }}
             </div>
@@ -28,44 +35,29 @@
                         </text>
                 </button>    
             </div>
-            <hr  />
+            <hr style="margin-top: 9%;"/>
             <div>
                 <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
                     <h4>댓글을 작성하시오</h4>
                     <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
                 </div>
-                <div>
-                    <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
-                        <div>
-                            <span>
-                                <h5>
-                                    {{ reply.userName }}
-                                </h5>
-                                <div>
-                                    <h5>
-                                        {{ reply.content }}
-                                    </h5>
-                                </div>
-                                <h5>
-                                    {{ reply.strReplyDate }}
-                                </h5>
-                            </span>
+                <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
+                    <div class="d-flex mb-3 mt-4">
+                        <div class="freeName">
+                            {{ reply.userName }}
                         </div>
+                        <div class="freeDate">
+                            {{ reply.strReplyDate }}
+                        </div>
+                    </div>
+                    <div class="freeReplycontent">
+                        {{ reply.content }}
                     </div>
                 </div>
             </div>
-            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
-                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-            </div>
         </b-container>
         <br>
-        
     </div>
-    
 </template>
 
 <script>

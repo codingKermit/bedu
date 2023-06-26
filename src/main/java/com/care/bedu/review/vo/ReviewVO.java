@@ -13,6 +13,6 @@ public class ReviewVO {
     private int star;
     private int lectureNumber;
     private Date reviewDate;
-    private Date registrationDate;
-    private String registeredUserId;
+    private Date regDate;
+    private String regId;
 }
