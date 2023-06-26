@@ -59,18 +59,34 @@ h1 {
 
 #qna-detail-btns{
     float: right;
-    
 }
 
 #qna-detail-body {
     width: 90%;
 }
 
-#qna-detail-replylist{
+.date {
+    
+    margin-left: 75%;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.qnaReplyContent {
+    height: 250px;
+    width: 750px;
+    border-bottom: solid 1px black;
+    word-wrap: break-word;
+}
+
+.qna-detail-replylist{
+    padding-left: 8%;
     border:1px solid;
-    margin-top:20px;
+    margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
-    text-align: center;
+    height: 400px;
 }
 
 #qna-detail-btncontent{
@@ -87,18 +103,30 @@ h1 {
     margin-left: 20px;
 }
 
+.qna-answer {
+    float: left;
+    display: flex;
+    align-items: middle;
+}
+
+
 #qna-date {
     margin-left: 20px;
 }
 
 #qna-likebtn {
+    float: right;
     border: 0.1rem solid #dde0ea;
+    width: 100px;
+    height: 50px;
     background-color: #fff;
     border-radius: 12rem;
     z-index: 2;
-    width: max-content;
-    align-items: center;
 
+}
+
+#qna-likeyn {
+    float: right;
 }
 
 #qna-detail-contents {
@@ -135,3 +163,20 @@ h1 {
 #qna-detail-contents {
     word-wrap: break-word;
 }
+
+.hr {
+    margin-bottom: 50px;
+}
+
+#qna-detail-main {
+    padding-top: 5%;
+}
+
+#qnaboard-detail-rewrite{
+    background-color: var(--blue) !important
+}
+
+#qnaboard-detail-replybtn{
+    background-color: var(--blue) !important
+}
+
