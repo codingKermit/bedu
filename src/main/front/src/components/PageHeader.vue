@@ -4,7 +4,7 @@
 
         <b-navbar-brand>
             <router-link to="/">
-                <img id="bedu-logo" src="@/assets/imgs/Logo.png" width="300">
+                <img id="bedu-logo" src="@/assets/imgs/Logo.png">
             </router-link>
         </b-navbar-brand>
 
@@ -45,9 +45,10 @@
                     로그인
                 </b-nav-item>
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
-                    <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
-                        <span class="fs-5" style="font-weight: 600;">{{ getNickname }}</span><span>님</span>
+                    <button id="nicknameToggle" class="dropdown-toggle no-arrow" type="button">
+                        <span class="fs-5" style="font-weight: 600;">{{ getNickname }}</span>
                     </button>
+                    <span style="font-weight: bold;">님</span>
                     <ul class="dropdown-menu" v-show="isDropdownOpen">
                         <b-dropdown-item to="/mypage">
                             마이 페이지
@@ -256,7 +257,7 @@
     }
 
     #bedu-logo {
-        margin-right: 30px;
+        width: 300px;
     }
 
     #nav1 a {
@@ -303,7 +304,11 @@
 
     #nicknameToggle {
         background-color: #EDC268;
-        border: #EDC268;
+        margin-left: 10px;
+        margin-right: 8px;
+        border: 3px solid black;
+        border-radius: 40px;
+        padding: 8px 15px 8px 15px;
     }
 
     #headerLogout {
