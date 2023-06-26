@@ -1,5 +1,6 @@
 package com.care.bedu.user.controller;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.user.security.JwtUtil;
 import com.care.bedu.user.service.MemberService;
+import com.care.bedu.user.vo.MemberMypageVO;
 import com.care.bedu.user.vo.MemberVO;
 
 @RestController
@@ -78,5 +80,14 @@ public class MemberController {
         Map<String, Object> error = new HashMap<>();
         error.put("message", "Invalid email or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+    
+    /* 마이페이지 홈 */
+    @GetMapping("/mypage")
+    public ArrayList<MemberMypageVO> getMemberMypage(String userid){
+    	ArrayList<MemberMypageVO> list = new ArrayList<>();
+    	list = memberService.getMemberMypage(userid);
+    	
+    	return list;
     }
 }

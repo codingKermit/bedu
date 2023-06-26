@@ -7,14 +7,17 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.care.bedu.community.qna.dao.LikeCntDAO;
 import com.care.bedu.community.qna.dao.QnaDAO;
 import com.care.bedu.community.qna.service.QnaService;
+import com.care.bedu.community.qna.vo.LikeCntVO;
 import com.care.bedu.community.qna.vo.QnaVO;
 
 @Service
 public class QnaServiceImpl implements QnaService{
 	
 	@Autowired private QnaDAO qnaDAO;
+	@Autowired private LikeCntDAO likeCntDAO;
 	
 	// 예시된 날짜(예시: 2023-05-30) 형태로 변환하는 로직
 	private String regdates(Date regdate) {
@@ -34,8 +37,8 @@ public class QnaServiceImpl implements QnaService{
 			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
 		}
 		
-		ArrayList<QnaVO> list = qnaDAO.viewlist(qnaVO);
-		for(QnaVO qna : list) {
+		ArrayList<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
+		for(QnaVO qna : qnalist) {
 			qna.setStr_qna_date(regdates(qna.getQna_date()));
 			ArrayList<QnaVO> username = qnaDAO.getuserName(qna.getUser_id());
 			for(QnaVO user : username) {
@@ -43,7 +46,7 @@ public class QnaServiceImpl implements QnaService{
 			}
 		}
 		
-		return list;						
+		return qnalist;						
 	}
 
 	@Override
@@ -81,7 +84,21 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int likeUp(int num, String userName) {
 						//게시글 좋아요 1 증가
-		return qnaDAO.likeUp(num, userName);
+		LikeCntVO likeCntVO = new LikeCntVO();
+		likeCntVO.setUserName(userName);
+		likeCntVO.setQsBdNum(num);
+		likeCntVO.setRegId(userName);
+		String getqsuserName = likeCntDAO.getlike(num, userName);
+		if(!userName.equals(getqsuserName)) {
+			int result = likeCntDAO.likeCntSave(likeCntVO);
+			if(result == 1) {
+				return qnaDAO.likeUp(num);
+			}else {
+				return 0;
+			}
+		}else {
+			return 0;
+		}
 	}
 
 	@Override

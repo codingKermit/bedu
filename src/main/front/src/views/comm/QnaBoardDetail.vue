@@ -1,75 +1,77 @@
 <template>
-    <CommCategory :titleShow="false"></CommCategory>
-    <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
-        <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
-            <h2 class="pt-5 mb-3 fw-bold qna-detail-title" id="qna-detail-title">
-                {{ qna.title }}
-            </h2>
-            <div id="qna-userinfo">
-                <p id="qna-userid">
-                    {{ qna.user_name}}
-                </p>
-                <p id="qna-comm">
-                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
-                </p>
-                <p id="qna-date">
-                    {{ qna.str_qna_date }} 
-                </p>
-            </div>
-            <hr class="mt-0"/>
-            <div id="qna-detail-contents">
-                {{ qna.content }}
-            </div>
-            <div id="qna-likeyn">
-                <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
-                    <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
-                        <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
-                            {{ qna.qna_like_yn }}
-                        </text>
-                </button>    
-            </div>
-            <hr  />
-            <div>
-                <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" style="display: none;">
-                    <h4>답글을 작성하시오</h4>
-                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+    <div>
+        <CommCategory :titleShow="false"></CommCategory>
+        <div class="container w-75 mt-5 mb-3 qna-detail-main" id="qna-detail-main">
+            <b-container class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
+                <h2 class="pt-5 mb-3 fw-bold qna-detail-title" id="qna-detail-title">
+                    {{ qna.title }}
+                </h2>
+                <div id="qna-userinfo">
+                    <p id="qna-userid">
+                        {{ qna.user_name}}
+                    </p>
+                    <p id="qna-comm">
+                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                    </p>
+                    <p id="qna-date">
+                        {{ qna.str_qna_date }} 
+                    </p>
                 </div>
+                <hr class="mt-0"/>
+                <div id="qna-detail-contents">
+                    {{ qna.content }}
+                </div>
+                <div id="qna-likeyn">
+                    <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
+                        <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
+                            <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
+                                {{ qna.qna_like_yn }}
+                            </text>
+                    </button>    
+                </div>
+                <hr  />
                 <div>
-                    <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist" id="qna-detail-replylist">
-                        <div>
-                            <span>
-                                <h5>
-                                    {{ ans.userName }}
-                                </h5>
-                                <div>
+                    <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" style="display: none;">
+                        <h4>답글을 작성하시오</h4>
+                        <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+                    </div>
+                    <div>
+                        <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist" id="qna-detail-replylist">
+                            <div>
+                                <span>
                                     <h5>
-                                        {{ ans.content }}
+                                        {{ ans.userName }}
                                     </h5>
-                                </div>
-                                <h5>
-                                    {{ ans.strAnsDate }}
-                                </h5>
-                                <button id="qna-likebtn">
-                                    <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
-                                        <text class="fw-bold ms-2 ans-detail-likeyn" id="ans-detail-likeyn">
-                                            {{ ans.ansLikeCnt }}
-                                        </text>
-                                </button>
-                            </span>
+                                    <div>
+                                        <h5>
+                                            {{ ans.content }}
+                                        </h5>
+                                    </div>
+                                    <h5>
+                                        {{ ans.strAnsDate }}
+                                    </h5>
+                                    <button id="qna-likebtn">
+                                        <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
+                                            <text class="fw-bold ms-2 ans-detail-likeyn" id="ans-detail-likeyn">
+                                                {{ ans.ansLikeCnt }}
+                                            </text>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
-            </div>
-                
-        </b-container>
-        <br>
+                <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
+                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
+                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
+                    <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
+                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
+                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qna_bd_num)">삭제</b-button>
+                </div>
+                    
+            </b-container>
+            <br>
+        </div>
     </div>
 </template>
 
@@ -190,17 +192,19 @@
             },
 
             qnalikeUp(qnum){
-                
+                var userid = this.form.userName;
+                console.log('아이디:', userid);
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
+                        userName : userid,
                 })
                 .then(res => {
                     console.log('값', res.data.nums);
-                    if(res.data.nums === this.qna.qna_bd_num){
+                    if(res.data.nums === 1){
                         this.qna.qna_like_yn++;
                         this.qna.user_name = res.data.user_name;
                     }else if(res.data.nums === 0){
-                        alert('같은 아이디로는 한번밖에 증가하지 못합니다.');
+                        this.$swal('Success','같은 아이디로는 한번밖에 증가하지 못합니다. 따라서 좋아요가 취소됩니다.','success');
                         return;
                     }    
                 })
@@ -221,7 +225,6 @@
                 const qnaDays = Math.floor(diffInHours / 24);
                 
                 if (qnaDays > 0) {
-                    console.log('실행!');
                     return `${qnaDays}일 전`;
                 } else if (diffInHours > 0) {
                     

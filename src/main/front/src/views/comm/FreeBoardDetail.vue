@@ -1,6 +1,6 @@
 <template>
-    <CommCategory :titleShow="false"></CommCategory>
     <div class="container w-75 mt-5 mb-3 freeboard-detail-main" id="freeboard-detail-main">
+        <CommCategory :titleShow="false"></CommCategory>
         <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
             <h2 class="pt-5 mb-3 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}

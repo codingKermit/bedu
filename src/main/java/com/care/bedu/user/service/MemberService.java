@@ -1,5 +1,8 @@
 package com.care.bedu.user.service;
 
+import java.util.ArrayList;
+
+import com.care.bedu.user.vo.MemberMypageVO;
 import com.care.bedu.user.vo.MemberVO;
 
 public interface MemberService {
@@ -9,4 +12,5 @@ public interface MemberService {
     boolean isNicknameDuplicate(String nickname);
     String getPasswordByEmail(String email);
     MemberVO getMemberByEmail(String email);
+    ArrayList<MemberMypageVO> getMemberMypage(String userid);
 }
