@@ -2,6 +2,7 @@ package com.care.bedu.user.service.serviceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.care.bedu.user.dao.MemberDAO;
 import com.care.bedu.user.service.MemberService;
+import com.care.bedu.user.vo.MemberMypageVO;
 import com.care.bedu.user.vo.MemberVO;
 
 import jakarta.transaction.Transactional;
@@ -53,6 +55,10 @@ public class MemberServiceImpl implements MemberService {
     
     public MemberVO getMemberByEmail(String email) {
         return memberDao.getMemberByEmail(email);
+    }
+    /* 마이페이지 홈 */
+    public ArrayList<MemberMypageVO> getMemberMypage(String userid) {
+    	return memberDao.getMemberMypage(userid);
     }
 
 }
