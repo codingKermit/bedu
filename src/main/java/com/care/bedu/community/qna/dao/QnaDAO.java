@@ -19,5 +19,5 @@ public interface QnaDAO {
 	public ArrayList<QnaVO> getuserId(String userName);
 	public void qnaCntUp(int num);
 	public ArrayList<QnaVO> getuserName(String userId);
-	public int likeUp(int num, String userName);										//게시글 좋아요 1증가
+	public int likeUp(int num);										//게시글 좋아요 1증가
 }

@@ -1,16 +1,18 @@
 <template>
-    <CommCategory :titleShow="false"></CommCategory>
-    <b-container class="w-50 freeboard-write" id="freeboard-write">
-        <h1 id="freeboard-title">자유게시판</h1>
-        <b-form @submit="submit()">
-            <b-form-input placeholder="제목을 작성해주세요" class="my-5" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
-            <b-form-textarea id="freeboard-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-            <b-container class="my-3 justify-content-md-end d-md-flex" id="freeboard-write-conbtn">
-                <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
-            </b-container>
-        </b-form>
-    </b-container>
+    <div>
+        <CommCategory :titleShow="false"></CommCategory>
+        <b-container class="w-50 freeboard-write" id="freeboard-write">
+            <h1 id="freeboard-title">자유게시판</h1>
+            <b-form @submit="submit()">
+                <b-form-input placeholder="제목을 작성해주세요" class="my-5" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
+                <b-form-textarea id="freeboard-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+                <b-container class="my-3 justify-content-md-end d-md-flex" id="freeboard-write-conbtn">
+                    <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
+                    <b-button type="submit" class="btn-custom ms-2 freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
+                </b-container>
+            </b-form>
+        </b-container>
+    </div>
 </template>
 
 <script>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.community.qna.dao.LikeCntDAO">
+	<insert id="likeCntSave">
+		INSERT INTO T_BEDU_LIKE_CNT_QS(
+	      QS_LIKE_BD_NUM,
+		  USER_NAME,
+		  QS_LIKE_YN,
+		  QS_BD_NUM,
+		  QS_LIKE_DATE, 
+		  REG_ID
+		)VALUES(
+		  BEDU_LIKE_QS.NEXTVAL,
+		  #{userName},
+		  1,
+		  #{qsBdNum},
+		  SYSDATE,
+		  #{regId}
+		)
+	</insert>
+	
+	<select id="getlike" resultType="String">
+		SELECT
+		 USER_NAME FROM T_BEDU_LIKE_CNT_QS
+		WHERE QS_BD_NUM = #{qsNum} and USER_NAME = #{userId}
+	</select>
+	
+</mapper>

@@ -79,13 +79,6 @@
         },
 
         created(){
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                this.$swal('Error','로그인을 해주세요!');
-                router.push({
-                    name: "main"
-                })
-            }
         },
 
         methods: {

@@ -1,17 +1,19 @@
 <template>
-    <CommCategory :titleShow="false"></CommCategory>
-    <b-container class="w-50 freeboard-edit" id="freeboard-edit">
-        <h1>자유게시판</h1>
-        <b-form @submit="edit()">
-            <input type="hidden" v-model="form.comm_num" ref="comm_num"/>
-            <b-form-input class="my-5 freeboard-edit-title" id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
-            <b-form-textarea class="form-control col-sm-5 freeboard-edit-content" id="freeboard-edit-content" ref="content" v-model="form.content"></b-form-textarea>
-            <b-container class="my-3 justify-content-md-end d-md-flex freeboard-edit-btncontain" id="freeboard-edit-btncontain">
-                <b-button class="btn-custom ms-2 freeboard-edit-reset" id="freeboard-edit-reset" type="reset" :to="'/comm/freBd'">취소</b-button>
-                <b-button type="submit" class="btn-custom ms-2 freeboard-edit-submit" id="freeboard-edit-submit">수정</b-button>
-            </b-container>
-        </b-form>
-    </b-container>
+    <div>
+        <CommCategory :titleShow="false"></CommCategory>
+        <b-container class="w-50 freeboard-edit" id="freeboard-edit">
+            <h1>자유게시판</h1>
+            <b-form @submit="edit()">
+                <input type="hidden" v-model="form.comm_num" ref="comm_num"/>
+                <b-form-input class="my-5 freeboard-edit-title" id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
+                <b-form-textarea class="form-control col-sm-5 freeboard-edit-content" id="freeboard-edit-content" ref="content" v-model="form.content"></b-form-textarea>
+                <b-container class="my-3 justify-content-md-end d-md-flex freeboard-edit-btncontain" id="freeboard-edit-btncontain">
+                    <b-button class="btn-custom ms-2 freeboard-edit-reset" id="freeboard-edit-reset" type="reset" :to="'/comm/freBd'">취소</b-button>
+                    <b-button type="submit" class="btn-custom ms-2 freeboard-edit-submit" id="freeboard-edit-submit">수정</b-button>
+                </b-container>
+            </b-form>
+        </b-container>
+    </div>
 </template>
 
 <script>
