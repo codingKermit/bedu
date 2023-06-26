@@ -60,12 +60,4 @@
 	    WHERE USER_ID = #{email}
 	</select>
 	
-	
-	<!-- 마이페이지 홈 -->
-	<select id="getMemberMypage" resultType="com.care.bedu.user.vo.MemberMypageVO" parameterType="java.lang.String">
-	SELECT usr.*, (SELECT COUNT(LECT_NUM) FROM  T_BEDU_LECT WHERE LECT_NUM = lec.LECT_NUM) mypageList
-	FROM T_BEDU_USER usr LEFT JOIN T_BEDU_USER_LECT lec ON usr.USER_ID = lec.USER_ID
-	WHERE usr.USER_ID = #{userid}
-	ORDER BY lec.USER_LECT_NUM DESC
-	</select>
 </mapper>
