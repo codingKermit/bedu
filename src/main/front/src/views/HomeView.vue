@@ -21,8 +21,8 @@
         <!-- 멤버쉽 광고 컨테이너 -->
         <b-container>
             <p class="fs-4 fw-bold">멤버쉽 안내</p>
-            <div style="height: 200px; width: 100%; background-color: var(--blue);" class="rounded-4">
-                <b-container class="text-white fw-bold d-flex">
+            <div style="height: 200px; width: 100%;" class="rounded-4 border border-5 border-dark">
+                <b-container class="text-body fw-bold d-flex">
                     <div class="me-auto">
                         <p>마참내!</p>
                         <p>월정액을!</p>

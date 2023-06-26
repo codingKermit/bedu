@@ -12,36 +12,24 @@
         
         <b-collapse id="header-collapse" is-nav>
             <b-navbar-nav id="nav1" class="me-auto">
-                <b-nav-item class="dropdown fs-5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-                    
-                    <!-- 랜더링 되기전에 접근하면 에러가 발생하기 때문에 v-if로 조건 -->
-                    <a v-if='categories.length' class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                        <router-link :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
-                            분야별 강의
-                        </router-link>
-                    </a>    
-                    <a v-else class="dropdown-toggle no-arrow m-0" type="button" id="dropdownMenuButton1" :aria-expanded="isDropdownOpen">
-                        분야별 강의
-                    </a>
-
-                    <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" :class="isDropdownOpen == true ? 'dropdown-menu-show':''">
-                        <b-link v-for="(item,index) in categories" :key="index" class="dropdown-item my-2"
-                           :to='"/lectureCategories/" + item.cateCode + "?cnt_mid_cate=" + item.children[0].cateCode'>
-                                <a  style="cursor: pointer;" class="">{{ item.cateKor }}</a>
-                        </b-link>
-                    </ul> -->
+                <b-nav-item v-if='categories.length' class="fs-5" @mouseenter="openDropdown" @mouseleave="closeDropdown"
+                :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
+                분야별 강의
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link to="/comm/qna">커뮤니티</router-link>
+                <b-nav-item v-else class="fs-5 fw-bold">
+                    분야별 강의
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link to="/review">수강후기</router-link>
+                <b-nav-item class="fs-5 fw-bold" to="/comm/qna">
+                    커뮤니티
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link to="/companyStudy">기업교육</router-link>
+                <b-nav-item class="fs-5 fw-bold" to="/review">
+                    수강후기
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link to="/membership">멤버쉽 안내</router-link>
+                <b-nav-item class="fs-5 fw-bold" to="/companyStudy">
+                    기업교육
+                </b-nav-item>
+                <b-nav-item class="fs-5 fw-bold" to="/membership">
+                    멤버쉽 안내
                 </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto">
@@ -53,30 +41,30 @@
                         </form>
                     </div>
                 </div>
-                <b-nav-item class="fs-5" v-if="!isLoggedIn">
-                    <router-link  to="/login">로그인</router-link>
+                <b-nav-item to="/login" class="fs-5 fw-bold" v-if="!isLoggedIn">
+                    로그인
                 </b-nav-item>
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow m-0" type="button">
                         <span class="fs-5" style="font-weight: 600;">{{ getNickname }}</span><span>님</span>
                     </button>
                     <ul class="dropdown-menu" v-show="isDropdownOpen">
-                        <b-dropdown-item>
-                            <router-link to="/mypage">마이 페이지</router-link>
+                        <b-dropdown-item to="/mypage">
+                            마이 페이지
                         </b-dropdown-item>
-                        <b-dropdown-item>
-                            <router-link to="/csc">고객 센터</router-link>
+                        <b-dropdown-item to="/csc">
+                            고객 센터
                         </b-dropdown-item>
-                        <b-dropdown-item>
-                            <router-link v-if="isLoggedIn && getCls === 'ADMIN'" to="/fileUpload">영상 업로드</router-link>
+                        <b-dropdown-item v-if="isLoggedIn && getCls === 'ADMIN'" to="/fileUpload">
+                            영상 업로드
                         </b-dropdown-item>
                     </ul>
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <button id="headerLogout" v-if="isLoggedIn" @click="logout">로그아웃</button>
+                <b-nav-item id="headerLogout" v-if="isLoggedIn" @click="logout" class="fs-5 fw-bold">
+                    로그아웃
                 </b-nav-item>
-                <b-nav-item class="fs-5">
-                    <router-link v-if="!isLoggedIn" to="/regist">회원가입</router-link>
+                <b-nav-item class="fs-5 fw-bold" v-if="!isLoggedIn" to="/regist">
+                    회원가입
                 </b-nav-item>
             </b-navbar-nav>
         </b-collapse>  
@@ -237,7 +225,7 @@
     .scrollTop {
         background-color: var(--black);
         top : 85%;
-        right : 6%;
+        right : 3%;
         width: 80px;
         height: 80px;
         align-items: center;

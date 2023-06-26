@@ -117,3 +117,7 @@ header {
 .bedu-text-custom-black{
     color: var(--black) !important;
 }
+
+.cursor-pointer{
+    cursor: pointer !important;
+}
