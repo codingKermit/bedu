@@ -69,7 +69,6 @@ public class QnaController {
 		 HashMap<String, Object> map = new HashMap<>();
 		 
 		 int result = qnaService.likeUp(num, userName);
-		 System.out.println("결과"+result);
 		 map.put("email", userName);
 		 map.put("nums", result);
 	 	 return map;

@@ -81,7 +81,6 @@ public class MemberController {
         error.put("message", "Invalid email or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
-    
     /* 마이페이지 홈 */
     @GetMapping("/mypage")
     public ArrayList<MemberMypageVO> getMemberMypage(String userid){
