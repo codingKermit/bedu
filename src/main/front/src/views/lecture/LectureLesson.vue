@@ -233,7 +233,7 @@ export default{
         
     },
     mounted() {
-        // this.getLesson();
+        this.getLesson();
     },
     created() {
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
@@ -243,7 +243,7 @@ export default{
             immediate: true,
             handler(newNum){
                 this.lessonInfo.lectDtlNum = newNum;
-                // this.getLesson();
+                this.getLesson();
             }
         }
     }

@@ -83,7 +83,7 @@
             window.addEventListener('scroll', this.scrollHandler)
         },
         created(){
-            // this.getCategory();
+            this.getCategory();
             this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         },
         data() {
