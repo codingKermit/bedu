@@ -70,12 +70,12 @@ export default {
         },
         async fnLogin() {
         if (this.email === '') {
-            this.$swal('ID를 입력해주세요.')
+            this.$swal('<span style="font-size: 23px;"><b style="color:red;">이메일</b>을 입력해주세요.</span>')
             return
         }
 
         if (this.password === '') {
-            this.$swal('비밀번호를 입력해주세요.')
+            this.$swal('<span style="font-size: 23px;"><b style="color:red;">비밀번호</b>를 입력해주세요.</span>')
             return
         }
 

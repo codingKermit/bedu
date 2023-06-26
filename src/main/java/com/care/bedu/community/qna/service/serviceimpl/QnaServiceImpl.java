@@ -33,10 +33,16 @@ public class QnaServiceImpl implements QnaService{
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
 		}
+		
 		ArrayList<QnaVO> list = qnaDAO.viewlist(qnaVO);
 		for(QnaVO qna : list) {
 			qna.setStr_qna_date(regdates(qna.getQna_date()));
+			ArrayList<QnaVO> username = qnaDAO.getuserName(qna.getUser_id());
+			for(QnaVO user : username) {
+				qna.setUser_name(user.getUser_name());
+			}
 		}
+		
 		return list;						
 	}
 

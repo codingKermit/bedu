@@ -533,6 +533,25 @@
             // 중복 체크를 완료한 경우 서버에 회원가입 요청을 보냅니다. 회원가입에 성공하면 로그인 페이지로 이동합니다.
             register() {
                 if (
+                    !this.emailChecked ||
+                    !this.valid.emailChk ||
+                    !this.valid.emailDomain
+                ) {
+                    this.$swal("이메일을 다시 확인해주세요.");
+                } else if (
+                    !this.nickChecked ||
+                    !this.valid.nickChk 
+                ) {
+                    this.$swal("닉네임을 다시 확인해주세요.");
+                } else if (
+                    !this.valid.password ||
+                    !this.member.password ||
+                    this.member.password != this.confirmPassword ||
+                    this.member.password.length < 6 ||
+                    this.member.password.length > 15
+                ) {
+                    this.$swal("비밀번호를 다시 확인해주세요.");
+                } else if (
                     this.emailChecked &&
                     this.valid.emailChk &&
                     this.valid.emailDomain &&
@@ -585,26 +604,3 @@
         },
     };
 </script>
-
-<style>
-#emailOptions {
-  list-style-type: none;
-  padding: 0;
-  margin-left: 3%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  position: absolute;
-  z-index: 999;
-  width: 90%;
-}
-
-#emailOptions li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-#emailOptions li:hover {
-  background-color: #f1f1f1;
-}
-</style>

@@ -107,6 +107,28 @@
 }
 
 /* RegistView css */ 
+
+#emailOptions {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 3%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    width: 90%;
+}
+  
+#emailOptions li {
+    padding: 10px;
+    cursor: pointer;
+}
+  
+#emailOptions li:hover {
+    background-color: #f1f1f1;
+}
+
 #registChangeContainer {
     display: flex;
     flex-direction: column;
