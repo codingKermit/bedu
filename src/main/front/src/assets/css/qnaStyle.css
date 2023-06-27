@@ -36,6 +36,7 @@
 
 #qna-view-keyword {
     width: 300px;
+    padding: 5px 42px;
     height: 35px;
     border-radius: 10px;
 }
@@ -46,6 +47,7 @@
 
 #qna-writepath-btn {
     margin-left: 15px;
+    background-color: var(--blue) !important
 }
 
 #qnaBoradSearch {
@@ -67,26 +69,28 @@ h1 {
 
 .date {
     
-    margin-left: 75%;
+    margin-left: 80%;
 }
 
 .name {
     font-weight: bold;
 }
 
+#qnaboard-detail-replywrite{
+    display: none;
+    word-wrap: break-word;
+}
+
 .qnaReplyContent {
-    height: 250px;
-    width: 750px;
-    border-bottom: solid 1px black;
     word-wrap: break-word;
 }
 
 .qna-detail-replylist{
     padding-left: 8%;
+    padding-right: 8%;
     border:1px solid;
     margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
-    height: 400px;
 }
 
 #qna-detail-btncontent{
@@ -179,4 +183,13 @@ h1 {
 #qnaboard-detail-replybtn{
     background-color: var(--blue) !important
 }
+
+#qna-search-icon {
+    position: relative;
+    z-index: 2;
+    margin-right: -8%;
+
+}
+
+
 

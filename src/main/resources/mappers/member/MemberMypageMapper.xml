@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.user.dao.MemberMypageDAO">
+
+	<select id="getMemberMypage" resultType="int" parameterType="com.care.bedu.user.vo.MemberVO">
+		SELECT
+		    A.USER_NUM,
+		    A.USER_ID,
+		    A.USER_PW,
+		    A.USER_CLS,
+		    A.USER_REG_DATE,
+		    A.USER_WITH_DRAW_YN,
+		    A.REG_DATE,
+		    A.USER_NAME,
+		    (SELECT COUNT(LECT_NUM) FROM  T_BEDU_LECT WHERE LECT_NUM = B.LECT_NUM) AS pageList
+		FROM (
+		SELECT
+		    USER_NUM,
+		    USER_ID,
+		    USER_PW,
+		    USER_CLS,
+		    USER_REG_DATE,
+		    USER_WITH_DRAW_YN,
+		    REG_DATE,
+		    USER_NAME,
+		    (SELECT COUNT(LECT_NUM) FROM  T_BEDU_LECT WHERE LECT_NUM = LECT_NUM) AS pageList
+		FROM 
+		    T_BEDU_USER  WHERE USER_ID = #{email} ) A
+		LEFT JOIN T_BEDU_USER_LECT B ON A.USER_ID = B.USER_ID
+		ORDER BY B.USER_LECT_NUM DESC
+	</select>
+	
+	
+</mapper>

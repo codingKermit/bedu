@@ -195,24 +195,21 @@ export default{
             // 데이터 공백 체크
             if(this.form.lectNum == 0){
                 this.$swal({
-                    title : '경고!',
-                    icon : 'error',
+                    icon : 'info',
                     text : '강의를 선택해주세요'
                 })
                 return;
             }
             if(this.form.videoTime<=0){
                 this.$swal({
-                    title: '경고!',
-                    icon : 'error',
+                    icon : 'info',
                     text : '동영상 재생 시간을 확인해주세요'
                 })
                 return;
             }
             if(this.videoFile == null){
                 this.$swal({
-                    title: '경고!',
-                    icon : 'error',
+                    icon : 'info',
                     text : '동영상 파일을 확인해주세요'
                 })
                 return;
@@ -261,7 +258,7 @@ export default{
                         this.$swal({
                             title : 'Success',
                             icon : 'success',
-                            text : '강의가 성공적으로 등록되었습니다'
+                            text : '강의가 성공적으로 등록되었습니다',
                         })
                         return;
                     }

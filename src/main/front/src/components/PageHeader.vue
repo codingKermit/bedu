@@ -80,6 +80,7 @@
 </template>
 
 <script>
+    
     export default {
         name: 'PageHeader',
         mounted() {

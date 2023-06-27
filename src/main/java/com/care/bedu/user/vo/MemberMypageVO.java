@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class MemberMypageVO extends MemberVO{
+public class MemberMypageVO {
 
 	private int userlectnum;         /* 사용자강의순번 */
 	private String userid;           /* 강의듣는 회원 */
