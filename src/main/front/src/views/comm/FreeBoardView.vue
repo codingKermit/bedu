@@ -6,8 +6,8 @@
             <h1>자유게시판</h1>
             <div class="freeBoradSearch" id="freeBoradSearch">
                <b-form @submit="freesearch()">
-                  <input type="text" class="search-form free-view-keyword" id="free-view-keyword" placeholder="검색어를 입력해주세요." ref="keyword" v-model="form.keyword">       
-                  <b-button type="submit" class="btn btn-primary free-view-keywordbtn" id="free-view-keywordbtn">검색</b-button>
+                  <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
+                  <input type="text" class="search-form free-view-keyword" id="free-view-keyword" @keyup.enter="searchReviews" ref="keyword" v-model="form.keyword">       
                   <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                </b-form>
             </div>
