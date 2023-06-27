@@ -78,7 +78,10 @@
             return {
                 qnum:0,
                 anslist:[],
+                likenum:0,
+                username:'',
                 userlist:[],
+                likeok:false,
                 form:{
                     ansBdNum:0,
                     ansDate:'',
@@ -196,20 +199,54 @@
                 })
             },
 
+            qnalikedown(){
+                // console.log(this.form.userName);
+                // console.log(this.qna.qna_bd_num);
+                this.$axiosSend('get','/api/qna/likeDown', {
+                        num : this.qna.qna_bd_num,
+                        userName : this.form.userName,
+                        likebdnum : this.likenum
+                })
+                .then(res => {
+                    console.log('여기서값', res.data);
+                    if(res.data === 1){
+                        this.qna.qna_like_yn--;
+                        return;
+                    }else if(res.data === 0){
+                        return;
+                    }    
+                })
+                .catch(error => {
+                    alert(error);
+                })
+            },
+
             qnalikeUp(qnum){
                 var userid = this.form.userName;
-                console.log('아이디:', userid);
+
+                console.log(qnum);
+                console.log('값', userid);
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
                         userName : userid,
                 })
                 .then(res => {
-                    console.log('값', res.data.nums);
-                    if(res.data.nums === 1){
+                    console.log('값', res.data.result);
+                    if(res.data.result === 1){                      //기존 아이디좋아요 없음
+
+                        this.likenum = res.data.likenum;
+                        this.likeok = res.data.likes;
+                        this.username = res.data.email;
                         this.qna.qna_like_yn++;
-                        this.qna.user_name = res.data.user_name;
-                    }else if(res.data.nums === 0){
-                        this.$swal('Success','같은 아이디로는 한번밖에 증가하지 못합니다. 따라서 좋아요가 취소됩니다.','success');
+                    }else if(res.data.result === 0){                //기존 아이디좋아요 있음
+                        this.likenum = res.data.likenum;
+                        this.likeok = res.data.likes;
+                        this.username = res.data.email;
+                        if(this.likeok === true){
+                            console.log('실');
+                            this.qnalikedown();
+                            return;
+                        }
                         return;
                     }    
                 })

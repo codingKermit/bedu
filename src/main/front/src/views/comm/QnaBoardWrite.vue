@@ -1,17 +1,19 @@
 <template>
-    <CommCategory :titleShow="false"></CommCategory>
-    <b-container class="w-50 qna-write" id="qna-write">
-        <h1>질문 / 답변</h1>
+    <div>
+        <CommCategory :titleShow="false"></CommCategory>
+        <b-container class="w-50 qna-write" id="qna-write">
+            <h1>질문 / 답변</h1>
 
-        <b-form @submit="qnaWrite()">
-            <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
-            <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-            <b-container class="my-3 justify-content-md-end d-md-flex">
-                <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
-                <b-button type="submit" class="btn-custom ms-2 qna-writebtn" id="qna-writebtn">등록</b-button>
-            </b-container>
-        </b-form>
-    </b-container>
+            <b-form @submit="qnaWrite()">
+                <b-form-input placeholder="제목을 작성해주세요" class="my-5 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
+                <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+                <b-container class="my-3 justify-content-md-end d-md-flex">
+                    <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
+                    <b-button type="submit" class="btn-custom ms-2 qna-writebtn" id="qna-writebtn">등록</b-button>
+                </b-container>
+            </b-form>
+        </b-container>
+    </div>
 </template>
 
 <script>

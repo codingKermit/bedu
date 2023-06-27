@@ -3,6 +3,7 @@ package com.care.bedu.community.qna.service.serviceimpl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,28 +83,67 @@ public class QnaServiceImpl implements QnaService{
 	}
 
 	@Override
-	public int likeUp(int num, String userName) {
+	public HashMap<String, Object> likeUp(int num, String userName) throws Exception{
 						//게시글 좋아요 1 증가
-		LikeCntVO likeCntVO = new LikeCntVO();
-		likeCntVO.setUserName(userName);
-		likeCntVO.setQsBdNum(num);
-		likeCntVO.setRegId(userName);
-		String getqsuserName = likeCntDAO.getlike(num, userName);
-		if(!userName.equals(getqsuserName)) {
-			int result = likeCntDAO.likeCntSave(likeCntVO);
+		
+		int likeCnt = qnaDAO.likeName(num, userName);
+		
+		Integer likeyn = likeCntDAO.getlikenum(num, userName);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		if(likeCnt == 0) {
+			LikeCntVO likeCntVO = new LikeCntVO();
+			likeCntVO.setUserName(userName);
+			likeCntVO.setQsBdNum(num);
+			likeCntVO.setRegId(userName);
+			
+			Integer result = likeCntDAO.likeCntSave(likeCntVO);
 			if(result == 1) {
-				return qnaDAO.likeUp(num);
+				
+				Integer getnum = qnaDAO.likeUp(num);
+				map.put("nums", getnum);
+				map.put("email", userName);
+				map.put("likenum", likeyn);
+				map.put("result", result);
+				map.put("likes", true);
+				return map;
 			}else {
-				return 0;
+				map.put("nums", 0);
+				map.put("likenum", likeyn);
+				map.put("result", result);
+				map.put("likes", true);
+				map.put("email", userName);
+				return map;
 			}
 		}else {
-			return 0;
+			if(likeyn != null) {
+				
+				map.put("likenum", likeyn);
+			}
+			map.put("likes", true);
+			map.put("result", 0);
+			map.put("email", userName);
+			return map;
 		}
 	}
 
 	@Override
 	public ArrayList<QnaVO> getUserId(String userName) {
 		return qnaDAO.getuserId(userName);
+	}
+
+	@Override
+	public int likeDown(int num, String userName, int likenum) {
+		
+		int result = likeCntDAO.likedel(likenum);
+		
+		if(result == 1) {
+			
+			return qnaDAO.likeDown(num);
+		}else {
+			return 0;
+		}
 	}
 
 }

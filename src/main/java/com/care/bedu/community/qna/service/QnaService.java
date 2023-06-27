@@ -1,6 +1,7 @@
 package com.care.bedu.community.qna.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.care.bedu.community.qna.vo.QnaVO;
 
@@ -13,5 +14,6 @@ public interface QnaService {
 	public int viewupdate(QnaVO qnaVO);						//게시글 수정
 	public int getTotal();//게시글 전체 개수
 	public ArrayList<QnaVO> getUserId(String userName);
-	public int likeUp(int num, String email);								//게시글 좋아요 증가
+	public HashMap<String, Object> likeUp(int num, String email) throws Exception;
+	public int likeDown(int num, String userName, int likeBdNum);//게시글 좋아요 증가
 }

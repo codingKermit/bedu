@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.care.bedu.community.qna.vo.LikeCntVO;
 import com.care.bedu.community.qna.vo.QnaVO;
 
 @Mapper
@@ -20,4 +21,6 @@ public interface QnaDAO {
 	public void qnaCntUp(int num);
 	public ArrayList<QnaVO> getuserName(String userId);
 	public int likeUp(int num);										//게시글 좋아요 1증가
+	public int likeDown(int num);
+	public int likeName(int qsnum, String userid);
 }
