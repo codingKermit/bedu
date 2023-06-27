@@ -5,13 +5,7 @@
             <h2 class="mb-3 fw-bold qna-detail-title" id="qna-detail-title">
                 {{ qna.title }}
             </h2>
-            <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
-            </div>
+            
             <div id="qna-userinfo">
                 <p id="qna-userid">
                     {{ qna.user_name}}
@@ -36,16 +30,23 @@
                 </button>    
             </div>
             <hr style="margin-top: 9%;"/>
+            <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
+                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
+            </div>
             <div>
                 <p class = "fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    ?개의 댓글이 있습니다.
+                    개의 댓글이 있습니다.
                 </p>
             </div>
             <div>
-                <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" style="display: none;">
+                <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답글을 작성하시오</h4>
-                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+                    <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
                 </div>
                 <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
                     <div class="d-flex mb-3 mt-4">
@@ -117,6 +118,18 @@
         },
 
         methods: {
+
+            getCountAns(){
+                this.$axiosSend('get', '/api/ans/count', {
+
+                }).then(res => {
+                    console.log(res.data);
+                    this.qsCount = res.data;
+                })
+                .catch((error) => {
+                    this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
+                })
+            },
 
             getUserId(){
                 const nickname = this.$store.getters.getNickname;
@@ -267,6 +280,7 @@
                 document.getElementById("qnaboard-detail-editbtn").style.display="inline";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
                 document.getElementById("qnaboard-detail-recensell").style.display="none";
+                
             },
 
             ansopen(){
@@ -276,6 +290,7 @@
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                 document.getElementById("qnaboard-detail-recensell").style.display="inline";
+                this.form.content = "";
             },
 
         },

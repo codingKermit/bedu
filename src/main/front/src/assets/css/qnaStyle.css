@@ -85,6 +85,10 @@ h1 {
     word-wrap: break-word;
 }
 
+.qna-detail-replycontent{
+    resize: none;
+}
+
 .qna-detail-replylist{
     padding-left: 8%;
     padding-right: 8%;
