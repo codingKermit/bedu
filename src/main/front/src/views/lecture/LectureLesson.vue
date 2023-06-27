@@ -128,6 +128,7 @@
 import '@/assets/css/lectureStyle.css'
 import '@/assets/css/common.css'
 
+/** 추후 FTP 서버 구축 후 변경 예정. 현재는 로컬에 저장 */
 const baseUrl = "http://172.30.1.85:8081/";
 
 export default{
@@ -284,89 +285,12 @@ export default{
             immediate: true,
             handler(newNum){
                 this.lessonInfo.lectDtlNum = newNum;
+                this.playPauseToggleData = false;
                 this.getLesson();
-            }
+            },
+        
         }
     }
 }
 
 </script>
-
-<style scoped>
-    .bedu-video-controls{
-        position: absolute;
-        bottom: 0%;
-        width: 100%;
-        flex-wrap: wrap;
-        background: rgba(0,0,0,0.3);
-        transform: translateY(100%) translateY(-10px);
-        transition: all 0.25s;
-    }
-    .bedu-video-volume-slider-container{
-        overflow:hidden
-    }
-
-    .bedu-video-volume-slider-container-over, .bedu-video-volume-slider-input-over, .bedu-video-timestamp-over{
-        overflow:hidden;
-        transition: all 0.25s;
-        transform: translateX(0);
-    }
-
-    .bedu-video-volume-slider-input, .bedu-video-timestamp{
-        position: relative;
-        transform: translateX(-100%);
-        transition: all 0.25s;
-    }
-    .bedu-video-volume-slider-input::-webkit-slider-thumb{
-        cursor: pointer;
-        background: var(--blue);
-    }
-
-    #bedu-video-play-pause{
-        background: none;
-        border: 0;
-        outline: 0;
-        cursor: pointer;
-    }
-    .bedu-video-controls-container{
-        overflow:hidden;
-    }
-    .bedu-video-controls-container:hover .bedu-video-controls{
-        transform: translateY(0);
-    }
-
-    #bedu-video-progress-bar::-webkit-slider-thumb { 
-        cursor: pointer;
-        -webkit-appearance: none;
-        width: 0px;
-        height: 20px;
-        box-shadow: -4000px 100px 0 4000px var(--yellow);
-     }
-     #bedu-video-progress-bar{
-        cursor: pointer;
-        overflow: hidden;
-        -webkit-appearance: none; 
-        height: 100px;
-        background: rgba(255,255,255,0.7);
-    }
-
-    .bedu-video-center-toggle{
-        position: relative;
-        top : 48%;
-        left : 48%;
-    }
-
-    .play-toggle-center-appear{
-        transition: 1.25s;
-    }
-
-    .play-toggle-center-appear{
-        opacity: 0.7;
-        scale: 3;
-    }
-
-    .play-toggle-center-disappear{
-        opacity: 0;
-        scale: 1;
-    }
-</style>
