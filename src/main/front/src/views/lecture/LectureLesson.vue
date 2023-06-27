@@ -14,7 +14,7 @@
                     <div class="offcanvas-body">
                         <div class="dropdown mt-3">
                             <ul class="list-unstyled">
-                                <li v-for="(item, index ) in lessonList" :key="index" class="mb-3 ms-3">
+                                <li v-for="(item, index ) in lessonList" :key="index" class="mb-3 ms-3 bedu-video-center-toggle-button">
                                     <b-link class="text-body text-decoration-none fs-6 d-flex" 
                                     :to="'/lectureLesson?lectDtlNum='+item.lectDtlNum">
                                         <p class="me-auto">
@@ -31,15 +31,20 @@
             <!-- 동영상 재생 컨테이너 -->
             <b-container class="mb-5">
                 <p class="fs-2 fw-bold text-center">{{ lessonInfo.lectDtlTitle }}</p>
-                <div class="ratio ratio-16x9" >
-                    <video @loadedmetadata="getMaxTime" :src="lessonInfo.lessonUrl" @timeupdate="updateProgressSituation" ref="bedu_video"></video>
+                <div class="ratio ratio-16x9" ref="bedu_video_container">
+                    <video @loadedmetadata="getMaxTime" :src="lessonInfo.lessonUrl" @timeupdate="updateProgressSituation" ref="bedu_video"
+                    controlsList="nodownload"
+                    ></video>
                     <!-- 비디오 컨트롤러 -->
-                    <div class="bedu-video-controls-container text-light text-opacity-75" >
+                    <div class="bedu-video-controls-container text-light text-opacity-75"
+                    :class="fullscreenToggleData ? 'vh-100 vw-100':''"
+                    >
                         <div class="w-100 h-100 d-block" @click="playToggleCenter">
+                            <!-- 동영상 가운데 재생 토글 버튼 -->
                             <span class="bedu-video-center-toggle">
                                 <font-awesome-icon 
-                                :icon="playPauseToggle? 'fa-solid fa-pause':'fa-solid fa-play'" class="fs-1"
-
+                                :icon="playPauseToggleData? 'fa-solid fa-play':'fa-solid fa-pause'" class="fs-1"
+                                :class="playToggleCenterData? 'play-toggle-center-appear':'play-toggle-center-disappear'"
                                 />
                             </span>
                         </div>
@@ -51,26 +56,26 @@
                             <div class="d-flex">
                                 <div class="bedu-video-buttons">
                                     <font-awesome-icon class="p-3 fs-4" 
-                                    :icon="playPauseToggle ? 'fa-solid fa-pause':'fa-solid fa-play'"
+                                    :icon="playPauseToggleData ? 'fa-solid fa-pause':'fa-solid fa-play'"
                                     role="button" @click="playToggle" ref="bedu_video_play_pause"/>
                                 </div>
                                 <div class="bedu-video-volume cursor-pointer d-flex"
                                 @mouseover="volumeSliderToggleOn"
                                 @mouseleave="volumeSliderToggleOff">
                                     <font-awesome-icon class="fs-4 p-3" 
-                                    :icon="muteToggle? 'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'"
+                                    :icon="muteToggleData? 'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'"
                                     @click="muteToggleFunc"
                                     />
                                     <div class="align-self-center" ref="volume_slider"
-                                    :class="volumeSliderOver? 'bedu-video-volume-slider-container-over':'bedu-video-volume-slider-container'">
+                                    :class="volumeSliderOverData? 'bedu-video-volume-slider-container-over':'bedu-video-volume-slider-container'">
                                         <input type="range" 
-                                        :class="volumeSliderOver? 'bedu-video-volume-slider-input-over':'bedu-video-volume-slider-input'"
+                                        :class="volumeSliderOverData? 'bedu-video-volume-slider-input-over':'bedu-video-volume-slider-input'"
                                         v-model="volume" @input="volumeToggle"/>
                                     </div>
                                 </div>
                                 <div 
                                 ref="timestamp"
-                                :class="volumeSliderOver? 'bedu-video-timestamp-over':'bedu-video-timestamp'">
+                                :class="volumeSliderOverData? 'bedu-video-timestamp-over':'bedu-video-timestamp'">
                                     <div class="p-3">
                                         {{ currentTimeForUser }}&nbsp;/
                                         {{ maxTimeForUser }}
@@ -146,14 +151,17 @@ export default{
             dummy:{
                 url : "http://127.0.0.1:8081//94dc2841-4c9f-4afe-ac3f-c5bfbf5026a1.mp4"
             },
-            playPauseToggle : false, // 플레이 버튼 토글
+            playPauseToggleData : false, // 플레이 버튼 토글
             maxTime : 0, // 동영상 맥스 시간 (초단위)
             currentTime : 0, // 동영상 현재 시간 (초단위)
             maxTimeForUser : "00:00", // 동영상 최대 시간 (분단위)
             currentTimeForUser : "00:00", // 동영상 현재 시간 (분단위)
             volume : 100, // 동영상 볼륨
-            volumeSliderOver : false, // 볼륨 슬라이더 토글
-            muteToggle : true, // 음소거 토글
+            volumeSliderOverData : false, // 볼륨 슬라이더 토글
+            muteToggleData : true, // 음소거 토글
+            playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
+            fullscreenToggleData : false, // 전체화면 토글 데이터
+
 
         }
     },
@@ -176,8 +184,6 @@ export default{
         updateProgressSituation(e){
             let progress = Math.round(e.target.currentTime)
             this.currentTime = Math.round(e.target.currentTime) ;
-            // console.log(this.currentTime)
-            // console.log(this.maxTime)
             // console.log(this.lessonInfo.lectDtlNum + "동영상의 현재 재생 시간 " + progress + "초(s)")
             let minute = Math.round(this.currentTime / 60).toString().padStart(2,'0');
             const seconds = (this.currentTime%60).toString().padStart(2,'0') ;
@@ -190,16 +196,13 @@ export default{
             }
         },
         /** 동영상 플레이어 재생 버튼 토글 */
-        playToggle(e){
-            e.stopPropagation();
+        playToggle(){
             let video = this.$refs.bedu_video;
             if(video.paused){
-                e.className="pause"
-                this.playPauseToggle = true;
+                this.playPauseToggleData = true;
                 video.play()
             } else{
-                e.className="play"
-                this.playPauseToggle = false;
+                this.playPauseToggleData = false;
                 video.pause();
             }
         },
@@ -223,7 +226,13 @@ export default{
         },
         /** 전체화면 토글 */
         fullscreenToggle(){
-            this.$refs.bedu_video.requestFullscreen();
+            if(this.fullscreenToggleData){
+                document.exitFullscreen();
+                this.fullscreenToggleData = false;
+            } else{
+                this.$refs.bedu_video_container.requestFullscreen();
+                this.fullscreenToggleData = true;
+            }
         },
         /** 동영상 볼륨 변경 토글 */
         volumeToggle(e){
@@ -234,23 +243,32 @@ export default{
         },
         /** 볼륨 슬라이더 마우스 오버 토글 */
         volumeSliderToggleOn(){
-            this.volumeSliderOver = true;
+            this.volumeSliderOverData = true;
         },
         volumeSliderToggleOff(){
-            this.volumeSliderOver = false;
+            this.volumeSliderOverData = false;
         },
         /** 음소거 토글 */
         muteToggleFunc(){
-            if(this.muteToggle){
-                this.muteToggle = false;
+            if(this.muteToggleData){
+                this.muteToggleData = false;
                 this.$refs.bedu_video.muted=true
             } else{
-                this.muteToggle = true;
+                this.muteToggleData = true;
                 this.$refs.bedu_video.muted=false
             }
         },
         playToggleCenter(){
-            
+            let video = this.$refs.bedu_video;
+            this.playToggleCenterData = true;
+            setTimeout(()=>this.playToggleCenterData = false,750);
+            if(video.paused){
+                this.playPauseToggleData = true;
+                video.play()
+            } else{
+                this.playPauseToggleData = false;
+                video.pause();
+            }
         }
 
         
@@ -336,5 +354,19 @@ export default{
         position: relative;
         top : 48%;
         left : 48%;
+    }
+
+    .play-toggle-center-appear{
+        transition: 1.25s;
+    }
+
+    .play-toggle-center-appear{
+        opacity: 0.7;
+        scale: 3;
+    }
+
+    .play-toggle-center-disappear{
+        opacity: 0;
+        scale: 1;
     }
 </style>

@@ -25,8 +25,8 @@
                  :star,
                  :lectureNumber,
                  :reviewDate,
-                 :registrationDate,
-                 :registeredUserId)
+                 :regDate,
+                 :regId)
     </insert>
 
 	<select id="getAllReviews" resultType="java.util.HashMap">

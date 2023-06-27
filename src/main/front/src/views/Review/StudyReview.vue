@@ -19,13 +19,13 @@
                 <p id="fw-bold fs-3 text-start" class="fw-bold fs-3 text-start">수강후기</p>
                 <div class="review-search-bar">
                     <div id="review-search-input">
+                        <font-awesome-icon id="review-search-icon" :icon="['fas', 'magnifying-glass']" />
                         <input
                         type="text"
-                        placeholder="검색어를 입력하세요"
                         v-model="searchKeyword"
                         @keyup.enter="searchReviews"
                         />
-                        <button @click="searchReviews">검색</button>
+                        <!-- <button @click="searchReviews">검색</button> -->
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                         </td>
                         <td>
                             <div class="review-star-rating">
-                                <span class="review-star" v-for="star in reviews.STAR" :key="star"
+                                 <span class="review-star" v-for="star in reviews.STAR" :key="star"
                                 >&#9733;</span
                                 >
                             </div>
@@ -98,6 +98,7 @@
                 currentPage: 1, // 현재 페이지 번호
                 itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
+
             };
         },
         computed: {

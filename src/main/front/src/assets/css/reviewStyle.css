@@ -46,10 +46,11 @@
 
 #review-search-input input {
     width: 200px;
-    padding: 5px;
+    padding: 5px 42px;
     margin-right: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 18px;
+    
 }
 
 #review-search-input button {
@@ -57,8 +58,8 @@
     background-color: #f8f8f8;
     border: 1px solid #ccc;
     border-radius: 4px;
-    color: inherit;
-    cursor: pointer;
+    /* color: inherit; */
+    cursor: auto;
 }
 .review-a {
     text-decoration: none;
@@ -140,6 +141,12 @@
 
 #infiniteReview{
     padding: 50px;
+}
+
+#review-search-icon {
+   position: relative;
+   z-index: 2;
+   margin-right: -15%;
 }
 
 /*Review Write css*/
