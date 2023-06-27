@@ -47,9 +47,8 @@ public class QnaController {
 	 }
 	
 	 @RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				//게시글 삭제
-	 public int qnaDelete(String num){
-	 	int strnum = Integer.parseInt(num);
-	 	return qnaService.viewdelete(strnum);
+	 public int qnaDelete(int num){
+	 	return qnaService.viewdelete(num);
 	 }
 
 	 @RequestMapping("/qna/total")													//게시글 전체 개수 조회
@@ -64,14 +63,14 @@ public class QnaController {
 	 }
 	
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
-	 public HashMap<String, Object> likeUp(int num, String userName){
-		 
-		 HashMap<String, Object> map = new HashMap<>();
-		 
-		 int result = qnaService.likeUp(num, userName);
-		 map.put("email", userName);
-		 map.put("nums", result);
-	 	 return map;
+	 public HashMap<String, Object> likeUp(int num, String userName) throws Exception{
+		 return qnaService.likeUp(num, userName);
+	 }
+	 
+	 @RequestMapping(value="/qna/likeDown", method = RequestMethod.GET)													//게시글 전체 개수 조회
+	 public int likeDown(int num, String userName, int likebdnum){
+		 System.out.println("확인");
+		 return qnaService.likeDown(num, userName, likebdnum);
 	 }
 
 }

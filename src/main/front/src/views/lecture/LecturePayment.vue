@@ -79,7 +79,6 @@
 
 <script>
 import '@/assets/css/lectureStyle.css';
-import '@/assets/css/common.css';
 
 export default{
     name : 'lecturePayment',

@@ -126,7 +126,6 @@
 
 <script>
 import '@/assets/css/lectureStyle.css'
-import '@/assets/css/common.css'
 
 /** 추후 FTP 서버 구축 후 변경 예정. 현재는 로컬에 저장 */
 const baseUrl = "http://172.30.1.85:8081/";

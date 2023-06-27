@@ -8,5 +8,6 @@ import com.care.bedu.community.qna.vo.LikeCntVO;
 public interface LikeCntDAO {
 	
 	public int likeCntSave(LikeCntVO likeCntVO);
-	public String getlike(int qsNum, String userId);
+	public int likedel(int num);
+	public Integer getlikenum(int qnum, String userName) throws Exception;
 }
