@@ -67,26 +67,28 @@ h1 {
 
 .date {
     
-    margin-left: 75%;
+    margin-left: 80%;
 }
 
 .name {
     font-weight: bold;
 }
 
+#qnaboard-detail-replywrite{
+    display: none;
+    word-wrap: break-word;
+}
+
 .qnaReplyContent {
-    height: 250px;
-    width: 750px;
-    border-bottom: solid 1px black;
     word-wrap: break-word;
 }
 
 .qna-detail-replylist{
     padding-left: 8%;
+    padding-right: 8%;
     border:1px solid;
     margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
-    height: 400px;
 }
 
 #qna-detail-btncontent{

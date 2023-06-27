@@ -32,4 +32,5 @@ public class AnsController {
 		ansVO.setContent(content);
 		return ansService.boardwrite(ansVO);
 	}
+
 }

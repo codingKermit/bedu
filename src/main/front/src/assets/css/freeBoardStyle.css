@@ -83,19 +83,25 @@ h1 {
 }
 
 #free-likebtn {
+    float: right;
     border: 0.1rem solid #dde0ea;
     background-color: #fff;
     border-radius: 12rem;
     z-index: 2;
-    width: max-content;
-    align-items: center;  
+    width: 100px;
+    height: 50px;
+}
+
+#free-likeyn {
+    float: right;
 }
 
 #free-detail-replylist{
+    padding-left: 8%;
     border:1px solid;
-    margin-top:20px;
+    margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
-    text-align: center;
+    height: 400px;
 }
 
 #qna-detail-rewrite {
@@ -128,7 +134,6 @@ h1 {
     padding: 0;
 }
 
-
 /*freeBoardEdit*/
 #freeboard-edit-content {
     width: 100%;
@@ -137,5 +142,33 @@ h1 {
 }
 
 #freeboard-detail-contents {
+    word-wrap: break-word;
+    margin-bottom: 15px;
+}
+
+#freeboard-detail-main {
+    padding-top: 5%;
+}
+
+#qna-detail-rewrite {
+    background-color: var(--blue) !important
+}
+
+#free-detail-replybtn {
+    background-color: var(--blue) !important
+}
+
+.freeName {
+    font-weight: bold;
+}
+
+.freeDate {
+    margin-left: 75%;
+}
+
+.freeReplycontent {
+    height: 250px;
+    width: 750px;
+    border-bottom: solid 1px black;
     word-wrap: break-word;
 }

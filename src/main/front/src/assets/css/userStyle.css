@@ -327,6 +327,14 @@
     font-weight: 400;
 }
 
+#registConfirmPassword {
+    width: 90%;
+    padding: 0.8rem;
+    margin-left: -23px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
 #registSubmitFormBtn {
     width: 90%;
     padding: 0.8rem;

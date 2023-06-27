@@ -41,9 +41,10 @@
                         </form>
                     </div>
                 </div>
-                <b-nav-item to="/login" class="fs-5 fw-bold" v-if="!isLoggedIn">
+                <b-nav-item to="/login" style="margin-left: 10px;" class="fs-5 fw-bold" v-if="!isLoggedIn">
                     로그인
                 </b-nav-item>
+                <!-- 사용자 드롭다운 메뉴 -->
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow" type="button">
                         <span class="fs-5" style="font-weight: 600;">{{ getNickname }}</span>
@@ -56,6 +57,7 @@
                         <b-dropdown-item to="/csc">
                             고객 센터
                         </b-dropdown-item>
+                        <!-- 영상 업로드 (관리자만 표시) -->
                         <b-dropdown-item v-if="isLoggedIn && getCls === 'ADMIN'" to="/fileUpload">
                             영상 업로드
                         </b-dropdown-item>
@@ -78,6 +80,7 @@
 </template>
 
 <script>
+    
     export default {
         name: 'PageHeader',
         mounted() {
@@ -146,9 +149,6 @@
             scrollToTop() {/** 최상단으로 올리는 메서드 */
                 window.scrollTo({top: 0})
             },
-            navigateTo(route) {
-                this.$router.push(route);
-            },
             openDropdown() {
                 this.isDropdownOpen = true;
             },
@@ -187,6 +187,7 @@
                             timer: 3000,
                         });
                         localStorage.removeItem("user_token");
+                        localStorage.removeItem('login_time')
                         this.$store.commit('IS_AUTH', false);
                         this.$store.commit('NICKNAME', null);
                         this.$store.commit('USERNUM', null);
@@ -257,7 +258,7 @@
     }
 
     #bedu-logo {
-        width: 300px;
+        width: 230px;
     }
 
     #nav1 a {
@@ -314,10 +315,6 @@
     #headerLogout {
         background-color: #EDC268;
         border: #EDC268;
-    }
-
-    .dropdown-menu-show{
-        height: auto;
     }
 
     #bedu-header-search:focus{
