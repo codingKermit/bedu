@@ -6,8 +6,8 @@
                 <h1>질문 & 답변</h1>
                 <div class="qnaBoradSearch" id="qnaBoradSearch">
                     <b-form @submit="qnasearch()">
-                        <input placeholder="검색어를 입력해주세요." class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword">
-                        <b-button type="submit" class="btn-primary qna-search-btn" id="qna-search-btn">검색</b-button>
+                        <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
+                        <input class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="searchReviews">
                         <b-button :to="'/comm/qnaWrite'" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
                     </b-form>
                 </div>

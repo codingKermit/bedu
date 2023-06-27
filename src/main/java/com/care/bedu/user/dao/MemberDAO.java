@@ -1,10 +1,6 @@
 package com.care.bedu.user.dao;
 
-import java.util.ArrayList;
-
-
 import org.apache.ibatis.annotations.Mapper;
-
 
 import com.care.bedu.user.vo.MemberVO;
 

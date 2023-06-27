@@ -116,14 +116,4 @@
 		WHERE USER_ID = #{userId}
 	</select>
 
-	<select id = "getCountQs" >
-	SELECT
-	A.QS_BD_NUM, COUNT(*) AS QS_BD_NUM_Count
-	FROM T_BEDU_ANS A
-	JOIN T_BEDU_QS B
-	ON A.QS_BD_NUM = B.QS_BD_NUM
-	GROUP BY A.QS_BD_NUM
-	<![CDATA[HAVING COUNT(*) > 0]]>
-	</select>
-	
 </mapper>

@@ -13,7 +13,7 @@ public class AnsVO{						//답글
 	private String userName;
 	private String content;
 	private Date ansDate;
-	private Integer qsBdNum;
+	private int qsBdNum;
 	private Integer ansLikeCnt;
 	private Date regDate;
 	private String regId;

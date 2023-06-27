@@ -36,6 +36,7 @@
 
 #qna-view-keyword {
     width: 300px;
+    padding: 5px 42px;
     height: 35px;
     border-radius: 10px;
 }
@@ -46,6 +47,7 @@
 
 #qna-writepath-btn {
     margin-left: 15px;
+    background-color: var(--blue) !important
 }
 
 #qnaBoradSearch {
@@ -81,6 +83,10 @@ h1 {
 
 .qnaReplyContent {
     word-wrap: break-word;
+}
+
+.qna-detail-replycontent{
+    resize: none;
 }
 
 .qna-detail-replylist{
@@ -181,4 +187,13 @@ h1 {
 #qnaboard-detail-replybtn{
     background-color: var(--blue) !important
 }
+
+#qna-search-icon {
+    position: relative;
+    z-index: 2;
+    margin-right: -8%;
+
+}
+
+
 

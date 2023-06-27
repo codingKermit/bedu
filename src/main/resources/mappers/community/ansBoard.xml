@@ -36,5 +36,6 @@
 		WHERE QS_BD_NUM = #{qsBdNum} 
 		ORDER BY ANS_BD_NUM DESC)
 	</select>
+
 	
 </mapper>
