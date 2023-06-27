@@ -12,4 +12,5 @@ public interface FileUploadService {
 
     public boolean upload(MultipartFile file, int chunkNumber, int totalChunks, FileUploadVO vo) throws IOException;
     public HashMap<String, Object> getTotalLecture();
+    public boolean deleteFile(int num);
 }

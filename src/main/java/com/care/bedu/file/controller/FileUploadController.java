@@ -69,4 +69,12 @@ public class FileUploadController {
 
         return new ResponseEntity<Object>(map, HttpStatus.OK);
     }
+
+    @RequestMapping("/deleteFile")
+    public ResponseEntity<String> deleteFile(int num){
+
+        
+
+        return ResponseEntity.ok().build();
+    }
 }

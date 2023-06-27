@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.file.dao.FileUploadDao;
 import com.care.bedu.file.service.FileUploadService;
 import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.lecture.dao.LectureDAO;
+import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,10 @@ public class FileUploadServiceImpl implements FileUploadService{
     private String fileBaseDir = "C:/Desktop/";
 
     @Autowired
-    private FileUploadDao dao;
+    private FileUploadDao fileDao;
+
+    @Autowired
+    private LectureDAO lecDao;
 
     @Override
     public boolean upload(MultipartFile file, int chunkNumber, int totalChunks, FileUploadVO vo) throws IOException {
@@ -60,12 +65,11 @@ public class FileUploadServiceImpl implements FileUploadService{
                 // 합친 후 삭제
                 Files.delete(chunkFile);
             }
-
             
             String videoUrl = outputFile.getFileName().toString();
             
             vo.setLectVideoUrl(videoUrl);
-            dao.upload(vo);
+            fileDao.upload(vo);
 
             return true;
         } else {
@@ -80,10 +84,32 @@ public class FileUploadServiceImpl implements FileUploadService{
 
         ArrayList<LectureVO> list = new ArrayList<>();
 
-        list = dao.getTotalLecture();
+        list = fileDao.getTotalLecture();
 
         map.put("item", list);
 
         return map;
+    }
+
+    @Override
+    public boolean deleteFile(int num) {
+        boolean result = true;
+
+        LectureDetailVO vo = new LectureDetailVO();
+
+        vo = lecDao.getLesson(num);
+        
+        String url = fileBaseDir + vo.getLessonUrl();
+
+        File file = new File(url);
+
+        if(file.exists()){
+            file.delete();
+            fileDao.deleteFile(num);
+        } else{
+            result = false;
+        }
+
+        return result;
     }
 }

@@ -58,8 +58,8 @@
                             고객 센터
                         </b-dropdown-item>
                         <!-- 영상 업로드 (관리자만 표시) -->
-                        <b-dropdown-item v-if="isLoggedIn && getCls === 'ADMIN'" to="/fileUpload">
-                            영상 업로드
+                        <b-dropdown-item v-if="isLoggedIn && getCls === 'ADMIN'" to="/adminPage">
+                           관리자 페이지
                         </b-dropdown-item>
                     </ul>
                 </b-nav-item>

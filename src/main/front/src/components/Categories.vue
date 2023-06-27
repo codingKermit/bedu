@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="md">
+        <b-navbar toggleable="lg">
             <b-navbar-toggle target="categories" class="bedu-cate-toggle"></b-navbar-toggle>
             <b-collapse id="categories" is-nav>
                 <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">

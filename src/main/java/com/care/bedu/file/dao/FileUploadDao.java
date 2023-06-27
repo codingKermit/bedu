@@ -13,4 +13,5 @@ public interface FileUploadDao {
 
     public int upload(FileUploadVO param);
     public ArrayList<LectureVO> getTotalLecture();
+    public int deleteFile(int num);
 }

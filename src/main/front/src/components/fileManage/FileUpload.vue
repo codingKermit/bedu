@@ -1,8 +1,7 @@
 <template>
     <div>
-        <b-container class="py-5">
-            <!-- 상단 검색 부분 -->
-            <div class="py-5">
+        <!-- 상단 검색 부분 -->
+        <div class="py-5">
                 <p class="text-center fs-4 fw-bold">강의를 조회하세요</p>
                 <div class="d-flex m-auto w-75">
                     <div class="me-4 w-75">
@@ -14,7 +13,7 @@
                         ></b-form-input>
                     </div>
                     <div class="w-25">
-                        <b-button class="fs-5 px-5  py-2 bedu-submit-button-lg w-100" type="submit">검색</b-button>
+                        <b-button class="fs-5 px-5  py-2 bedu-bg-custom-blue w-100" type="submit">검색</b-button>
                     </div>
                 </div>
             </div>
@@ -61,11 +60,13 @@
                             <p class="text-center fs-3">재생목록</p>
                             <ul class="list-unstyled">
                                 <li class="row">
+                                    <div class="col-1"></div>
                                     <div class="col-1 fw-bold">No</div>
                                     <div class="col-2 text-center fw-bold">Index</div>
                                     <div class="col text-center fw-bold">Title</div>
                                 </li>
                                 <li v-for="(item, index) in videoList" :key="index" class="row mb-2">
+                                    <div class="col-1"></div>
                                     <div class="col-1">
                                         {{ item.lectDtlNum }}
                                     </div>
@@ -129,7 +130,7 @@
                                     >
                             </div>
                             <b-button 
-                                class="w-100 py-3 bedu-submit-button-lg fs-5"
+                                class="w-100 py-3 bedu-bg-custom-blue fs-5"
                                 type="submit"
                             >
                                 등록하기
@@ -138,7 +139,6 @@
                     </b-container>
                 </div>
             </b-container>
-        </b-container>
     </div>
 </template>
 
@@ -147,7 +147,7 @@
 import axios from 'axios'
 
 export default{
-    name : 'fileUpload',
+    name:'fileUp',
     data() {
         return {
             keyword : '',
@@ -158,15 +158,12 @@ export default{
                 lectDtlIndex : 0,
             },
             videoFile : null,
-            lists:[],
             totalLists : [],
+            lists:[],
             progress : 0,
             videoList : [],
             indexOptions : [],
         }
-    },
-    created(){
-        this.getTotalLecture();
     },
     methods: {
         /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
@@ -260,7 +257,12 @@ export default{
                             icon : 'success',
                             text : '강의가 성공적으로 등록되었습니다',
                         })
-                        return;
+                        .then(()=>{
+                            this.getVideoList()
+                        })
+                        .finally(()=>{
+                            return;
+                        })
                     }
                 })
                 .catch((err)=>{
@@ -274,17 +276,6 @@ export default{
             }
 
             fileUpload(); // 제귀함수 호출
-        },
-        /** 모든 강의 목록을 조회하는 메서드 */
-        getTotalLecture(){
-            this.$axiosSend('get','/api/file/getTotalLecture')
-            .then((res)=>{
-                this.totalLists = res.data.item;
-                this.lists = res.data.item;
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
         },
         /** 선택된 강의에 따른 동영상 조회 메서드 */
         getVideoList() { 
@@ -316,18 +307,30 @@ export default{
                 });
             })
             },
-
+        /** 모든 강의 목록을 조회하는 메서드 */
+        getTotalLecture(){
+            this.$axiosSend('get','/api/file/getTotalLecture')
+            .then((res)=>{
+                this.totalLists = res.data.item;
+                this.lists = res.data.item;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+    },
+    created(){
+        this.getTotalLecture();
+    },
+    mounted() {
     },
 }
+
 </script>
 
 <style scoped>
 .scroll-y{
     overflow-y: scroll;
-}
-
-.bedu-submit-button-lg{
-    background: var(--blue) !important;
 }
 
 #file-upload-progress{
@@ -337,5 +340,4 @@ export default{
 .vh-50{
     height: 50vh !important;
 }
-
 </style>
