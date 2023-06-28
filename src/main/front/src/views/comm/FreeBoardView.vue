@@ -7,7 +7,7 @@
             <div class="freeBoradSearch" id="freeBoradSearch">
                <b-form @submit="freesearch()">
                   <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
-                  <input type="text" class="search-form free-view-keyword" id="free-view-keyword" @keyup.enter="searchReviews" ref="keyword" v-model="form.keyword">       
+                  <input class="my-1 free-view-keyword" id="free-view-keyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
                   <b-button type="button" :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">글쓰기</b-button>
                </b-form>
             </div>

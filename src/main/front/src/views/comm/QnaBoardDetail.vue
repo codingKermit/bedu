@@ -46,7 +46,7 @@
             <div>
                 <div class="w-50 mb-5 qna-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답글을 작성하시오</h4>
-                    <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+                    <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                 </div>
                 <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
                     <div class="d-flex mb-3 mt-4">
