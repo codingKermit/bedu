@@ -5,7 +5,7 @@
 
     <select id="getAgreementById" resultType="com.care.bedu.user.vo.AgreeVO">
         SELECT 
-			AGREE_ID AS id,
+			AGREE_NUM AS id,
 			AGREE_TITLE AS title,
 			AGREE_CONTENT AS content 
         FROM T_BEDU_AGREE
