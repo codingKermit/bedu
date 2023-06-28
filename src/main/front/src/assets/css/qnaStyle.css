@@ -38,7 +38,8 @@
     width: 300px;
     padding: 5px 42px;
     height: 35px;
-    border-radius: 10px;
+    border-radius: 20px;
+    border: 2px solid black;
 }
 
 #qna-search-btn {
@@ -202,5 +203,8 @@ h1 {
     height: 100px;
 }
 
+#qna-writebtn{
+    background-color: var(--blue) !important
+}
 
 
