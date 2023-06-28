@@ -304,12 +304,19 @@
     }
 
     #nicknameToggle {
-        background-color: #EDC268;
+        background-color: #F6E0B3;
+        border: none;
+        color: black;
         margin-left: 10px;
         margin-right: 8px;
-        border: 3px solid black;
         border-radius: 40px;
-        padding: 3px 12px 3px 12px;
+        padding: 5px 12px 5px 12px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.1s linear;
+    }
+
+    #nicknameToggle:hover{
+        box-shadow: inset 1px 1px 5px 1px rgb(77, 71, 71);
     }
 
     #headerLogout {
