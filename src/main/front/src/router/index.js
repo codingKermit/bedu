@@ -145,6 +145,12 @@ const routes = [
     }
     ,
     {
+        path: '/inquiry',
+        name: 'inquiry',
+        component: () => import('../views/Notice/inquiry.vue')
+    }
+    ,
+    {
         path: '/tou',
         name: 'tou',
         component: () => import('../views/Notice/TouView.vue')
@@ -157,14 +163,9 @@ const routes = [
     }
     ,
     {
-        path: '/fileManage',
-        name: 'fileManage',
-        component: () => import('../views/adminPage/fileManage.vue')
-    },
-    {
-        path : '/lectureManage',
-        name : 'lectureManage',
-        component : () => import('@/views/adminPage/LectureManagement.vue')
+        path: '/fileUpload',
+        name: 'fileUpload',
+        component: () => import('../views/fileUpload/fileUpload.vue')
     },
     {
         path: '/adminPage',
