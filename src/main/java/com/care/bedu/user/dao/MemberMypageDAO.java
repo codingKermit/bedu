@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.care.bedu.user.vo.MemberMypageVO;
+import com.care.bedu.user.vo.MemberVO;
 
 @Mapper
 public interface MemberMypageDAO {

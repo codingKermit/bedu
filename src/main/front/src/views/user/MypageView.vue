@@ -5,16 +5,29 @@
     </b-container>
     <b-container>
             <p class="fs-4 fw-bold">현재 수강정보</p>
-            <div style="height: 100px; width: 100%; background-color: var(--yellow);" class="rounded-6">
-                <b-container class="text-white fw-bold d-flex">
-                    <div class="curr-subjectInfo" v-if="lectureList == 0" >
-                       <p>수강내역이 없습니다.</p>
+            <div class="bg-light text-white">
+                <b-container class="text-dark fw-bold">
+                    <div class="curr-subjectInfo" v-if="userList == '' || lectureList == 0" >
+                       <b-container class="w-75 ms-auto py-5">
+                            <p style="text-align: center;">수강내역이 없습니다.</p>
+                       </b-container>
                     </div>
                     <div v-else class="lecture">
                         <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in lectureList">
                             <div class="lect text-start" style="width:18rem; border:0px">
-                                <a @click="goToInfo(item.lectNum)" style="cursor:pointer">
-                                </a>
+                               <!-- <a @click="goToInfo(item.lectNum)" style="cursor:pointer">
+                                </a>-->
+                                <b-container class="w-75 ms-auto py-5">
+                                    <b-container class="border rounded-3 py-3 mb-2">
+                                        <p class="fw-bold">프로그래밍 배워봅시다</p>
+                                        <p>
+                                            <span>닉네임 : </span> {{ title }}
+                                        </p>
+                                        <p>
+                                            <span>강의이름 : </span> {{ lectnm }}
+                                        </p>
+                                    </b-container>
+                                </b-container>
                             </div>
                         </div>
                     </div>
@@ -23,11 +36,11 @@
         </b-container>
         <b-container>
             <p class="fs-4 fw-bold">북마크</p>
-            <div style="height: 100px; width: 100%; background-color: var(--yellow);" class="rounded-7">
-                <b-container class="text-white fw-bold d-flex">
-                    <div class="bookmark" >
-                        <p>자바</p>
-                        <p>파이썬</p>
+            <div class="bg-light text-white">
+                <b-container class="w-75 ms-auto py-5">
+                    <div class="text-dark fw-bold" >
+                        <p style="text-align: center;">자바</p>
+                        <p style="text-align: center;">파이썬</p>
                         <p></p>
                         <p></p>
                         <p></p>
@@ -37,28 +50,22 @@
         </b-container>
         <b-container>
             <p class="fs-4 fw-bold">북마크</p>
-            <div style="height: 100px; width: 100%; background-color: var(--yellow);" class="rounded-7">
-                <b-container class="text-white fw-bold d-flex">
-                    <div class="bookmark" v-if="bookmarkList == 0">
-                       <!-- <p>자바</p>
-                        <p>파이썬</p>
-                        <p></p>
-                        <p></p>
-                        <p></p>-->
-                        <p class="m-4">북마크내역이 없습니다.</p>
+            <div class="bg-light text-white">
+                <b-container class="w-75 ms-auto py-5">
+                    <div class="text-dark fw-bold">
+                       <p style="text-align: center;">북마크내역이 없습니다.</p>
                     </div>
-                    <div v-else class="bookmark">
-                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(bookmark,index) in bookmarkList">
+                    <div  class="bookmark">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="lect text-start" style="width:18rem; border:0px">
-                                <a @click="goToDetail(bookmark.id)" style="cursor:pointer">
-                                </a>
+                                
                             </div>
                         </div>
                     </div>
                 </b-container>
             </div>
         </b-container>
-</template>
+    </template>
 <script>
 
 export default {
@@ -69,12 +76,14 @@ export default {
             lectureList : [],
             userlectnum : 0,
             userid : this.$route.query.email,
-            lectnum : 0,
-            lectnm : '',
+            lectnm : this.$store.state.lectnm,
             lectregdate : '',
             regdate : '',
             regid : '',
-            userList : []
+            userList : [],
+            lectnum : this.$store.state.lectnum,
+            title : this.$store.state.nickname
+            
         }
     }, 
     mounted(){
@@ -97,19 +106,21 @@ export default {
      */
         getLectureList(){
             const userid = this.$store.getters.getEmail;
-           this.$axiosSend('get','/api/mypage',{userid: userid},true)
+            //const lectnum = this.$store.getters.getLectNum;
+            this.$axiosSend('get','/api/mypage',{userid: userid },true)
             .then((res)=>{
                 this.userList = res.data;
-                for(var i=0; i< this.userList.length; i++){
+                for(var i = 0; i < this.userList.length; i++) {
                     this.userid = this.userList[i].user_id;
                 }
             })
             .catch((err)=>{
+                console.log(err)
             })
         },
-        goToInfo(lectNum) {
-            this.$router.push({path:"/lectureList",query:{lectNum : lectNum}})
-        },
+       // goToInfo(lectNum) {
+       //     this.$router.push({path:"/lectureList",query:{num : lectNum}})
+       // },
         
     },
     watch:{ // 쿼리 데이터 변경되면 데이터도 변경되도록 설정
@@ -119,6 +130,7 @@ export default {
                     this.userid = userid;
                 },
             }
+
         }
 }
 </script>
