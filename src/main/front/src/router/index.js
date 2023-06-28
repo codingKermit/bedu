@@ -165,7 +165,7 @@ const routes = [
     {
         path: '/fileUpload',
         name: 'fileUpload',
-        component: () => import('../views/fileUpload/fileUpload.vue')
+        component: () => import('../views/adminPage/fileManage.vue')
     },
     {
         path: '/adminPage',
