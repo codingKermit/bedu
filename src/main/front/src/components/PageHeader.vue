@@ -34,10 +34,10 @@
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto">
                 <div class="search-popup">
-                    <div class="border-3 rounded-pill p-2 d-flex align-middle text-center m-auto border-bedu">
+                    <div style="width: 350px; height: 40px; margin-right: 100px;" class="border-3 rounded-pill d-flex align-middle text-center border-bedu">
                         <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
                         <form @submit.prevent="lectSearch">
-                            <b-form-input class="border-0 me-2" v-model="keyword" id="bedu-header-search"></b-form-input>
+                            <b-form-input style="width: 350px; height: 40px; margin-right: 70px;" class="border-0 me-2" v-model="keyword" id="bedu-header-search"></b-form-input>
                         </form>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
         margin-right: 8px;
         border: 3px solid black;
         border-radius: 40px;
-        padding: 8px 15px 8px 15px;
+        padding: 3px 12px 3px 12px;
     }
 
     #headerLogout {
