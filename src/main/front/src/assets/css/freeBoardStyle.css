@@ -38,7 +38,8 @@
     width: 300px;
     padding: 5px 42px;
     height: 35px;
-    border-radius: 10px;
+    border-radius: 20px;
+    border: 2px solid black;
 }
 
 #free-view-keywordbtn {
@@ -46,7 +47,10 @@
 }
 
 #free-keywordbtn {
+    height: 35px;
     margin-left: 15px;
+    margin-top: 2px;
+    margin-bottom: 6px;
     background-color: var(--blue) !important
 }
 
@@ -100,10 +104,10 @@ h1 {
 
 #free-detail-replylist{
     padding-left: 8%;
+    padding-right: 8%;
     border:1px solid;
     margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
-    height: 400px;
 }
 
 #qna-detail-rewrite {
@@ -160,18 +164,15 @@ h1 {
     background-color: var(--blue) !important
 }
 
-.freeName {
+.freeReplyName {
     font-weight: bold;
 }
 
-.freeDate {
-    margin-left: 75%;
+.freeReplyDate {
+    margin-left: 80%;
 }
 
 .freeReplycontent {
-    height: 250px;
-    width: 750px;
-    border-bottom: solid 1px black;
     word-wrap: break-word;
 }
 
@@ -179,4 +180,9 @@ h1 {
     position: relative;
     z-index: 2;
     margin-right: -8%;
+}
+
+#qna-detail-replycontent {
+    width: 200%; 
+    height: 100px;
 }

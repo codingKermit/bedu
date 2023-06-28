@@ -7,8 +7,11 @@
                 <div class="qnaBoradSearch" id="qnaBoradSearch">
                     <b-form @submit="qnasearch()">
                         <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
-                        <input class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="searchReviews">
-                        <b-button :to="'/comm/qnaWrite'" class="qna-writepath-btn" id="qna-writepath-btn">글쓰기</b-button>
+                        <input class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
+                        <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
+                        <font-awesome-icon :icon="['fas', 'pencil']" />
+                        글쓰기
+                        </b-button>
                     </b-form>
                 </div>
             </div>

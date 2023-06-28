@@ -5,13 +5,6 @@
             <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                 {{ free.title }}
             </h2>
-            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
-                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-            </div>
             <div id="freeboard-userinfo">
                 <p id="freeboard-userid">
                     {{ free.user_name}}
@@ -36,23 +29,37 @@
                 </button>    
             </div>
             <hr style="margin-top: 9%;"/>
+            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
+                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
+                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+            </div>
+            <div>
+                <p class = "fw-bold fs-5">
+                    <font-awesome-icon :icon="['far', 'comment']" />
+                    ?개의 댓글이 있습니다.
+                </p>
+            </div>
             <div>
                 <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
                     <h4>댓글을 작성하시오</h4>
-                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" style="width: 200%; height: 100px;"/>
+                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                 </div>
                 <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
                     <div class="d-flex mb-3 mt-4">
-                        <div class="freeName">
+                        <div class="freeReplyName">
                             {{ reply.userName }}
                         </div>
-                        <div class="freeDate">
+                        <div class="freeReplyDate">
                             {{ reply.strReplyDate }}
                         </div>
                     </div>
                     <div class="freeReplycontent">
                         {{ reply.content }}
                     </div>
+                    <hr/>
                 </div>
             </div>
         </b-container>
