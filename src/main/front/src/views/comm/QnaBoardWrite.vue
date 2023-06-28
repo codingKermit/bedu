@@ -1,7 +1,7 @@
 <template>
     <div>
         <CommCategory></CommCategory>
-        <b-container class="qna-write" id="qna-write">
+        <div class="qna-write" id="qna-write">
             <h1>질문 & 답변</h1>
             <b-form @submit="qnaWrite()">
                 <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
@@ -11,7 +11,7 @@
                     <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
                 </div>
             </b-form>
-        </b-container>
+        </div>
     </div>
 </template>
 

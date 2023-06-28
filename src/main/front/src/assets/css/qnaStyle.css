@@ -129,6 +129,16 @@ h1 {
     align-items: middle;
 }
 
+#qna-sort {
+    margin-top: 39px;
+}
+
+#qnaSortOption {
+    width: 110px;
+    height: 32px;
+    border: none;
+}
+
 
 #qna-date {
     margin-left: 20px;
