@@ -3,13 +3,13 @@
         <img src="@/assets/imgs/character/im.png" class="character">
         <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
         <p class="fs-5 fw-light fw-bold text-center bedu-text-custom-blue">What's wanna be?</p>
-        <b-form class="w-50 w-md-75 mx-auto" @submit="lectSearch">
+        <!-- <b-form class="w-50 w-md-75 mx-auto" @submit="lectSearch">
             <div
                 class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-100 m-auto mb-5 border-bedu">
                 <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
                 <b-form-input class="border-0 me-2" v-model="keyword" id="bedu-home-search"></b-form-input>
             </div>
-        </b-form>
+        </b-form> -->
 
         <b-container>
             <p class="fw-bold fs-4 text-start">분야별 강의</p>
@@ -109,20 +109,20 @@
         name : 'lectureView',
         data() {
             return {
-                keyword : '', /** 검색 키워드 */
+                // keyword : '', /** 검색 키워드 */
                 newestLectures:[], /** 최신 강의 목록 데이터 */
             }
         },
         methods: {
-            lectSearch(){ /** 검색할때 동작 */
-            this.$routerPush(
-                'lectureSearch',
-                {
-                    keyword : this.keyword
-                },
-                true
-            )
-            },
+            // lectSearch(){ /** 검색할때 동작 */
+            // this.$routerPush(
+            //     'lectureSearch',
+            //     {
+            //         keyword : this.keyword
+            //     },
+            //     true
+            // )
+            // },
 
             /** 최근 업로드된 강의 4개 조회하는 메서드 */
             getNewestLecture(){
