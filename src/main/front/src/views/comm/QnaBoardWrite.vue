@@ -2,7 +2,7 @@
     <div>
         <CommCategory></CommCategory>
         <div class="qna-write" id="qna-write">
-            <h1>질문 & 답변</h1>
+            <h2>질문 & 답변</h2>
             <b-form @submit="qnaWrite()">
                 <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
                     <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>

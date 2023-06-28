@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-container class="py-5">
-            <div class="row">
+        <b-container class="pt-5">
+            <div class="row pt-5">
                 <div class="col">
                     <b-container class="border-4 border-dark border rounded-5 p-0 overflow-hidden"
                     @mouseenter="mouseover('month')" @mouseleave="mouseleave('month')" >

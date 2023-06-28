@@ -1,0 +1,48 @@
+#Cschead {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-top: 60px;
+  margin-left: 100px;
+}
+
+.card{
+  width: 55%;
+  height: 250%;
+  margin-left: 22%;
+  margin-top: 3%;
+  padding: 3%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#selectbox{
+  width: 21%;
+  margin-bottom: 1.5%;
+}
+#title{
+  margin-bottom: 1.5%;
+}
+#titletext{
+  margin-bottom: 1.5%;
+}
+#textarea{
+  margin-bottom: 1.5%;
+}
+#textarea-rows{
+  margin-bottom: 1.5%;
+}
+#attach{
+  background-color: azure;
+}
+#list{
+  margin-top: 5%;
+  width:40%;
+  margin-left: 8%;
+  background-color: #6c757d;
+}
+#commit{
+  margin-top: 5%;
+  margin-left: 5%;
+  width:40%;
+  background-color: #303676;
+}
+

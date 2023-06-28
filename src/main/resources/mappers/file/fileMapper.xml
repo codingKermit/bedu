@@ -33,7 +33,7 @@
     </select>
 
     <delete id="deleteFile">
-        DELETE     
+        DELETE FROM BEDU.T_BEDU_LECT_DTL WHERE LECT_DTL_NUM = #{num} 
     </delete>
 
 

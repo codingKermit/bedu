@@ -105,7 +105,9 @@ public class FileUploadServiceImpl implements FileUploadService{
 
         if(file.exists()){
             file.delete();
-            fileDao.deleteFile(num);
+            if(fileDao.deleteFile(num) != 1){
+                result = false;
+            };
         } else{
             result = false;
         }

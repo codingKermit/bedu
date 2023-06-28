@@ -17,7 +17,7 @@
          </div>
          <div class="freeboard-main-1">
             <table class="w3-table-all freeboard-table" id="freeboard-table">
-              <thead>
+            <thead>
                   <tr>
                      <th>제목</th>
                      <th>작성자</th>
