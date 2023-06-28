@@ -73,8 +73,14 @@ public class FileUploadController {
     @RequestMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(int num){
 
-        
+        boolean check = false;
 
-        return ResponseEntity.ok().build();
+        check = service.deleteFile(num);
+
+        if(check){
+            return ResponseEntity.ok().build();
+        } else{
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).build();
+        }
     }
 }

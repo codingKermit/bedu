@@ -98,7 +98,7 @@
                                     v-model="form.lectDtlTitle"
                                     required :state="state" trim
                                     class="form-control-lg"
-                                    :disabled="form.lectNum == 0"
+                                    disabled
                                 ></b-form-input>
                             </b-form-group>
 
@@ -111,7 +111,7 @@
                                 v-model="form.lectDtlIndex"
                                 required
                                 :options="indexOptions"
-                                :disabled="form.lectNum == 0"
+                                disabled
                                 ></b-form-select>
                             </b-form-group>
 
@@ -153,8 +153,8 @@ export default{
         }
     },
     methods: {
-                /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
-                getLectureList(){
+        /** 입력된 검색어가 포함된 제목을 가진 강의 목록 반환 무한스크롤X */
+        getLectureList(){
             this.lists = this.totalLists.filter((item)=> item.title.includes(this.keyword))
         },
         /** 파일 변경, 업로드시 데이터 바인딩을 위한 메서드 */
@@ -175,8 +175,6 @@ export default{
 
         },
         deleteVideo(){
-        
-            // 데이터 공백 체크
             if(this.form.lectNum == 0){
                 this.$swal({
                     icon : 'info',
@@ -184,21 +182,6 @@ export default{
                 })
                 return;
             }
-            if(this.form.videoTime<=0){
-                this.$swal({
-                    icon : 'info',
-                    text : '동영상 재생 시간을 확인해주세요'
-                })
-                return;
-            }
-            if(this.videoFile == null){
-                this.$swal({
-                    icon : 'info',
-                    text : '동영상 파일을 확인해주세요'
-                })
-                return;
-            }
-            // 공백 체크 종료
 
             this.$swal({
                 title : '정말 삭제하시겠습니까?',
@@ -209,13 +192,16 @@ export default{
                 cancelButtonText : '취소',
             })
             .then((result)=>{
-                if(result){
+                if(!result.isDismissed){
                     this.$axiosSend('get','/api/file/deleteFile',{num : this.form.lectDtlNum})
                     .then(()=>{
                         this.$swal({
                             title : 'Success',
                             icon : 'Success',
                             text : '강의가 삭제되었습니다'
+                        })
+                        .then(()=>{
+                            this.getVideoList()
                         })
                     })
                     .catch((err)=>{

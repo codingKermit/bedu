@@ -167,7 +167,7 @@
 
     .character{
         position: absolute;
-        top : 11%;
+        top : 19%;
         left : -130px;
         height: 30%;
     }
