@@ -46,6 +46,14 @@
     margin-left: 15px;
 }
 
+#qna-write{
+    padding-top: 5%;
+    margin-left: 20%;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    width: 70%;
+}
+
 #qna-writepath-btn {
     height: 35px;
     margin-left: 15px;
@@ -147,6 +155,7 @@ h1 {
 
 /*qnaDetail*/
 #qna-write-content {
+    margin-bottom: 10px;
     width: 100%;
     height: 200px;
     resize:none;
@@ -204,7 +213,11 @@ h1 {
 }
 
 #qna-writebtn{
-    background-color: var(--blue) !important
+    float: right;
+    background-color: var(--blue) !important;
+    margin-right: 5px;
 }
 
-
+#qna-cansellbtn{
+    float: right;
+}

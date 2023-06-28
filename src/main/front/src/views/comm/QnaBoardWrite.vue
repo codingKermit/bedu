@@ -1,16 +1,15 @@
 <template>
     <div>
         <CommCategory></CommCategory>
-        <b-container class="w-50 qna-write" id="qna-write">
-            <h1>질문 / 답변</h1>
-
+        <b-container class="qna-write" id="qna-write">
+            <h1>질문 & 답변</h1>
             <b-form @submit="qnaWrite()">
                 <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
                 <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                <b-container class="my-3 justify-content-md-end d-md-flex">
-                    <b-button type="submit" class="btn-custom qna-writebtn" id="qna-writebtn">등록</b-button>
+                <div class="qna-btn">
                     <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
-                </b-container>
+                    <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
+                </div>
             </b-form>
         </b-container>
     </div>
