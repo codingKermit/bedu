@@ -3,7 +3,7 @@
         <CommCategory></CommCategory>
         <div class="qna-main" id="qna-main">
             <div class="qna-box" id="qna-box">
-                <h1>질문 & 답변</h1>
+                <h2>질문 & 답변</h2>
                 <div class="qnaBoradSearch" id="qnaBoradSearch">
                     <b-form @submit="qnasearch()">
                         <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
@@ -19,7 +19,7 @@
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
-                            <th>제목</th>
+                            <th id = "qnaTitle">제목</th>
                             <th>작성자</th>
                             <th>작성일자</th>
                             <th>조회 수</th>
