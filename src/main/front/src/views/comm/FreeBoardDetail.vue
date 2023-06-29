@@ -140,11 +140,13 @@ export default{
                     
                     document.getElementById("freeboard-detail-editbtn").style.display="none";
                     document.getElementById("freeboard-detail-deletebtn").style.display="none";
+                }else{
+                    document.getElementById("free-detail-replybtn").style.display="none";
                 }
 
             })
             .catch((error) => {
-                this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                console.log(error);
             })
 
         },
@@ -157,8 +159,8 @@ export default{
             .then(response=>{
                 this.free = response.data;
                 this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
-                const nickname = this.$store.getters.getNickname;
-                this.free.user_name = nickname;
+                // const nickname = this.$store.getters.getNickname;
+                // this.free.user_name = nickname;
             })
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);

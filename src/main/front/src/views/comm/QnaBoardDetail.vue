@@ -144,10 +144,12 @@
                         
                         document.getElementById("qnaboard-detail-editbtn").style.display="none";
                         document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                    }else{
+                        document.getElementById("qnaboard-detail-replybtn").style.display="none";
                     }
                 })
                 .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                    console.log(error);
                 })
 
                 this.$axiosSend('get', '/api/qna/getUserId', {
@@ -159,7 +161,7 @@
                     }
                 })
                 .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                    console.log(error);
                 })
 
             },
