@@ -1,27 +1,21 @@
 <template>
+    <div class = "d-flex">
     <div class="qna-view" id="qna-view">
         <CommCategory></CommCategory>
-        <div class="qna-main" id="qna-main">
-            <div class="qna-box" id="qna-box">
-                <h2>질문 & 답변</h2>
+    </div> 
+        <div id="qna-main">
+            <h2>질문 & 답변</h2>
                 <div class="qnaBoradSearch" id="qnaBoradSearch">
-                    <b-form @submit="qnasearch()">
+                    <b-form @submit="qnasearch()" class = "serchForm">
                         <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
-                        <input class="my-1 qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
+                        <input class="qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
                         <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
                         <font-awesome-icon :icon="['fas', 'pencil']" />
                         글쓰기
                         </b-button>
                     </b-form>
                 </div>
-            </div>
             <div class="qna-main-1" id="qna-main-1">
-                <div id="qna-sort">
-                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
-                        <option value="default">최신 순</option>
-                        <option value="highViews">조회수 순</option>
-                    </select>
-                </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
@@ -34,7 +28,7 @@
                     <tbody>
                         <tr v-for="qna in qnalist" :key="qna">
                             <td id="qnaboard-table-tds">
-                                <b-link class="text-start" :to="'/comm/qnaDetail/' + qna.qna_bd_num">
+                                <b-link class="text-start text-body" :to="'/comm/qnaDetail/' + qna.qna_bd_num">
                                     {{ qna.title }}
                                 </b-link>
                             </td>

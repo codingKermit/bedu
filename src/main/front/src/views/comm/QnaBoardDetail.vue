@@ -44,7 +44,7 @@
             <div>
                 <p class = "fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    개의 댓글이 있습니다.
+                    개의 답글이 있습니다.
                 </p>
             </div>
             <div>
