@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.community.qna.vo.LikeCntVO;
 import com.care.bedu.community.qna.vo.QnaVO;
 
 @Mapper

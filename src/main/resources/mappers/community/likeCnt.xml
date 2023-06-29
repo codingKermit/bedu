@@ -4,17 +4,15 @@
 <mapper namespace="com.care.bedu.community.qna.dao.LikeCntDAO">
 	
 	<insert id="likeCntSave">
-		INSERT INTO T_BEDU_LIKE_CNT_QS(
-	      QS_LIKE_BD_NUM,
+		INSERT INTO T_BEDU_LIKE_CNT(
+	      LIKE_NUM,
 		  USER_NAME,
-		  QS_LIKE_YN,
 		  QS_BD_NUM,
-		  QS_LIKE_DATE, 
+		  REG_DATE, 
 		  REG_ID
 		)VALUES(
 		  BEDU_LIKE_QS.NEXTVAL,
 		  #{userName},
-		  1,
 		  #{qsBdNum},
 		  SYSDATE,
 		  #{regId}
@@ -23,16 +21,16 @@
 	
 	<select id="getlikenum" resultType="int">
 		SELECT
-		 QS_LIKE_BD_NUM 
-		FROM T_BEDU_LIKE_CNT_QS
+		 LIKE_NUM 
+		FROM T_BEDU_LIKE_CNT
 		WHERE QS_BD_NUM = #{qnum} and USER_NAME = #{userName}
 	</select>
 
 	
 	<delete id="likedel">
 		delete
-		 from T_BEDU_LIKE_CNT_QS
-		WHERE QS_LIKE_BD_NUM = #{num}
+		 from T_BEDU_LIKE_CNT
+		WHERE LIKE_NUM = #{num}
 	</delete>
 	
 </mapper>

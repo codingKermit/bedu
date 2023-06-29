@@ -1,69 +1,71 @@
 <template>
-    <CommCategory></CommCategory>
-    <div class="container w-75 freeboard-detail-main" id="freeboard-detail-main">
-        <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
-            <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
-                {{ free.title }}
-            </h2>
-            <div id="freeboard-userinfo">
-                <p id="freeboard-userid">
-                    {{ free.user_name}}
-                </p>
-                <p id="free-comm">
-                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
-                </p>
-                <p id="free-date">
-                    {{ free.str_comm_date }} 
-                </p>
-            </div>
-            <hr class="mt-10"/>
-            <div id="freeboard-detail-contents">
-                {{ free.content }}
-            </div>
-            <div id="free-likeyn">
-                <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
-                    <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
-                        <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
-                            {{ free.comm_like_yn }}
-                        </text>
-                </button>    
-            </div>
-            <hr style="margin-top: 9%;"/>
-            <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
-                <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-            </div>
-            <div>
-                <p class = "fw-bold fs-5">
-                    <font-awesome-icon :icon="['far', 'comment']" />
-                    ?개의 댓글이 있습니다.
-                </p>
-            </div>
-            <div>
-                <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
-                    <h4>댓글을 작성하시오</h4>
-                    <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+    <div>
+        <CommCategory></CommCategory>
+        <div class="container w-75 freeboard-detail-main" id="freeboard-detail-main">
+            <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
+                <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
+                    {{ free.title }}
+                </h2>
+                <div id="freeboard-userinfo">
+                    <p id="freeboard-userid">
+                        {{ free.user_name}}
+                    </p>
+                    <p id="free-comm">
+                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
+                    </p>
+                    <p id="free-date">
+                        {{ free.str_comm_date }} 
+                    </p>
                 </div>
-                <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
-                    <div class="d-flex mb-3 mt-4">
-                        <div class="freeReplyName">
-                            {{ reply.userName }}
-                        </div>
-                        <div class="freeReplyDate">
-                            {{ reply.strReplyDate }}
-                        </div>
-                    </div>
-                    <div class="freeReplycontent">
-                        {{ reply.content }}
-                    </div>
-                    <hr/>
+                <hr class="mt-10"/>
+                <div id="freeboard-detail-contents">
+                    {{ free.content }}
                 </div>
-            </div>
-        </b-container>
-        <br>
+                <div id="free-likeyn">
+                    <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
+                        <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
+                            <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
+                                {{ free.comm_like_yn }}
+                            </text>
+                    </button>    
+                </div>
+                <hr style="margin-top: 9%;"/>
+                <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
+                    <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
+                    <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
+                    <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                    <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                    <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+                </div>
+                <div>
+                    <p class = "fw-bold fs-5">
+                        <font-awesome-icon :icon="['far', 'comment']" />
+                        ?개의 댓글이 있습니다.
+                    </p>
+                </div>
+                <div>
+                    <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
+                        <h4>댓글을 작성하시오</h4>
+                        <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+                    </div>
+                    <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
+                        <div class="d-flex mb-3 mt-4">
+                            <div class="freeReplyName">
+                                {{ reply.userName }}
+                            </div>
+                            <div class="freeReplyDate">
+                                {{ reply.strReplyDate }}
+                            </div>
+                        </div>
+                        <div class="freeReplycontent">
+                            {{ reply.content }}
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+            </b-container>
+            <br>
+        </div>
     </div>
 </template>
 
@@ -78,6 +80,10 @@ export default{
             result : 0,
             replylist:[],
             userlist:[],
+            likenum:0,
+            username:'',
+            userNickName:'',
+            likeok:false,
             form: {
                 commNum:0,
                 replyNum: 0,
@@ -107,6 +113,7 @@ export default{
 
     mounted() {
         const nick =this.$store.getters.getNickname;
+        this.userNickName =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
@@ -115,13 +122,6 @@ export default{
     },
 
     created() {
-        const nick =this.$store.getters.getNickname;
-        if(nick === '' || nick === null){
-            this.$swal('Error','로그인을 해주세요!');
-            router.push({
-                name: "main"
-            })
-        }
     },
 
     methods: {
@@ -134,6 +134,12 @@ export default{
                 this.userlist = res.data;
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.userName = this.userlist[i].user_id;
+                }
+                
+                if(this.userNickName !== this.free.user_name){
+                    
+                    document.getElementById("freeboard-detail-editbtn").style.display="none";
+                    document.getElementById("freeboard-detail-deletebtn").style.display="none";
                 }
 
             })
@@ -238,6 +244,69 @@ export default{
             })
                 
         },
+
+
+        freelikedown(){
+                
+            this.$axiosSend('get','/api/free/likeDown', {
+                    num : this.free.comm_num,
+                    userName : this.userNickName,
+                    likebdnum : this.likenum,
+            })
+            .then(res => {
+               
+                if(res.data === 1){
+                    this.free.comm_like_yn--;
+                    return;
+                }else if(res.data === 0){
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },
+
+        freelikeUp(cnum){
+
+            var regid = this.form.userName;
+
+            this.$axiosSend('get','/api/free/likeUp', {
+                    num: cnum,
+                    regId : regid,
+                    userName : this.userNickName
+            })
+            .then(res => {
+                
+                if(res.data.result === 1){                      //기존 아이디좋아요 없음
+
+                    this.likenum = res.data.likenum;
+                    this.likeok = res.data.likes;
+                    this.userNickName = res.data.email;
+                    
+                    this.free.comm_like_yn++;
+                    return;
+                }else if(res.data.result === 0){                //기존 아이디좋아요 있음
+
+                    this.likenum = res.data.likenum;
+                    this.likeok = res.data.likes;
+                    this.userNickName = res.data.email;
+
+                    if(this.likeok === true){
+                        
+                        this.freelikedown();
+                        return;
+                    }
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },                
+
+        
+
         freeBoardpath(){
             router.push({
                 name: 'freeBoard', 
@@ -284,19 +353,19 @@ export default{
             document.getElementById("qna-detail-recensell").style.display="none";
         },
 
-        freelikeUp(commnum){
-            this.$axiosSend('get','/api/freBd/likeUp', {
-                num: commnum,
-            })
-            .then(res => {
-                if(res.data === this.free.comm_num){
-                    this.free.comm_num++;
-                }    
-            })
-            .catch(error => {
-                alert(error);
-            })
-        },
+        // freelikeUp(commnum){
+        //     this.$axiosSend('get','/api/freBd/likeUp', {
+        //         num: commnum,
+        //     })
+        //     .then(res => {
+        //         if(res.data === this.free.comm_num){
+        //             this.free.comm_num++;
+        //         }    
+        //     })
+        //     .catch(error => {
+        //         alert(error);
+        //     })
+        // },
 
         path(commnum){
             this.result = commnum;

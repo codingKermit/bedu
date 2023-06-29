@@ -16,6 +16,12 @@
                 </div>
             </div>
             <div class="qna-main-1" id="qna-main-1">
+                <div id="qna-sort">
+                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highViews">조회수 순</option>
+                    </select>
+                </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
@@ -69,6 +75,7 @@
                 form: {
                     keyword: '',
                 },
+                sortOption: "default", // 정렬 옵션
                 totalItems: 0,
                 totalPage: 0,
                 currentPage: 1
@@ -85,13 +92,6 @@
         },
 
         mounted() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                this.$swal('Error','로그인을 해주세요!');
-                router.push({
-                    name: "main"
-                })
-            }
         },
 
         methods: {

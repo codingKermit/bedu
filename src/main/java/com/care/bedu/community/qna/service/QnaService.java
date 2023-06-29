@@ -14,6 +14,6 @@ public interface QnaService {
 	public int viewupdate(QnaVO qnaVO);						//게시글 수정
 	public int getTotal();//게시글 전체 개수
 	public ArrayList<QnaVO> getUserId(String userName);
-	public HashMap<String, Object> likeUp(int num, String email) throws Exception;
+	public HashMap<String, Object> likeUp(int num, String email, String regId) throws Exception;
 	public int likeDown(int num, String userName, int likeBdNum);//게시글 좋아요 증가
 }

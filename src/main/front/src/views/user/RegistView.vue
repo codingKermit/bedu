@@ -261,7 +261,6 @@
                             <button
                                 id="registSubmitFormBtn"
                                 type="submit"
-                                :disabled="isChecking || member.email === ''"
                             >
                                 회원가입
                             </button>

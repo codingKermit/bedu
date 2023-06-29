@@ -1,6 +1,7 @@
 package com.care.bedu.community.freeBoard.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,6 @@ public class FreeController {
 	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
 	public ArrayList<FreeVO> freeList(FreeVO freeVO){
 		return freeService.listProc(freeVO);
-		
 	}
 	
 	@RequestMapping(value="/freBd/write", method=RequestMethod.POST)				//게시글 작성
@@ -51,14 +51,19 @@ public class FreeController {
 		return freeService.getTotal();
 	}
 	
-	@RequestMapping(value="/freBd/likeUp", method = RequestMethod.GET)				//좋아요 1증가
-	public int likeUp(int num){
-		return freeService.likeUp(num) ==1? num:0;
-	}
-	
 	@RequestMapping(value="/free/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public ArrayList<FreeVO> getUserId(String userName){
 	 	 return freeService.getUserId(userName);
+	 }
+	
+	@RequestMapping(value="/free/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
+	 public HashMap<String, Object> freelikeUp(int num, String userName, String regId) throws Exception{
+		 return freeService.likeUp(num, userName, regId);
+	 }
+	 
+	 @RequestMapping(value="/free/likeDown", method = RequestMethod.GET)													//게시글 전체 개수 조회
+	 public int freelikeDown(int num, String userName, int likebdnum){
+		 return freeService.likeDown(num, userName, likebdnum);
 	 }
 	
 }

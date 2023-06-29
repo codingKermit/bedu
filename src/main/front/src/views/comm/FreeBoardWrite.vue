@@ -1,17 +1,17 @@
 <template>
     <div>
-        <CommCategory :titleShow="false"></CommCategory>
-        <b-container class="w-50 freeboard-write" id="freeboard-write">
+        <CommCategory></CommCategory>
+        <div class="freeboard-write" id="freeboard-write">
             <h1 id="freeboard-title">자유게시판</h1>
             <b-form @submit="submit()">
-                <b-form-input placeholder="제목을 작성해주세요" class="my-5" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
+                <b-form-input placeholder="제목을 작성해주세요" class="my-3" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
                 <b-form-textarea id="freeboard-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                <b-container class="my-3 justify-content-md-end d-md-flex" id="freeboard-write-conbtn">
+                <div id="freeboard-write-conbtn">
                     <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
-                    <b-button type="submit" class="btn-custom ms-2 freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
-                </b-container>
+                    <b-button type="submit" class="bedu-bg-custom-blue freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
+                </div>
             </b-form>
-        </b-container>
+        </div>
     </div>
 </template>
 
@@ -28,6 +28,7 @@
                     user_name:'',
                     title:'',
                     content : '',
+                    reg_id:'',
                 },
 
                 userlist:[]
@@ -40,19 +41,25 @@
         },
 
         mounted() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                alert('로그인을 해주세요.');
-                window.history.back();
+            this.form.user_name =this.$store.getters.getNickname;
+            if(this.form.user_name === '' || this.form.user_name === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "qnaBoard"
+                })
+                return;
             }
             this.getUserId();
         },
 
         created() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                alert('로그인을 해주세요.');
-                window.history.back();
+            this.form.user_name =this.$store.getters.getNickname;
+            if(this.form.user_name === '' || this.form.user_name === null){
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "qnaBoard"
+                })
+                return;
             }
         },
 
@@ -65,7 +72,7 @@
                 }).then(res => {
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
-                        this.form.user_name = this.userlist[i].user_id;
+                        this.form.reg_id = this.userlist[i].user_id;
                     }
                 })
                 .catch((error) => {
@@ -99,6 +106,9 @@
                 }
 
                 var form = new FormData();
+                console.log('닉', this.form.userNick);
+                console.log('id', this.form.reg_id);
+                form.append("reg_id", this.form.reg_id);
                 form.append("user_name", this.form.user_name);
                 form.append("title", this.form.title);
                 form.append("content", this.form.content);

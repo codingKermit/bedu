@@ -42,8 +42,9 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "qnaBoard"
                 })
+                return;
             }
             const qnum = this.$route.params.num;
             this.qnadetail(qnum);
@@ -52,8 +53,11 @@
         created() {
             const nick =this.$store.getters.getNickname;
             if(nick === '' || nick === null){
-                alert('로그인을 해주세요.');
-                window.history.back();
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "qnaBoard"
+                })
+                return;
             }
         },
 

@@ -4,18 +4,33 @@
         <div class="qna-write" id="qna-write">
             <h2>질문 & 답변</h2>
             <b-form @submit="qnaWrite()">
+                <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
+                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+                    
+                    <div class="m-0 my-5 d-flex justify-content-between align-items-center">
+                    <input class="form-control me-auto w-75" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                        <b-button class="" type="reset">취소</b-button>
+                        <b-button type="submit" class="btn-custom ms-2">등록</b-button>
+                    </div>
+            </b-form>
+
+            <!-- <b-form @submit="qnaWrite()">
+                <div id="app">
+                    <ckeditor v-model="editorData" :config="editorConfig"></ckeditor>
+                </div>
                 <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
                 <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
                 <div class="qna-btn">
                     <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
                     <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
                 </div>
-            </b-form>
+            </b-form> -->
         </div>
     </div>
 </template>
 
 <script>
+    import Editor from 'ckeditor5-custom-build/build/ckeditor';
     import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     import '@/assets/css/qnaStyle.css';
@@ -24,6 +39,18 @@
         name: 'qnaWrite',
         data() {
             return {
+                editor: Editor,
+                editorConfig: {
+                    // The configuration of the editor.
+                    simpleUpload: {
+                        // 업로드 URL
+                        uploadUrl: '/api/studyUpload',
+                        method : 'POST'
+                    },
+                    mediaEmbed: {
+                        previewsInData: true
+                    },
+                },
                 form:{
                     user_name: '',
                     title:'',
@@ -39,12 +66,13 @@
         },
 
         mounted() {
-            const nick =this.$store.getters.getNickname;
+            const nick = this.$store.getters.getNickname;
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "qnaBoard"
                 })
+                return;
             }
             this.getUserId();
         },
@@ -54,7 +82,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "qnaBoard"
                 })
             }
         },
@@ -75,7 +103,7 @@
                    
                 })
                 .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다!', error);
                 })
 
             },

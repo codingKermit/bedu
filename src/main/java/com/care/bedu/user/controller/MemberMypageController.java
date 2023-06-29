@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.user.service.MemberMypageService;
 import com.care.bedu.user.vo.MemberMypageVO;
+import com.care.bedu.user.vo.MemberVO;
 
 
 
