@@ -14,8 +14,8 @@
                     </div>    
                     
                     <div id="freeboard-write-conbtn">
-                        <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
-                        <b-button type="submit" class="bedu-bg-custom-blue freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
+                        <b-button type="reset" class="px-4 freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
+                        <b-button type="submit" class="px-4 bedu-bg-custom-blue freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
                     </div>
                 </b-form>
             </div>
