@@ -66,12 +66,13 @@
         },
 
         mounted() {
-            const nick =this.$store.getters.getNickname;
+            const nick = this.$store.getters.getNickname;
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "qnaBoard"
                 })
+                return;
             }
             this.getUserId();
         },
@@ -81,7 +82,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "qnaBoard"
                 })
             }
         },
@@ -102,7 +103,7 @@
                    
                 })
                 .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다!', error);
                 })
 
             },

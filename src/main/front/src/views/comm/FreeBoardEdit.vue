@@ -41,8 +41,9 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "main"
+                    name: "freeBoard"
                 })
+                return;
             }
         },
 
@@ -50,8 +51,11 @@
         mounted() {
             const nick =this.$store.getters.getNickname;
             if(nick === '' || nick === null){
-                alert('로그인을 해주세요.');
-                window.history.back();
+                this.$swal('Error','로그인을 해주세요!');
+                router.push({
+                    name: "freeBoard"
+                })
+                return;
             }
             const num = this.$route.params.num;
             this.freedetail(num);
