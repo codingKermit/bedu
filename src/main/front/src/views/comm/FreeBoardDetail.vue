@@ -1,8 +1,10 @@
 <template>
-    <div>
-        <CommCategory></CommCategory>
-        <div class="container w-75 freeboard-detail-main" id="freeboard-detail-main">
-            <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
+    <div class = "d-flex">
+        <div class = "writeMain">
+            <CommCategory></CommCategory>
+        </div>
+        <div class="freeboard-write" id="freeboard-write">
+            <div class="justify-content-start text-start"  id="freeboard-detail-body">
                 <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                     {{ free.title }}
                 </h2>
@@ -19,7 +21,8 @@
                 </div>
                 <hr class="mt-10"/>
                 <div id="freeboard-detail-contents">
-                    {{ free.content }}
+                    <!-- {{ free.content }} -->
+                    <div v-html="free.content"></div>
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
@@ -44,9 +47,9 @@
                     </p>
                 </div>
                 <div>
-                    <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
+                    <div class="free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
                         <h4>댓글을 작성하시오</h4>
-                        <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+                        <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
                     <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
                         <div class="d-flex mb-3 mt-4">
@@ -63,8 +66,7 @@
                         <hr/>
                     </div>
                 </div>
-            </b-container>
-            <br>
+            </div>
         </div>
     </div>
 </template>

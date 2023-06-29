@@ -1,34 +1,44 @@
 <template>
-    <div>
-        <CommCategory></CommCategory>
-        <div class="qna-write" id="qna-write">
-            <h2>질문 & 답변</h2>
-            <b-form @submit="qnaWrite()">
-                <b-form-input placeholder="제목을 작성해주세요" class="my-5" v-model="form.title" ref="title"></b-form-input>
+    <div class = "d-flex">
+        <div class = "writeMain">
+            <CommCategory></CommCategory>
+        </div>
+            <div class="qna-write" id="qna-write">
+                <h2>질문 & 답변</h2>
+                <b-form @submit="qnaWrite()">
+                    <!--게시글 Title, content 인풋-->
+                    <b-form-input placeholder="제목을 작성해주세요" class="mt-4 mb-2" v-model="form.title" ref="title"></b-form-input>
                     <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
-                    
-                    <div class="m-0 my-5 d-flex justify-content-between align-items-center">
-                    <input class="form-control me-auto w-75" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
-                        <b-button class="" type="reset">취소</b-button>
-                        <b-button type="submit" class="btn-custom ms-2">등록</b-button>
-                    </div>
-            </b-form>
+                    <!--게시글 Title, content 인풋 종료-->
 
-            <!-- <b-form @submit="qnaWrite()">
-                <div id="app">
-                    <ckeditor v-model="editorData" :config="editorConfig"></ckeditor>
-                </div>
-                <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
-                <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                <div class="qna-btn">
-                    <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
-                    <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
-                </div>
-            </b-form> -->
+                    <!--파일 업로드 인풋-->
+                    <div class="m-0 my-5 d-flex justify-content-between align-items-center">
+                        <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                    </div>
+                    <!--파일 업로드 인풋 종료-->
+
+                    <!--저장 취소 버튼셋-->
+                    <div id = "buttonSet">
+                        <b-button style = "margin-right: 10px;" type="submit" class="bedu-bg-custom-blue qna-writebtn">등록</b-button>
+                        <b-button class="qna-cansellbtn" type="reset">취소</b-button>
+                    </div>
+                    <!--저장 취소 버튼셋 종료-->
+                </b-form>
+
+                <!-- <b-form @submit="qnaWrite()">
+                    <div id="app">
+                        <ckeditor v-model="editorData" :config="editorConfig"></ckeditor>
+                    </div>
+                    <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
+                    <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
+                    <div class="qna-btn">
+                        <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
+                        <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
+                    </div>
+                </b-form> -->
         </div>
     </div>
 </template>
-
 <script>
     import Editor from 'ckeditor5-custom-build/build/ckeditor';
     import CommCategory from '@/components/CommCategory.vue';

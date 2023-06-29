@@ -1,47 +1,45 @@
 <template>
-   <div class="freeboard-view" id="freeboard-view">
-      <CommCategory></CommCategory>
-      <div class="freeboard-main" id="freeboard-main">
-         <div id="freeboard-box">
-            <h1>자유게시판</h1>
-            <div class="freeBoradSearch" id="freeBoradSearch">
-               <b-form @submit="freesearch()">
-                  <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
-                  <input class="my-1 free-view-keyword" id="free-view-keyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
-                  <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
-                  <font-awesome-icon :icon="['fas', 'pencil']" />
-                  글쓰기
-                  </b-button>
-               </b-form>
+   <div class = "d-flex">
+      <div class="freeboard-view" id="freeboard-view">
+         <CommCategory></CommCategory>
+      </div> 
+         <div class="freeboard-main" id="freeboard-main">
+            <div id="freeboard-box">
+               <h2>자유게시판</h2>
+               <div class="freeBoradSearch" id="freeBoradSearch">
+                  <b-form @submit="freesearch()" class = "freeSerch">
+                     <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
+                     <input class="free-view-keyword" id="free-view-keyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                     <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
+                     <font-awesome-icon :icon="['fas', 'pencil']" />
+                     글쓰기
+                     </b-button>
+                  </b-form>
+               </div>
             </div>
-         </div>
-         <div class="freeboard-main-1">
-            <div id="free-sort">
-                    <select id="freeSortOption" v-model="sortOption" @change="sortReviews">
-                        <option value="default">최신 순</option>
-                        <option value="highViews">조회수 순</option>
-                    </select>
-                </div>
-            <table class="w3-table-all freeboard-table" id="freeboard-table">
-            <thead>
-                  <tr>
-                     <th>제목</th>
-                     <th>작성자</th>
-                     <th>작성일자</th>
-                     <th>조회 수</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr v-for="free in freelist" :key="free.comm_num">
-                     <td id="freeboard-table-tds">
-                        <b-link class="text-start" :to="'/comm/freBdDetail/' + free.comm_num">{{ free.title }}</b-link>
-                     </td>
-                     <td>{{ free.user_name }}</td>
-                     <td>{{ free.str_comm_date }}</td>
-                     <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}</td>  
-                  </tr>
-               </tbody>
-            </table>
+            <div class="freeboard-main-1">
+               <table class="w3-table-all freeboard-table" id="freeboard-table">
+               <thead>
+                     <tr>
+                        <th class = "freeTitle">제목</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                        <th>조회 수</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr v-for="free in freelist" :key="free.comm_num">
+                        <td id="freeboard-table-tds">
+                           <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.comm_num">
+                              {{ free.title }}
+                           </b-link>
+                        </td>
+                        <td>{{ free.user_name }}</td>
+                        <td>{{ free.str_comm_date }}</td>
+                        <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}</td>  
+                     </tr>
+                  </tbody>
+               </table>
             <InfiniteLoading @infinite="infiniteHandler" @distance="1">
                <!-- 로딩중일때 보여질 부분 -->
                <template #spinner></template>
@@ -60,14 +58,14 @@ import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 import '@/assets/css/freeBoardStyle.css';
 export default {
 
-    components:{ InfiniteLoading, CommCategory },
+   components:{ InfiniteLoading, CommCategory },
 
    data() {
       return {
          sortOption: "default", // 정렬 옵션
          freelist:[],
          form: {
-             keyword: ''
+            keyword: ''
          },
          freeOption: "recent",
          totalItems : 0,

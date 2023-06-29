@@ -1,28 +1,48 @@
 <template>
-    <div>
-        <CommCategory :titleShow="false"></CommCategory>
-        <b-container class="w-50 qna-edit" id="qna-edit">
-            <h1>질문 / 답변</h1>
+    <div class = "d-flex">
+            <div class = "writeMain">
+                <CommCategory></CommCategory>
+            </div>
+        <div id="qna-write">
+            <h2>질문 & 답변 수정</h2>
             <b-form @submit="edit()">
                 <input type="hidden" v-model="form.comm_num" ref="qna_bd_num"/>
-                <b-form-input class="my-5 qna-edit-title" ref="title" id="qna-edit-title" v-model="form.title"></b-form-input>
-                <b-form-textarea class="form-control col-sm-5 qna-edit-content" id="qna-edit-content" ref="content" v-model="form.content"></b-form-textarea>
-                <b-container class="my-3 justify-content-md-end d-md-flex">
+                    <b-form-input class="mt-4 mb-2" ref="title" id="qna-edit-title" v-model="form.title"></b-form-input>
+                        
+                <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+
+                <div id="buttonSet">
+                    <b-button type="submit" class="btn-custom ms-2 qna-edit bedu-bg-custom-blue" id="qna-edit">수정</b-button>
                     <b-button class="btn-custom ms-2 qna-edit-censell" id="qna-edit-censell" type="reset" :to="'/comm/qna'" >취소</b-button>
-                    <b-button type="submit" class="btn-custom ms-2 qna-edit" id="qna-edit">수정</b-button>
-                </b-container>
+                </div>
+
             </b-form>
-        </b-container>
+        </div>
     </div>
 </template>
 
 <script>
+    import Editor from 'ckeditor5-custom-build/build/ckeditor';
     import CommCategory from '@/components/CommCategory.vue';
     import router from '@/router';
     export default{
 
         data(){
             return {
+                editor: Editor,
+                editorConfig: {
+                    resize_minHeight : 800,
+                    // The configuration of the editor.
+                    simpleUpload: {
+                        // 업로드 URL
+                        uploadUrl: '/api/studyUpload',
+                        method : 'POST'
+                        
+                    },
+                    mediaEmbed: {
+                        previewsInData: true
+                    },
+                },
                 form:{
                     qna_bd_num: 0,  
                     title: '',

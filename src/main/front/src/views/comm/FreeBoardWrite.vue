@@ -1,21 +1,29 @@
 <template>
-    <div>
-        <CommCategory></CommCategory>
-        <div class="freeboard-write" id="freeboard-write">
-            <h1 id="freeboard-title">자유게시판</h1>
-            <b-form @submit="submit()">
-                <b-form-input placeholder="제목을 작성해주세요" class="my-3" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
-                <b-form-textarea id="freeboard-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                <div id="freeboard-write-conbtn">
-                    <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
-                    <b-button type="submit" class="bedu-bg-custom-blue freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
-                </div>
-            </b-form>
-        </div>
+    <div class = "d-flex">
+        <div class = "writeMain">
+            <CommCategory></CommCategory>
+        </div>  
+            <div class="freeboard-write" id="freeboard-write">
+                <h2>자유게시판</h2>
+                <b-form @submit="submit()">
+                    <b-form-input placeholder="제목을 작성해주세요" class="mt-4 mb-2" id="freeboard-write-title" v-model="form.title" ref="title"></b-form-input>
+                        <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+
+                    <div class="m-0 my-5 d-flex justify-content-between align-items-center">
+                    <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                    </div>    
+                    
+                    <div id="freeboard-write-conbtn">
+                        <b-button type="reset" class="freeboard-write-reset" id="freeboard-write-reset" :to="'/comm/freBd'" >취소</b-button>
+                        <b-button type="submit" class="bedu-bg-custom-blue freeboard-write-submit" id="freeboard-write-submit">등록</b-button>
+                    </div>
+                </b-form>
+            </div>
     </div>
 </template>
 
 <script>
+    import Editor from 'ckeditor5-custom-build/build/ckeditor'; 
     import router from '@/router';
     import CommCategory from '@/components/CommCategory.vue';
     import '@/assets/css/freeBoardStyle.css';
@@ -24,6 +32,20 @@
         name: 'freeWrite',
         data() {
             return {
+                editor: Editor,
+                editorConfig: {
+                    resize_minHeight : 800,
+                    // The configuration of the editor.
+                    simpleUpload: {
+                        // 업로드 URL
+                        uploadUrl: '/api/studyUpload',
+                        method : 'POST'
+                        
+                    },
+                    mediaEmbed: {
+                        previewsInData: true
+                    },
+                },
                 form:{
                     user_name:'',
                     title:'',

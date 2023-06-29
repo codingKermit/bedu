@@ -1,10 +1,12 @@
 /*StudyReview css*/
 #freeboard-main {
-    padding-top: 5%;
-    margin-left: 20%;
+    padding-top: 5.5%;
+    margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
+    width: 80%;
 }
+
 
 #freeboard-table {
     width: 100%;
@@ -37,7 +39,7 @@
 #free-view-keyword {
     width: 300px;
     padding: 5px 42px;
-    height: 35px;
+    height: 40px;
     border-radius: 20px;
     border: 2px solid black;
 }
@@ -47,7 +49,7 @@
 }
 
 #free-keywordbtn {
-    height: 35px;
+    height: 40px;
     margin-left: 15px;
     margin-top: 2px;
     margin-bottom: 6px;
@@ -122,11 +124,11 @@ h1 {
 
 /*freeBoardWrite*/
 #freeboard-write {
-    padding-top: 5%;
-    margin-left: 20%;
+    padding-top: 5.5%;
+    margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
-    width: 70%;
+    width: 80%;
 }
 
 #freeboard-write-content {
@@ -193,6 +195,13 @@ h1 {
     margin-right: -8%;
 }
 
+#free-detail-replywrite{
+    display: none;
+    word-wrap: break-word;
+    width: 50%;
+    margin-bottom: 50px;
+}
+
 #qna-detail-replycontent {
     width: 200%; 
     height: 100px;
@@ -208,3 +217,39 @@ h1 {
     margin-right: 5px;
 }
 
+#freeboard-view{
+    float: left;
+    padding-top: 5%;
+    padding-left: 6%;
+}
+
+.freeSerch{
+    margin-right: -35px;
+}
+
+.writeMain{
+    float: left;
+    padding-top: 5%;
+    padding-left: 6%;
+}
+
+.ck-content{
+    height: 500px !important;
+}
+
+.freeTitle{
+    width: 30%;
+}
+
+#freeboard-table-tds a{
+    width: 120px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.text-start{
+    font: bold;
+}

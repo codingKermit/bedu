@@ -1,9 +1,19 @@
 /*StudyReview css*/
 #qna-main {
-    padding-top: 5%;
-    margin-left: 20%;
+    padding-top: 5.5%;
+    margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
+    width: 80%;
+}
+
+
+#qna-detail-main{
+    padding-top: 5.5%;
+    margin-left: 3%;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    width: 80%;
 }
 
 #qnaboard-table {
@@ -11,6 +21,7 @@
     padding: 25px;
     margin-bottom:100px;
 }
+
 
 #qna-view-side {
     padding-top: 3%;
@@ -37,9 +48,13 @@
 #qna-view-keyword {
     width: 300px;
     padding: 5px 42px;
-    height: 35px;
+    height: 40px;
     border-radius: 20px;
     border: 2px solid black;
+}
+
+.serchForm{
+    margin-right: -35px;
 }
 
 #qna-search-btn {
@@ -47,15 +62,15 @@
 }
 
 #qna-write{
-    padding-top: 5%;
-    margin-left: 20%;
+    padding-top: 5.5%;
+    margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
-    width: 70%;
+    width: 80%;
 }
 
 #qna-writepath-btn {
-    height: 35px;
+    height: 40px;
     margin-left: 15px;
     margin-top: 2px;
     margin-bottom: 6px;
@@ -91,13 +106,18 @@
 #qnaboard-detail-replywrite{
     display: none;
     word-wrap: break-word;
+    width: 50%;
+    margin-bottom: 50px;
 }
 
 .qnaReplyContent {
     word-wrap: break-word;
 }
 
-.qna-detail-replycontent{
+
+#qna-detail-replycontent{
+    width: 200%; 
+    height: 100px;
     resize: none;
 }
 
@@ -139,12 +159,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 #qnaSortOption {
     width: 110px;
     height: 32px;
     border: none;
+}
+
+.text-start{
+    font: bold;
 }
 
 #qnaTitle{
@@ -194,7 +219,7 @@
 #comm-main-side {
     float: left;
     padding-top: 5%;
-    padding-left: 4%;
+    padding-left: 6%;
 }
 
 .comm-main-cate{
@@ -211,9 +236,6 @@
     margin-bottom: 50px;
 }
 
-#qna-detail-main {
-    padding-top: 5%;
-}
 
 #qnaboard-detail-rewrite{
     background-color: var(--blue) !important
@@ -229,17 +251,37 @@
     margin-right: -8%;
 }
 
-#qna-detail-replycontent {
-    width: 200%;
-    height: 100px;
-}
+
 
 #qna-writebtn{
-    float: right;
     background-color: var(--blue) !important;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
-#qna-cansellbtn{
+#buttonSet{
     float: right;
+    margin: 10px;
+}
+
+.writeMain{
+    float: left;
+    padding-top: 5%;
+    padding-left: 6%;
+}
+
+.qna-view{
+    float: left;
+    padding-top: 5%;
+    padding-left: 6%;
+}
+
+
+.ck-content{
+    height: 500px !important;
+}
+
+.qnaDetail{
+    float: left;
+    padding-top: 5%;
+    padding-left: 6%;
 }
