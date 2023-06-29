@@ -1,10 +1,8 @@
 <template>
-    <div class = "d-flex">
-        <div class = "writeMain">
-            <CommCategory></CommCategory>
-        </div>
-        <div class="freeboard-write" id="freeboard-write">
-            <div class="justify-content-start text-start"  id="freeboard-detail-body">
+    <div>
+        <CommCategory></CommCategory>
+        <div class="container w-75 freeboard-detail-main" id="freeboard-detail-main">
+            <b-container class="justify-content-start text-start"  id="freeboard-detail-body">
                 <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                     {{ free.title }}
                 </h2>
@@ -21,8 +19,7 @@
                 </div>
                 <hr class="mt-10"/>
                 <div id="freeboard-detail-contents">
-                    <!-- {{ free.content }} -->
-                    <div v-html="free.content"></div>
+                    {{ free.content }}
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
@@ -47,9 +44,9 @@
                     </p>
                 </div>
                 <div>
-                    <div class="free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
+                    <div class="w-50 mb-5 free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
                         <h4>댓글을 작성하시오</h4>
-                        <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+                        <input class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
                     <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
                         <div class="d-flex mb-3 mt-4">
@@ -66,7 +63,8 @@
                         <hr/>
                     </div>
                 </div>
-            </div>
+            </b-container>
+            <br>
         </div>
     </div>
 </template>
@@ -114,12 +112,10 @@ export default{
 
 
     mounted() {
-        const nick =this.$store.getters.getNickname;
         this.userNickName =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
-        this.getUserId();
         this.path(num);
     },
 
@@ -128,21 +124,23 @@ export default{
 
     methods: {
 
-        getUserId(){
-            const nickname = this.$store.getters.getNickname;
+        getUserId(nickName){
+            const nowname = this.$store.getters.getNickname;
             this.$axiosSend('get', '/api/free/getUserId', {
-                userName: nickname
+                userName: nickName
             }).then(res => {
                 this.userlist = res.data;
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.userName = this.userlist[i].user_id;
                 }
-                
+                console.log('현제로그인', nowname);
+                console.log('글주인', nickName);
                 if(this.userNickName !== this.free.user_name){
                     
                     document.getElementById("freeboard-detail-editbtn").style.display="none";
                     document.getElementById("freeboard-detail-deletebtn").style.display="none";
                 }else{
+                    console.log('확인!');
                     document.getElementById("free-detail-replybtn").style.display="none";
                 }
 
@@ -161,6 +159,7 @@ export default{
             .then(response=>{
                 this.free = response.data;
                 this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
+                this.getUserId(this.free.user_name);
                 // const nickname = this.$store.getters.getNickname;
                 // this.free.user_name = nickname;
             })
