@@ -11,7 +11,7 @@
         <b-navbar-toggle target="header-collapse"></b-navbar-toggle>
         
         <b-collapse id="header-collapse" is-nav>
-            <b-navbar-nav id="nav1" class="me-auto">
+            <b-navbar-nav id="nav1" class="me-auto pt-4">
                 <b-nav-item v-if='categories.length' class="fs-5 fw-bold" @mouseenter="openDropdown" @mouseleave="closeDropdown"
                 :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
                 분야별 강의
@@ -19,13 +19,13 @@
                 <b-nav-item v-else class="fs-5 fw-bold">
                     분야별 강의
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold" to="/comm/qna">
+                <b-nav-item class="fs-5 fw-bold me-1" to="/comm/qna">
                     커뮤니티
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold" to="/review">
+                <b-nav-item class="fs-5 fw-bold me-1" to="/review">
                     수강후기
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold" to="/companyStudy">
+                <b-nav-item class="fs-5 fw-bold me-1" to="/companyStudy">
                     기업교육
                 </b-nav-item>
                 <b-nav-item class="fs-5 fw-bold" to="/membership">
@@ -319,5 +319,9 @@
 
     #bedu-header-search:focus{
         box-shadow: none !important;
+    }
+
+    .navbar-nav{
+        --bs-nav-link-hover-color: var(--blue) !important;
     }
 </style>

@@ -1,11 +1,11 @@
-package com.care.bedu.file.service.impl;
+package com.care.bedu.admin.fileManage.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.file.dao.FileUploadDao;
-import com.care.bedu.file.service.FileUploadService;
-import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.dao.FileUploadDao;
+import com.care.bedu.admin.fileManage.service.FileUploadService;
+import com.care.bedu.admin.fileManage.vo.FileUploadVO;
 import com.care.bedu.lecture.dao.LectureDAO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
@@ -28,7 +28,7 @@ import java.util.UUID;
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
     // 파일 업로드 위치
-    private String fileBaseDir = "C:/Desktop/";
+    private String fileBaseDir = "C:/Desktop/LECT/";
 
     @Autowired
     private FileUploadDao fileDao;

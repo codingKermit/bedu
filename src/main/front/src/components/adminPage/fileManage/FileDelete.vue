@@ -193,7 +193,7 @@ export default{
             })
             .then((result)=>{
                 if(!result.isDismissed){
-                    this.$axiosSend('get','/api/file/deleteFile',{num : this.form.lectDtlNum})
+                    this.$axiosSend('get','/api/admin/fileManage/deleteFile',{num : this.form.lectDtlNum})
                     .then(()=>{
                         this.$swal({
                             title : 'Success',
@@ -214,7 +214,7 @@ export default{
         },
         /** 모든 강의 목록을 조회하는 메서드 */
         getTotalLecture(){
-            this.$axiosSend('get','/api/file/getTotalLecture')
+            this.$axiosSend('get','/api/admin/fileManage/getTotalLecture')
             .then((res)=>{
                 this.totalLists = res.data.item;
                 this.lists = res.data.item;

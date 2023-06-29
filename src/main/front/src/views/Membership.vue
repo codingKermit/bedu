@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-container class="pt-5">
+        <b-container class="h-100 pt-5">
             <div class="row pt-5">
                 <div class="col">
                     <b-container class="border-4 border-dark border rounded-5 p-0 overflow-hidden"

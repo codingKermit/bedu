@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.file.dao.FileUploadDao">
+<mapper namespace="com.care.bedu.admin.fileManage.dao.FileUploadDao">
 
-    <insert id="upload" parameterType="com.care.bedu.file.vo.FileUploadVO">
+    <insert id="upload" parameterType="com.care.bedu.admin.fileManage.vo.FileUploadVO">
         CALL BEDU_LECT_DTL_PRO(
             #{lectDtlTime},
             #{lectDtlTitle},

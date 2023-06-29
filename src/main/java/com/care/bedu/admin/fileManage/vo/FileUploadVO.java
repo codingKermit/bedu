@@ -1,4 +1,4 @@
-package com.care.bedu.file.vo;
+package com.care.bedu.admin.fileManage.vo;
 
 import lombok.Getter;
 import lombok.Setter;

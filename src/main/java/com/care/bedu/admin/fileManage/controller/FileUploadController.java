@@ -1,4 +1,4 @@
-package com.care.bedu.file.controller;
+package com.care.bedu.admin.fileManage.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,23 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.care.bedu.file.service.FileUploadService;
-import com.care.bedu.file.vo.FileUploadVO;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.care.bedu.admin.fileManage.service.FileUploadService;
+import com.care.bedu.admin.fileManage.vo.FileUploadVO;
+
 
 @RestController
-@RequestMapping(value = "/api/file")
+@RequestMapping(value = "/api/admin/fileManage")
 public class FileUploadController {
     
-    @RequestMapping("/test")
-    public String test(){
-        return "this is test";
-    }
-
     @Autowired
     private FileUploadService service;
 

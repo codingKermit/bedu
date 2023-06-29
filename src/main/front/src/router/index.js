@@ -163,9 +163,14 @@ const routes = [
     }
     ,
     {
-        path: '/fileUpload',
-        name: 'fileUpload',
+        path: '/fileManage',
+        name: 'fileManage',
         component: () => import('../views/adminPage/fileManage.vue')
+    },
+    {
+        path: '/lectureManage',
+        name : 'lectureManage',
+        component:() => import('@/views/adminPage/LectureManage.vue')
     },
     {
         path: '/adminPage',

@@ -1,4 +1,4 @@
-package com.care.bedu.file.service;
+package com.care.bedu.admin.fileManage.service;
 
 
 import java.io.IOException;
@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.vo.FileUploadVO;
+
 
 public interface FileUploadService {
 

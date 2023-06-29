@@ -241,7 +241,7 @@ export default{
                 formData.append("userNum",this.$store.getters.getUsernum)
                 formData.append("lectDtlIndex", this.form.lectDtlIndex)
 
-                axios.post('/api/file/uploadFormAction',formData,{
+                axios.post('/api/admin/fileManage/uploadFormAction',formData,{
                     headers:{
                         "Content-Type" : "multipart/form-data"
                     }
@@ -309,7 +309,7 @@ export default{
             },
         /** 모든 강의 목록을 조회하는 메서드 */
         getTotalLecture(){
-            this.$axiosSend('get','/api/file/getTotalLecture')
+            this.$axiosSend('get','/api/admin/fileManage/getTotalLecture')
             .then((res)=>{
                 this.totalLists = res.data.item;
                 this.lists = res.data.item;

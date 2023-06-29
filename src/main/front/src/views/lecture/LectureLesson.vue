@@ -128,7 +128,7 @@
 import '@/assets/css/lectureStyle.css'
 
 /** 추후 FTP 서버 구축 후 변경 예정. 현재는 로컬에 저장 */
-const baseUrl = "http://172.30.1.85:8081/";
+const baseUrl = "http://172.30.1.85:8081/LECT/";
 
 export default{
     name : 'lectureLesson',

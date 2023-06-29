@@ -1,10 +1,10 @@
-package com.care.bedu.file.dao;
+package com.care.bedu.admin.fileManage.dao;
 
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.file.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.vo.FileUploadVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
 
