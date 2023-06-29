@@ -9,7 +9,7 @@
 			AGREE_TITLE AS title,
 			AGREE_CONTENT AS content 
         FROM T_BEDU_AGREE
-        WHERE AGREE_ID = #{id}
+        WHERE AGREE_NUM = #{id}
     </select>
 	
 </mapper>
