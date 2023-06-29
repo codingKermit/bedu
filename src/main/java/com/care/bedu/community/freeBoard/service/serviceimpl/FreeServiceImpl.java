@@ -3,22 +3,23 @@ package com.care.bedu.community.freeBoard.service.serviceimpl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.community.freeBoard.dao.FreeDAO;
+import com.care.bedu.community.freeBoard.dao.FreeLikeCntDAO;
 import com.care.bedu.community.freeBoard.service.FreeService;
 import com.care.bedu.community.freeBoard.vo.FreeVO;
-import com.care.bedu.user.dao.MemberDAO;
+import com.care.bedu.community.qna.vo.LikeCntVO;
 
 @Service
 public class FreeServiceImpl implements FreeService{
 	
-	@Autowired
-	private FreeDAO freeDAO;
+	@Autowired private FreeDAO freeDAO;
 	
-	@Autowired MemberDAO memberDAO;
+	@Autowired private FreeLikeCntDAO freelikeCntDAO; 
 	
 	@Override
 	public ArrayList<FreeVO> listProc(FreeVO freeVO) {					//게시글 조회
@@ -44,7 +45,7 @@ public class FreeServiceImpl implements FreeService{
 
 	@Override
 	public int boardwrite(FreeVO freeVO) {
-		freeVO.setReg_id(freeVO.getUser_name());
+//		freeVO.setReg_id(freeVO.getUser_name());
 		freeVO.setComm_cnt(0);
 		freeVO.setComm_like_yn(0);
 		return freeDAO.viewWrite(freeVO);
@@ -77,14 +78,65 @@ public class FreeServiceImpl implements FreeService{
 		return freeDAO.getTotal();
 	}
 
-	@Override
-	public int likeUp(int num) {					//게시글 좋아요증가
-		return freeDAO.likeUp(num);	
-	}
 
 	@Override
 	public ArrayList<FreeVO> getUserId(String userName) {
 		return freeDAO.getuserId(userName);
+	}
+
+	@Override
+	public HashMap<String, Object> likeUp(int commnum, String userName, String regId) throws Exception {
+		int number = freelikeCntDAO.getfreelikeName(commnum, userName);
+		Integer likeyn = freelikeCntDAO.getlikeFreenum(commnum, userName);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		if(number == 0) {
+			
+			LikeCntVO likeCntVO = new LikeCntVO();
+			likeCntVO.setUserName(userName);
+			likeCntVO.setCommBdNum(commnum);
+			likeCntVO.setRegId(regId);
+			
+			Integer result = freelikeCntDAO.likeCntFreeSave(likeCntVO);
+			
+			if(result == 1) {
+				Integer getnum = freeDAO.freelikeUp(commnum);
+				map.put("email", userName);
+				map.put("likenum", likeyn);
+				map.put("result", getnum);
+				map.put("likes", true);
+				
+				return map;
+			}else {
+		
+				map.put("likenum", likeyn);
+				map.put("result", result);
+				map.put("likes", true);
+				map.put("email", userName);
+				return map;
+			}
+		}else {
+			if(likeyn != null) {
+				
+				map.put("likenum", likeyn);
+			}
+			map.put("likes", true);
+			map.put("result", 0);
+			map.put("email", userName);
+			return map;
+		}
+	}
+
+	@Override
+	public int likeDown(int commnum, String userName, int likenum) {
+		
+		 int result = freelikeCntDAO.freelikedel(likenum, commnum);
+		 if(result == 1) {
+		   return freeDAO.freelikeDown(commnum);
+		 }else {
+			 return 0;
+		} 
 	}
 	
 	

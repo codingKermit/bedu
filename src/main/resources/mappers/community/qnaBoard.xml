@@ -124,8 +124,8 @@
 	
 	<select id="likeName" resultType="int">
 		SELECT
-		  COUNT(QS_LIKE_BD_NUM) 
-		FROM T_BEDU_LIKE_CNT_QS
+		  COUNT(LIKE_NUM) 
+		FROM T_BEDU_LIKE_CNT
 		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} 
 	</select>
 	

@@ -83,7 +83,7 @@ public class QnaServiceImpl implements QnaService{
 	}
 
 	@Override
-	public HashMap<String, Object> likeUp(int num, String userName) throws Exception{
+	public HashMap<String, Object> likeUp(int num, String userName, String regId) throws Exception{
 						//게시글 좋아요 1 증가
 		
 		int likeCnt = qnaDAO.likeName(num, userName);
@@ -93,12 +93,14 @@ public class QnaServiceImpl implements QnaService{
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(likeCnt == 0) {
+			System.out.println("아이디없음");
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
 			likeCntVO.setQsBdNum(num);
-			likeCntVO.setRegId(userName);
+			likeCntVO.setRegId(regId);
 			
 			Integer result = likeCntDAO.likeCntSave(likeCntVO);
+			System.out.println("세이브");
 			if(result == 1) {
 				
 				Integer getnum = qnaDAO.likeUp(num);

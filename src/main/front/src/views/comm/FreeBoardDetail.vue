@@ -78,6 +78,10 @@ export default{
             result : 0,
             replylist:[],
             userlist:[],
+            likenum:0,
+            username:'',
+            userNickName:'',
+            likeok:false,
             form: {
                 commNum:0,
                 replyNum: 0,
@@ -107,6 +111,7 @@ export default{
 
     mounted() {
         const nick =this.$store.getters.getNickname;
+        this.userNickName =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
@@ -238,6 +243,70 @@ export default{
             })
                 
         },
+
+
+        freelikedown(){
+                // console.log(this.form.userName);
+                // console.log(this.qna.qna_bd_num);
+            this.$axiosSend('get','/api/free/likeDown', {
+                    num : this.free.comm_num,
+                    userName : this.userNickName,
+                    likebdnum : this.likenum,
+            })
+            .then(res => {
+               
+                if(res.data === 1){
+                    this.free.comm_like_yn--;
+                    return;
+                }else if(res.data === 0){
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },
+
+        freelikeUp(cnum){
+
+            var regid = this.form.userName;
+
+            this.$axiosSend('get','/api/free/likeUp', {
+                    num: cnum,
+                    regId : regid,
+                    userName : this.userNickName
+            })
+            .then(res => {
+                
+                if(res.data.result === 1){                      //기존 아이디좋아요 없음
+
+                    this.likenum = res.data.likenum;
+                    this.likeok = res.data.likes;
+                    this.userNickName = res.data.email;
+                    
+                    this.free.comm_like_yn++;
+                    return;
+                }else if(res.data.result === 0){                //기존 아이디좋아요 있음
+
+                    this.likenum = res.data.likenum;
+                    this.likeok = res.data.likes;
+                    this.userNickName = res.data.email;
+                    
+                    if(this.likeok === true){
+                        
+                        this.freelikedown();
+                        return;
+                    }
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },                
+
+        
+
         freeBoardpath(){
             router.push({
                 name: 'freeBoard', 
@@ -284,19 +353,19 @@ export default{
             document.getElementById("qna-detail-recensell").style.display="none";
         },
 
-        freelikeUp(commnum){
-            this.$axiosSend('get','/api/freBd/likeUp', {
-                num: commnum,
-            })
-            .then(res => {
-                if(res.data === this.free.comm_num){
-                    this.free.comm_num++;
-                }    
-            })
-            .catch(error => {
-                alert(error);
-            })
-        },
+        // freelikeUp(commnum){
+        //     this.$axiosSend('get','/api/freBd/likeUp', {
+        //         num: commnum,
+        //     })
+        //     .then(res => {
+        //         if(res.data === this.free.comm_num){
+        //             this.free.comm_num++;
+        //         }    
+        //     })
+        //     .catch(error => {
+        //         alert(error);
+        //     })
+        // },
 
         path(commnum){
             this.result = commnum;

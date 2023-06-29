@@ -80,6 +80,7 @@
                 anslist:[],
                 likenum:0,
                 username:'',
+                userNickName:'',
                 userlist:[],
                 likeok:false,
                 form:{
@@ -102,6 +103,7 @@
 
         mounted() {
             const qnanum = this.$route.params.num;
+            this.userNickName =this.$store.getters.getNickname;
             this.qnaRead(qnanum);
             this.ansread(qnanum);
             this.getUserId();
@@ -204,8 +206,8 @@
                 // console.log(this.qna.qna_bd_num);
                 this.$axiosSend('get','/api/qna/likeDown', {
                         num : this.qna.qna_bd_num,
-                        userName : this.form.userName,
-                        likebdnum : this.likenum
+                        userName : this.userNickName,
+                        likebdnum : this.likenum,
                 })
                 .then(res => {
                     console.log('여기서값', res.data);
@@ -222,13 +224,15 @@
             },
 
             qnalikeUp(qnum){
-                var userid = this.form.userName;
+                var regid = this.form.userName;
 
                 console.log(qnum);
-                console.log('값', userid);
+                console.log('값', regid);
+                console.log('네', this.userNickName);
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,
-                        userName : userid,
+                        regId : regid,
+                        userName : this.userNickName
                 })
                 .then(res => {
                     console.log('값', res.data.result);
@@ -236,12 +240,12 @@
 
                         this.likenum = res.data.likenum;
                         this.likeok = res.data.likes;
-                        this.username = res.data.email;
+                        this.userNickName = res.data.email;
                         this.qna.qna_like_yn++;
                     }else if(res.data.result === 0){                //기존 아이디좋아요 있음
                         this.likenum = res.data.likenum;
                         this.likeok = res.data.likes;
-                        this.username = res.data.email;
+                        this.userNickName = res.data.email;
                         if(this.likeok === true){
                             console.log('실');
                             this.qnalikedown();
