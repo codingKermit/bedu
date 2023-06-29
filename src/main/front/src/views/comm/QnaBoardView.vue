@@ -16,6 +16,12 @@
                     </b-form>
                 </div>
             <div class="qna-main-1" id="qna-main-1">
+                <div id="qna-sort">
+                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highViews">조회수 순</option>
+                    </select>
+                </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
@@ -58,7 +64,7 @@
     
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
-    import router from '@/router';
+    
     import '@/assets/css/qnaStyle.css';
     export default {
 
