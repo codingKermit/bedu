@@ -20,9 +20,7 @@ public class FreeController {
 	
 	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
 	public ArrayList<FreeVO> freeList(FreeVO freeVO){
-		ArrayList<FreeVO> list = freeService.listProc(freeVO);
-		return list;
-		
+		return freeService.listProc(freeVO);
 	}
 	
 	@RequestMapping(value="/freBd/write", method=RequestMethod.POST)				//게시글 작성

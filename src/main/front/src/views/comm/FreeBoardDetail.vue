@@ -135,6 +135,12 @@ export default{
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.userName = this.userlist[i].user_id;
                 }
+                
+                if(this.userNickName !== this.free.user_name){
+                    
+                    document.getElementById("freeboard-detail-editbtn").style.display="none";
+                    document.getElementById("freeboard-detail-deletebtn").style.display="none";
+                }
 
             })
             .catch((error) => {

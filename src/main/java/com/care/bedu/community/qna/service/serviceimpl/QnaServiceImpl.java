@@ -93,25 +93,34 @@ public class QnaServiceImpl implements QnaService{
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(likeCnt == 0) {
-			System.out.println("아이디없음");
+			
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
 			likeCntVO.setQsBdNum(num);
 			likeCntVO.setRegId(regId);
 			
 			Integer result = likeCntDAO.likeCntSave(likeCntVO);
-			System.out.println("세이브");
+			
 			if(result == 1) {
 				
 				Integer getnum = qnaDAO.likeUp(num);
-				map.put("nums", getnum);
-				map.put("email", userName);
-				map.put("likenum", likeyn);
-				map.put("result", result);
-				map.put("likes", true);
-				return map;
+				
+				if(getnum == 1) {
+					
+					map.put("email", userName);
+					map.put("likenum", likeyn);
+					map.put("result", getnum);
+					map.put("likes", true);
+					return map;
+				}else {
+					map.put("email", userName);
+					map.put("likenum", likeyn);
+					map.put("result", getnum);
+					map.put("likes", true);
+					return map;
+				}
 			}else {
-				map.put("nums", 0);
+				
 				map.put("likenum", likeyn);
 				map.put("result", result);
 				map.put("likes", true);
@@ -141,7 +150,6 @@ public class QnaServiceImpl implements QnaService{
 		int result = likeCntDAO.likedel(likenum);
 		
 		if(result == 1) {
-			
 			return qnaDAO.likeDown(num);
 		}else {
 			return 0;

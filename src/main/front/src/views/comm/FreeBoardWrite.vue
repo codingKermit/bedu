@@ -28,6 +28,7 @@
                     user_name:'',
                     title:'',
                     content : '',
+                    reg_id:'',
                 },
 
                 userlist:[]
@@ -40,11 +41,11 @@
         },
 
         mounted() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
+            this.form.user_name =this.$store.getters.getNickname;
+            if(this.form.user_name === '' || this.form.user_name === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "freeBoard"
+                    name: "qnaBoard"
                 })
                 return;
             }
@@ -52,11 +53,11 @@
         },
 
         created() {
-            const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
+            this.form.user_name =this.$store.getters.getNickname;
+            if(this.form.user_name === '' || this.form.user_name === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "freeBoard"
+                    name: "qnaBoard"
                 })
                 return;
             }
@@ -71,7 +72,7 @@
                 }).then(res => {
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
-                        this.form.user_name = this.userlist[i].user_id;
+                        this.form.reg_id = this.userlist[i].user_id;
                     }
                 })
                 .catch((error) => {
@@ -105,6 +106,9 @@
                 }
 
                 var form = new FormData();
+                console.log('닉', this.form.userNick);
+                console.log('id', this.form.reg_id);
+                form.append("reg_id", this.form.reg_id);
                 form.append("user_name", this.form.user_name);
                 form.append("title", this.form.title);
                 form.append("content", this.form.content);

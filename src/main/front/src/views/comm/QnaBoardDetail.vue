@@ -139,6 +139,24 @@
                     for(var i=0; i< this.userlist.length; i++){
                         this.form.userName = this.userlist[i].user_id;
                     }
+                    
+                    if(this.userNickName !== this.qna.user_name){
+                        
+                        document.getElementById("qnaboard-detail-editbtn").style.display="none";
+                        document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                    }
+                })
+                .catch((error) => {
+                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
+                })
+
+                this.$axiosSend('get', '/api/qna/getUserId', {
+                    userName: nickname
+                }).then(res => {
+                    this.userlist = res.data;
+                    for(var i=0; i< this.userlist.length; i++){
+                        this.form.userName = this.userlist[i].user_id;
+                    }
                 })
                 .catch((error) => {
                     this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
