@@ -16,6 +16,12 @@
             </div>
          </div>
          <div class="freeboard-main-1">
+            <div id="free-sort">
+                    <select id="freeSortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highViews">조회수 순</option>
+                    </select>
+                </div>
             <table class="w3-table-all freeboard-table" id="freeboard-table">
             <thead>
                   <tr>
@@ -53,17 +59,25 @@ import CommCategory from '@/components/CommCategory.vue';
 import { InfiniteLoading } from 'infinite-loading-vue3-ts';
 import '@/assets/css/freeBoardStyle.css';
 export default {
+
     components:{ InfiniteLoading, CommCategory },
-    data() {
-       return {
-          freelist:[],
-          form: { keyword: ''},
-          freeOption: "recent",
-          totalItems : 0,
-          totalPage : 0,
-          currentPage : 1,
-       };
+
+   data() {
+      return {
+         sortOption: "default", // 정렬 옵션
+         freelist:[],
+         form: {
+             keyword: ''
+         },
+         freeOption: "recent",
+         totalItems : 0,
+         totalPage : 0,
+         currentPage : 1,
+      };
+
+
    },
+
    methods: {
       freesearch() {    
          if(this.form.keyword === null || this.form.keyword ===''){
@@ -75,10 +89,25 @@ export default {
          this.$axiosSend('post','/api/freBd/boardList', this.form)
             .then(res=>{
                this.freelist = res.data;
+               this.sortReviews();
             })
             .catch((err)=>{
                alert(err);
             })
+      },
+
+      sortReviews() {
+         if (this.sortOption === "default") {
+                // 최신 순으로 정렬
+            this.freelist.sort((a, b) => {
+            return new Date(b.comm_date) - new Date(a.comm_date);
+            });
+         } else if (this.sortOption === "highViews") {
+               // 조회수 순으로 정렬
+            this.freelist.sort((a, b) => {
+            return b.comm_cnt - a.comm_cnt;
+            });
+         }
       },
 
       infiniteHandler($state){ // 스크롤 이벤트 핸들러

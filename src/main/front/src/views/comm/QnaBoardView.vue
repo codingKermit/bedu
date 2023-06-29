@@ -103,12 +103,26 @@
                 })
                 .then(res => {
                     this.qnalist = res.data;
+                    this.sortReviews();
                 })
                 .catch(error => {
                     console.log(error);
                 });
             },
 
+            sortReviews() {
+                if (this.sortOption === "default") {
+                    // 최신 순으로 정렬
+                    this.qnalist.sort((a, b) => {
+                    return new Date(b.qna_date) - new Date(a.qna_date);
+                });
+                } else if (this.sortOption === "highViews") {
+                // 조회수 순으로 정렬
+                    this.qnalist.sort((a, b) => {
+                    return b.qna_cnt - a.qna_cnt;
+                });
+                }
+            },
 
             qnasearch() {
                 if(this.form.keyword === null || this.form.keyword ===''){
@@ -122,6 +136,7 @@
                 this.$axiosSend('post','/api/qna/qnaList', this.form)
                 .then(res => {
                     this.qnalist = res.data;
+                    this.sortReviews(); // 정렬 수행
                 })
                 .catch(error => {
                     alert(error);
