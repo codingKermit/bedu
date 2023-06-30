@@ -10,4 +10,5 @@ import com.care.bedu.community.ans.vo.AnsVO;
 public interface AnsDAO {
 	public ArrayList<AnsVO> viewList(AnsVO ansVO);
 	public int viewWrite(AnsVO ansVO);
+	public int ansTotal(int qnanum);
 }
