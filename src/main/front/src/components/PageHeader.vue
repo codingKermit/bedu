@@ -1,53 +1,70 @@
 <!-- PageHeader.vue -->
 <template>
-    <b-navbar class="w-100 d-flex" toggleable="lg">
-
-        <b-navbar-brand>
+    <b-navbar class="w-100 d-flex" toggleable="xxl">
+        
+        <b-navbar-toggle target="header-toggle"></b-navbar-toggle>
+        
+        <b-navbar-brand class="mx-auto">
             <router-link to="/">
                 <img id="bedu-logo" src="@/assets/imgs/Logo.png">
             </router-link>
         </b-navbar-brand>
 
-        <b-navbar-toggle target="header-collapse"></b-navbar-toggle>
+        <div class="offcanvas offcanvas-start d-xxl-none d-lg-block bedu-bg-custom-yellow" id="header-toggle" tabindex="-1">
+            <div class="offcanvas-header">
+                <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <b-nav vertical>
+                    <b-navbar-nav>
+                        <b-nav-item class="fs-4 fw-bold " v-if='categories.length' :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode' data-bs-dismiss="offcanvas">
+                            분야별 강의
+                        </b-nav-item>
+                        <b-nav-item to="/comm/qna" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">커뮤니티</b-nav-item>
+                        <b-nav-item to="/review" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">수강후기</b-nav-item>
+                        <b-nav-item to="/companyStudy" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">기업교육</b-nav-item>
+                        <b-nav-item to="/membership" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">멤버쉽 안내</b-nav-item>
+                    </b-navbar-nav>
+                </b-nav>
+            </div>
+        </div>
         
         <b-collapse id="header-collapse" is-nav>
             <b-navbar-nav id="nav1" class="me-auto pt-4">
-                <b-nav-item v-if='categories.length' class="fs-5 fw-bold" @mouseenter="openDropdown" @mouseleave="closeDropdown"
+                <b-nav-item v-if='categories.length' class="fs-6 fw-bold" @mouseenter="openDropdown" @mouseleave="closeDropdown"
                 :to='"/lectureCategories/"+categories[0].cateCode+"?cnt_mid_cate="+categories[0].children[0].cateCode'>
                 분야별 강의
                 </b-nav-item>
-                <b-nav-item v-else class="fs-5 fw-bold">
-                    분야별 강의
-                </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold me-1" to="/comm/qna">
+                <b-nav-item class="fs-6 fw-bold me-1" to="/comm/qna">
                     커뮤니티
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold me-1" to="/review">
+                <b-nav-item class="fs-6 fw-bold me-1" to="/review">
                     수강후기
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold me-1" to="/companyStudy">
+                <b-nav-item class="fs-6 fw-bold me-1" to="/companyStudy">
                     기업교육
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold" to="/membership">
+                <b-nav-item class="fs-6 fw-bold" to="/membership">
                     멤버쉽 안내
                 </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav id="nav2" class="ms-auto pt-4">
                 <div class="search-popup">
-                    <div style="width: 350px; height: 40px; margin-right: 100px;" class="border-3 rounded-pill d-flex align-middle text-center border-bedu">
+                    <div style="width: 250px; height: 30px; margin-right: 100px;" class="border-3 rounded-pill d-flex align-middle text-center border-bedu">
                         <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
                         <form @submit.prevent="lectSearch">
-                            <b-form-input style="width: 350px; height: 40px; margin-right: 70px;" class="border-0 me-2" v-model="keyword" id="bedu-header-search"></b-form-input>
+                            <b-form-input style="width: 250px; height: 30px; margin-right: 70px;" class="border-0 me-2" v-model="keyword" id="bedu-header-search"></b-form-input>
                         </form>
                     </div>
                 </div>
-                <b-nav-item to="/login" style="margin-left: 10px;" class="fs-5 fw-bold" v-if="!isLoggedIn">
+                <b-nav-item to="/login" style="margin-left: 10px;" class="fs-6 fw-bold" v-if="!isLoggedIn">
                     로그인
                 </b-nav-item>
                 <!-- 사용자 드롭다운 메뉴 -->
-                <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
+                <b-nav-item  v-if="isLoggedIn" class="dropdown fs-6" @click="openDropdown" @mouseleave="closeDropdown">
                     <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
-                        <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
+                        <span class="fs-6 fw-bold px-2 py-0">{{ getNickname }}</span>
                     </button>
                     <span style="font-weight: bold;">님</span>
                     <ul class="dropdown-menu" v-show="isDropdownOpen">
@@ -63,10 +80,10 @@
                         </b-dropdown-item>
                     </ul>
                 </b-nav-item>
-                <b-nav-item id="headerLogout" v-if="isLoggedIn" @click="logout" class="fs-5 fw-bold">
+                <b-nav-item id="headerLogout" v-if="isLoggedIn" @click="logout" class="fs-6 fw-bold">
                     로그아웃
                 </b-nav-item>
-                <b-nav-item class="fs-5 fw-bold" v-if="!isLoggedIn" to="/regist">
+                <b-nav-item class="fs-6 fw-bold" v-if="!isLoggedIn" to="/regist">
                     회원가입
                 </b-nav-item>
             </b-navbar-nav>
@@ -330,7 +347,8 @@
         box-shadow: none !important;
     }
 
-    .navbar-nav{
+    .nav-item{
         --bs-nav-link-hover-color: var(--blue) !important;
     }
+
 </style>

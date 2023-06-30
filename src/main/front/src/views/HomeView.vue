@@ -1,6 +1,6 @@
 <template>
     <div class="lecture py-5">
-        <img src="@/assets/imgs/character/im.png" class="character d-none d-lg-block">
+        <img src="@/assets/imgs/character/im.png" class="character d-none d-xxl-block">
         <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
         <p class="fs-5 fw-light fw-bold text-center bedu-text-custom-blue">What's wanna be?</p>
         <!-- <b-form class="w-50 w-md-75 mx-auto" @submit="lectSearch">
@@ -32,7 +32,7 @@
                             <b-container class="border rounded-4 lecture_item h-100 mb-3">
                                 <div class="ps-2 h-100">
                                     <div class="lect-upper-side">
-                                        <p class="fs-5 pt-3">{{ item.title }}</p>
+                                        <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>
                                         <p class="text-secondary ">{{ item.lectSum }}</p>
                                         <p>{{ item.teacher }} 선생님</p>
                                     </div>
