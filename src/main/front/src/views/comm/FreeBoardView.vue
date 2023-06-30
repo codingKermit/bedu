@@ -19,11 +19,11 @@
             </div>
             <div class="freeboard-main-1">
                <div id="qna-sort">
-                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                     <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
                         <option value="highViews">조회수 순</option>
-                    </select>
-                </div>
+                     </select>
+                  </div>
                <table class="w3-table-all freeboard-table" id="freeboard-table">
                <thead>
                      <tr>
