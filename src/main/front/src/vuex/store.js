@@ -12,8 +12,6 @@ const isLoggedIn = () => {
 export default createStore({
     // Vuex 스토어 설정
     state: {
-        // 사용자 정보
-        user: null,
         // 로그인 여부
         isLogin: isLoggedIn(),
         // 닉네임

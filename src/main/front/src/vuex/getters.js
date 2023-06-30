@@ -17,12 +17,4 @@ export default {
     // state에서 인증 상태 값을 가져오는 getter
     getIsAuth: state => state.isAuth,
 
-    // 사용자가 로그인되어 있는지 여부를 반환하는 getter
-    loggedIn(state) {
-        // state에서 user 값이 존재하는지 확인하여 로그인 여부를 반환
-        return !!state.user
-    },
-
-    // 로그인 중인지 여부를 반환하는 getter
-    isLogin: state => state.isLogin,
 }
