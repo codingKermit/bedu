@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.user.dao.MemberMypageDAO;
 import com.care.bedu.user.service.MemberMypageService;
 import com.care.bedu.user.vo.MemberMypageVO;
-import com.care.bedu.user.vo.MemberVO;
+
 
 import jakarta.transaction.Transactional;
 
@@ -24,6 +24,8 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     	this.memberMypageDao = memberMypageDao;
     }
     @Transactional
+    
+    /* 마이페이지 홈(유저아이디 받아오기) */
     @Override
     public List<MemberMypageVO> getMemberMypage(String userid) {
     	return memberMypageDao.getMemberMypage(userid);
