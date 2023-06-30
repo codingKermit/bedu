@@ -143,13 +143,10 @@
                     for(var i=0; i< this.userlist.length; i++){
                         this.form.userName = this.userlist[i].user_id;
                     }
-                    console.log('현제로그인', nowname);
-                    console.log('글주인', nickname);
+                    
                     if(nowname !== nickname){
                         document.getElementById("qnaboard-detail-editbtn").style.display="none";
                         document.getElementById("qnaboard-detail-deletebtn").style.display="none";
-                    }else{
-                        document.getElementById("qnaboard-detail-replybtn").style.display="none";
                     }
                 })
                 .catch((error) => {
@@ -200,6 +197,7 @@
                 })
             },
 
+            //게시글 삭제
             qnadelete(qnanum) {
                 this.$axiosSend('get','/api/qna/qnaDelete', {
                         num: qnanum,
@@ -216,7 +214,8 @@
                     alert(error);
                 })
             },
-            qnaeditPath(){
+
+            qnaeditPath(){              //수정페이지로 이동 (질문글번호)
                 router.push({
                     name: 'qnaBoardedit', 
                         num :this.qna.qna_bd_num,

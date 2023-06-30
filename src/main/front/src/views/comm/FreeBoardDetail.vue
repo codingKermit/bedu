@@ -137,9 +137,6 @@ export default{
                     
                 document.getElementById("freeboard-detail-editbtn").style.display="none";
                 document.getElementById("freeboard-detail-deletebtn").style.display="none";
-            }else{
-                console.log('확인!');
-                document.getElementById("free-detail-replybtn").style.display="none";
             }
         },
 
@@ -305,14 +302,13 @@ export default{
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
                     this.likeok = res.data.likes;               
-                    // this.userNickName = res.data.email;
+                    
                     this.free.comm_like_yn++;
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 
                     this.likenum = res.data.likenum;
                     this.likeok = res.data.likes;
-                    this.userNickName = res.data.email;
 
                     if(this.likeok === true){
                         
