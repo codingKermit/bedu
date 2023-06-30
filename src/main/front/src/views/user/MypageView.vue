@@ -45,24 +45,22 @@
             <a style="cursor:pointer; text-align: right;">전체보기</a>
             </div>
             <!--<div class="bg-light text-white">-->
-            <ul class="list-unstyled "> 
-                <li v-for="(item,index) in lists" :key="index" class="mb-3 fs-5">
+            
                 <b-container class="w-100 ms-auto py-5">
                   <b-container class="border rounded-3 py-3 mb-2">
                         <p class="fw-bold">프로그래밍 배워봅시다</p>
                         <p>
-                            <span>강좌이름 : </span> {{ item.lecttitle }}
+                            <span>강좌이름 : </span> {{ lecttitle }}
                         </p>
                         <p>
-                            <span>강의설명 : </span> {{ item.lectdesc }}
+                            <span>강의설명 : </span> {{ lectdesc }}
                         </p>
                         <p>
-                            <span>수강기간 : </span> {{ item.lectperiod }}
+                            <span>수강기간 : </span> {{ lectperiod }}
                         </p>
                     </b-container>
                 </b-container>
-                </li>
-            </ul>
+              
               
            <!-- </div>-->
         </b-container>
