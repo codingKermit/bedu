@@ -44,7 +44,7 @@ let processResponse = (store, loginResponse) => {
             break
         default:
             decodedToken = jwt_decode(loginResponse.data.user_token);
-            // 토큰을 해독하여 사용자 번호, 닉네임, 이메일, 클라스를 설정
+            // 토큰을 해독하여 사용자 번호, 닉네임, 이메일, 클라스를 store에 저장
             setUsernum(store, decodedToken.usernum)
             setNickname(store, decodedToken.nickname)
             setEmail(store, decodedToken.email)
