@@ -34,8 +34,13 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
-		replyVO.setRegId(replyVO.getUserName());
 		return replyDAO.viewWrite(replyVO);
+	}
+
+	@Override
+	public int replyTotal(int num) {
+		// TODO Auto-generated method stub
+		return replyDAO.replyTotal(num);
 	}
 
 }

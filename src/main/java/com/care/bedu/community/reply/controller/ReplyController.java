@@ -25,11 +25,18 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				//게시글 작성
-	public int replyWrite(int commNum, String userName, String content){
+	public int replyWrite(int commNum, String userName, String content, String regId){
+		
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setCommNum(commNum);
-		replyVO.setUserName(userName);
+		replyVO.setUserName(regId);
 		replyVO.setContent(content);
+		replyVO.setRegId(regId);
 		return replyService.boardwrite(replyVO);
+	}
+	
+	@RequestMapping(value="/reply/replyTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int replyTotal(int num){
+	 	return replyService.replyTotal(num);
 	}
 }

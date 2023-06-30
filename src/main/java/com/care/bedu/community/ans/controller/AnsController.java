@@ -30,7 +30,13 @@ public class AnsController {
 		ansVO.setQsBdNum(qsBdNum);
 		ansVO.setUserName(userName);
 		ansVO.setContent(content);
+		ansVO.setRegId(userName);
 		return ansService.boardwrite(ansVO);
+	}
+	
+	@RequestMapping(value="/ans/ansTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int ansTotal(int qnaNum){
+	 	return ansService.ansTotal(qnaNum);
 	}
 
 }
