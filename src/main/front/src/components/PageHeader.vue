@@ -32,7 +32,7 @@
                     멤버쉽 안내
                 </b-nav-item>
             </b-navbar-nav>
-            <b-navbar-nav id="nav2" class="ms-auto">
+            <b-navbar-nav id="nav2" class="ms-auto pt-4">
                 <div class="search-popup">
                     <div style="width: 350px; height: 40px; margin-right: 100px;" class="border-3 rounded-pill d-flex align-middle text-center border-bedu">
                         <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']" />
@@ -46,8 +46,8 @@
                 </b-nav-item>
                 <!-- 사용자 드롭다운 메뉴 -->
                 <b-nav-item  v-if="isLoggedIn" class="dropdown fs-5" @click="openDropdown" @mouseleave="closeDropdown">
-                    <button id="nicknameToggle" class="dropdown-toggle no-arrow" type="button">
-                        <span class="fs-5" style="font-weight: 600;">{{ getNickname }}</span>
+                    <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
+                        <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                     </button>
                     <span style="font-weight: bold;">님</span>
                     <ul class="dropdown-menu" v-show="isDropdownOpen">
@@ -155,7 +155,8 @@
             closeDropdown() {
                 this.isDropdownOpen = false;
             },
-            getCategory() { /** 카테고리 조회 */
+            /** 카테고리 조회 */
+            getCategory() { 
                 let cateData = [];
                 this.$axiosSend('get', '/api/lect/getCategory')
                 .then((res) => {

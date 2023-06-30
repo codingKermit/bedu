@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.bedu.admin.lectureManage.service.impl.LectureManageServiceImpl;
@@ -23,9 +24,16 @@ public class LectureManageController {
     LectureManageServiceImpl lectManageService;
 
     @RequestMapping("/lectInsert")
-    public ResponseEntity<String> lectInsert(){
+    public ResponseEntity<String> lectInsert(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException{
 
-        return ResponseEntity.ok().build();
+        int result = lectManageService.lectInsert(req, res);
+
+        if(result == 1){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     @RequestMapping("/ImageUpload")

@@ -1,6 +1,7 @@
 package com.care.bedu.lecture.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,23 @@ public class LectureCategoryServiceImpl implements LectureCategoryService{
         ArrayList<LectureCategoriesVO> list = new ArrayList<>();
         list = dao.getCategories();
         return list;
+    }
+
+    @Override
+    public HashMap<String, Object> getCategoryForLevel() {
+        HashMap<String, Object> map = new HashMap<>();
+
+        ArrayList<LectureCategoriesVO> top = new ArrayList<>();
+        ArrayList<LectureCategoriesVO> mid = new ArrayList<>();
+        ArrayList<LectureCategoriesVO> bot = new ArrayList<>();
+        
+        top = dao.getTopLevel();
+        mid = dao.getMidLevel();
+        bot = dao.getBotLevel();
+
+        map.put("top", top); map.put("mid", mid); map.put("bot", bot);
+
+        return map;
     }
 
 }

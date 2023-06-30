@@ -1,30 +1,45 @@
 <template>
     <div>
+        <b-form @submit.prevent="lectureInsert" ref="lectForm">
         <div class="row">
             <div class="col">
                 <b-form-group
                 description="대분류를 선택해주세요"
                 label="대분류">
-                    <b-form-select v-model="topCate"></b-form-select>
+                    <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
+                        <template #first>
+                            <b-form-select-option disabled selected>대분류</b-form-select-option>
+                        </template>
+                        <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                    </b-form-select>
                 </b-form-group>
             </div>
             <div class="col">
                 <b-form-group
                 description="중분류를 선택해주세요"
                 label="중분류">
-                    <b-form-select v-model="midCate"></b-form-select>
+                    <b-form-select v-model="currentMid" required>
+                        <template #first>
+                            <b-form-select-option disabled>중분류</b-form-select-option>
+                        </template>
+                            <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                    </b-form-select>
                 </b-form-group>
             </div>
             <div class="col">
                 <b-form-group
                 description="소분류를 선택해주세요"
                 label="소분류">
-                    <b-form-select v-model="botCate"></b-form-select>
+                    <b-form-select v-model="currentBot" required>
+                        <template #first>
+                            <b-form-select-option disabled>소분류</b-form-select-option>
+                        </template>
+                            <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                    </b-form-select>
                 </b-form-group>
             </div>
         </div>
         <div>
-            <b-form @submit.prevent="lectureInsert">
                 <div class="d-flex">
                     <b-form-group
                     description="제목을 입력해주세요"
@@ -32,7 +47,7 @@
                     label-for="lect-manage-title"
                     class="w-50 me-3"
                     >
-                        <b-form-input id="lect-manage-title" v-model="form.title"></b-form-input>
+                        <b-form-input id="lect-manage-title" v-model="form.title" required></b-form-input>
                     </b-form-group>
                     <b-form-group
                     description="강사의 이름을 입력해주세요"
@@ -40,14 +55,14 @@
                     class="w-25 me-3"
                     label-for="lect-manage-teacher"
                     >
-                        <b-form-input id="lect-manage-teacher"  v-model="form.teacher"></b-form-input>
+                        <b-form-input id="lect-manage-teacher"  v-model="form.teacher" required></b-form-input>
                     </b-form-group>
                     <b-form-group
                     description="가격을 입력해주세요"
                     label="가격"
                     label-for="lect-manage-price"
                     >
-                        <b-form-input id="lect-manage-price"  v-model="form.price"></b-form-input>
+                        <b-form-input id="lect-manage-price" type="number" v-model="form.price" required ref="price"></b-form-input>
                     </b-form-group>
                 </div>
                 <div class="d-flex">
@@ -57,18 +72,32 @@
                     label-for="lect-manage-thumbnail"
                     class="w-50 me-3"
                     >
-                        <input id="lect-manage-thumbnail" type="file" class="form-control"/>
+                        <input id="lect-manage-thumbnail" type="file" class="form-control" required @change="fileChange"/>
                     </b-form-group>
                     <b-form-group
                     description="수강 기간을 입력해주세요"
                     label="수강 기간"
                     label-for="lect-manage-period"
                     >
-                        <b-form-input id="lect-manage-period"></b-form-input>
+                        <b-form-input type="number" id="lect-manage-period" v-model="form.period" required ref="period"></b-form-input>
+                    </b-form-group>
+                </div>
+                <div>
+                    <b-form-group
+                    description="강의 요약 설명을 입력해주세요"
+                    label="강의 요약"
+                    >
+                        <b-form-textarea
+                        v-model="form.summary"
+                        max-rows="5"
+                        rows="3"
+                        no-resize
+                        required
+                        ></b-form-textarea>
                     </b-form-group>
                 </div>
                 <div class="mb-3">
-                    <CkEditorComponentVue :urlProps="urlPath" ></CkEditorComponentVue>
+                    <ckeditor :editor="editor" :config="editorConfig" v-model="form.contents" ref="contents"></ckeditor>
                 </div>
                 <div class="d-flex">
                     <div class="ms-auto">
@@ -76,49 +105,146 @@
                         <b-button class="px-5 py-2">취소</b-button>
                     </div>
                 </div>
-            </b-form>
-        </div>
+            </div>
+        </b-form>
     </div>
 </template>
 
 <script>
-import CkEditorComponentVue from '../../CkEditorComponent.vue';
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import axios from 'axios'
 
 export default{
     name : 'lectInsert',
-    components:{CkEditorComponentVue},
     data() {
         return {
             form : {
                 title : '',
                 teacher : '',
                 price : '',
-                thumbnail : '',
+                thumbnail : null,
                 period : '',
                 contents : '',
+                summary : '',
             },
-            urlPath : '/api/admin/lectManage/ImageUpload',
-            topCateCode : '',
-            topCateKor : '',
-            midCateCode : '',
-            midCateKor : '',
-            botCateCode : '',
-            botCateKor : ''
+            topCate : [],
+            midCate : [],
+            botCate : [],
+            currentTop : '',
+            currentMid : '',
+            currentBot : '',
+            editor : Editor,
+            editorConfig : {
+                // The configuration of the editor.
+                simpleUpload: {
+                    // 업로드 URL
+                    uploadUrl: '/api/admin/lectManage/ImageUpload',
+                    method : 'POST'
+                },
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            },
         }
     },
     methods: {
         /** 강의 저장 */
         lectureInsert(){
+            // 데이터 무결성 검사
+            if( this.form.price <= 0){
+                this.$swal({
+                    icon : 'info',
+                    text : '가격은 0원 이하가 될 수 없습니다'
+                })
+                .then(()=>{
+                    this.$refs.price.focus()
+                })
+                return;
+            }
 
+            if(this.form.period <= 0){
+                this.$swal({
+                    icon : 'info',
+                    text : '수강 기간은 0일 이하가 될 수 없습니다'
+                })
+                .then(()=>{
+                    this.$refs.period.focus()
+                })
+                return;
+            }
+            if(this.form.contents == '' || this.form.contents == null){
+                this.$swal({
+                    icon : 'info',
+                    text : '강의 설명을 입력해주세요'
+                })
+                .then(()=>{
+                    this.$refs.contents.focus()
+                })
+                return;
+            }
+            // 데이터 무결성 검사 종료
+
+            const formData = new FormData();
+            formData.append("title",this.form.title);
+            formData.append("teacher",this.form.teacher);
+            formData.append("price",this.form.price);
+            formData.append("period",this.form.period);
+            formData.append("summary",this.form.summary);
+            formData.append("contents",this.form.contents);
+            formData.append("thumbnail",this.form.thumbnail);
+
+            formData.append("cateCode",this.currentBot);
+            formData.append("regNum",this.$store.getters.getUsernum);
+
+            axios.post('/api/admin/lectManage/lectInsert',formData,{
+                headers:{
+                        "Content-Type" : "multipart/form-data"
+                }
+            })
+            .then(()=>{
+                this.form.contents = null;
+                this.form.period = null;
+                this.form.price = null;
+                this.form.summary = null;
+                this.form.teacher = null;
+                this.form.thumbnail = null;
+                this.form.title = null;
+                this.currentTop = null;
+                this.currentMid = null;
+                this.currentBot = null;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         },
+
         /** 카테고리 조회 */
         getCategories(){
-            
+            this.$axiosSend('get','/api/lect/getCategoryForLevel')
+            .then((res)=>{
+                this.topCate = res.data.top;
+                this.midCate = res.data.mid;
+                this.botCate = res.data.bot;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+
+        /** 파일 업로드시 변경 */
+        fileChange(e){
+           this.form.thumbnail = e.target.files[0]
         }
     },
     computed:{
 
-    }
+    },
+    created() {
+        this.getCategories();
+    },
+    mounted() {
+        
+    },
 }
 
 </script>

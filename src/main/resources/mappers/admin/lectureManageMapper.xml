@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.bedu.admin.lectureManage.dao.LectureManageDao">
+
+    <insert id="lectInsert" parameterType="com.care.bedu.lecture.vo.LectureVO">
+        INSERT INTO
+            BEDU.T_BEDU_LECT(
+                LECT_NUM,
+                TITLE,
+                TEACHER,
+                LECT_DESC,
+                THUMBNAIL,
+                LECT_SUMMARY,
+                LECT_PERIOD,
+                PRICE,
+                CATE_CODE,
+                REG_DATE,
+                REG_NUM
+            )
+        VALUES(
+            BEDU_LECT_SEQ.NEXTVAL,
+            #{title},
+            #{teacher},
+            #{lectDesc},
+            #{thumbnail},
+            #{lectSum},
+            #{lectPeriod},
+            #{price},
+            #{category},
+            SYSDATE,
+            #{regNum}
+        )
+    </insert>
+
+</mapper>

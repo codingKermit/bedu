@@ -8,7 +8,7 @@
             <!-- 썸네일, 강의정보 컨테이너-->
             <div class="d-flex mb-4">
                 <!-- 썸네일 컨테이너 -->
-                <div class="w-50 me-5">
+                <div class="w-50 me-5 ratio ratio-16x9">
                     <b-img class="w-100" thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
                 </div>
                 <!-- 강의 정보 컨테이너 시작 -->

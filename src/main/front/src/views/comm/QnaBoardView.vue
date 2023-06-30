@@ -1,7 +1,7 @@
 <template>
     <div class = "d-flex">
     <div class="qna-view" id="qna-view">
-        <CommCategory></CommCategory>
+        <CommCategory :currentTab="'qna'"></CommCategory>
     </div> 
         <div id="qna-main">
             <h2>질문 & 답변</h2>

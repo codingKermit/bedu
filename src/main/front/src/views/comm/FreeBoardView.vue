@@ -1,7 +1,7 @@
 <template>
    <div class = "d-flex">
       <div class="freeboard-view" id="freeboard-view">
-         <CommCategory></CommCategory>
+         <CommCategory :currentTab="'free'"></CommCategory>
       </div> 
          <div class="freeboard-main" id="freeboard-main">
             <div id="freeboard-box">
