@@ -104,14 +104,12 @@ public class FreeServiceImpl implements FreeService{
 				Integer getnum = freeDAO.freelikeUp(commnum);
 				map.put("likenum", likeyn);
 				map.put("result", getnum);
-				map.put("likes", true);
 				
 				return map;
 			}else {
 		
 				map.put("likenum", likeyn);
 				map.put("result", result);
-				map.put("likes", true);
 				return map;
 			}
 		}else {
@@ -119,7 +117,7 @@ public class FreeServiceImpl implements FreeService{
 				
 				map.put("likenum", likeyn);
 			}
-			map.put("likes", true);
+			
 			map.put("result", 0);
 	
 			return map;

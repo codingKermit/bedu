@@ -3,22 +3,19 @@
 
 <mapper namespace="com.care.bedu.user.dao.MemberMypageDAO">
 
+	
+	
 	<select id="getMemberMypage" resultType="int" parameterType="com.care.bedu.user.vo.MemberVO">
-		SELECT
-		    A.USER_NUM,
-		    A.USER_ID,
-		    (SELECT COUNT(LECT_NUM) FROM  T_BEDU_LECT C WHERE C.LECT_NUM = B.LECT_NUM) AS pageList
-		FROM (
-		SELECT
-		    USER_NUM,
-		    USER_ID,
-		   (SELECT COUNT(LECT_NUM) FROM  T_BEDU_LECT WHERE LECT_NUM = LECT_NUM) AS pageList
-		FROM 
-		    T_BEDU_USER  WHERE USER_ID = #{email} ) A
-		LEFT JOIN T_BEDU_USER_LECT B ON A.USER_ID = B.USER_ID
-		LEFT JOIN T_BEDU_LECT C ON C.LECT_NUM = B.LECT_NUM
-		ORDER BY B.USER_LECT_NUM DESC
+		SELECT 
+			A.TITLE,
+			A.LECT_DESC,
+			A.LECT_PERIOD
+        FROM T_BEDU_LECT A
+		LEFT JOIN T_BEDU_USER_LECT B 
+			ON A.LECT_NUM = B.USER_LECT_NUM
+		LEFT JOIN T_BEDU_USER C 
+			ON B.USER_NAME = C.USER_ID
+		WHERE C.USER_ID = #{email}
+        ORDER BY B.USER_LECT_NUM DESC
 	</select>
-	
-	
 </mapper>

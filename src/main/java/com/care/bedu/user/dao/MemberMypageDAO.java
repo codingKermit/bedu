@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.care.bedu.user.vo.MemberMypageVO;
-import com.care.bedu.user.vo.MemberVO;
+
 
 @Mapper
 public interface MemberMypageDAO {
-
-	List<MemberMypageVO> getMemberMypage(String userid);
-    
+	
+	/* 마이페이지 홈(유저아이디 받아오기) */
+	public List<MemberMypageVO> getMemberMypage(String userid);
 }

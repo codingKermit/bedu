@@ -34,4 +34,9 @@ public class ReplyController {
 		replyVO.setRegId(regId);
 		return replyService.boardwrite(replyVO);
 	}
+	
+	@RequestMapping(value="/reply/replyTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int replyTotal(int num){
+	 	return replyService.replyTotal(num);
+	}
 }

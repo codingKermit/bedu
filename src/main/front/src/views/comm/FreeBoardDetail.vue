@@ -26,7 +26,7 @@
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
-                        <font-awesome-icon :icon="['fas', 'heart']" shake />
+                        <font-awesome-icon :icon="['fas', 'heart']"/>
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.comm_like_yn }}
                             </text>
@@ -43,7 +43,7 @@
                 <div>
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" />
-                        ?개의 댓글이 있습니다.
+                        {{replytotal}}개의 댓글이 있습니다.
                     </p>
                 </div>
                 <div>
@@ -83,6 +83,7 @@ export default{
             replylist:[],
             userlist:[],
             likenum:0,
+            replytotal:0,
             username:'',
             userNickName:'',
             likeok:false,
@@ -116,11 +117,12 @@ export default{
 
     mounted() {
         this.userNickName =this.$store.getters.getNickname;
-        const num = this.$route.params.num;
-        this.freeRead(num);
+        const cnum = this.$route.params.num;
+        this.freeRead(cnum);
         this.nickNamegetId();
-        this.replyread(num);
-        this.path(num);
+        this.replygetTotal(cnum);
+        this.replyread(cnum);
+        this.path(cnum);
     },
 
     created() {
@@ -131,8 +133,7 @@ export default{
 
         getUserId(nickName){
                                            //자유게시판 글번호를 통해 조회해온 게시글에해당하는 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
-            console.log('현제로그인', this.userNickName);
-            console.log('글주인', nickName);
+            
             if(this.userNickName !== nickName){
                     
                 document.getElementById("freeboard-detail-editbtn").style.display="none";
@@ -149,10 +150,20 @@ export default{
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.regId = this.userlist[i].user_id;
                 }
-                console.log('아이디:', this.form.regId);
             })
             .catch((error) => {
                 console.log(error);
+            })
+        },
+
+        replygetTotal(cnum){
+            console.log('총합글:',cnum);
+            this.$axiosSend('get','/api/reply/replyTotal', {
+                num: cnum,
+            })
+            .then(res => {
+                console.log(res.data);
+                this.replytotal = res.data;
             })
         },
 
@@ -242,6 +253,7 @@ export default{
                         this.$swal('Success','작성완료!','success'),
                         this.censells();
                         this.replyread(commNum);
+                        this.replygetTotal(commNum);
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }
@@ -297,24 +309,19 @@ export default{
                     userName : this.userNickName
             })
             .then(res => {
-                console.log('값:',res.data.result);
+                
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
-                    this.likeok = res.data.likes;               
+                                  
                     
                     this.free.comm_like_yn++;
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 
                     this.likenum = res.data.likenum;
-                    this.likeok = res.data.likes;
 
-                    if(this.likeok === true){
-                        
-                        this.freelikedown();
-                        return;
-                    }
+                    this.freelikedown();
                     return;
                 }    
             })

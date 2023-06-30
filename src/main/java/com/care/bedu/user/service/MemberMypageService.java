@@ -2,11 +2,12 @@ package com.care.bedu.user.service;
 
 import java.util.List;
 
+
 import com.care.bedu.user.vo.MemberMypageVO;
-import com.care.bedu.user.vo.MemberVO;
+
 
 public interface MemberMypageService {
-
-	List<MemberMypageVO> getMemberMypage(String userid);
-    
+	
+	/* 마이페이지 홈(유저아이디 받아오기) */
+	public List<MemberMypageVO> getMemberMypage(String userid);
 }

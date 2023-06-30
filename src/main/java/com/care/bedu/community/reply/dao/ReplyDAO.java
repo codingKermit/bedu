@@ -10,4 +10,5 @@ import com.care.bedu.community.reply.vo.ReplyVO;
 public interface ReplyDAO {
 	public ArrayList<ReplyVO> viewList(ReplyVO replyVO);
 	public int viewWrite(ReplyVO replyVO);
+	public int replyTotal(int num);
 }
