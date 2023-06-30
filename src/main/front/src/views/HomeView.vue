@@ -1,6 +1,6 @@
 <template>
     <div class="lecture py-5">
-        <img src="@/assets/imgs/character/im.png" class="character">
+        <img src="@/assets/imgs/character/im.png" class="character d-none d-lg-block">
         <p class="fw-bold fs-1 text-center">어떤 강의를 찾고 있나요?</p>
         <p class="fs-5 fw-light fw-bold text-center bedu-text-custom-blue">What's wanna be?</p>
         <!-- <b-form class="w-50 w-md-75 mx-auto" @submit="lectSearch">
@@ -24,22 +24,26 @@
         <b-container class="mb-5 py-3">
             <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>
             <div>
-                <b-row class="justify-content-center d-block d-md-flex">
-                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-1">
+                <b-row class="justify-content-center d-block d-lg-flex">
+                    <b-col v-for="(item, index) in newestLectures" :key="index">
                         <b-link
-                            class="text-decoration-none text-body"
+                            class="text-decoration-none text-body h-100 d-block"
                             :to='"/lectureDetail?num="+item.lectNum'>
-                            <b-container class="border rounded-4 lecture_item">
-                                <div class="ps-2">
-                                    <p class="fs-5 pt-3">{{ item.title }}</p>
-                                    <p class="text-secondary">{{ item.lectSum }}</p>
-                                    <p>{{ item.teacher }} 선생님</p>
-                                    <hr>
-                                    <p>총 {{ item.total }}강</p>
-                                    <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
-                                    <div class="text-end mb-3">
-                                        <span class="fw-bold">{{ item.price }}</span>
-                                        원
+                            <b-container class="border rounded-4 lecture_item h-100 mb-3">
+                                <div class="ps-2 h-100">
+                                    <div class="lect-upper-side">
+                                        <p class="fs-5 pt-3">{{ item.title }}</p>
+                                        <p class="text-secondary ">{{ item.lectSum }}</p>
+                                        <p>{{ item.teacher }} 선생님</p>
+                                    </div>
+                                    <div class="lect-lower-side">
+                                        <hr>
+                                        <p>총 {{ item.total }}강</p>
+                                        <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
+                                        <div class="text-end mb-3">
+                                            <span class="fw-bold">{{ item.price }}</span>
+                                            원
+                                        </div>
                                     </div>
                                 </div>
                             </b-container>
@@ -174,6 +178,14 @@
 
     #bedu-home-search:focus{
         box-shadow: none !important;
+    }
+
+    .lect-upper-side{
+        height: 55%;
+    }
+
+    .lect-lower-side{
+        height: 45%;
     }
 
 </style>

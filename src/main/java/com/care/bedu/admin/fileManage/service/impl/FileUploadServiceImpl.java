@@ -10,8 +10,6 @@ import com.care.bedu.lecture.dao.LectureDAO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Slf4j
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
     // 파일 업로드 위치

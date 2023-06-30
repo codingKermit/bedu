@@ -1,18 +1,17 @@
 <template>
     <div>
-        <b-navbar toggleable="lg">
-            <b-navbar-toggle target="categories" class="bedu-cate-toggle"></b-navbar-toggle>
-            <b-collapse id="categories" is-nav>
-                <b-navbar-nav class="text-center d-flex mb-5 justify-content-center m-auto">
-                    <b-nav-item v-for="(item, index) in categories" :key="index">
-                        <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
-                            <b-container class=" d-none d-md-block bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
-                                <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
-                            </b-container>
-                            <text class="fw-bold d-block">{{ item.cateKor }}</text>
-                        </b-link>
-                    </b-nav-item>
-                </b-navbar-nav>
+        <b-navbar >
+            <b-collapse id="categories" class="w-100" is-nav>
+                    <b-row class="w-100">
+                        <b-col v-for="(item, index) in categories" :key="index" class="col-4 col-lg-1 text-center justify-content-center mx-auto">
+                                <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
+                                    <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
+                                        <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
+                                    </b-container>
+                                    <text class="fw-bold d-block">{{ item.cateKor }}</text>
+                                </b-link>
+                        </b-col>
+                    </b-row>
             </b-collapse>
         </b-navbar>
     </div>
@@ -80,6 +79,30 @@ import '@/assets/css/lectureStyle.css';
         },
         mounted() {
             this.getData();
+        },
+        computed:{
+            colsLimit(){
+                let width = window.innerWidth;
+                let result = 9
+                result = width >= 768 ? 9 : 3
+                console.log(width)
+                console.log(result)
+                return result;
+            }
         }
     }
 </script>
+
+
+<style scoped>
+
+.row-cols-lg-9 {
+    flex: 0 0 auto;
+    width: 11.1111111111%;
+  }
+
+  .category-icon{
+    width: 52px !important;
+    height: 52px !important;
+  }
+</style>
