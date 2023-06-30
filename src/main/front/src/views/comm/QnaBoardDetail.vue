@@ -158,7 +158,7 @@
 
             },
 
-            nickNamegetId(){
+            nickNamegetId(){                    //현제 로그인한 닉네임에 대한 아이디값을 가져와 객체 변수에 저장
                 const nowname = this.userNickName;
                 this.$axiosSend('get', '/api/qna/getUserId', {
                     userName: nowname

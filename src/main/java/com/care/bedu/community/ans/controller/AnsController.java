@@ -30,6 +30,7 @@ public class AnsController {
 		ansVO.setQsBdNum(qsBdNum);
 		ansVO.setUserName(userName);
 		ansVO.setContent(content);
+		ansVO.setRegId(userName);
 		return ansService.boardwrite(ansVO);
 	}
 

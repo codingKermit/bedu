@@ -86,22 +86,23 @@ export default{
             username:'',
             userNickName:'',
             likeok:false,
+
             form: {
                 commNum:0,
                 replyNum: 0,
                 replyDate: '',
-                faqNum: 0,
-                rwNum: 0,
-                lecturenum: 0,
+                userName:'',
                 regDate: '',
                 regId: '',
             },
+
             free : {
                 comm_num:0,
                 title : '',
                 content : '',
                 user_name : '',
                 str_comm_date:'',
+                user_id:'',
                 comm_cnt : 0,
                 comm_like_yn : 0,
             }
@@ -117,40 +118,45 @@ export default{
         this.userNickName =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
+        this.nickNamegetId();
         this.replyread(num);
         this.path(num);
     },
 
     created() {
+        this.userNickName =this.$store.getters.getNickname;
     },
 
     methods: {
 
         getUserId(nickName){
-            const nowname = this.$store.getters.getNickname;
-            this.$axiosSend('get', '/api/free/getUserId', {
-                userName: nickName
+                                           //자유게시판 글번호를 통해 조회해온 게시글에해당하는 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
+            console.log('현제로그인', this.userNickName);
+            console.log('글주인', nickName);
+            if(this.userNickName !== nickName){
+                    
+                document.getElementById("freeboard-detail-editbtn").style.display="none";
+                document.getElementById("freeboard-detail-deletebtn").style.display="none";
+            }else{
+                console.log('확인!');
+                document.getElementById("free-detail-replybtn").style.display="none";
+            }
+        },
+
+        nickNamegetId(){    //현제 로그인된 닉네임에 해당하는 userid값 가져옴  // 조회한 userid를 댓글작성할떄 regid로 넣음
+            
+            this.$axiosSend('get', '/api/qna/getUserId', {
+                userName: this.userNickName
             }).then(res => {
                 this.userlist = res.data;
                 for(var i=0; i< this.userlist.length; i++){
-                    this.form.userName = this.userlist[i].user_id;
+                    this.form.regId = this.userlist[i].user_id;
                 }
-                console.log('현제로그인', nowname);
-                console.log('글주인', nickName);
-                if(this.userNickName !== this.free.user_name){
-                    
-                    document.getElementById("freeboard-detail-editbtn").style.display="none";
-                    document.getElementById("freeboard-detail-deletebtn").style.display="none";
-                }else{
-                    console.log('확인!');
-                    document.getElementById("free-detail-replybtn").style.display="none";
-                }
-
+                console.log('아이디:', this.form.regId);
             })
             .catch((error) => {
                 console.log(error);
             })
-
         },
 
         freeRead(commnum){ // 게시글 데이터 조회
@@ -162,6 +168,7 @@ export default{
                 this.free = response.data;
                 this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
                 this.getUserId(this.free.user_name);
+                
                 // const nickname = this.$store.getters.getNickname;
                 // this.free.user_name = nickname;
             })
@@ -178,7 +185,6 @@ export default{
                 commNum: commnum
             }).then(res => {
                 this.replylist = res.data;
-
             })
             .catch((error) => {
                 console.log(error);
@@ -217,12 +223,21 @@ export default{
                     return;
                 }
                 this.form.commNum = this.free.comm_num;
-                var commNum = this.form.commNum;
+                this.form.userName = this.userNickName;
+                // this.form.regId = this.replyid;
                 
+                var commNum = this.form.commNum;
+
+                console.log(this.form.commNum);
+                console.log(this.form.userName);
+                console.log(this.form.content);
+                console.log(this.form.regId);
+
                 const form = new FormData();
                 form.append("userName",this.form.userName);
                 form.append("commNum",this.form.commNum);
                 form.append("content",this.form.content);
+                form.append("regId",this.form.regId);
 
                 this.$axiosSend('post', '/api/reply/write', this.form)
                 .then(res=>{
@@ -274,7 +289,10 @@ export default{
 
         freelikeUp(cnum){
 
-            var regid = this.form.userName;
+            var regid = this.form.regId;
+            console.log(regid);
+            console.log(this.userNickName);
+            console.log(cnum);
 
             this.$axiosSend('get','/api/free/likeUp', {
                     num: cnum,
@@ -282,13 +300,12 @@ export default{
                     userName : this.userNickName
             })
             .then(res => {
-                
+                console.log('값:',res.data.result);
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
 
-                    this.likenum = res.data.likenum;
-                    this.likeok = res.data.likes;
-                    this.userNickName = res.data.email;
-                    
+                    this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
+                    this.likeok = res.data.likes;               
+                    // this.userNickName = res.data.email;
                     this.free.comm_like_yn++;
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
@@ -309,8 +326,6 @@ export default{
                 alert(error);
             })
         },                
-
-        
 
         freeBoardpath(){
             router.push({
@@ -357,20 +372,6 @@ export default{
             document.getElementById("freeboard-detail-deletebtn").style.display="inline";
             document.getElementById("qna-detail-recensell").style.display="none";
         },
-
-        // freelikeUp(commnum){
-        //     this.$axiosSend('get','/api/freBd/likeUp', {
-        //         num: commnum,
-        //     })
-        //     .then(res => {
-        //         if(res.data === this.free.comm_num){
-        //             this.free.comm_num++;
-        //         }    
-        //     })
-        //     .catch(error => {
-        //         alert(error);
-        //     })
-        // },
 
         path(commnum){
             this.result = commnum;

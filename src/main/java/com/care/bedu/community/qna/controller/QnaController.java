@@ -56,7 +56,7 @@ public class QnaController {
 	 	return qnaService.getTotal();
 	 }
 	 
-	 @RequestMapping(value="/qna/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
+	 @RequestMapping(value="/qna/getUserId", method = RequestMethod.GET)		//현제 로그인된 닉네임에 해당하는 userid조회											//게시글 전체 개수 조회
 	 public ArrayList<QnaVO> getUserName(String userName){
 		 System.out.println("이름"+userName);
 		 ArrayList<QnaVO> list= qnaService.getUserId(userName);

@@ -35,7 +35,6 @@ public class AnsServiceImpl implements AnsService{
 	@Override
 	public int boardwrite(AnsVO ansVO) {
 		ansVO.setAnsLikeCnt(0);
-		ansVO.setRegId(ansVO.getUserName());
 		return ansDAO.viewWrite(ansVO);
 	}
 
