@@ -29,7 +29,7 @@ public class QnaServiceImpl implements QnaService{
 
 	//조회
 	@Override
-	public ArrayList<QnaVO> listProc(QnaVO qnaVO) {
+	public ArrayList<QnaVO> listProc(QnaVO qnaVO) throws Exception{
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);

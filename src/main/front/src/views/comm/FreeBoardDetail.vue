@@ -26,7 +26,7 @@
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
-                        <font-awesome-icon :icon="['fas', 'thumbs-up']" /> 
+                        <font-awesome-icon :icon="['fas', 'heart']" shake />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.comm_like_yn }}
                             </text>
@@ -114,12 +114,10 @@ export default{
 
 
     mounted() {
-        const nick =this.$store.getters.getNickname;
         this.userNickName =this.$store.getters.getNickname;
         const num = this.$route.params.num;
         this.freeRead(num);
         this.replyread(num);
-        this.getUserId();
         this.path(num);
     },
 
@@ -128,21 +126,23 @@ export default{
 
     methods: {
 
-        getUserId(){
-            const nickname = this.$store.getters.getNickname;
+        getUserId(nickName){
+            const nowname = this.$store.getters.getNickname;
             this.$axiosSend('get', '/api/free/getUserId', {
-                userName: nickname
+                userName: nickName
             }).then(res => {
                 this.userlist = res.data;
                 for(var i=0; i< this.userlist.length; i++){
                     this.form.userName = this.userlist[i].user_id;
                 }
-                
+                console.log('현제로그인', nowname);
+                console.log('글주인', nickName);
                 if(this.userNickName !== this.free.user_name){
                     
                     document.getElementById("freeboard-detail-editbtn").style.display="none";
                     document.getElementById("freeboard-detail-deletebtn").style.display="none";
                 }else{
+                    console.log('확인!');
                     document.getElementById("free-detail-replybtn").style.display="none";
                 }
 
@@ -161,6 +161,7 @@ export default{
             .then(response=>{
                 this.free = response.data;
                 this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
+                this.getUserId(this.free.user_name);
                 // const nickname = this.$store.getters.getNickname;
                 // this.free.user_name = nickname;
             })

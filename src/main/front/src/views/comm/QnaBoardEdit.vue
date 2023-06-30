@@ -12,8 +12,8 @@
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
 
                 <div id="buttonSet">
-                    <b-button type="submit" class="btn-custom ms-2 qna-edit bedu-bg-custom-blue" id="qna-edit">수정</b-button>
-                    <b-button class="btn-custom ms-2 qna-edit-censell" id="qna-edit-censell" type="reset" :to="'/comm/qna'" >취소</b-button>
+                    <b-button type="submit" class="px-4 btn-custom ms-2 qna-edit bedu-bg-custom-blue" id="qna-edit">수정</b-button>
+                    <b-button class="px-4 btn-custom ms-2 qna-edit-censell" id="qna-edit-censell" type="reset" :to="'/comm/qna'" >취소</b-button>
                 </div>
 
             </b-form>

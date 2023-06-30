@@ -22,7 +22,7 @@ public class QnaController {
 	 private QnaService qnaService;
 	
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO){
+	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO) throws Exception{
 		 return qnaService.listProc(qnaVO);
 	 }
 	
@@ -58,6 +58,7 @@ public class QnaController {
 	 
 	 @RequestMapping(value="/qna/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public ArrayList<QnaVO> getUserName(String userName){
+		 System.out.println("이름"+userName);
 		 ArrayList<QnaVO> list= qnaService.getUserId(userName);
 	 	 return list;
 	 }

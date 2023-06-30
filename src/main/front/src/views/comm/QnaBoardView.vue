@@ -16,6 +16,12 @@
                     </b-form>
                 </div>
             <div class="qna-main-1" id="qna-main-1">
+                <div id="qna-sort">
+                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highViews">조회수 순</option>
+                    </select>
+                </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
@@ -54,12 +60,11 @@
     </div>
 </template>
 
-
 <script>
     
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
-    import router from '@/router';
+    
     import '@/assets/css/qnaStyle.css';
     export default {
 
@@ -131,7 +136,7 @@
                 this.$axiosSend('post','/api/qna/qnaList', this.form)
                 .then(res => {
                     this.qnalist = res.data;
-                    this.sortReviews(); // 정렬 수행
+                    // this.sortReviews(); // 정렬 수행
                 })
                 .catch(error => {
                     alert(error);
@@ -160,19 +165,16 @@
             },      
 
             infiniteHandler($state){
+                console.log('번호:', this.currentPage);
                 this.$axiosSend('get','/api/qna/qnaList',{
                     page : this.currentPage,
                 })
                 .then(res=>{
                     if(res.data.length){
                         this.currentPage++;
-            
                         this.qnalist.push(...res.data);
-                        // const nickname = this.$store.getters.getNickname;
-                        // for(var i=0; i<res.data.length; i++){
-                        //     this.qnalist[i].user_name = nickname;
-                        // }
-
+                        
+                        console.log('리스',this.qnalist);
                         $state.loaded();
                     } else{
                         $state.complete();

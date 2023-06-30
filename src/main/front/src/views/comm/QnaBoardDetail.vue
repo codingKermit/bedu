@@ -44,7 +44,7 @@
             <div>
                 <p class = "fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    개의 댓글이 있습니다.
+                    개의 답글이 있습니다.
                 </p>
             </div>
             <div>
@@ -87,6 +87,7 @@
                 username:'',
                 userNickName:'',
                 userlist:[],
+                ansid:'',
                 likeok:false,
                 form:{
                     ansBdNum:0,
@@ -110,8 +111,8 @@
             const qnanum = this.$route.params.num;
             this.userNickName =this.$store.getters.getNickname;
             this.qnaRead(qnanum);
+            this.nickNamegetId();
             this.ansread(qnanum);
-            this.getUserId();
             document.getElementById("qnaboard-detail-recensell").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="none";
             this.form.ansBdNum = qnanum;
@@ -133,8 +134,8 @@
                 })
             },
 
-            getUserId(){
-                const nickname = this.$store.getters.getNickname;
+            getUserId(nickname){
+                const nowname = this.$store.getters.getNickname;
                 this.$axiosSend('get', '/api/qna/getUserId', {
                     userName: nickname
                 }).then(res => {
@@ -142,9 +143,9 @@
                     for(var i=0; i< this.userlist.length; i++){
                         this.form.userName = this.userlist[i].user_id;
                     }
-                    
-                    if(this.userNickName !== this.qna.user_name){
-                        
+                    console.log('현제로그인', nowname);
+                    console.log('글주인', nickname);
+                    if(nowname !== nickname){
                         document.getElementById("qnaboard-detail-editbtn").style.display="none";
                         document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                     }else{
@@ -155,18 +156,21 @@
                     console.log(error);
                 })
 
+            },
+
+            nickNamegetId(){
+                const nowname = this.userNickName;
                 this.$axiosSend('get', '/api/qna/getUserId', {
-                    userName: nickname
+                    userName: nowname
                 }).then(res => {
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
-                        this.form.userName = this.userlist[i].user_id;
+                        this.ansid = this.userlist[i].user_id;
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-
             },
 
             qnaRead(qnanum){ // 게시글 데이터 조회
@@ -176,6 +180,7 @@
                 .then(res=>{
                     this.qna = res.data;
                     this.qna.str_qna_date = this.qnaDateTime(this.qna.str_qna_date);
+                    this.getUserId(this.qna.user_name);
                 })
                 .catch((error)=>{
                     alert(error);
@@ -307,6 +312,7 @@
                 }
                 
                 this.form.qsBdNum = this.qna.qna_bd_num;
+                this.form.userName = this.ansid;
                 var qnanum = this.form.qsBdNum;
 
                 this.$axiosSend('post', '/api/ans/write', this.form)

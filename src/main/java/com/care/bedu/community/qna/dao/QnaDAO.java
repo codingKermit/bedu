@@ -9,7 +9,7 @@ import com.care.bedu.community.qna.vo.QnaVO;
 @Mapper
 public interface QnaDAO {
 	
-	public ArrayList<QnaVO> viewlist(QnaVO qnaVO);				//게시글 전체 조회
+	public ArrayList<QnaVO> viewlist(QnaVO qnaVO)throws Exception;				//게시글 전체 조회
 	public int viewWrite(QnaVO qnaVO);							//게시글 작성
 	public QnaVO viewone(int num);								//게시글 상세보기
 	public int viewupdate(QnaVO qnaVO);					//게시글 수정

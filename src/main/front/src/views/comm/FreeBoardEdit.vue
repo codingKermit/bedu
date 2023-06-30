@@ -15,8 +15,8 @@
                 </div>
 
                 <div class="my-3 justify-content-md-end d-md-flex freeboard-edit-btncontain" id="freeboard-edit-btncontain">
-                    <b-button type="submit" class="bedu-bg-custom-blue freeboard-edit-submit" id="freeboard-edit-submit">수정</b-button>
-                    <b-button class="btn-custom ms-2 freeboard-edit-reset" id="freeboard-edit-reset" type="reset" :to="'/comm/freBd'">취소</b-button>
+                    <b-button type="submit" class="px-4 bedu-bg-custom-blue freeboard-edit-submit" id="freeboard-edit-submit">수정</b-button>
+                    <b-button class="px-4 btn-custom ms-2 freeboard-edit-reset" id="freeboard-edit-reset" type="reset" :to="'/comm/freBd'">취소</b-button>
                 </div>
             </b-form>
         </div>

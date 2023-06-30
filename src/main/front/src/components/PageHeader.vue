@@ -175,8 +175,8 @@
                     title: '로그아웃 하시겠습니까?',
                     
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                    cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
                     confirmButtonText: '확인', // confirm 버튼 텍스트 지정
                     cancelButtonText: '취소', // cancel 버튼 텍스트 지정
                     
@@ -184,6 +184,7 @@
                     // 만약 Promise리턴을 받으면,
                     if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
                         this.$swal({
+                            confirmButtonColor: '#303076',
                             title: '로그아웃이 완료되었습니다.',
                             timer: 3000,
                         });
