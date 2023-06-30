@@ -1,11 +1,11 @@
 <template>
   <p id="Cschead">1:1 문의하기</p>
   <div class="card">
-    <form @submit.prevent="submitInquiry">
+    <form @submit = "inquiryWrite()">
       <div>
         <b-form-select id="selectbox" v-model="selected" :options="options"></b-form-select>
         <label id="title" for="title">제목</label>
-        <b-form-input placeholder="제목을 입력해주세요" class="my-3 qna-write-title" id="titletext" v-model="form.title"
+        <b-form-input placeholder="제목을 입력해주세요"  id="titletext" v-model="form.title"
           ref="title"></b-form-input>
       </div>
       <div>
@@ -21,7 +21,7 @@
       </div>-->
       <div>
         <b-button id="list" href="#">목록으로</b-button>
-        <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="commit">저장</b-button>
+        <b-button type="submit" id="commit">저장</b-button>
       </div>
     </form>
   </div>
@@ -36,12 +36,11 @@ export default {
   data() {
     return {
       form: {
-        user_name: '',
         title: '',
         content: '',
       },
 
-      userlist:[],
+      userlist: [],
 
       selected: null,
       options: [
@@ -53,15 +52,17 @@ export default {
       ]
     };
   },
+
   mounted() {
     const nick = this.$store.getters.getNickname;
     if (nick === '' || nick === null) {
       this.$swal('Error', '로그인을 해주세요!');
       router.push({
-        name: "main"
+        name: "Cscview"
       })
+      return;
     }
-    this.getUserId();
+    //this.getReg_Id();
   },
 
   created() {
@@ -69,16 +70,17 @@ export default {
     if (nick === '' || nick === null) {
       this.$swal('Error', '로그인을 해주세요!');
       router.push({
-        name: "main"
+        name: "Cscview"
       })
     }
   },
+
   methods: {
 
     getUserId() {
       const nickname = this.$store.getters.getNickname;
 
-      this.$axiosSend('get', '/api/qna/getUserId', {
+      this.$axiosSend('get', '/api/inquiry/getReg_Id', {
         userName: nickname
       }).then(res => {
 
@@ -94,7 +96,7 @@ export default {
 
     },
 
-    qnaWrite() {
+    inquiryWrite() {
 
       if (this.form.title == null || this.form.title == "") {
         this.$swal({
@@ -103,11 +105,11 @@ export default {
           type: 'warning',
           icon: 'warning',
           didClose: () => {
-            this.$refs.title.focus()
-          }
-        })
-        return;
-      }
+                            this.$refs.title.focus()
+                        }
+                    })
+                    return;
+                }
       if (this.form.content == null || this.form.content == "") {
         this.$swal({
           title: 'warning!',
@@ -123,12 +125,12 @@ export default {
       form.append("title", this.form.title);
       form.append("content", this.form.content);
 
-      this.$axiosSend('post', '/api/qna/qnaWrite', this.form)
+      this.$axiosSend('post', '/api/inquiry/inquiryWrite', this.form)
         .then((response) => {
           if (response.data === 1) {
             this.$swal('Success', '작성완료!', 'success'),
               router.push({
-                name: "inquriylist"
+                name: "inquirylist"
               })
           }
         })
