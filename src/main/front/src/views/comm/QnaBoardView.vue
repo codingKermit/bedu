@@ -1,8 +1,9 @@
 <template>
     <div class = "d-flex">
-    <div class="qna-view" id="qna-view">
-        <CommCategory :currentTab="'qna'"></CommCategory>
-    </div> 
+        <div class="qna-view" id="qna-view">
+            <CommCategory :currentTab="'qna'"></CommCategory>
+        </div> 
+        
         <div id="qna-main">
             <h2>질문 & 답변</h2>
                 <div class="qnaBoradSearch" id="qnaBoradSearch">
@@ -17,11 +18,11 @@
                 </div>
             <div class="qna-main-1" id="qna-main-1">
                 <div id="qna-sort">
-                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
-                        <option value="default">최신 순</option>
-                        <option value="highViews">조회수 순</option>
-                    </select>
-                </div>
+                <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                    <option value="default">최신 순</option>
+                    <option value="highViews">조회수 순</option>
+                </select>
+            </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
