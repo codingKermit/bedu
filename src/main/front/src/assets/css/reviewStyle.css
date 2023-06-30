@@ -34,33 +34,26 @@
 }
 
 .review-search {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    float: right;   
 }
 
 .review-search-bar {
-    display: flex;
-    align-items: center;
+   float: right;
+   align-items: center;
+   margin-left: 50px;
 }
 
 #review-search-input input {
-    width: 200px;
-    padding: 5px 42px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 18px;
+    width: 300px;
+    height: 40px;
+    padding: 3px 45px;
+    margin-right: -10px;
+    border: 2px solid black;
+    border-radius: 20px;
+    outline: none;
     
 }
 
-#review-search-input button {
-    padding: 5px 10px;
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    /* color: inherit; */
-    cursor: auto;
-}
 .review-a {
     text-decoration: none;
     cursor: pointer;
@@ -127,16 +120,20 @@
     text-align: center;
 }
 #review-sort {
-    margin-bottom: 10px;
     float: right;
 }
 
 #fw-bold fs-3 text-start {
-    margin-top: 20px;
+    margin-top: 40px;
+   
 }
 
 #sortOption {
+    width: 110px;
+    height: 40px;
+    font-size: 100%;
     border: none;
+    outline: none;
 }
 
 #infiniteReview{
@@ -146,7 +143,7 @@
 #review-search-icon {
    position: relative;
    z-index: 2;
-   margin-right: -15%;
+   margin-right: -10%;
 }
 
 /*Review Write css*/

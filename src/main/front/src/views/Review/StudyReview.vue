@@ -1,6 +1,7 @@
 <template>
     <div class="review-list">
         <div class="review-group">
+            
             <div class="m-select">
                 <ul class="mk-c-tab col8 tab-event">
                     <li><a class="review-a" href="#">전체</a></li>
@@ -15,8 +16,15 @@
                     <li><a class="review-a" href="#">디자인</a></li>
                 </ul>
             </div>
+            <p class="fw-bold mb-0 fs-2 text-start">수강후기</p>
             <div class="review-search">
-                <p id="fw-bold fs-3 text-start" class="fw-bold fs-3 text-start">수강후기</p>
+                <div id="review-sort">
+                    <select id="sortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highRating">평점 높은 순</option>
+                        <option value="lowRating">평점 낮은 순</option>
+                    </select>
+                </div>  
                 <div class="review-search-bar">
                     <div id="review-search-input">
                         <font-awesome-icon id="review-search-icon" :icon="['fas', 'magnifying-glass']" />
@@ -25,17 +33,10 @@
                         v-model="searchKeyword"
                         @keyup.enter="searchReviews"
                         />
-                        <!-- <button @click="searchReviews">검색</button> -->
-                    </div>
+                    </div>  
                 </div>
+                
             </div>
-            <div id="review-sort">
-                <select id="sortOption" v-model="sortOption" @change="sortReviews">
-                    <option value="default">최신 순</option>
-                    <option value="highRating">평점 높은 순</option>
-                    <option value="lowRating">평점 낮은 순</option>
-                </select>
-            </div>  
         </div>
         <!-- <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button> -->
         <div id="scroll-container">

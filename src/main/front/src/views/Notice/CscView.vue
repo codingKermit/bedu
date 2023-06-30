@@ -8,7 +8,7 @@
     </b-nav>
   </div>
   <div id="cscline"></div>
-  <div id="cscdetail">강의 상세관련 FAQ가 총 <a id="csccount">4</a>건 있습니다.<b-button pill variant="outline-secondary" id="cscmo" @click="goToInquiryPage">1:1 문의하기</b-button>
+  <div id="cscdetail">자주하는 질문<b-button pill variant="outline-secondary" id="cscmo" @click="goToInquiryPage">1:1 문의하기</b-button>
   </div>
   <div class="csc-container">
     <div class="cscbox" v-for="(item, index) in boxItems" :key="index" :class="{ 'expanded': item.isExpanded }"
