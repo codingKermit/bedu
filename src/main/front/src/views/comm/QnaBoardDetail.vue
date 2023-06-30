@@ -44,7 +44,7 @@
             <div>
                 <p class = "fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    개의 답글이 있습니다.
+                    {{anstotal}}개의 답글이 있습니다.
                 </p>
             </div>
             <div>
@@ -83,6 +83,7 @@
             return {
                 qnum:0,
                 anslist:[],
+                anstotal:0,
                 likenum:0,
                 username:'',
                 userNickName:'',
@@ -113,6 +114,7 @@
             this.qnaRead(qnanum);
             this.nickNamegetId();
             this.ansread(qnanum);
+            this.ansgetTotal(qnanum);
             document.getElementById("qnaboard-detail-recensell").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="none";
             this.form.ansBdNum = qnanum;
@@ -135,24 +137,21 @@
             },
 
             getUserId(nickname){
-                const nowname = this.$store.getters.getNickname;
-                this.$axiosSend('get', '/api/qna/getUserId', {
-                    userName: nickname
-                }).then(res => {
-                    this.userlist = res.data;
-                    for(var i=0; i< this.userlist.length; i++){
-                        this.form.userName = this.userlist[i].user_id;
-                    }
-                    
-                    if(nowname !== nickname){
-                        document.getElementById("qnaboard-detail-editbtn").style.display="none";
-                        document.getElementById("qnaboard-detail-deletebtn").style.display="none";
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+                if(this.userNickName !== nickname){
+                    document.getElementById("qnaboard-detail-editbtn").style.display="none";
+                    document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                }
 
+            },
+
+            ansgetTotal(qnanum){
+                console.log('총합글:',qnanum);
+                this.$axiosSend('get','/api/ans/ansTotal', {
+                        qnaNum: qnanum,
+                })
+                .then(res => {
+                       this.anstotal=res.data;
+                })
             },
 
             nickNamegetId(){                    //현제 로그인한 닉네임에 대한 아이디값을 가져와 객체 변수에 저장
@@ -175,7 +174,7 @@
                         num : qnanum,
                 })
                 .then(res=>{
-                    this.qna = res.data;
+                    this.qna = res.data;                
                     this.qna.str_qna_date = this.qnaDateTime(this.qna.str_qna_date);
                     this.getUserId(this.qna.user_name);
                 })
@@ -222,7 +221,7 @@
                 })
             },
 
-            qnalikedown(){
+            qnalikedown(){                                                      
             
                 this.$axiosSend('get','/api/qna/likeDown', {
                         num : this.qna.qna_bd_num,
@@ -244,30 +243,21 @@
             },
 
             qnalikeUp(qnum){
-                var regid = this.form.userName;
+                var regid = this.ansid;
 
                 this.$axiosSend('get','/api/qna/likeUp', {
-                        num: qnum,
-                        regId : regid,
-                        userName : this.userNickName
+                        num: qnum,                              //질문게시글
+                        regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
+                        userName : this.userNickName               
                 })
                 .then(res => {
-                    
-                    if(res.data.result === 1){                      //기존 아이디좋아요 없음
-
-                        this.likenum = res.data.likenum;
-                        this.likeok = res.data.likes;
-                        this.userNickName = res.data.email;
+                    if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
                         this.qna.qna_like_yn++;
-                    }else if(res.data.result === 0){                //기존 아이디좋아요 있음
-                        this.likenum = res.data.likenum;
-                        this.likeok = res.data.likes;
-                        this.userNickName = res.data.email;
-                        if(this.likeok === true){
-                            
-                            this.qnalikedown();
-                            return;
-                        }
+                        return;
+                    }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
+
+                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.qnalikedown();      
                         return;
                     }    
                 })
@@ -320,6 +310,7 @@
                         this.$swal('Success','작성완료!','success'),
                         this.censells();
                         this.ansread(qnanum);
+                        this.ansgetTotal(qnanum);
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }

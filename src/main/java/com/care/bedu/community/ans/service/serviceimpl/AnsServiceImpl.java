@@ -15,7 +15,6 @@ import com.care.bedu.community.ans.vo.AnsVO;
 public class AnsServiceImpl implements AnsService{
 	
 	@Autowired private AnsDAO ansDAO;
-//	@Autowired private MemberDAO memberDAO;
 	
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
@@ -36,6 +35,11 @@ public class AnsServiceImpl implements AnsService{
 	public int boardwrite(AnsVO ansVO) {
 		ansVO.setAnsLikeCnt(0);
 		return ansDAO.viewWrite(ansVO);
+	}
+
+	@Override
+	public int ansTotal(int qnanum) {
+		return ansDAO.ansTotal(qnanum);
 	}
 
 }
