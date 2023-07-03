@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.csc.inquiry.InquiryDao">
+<mapper namespace="com.care.bedu.inquiry.InquiryDao">
 		
-	<insert id="createInquiry" parameterType="com.care.bedu.csc.inquiry.InquiryVo">
+	<insert id="createInquiry" parameterType="com.care.bedu.inquiry.InquiryVo">
 		INSERT INTO T_BEDU_VOC(
 		  VOC_NUM,
 		  TITLE,

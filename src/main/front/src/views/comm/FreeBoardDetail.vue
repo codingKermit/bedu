@@ -7,6 +7,7 @@
             <div class="justify-content-start text-start"  id="freeboard-detail-body">
                 <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                     {{ free.title }}
+                    {{ likeok }}
                 </h2>
                 <div id="freeboard-userinfo">
                     <p id="freeboard-userid">
@@ -26,7 +27,8 @@
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
-                        <font-awesome-icon :icon="['fas', 'heart']"/>
+                        <font-awesome-icon :icon="['fas', 'heart']"
+                            :class="likeok ? 'bedu-bg-custom-blue':''"/>
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.comm_like_yn }}
                             </text>
@@ -37,7 +39,7 @@
                     <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                    <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                    <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
                 </div>
                 <div>
@@ -316,13 +318,13 @@ export default{
                                   
                     
                     this.free.comm_like_yn++;
-                    return;
+                    return true;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 
                     this.likenum = res.data.likenum;
 
                     this.freelikedown();
-                    return;
+                    return false;
                 }    
             })
             .catch(error => {
