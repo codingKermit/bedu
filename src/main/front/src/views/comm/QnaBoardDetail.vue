@@ -341,6 +341,9 @@
                     document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
                     document.getElementById("qnaboard-detail-editbtn").style.display="inline";
                     return;
+                }else{
+                    document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                    document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 }
             },
 
