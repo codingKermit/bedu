@@ -3,19 +3,48 @@
     <b-container>
         <div class="contents">
             <div class="title-div">
-                <span class="title title-3 text-ellipsis title-nickname">
-                    {{ nickname }} 님의 현재 수강상세정보
-                </span>
+                <h3 style="text-align: center;" class="fw-bold">
+                    {{ userName }} 님의 현재 수강상세정보
+                </h3>
             </div>
         </div>
-    </b-container>
+        <b-container class="w-75 ms-auto py-5">
+                        <b-container class="border rounded-3 py-3 mb-2">
+                                <p class="fw-bold">프로그래밍 배워봅시다</p>
+                                <p>
+                                    <span>강좌이름 : </span> {{ lecttitle }}
+                                </p>
+                                <p>
+                                    <span>강의설명 : </span> {{ lectdesc }}
+                                </p>
+                                <p>
+                                    <span>수강기간 : </span> {{ lectperiod }}
+                                </p>
+                            </b-container>
+                        </b-container>
+                        <b-container class="w-75 ms-auto py-5">
+                        <b-container class="border rounded-3 py-3 mb-2">
+                                <p class="fw-bold">프로그래밍 배워봅시다</p>
+                                <p>
+                                    <span>강좌이름 : </span> {{ lecttitle }}
+                                </p>
+                                <p>
+                                    <span>강의설명 : </span> {{ lectdesc }}
+                                </p>
+                                <p>
+                                    <span>수강기간 : </span> {{ lectperiod }}
+                                </p>
+                            </b-container>
+                        </b-container>
+                    </b-container>
+    
 </template>
 <script>
 export default {
     name : "mypageAll",
     data() {
        return {
-           
+           userName : this.$store.state.nickname
         }
     }
 }

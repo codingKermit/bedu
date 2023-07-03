@@ -30,4 +30,35 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     public List<MemberMypageVO> getMemberMypage(String userid) {
     	return memberMypageDao.getMemberMypage(userid);
     }
+    
+//    /* 마이페이지 홈(전체보기 개수 추출) */
+//    @Override
+//	public int getLectureCount() {
+//		
+//		return memberMypageDao.getLectureCount();
+//	}
+//    
+//    /* 마이페이지 홈(전체보기 첫번째) */
+//	@Override
+//	public int lectureListInfoFirst(int numOfLecture) {
+//		
+//		return memberMypageDao.lectureListInfoFirst(numOfLecture);
+//	}
+//	
+//	/* 마이페이지 홈(전체보기를 눌렀을때 보여지는 수강정보 목록) */
+//	@Override
+//	public int lectureList( int numOfLecture, int lectureCount) {
+//		
+//		return memberMypageDao.lectureList(numOfLecture, lectureCount);
+//	}
+	
+	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
+	@Override
+	public List<MemberMypageVO> getMemberMypageAll(String userid) {
+		
+		return memberMypageDao.getMemberMypageAll(userid);
+	}
+	
+	
+	
 }
