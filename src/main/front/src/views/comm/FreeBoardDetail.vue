@@ -7,7 +7,6 @@
             <div class="justify-content-start text-start"  id="freeboard-detail-body">
                 <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                     {{ free.title }}
-                    {{ likeok }}
                 </h2>
                 <div id="freeboard-userinfo">
                     <p id="freeboard-userid">
