@@ -137,8 +137,7 @@
             },
 
             getUserId(nickname){
-                console.log('글 닉네임:',nickname);
-                console.log('현제 닉네임', this.userNickName);
+                
                 if(this.userNickName === null || this.userNickName ===""){
                     document.getElementById("qnaboard-detail-replybtn").style.display="none";
                 }

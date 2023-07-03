@@ -194,16 +194,16 @@
                     page : this.currentPage,
                 })
                 .then(res=>{
-                   
+                    console.log('데이터',res.data);
                     if(res.data.length){
                         // console.log(res.data[0].user_name);
                         this.currentPage++;
                         this.qnalist.push(...res.data);
                         $state.loaded();
-                        // for(var i=0; i< this.qnalist.length; i++){
-                        //     this.qnalist[i].str_qna_date = this.qnaDateTime(this.qnalist[i].str_qna_date);
-                        //     // console.log('데이트:', this.qnalist[i].str_qna_date);
-                        // }
+                        for(var i=0; i< this.qnalist.length; i++){
+                            this.qnalist[i].str_qna_date = this.qnaDateTime(this.qnalist[i].str_qna_date);
+                            // console.log('데이트:', this.qnalist[i].str_qna_date);
+                        }
                     } else{
                         $state.complete();
                     }

@@ -63,7 +63,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "freeBoard"
+                    name: "login"
                 })
                 return;
             }
@@ -75,7 +75,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "freeBoard"
+                    name: "login"
                 })
                 return;
             }

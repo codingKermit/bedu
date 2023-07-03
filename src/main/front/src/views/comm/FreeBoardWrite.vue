@@ -67,7 +67,7 @@
             if(this.form.user_name === '' || this.form.user_name === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "qnaBoard"
+                    name: "login"
                 })
                 return;
             }
@@ -79,7 +79,7 @@
             if(this.form.user_name === '' || this.form.user_name === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "qnaBoard"
+                    name: "login"
                 })
                 return;
             }

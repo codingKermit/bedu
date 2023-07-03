@@ -47,7 +47,7 @@ public class QnaServiceImpl implements QnaService{
 				qna.setUser_name(user.getUser_name());
 			}
 		}
-		System.out.println("리스"+qnalist);
+		
 		return qnalist;						
 	}
 
