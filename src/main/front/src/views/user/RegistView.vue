@@ -51,24 +51,26 @@
                         ></span
                     >
                     <!-- 약관 내용 표시 -->
-                    <div
-                        id="agreeItem"
-                        v-if="item.value === 1"
-                        :name="'agree_' + item.value"
-                        v-html="fileText1"
-                    ></div>
-                    <div
-                        id="agreeItem"
-                        v-else-if="item.value === 2"
-                        :name="'agree_' + item.value"
-                        v-html="fileText2"
-                    ></div>
-                    <div
-                        id="agreeItem"
-                        v-else-if="item.value === 3"
-                        :name="'agree_' + item.value"
-                        v-html="fileText3"
-                    ></div>
+                    <div id="agreeitemPa">
+                        <div
+                            id="agreeItem"
+                            v-if="item.value === 1"
+                            :name="'agree_' + item.value"
+                            v-html="fileText1"
+                        ></div>
+                        <div
+                            id="agreeItem"
+                            v-else-if="item.value === 2"
+                            :name="'agree_' + item.value"
+                            v-html="fileText2"
+                        ></div>
+                        <div
+                            id="agreeItem"
+                            v-else-if="item.value === 3"
+                            :name="'agree_' + item.value"
+                            v-html="fileText3"
+                        ></div>
+                    </div>
                 </label>
 
                 <!-- 약관 동의 여부에 따른 '동의합니다' 버튼 표시 -->
