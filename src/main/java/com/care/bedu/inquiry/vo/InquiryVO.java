@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class InquiryVo {
+public class InquiryVO {
 	
 	private int voc_num; //글번호
 	private String title; //제목
