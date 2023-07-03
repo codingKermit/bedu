@@ -4,26 +4,20 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
-		SELECT 
-			* 
-		FROM 
-			(SELECT
-				ROWNUM as rnum,
-				q.QS_BD_NUM as qna_bd_num,  
-				q.TITLE,
-				q.CONTENT,
-				q.QS_DATE as qna_date,
-				q.QS_CNT as qna_cnt,
-				q.QS_LIKE_CNT as qna_like_yn,
-				u.USER_ID
-			FROM 
-				T_BEDU_QS q, T_BEDU_USER u
-			where
-				q.USER_NAME = u.USER_ID 
-			ORDER BY 
-				q.QS_BD_NUM DESC)
-		WHERE 
-			rnum >= #{page} AND #{limit} >= rnum
+	SELECT
+		* FROM (
+		SELECT
+		  rownum rnum,
+		  QS_BD_NUM as qna_bd_num,
+		  TITLE,
+		  CONTENT,
+		  QS_DATE as qna_date, 
+		  QS_CNT as qna_cnt,
+		  USER_NAME
+		FROM(SELECT
+			* FROM
+				T_BEDU_QS ORDER BY QS_BD_NUM DESC)) 
+		WHERE rnum >= #{page} AND #{limit} >= rnum
 	 </select>
 	
 	<insert id="viewWrite">

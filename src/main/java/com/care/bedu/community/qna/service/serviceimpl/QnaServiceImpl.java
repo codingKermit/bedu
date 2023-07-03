@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class QnaServiceImpl implements QnaService{
 
 	//조회
 	@Override
-	public ArrayList<QnaVO> listProc(QnaVO qnaVO) throws Exception{
+	public List<QnaVO> listProc(QnaVO qnaVO) throws Exception{
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
@@ -38,15 +39,15 @@ public class QnaServiceImpl implements QnaService{
 			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
 		}
 		
-		ArrayList<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
+		List<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
 		for(QnaVO qna : qnalist) {
 			qna.setStr_qna_date(regdates(qna.getQna_date()));
-			ArrayList<QnaVO> username = qnaDAO.getuserName(qna.getUser_id());
+			List<QnaVO> username = qnaDAO.getuserName(qna.getUser_name());
 			for(QnaVO user : username) {
 				qna.setUser_name(user.getUser_name());
 			}
 		}
-		
+		System.out.println("리스"+qnalist);
 		return qnalist;						
 	}
 

@@ -125,6 +125,29 @@
                 }
             },
 
+            qnaDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
+
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const Days = Math.floor(diffInHours / 24);
+                
+                if (Days > 0) {
+                    return `${Days}일 전`;
+                } else if (diffInHours > 0) {
+                    
+                    return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
+                }
+            },
+
             qnasearch() {
                 if(this.form.keyword === null || this.form.keyword ===''){
                     alert('검색어를 입력해주세요!');
@@ -171,12 +194,16 @@
                     page : this.currentPage,
                 })
                 .then(res=>{
+                   
                     if(res.data.length){
+                        // console.log(res.data[0].user_name);
                         this.currentPage++;
                         this.qnalist.push(...res.data);
-                        
-                        console.log('리스',this.qnalist);
                         $state.loaded();
+                        // for(var i=0; i< this.qnalist.length; i++){
+                        //     this.qnalist[i].str_qna_date = this.qnaDateTime(this.qnalist[i].str_qna_date);
+                        //     // console.log('데이트:', this.qnalist[i].str_qna_date);
+                        // }
                     } else{
                         $state.complete();
                     }

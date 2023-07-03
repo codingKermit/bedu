@@ -2,6 +2,7 @@ package com.care.bedu.community.qna.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.community.qna.service.QnaService;
 import com.care.bedu.community.qna.vo.QnaVO;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/api")
 public class QnaController {
@@ -22,7 +20,7 @@ public class QnaController {
 	 private QnaService qnaService;
 	
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	 public ArrayList<QnaVO> qnaList(QnaVO qnaVO) throws Exception{
+	 public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception{
 		 return qnaService.listProc(qnaVO);
 	 }
 	

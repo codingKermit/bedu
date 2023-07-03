@@ -90,7 +90,6 @@
                 userlist:[],
                 ansid:'',
                 likeok:false,
-                qsBdNum:'',
                 form:{
                     ansBdNum:0,
                     ansDate:'',
@@ -138,6 +137,12 @@
             },
 
             getUserId(nickname){
+                console.log('글 닉네임:',nickname);
+                console.log('현제 닉네임', this.userNickName);
+                if(this.userNickName === null || this.userNickName ===""){
+                    document.getElementById("qnaboard-detail-replybtn").style.display="none";
+                }
+
                 if(this.userNickName !== nickname){
                     document.getElementById("qnaboard-detail-editbtn").style.display="none";
                     document.getElementById("qnaboard-detail-deletebtn").style.display="none";
@@ -146,7 +151,7 @@
             },
 
             ansgetTotal(qnanum){
-                console.log('총합글:',qnanum);
+                
                 this.$axiosSend('get','/api/ans/ansTotal', {
                         qnaNum: qnanum,
                 })
@@ -249,18 +254,15 @@
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,                              //질문게시글
                         regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
-                        userName : this.userNickName,
-                        qsBdNum : this.qsBdNum 
+                        userName : this.userNickName               
                 })
                 .then(res => {
                     if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
                         this.qna.qna_like_yn++;
-                        this.likeok = true;
                         return;
                     }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
 
-                        this.likenum = res.data.likenum;
-                        this.likeok = false;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
                         this.qnalikedown();      
                         return;
                     }    
@@ -334,7 +336,12 @@
                 document.getElementById("qnaboard-detail-editbtn").style.display="inline";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
                 document.getElementById("qnaboard-detail-recensell").style.display="none";
-                
+                if(this.qna.user_name === this.userNickName){
+                    document.getElementById("qnaboard-detail-replybtn").style.display="inline";
+                    document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
+                    document.getElementById("qnaboard-detail-editbtn").style.display="inline";
+                    return;
+                }
             },
 
             ansopen(){
