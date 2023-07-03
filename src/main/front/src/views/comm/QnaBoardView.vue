@@ -1,27 +1,29 @@
 <template>
     <div class = "d-flex">
-        <div class="qna-view" id="qna-view">
+        <div class="qnaView" id="qnaView">
             <CommCategory :currentTab="'qna'"></CommCategory>
         </div> 
-        
-        <div id="qna-main">
-            <h2>질문 & 답변</h2>
-                <div class="qnaBoradSearch" id="qnaBoradSearch">
-                    <b-form @submit="qnasearch()" class = "serchForm">
-                        <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
-                        <input class="qna-view-keyword" id="qna-view-keyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
-                        <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
-                        <font-awesome-icon :icon="['fas', 'pencil']" />
-                        글쓰기
-                        </b-button>
-                    </b-form>
+        <div id="qnaMain">
+            <div>
+                <div>
+                    <div class="qnaBoradSearch" id="qnaBoradSearch">
+                        <div @submit="qnasearch()" class = "searchForm">
+                            <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
+                            <input class="qnaviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
+                            <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
+                            <font-awesome-icon :icon="['fas', 'pencil']" />
+                            글쓰기
+                            </b-button>
+                        </div>
+                    </div>
                 </div>
-            <div class="qna-main-1" id="qna-main-1">
-                <div id="qna-sort">
-                <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
-                    <option value="default">최신 순</option>
-                    <option value="highViews">조회수 순</option>
-                </select>
+                <h2>질문 & 답변</h2>
+                <div class = "selectBox">
+                    <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+                        <option value="default">최신 순</option>
+                        <option value="highViews">조회수 순</option>
+                    </select>
+                </div>
             </div>
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
@@ -56,7 +58,6 @@
                     <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
                     </template>
                 </InfiniteLoading>
-            </div>
         </div>
     </div>
 </template>
@@ -125,29 +126,6 @@
                 }
             },
 
-            qnaDateTime(value) {
-                // value는 날짜 값입니다
-                const now = new Date();
-                const date = new Date(value);
-
-                const diffInMilliseconds = now - date;
-                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-                const diffInMinutes = Math.floor(diffInSeconds / 60);
-                const diffInHours = Math.floor(diffInMinutes / 60);
-                const Days = Math.floor(diffInHours / 24);
-                
-                if (Days > 0) {
-                    return `${Days}일 전`;
-                } else if (diffInHours > 0) {
-                    
-                    return `${diffInHours}시간 전`;
-                } else if (diffInMinutes > 0) {
-                    return `${diffInMinutes}분 전`;
-                } else {
-                    return '방금 전';
-                }
-            },
-
             qnasearch() {
                 if(this.form.keyword === null || this.form.keyword ===''){
                     alert('검색어를 입력해주세요!');
@@ -194,16 +172,12 @@
                     page : this.currentPage,
                 })
                 .then(res=>{
-                    console.log('데이터',res.data);
                     if(res.data.length){
-                        // console.log(res.data[0].user_name);
                         this.currentPage++;
                         this.qnalist.push(...res.data);
+                        
+                        console.log('리스',this.qnalist);
                         $state.loaded();
-                        for(var i=0; i< this.qnalist.length; i++){
-                            this.qnalist[i].str_qna_date = this.qnaDateTime(this.qnalist[i].str_qna_date);
-                            // console.log('데이트:', this.qnalist[i].str_qna_date);
-                        }
                     } else{
                         $state.complete();
                     }

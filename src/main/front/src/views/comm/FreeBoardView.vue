@@ -3,27 +3,28 @@
       <div class="freeboard-view" id="freeboard-view">
          <CommCategory :currentTab="'free'"></CommCategory>
       </div> 
-         <div class="freeboard-main" id="freeboard-main">
-            <div id="freeboard-box">
+         <div class="freeboardMain">
+            <div>
+               <div>
+                  <div class="freeBoradSearch">
+                     <div @submit="freesearch()" class = "freeSearch">
+                        <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
+                        <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                        <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
+                        <font-awesome-icon :icon="['fas', 'pencil']" />
+                        글쓰기
+                        </b-button>
+                     </div>
+                  </div>
                <h2>자유게시판</h2>
-               <div class="freeBoradSearch" id="freeBoradSearch">
-                  <b-form @submit="freesearch()" class = "freeSerch">
-                     <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
-                     <input class="free-view-keyword" id="free-view-keyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
-                     <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
-                     <font-awesome-icon :icon="['fas', 'pencil']" />
-                     글쓰기
-                     </b-button>
-                  </b-form>
-               </div>
-            </div>
-            <div class="freeboard-main-1">
-               <div id="qna-sort">
-                     <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
+               <div class="freeSelectBox">
+                     <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
                         <option value="highViews">조회수 순</option>
                      </select>
                   </div>
+               </div>
+            </div>   
                <table class="w3-table-all freeboard-table" id="freeboard-table">
                <thead>
                      <tr>
@@ -54,7 +55,6 @@
                <!-- 처리 실패 후, 보여질 부분 -->
                <template #no-results></template>
             </InfiniteLoading>
-         </div>
       </div>
    </div>
 </template>
