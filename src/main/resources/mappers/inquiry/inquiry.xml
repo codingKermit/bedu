@@ -1,63 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.bedu.inquiry.InquiryDAO">
-		
-	<insert id="createInquiry" parameterType="com.care.bedu.inquiry.vo.InquiryVO">
+<mapper namespace="com.care.bedu.inquiry.dao.InquiryDAO">
+
+	<insert id="inquiryWrite"
+		parameterType="com.care.bedu.inquiry.vo.InquiryVO">
 		INSERT INTO T_BEDU_VOC(
-		  VOC_NUM,
-		  TITLE,
-		  CONTENT,
-		  FILE_NAME,
-		  FILE_TYPE,
-		  USER_NAME,
-		  REG_DATE,
-		  REG_ID
-		)VALUES(
-	      #{voc_num},
-	      #{title},
-		  #{content},
-		  #{file_name},
-		  #{file_type},
-		  #{commNum},
-		  #{user_name},
-		  SYSDATE,
-		  #{reg_Id}
+		 VOC_NUM,
+		 TITLE,
+		 CONTENT,
+		 FILE_NAME,
+		 FILE_TYPE,
+		 USER_NAME,
+		 REG_DATE,
+		 REG_ID
+		)
+		VALUES(
+		 #{vocNum},
+		 #{title},
+		 #{content},
+		 #{fileName},
+		 #{fileType},
+		 #{userName},
+		 SYSDATE,
+		 #{regId}
 		)
 	</insert>
-	<select id="getAllInquiry" resultType="java.util.HashMap">
+
+	<select id="inquirylist"
+		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-    			title,
-    			writer,
-    			content,
-    			star,
-    			reviewDate
+		*
 		FROM
-    		(
-    			SELECT
-        		TITLE AS title,
-        		USER_NAME AS writer,
-        		CONTENT AS content,
-        		REG_DATE AS inquiryDate
-    	FROM
-       		 	T_BEDU_VOC
-    	ORDER BY
-        		REG_DATE DESC
-    		) 
+		(
+		SELECT
+		 TITLE AS title,
+		 CONTENT AS content,
+		 TO_CHAR(REG_DATE, 'YYYY-MM-DD') as regDate
+		FROM
+		 T_BEDU_VOC
+		ORDER BY
+		 REG_DATE DESC
+		)
+	</select>
+
+	<select id="inquirysearch"
+		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT
+		 TITLE as title,
+		 CONTENT as content,
+		 REG_DATE
+		FROM
+		 T_BEDU_VOC
+		WHERE
+		 TITLE LIKE '%' || :keyword || '%' OR
+		 CONTENT LIKE '%'
+		 ||
+		 :keyword || '%' OR
+		 USER_NAME LIKE '%' || :keyword || '%'
+	</select>
+
+	<select id="getuserId"
+		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT
+		 USER_ID
+		FROM T_BEDU_USER
+		WHERE USER_NAME = #{userName}
+	</select>
+
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) FROM T_BEDU_VOC
 	</select>
 	
-	    <select id="getSearchedInquiry" resultType="java.util.HashMap">
-  		SELECT 
-    			TITLE as title,
-    			USER_NAME as writer,	
-   				CONTENT as content,
-    			REG_DATE AS inquiryDate
-  		FROM T_BEDU_VOC
-  			WHERE
-    			TITLE LIKE '%' || :keyword || '%' OR
-    			CONTENT LIKE '%' || :keyword || '%' OR
-    			USER_NAME LIKE '%' || :keyword || '%'
+	<select id="getuserName"
+		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT
+		 USER_NAME
+		FROM T_BEDU_USER
+		WHERE USER_ID = #{userId}
 	</select>
-	
-	
 </mapper>
