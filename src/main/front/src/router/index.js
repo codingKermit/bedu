@@ -29,7 +29,7 @@ const routes = [
     }
     ,{
         path : '/lectureCategories/:index',
-        name : 'lectureCategories/:index',
+        name : 'lectureCategories',
 
         component : () => import('@/views/lecture/LectureCategories.vue')
     },
@@ -93,7 +93,6 @@ const routes = [
         name: 'freeBoard',
         component: () => import('../views/comm/FreeBoardView.vue')
     }
-
     ,
     {
         path: '/comm/freBdWrite',

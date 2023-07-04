@@ -37,8 +37,17 @@ public class LectureManageServiceImpl implements LectureManageService{
 
         MultipartFile multiFile = req.getFile("upload");
 
-        String extention = multiFile.getOriginalFilename().split("\\.")[1];
-        
+        if(multiFile == null){
+            return null;
+        }
+        String originName = multiFile.getOriginalFilename();
+
+        if(originName == null){
+            return null;
+        }
+
+        String extention = originName.split("\\.")[1];
+
         String uid = UUID.randomUUID().toString() + "." + extention;
         String uploadUrl = baseUrl+ managePath + uid;
         
@@ -89,8 +98,16 @@ public class LectureManageServiceImpl implements LectureManageService{
             lectureVO.setLectSum(summary); lectureVO.setLectDesc(contents);
             lectureVO.setCategory(cateCode); lectureVO.setRegNum(regNum);
 
-            String extention = thumbnail.getOriginalFilename().split("\\.")[1];
-            
+            if(thumbnail == null){
+                return 0;
+            }
+            String originName = thumbnail.getOriginalFilename();
+
+            if(originName == null){
+                return 0;
+            }
+            String extention = originName.split("\\.")[1];
+
             String uid = UUID.randomUUID().toString() + "." + extention;
 
             String uploadUrl = baseUrl + managePath + uid;

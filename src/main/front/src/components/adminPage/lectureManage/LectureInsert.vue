@@ -177,9 +177,6 @@ export default{
                     icon : 'info',
                     text : '강의 설명을 입력해주세요'
                 })
-                .then(()=>{
-                    this.$refs.contents.focus()
-                })
                 return;
             }
             // 데이터 무결성 검사 종료
@@ -202,16 +199,24 @@ export default{
                 }
             })
             .then(()=>{
-                this.form.contents = null;
-                this.form.period = null;
-                this.form.price = null;
-                this.form.summary = null;
-                this.form.teacher = null;
-                this.form.thumbnail = null;
-                this.form.title = null;
-                this.currentTop = null;
-                this.currentMid = null;
-                this.currentBot = null;
+                this.$swal({
+                    title : '성공',
+                    icon : 'success',
+                    text : '강의가 성공적으로 등록 되었습니다'
+                })
+                .then(()=>{
+                    this.form.contents = '';
+                    this.form.period = '';
+                    this.form.price = '';
+                    this.form.summary = '';
+                    this.form.teacher = '';
+                    this.form.thumbnail = '';
+                    this.form.title = '';
+                    this.currentTop = '';
+                    this.currentMid = '';
+                    this.currentBot = '';
+                    window.scrollTo({top: 0})
+                })
             })
             .catch((err)=>{
                 console.log(err)
