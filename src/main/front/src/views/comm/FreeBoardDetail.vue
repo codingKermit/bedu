@@ -27,7 +27,7 @@
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
                         <font-awesome-icon :icon="['fas', 'heart']"
-                            :class="likeok ? 'bedu-bg-custom-blue':''"/>
+                            />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.comm_like_yn }}
                             </text>

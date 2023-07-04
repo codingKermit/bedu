@@ -28,7 +28,7 @@
             <div id="qna-likeyn">
                 <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
                     <font-awesome-icon :icon="['fas', 'heart']"
-                            :class="likeok ? 'bedu-bg-custom-blue':''"/>
+                            />
                         <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
                             {{ qna.qna_like_yn }}
                         </text>
