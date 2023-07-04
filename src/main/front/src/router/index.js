@@ -182,6 +182,13 @@ const routes = [
 
         component : () => import('@/views/Membership.vue')
 
+    },
+    {
+        path: '/mypageAll',
+        name: 'mypageAll',
+
+        component : () => import('@/views/user/MypageUserLectureDetail.vue')
+
     }
 ]
 

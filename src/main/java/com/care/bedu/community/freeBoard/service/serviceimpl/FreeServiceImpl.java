@@ -88,23 +88,19 @@ public class FreeServiceImpl implements FreeService{
 	public HashMap<String, Object> likeUp(int commnum, String userName, String regId) throws Exception {
 		int number = freelikeCntDAO.getfreelikeName(commnum, userName);
 		Integer likeyn = freelikeCntDAO.getlikeFreenum(commnum, userName);
-		
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(number == 0) {
-			
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
 			likeCntVO.setCommBdNum(commnum);
 			likeCntVO.setRegId(regId);
-			
 			Integer result = freelikeCntDAO.likeCntFreeSave(likeCntVO);
 			
 			if(result == 1) {
 				Integer getnum = freeDAO.freelikeUp(commnum);
 				map.put("likenum", likeyn);
 				map.put("result", getnum);
-				
 				return map;
 			}else {
 		
@@ -114,12 +110,9 @@ public class FreeServiceImpl implements FreeService{
 			}
 		}else {
 			if(likeyn != null) {
-				
 				map.put("likenum", likeyn);
 			}
-			
 			map.put("result", 0);
-	
 			return map;
 		}
 	}

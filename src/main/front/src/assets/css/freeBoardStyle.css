@@ -1,5 +1,5 @@
 /*StudyReview css*/
-#freeboard-main {
+.freeboardMain {
     padding-top: 5.5%;
     margin-left: 3%;
     padding-right: 30px;
@@ -20,13 +20,14 @@
     float: left;
 }
 
-#qnaSortOption {
+
+
+.freeQnaSortOption {
     width: 110px;
     height: 40px;
-    margin-top: 35px;
-    margin-bottom: 15px;
     font-size: 120%;
     border: none;
+    float: right;
 }
 
 #freeboard-table th,
@@ -45,9 +46,8 @@
     border: none;
 }
 
-#free-view-keyword {
+.freeViewKeyword {
     width: 300px;
-    padding: 5px 42px;
     height: 40px;
     border-radius: 20px;
     border: 2px solid black;
@@ -66,9 +66,8 @@
     text-overflow: clip;
 }
 
-#freeBoradSearch {
+.freeBoradSearch {
     float: right;
-    margin-bottom: 15px;
 }
 
 h1 {
@@ -232,8 +231,12 @@ h1 {
     padding-left: 6%;
 }
 
-.freeSerch{
+.freeSearch{
     margin-right: -35px;
+}
+
+.freeSelectBox{
+    margin-top: 2%;
 }
 
 .writeMain{

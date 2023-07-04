@@ -4,7 +4,8 @@
 <mapper namespace="com.care.bedu.community.freeBoard.dao.FreeDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT * FROM (SELECT
+		SELECT
+		 * FROM (SELECT
 		  ROWNUM rnum,
 		  COMM_NUM as comm_num,
 		  TITLE,

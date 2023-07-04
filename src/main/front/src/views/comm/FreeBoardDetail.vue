@@ -26,7 +26,8 @@
                 </div>
                 <div id="free-likeyn">
                     <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
-                        <font-awesome-icon :icon="['fas', 'heart']"/>
+                        <font-awesome-icon :icon="['fas', 'heart']"
+                            />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.comm_like_yn }}
                             </text>
@@ -37,7 +38,7 @@
                     <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                    <b-button type="button" class="btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                    <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
                 </div>
                 <div>
@@ -134,6 +135,10 @@ export default{
         getUserId(nickName){
                                            //자유게시판 글번호를 통해 조회해온 게시글에해당하는 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
             
+            if(this.userNickName === null || this.userNickName ===""){
+                document.getElementById("free-detail-replybtn").style.display="none";
+            }
+
             if(this.userNickName !== nickName){
                     
                 document.getElementById("freeboard-detail-editbtn").style.display="none";
@@ -157,7 +162,7 @@ export default{
         },
 
         replygetTotal(cnum){
-            console.log('총합글:',cnum);
+            
             this.$axiosSend('get','/api/reply/replyTotal', {
                 num: cnum,
             })
@@ -168,7 +173,7 @@ export default{
         },
 
         freeRead(commnum){ // 게시글 데이터 조회
-            // console.log('번호:', num);
+           
             this.$axiosSend('get','/api/freBd/detail',{
                     num : commnum,
             })
@@ -374,6 +379,19 @@ export default{
             document.getElementById("freeboard-detail-editbtn").style.display="inline";
             document.getElementById("freeboard-detail-deletebtn").style.display="inline";
             document.getElementById("qna-detail-recensell").style.display="none";
+            if(this.free.user_name === this.userNickName){
+                document.getElementById("free-detail-replybtn").style.display="inline";
+                document.getElementById("freeboard-detail-editbtn").style.display="inline";
+                document.getElementById("freeboard-detail-deletebtn").style.display="inline";
+                // document.getElementById("freeboard-detail-editbtn").style.display="block";
+                // document.getElementById("freeboard-detail-deletebtn").style.display="block";
+                return;
+            }else{
+                
+                document.getElementById("freeboard-detail-editbtn").style.display="none";
+                document.getElementById("freeboard-detail-deletebtn").style.display="none";
+                return;
+            }
         },
 
         path(commnum){

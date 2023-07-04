@@ -27,7 +27,8 @@
             </div>
             <div id="qna-likeyn">
                 <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
-                    <font-awesome-icon :icon="['fas', 'thumbs-up']"/> 
+                    <font-awesome-icon :icon="['fas', 'heart']"
+                            />
                         <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
                             {{ qna.qna_like_yn }}
                         </text>
@@ -38,7 +39,7 @@
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                 <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
-                <b-button type="button" class="btn-custom ms-3 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
+                <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
             </div>
             <div>
@@ -90,6 +91,7 @@
                 userlist:[],
                 ansid:'',
                 likeok:false,
+                qsBdNum:'',
                 form:{
                     ansBdNum:0,
                     ansDate:'',
@@ -150,7 +152,7 @@
                         qnaNum: qnanum,
                 })
                 .then(res => {
-                       this.anstotal=res.data;
+                    this.anstotal=res.data;
                 })
             },
 
@@ -248,15 +250,18 @@
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,                              //질문게시글
                         regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
-                        userName : this.userNickName               
+                        userName : this.userNickName,
+                        qsBdNum : this.qsBdNum 
                 })
                 .then(res => {
                     if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
                         this.qna.qna_like_yn++;
+                        this.likeok = true;
                         return;
                     }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
 
-                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.likenum = res.data.likenum;
+                        this.likeok = false;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
                         this.qnalikedown();      
                         return;
                     }    

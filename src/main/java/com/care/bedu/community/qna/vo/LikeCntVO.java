@@ -15,6 +15,7 @@ public class LikeCntVO {
 	private int qsBdNum;
 	private int commBdNum;
 	private Date regDate;	//게시판 시간
+	private Boolean likeyn;
 	
 	
 }

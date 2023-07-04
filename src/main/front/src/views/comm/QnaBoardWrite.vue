@@ -20,7 +20,7 @@
                     <!--저장 취소 버튼셋-->
                     <div id = "buttonSet">
                         <b-button type="submit" class="px-4 bedu-bg-custom-blue qna-writebtn">등록</b-button>
-                        <b-button class="px-4 qna-cansellbtn" type="reset">취소</b-button>
+                        <b-button class="px-4 qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
                     </div>
                     <!--저장 취소 버튼셋 종료-->
                 </b-form>
@@ -80,7 +80,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "qnaBoard"
+                    name: "login"
                 })
                 return;
             }
@@ -92,7 +92,7 @@
             if(nick === '' || nick === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
-                    name: "qnaBoard"
+                    name: "login"
                 })
             }
         },
