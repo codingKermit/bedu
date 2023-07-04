@@ -6,25 +6,28 @@
         </b-container>
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <b-container class="text-dark fw-bold">
-                    <!-- v-if문 이용하여  user_id값이 있지만 수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if=" userList == '' " >
+                    <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
+                    <div class="curr-subjectInfo" v-if=" userList == '' || lectureList == 0 " >
                        <b-container class="w-75 ms-auto py-5">
                             <p style="text-align: center;">수강내역이 없습니다.</p>
                        </b-container>
                     </div>
                     <!--v-else를 이용하여 userList가 있고 수강내역이 있을때이라면 현재 수강정보가 보이게-->
                     <div v-else class="lecture">
-                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in userList">
+                        <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
+                            <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in lectureList">
                             <div class="lect text-start">
-                               <!-- <a @click="goToInfo(item.lectNum)" style="cursor:pointer">
-                                </a>-->
+                               <!--  링크걸어서 화면 이동 테스트중 -->
+                                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
                                 <b-container class="w-25 ms-auto py-5" style="float: left;">
-                                    <b-container class="border rounded-3 py-3 mb-2">
-                                            <p class="fw-bold">프로그래밍 배워봅시다</p>
+                                    <b-container class="border rounded-3 py-3 mb-2" >
+                                        <p class="fw-bold">프로그래밍 배워봅시다</p>
                                             <p>
                                                 <span>강좌이름 : </span> {{ lecttitle }}
                                             </p>
-                                            <p>
+                                             <p>
                                                 <span>강의설명 : </span> {{ lectdesc }}
                                             </p>
                                             <p>
@@ -32,16 +35,19 @@
                                             </p>
                                     </b-container>
                                 </b-container>
-                            </div>
+                            </b-link>
                         </div>
                     </div>
-                </b-container>
+                </div>
+            </b-container>
         </b-container>
         <b-container>
             <p class="fs-4 fw-bold">북마크</p>
-                <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0">-->
+                <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
                     <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                 </div>
+                <!--  링크걸어서 화면 이동 테스트중 -->
+                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
                     <b-container class="w-25 ms-auto py-5" style="float: left;">
                         <b-container class="border rounded-3 py-3 mb-2">
                                 <p class="fw-bold">프로그래밍 배워봅시다</p>
@@ -56,6 +62,7 @@
                                 </p>
                             </b-container>
                         </b-container>
+                    
                         <b-container class="w-25 ms-auto py-5" style="float: left;">
                         <b-container class="border rounded-3 py-3 mb-2">
                                 <p class="fw-bold">프로그래밍 배워봅시다</p>
@@ -84,7 +91,8 @@
                                 </p>
                             </b-container>
                         </b-container>
-                    </b-container>
+                    </b-link>
+                </b-container>
         <!--
         <div style="bottom;">
             <b-container>
@@ -115,6 +123,7 @@ export default {
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
+            lectureLsitFirst : 0,
             dataFull : false,
             userlectnum : 0,
             userId : this.$store.state.nickname,
@@ -167,6 +176,9 @@ export default {
             .catch((err)=>{
                 console.log(err)
             })
+            console.log("######",this.lectureList)
+            console.log("######22222",this.lectureInfo)
+            console.log("#####!!!!",this.lectureCount)
         },
          getLectureCount() {
             const userid = this.$store.getters.getEmail;
@@ -175,17 +187,18 @@ export default {
                         if(this.numOfLecture < this.lectureCount) {
                             this.numOfLecture += 3; //수강정보 3개 증가
 
-                            var data = []
-                            for (var k = 0; k < this.lectureCount; k++){ //전체 수강정보에서 노출 개수만큼 데이터 추출하여 data배열에 추가
+                        var data = []
+                        for (var k = 0; k < this.lectureCount; k++){ //전체 수강정보에서 노출 개수만큼 데이터 추출하여 data배열에 추가
                                 data.push(this.lectureList[k]) //전체 수강정보에서 노출
-                            }
-                            this.lectureInfo = data //lectureInfo객체에 data 배열 업데이트
+                        }
+                                this.lectureInfo = data //lectureInfo객체에 data 배열 업데이트
                         }else {
-                            this.dataFull = true //dataFull 객체를 true로 변경
-                            alert('List items are fully loaded') //모든 데이터 출력 알림
+                                this.dataFull = true //dataFull 객체를 true로 변경
+                                alert('List items are fully loaded') //모든 데이터 출력 알림
                         }
 
                         console.log(res);
+                        
                         // 요청이 성공적으로 완료된 후 전체보기 수강정보 목록 페이지로 리디렉션
                         this.$router.push('/mypageAll',{userid : userid}, true)
                     })
