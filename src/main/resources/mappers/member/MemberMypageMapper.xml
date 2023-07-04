@@ -50,6 +50,17 @@
  		WHERE ROWNUM <![CDATA[>=]]> #{numOfLecture} AND ROWNUM <![CDATA[<=]]> #{lectureCount}
    	 	AND A.CATE_CODE = '전체보기'
    	 </select>
+   	 
+   	 <select id="lectureListAll"  resultType="int">
+		SELECT 
+			A.*
+		FROM T_BEDU_LECT A
+    	INNER JOIN T_BEDU_USER_LECT B
+    		ON A.LECT_NUM = B.LECT_NUM
+   		INNER JOIN T_BEDU_USER C
+   			ON B.USER_NAME = C.USER_NAME
+   		WHERE ROWNUM BETWEEN #{start} AND  #{numOfPage}
+   	</select>
 	 
 	<select id="getMemberMypageAll"  resultType="int">
 		SELECT 

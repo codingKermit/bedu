@@ -38,11 +38,11 @@
                 </b-container>
             <!--</div>-->
           <div class="btn-cover">
-            <b-button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+            <b-button :disabled="pageNumber === 0" @click="prevPage" class="page-btn">
                 이전
             </b-button>
-            <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-            <b-button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+            <span class="page-count">{{ pageNumber + 1 }} / {{ pageCount }} 페이지</span>
+            <b-button :disabled="pageNumber >= pageCount - 1" @click="nextPage" class="page-btn">
                 다음
             </b-button>
           </div>
@@ -54,23 +54,23 @@ export default {
     data() {
        return {
            userName : this.$store.state.nickname,
-           pageNum : 0,
+           pageNumber : 0,
            listArray : [],
-           pageSize : 10
+           numOfPage : 10,
         }
     },
    methods : {
         nextPage () {
-            this.pageNum += 1;
+            this.pageNumber += 1;
         },
         prevPage () {
-            this.pageNum -= 1;
+            this.pageNumber -= 1;
         }
     },
     computed : {
         pageCount () {
             let listLeng = this.listArray.length,
-            listSize = this.pageSize,
+            listSize = this.numOfPage,
             page = Math.floor(listLeng / listSize);
             
             if (listLeng % listSize > 0) page += 1;
@@ -78,8 +78,8 @@ export default {
             return page;
         },
         paginatedData () {
-            const start = this.pageNum * this.pageSize,
-            end = start + this.pageSize;
+            const start = this.pageNumber * this.numOfPage,
+            end = start + this.numOfPage;
         return this.listArray.slice(start,end)
         }
     }
