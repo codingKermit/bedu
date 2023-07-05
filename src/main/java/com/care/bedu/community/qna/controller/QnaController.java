@@ -35,10 +35,10 @@ public class QnaController {
 	 }
 	
 	 @RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)				//게시글 수정
-	 public int qnaEdit(String title, String content, int qna_bd_num){
+	 public int qnaEdit(String title, String content, int qnaBdNum){
 		QnaVO qnaVO = new QnaVO();
 		qnaVO.setContent(content);
-		qnaVO.setQna_bd_num(qna_bd_num);
+		qnaVO.setQnaBdNum(qnaBdNum);
 		qnaVO.setTitle(title);
 	 	int result = qnaService.viewupdate(qnaVO);
 	 	return result> 0? 1:0;	

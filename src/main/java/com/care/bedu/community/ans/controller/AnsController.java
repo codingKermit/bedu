@@ -25,18 +25,24 @@ public class AnsController {
 	
 	//답글게시글 작성
 	@RequestMapping(value="/ans/write", method=RequestMethod.POST)
-	public int ansWrite(int qsBdNum, String userName, String content){
+	public int ansWrite(int qsBdNum, String userName, String content, String regId){
 		AnsVO ansVO = new AnsVO();
 		ansVO.setQsBdNum(qsBdNum);
 		ansVO.setUserName(userName);
 		ansVO.setContent(content);
-		ansVO.setRegId(userName);
+		ansVO.setRegId(regId);
 		return ansService.boardwrite(ansVO);
 	}
 	
 	@RequestMapping(value="/ans/ansTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansTotal(int qnaNum){
 	 	return ansService.ansTotal(qnaNum);
+	}
+	
+	@RequestMapping(value="/ans/ansdelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int ansDelete(int ansBdNum) throws Exception{
+		return ansService.ansDelete(ansBdNum);
+		
 	}
 
 }

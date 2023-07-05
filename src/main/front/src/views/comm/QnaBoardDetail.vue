@@ -11,13 +11,13 @@
             
             <div id="qna-userinfo">
                 <p id="qna-userid">
-                    {{ qna.user_name}}
+                    {{ qna.userName}}
                 </p>
                 <p id="qna-comm">
-                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
                 </p>
                 <p id="qna-date">
-                    {{ qna.str_qna_date }} 
+                    {{ qna.strQnaDate }} 
                 </p>
             </div>
             <hr class="mt-10">
@@ -26,11 +26,11 @@
                 <div v-html="qna.content"></div>
             </div>
             <div id="qna-likeyn">
-                <button id="qna-likebtn" @click="qnalikeUp(qna.qna_bd_num)">
+                <button id="qna-likebtn" @click="qnalikeUp(qna.qnaBdNum)">
                     <font-awesome-icon :icon="['fas', 'heart']"
                             />
                         <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
-                            {{ qna.qna_like_yn }}
+                            {{ qna.qnaLikeCnt }}
                         </text>
                 </button>    
             </div>
@@ -39,8 +39,8 @@
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                 <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
-                <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath()">글수정</b-button>
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete()">삭제</b-button>
+                <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
             </div>
             <div>
                 <p class = "fw-bold fs-5">
@@ -66,6 +66,9 @@
                         {{ ans.content }}
                     </div>
                     <hr/>
+                    <div id="qna-detail-replyDelBtn">
+                        <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답글삭제</b-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,8 +93,7 @@
                 userNickName:'',
                 userlist:[],
                 ansid:'',
-                likeok:false,
-                qsBdNum:'',
+                
                 form:{
                     ansBdNum:0,
                     ansDate:'',
@@ -100,8 +102,8 @@
                     regId:'',
                 },
                 qna:{
-                    qna_bd_num:0,
-                    user_name : '',
+                    qnaBdNum:0,
+                    userName : '',
                 }
             }
         },
@@ -139,6 +141,11 @@
             },
 
             getUserId(nickname){
+                
+                if(this.userNickName === null || this.userNickName ===""){
+                    document.getElementById("qnaboard-detail-replybtn").style.display="none";
+                }
+
                 if(this.userNickName !== nickname){
                     document.getElementById("qnaboard-detail-editbtn").style.display="none";
                     document.getElementById("qnaboard-detail-deletebtn").style.display="none";
@@ -147,12 +154,12 @@
             },
 
             ansgetTotal(qnanum){
-                console.log('총합글:',qnanum);
+                
                 this.$axiosSend('get','/api/ans/ansTotal', {
                         qnaNum: qnanum,
                 })
                 .then(res => {
-                    this.anstotal=res.data;
+                       this.anstotal=res.data;
                 })
             },
 
@@ -163,7 +170,7 @@
                 }).then(res => {
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
-                        this.ansid = this.userlist[i].user_id;
+                        this.ansid = this.userlist[i].userId;
                     }
                 })
                 .catch((error) => {
@@ -177,8 +184,8 @@
                 })
                 .then(res=>{
                     this.qna = res.data;                
-                    this.qna.str_qna_date = this.qnaDateTime(this.qna.str_qna_date);
-                    this.getUserId(this.qna.user_name);
+                    this.qna.strQnaDate = this.qnaDateTime(this.qna.strQnaDate);
+                    this.getUserId(this.qna.userName);
                 })
                 .catch((error)=>{
                     alert(error);
@@ -192,7 +199,7 @@
                     qsBdNum: qnanum
                 }).then(res => {
                     this.anslist = res.data;
-                })
+                })  
                 .catch((error) => {
                     this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
                 })
@@ -200,6 +207,15 @@
 
             //게시글 삭제
             qnadelete(qnanum) {
+
+                if(this.userNickName === null || this.userNickName ===""){
+                    this.$swal('로그인을 해주세요.', 'success');
+                    router.push({
+                        name: 'login', 
+                    })
+                    return;
+                }
+
                 this.$axiosSend('get','/api/qna/qnaDelete', {
                         num: qnanum,
                 })
@@ -216,24 +232,24 @@
                 })
             },
 
-            qnaeditPath(){              //수정페이지로 이동 (질문글번호)
+            qnaeditPath(qnum){              //수정페이지로 이동 (질문글번호)
                 router.push({
                     name: 'qnaBoardedit', 
-                        num :this.qna.qna_bd_num,
+                        num :qnum,
                 })
             },
 
             qnalikedown(){                                                      
             
                 this.$axiosSend('get','/api/qna/likeDown', {
-                        num : this.qna.qna_bd_num,
+                        num : this.qna.qnaBdNum,
                         userName : this.userNickName,
                         likebdnum : this.likenum,
                 })
                 .then(res => {
                     
                     if(res.data === 1){
-                        this.qna.qna_like_yn--;
+                        this.qna.qnaLikeCnt--;
                         return;
                     }else if(res.data === 0){
                         return;
@@ -245,23 +261,33 @@
             },
 
             qnalikeUp(qnum){
+                
+                if(this.userNickName === null || this.userNickName===""){
+                    this.$swal('로그인을 해주세요.');
+                    router.push({
+                        name: 'login', 
+                    })
+                    return;
+                }
+
+                if(this.qna.userName === this.userNickName){
+                    return;
+                }
+
                 var regid = this.ansid;
 
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,                              //질문게시글
                         regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
-                        userName : this.userNickName,
-                        qsBdNum : this.qsBdNum 
+                        userName : this.userNickName               
                 })
                 .then(res => {
                     if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
-                        this.qna.qna_like_yn++;
-                        this.likeok = true;
+                        this.qna.qnaLikeCnt++;
                         return;
                     }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
 
-                        this.likenum = res.data.likenum;
-                        this.likeok = false;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
                         this.qnalikedown();      
                         return;
                     }    
@@ -295,6 +321,15 @@
             },
 
             answrite(){
+
+                if(this.userNickName === null || this.userNickName ===""){
+                    this.$swal('로그인을 해주세요.', 'success');
+                    router.push({
+                        name: 'login', 
+                    })
+                    return;
+                }
+
                 if(this.form.content == null || this.form.content == ""){
                     this.$swal({
                         title :'warning!',
@@ -305,8 +340,9 @@
                     return;
                 }
                 
-                this.form.qsBdNum = this.qna.qna_bd_num;
-                this.form.userName = this.ansid;
+                this.form.qsBdNum = this.qna.qnaBdNum;
+                this.form.regId = this.ansid;
+                this.form.userName = this.userNickName;
                 var qnanum = this.form.qsBdNum;
 
                 this.$axiosSend('post', '/api/ans/write', this.form)
@@ -335,7 +371,15 @@
                 document.getElementById("qnaboard-detail-editbtn").style.display="inline";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
                 document.getElementById("qnaboard-detail-recensell").style.display="none";
-                
+                if(this.qna.userName === this.userNickName){
+                    document.getElementById("qnaboard-detail-replybtn").style.display="inline";
+                    document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
+                    document.getElementById("qnaboard-detail-editbtn").style.display="inline";
+                    return;
+                }else{
+                    document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                    document.getElementById("qnaboard-detail-editbtn").style.display="none";
+                }
             },
 
             ansopen(){
@@ -348,6 +392,44 @@
                 this.form.content = "";
             },
 
+            ansdelete(ansNum, userName, regid){
+                
+                if(this.userNickName === null || this.userNickName ===""){
+                    this.$swal('로그인을 해주세요.', 'success');
+                    router.push({
+                        name: 'login', 
+                    })
+                    return;
+                }
+                if(userName !== this.userNickName){
+                    this.$swal('답글은 본인 글만 삭제 가능합니다!', 'success');
+                    return;
+                }else{
+                    console.log('번호:',ansNum);
+                    
+                    this.$axiosSend('get','/api/ans/ansdelete', {
+                        ansBdNum : ansNum
+                    })
+                    .then(res => {
+                        
+                        if(res.data ===1){
+                            this.$swal('Success', '답글삭제가 완료 되었습니다.', 'success');
+                            this.ansread(this.qna.qnaBdNum);
+                            this.ansgetTotal(this.qna.qnaBdNum);
+                            return;
+                        }else{
+                            this.$swal('error', '답글삭제실패!', 'error');
+                            this.ansread(this.qna.qnaBdNum);
+                            return;
+                        }    
+                    })
+                    .catch(error => {
+                        this.$swal(error, '답글삭제실패!', 'error');
+                    })
+                }
+            }
+
         },
     }
+
 </script>

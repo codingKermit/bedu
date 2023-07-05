@@ -32,16 +32,23 @@
 		  ANS_DATE as ansDate,
 		  ANS_LIKE_CNT as ansLikeCnt,
 		  u.USER_NAME as userName
-		FROM T_BEDU_ANS a LEFT JOIN T_BEDU_USER u ON a.USER_NAME = u.USER_ID
+		FROM T_BEDU_ANS a LEFT JOIN T_BEDU_USER u ON a.USER_NAME = u.USER_NAME
 		WHERE QS_BD_NUM = #{qsBdNum} 
 		ORDER BY ANS_BD_NUM DESC)
 	</select>
 	
 	<select id="ansTotal" resultType="int">
-		SELECT COUNT(ANS_BD_NUM)
-		  FROM T_BEDU_ANS
+		SELECT
+		  COUNT(ANS_BD_NUM)
+		FROM T_BEDU_ANS
 	    WHERE QS_BD_NUM = #{qnanum}
 	</select>
+	
+	<delete id="ansDelete">
+		DELETE
+		 FROM T_BEDU_ANS
+		WHERE ANS_BD_NUM = #{ansBdNum}
+	</delete>
 
 	
 </mapper>

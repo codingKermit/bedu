@@ -6,7 +6,7 @@
         <div id="freeboard-write">
             <h2>자유게시판 수정</h2>
             <b-form @submit="edit()">
-                <input type="hidden" v-model="form.comm_num" ref="comm_num"/>
+                <input type="hidden" v-model="form.commNum" ref="commNum"/>
                 <b-form-input class="mt-4 mb-2" id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 
@@ -47,7 +47,7 @@
                     },
                 },
                 form:{
-                    comm_num : 0,  
+                    commNum : 0,  
                     title: '',
                     content: '',
                 }
@@ -99,10 +99,10 @@
 
             edit(){
                 alert('게시글을 수정합니다.');
-                const form = new FormData();
-                form.append("comm_num",this.form.comm_num);
-                form.append("title",this.form.title);
-                form.append("content",this.form.content);
+                // const form = new FormData();
+                // form.append("comm_num",this.form.commNum);
+                // form.append("title",this.form.title);
+                // form.append("content",this.form.content);
                 
                 this.$axiosSend('post','/api/freBd/edit', this.form)
                 .then(res => {

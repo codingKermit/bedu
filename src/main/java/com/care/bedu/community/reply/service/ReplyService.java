@@ -9,4 +9,5 @@ public interface ReplyService {
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO); 	//게시글 조회
 	public int boardwrite(ReplyVO replyVO);				//게시글 등록
 	public int replyTotal(int num);
+	public int replydelete(int replynum);
 }

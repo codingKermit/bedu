@@ -42,4 +42,10 @@ public class AnsServiceImpl implements AnsService{
 		return ansDAO.ansTotal(qnanum);
 	}
 
+	@Override
+	public int ansDelete(int ansBdNum) throws Exception {
+		
+		return ansDAO.ansDelete(ansBdNum);
+	}
+
 }

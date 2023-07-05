@@ -10,13 +10,13 @@
                 </h2>
                 <div id="freeboard-userinfo">
                     <p id="freeboard-userid">
-                        {{ free.user_name}}
+                        {{ free.userName}}
                     </p>
                     <p id="free-comm">
-                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}
+                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
                     </p>
                     <p id="free-date">
-                        {{ free.str_comm_date }} 
+                        {{ free.strCommDate }} 
                     </p>
                 </div>
                 <hr class="mt-10"/>
@@ -25,11 +25,11 @@
                     <div v-html="free.content"></div>
                 </div>
                 <div id="free-likeyn">
-                    <button id="free-likebtn" @click="freelikeUp(free.comm_num)">
+                    <button id="free-likebtn" @click="freelikeUp(free.commNum)">
                         <font-awesome-icon :icon="['fas', 'heart']"
                             />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
-                                {{ free.comm_like_yn }}
+                                {{ free.commLikeYn }}
                             </text>
                     </button>    
                 </div>
@@ -65,6 +65,9 @@
                             {{ reply.content }}
                         </div>
                         <hr/>
+                        <div id="freeReplydelbtn">
+                            <b-button type="button" @click="replydelete(reply.replyNum, reply.userName)">댓글삭제</b-button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +76,7 @@
 </template>
 
 <script>
-import CommCategory from '@/components/CommCategory.vue';
+    import CommCategory from '@/components/CommCategory.vue';
 import router from '@/router';
 import '@/assets/css/freeBoardStyle.css';
 export default{
@@ -87,7 +90,6 @@ export default{
             replytotal:0,
             username:'',
             userNickName:'',
-            likeok:false,
 
             form: {
                 commNum:0,
@@ -99,14 +101,14 @@ export default{
             },
 
             free : {
-                comm_num:0,
+                commNum:0,
                 title : '',
                 content : '',
-                user_name : '',
-                str_comm_date:'',
-                user_id:'',
-                comm_cnt : 0,
-                comm_like_yn : 0,
+                userName : '',
+                strCommDate:'',
+                userId:'',
+                commCnt : 0,
+                commLikeYn : 0,
             }
         }
     },
@@ -118,12 +120,12 @@ export default{
 
     mounted() {
         this.userNickName =this.$store.getters.getNickname;
+        this.form.regId = this.$store.getters.getEmail;
         const cnum = this.$route.params.num;
         this.freeRead(cnum);
-        this.nickNamegetId();
         this.replygetTotal(cnum);
         this.replyread(cnum);
-        this.path(cnum);
+
     },
 
     created() {
@@ -132,8 +134,8 @@ export default{
 
     methods: {
 
-        getUserId(nickName){
-                                           //자유게시판 글번호를 통해 조회해온 게시글에해당하는 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
+        nicknameEquals(nickName){
+                                           //게시글 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
             
             if(this.userNickName === null || this.userNickName ===""){
                 document.getElementById("free-detail-replybtn").style.display="none";
@@ -146,28 +148,12 @@ export default{
             }
         },
 
-        nickNamegetId(){    //현제 로그인된 닉네임에 해당하는 userid값 가져옴  // 조회한 userid를 댓글작성할떄 regid로 넣음
-            
-            this.$axiosSend('get', '/api/qna/getUserId', {
-                userName: this.userNickName
-            }).then(res => {
-                this.userlist = res.data;
-                for(var i=0; i< this.userlist.length; i++){
-                    this.form.regId = this.userlist[i].user_id;
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        },
-
         replygetTotal(cnum){
             
             this.$axiosSend('get','/api/reply/replyTotal', {
                 num: cnum,
             })
             .then(res => {
-                console.log(res.data);
                 this.replytotal = res.data;
             })
         },
@@ -179,11 +165,8 @@ export default{
             })
             .then(response=>{
                 this.free = response.data;
-                this.free.str_comm_date = this.freeDateTime(this.free.str_comm_date);
-                this.getUserId(this.free.user_name);
-                
-                // const nickname = this.$store.getters.getNickname;
-                // this.free.user_name = nickname;
+                this.free.strCommDate = this.freeDateTime(this.free.strCommDate);
+                this.nicknameEquals(this.free.userName);
             })
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
@@ -206,9 +189,17 @@ export default{
 
 
         freedelete() {
-            alert('게시글을 삭제합니다.');
+
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: 'login', 
+                })
+                return;
+            }
+
             this.$axiosSend('get','/api/freBd/delete', {
-                    num: this.free.comm_num,
+                    num: this.free.commNum,
             })
                 .then(res => {
                     if (res.data === 1) {
@@ -225,7 +216,13 @@ export default{
         },
 
         replywrite(){
-
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: 'login', 
+                })
+                return;
+            }
             if(this.form.content == null || this.form.content == ""){
                     this.$swal({
                         title :'warning!',
@@ -235,22 +232,10 @@ export default{
                     })
                     return;
                 }
-                this.form.commNum = this.free.comm_num;
+                this.form.commNum = this.free.commNum;
                 this.form.userName = this.userNickName;
-                // this.form.regId = this.replyid;
                 
                 var commNum = this.form.commNum;
-
-                console.log(this.form.commNum);
-                console.log(this.form.userName);
-                console.log(this.form.content);
-                console.log(this.form.regId);
-
-                const form = new FormData();
-                form.append("userName",this.form.userName);
-                form.append("commNum",this.form.commNum);
-                form.append("content",this.form.content);
-                form.append("regId",this.form.regId);
 
                 this.$axiosSend('post', '/api/reply/write', this.form)
                 .then(res=>{
@@ -269,11 +254,49 @@ export default{
                 })
 
         },
+
+        replydelete(replyNum, userName){
+            console.log('글이름:', userName);
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: 'login', 
+                })
+                return;
+            }
+            if(userName !== this.userNickName){
+                this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
+                return;
+            }else{
+                
+                this.$axiosSend('get','/api/reply/replydelete', {
+                    rnum: replyNum
+                })
+                .then(res => {
+                    
+                    if(res.data ===1){
+                        this.$swal('Success', '댓글삭제가 완료 되었습니다.', 'success');
+                        this.replyread(this.free.commNum);
+                        this.replygetTotal(this.free.commNum);
+                        return;
+                    }else{
+                        this.$swal('error', '댓글삭제실패!', 'error');
+                        this.replyread(this.free.commNum);
+                        this.replygetTotal(this.free.commNum);
+                        return;
+                    }    
+                })
+                .catch(error => {
+                    this.$swal(error, '댓글삭제실패!', 'error');
+                })
+            }
+        },
+
         freeeditPath(){
             router.push({
                 name: 'freeBoardEdit', 
                 params:{
-                    num :this.free.comm_num
+                    num :this.free.commNum
                 }
             })
                 
@@ -283,14 +306,14 @@ export default{
         freelikedown(){
                 
             this.$axiosSend('get','/api/free/likeDown', {
-                    num : this.free.comm_num,
+                    num : this.free.commNum,
                     userName : this.userNickName,
                     likebdnum : this.likenum,
             })
             .then(res => {
                
                 if(res.data === 1){
-                    this.free.comm_like_yn--;
+                    this.free.commLikeYn--;
                     return;
                 }else if(res.data === 0){
                     return;
@@ -302,11 +325,20 @@ export default{
         },
 
         freelikeUp(cnum){
+            
+            if(this.userNickName === null || this.userNickName===""){
+                this.$swal('로그인을 해주세요.');
+                router.push({
+                    name: 'login', 
+                })
+                return;
+            }
+
+            if(this.free.userName === this.userNickName){
+                return;
+            }
 
             var regid = this.form.regId;
-            console.log(regid);
-            console.log(this.userNickName);
-            console.log(cnum);
 
             this.$axiosSend('get','/api/free/likeUp', {
                     num: cnum,
@@ -318,9 +350,7 @@ export default{
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
-                                  
-                    
-                    this.free.comm_like_yn++;
+                    this.free.commLikeYn++;
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 
@@ -370,6 +400,7 @@ export default{
             document.getElementById("freeboard-detail-editbtn").style.display="none";
             document.getElementById("freeboard-detail-deletebtn").style.display="none";
             document.getElementById("qna-detail-recensell").style.display="inline";
+            this.form.content = "";
         },
 
         censells(){
@@ -379,12 +410,11 @@ export default{
             document.getElementById("freeboard-detail-editbtn").style.display="inline";
             document.getElementById("freeboard-detail-deletebtn").style.display="inline";
             document.getElementById("qna-detail-recensell").style.display="none";
-            if(this.free.user_name === this.userNickName){
+            if(this.free.userName === this.userNickName){
                 document.getElementById("free-detail-replybtn").style.display="inline";
                 document.getElementById("freeboard-detail-editbtn").style.display="inline";
                 document.getElementById("freeboard-detail-deletebtn").style.display="inline";
-                // document.getElementById("freeboard-detail-editbtn").style.display="block";
-                // document.getElementById("freeboard-detail-deletebtn").style.display="block";
+                
                 return;
             }else{
                 
@@ -394,9 +424,6 @@ export default{
             }
         },
 
-        path(commnum){
-            this.result = commnum;
-        },
 
     },
 }

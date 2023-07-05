@@ -39,4 +39,10 @@ public class ReplyController {
 	public int replyTotal(int num){
 	 	return replyService.replyTotal(num);
 	}
+	
+	@RequestMapping(value="/reply/replydelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int replyDelete(int rnum) throws Exception{
+		return replyService.replydelete(rnum);
+		
+	}
 }

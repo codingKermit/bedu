@@ -62,7 +62,7 @@
                     },
                 },
                 form:{
-                    user_name: '',
+                    userName: '',
                     title:'',
                     content : '',
                 },
@@ -108,7 +108,7 @@
                     
                     this.userlist = res.data;
                     for(var i=0; i< this.userlist.length; i++){
-                        this.form.user_name = this.userlist[i].user_id;
+                        this.form.userName = this.userlist[i].userId;
                     }
                    
                 })
@@ -143,7 +143,7 @@
                 }
                 const form = new FormData();
                 
-                form.append("user_name", this.form.user_name);
+                form.append("user_name", this.form.userName);
                 form.append("title",this.form.title);
                 form.append("content",this.form.content);
 

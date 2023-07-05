@@ -41,10 +41,10 @@ public class QnaServiceImpl implements QnaService{
 		
 		List<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
 		for(QnaVO qna : qnalist) {
-			qna.setStr_qna_date(regdates(qna.getQna_date()));
-			List<QnaVO> username = qnaDAO.getuserName(qna.getUser_name());
+			qna.setStrQnaDate(regdates(qna.getQnaDate()));
+			List<QnaVO> username = qnaDAO.getuserName(qna.getUserName());
 			for(QnaVO user : username) {
-				qna.setUser_name(user.getUser_name());
+				qna.setUserName(user.getUserName());
 			}
 		}
 		
@@ -53,9 +53,9 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int boardwrite(QnaVO qnaVO) {
-		qnaVO.setReg_id(qnaVO.getUser_name());
-		qnaVO.setQna_cnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
-		qnaVO.setQna_like_yn(0);		//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
+		qnaVO.setRegId(qnaVO.getUserName());
+		qnaVO.setQnaCnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
+		qnaVO.setQnaLikeCnt(0);		//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
 		return qnaDAO.viewWrite(qnaVO);
 	}
 
@@ -63,8 +63,8 @@ public class QnaServiceImpl implements QnaService{
 	public QnaVO viewone(int num) {
 		qnaDAO.qnaCntUp(num);//조회수 증가
 		QnaVO qnaVO = qnaDAO.viewone(num);
-		String srtqnaDate = regdates(qnaVO.getQna_date());
-		qnaVO.setStr_qna_date(srtqnaDate);
+		String srtqnaDate = regdates(qnaVO.getQnaDate());
+		qnaVO.setStrQnaDate(srtqnaDate);
 		return qnaVO;						//게시글 상세보기
 	}
 

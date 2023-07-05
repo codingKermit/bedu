@@ -6,7 +6,7 @@
         <div id="qna-write">
             <h2>질문 & 답변 수정</h2>
             <b-form @submit="edit()">
-                <input type="hidden" v-model="form.comm_num" ref="qna_bd_num"/>
+                <input type="hidden" v-model="form.qnaBdNum" ref="qnaBdNum"/>
                     <b-form-input class="mt-4 mb-2" ref="title" id="qna-edit-title" v-model="form.title"></b-form-input>
                         
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
@@ -44,7 +44,7 @@
                     },
                 },
                 form:{
-                    qna_bd_num: 0,  
+                    qnaBdNum: 0,  
                     title: '',
                     content: '',
                     // str_qna_date:'',
@@ -96,12 +96,6 @@
             },
 
             edit(){
-
-                const form = new FormData();
-
-                form.append("qna_bd_num", this.form.qna_bd_num);
-                form.append("title", this.form.title);
-                form.append("content", this.form.content);
 
                 alert('게시글을 수정합니다.');
                 this.$axiosSend('post','/api/qna/qnaEdit', this.form)

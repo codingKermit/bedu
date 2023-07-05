@@ -9,4 +9,5 @@ public interface AnsService {
 	public ArrayList<AnsVO> getlist(AnsVO ansVO); 	//게시글 조회
 	public int boardwrite(AnsVO ansVO);				//게시글 등록
 	public int ansTotal(int qnanum);
+	public int ansDelete(int ansBdNum) throws Exception;
 }

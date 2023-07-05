@@ -11,4 +11,5 @@ public interface ReplyDAO {
 	public ArrayList<ReplyVO> viewList(ReplyVO replyVO);
 	public int viewWrite(ReplyVO replyVO);
 	public int replyTotal(int num);
+	public int replyDelete(int replynum);
 }

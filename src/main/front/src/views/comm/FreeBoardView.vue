@@ -35,15 +35,15 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr v-for="free in freelist" :key="free.comm_num">
+                     <tr v-for="free in freelist" :key="free.commNum">
                         <td id="freeboard-table-tds">
-                           <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.comm_num">
+                           <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
                               {{ free.title }}
                            </b-link>
                         </td>
-                        <td>{{ free.user_name }}</td>
-                        <td>{{ free.str_comm_date }}</td>
-                        <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.comm_cnt }}</td>  
+                        <td>{{ free.userName }}</td>
+                        <td>{{ freeDateTime(free.strCommDate) }}</td>
+                        <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}</td>  
                      </tr>
                   </tbody>
                </table>
@@ -104,15 +104,39 @@ export default {
          if (this.sortOption === "default") {
                 // 최신 순으로 정렬
             this.freelist.sort((a, b) => {
-            return new Date(b.comm_date) - new Date(a.comm_date);
+               return new Date(b.commDate) - new Date(a.commDate);
             });
          } else if (this.sortOption === "highViews") {
                // 조회수 순으로 정렬
             this.freelist.sort((a, b) => {
-            return b.comm_cnt - a.comm_cnt;
+               return b.commCnt - a.commCnt;
             });
          }
       },
+
+      freeDateTime(value) {
+                // value는 날짜 값입니다
+         const now = new Date();
+         const date = new Date(value);
+
+         const diffInMilliseconds = now - date;
+         const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+         const diffInMinutes = Math.floor(diffInSeconds / 60);
+         const diffInHours = Math.floor(diffInMinutes / 60);
+         const qnaDays = Math.floor(diffInHours / 24);
+                
+                if (qnaDays > 0) {
+                    return `${qnaDays}일 전`;
+                } else if (diffInHours > 0) {
+                    
+                    return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
+                }
+      },
+
 
       infiniteHandler($state){ // 스크롤 이벤트 핸들러
          this.$axiosSend('get','/api/freBd/boardList',{page : this.currentPage})
@@ -127,17 +151,6 @@ export default {
          })
          .catch(err=>{
                alert(err);
-         })
-      },
-
-      getTotal(){ // 게시글 총 갯수 조회
-         this.$axiosSend('get', '/api/freBd/total')
-         .then(response=>{
-            this.totalItems = response.data;
-            this.totalPage = Math.ceil(this.totalItems/5);
-         })
-         .catch((error)=>{
-            alert(error);
          })
       },
 
