@@ -193,7 +193,7 @@ export default{
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
-                    name: 'login', 
+                    name: "login"
                 })
                 return;
             }
@@ -219,7 +219,7 @@ export default{
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
-                    name: 'login', 
+                    name: "login"
                 })
                 return;
             }
@@ -256,14 +256,15 @@ export default{
         },
 
         replydelete(replyNum, userName){
-            console.log('글이름:', userName);
+            
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
-                    name: 'login', 
+                    name: "login"
                 })
                 return;
             }
+
             if(userName !== this.userNickName){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
@@ -328,9 +329,6 @@ export default{
             
             if(this.userNickName === null || this.userNickName===""){
                 this.$swal('로그인을 해주세요.');
-                router.push({
-                    name: 'login', 
-                })
                 return;
             }
 

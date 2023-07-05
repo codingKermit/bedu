@@ -104,6 +104,7 @@
                 qna:{
                     qnaBdNum:0,
                     userName : '',
+                    regId:''
                 }
             }
         },
@@ -115,8 +116,9 @@
         mounted() {
             const qnanum = this.$route.params.num;
             this.userNickName =this.$store.getters.getNickname;
+            this.form.regId = this.$store.getters.getEmail;
             this.qnaRead(qnanum);
-            this.nickNamegetId();
+  
             this.ansread(qnanum);
             this.ansgetTotal(qnanum);
             document.getElementById("qnaboard-detail-recensell").style.display="none";
@@ -140,7 +142,7 @@
                 })
             },
 
-            getUserId(nickname){
+            nicknameEquals(nickname){
                 
                 if(this.userNickName === null || this.userNickName ===""){
                     document.getElementById("qnaboard-detail-replybtn").style.display="none";
@@ -163,21 +165,6 @@
                 })
             },
 
-            nickNamegetId(){                    //현제 로그인한 닉네임에 대한 아이디값을 가져와 객체 변수에 저장
-                const nowname = this.userNickName;
-                this.$axiosSend('get', '/api/qna/getUserId', {
-                    userName: nowname
-                }).then(res => {
-                    this.userlist = res.data;
-                    for(var i=0; i< this.userlist.length; i++){
-                        this.ansid = this.userlist[i].userId;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            },
-
             qnaRead(qnanum){ // 게시글 데이터 조회
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : qnanum,
@@ -185,7 +172,7 @@
                 .then(res=>{
                     this.qna = res.data;                
                     this.qna.strQnaDate = this.qnaDateTime(this.qna.strQnaDate);
-                    this.getUserId(this.qna.userName);
+                    this.nicknameEquals(this.qna.userName);
                 })
                 .catch((error)=>{
                     alert(error);
@@ -211,7 +198,7 @@
                 if(this.userNickName === null || this.userNickName ===""){
                     this.$swal('로그인을 해주세요.', 'success');
                     router.push({
-                        name: 'login', 
+                        name: "login"
                     })
                     return;
                 }
@@ -264,9 +251,6 @@
                 
                 if(this.userNickName === null || this.userNickName===""){
                     this.$swal('로그인을 해주세요.');
-                    router.push({
-                        name: 'login', 
-                    })
                     return;
                 }
 
@@ -274,7 +258,7 @@
                     return;
                 }
 
-                var regid = this.ansid;
+                var regid = this.form.regId;
 
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,                              //질문게시글
@@ -325,7 +309,7 @@
                 if(this.userNickName === null || this.userNickName ===""){
                     this.$swal('로그인을 해주세요.', 'success');
                     router.push({
-                        name: 'login', 
+                        name: "login"
                     })
                     return;
                 }
@@ -341,7 +325,6 @@
                 }
                 
                 this.form.qsBdNum = this.qna.qnaBdNum;
-                this.form.regId = this.ansid;
                 this.form.userName = this.userNickName;
                 var qnanum = this.form.qsBdNum;
 
@@ -397,7 +380,7 @@
                 if(this.userNickName === null || this.userNickName ===""){
                     this.$swal('로그인을 해주세요.', 'success');
                     router.push({
-                        name: 'login', 
+                        name: "login"
                     })
                     return;
                 }
@@ -405,7 +388,6 @@
                     this.$swal('답글은 본인 글만 삭제 가능합니다!', 'success');
                     return;
                 }else{
-                    console.log('번호:',ansNum);
                     
                     this.$axiosSend('get','/api/ans/ansdelete', {
                         ansBdNum : ansNum

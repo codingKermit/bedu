@@ -22,13 +22,13 @@
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		 COMM_NUM as commNum,
+		 COMM_NUM AS commNum,
 		 TITLE, 
 		 CONTENT, 
-		 USER_NAME as userName, 
-		 COMM_DATE as commDate, 
-		 COMM_CNT as commCnt, 
-		 REG_ID as regId
+		 USER_NAME AS userName, 
+		 COMM_DATE AS commDate, 
+		 COMM_CNT AS commCnt, 
+		 REG_ID AS regId
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
 			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%'||#{keyword}||'%'
@@ -62,15 +62,15 @@
 	
 	<select id="viewone" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		 COMM_NUM as commNum,
+		 COMM_NUM AS commNum,
 		 TITLE,
 		 CONTENT,
-		 COMM_DATE as commDate,
-		 COMM_CNT as commCnt,
-		 COMM_LIKE_YN as commLikeYn, 
-		 REG_ID as regId,
-		 u.USER_NAME as userName,
-		 u.USER_NUM as userNum
+		 COMM_DATE AS commDate,
+		 COMM_CNT AS commCnt,
+		 COMM_LIKE_YN AS commLikeYn, 
+		 REG_ID AS regId,
+		 u.USER_NAME AS userName,
+		 u.USER_NUM AS userNum
 		FROM T_BEDU_COMM c LEFT JOIN T_BEDU_USER u ON c.USER_NAME = u.USER_NAME
 		WHERE COMM_NUM = #{num}
 	</select>

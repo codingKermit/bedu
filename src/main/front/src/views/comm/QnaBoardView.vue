@@ -136,8 +136,6 @@
                 const diffInHours = Math.floor(diffInMinutes / 60);
                 const Days = Math.floor(diffInHours / 24);
 
-                console.log(date);
-
                 if (Days > 0) {
                     return `${Days}일 전`;
                 } else if (diffInHours > 0) {
@@ -170,23 +168,17 @@
             },     
 
             infiniteHandler($state){
-                // console.log('번호:', this.currentPage);
+               
                 this.$axiosSend('get','/api/qna/qnaList',{
                     page : this.currentPage,
                 })
                 .then(res=>{
-                    // console.log('데이터',res.data);
+                    
                     if(res.data.length){
                         
                         this.qnalist.push(...res.data);
                         this.currentPage++;
                         $state.loaded();
-                        // for(var i=0; i< res.data.length; i++){
-                        //     console.log('값',res.data[i].str_qna_date);
-                            
-                        //     this.qnalist[i].str_qna_date = this.qnaDateTime(res.data[i].qna_bd_num);
-                        //     console.log('변형데이트:', this.qnalist[i].str_qna_date);
-                        // }
                         
                     } else{
                         $state.complete();

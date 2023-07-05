@@ -123,10 +123,10 @@ export default {
          const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
          const diffInMinutes = Math.floor(diffInSeconds / 60);
          const diffInHours = Math.floor(diffInMinutes / 60);
-         const qnaDays = Math.floor(diffInHours / 24);
+         const Days = Math.floor(diffInHours / 24);
                 
-                if (qnaDays > 0) {
-                    return `${qnaDays}일 전`;
+                if (Days > 0) {
+                    return `${Days}일 전`;
                 } else if (diffInHours > 0) {
                     
                     return `${diffInHours}시간 전`;

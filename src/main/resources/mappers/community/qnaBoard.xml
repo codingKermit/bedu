@@ -16,7 +16,7 @@
 		  USER_NAME as userName
 		FROM(SELECT
 			* FROM
-				T_BEDU_QS ORDER BY QS_BD_NUM DESC)) 
+				T_BEDU_QS ORDER BY QS_DATE DESC)) 
 		WHERE rnum >= #{page} AND #{limit} >= rnum
 	 </select>
 	
