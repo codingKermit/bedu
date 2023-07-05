@@ -27,15 +27,20 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 	
 	@Override
-	public int boardwrite(InquiryVO inquiryVO) {
-		
+	public int inquiryWrite(InquiryVO inquiryVO) {	
 		inquiryVO.setRegId(inquiryVO.getUserName());
-		System.out.println(inquiryVO);
-		return inquiryDAO.inquiryWrite(inquiryVO);
+		if(inquiryVO.getFileName() == null || inquiryVO.getFileName() == "") {
+			inquiryVO.setFileName("");
+		}
+		if(inquiryVO.getFileType() == null || inquiryVO.getFileType() == "") {
+			inquiryVO.setFileType("");
+		}
+		return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
 	
 	@Override
 	public ArrayList<InquiryVO> getUserName(String userName){
+		System.out.println(userName);
 		return inquiryDAO.getuserName(userName);
 	}
 	

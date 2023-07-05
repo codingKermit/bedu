@@ -15,7 +15,7 @@
         </div>
       </div>
       <div>
-        <b-button type="submit" id="commit">저장</b-button>
+        <b-button @click="inquiryWrite()" id="commit">저장</b-button>
         <b-button id="list" href="#">목록으로</b-button>
       </div>
     </form>
@@ -82,6 +82,7 @@ export default {
         
         this.userlist = res.data;
         for (var i = 0; i < this.userlist.length; i++) {
+          console.log(this.userlist[i].regId);
           this.form.userName = this.userlist[i].regId;
         }
       })
@@ -112,18 +113,19 @@ export default {
         })
         return;
       }
-      const form = new FormData();
+      // const form = new FormData();
+      const param = {
+        userName : this.$store.getters.getNickname,
+        title : this.form.title,
+        content : this.form.content
+      };
 
-      form.append("userName", this.form.userName);
-      form.append("title", this.form.title);
-      form.append("content", this.form.content);
-
-      this.$axiosSend('post', '/api/inquiry/inquiryWrite', this.form)
+      this.$axiosSend('post', '/api/inquiry/inquiryWrite', param)
         .then((response) => {
           if (response.data === 1) {
             this.$swal('Success', '작성완료!', 'success'),
               router.push({
-                name: "/"
+                name: "inquiry"
               })
           }
         })

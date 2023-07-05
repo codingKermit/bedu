@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class InquiryVO {
 
-	private int vocNum; // 글번호
+	private Integer vocNum; // 글번호
 	private String title; // 제목
 	private String content; // 내용
 	private String fileName; // .파일 왼쪽 부분

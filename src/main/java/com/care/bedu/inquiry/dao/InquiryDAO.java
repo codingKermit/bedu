@@ -11,7 +11,7 @@ import com.care.bedu.inquiry.vo.InquiryVO;
 public interface InquiryDAO {
 	
 	public ArrayList<InquiryVO> inquiryList(InquiryVO inquiryVO)throws SQLException; //게시글 전체 조회
-	public int inquiryWrite(InquiryVO inquiryVO); //게시글 작성
+	public int inquiryWriteSave(InquiryVO inquiryVO); //게시글 작성
 	public InquiryVO inquiryone(int num); //게시글 상세보기
 	public int getTotal(); //게시글 전체 개수 조회
 	public ArrayList<InquiryVO> getuserName(String userName);

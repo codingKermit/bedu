@@ -24,7 +24,7 @@ public class InquiryController {
 	
 	@RequestMapping(value="/inquiry/inquiryWrite", method=RequestMethod.POST)			//게시글 작성
 	public int inquiryWrite(InquiryVO inquiryVO) {
-		return inquiryService.boardwrite(inquiryVO);
+		return inquiryService.inquiryWrite(inquiryVO);
 	}
 	
 	@RequestMapping(value="/inquiry/inquiryDetail", method=RequestMethod.GET)			//게시글 상세 보기
