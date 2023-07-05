@@ -162,3 +162,7 @@ header {
 .ck-content{
     height: 500px !important; /* 원하는 높이로 변경 */
 }
+
+.vh-50{
+    height: 50vh !important;
+}

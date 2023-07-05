@@ -91,12 +91,14 @@ public class LectureManageServiceImpl implements LectureManageService{
             String summary = req.getParameter("summary");
             String contents = req.getParameter("contents");
             String cateCode = req.getParameter("cateCode");
+            String cateKor = req.getParameter("cateKor");
             int regNum = Integer.parseInt(req.getParameter("regNum"));
 
             lectureVO.setTitle(title); lectureVO.setTeacher(teacher);
             lectureVO.setPrice(price); lectureVO.setLectPeriod(period);
             lectureVO.setLectSum(summary); lectureVO.setLectDesc(contents);
             lectureVO.setCategory(cateCode); lectureVO.setRegNum(regNum);
+            lectureVO.setKorCategory(cateKor);
 
             if(thumbnail == null){
                 return 0;

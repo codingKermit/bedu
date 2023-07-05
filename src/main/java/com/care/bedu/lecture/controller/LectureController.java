@@ -132,4 +132,14 @@ public class LectureController {
 
 		return map;
 	}
+
+	/* 모든 강의 조회 조건X */
+	@RequestMapping("/getAllLectures")
+	public HashMap<String, Object> getAllLectures(){
+		HashMap<String, Object> map = new HashMap<>();
+
+		map = lectureService.getAllLectures();
+
+		return map;
+	}
 }

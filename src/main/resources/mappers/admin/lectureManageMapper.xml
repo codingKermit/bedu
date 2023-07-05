@@ -15,6 +15,7 @@
                 LECT_PERIOD,
                 PRICE,
                 CATE_CODE,
+                CATE_KOR,
                 REG_DATE,
                 REG_NUM
             )
@@ -28,6 +29,7 @@
             #{lectPeriod},
             #{price},
             #{category},
+            #{korCategory},
             SYSDATE,
             #{regNum}
         )

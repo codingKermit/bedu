@@ -87,7 +87,7 @@
                         v-if='categories.length'
                         >
                         <router-link
-                            class="fs-6 fw-bold m-0 text-black-50"
+                            class="fs-5 fw-bold m-0 text-black-50"
                             :class="{ 'router-link-active': $route.name === 'lectureCategories' }"
                             :to="{
                                 name : 'lectureCategories',
@@ -102,7 +102,7 @@
                         분야별 강의
                         </router-link>
                     </b-nav-item>
-                    <b-nav-item class="fs-6 fw-bold me-1" >
+                    <b-nav-item class="fs-5 fw-bold me-1" >
                         <router-link
                             class="m-0 text-black-50"
                             :class="{'router-link-active': $route.path.includes('comm')}"
@@ -111,13 +111,13 @@
                             커뮤니티
                         </router-link>
                     </b-nav-item>
-                    <b-nav-item class="fs-6 fw-bold me-1" to="/review">
+                    <b-nav-item class="fs-5 fw-bold me-1" to="/review">
                         수강후기
                     </b-nav-item>
-                    <b-nav-item class="fs-6 fw-bold me-1" to="/companyStudy">
+                    <b-nav-item class="fs-5 fw-bold me-1" to="/companyStudy">
                         기업교육
                     </b-nav-item>
-                    <b-nav-item class="fs-6 fw-bold" to="/membership">
+                    <b-nav-item class="fs-5 fw-bold" to="/membership">
                         멤버쉽 안내
                     </b-nav-item>
                 </b-navbar-nav>
@@ -139,18 +139,18 @@
                     <b-nav-item
                         to="/login"
                         style="margin-left: 10px;"
-                        class="fs-6 fw-bold"
+                        class="fs-5 fw-bold"
                         v-if="!isLoggedIn">
                         로그인
                     </b-nav-item>
                     <!-- 사용자 드롭다운 메뉴 -->
                     <b-nav-item
                         v-if="isLoggedIn"
-                        class="dropdown fs-6"
+                        class="dropdown fs-5"
                         @click="openDropdown"
                         @mouseleave="closeDropdown">
                         <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
-                            <span class="fs-6 fw-bold px-2 py-0">{{ getNickname }}</span>
+                            <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                         </button>
                         <span style="font-weight: bold;">님</span>
                         <ul class="dropdown-menu" v-show="isDropdownOpen">
@@ -170,10 +170,10 @@
                         id="headerLogout"
                         v-if="isLoggedIn"
                         @click="logout"
-                        class="fs-6 fw-bold">
+                        class="fs-5 fw-bold">
                         로그아웃
                     </b-nav-item>
-                    <b-nav-item class="fs-6 fw-bold" v-if="!isLoggedIn" to="/regist">
+                    <b-nav-item class="fs-5 fw-bold" v-if="!isLoggedIn" to="/regist">
                         회원가입
                     </b-nav-item>
                 </b-navbar-nav>

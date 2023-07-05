@@ -21,4 +21,6 @@ public interface LectureService {
 	public HashMap<String, Object> getCart(int num); /* 장바구니 조회 */
 	public int removeFromCart(int[] list, int userNum); /* 장바구니 삭제 */
 	public HashMap<String, Object> getLesson(int num); /* 동영상 조회 */
+	public HashMap<String, Object> getAllLectures(); /* 동영상 조회 */
+
 }

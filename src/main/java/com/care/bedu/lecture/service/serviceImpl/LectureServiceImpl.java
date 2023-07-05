@@ -240,5 +240,19 @@ public class LectureServiceImpl implements LectureService{
 
 		return map;
 	}
+
+
+
+	@Override
+	public HashMap<String, Object> getAllLectures() {
+		HashMap<String,Object> map = new HashMap<>();
+
+		ArrayList<LectureVO> list = new ArrayList<>();
+		list = lectureDao.getAllLectures();
+
+		map.put("item", list);
+		
+		return map;
+	}
 	
 }
