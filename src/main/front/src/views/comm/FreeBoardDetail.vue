@@ -65,8 +65,8 @@
                             {{ reply.content }}
                         </div>
                         <hr/>
-                        <div id="freeReplydelbtn">
-                            <b-button type="button" @click="replydelete(reply.replyNum, reply.userName)">댓글삭제</b-button>
+                        <div id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
+                            <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)">댓글삭제</b-button>
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ export default{
         this.freeRead(cnum);
         this.replygetTotal(cnum);
         this.replyread(cnum);
-
+        
     },
 
     created() {
@@ -171,6 +171,14 @@ export default{
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
             })
+        },
+
+        replybtneq(username){
+            if(this.userNickName === username){
+                return 1;
+            }else{
+                return 0;
+            }
         },
 
         replyread(commnum) {
@@ -399,6 +407,13 @@ export default{
             document.getElementById("freeboard-detail-deletebtn").style.display="none";
             document.getElementById("qna-detail-recensell").style.display="inline";
             this.form.content = "";
+            // for(var i=0; this.replylist.length; i++){
+            //     console.log('성');
+            //     if(this.userNickName !== this.replylist[i].userName){
+            //         document.getElementById("freeReplydelbtn").style.display="none";
+            //     }
+            // }
+            
         },
 
         censells(){
