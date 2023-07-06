@@ -66,7 +66,7 @@
                         {{ ans.content }}
                     </div>
                     <hr/>
-                    <div id="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
+                    <div id="qna-detail-replyDelBtn">
                         <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답글삭제</b-button>
                     </div>
                 </div>
@@ -153,14 +153,6 @@
                     document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                 }
 
-            },
-
-            ansdelbtneqlse(username){
-                if(this.userNickName === username){
-                    return 1;
-                }else{
-                    return 0;
-                }
             },
 
             ansgetTotal(qnanum){
