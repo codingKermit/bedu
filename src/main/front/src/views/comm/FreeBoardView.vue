@@ -74,8 +74,7 @@ export default {
             keyword: ''
          },
          freeOption: "recent",
-         totalItems : 0,
-         totalPage : 0,
+        
          currentPage : 1,
       };
 
@@ -84,6 +83,7 @@ export default {
 
    methods: {
       freesearch() {    
+         
          if(this.form.keyword === null || this.form.keyword ===''){
             alert('검색어를 입력해주세요!');
             return;

@@ -16,6 +16,7 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Autowired private ReplyDAO replyDAO;
 	
+	//댓글조회
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
 		ArrayList<ReplyVO> list =replyDAO.viewList(replyVO);
@@ -32,17 +33,20 @@ public class ReplyServiceImpl implements ReplyService{
 		return strRegdate;
 	}
 
+	//댓글쓰기
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
 		return replyDAO.viewWrite(replyVO);
 	}
 
+	//댓글 총개수
 	@Override
 	public int replyTotal(int num) {
 		// TODO Auto-generated method stub
 		return replyDAO.replyTotal(num);
 	}
 
+	//댓글 삭제
 	@Override
 	public int replydelete(int replynum) {
 		return replyDAO.replyDelete(replynum);

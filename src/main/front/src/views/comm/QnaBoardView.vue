@@ -77,8 +77,7 @@
                     keyword: '',
                 },
                 sortOption: "default", // 정렬 옵션
-                totalItems: 0,
-                totalPage: 0,
+               
                 currentPage: 1
             };
 
@@ -139,11 +138,12 @@
                 if (Days > 0) {
                     return `${Days}일 전`;
                 } else if (diffInHours > 0) {
-                    
+                    console.log('화깅ㄴ');
                     return `${diffInHours}시간 전`;
                 } else if (diffInMinutes > 0) {
                     return `${diffInMinutes}분 전`;
                 } else {
+                    console.log('방금');
                     return '방금 전';
                 }
             },

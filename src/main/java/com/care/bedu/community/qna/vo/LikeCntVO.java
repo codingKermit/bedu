@@ -9,13 +9,22 @@ import lombok.ToString;
 @ToString
 public class LikeCntVO {
 	
-	private int likeNum;	//글번호
-	private String regId;	// 타 테이블에서 구분
-	private String userName;	//작성자닉네임
+	//글번호
+	private int likeNum;
+	// 타 테이블에서 구분
+	private String regId;
+	//작성자닉네임
+	private String userName;
+	
+	//질문게시글 번호
 	private int qsBdNum;
+	//자유게시글번호
 	private int commBdNum;
-	private Date regDate;	//게시판 시간
-	private Boolean likeyn;
+	//게시판 시간
+	private Date regDate;
+	
+	//좋아요클릭데이터
+	private String likeyn;	
 	
 	
 }

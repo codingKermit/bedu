@@ -71,7 +71,6 @@
                 })
                 return;
             }
-            // this.getUserId();
             this.form.regId = this.$store.getters.getEmail;
         },
 

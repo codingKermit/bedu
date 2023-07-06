@@ -25,17 +25,6 @@
                     <!--저장 취소 버튼셋 종료-->
                 </b-form>
 
-                <!-- <b-form @submit="qnaWrite()">
-                    <div id="app">
-                        <ckeditor v-model="editorData" :config="editorConfig"></ckeditor>
-                    </div>
-                    <b-form-input placeholder="제목을 작성해주세요" class="my-3 qna-write-title" id="qna-write-title" v-model="form.title" ref="title"></b-form-input>
-                    <b-form-textarea  id="qna-write-content" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"></b-form-textarea>
-                    <div class="qna-btn">
-                        <b-button class="qna-cansellbtn" id="qna-cansellbtn" type="reset" :to="'/comm/qna'">취소</b-button>
-                        <b-button type="submit" class="bedu-bg-custom-blue qna-writebtn" id="qna-writebtn">등록</b-button>
-                    </div>
-                </b-form> -->
         </div>
     </div>
 </template>
@@ -61,10 +50,11 @@
                         previewsInData: true
                     },
                 },
+
                 form:{
                     userName: '',
-                    title:'',
                     content : '',
+                    regId :''
                 },
 
                 userlist:[]
@@ -84,7 +74,9 @@
                 })
                 return;
             }
-            this.getUserId();
+
+            this.form.regId = this.$store.getters.getEmail;
+            this.form.userName = this.$store.getters.getEmail;
         },
 
         created() {
@@ -98,25 +90,6 @@
         },
 
         methods: {
-
-            getUserId(){
-                const nickname = this.$store.getters.getNickname;
-            
-                this.$axiosSend('get', '/api/qna/getUserId', {
-                    userName: nickname
-                }).then(res => {
-                    
-                    this.userlist = res.data;
-                    for(var i=0; i< this.userlist.length; i++){
-                        this.form.userName = this.userlist[i].userId;
-                    }
-                   
-                })
-                .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다!', error);
-                })
-
-            },
 
             qnaWrite(){
 
@@ -141,11 +114,6 @@
                     })
                     return;
                 }
-                const form = new FormData();
-                
-                form.append("user_name", this.form.userName);
-                form.append("title",this.form.title);
-                form.append("content",this.form.content);
 
                 this.$axiosSend('post','/api/qna/qnaWrite', this.form)
                 .then((response) =>{

@@ -89,6 +89,7 @@ export default{
             likenum:0,
             replytotal:0,
             username:'',
+            likeyn:'f',
             userNickName:'',
 
             form: {
@@ -162,11 +163,13 @@ export default{
            
             this.$axiosSend('get','/api/freBd/detail',{
                     num : commnum,
+                    userName : this.userNickName
             })
             .then(response=>{
                 this.free = response.data;
                 this.free.strCommDate = this.freeDateTime(this.free.strCommDate);
                 this.nicknameEquals(this.free.userName);
+
             })
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
@@ -349,7 +352,8 @@ export default{
             this.$axiosSend('get','/api/free/likeUp', {
                     num: cnum,
                     regId : regid,
-                    userName : this.userNickName
+                    userName : this.userNickName,
+                    likeyn : this.likeyn
             })
             .then(res => {
                 
