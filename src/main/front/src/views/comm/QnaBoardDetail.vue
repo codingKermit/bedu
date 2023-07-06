@@ -36,21 +36,21 @@
             </div>
             <hr style="margin-top: 9%;"/>
             <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
-                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답글등록</b-button>
+                <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">답변등록</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
-                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답글작성</b-button>
+                <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답변작성</b-button>
                 <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
                 <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
             </div>
             <div>
                 <p class = "fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    {{anstotal}}개의 답글이 있습니다.
+                    {{anstotal}}개의 답변이 있습니다.
                 </p>
             </div>
             <div>
                 <div class="qna-detail-replywrite" id="qnaboard-detail-replywrite" >
-                    <h4>답글을 작성하시오</h4>
+                    <h4>답변을 작성하시오</h4>
                     <textarea id = "qna-detail-replycontent" class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                 </div>
                 <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
@@ -67,7 +67,7 @@
                     </div>
                     <hr/>
                     <div id="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
-                        <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답글삭제</b-button>
+                        <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,10 @@
     import router from '@/router';
     import '@/assets/css/qnaStyle.css'; 
     export default{
+
+        components:{
+            CommCategory
+        },
         
         data() {
             return {
@@ -91,6 +95,7 @@
                 likenum:0,
                 username:'',
                 userNickName:'',
+                likeyn:'q',
                 userlist:[],
                 ansid:'',
                 
@@ -107,10 +112,6 @@
                     regId:''
                 }
             }
-        },
-
-        components:{
-            CommCategory
         },
 
         mounted() {
@@ -131,6 +132,7 @@
 
         methods: {
 
+            //답변개수조회
             getCountAns(){
                 this.$axiosSend('get', '/api/ans/count', {
 
@@ -138,10 +140,11 @@
                     this.qsCount = res.data;
                 })
                 .catch((error) => {
-                    this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
+                    this.$swal('Error', '답변이 정상적으로 조회되지 않았습니다.', error);
                 })
             },
 
+            //닉네임 존재 여부 확인
             nicknameEquals(nickname){
                 
                 if(this.userNickName === null || this.userNickName ===""){
@@ -155,6 +158,7 @@
 
             },
 
+            //답변버튼 노출 비노출
             ansdelbtneqlse(username){
                 if(this.userNickName === username){
                     return 1;
@@ -163,6 +167,7 @@
                 }
             },
 
+            //답변글 총개수
             ansgetTotal(qnanum){
                 
                 this.$axiosSend('get','/api/ans/ansTotal', {
@@ -173,9 +178,11 @@
                 })
             },
 
+            //게시글 조회
             qnaRead(qnanum){ // 게시글 데이터 조회
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : qnanum,
+                        userName : this.userNickName
                 })
                 .then(res=>{
                     this.qna = res.data;                
@@ -187,7 +194,7 @@
                 })
             },
 
-            //답글 게시글조회
+            //답변 게시글조회
             ansread(qnanum) {
 
                 this.$axiosSend('get', '/api/ans/getans', {
@@ -196,7 +203,7 @@
                     this.anslist = res.data;
                 })  
                 .catch((error) => {
-                    this.$swal('Error', '답글이 정상적으로 조회되지 않았습니다.', error);
+                    this.$swal('Error', '답변이 정상적으로 조회되지 않았습니다.', error);
                 })
             },
 
@@ -227,13 +234,15 @@
                 })
             },
 
-            qnaeditPath(qnum){              //수정페이지로 이동 (질문글번호)
+            //수정페이지로 이동 (질문글번호)
+            qnaeditPath(qnum){              
                 router.push({
                     name: 'qnaBoardedit', 
                         num :qnum,
                 })
             },
 
+            //좋아요 1다운
             qnalikedown(){                                                      
             
                 this.$axiosSend('get','/api/qna/likeDown', {
@@ -255,31 +264,30 @@
                 })
             },
 
+            //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
             qnalikeUp(qnum){
                 
                 if(this.userNickName === null || this.userNickName===""){
                     this.$swal('로그인을 해주세요.');
                     return;
                 }
-
                 if(this.qna.userName === this.userNickName){
                     return;
                 }
-
                 var regid = this.form.regId;
-
                 this.$axiosSend('get','/api/qna/likeUp', {
-                        num: qnum,                              //질문게시글
-                        regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
-                        userName : this.userNickName               
+                        num: qnum,                             
+                        regId : regid,                          
+                        userName : this.userNickName,  
+                        likeyn : this.likeyn             
                 })
                 .then(res => {
-                    if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
+                    if(res.data.result === 1){                                    
                         this.qna.qnaLikeCnt++;
                         return;
-                    }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
+                    }else if(res.data.result === 0){                
 
-                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.likenum = res.data.likenum;         
                         this.qnalikedown();      
                         return;
                     }    
@@ -289,6 +297,7 @@
                 })
             },
 
+            //작성날짜 변환
             qnaDateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
@@ -298,10 +307,10 @@
                 const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
                 const diffInMinutes = Math.floor(diffInSeconds / 60);
                 const diffInHours = Math.floor(diffInMinutes / 60);
-                const qnaDays = Math.floor(diffInHours / 24);
+                const Days = Math.floor(diffInHours / 24);
                 
-                if (qnaDays > 0) {
-                    return `${qnaDays}일 전`;
+                if (Days > 0) {
+                    return `${Days}일 전`;
                 } else if (diffInHours > 0) {
                     
                     return `${diffInHours}시간 전`;
@@ -312,6 +321,7 @@
                 }
             },
 
+            //답변 글 작성
             answrite(){
 
                 if(this.userNickName === null || this.userNickName ===""){
@@ -349,11 +359,12 @@
                 }
                 )
                 .catch((error)=>{
-                    this.$swal('Error','답글이 정상적으로 작성되지 않았습니다', error)
+                    this.$swal('Error','답변이 정상적으로 작성되지 않았습니다', error)
                 })
 
             },
 
+            //취소클릭에 수정,삭제,답변글 작성 버튼
             censells(){
                 
                 document.getElementById("qnaboard-detail-replybtn").style.display="inline";
@@ -373,6 +384,7 @@
                 }
             },
 
+            //답변작성버튼 클릭에 삭제 수정버튼
             ansopen(){
                 document.getElementById("qnaboard-detail-replybtn").style.display="none";
                 document.getElementById("qnaboard-detail-rewrite").style.display="inline";
@@ -383,6 +395,7 @@
                 this.form.content = "";
             },
 
+            //답변 삭제
             ansdelete(ansNum, userName, regid){
                 
                 if(this.userNickName === null || this.userNickName ===""){
@@ -393,7 +406,7 @@
                     return;
                 }
                 if(userName !== this.userNickName){
-                    this.$swal('답글은 본인 글만 삭제 가능합니다!', 'success');
+                    this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
                     return;
                 }else{
                     
@@ -403,18 +416,18 @@
                     .then(res => {
                         
                         if(res.data ===1){
-                            this.$swal('Success', '답글삭제가 완료 되었습니다.', 'success');
+                            this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
                             this.ansread(this.qna.qnaBdNum);
                             this.ansgetTotal(this.qna.qnaBdNum);
                             return;
                         }else{
-                            this.$swal('error', '답글삭제실패!', 'error');
+                            this.$swal('error', '답변삭제실패!', 'error');
                             this.ansread(this.qna.qnaBdNum);
                             return;
                         }    
                     })
                     .catch(error => {
-                        this.$swal(error, '답글삭제실패!', 'error');
+                        this.$swal(error, '답변삭제실패!', 'error');
                     })
                 }
             }

@@ -7,7 +7,14 @@
 		SELECT
 		  COUNT(LIKE_NUM) 
 		FROM T_BEDU_LIKE_CNT
-		WHERE COMM_BD_NUM = #{commnum} AND USER_NAME=#{userid} 
+		WHERE COMM_BD_NUM = #{commnum} AND USER_NAME=#{userid} AND LIKEYN=#{likeyn}
+	</select>
+	
+	<select id="freeEqcnt" resultType="int">
+		SELECT
+		  COUNT(LIKE_NUM) 
+		FROM T_BEDU_LIKE_CNT
+		WHERE COMM_BD_NUM = #{commnum} AND USER_NAME=#{username}
 	</select>
 	
 	<delete id="freelikedel">
@@ -20,10 +27,10 @@
 		SELECT
 		 LIKE_NUM 
 		FROM T_BEDU_LIKE_CNT
-		WHERE COMM_BD_NUM = #{commNum} AND USER_NAME = #{userName}
+		WHERE COMM_BD_NUM = #{commNum} AND USER_NAME = #{userName} AND likeyn=#{likeyns}
 	</select>
 	
-	<insert id="likeCntFreeSave">
+	<insert id="cntFreeSave">
 		INSERT INTO T_BEDU_LIKE_CNT(
 	      LIKE_NUM,
 		  USER_NAME,
@@ -38,5 +45,24 @@
 		  #{regId}
 		)
 	</insert>
+	
+	<insert id="likeCntFreeSave">
+		INSERT INTO T_BEDU_LIKE_CNT(
+	      LIKE_NUM,
+		  USER_NAME,
+		  COMM_BD_NUM,
+		  REG_DATE, 
+		  REG_ID,
+		  LIKEYN
+		)VALUES(
+		  BEDU_LIKE_QS.NEXTVAL,
+		  #{userName},
+		  #{commBdNum},
+		  SYSDATE,
+		  #{regId},
+		  #{likeyn}
+		)
+	</insert>
+	
 	
 </mapper>

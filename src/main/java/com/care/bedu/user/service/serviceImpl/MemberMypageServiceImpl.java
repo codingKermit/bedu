@@ -53,16 +53,16 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 	}
 	
 	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
-	@Override
-	public List<MemberMypageVO> getMemberMypageAll(String userid) {
-		
-		return memberMypageDao.getMemberMypageAll(userid);
-	}
+//	@Override
+//	public List<MemberMypageVO> getMemberMypageAll(String userid) {
+//		
+//		return memberMypageDao.getMemberMypageAll(userid);
+//	}
 	
 	/* 마이페이지 홈(수강정보 목록) */
 	@Override
-	public List<MemberMypageVO> lectureListAll(int start, int numOfPage) {
+	public List<MemberMypageVO> lectureListAll(int startNo, int numOfPage) {
 		
-		return memberMypageDao.lectureListAll(start, numOfPage);
+		return memberMypageDao.lectureListAll(startNo, numOfPage);
 	}
 }

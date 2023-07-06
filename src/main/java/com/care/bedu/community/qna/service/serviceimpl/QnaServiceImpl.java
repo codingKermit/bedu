@@ -28,9 +28,9 @@ public class QnaServiceImpl implements QnaService{
 		return strRegdate;
 	}
 
-	//조회
+	//글조회
 	@Override
-	public List<QnaVO> listProc(QnaVO qnaVO) throws Exception{
+	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
@@ -51,54 +51,76 @@ public class QnaServiceImpl implements QnaService{
 		return qnalist;						
 	}
 
+	//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
+	//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
 	@Override
 	public int boardwrite(QnaVO qnaVO) {
 		qnaVO.setRegId(qnaVO.getUserName());
-		qnaVO.setQnaCnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
-		qnaVO.setQnaLikeCnt(0);		//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
+		qnaVO.setQnaCnt(0);			
+		qnaVO.setQnaLikeCnt(0);		
 		return qnaDAO.viewWrite(qnaVO);
 	}
 
+	//조회수 증가
 	@Override
-	public QnaVO viewone(int num) {
-		qnaDAO.qnaCntUp(num);//조회수 증가
-		QnaVO qnaVO = qnaDAO.viewone(num);
+	public QnaVO viewone(int qnanum, String userName) {
+		int result = likeCntDAO.qnaEqcnt(qnanum, userName);
+		if(result == 0) {
+			LikeCntVO likeCntVO = new LikeCntVO();
+			likeCntVO.setQsBdNum(qnanum);
+			likeCntVO.setUserName(userName);
+			likeCntVO.setRegId(userName);
+			int savenum = likeCntDAO.cntqnaSave(likeCntVO);
+			if(savenum == 1) {
+				qnaDAO.qnaCntUp(qnanum);
+			}
+			
+		}
+		
+		QnaVO qnaVO = qnaDAO.viewone(qnanum);
 		String srtqnaDate = regdates(qnaVO.getQnaDate());
 		qnaVO.setStrQnaDate(srtqnaDate);
 		return qnaVO;						//게시글 상세보기
 	}
 
+	//게시글 삭제
 	@Override
 	public int viewdelete(int num) {
-		return qnaDAO.viewdelete(num);					//게시글 삭제
+		return qnaDAO.viewdelete(num);					
 	}
 
+	//게시글 수정
 	@Override
 	public int viewupdate(QnaVO qnaVO) {
-		return qnaDAO.viewupdate(qnaVO);					//게시글 수정
+		return qnaDAO.viewupdate(qnaVO);					
 	}
 
+	// 게시글 전체 개수 조회
 	@Override
 	public int getTotal() {
-		return qnaDAO.getTotal();						// 게시글 전체 개수 조회
+		return qnaDAO.getTotal();						
 	}
-
+	
+	//좋아요 1증가
 	@Override
-	public HashMap<String, Object> likeUp(int num, String userName, String regId) throws Exception{//게시글 좋아요 1 증가
-		int likeCnt = qnaDAO.likeName(num, userName);
-		
-		Integer likeyn = likeCntDAO.getlikenum(num, userName);
+	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {//게시글 좋아요 1 증가
+		int likeCnt = qnaDAO.likeName(qnanum, userName, likeyns);
+		System.out.println("확인!");
+		Integer likeyn = likeCntDAO.getlikenum(qnanum, userName, likeyns);
+		System.out.println("성공!!");
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(likeCnt == 0) {
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
-			likeCntVO.setQsBdNum(num);
+			likeCntVO.setQsBdNum(qnanum);
 			likeCntVO.setRegId(regId);
+			likeCntVO.setLikeyn(likeyns);
+			
 			Integer result = likeCntDAO.likeCntSave(likeCntVO);
 			
 			if(result == 1) {
-				Integer getnum = qnaDAO.likeUp(num);
+				Integer getnum = qnaDAO.likeUp(qnanum);
 				if(getnum == 1) {
 					map.put("likenum", likeyn);
 					map.put("result", getnum);
@@ -122,11 +144,13 @@ public class QnaServiceImpl implements QnaService{
 		}
 	}
 
+	//유저아이디조회
 	@Override
 	public ArrayList<QnaVO> getUserId(String userName) {
 		return qnaDAO.getuserId(userName);
 	}
 
+	//좋아요 1감소
 	@Override
 	public int likeDown(int num, String userName, int likenum) {
 		

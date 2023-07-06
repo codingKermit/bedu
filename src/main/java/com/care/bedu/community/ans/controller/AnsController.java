@@ -34,11 +34,13 @@ public class AnsController {
 		return ansService.boardwrite(ansVO);
 	}
 	
+	//글 총개수
 	@RequestMapping(value="/ans/ansTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansTotal(int qnaNum){
 	 	return ansService.ansTotal(qnaNum);
 	}
 	
+	//글삭제
 	@RequestMapping(value="/ans/ansdelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansDelete(int ansBdNum) throws Exception{
 		return ansService.ansDelete(ansBdNum);

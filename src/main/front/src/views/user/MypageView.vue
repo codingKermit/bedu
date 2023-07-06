@@ -6,7 +6,7 @@
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <b-container class="text-dark fw-bold">
                     <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if=" userList == '' || lectureList == 0 " >
+                    <div class="curr-subjectInfo" v-if=" userList == '' || lectureListFirst == 0 " >
                        <b-container class="w-75 ms-auto py-5">
                             <p style="text-align: center;">수강내역이 없습니다.</p>
                        </b-container>
@@ -16,7 +16,7 @@
                         <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
                             <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in lectureList">
+                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in lectureListFirst">
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
@@ -41,7 +41,7 @@
             </b-container>
         </b-container>
         <b-container>
-            <p class="fs-4 fw-bold">북마크</p>
+            <p class="fs-4 fw-bold">현재 수강정보</p>
                 <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
                     <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                 </div>
@@ -118,7 +118,7 @@ export default {
     data() {
        return {
            // bookmarkList : [],
-            lectureList : [], //수강내역 전체 데이터
+            lectureListFirst : [], //수강내역 전체 데이터
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
@@ -163,19 +163,19 @@ export default {
                 this.userList = res.data;
                 this.lectureList = res.data;
                 for(var i = 0; i < this.userList.length; i++) {
-                    for(var j = 0; j < this.numOfLecture; j++) {
+                    for(var j = 0; j < this.lectureListFirst.length; j++) {
                         data.push(res.data.Data[j]);
                     }
                     this.userid = this.userList[i].user_id;
                 }
-                this.lectureList = res.data.Data
+                this.lectureListFirst = res.data.Data
                 this.lectureInfo = data
-                this.lectureCount = this.lectureList
+                this.lectureCount = this.lectureListFirst
             })
             .catch((err)=>{
                 console.log(err)
             })
-            console.log("######",this.lectureList)
+            console.log("######",this.lectureListFirst)
             console.log("######22222",this.lectureInfo)
             console.log("#####!!!!",this.lectureCount)
         },

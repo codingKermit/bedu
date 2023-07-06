@@ -17,14 +17,15 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 	
-	
-	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
+	//게시글 조회
+	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		
 	public ArrayList<ReplyVO> getReply(ReplyVO replyVO){
 		return replyService.getreply(replyVO);
 		
 	}
 	
-	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				//게시글 작성
+	//게시글 작성
+	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				
 	public int replyWrite(int commNum, String userName, String content, String regId){
 		
 		ReplyVO replyVO = new ReplyVO();
@@ -35,11 +36,13 @@ public class ReplyController {
 		return replyService.boardwrite(replyVO);
 	}
 	
+	//게시글 총 개수
 	@RequestMapping(value="/reply/replyTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int replyTotal(int num){
 	 	return replyService.replyTotal(num);
 	}
 	
+	//게시글 삭제
 	@RequestMapping(value="/reply/replydelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int replyDelete(int rnum) throws Exception{
 		return replyService.replydelete(rnum);

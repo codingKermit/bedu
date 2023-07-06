@@ -74,8 +74,7 @@ export default {
             keyword: ''
          },
          freeOption: "recent",
-         totalItems : 0,
-         totalPage : 0,
+        
          currentPage : 1,
       };
 
@@ -83,7 +82,10 @@ export default {
    },
 
    methods: {
+      
+      //게시글 검색
       freesearch() {    
+         
          if(this.form.keyword === null || this.form.keyword ===''){
             alert('검색어를 입력해주세요!');
             return;
@@ -100,6 +102,7 @@ export default {
             })
       },
 
+
       sortReviews() {
          if (this.sortOption === "default") {
                 // 최신 순으로 정렬
@@ -114,6 +117,7 @@ export default {
          }
       },
 
+      //게시글 작성날짜 변환
       freeDateTime(value) {
                 // value는 날짜 값입니다
          const now = new Date();
@@ -138,7 +142,8 @@ export default {
       },
 
 
-      infiniteHandler($state){ // 스크롤 이벤트 핸들러
+      // 스크롤 이벤트 핸들러 조회
+      infiniteHandler($state){ 
          this.$axiosSend('get','/api/freBd/boardList',{page : this.currentPage})
          .then(res=>{
             if(res.data.length){

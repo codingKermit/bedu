@@ -128,7 +128,7 @@
 		SELECT
 		  COUNT(LIKE_NUM) 
 		FROM T_BEDU_LIKE_CNT
-		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} 
+		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} AND LIKEYN=#{likeyn}
 	</select>
 	
 </mapper>

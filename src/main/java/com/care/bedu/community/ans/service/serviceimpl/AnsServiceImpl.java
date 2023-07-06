@@ -16,6 +16,7 @@ public class AnsServiceImpl implements AnsService{
 	
 	@Autowired private AnsDAO ansDAO;
 	
+	//글조회
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
 		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
@@ -25,23 +26,27 @@ public class AnsServiceImpl implements AnsService{
 		return list;
 	}
 	
+	//날짜 변환
 	private String regdates(Date regdate) {
 		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
 		String strRegdate = simple.format(regdate);
 		return strRegdate;
 	}
 
+	//글쓰기
 	@Override
 	public int boardwrite(AnsVO ansVO) {
 		ansVO.setAnsLikeCnt(0);
 		return ansDAO.viewWrite(ansVO);
 	}
 
+	//글총개수
 	@Override
 	public int ansTotal(int qnanum) {
 		return ansDAO.ansTotal(qnanum);
 	}
 
+	//글삭제
 	@Override
 	public int ansDelete(int ansBdNum) throws Exception {
 		

@@ -69,6 +69,11 @@
     import '@/assets/css/qnaStyle.css';
     export default {
 
+        components:{
+            InfiniteLoading,
+            CommCategory
+        },
+
         data() {
             return {
                 qnalist: [
@@ -77,8 +82,7 @@
                     keyword: '',
                 },
                 sortOption: "default", // 정렬 옵션
-                totalItems: 0,
-                totalPage: 0,
+               
                 currentPage: 1
             };
 
@@ -87,16 +91,12 @@
         created() {
         },
 
-        components:{
-            InfiniteLoading,
-            CommCategory
-        },
-
         mounted() {
         },
 
         methods: {
 
+            //정렬 옵션
             List() {
                 
                 this.$axiosSend('get','/api/qna/qnaList', {
@@ -110,7 +110,7 @@
                     console.log(error);
                 });
             },
-
+            //정렬 옵션
             sortReviews() {
                 if (this.sortOption === "default") {
                     // 최신 순으로 정렬
@@ -125,6 +125,7 @@
                 }
             },
 
+            //날짜 변환
             qnaDateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
@@ -139,15 +140,17 @@
                 if (Days > 0) {
                     return `${Days}일 전`;
                 } else if (diffInHours > 0) {
-                    
+                    console.log('화깅ㄴ');
                     return `${diffInHours}시간 전`;
                 } else if (diffInMinutes > 0) {
                     return `${diffInMinutes}분 전`;
                 } else {
+                    console.log('방금');
                     return '방금 전';
                 }
             },
 
+            //게시글 검색
             qnasearch() {
                 if(this.form.keyword === null || this.form.keyword ===''){
                     alert('검색어를 입력해주세요!');
@@ -167,6 +170,7 @@
                 });
             },     
 
+            //게시글 조회 이벤트 헨들러
             infiniteHandler($state){
                
                 this.$axiosSend('get','/api/qna/qnaList',{

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,7 +25,7 @@ public class MemberMypageController {
     
 
     /* 마이페이지 홈 */
-    @RequestMapping("/mypage")
+    @GetMapping("/mypage")
     public List<MemberMypageVO> getMemberMypage(String userid,Model model){
     	
     	/* 처음에 출력할 수강정보 개수 */
@@ -41,11 +42,11 @@ public class MemberMypageController {
 		/* 전체보기를 눌렀을때 보여지는 수강정보 목록 */
 		model.addAttribute("lectureList", memberMypageService.lectureList(numOfLecture,lectureCount));
     	
-    	return memberMypageService.getMemberMypage(userid);
+    	return memberMypageService.lectureListInfoFirst(numOfLecture);
     }
     
     /* 마이페이지 홈(전체보기 클릭 시 화면이동) */
-    @RequestMapping("/mypageAll")
+    @GetMapping("/mypageAll")
     public List<MemberMypageVO> getMemberMypageAll(String userid, Model model, @PathVariable Optional<Integer> pageNum) {
     	
     	//pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
@@ -58,11 +59,11 @@ public class MemberMypageController {
     	model.addAttribute("numOfPage", numOfPage);
     	
     	//현재 페이지 번호를 이용해서 출력될 페이지의 시작번호를 구한다.
-    	int start = (pageNumber - 1) * numOfPage;
+    	int startNo = (pageNumber - 1) * numOfPage;
     	
-    	model.addAttribute("list", memberMypageService.lectureListAll(start, numOfPage));
+    	model.addAttribute("list", memberMypageService.lectureListAll(startNo, numOfPage));
     	
     	
-    	return memberMypageService.getMemberMypageAll(userid);
+    	return memberMypageService.lectureListAll(startNo, numOfPage);
     }
 }
