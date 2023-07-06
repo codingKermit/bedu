@@ -36,17 +36,17 @@
                                 </p>
                          </b-container>
                 </b-container>
-            <!--</div>-->
-          <div class="btn-cover">
-            <b-button :disabled="pageNumber === 0" @click="prevPage" class="page-btn">
-                이전
-            </b-button>
-            <span class="page-count">{{ pageNumber + 1 }} / {{ pageCount }} 페이지</span>
-            <b-button :disabled="pageNumber >= pageCount - 1" @click="nextPage" class="page-btn">
-                다음
-            </b-button>
-          </div>
-    </b-container>
+                <div class="btn-cover">
+                    <b-button :disabled="pageNumber === 0" @click="prevPage" class="page-btn">
+                        이전
+                    </b-button>
+                    <span class="page-count">{{ pageNumber + 1 }} / {{ pageCount }} 페이지</span>
+                    <b-button :disabled="pageNumber >= pageCount - 1" @click="nextPage" class="page-btn">
+                        다음
+                    </b-button>
+                </div>
+      <!--</div>-->
+</b-container>
 </template>
 <script>
 export default {
@@ -57,14 +57,43 @@ export default {
            pageNumber : 0,
            listArray : [],
            numOfPage : 10,
+           list : [],         //수강내역 전체 데이터
+           lectureInfo : {}, //화면에 노출되는 수강내역 데이터
+           lectureCount : 0  //수강내역 전체보기 출력
+         
         }
+    }, 
+    mounted(){
+        this.getLectureList();
+
     },
-   methods : {
+    methods : {
         nextPage () {
             this.pageNumber += 1;
         },
         prevPage () {
             this.pageNumber -= 1;
+        },
+         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
+         getLectureList(){
+            const userid = this.$store.getters.getEmail;
+            let data = []
+            this.$axiosSend('get','/api/mypageAll',{userid: userid},true)
+            .then((res)=>{
+                this.list = res.data;
+                for(var i = 0; i < this.list.length; i++) {
+                        data.push(res.data.Data[i]);
+                }
+                this.list = res.data.Data
+                this.lectureInfo = data
+                this.lectureCount = this.list
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+            console.log("######",this.list)
+            console.log("######22222",this.lectureInfo)
+            console.log("#####!!!!",this.lectureCount)
         }
     },
     computed : {
@@ -74,14 +103,17 @@ export default {
             page = Math.floor(listLeng / listSize);
             
             if (listLeng % listSize > 0) page += 1;
-
+            console.log("##### page",page)
             return page;
         },
         paginatedData () {
-            const start = this.pageNumber * this.numOfPage,
-            end = start + this.numOfPage;
-        return this.listArray.slice(start,end)
-        }
+            const startNo = (this.pageNumber - 1) * this.numOfPage,
+            end = startNo + this.numOfPage;
+        return this.listArray.slice(startNo,end)
+        },
+        rows() {
+        return this.items.length
+      }
     }
 }
 
