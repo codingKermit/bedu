@@ -41,7 +41,7 @@
             </b-container>
         </b-container>
         <b-container>
-            <p class="fs-4 fw-bold">북마크</p>
+            <p class="fs-4 fw-bold">현재 수강정보</p>
                 <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
                     <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                 </div>
@@ -163,7 +163,7 @@ export default {
                 this.userList = res.data;
                 this.lectureList = res.data;
                 for(var i = 0; i < this.userList.length; i++) {
-                    for(var j = 0; j < this.numOfLecture; j++) {
+                    for(var j = 0; j < this.lectureListFirst.length; j++) {
                         data.push(res.data.Data[j]);
                     }
                     this.userid = this.userList[i].user_id;
