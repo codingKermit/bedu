@@ -58,7 +58,7 @@ public class FreeServiceImpl implements FreeService{
 	//게시글 상세보기
 	//조회수 증가
 	@Override
-	public FreeVO viewone(int commnum, String userName) throws Exception{									
+	public FreeVO viewone(int commnum, String userName){									
 		
 		int result = freelikeCntDAO.freeEqcnt(commnum, userName);
 		
@@ -108,7 +108,7 @@ public class FreeServiceImpl implements FreeService{
 	
 	//좋아요 1증가
 	@Override
-	public HashMap<String, Object> likeUp(int commnum, String userName, String regId, String likeyns) throws Exception {
+	public HashMap<String, Object> likeUp(int commnum, String userName, String regId, String likeyns) {
 		int number = freelikeCntDAO.getfreelikeName(commnum, userName, likeyns);
 		
 		Integer likeyn = freelikeCntDAO.getlikeFreenum(commnum, userName, likeyns);

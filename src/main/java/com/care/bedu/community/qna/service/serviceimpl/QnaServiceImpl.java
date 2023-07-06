@@ -28,9 +28,9 @@ public class QnaServiceImpl implements QnaService{
 		return strRegdate;
 	}
 
-	//조회
+	//글조회
 	@Override
-	public List<QnaVO> listProc(QnaVO qnaVO) throws Exception{
+	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
@@ -100,9 +100,10 @@ public class QnaServiceImpl implements QnaService{
 	public int getTotal() {
 		return qnaDAO.getTotal();						
 	}
-	//좋아요 증가
+	
+	//좋아요 1증가
 	@Override
-	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) throws Exception{//게시글 좋아요 1 증가
+	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {//게시글 좋아요 1 증가
 		int likeCnt = qnaDAO.likeName(qnanum, userName, likeyns);
 		System.out.println("확인!");
 		Integer likeyn = likeCntDAO.getlikenum(qnanum, userName, likeyns);
@@ -143,11 +144,13 @@ public class QnaServiceImpl implements QnaService{
 		}
 	}
 
+	//유저아이디조회
 	@Override
 	public ArrayList<QnaVO> getUserId(String userName) {
 		return qnaDAO.getuserId(userName);
 	}
 
+	//좋아요 1감소
 	@Override
 	public int likeDown(int num, String userName, int likenum) {
 		

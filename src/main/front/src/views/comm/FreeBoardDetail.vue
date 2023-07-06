@@ -80,6 +80,10 @@
 import router from '@/router';
 import '@/assets/css/freeBoardStyle.css';
 export default{
+
+    components:{
+        CommCategory
+    },
     
     data() {
         return {
@@ -114,10 +118,6 @@ export default{
         }
     },
 
-    components:{
-            CommCategory
-        },
-
 
     mounted() {
         this.userNickName =this.$store.getters.getNickname;
@@ -135,8 +135,9 @@ export default{
 
     methods: {
 
-        nicknameEquals(nickName){
-                                           //게시글 닉네임값과 현제 로그인된 닉네임을 가져와 값이 같은지 다른지 비교                                                              //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)                                                                       
+        //닉네임여부 존재 확인
+        //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)  
+        nicknameEquals(nickName){                                                                                                                                
             
             if(this.userNickName === null || this.userNickName ===""){
                 document.getElementById("free-detail-replybtn").style.display="none";
@@ -149,6 +150,7 @@ export default{
             }
         },
 
+        //댓글 총개수
         replygetTotal(cnum){
             
             this.$axiosSend('get','/api/reply/replyTotal', {
@@ -159,7 +161,8 @@ export default{
             })
         },
 
-        freeRead(commnum){ // 게시글 데이터 조회
+        // 게시글 데이터 조회
+        freeRead(commnum){ 
            
             this.$axiosSend('get','/api/freBd/detail',{
                     num : commnum,
@@ -176,6 +179,7 @@ export default{
             })
         },
 
+        //댓글삭제버튼 노출 비노출
         replybtneq(username){
             if(this.userNickName === username){
                 return 1;
@@ -184,6 +188,7 @@ export default{
             }
         },
 
+        //댓글 조회
         replyread(commnum) {
             if(commnum === 0 || commnum === null){
                 return;
@@ -198,7 +203,7 @@ export default{
             })
         },
 
-
+        //자유글 삭제
         freedelete() {
 
             if(this.userNickName === null || this.userNickName ===""){
@@ -226,6 +231,7 @@ export default{
                 })
         },
 
+        //댓글 작성
         replywrite(){
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
@@ -266,6 +272,7 @@ export default{
 
         },
 
+        //댓글삭제
         replydelete(replyNum, userName){
             
             if(this.userNickName === null || this.userNickName ===""){
@@ -304,6 +311,7 @@ export default{
             }
         },
 
+        //수정페이지이동
         freeeditPath(){
             router.push({
                 name: 'freeBoardEdit', 
@@ -314,7 +322,7 @@ export default{
                 
         },
 
-
+        //좋아요 1감소
         freelikedown(){
                 
             this.$axiosSend('get','/api/free/likeDown', {
@@ -335,7 +343,7 @@ export default{
                 alert(error);
             })
         },
-
+        //좋아요 1증가
         freelikeUp(cnum){
             
             if(this.userNickName === null || this.userNickName===""){
@@ -375,12 +383,14 @@ export default{
             })
         },                
 
+        //조회페이지이동
         freeBoardpath(){
             router.push({
                 name: 'freeBoard', 
             })
         },
-
+        
+        //작성날짜 변환
         freeDateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
@@ -403,6 +413,7 @@ export default{
                 }
         },
 
+        //댓글작성버튼 클릭에 삭제 수정버튼 노출
         replyopen(){
             document.getElementById("free-detail-replybtn").style.display="none";
             document.getElementById("qna-detail-rewrite").style.display="inline";
@@ -411,15 +422,10 @@ export default{
             document.getElementById("freeboard-detail-deletebtn").style.display="none";
             document.getElementById("qna-detail-recensell").style.display="inline";
             this.form.content = "";
-            // for(var i=0; this.replylist.length; i++){
-            //     console.log('성');
-            //     if(this.userNickName !== this.replylist[i].userName){
-            //         document.getElementById("freeReplydelbtn").style.display="none";
-            //     }
-            // }
             
         },
 
+        //댓글작성버튼 클릭에 삭제 수정버튼 노출
         censells(){
             document.getElementById("free-detail-replybtn").style.display="inline";
             document.getElementById("qna-detail-rewrite").style.display="none";

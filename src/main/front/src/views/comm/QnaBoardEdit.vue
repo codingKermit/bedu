@@ -27,6 +27,10 @@
     import router from '@/router';
     export default{
 
+        components:{
+            CommCategory
+        },
+
         data(){
             return {
                 editor: Editor,
@@ -51,10 +55,6 @@
                     // str_reg_date:'',
                 }
             }
-        },
-
-        components:{
-            CommCategory
         },
 
         mounted() {
@@ -83,7 +83,8 @@
 
         methods: {
 
-            qnadetail(num){ // 게시글 데이터 조회
+            // 게시글 데이터 조회
+            qnadetail(num){ 
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : num,
                 })
@@ -95,6 +96,7 @@
                 })
             },
 
+            //글 수정
             edit(){
 
                 alert('게시글을 수정합니다.');

@@ -32,7 +32,7 @@ public class FreeController {
 	
 	//상세보기
 	@RequestMapping(value="/freBd/detail", method=RequestMethod.GET)				
-	public FreeVO freeDetail(int num, String userName) throws Exception{
+	public FreeVO freeDetail(int num, String userName){
 		return freeService.viewone(num, userName);	
 	}
 	

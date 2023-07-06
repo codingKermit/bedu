@@ -4,23 +4,45 @@ import java.util.Date;
 
 import lombok.Data;
 import lombok.ToString;
-
+//댓글
 @Data
 @ToString
-public class ReplyVO{					//댓글
+public class ReplyVO{					
 	
-	private Integer replyNum;			//글번호
-	private String userName;			//작성자
-	private String content;				//내용
-	private Date replyDate;			//작성날짜
-	private Date regDate;			//수정날짜
-	private Integer commNum;		//자유글번호
-	private Integer qsNum;				//질문글번호
-	private Integer ansNum;				//답변글번호
-	private Integer rwNum;				//강의후기글번호
-	private Integer lecturenum;			
+	//글번호
+	private Integer replyNum;			
+	
+	//작성자
+	private String userName;			
+	
+	//내용
+	private String content;			
+	
+	//작성날짜
+	private Date replyDate;			
+	
+	//수정날짜
+	private Date regDate;			
+	
+	//자유글번호
+	private Integer commNum;		
+	
+	//질문글번호
+	private Integer qsNum;				
+	
+	//답변글번호
+	private Integer ansNum;			
+	
+	//강의후기글번호
+	private Integer rwNum;				
+	
+	//등록아이디
+	private String regId;
+	
+	private Integer lecturenum;		
+	
+	//표준날짜
 	private String strReplyDate;		
 	private String strRegDate;
-	private String regId;					//등록아이디
 
 }

@@ -82,6 +82,10 @@
     import router from '@/router';
     import '@/assets/css/qnaStyle.css'; 
     export default{
+
+        components:{
+            CommCategory
+        },
         
         data() {
             return {
@@ -110,10 +114,6 @@
             }
         },
 
-        components:{
-            CommCategory
-        },
-
         mounted() {
             const qnanum = this.$route.params.num;
             this.userNickName =this.$store.getters.getNickname;
@@ -132,6 +132,7 @@
 
         methods: {
 
+            //답변개수조회
             getCountAns(){
                 this.$axiosSend('get', '/api/ans/count', {
 
@@ -143,6 +144,7 @@
                 })
             },
 
+            //닉네임 존재 여부 확인
             nicknameEquals(nickname){
                 
                 if(this.userNickName === null || this.userNickName ===""){
@@ -156,6 +158,7 @@
 
             },
 
+            //답변버튼 노출 비노출
             ansdelbtneqlse(username){
                 if(this.userNickName === username){
                     return 1;
@@ -164,6 +167,7 @@
                 }
             },
 
+            //답변글 총개수
             ansgetTotal(qnanum){
                 
                 this.$axiosSend('get','/api/ans/ansTotal', {
@@ -174,6 +178,7 @@
                 })
             },
 
+            //게시글 조회
             qnaRead(qnanum){ // 게시글 데이터 조회
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : qnanum,
@@ -229,13 +234,15 @@
                 })
             },
 
-            qnaeditPath(qnum){              //수정페이지로 이동 (질문글번호)
+            //수정페이지로 이동 (질문글번호)
+            qnaeditPath(qnum){              
                 router.push({
                     name: 'qnaBoardedit', 
                         num :qnum,
                 })
             },
 
+            //좋아요 1다운
             qnalikedown(){                                                      
             
                 this.$axiosSend('get','/api/qna/likeDown', {
@@ -257,6 +264,7 @@
                 })
             },
 
+            //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
             qnalikeUp(qnum){
                 
                 if(this.userNickName === null || this.userNickName===""){
@@ -268,18 +276,18 @@
                 }
                 var regid = this.form.regId;
                 this.$axiosSend('get','/api/qna/likeUp', {
-                        num: qnum,                              //질문게시글
-                        regId : regid,                          //현제 로그인한 닉네임에해당하는 아이디
+                        num: qnum,                             
+                        regId : regid,                          
                         userName : this.userNickName,  
                         likeyn : this.likeyn             
                 })
                 .then(res => {
-                    if(res.data.result === 1){                      //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가                
+                    if(res.data.result === 1){                                    
                         this.qna.qnaLikeCnt++;
                         return;
-                    }else if(res.data.result === 0){                //실패값인 result 0일 경우 기존 아이디좋아요 감소
+                    }else if(res.data.result === 0){                
 
-                        this.likenum = res.data.likenum;             // 기존 좋아요 증가한게 있을 경우 결과값으로 가져오는 likeNum값()
+                        this.likenum = res.data.likenum;         
                         this.qnalikedown();      
                         return;
                     }    
@@ -289,6 +297,7 @@
                 })
             },
 
+            //작성날짜 변환
             qnaDateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
@@ -312,6 +321,7 @@
                 }
             },
 
+            //답변 글 작성
             answrite(){
 
                 if(this.userNickName === null || this.userNickName ===""){
@@ -354,6 +364,7 @@
 
             },
 
+            //취소클릭에 수정,삭제,답변글 작성 버튼
             censells(){
                 
                 document.getElementById("qnaboard-detail-replybtn").style.display="inline";
@@ -373,6 +384,7 @@
                 }
             },
 
+            //답변작성버튼 클릭에 삭제 수정버튼
             ansopen(){
                 document.getElementById("qnaboard-detail-replybtn").style.display="none";
                 document.getElementById("qnaboard-detail-rewrite").style.display="inline";
@@ -383,6 +395,7 @@
                 this.form.content = "";
             },
 
+            //답변 삭제
             ansdelete(ansNum, userName, regid){
                 
                 if(this.userNickName === null || this.userNickName ===""){

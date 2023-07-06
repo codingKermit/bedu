@@ -35,6 +35,9 @@
     import '@/assets/css/qnaStyle.css';
     export default {
     
+        components:{
+            CommCategory
+        },
         name: 'qnaWrite',
         data() {
             return {
@@ -59,10 +62,6 @@
 
                 userlist:[]
             };
-        },
-
-        components:{
-            CommCategory
         },
 
         mounted() {
@@ -91,6 +90,7 @@
 
         methods: {
 
+            //게시글 작성
             qnaWrite(){
 
                 if(this.form.title == null || this.form.title == ""){

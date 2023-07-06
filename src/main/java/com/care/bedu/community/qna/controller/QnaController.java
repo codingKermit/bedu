@@ -68,7 +68,7 @@ public class QnaController {
 	
 	//게시글 좋아요 개수 1증가
 	 @RequestMapping(value="/qna/likeUp", method = RequestMethod.GET)				
-	 public HashMap<String, Object> likeUp(int num, String userName, String regId, String likeyn) throws Exception{
+	 public HashMap<String, Object> likeUp(int num, String userName, String regId, String likeyn){
 		 return qnaService.likeUp(num, userName, regId, likeyn);
 	 }
 	 
