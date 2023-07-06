@@ -125,10 +125,10 @@ public class LectureController {
 
 	/* 동영상 재생, 수강 여부 확인 */
 	@RequestMapping("/getLesson")
-	public HashMap<String,Object> getLesson(int num){
+	public HashMap<String,Object> getLesson(int num, int userNum){
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map = lectureService.getLesson(num);
+		map = lectureService.getLesson(num, userNum);
 
 		return map;
 	}
@@ -142,4 +142,9 @@ public class LectureController {
 
 		return map;
 	}
+
+	// @RequestMapping("/addToMyPage")
+	// public int addToMyPage(int userNum, ){
+
+	// }
 }

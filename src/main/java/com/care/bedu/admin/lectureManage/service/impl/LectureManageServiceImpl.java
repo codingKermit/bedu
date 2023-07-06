@@ -24,6 +24,7 @@ public class LectureManageServiceImpl implements LectureManageService{
 
     private String baseUrl = "C:/Desktop/";
     private String httpUrl = "http://172.30.1.85:8081/";
+    private String managePath = "ADMIN/MANAGE/THUMB/";
 
     @Autowired
     LectureManageDao manageDao;
@@ -46,9 +47,9 @@ public class LectureManageServiceImpl implements LectureManageService{
             return null;
         }
 
-        String extention = originName.split("\\.")[1];
+        String extension = originName.split("\\.")[1];
 
-        String uid = UUID.randomUUID().toString() + "." + extention;
+        String uid = UUID.randomUUID().toString() + "." + extension;
         String uploadUrl = baseUrl+ managePath + uid;
         
         File file = new File(uploadUrl);
@@ -78,7 +79,7 @@ public class LectureManageServiceImpl implements LectureManageService{
     @Override
     public int lectInsert(MultipartHttpServletRequest req, HttpServletResponse res)
             throws IOException {
-            String managePath = "ADMIN/MANAGE/THUMB/";
+            
 
             MultipartFile thumbnail = req.getFile("thumbnail");
 
@@ -108,9 +109,9 @@ public class LectureManageServiceImpl implements LectureManageService{
             if(originName == null){
                 return 0;
             }
-            String extention = originName.split("\\.")[1];
+            String extension = originName.split("\\.")[1];
 
-            String uid = UUID.randomUUID().toString() + "." + extention;
+            String uid = UUID.randomUUID().toString() + "." + extension;
 
             String uploadUrl = baseUrl + managePath + uid;
 
@@ -136,13 +137,111 @@ public class LectureManageServiceImpl implements LectureManageService{
 
             lectureVO.setThumbnail(thumbnailPath);
 
-            // System.out.println(lectureVO);
-
             int result = 1;
 
             result = manageDao.lectInsert(lectureVO);
 
             return result;
+    }
+
+    @Override
+    public int lectUpdate(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException {
+        int result = 0;
+
+        MultipartFile multipartFile = req.getFile("thumbnail");
+
+        String title = req.getParameter("title");
+        int lectNum = Integer.parseInt(req.getParameter("lectNum"));
+        String teacher = req.getParameter("teacher");
+        String price = req.getParameter("price");
+        int period = Integer.parseInt(req.getParameter("period"));
+        String contents = req.getParameter("contents");
+        String summary = req.getParameter("summary");
+        int updateNum = Integer.parseInt(req.getParameter("updateNum"));
+
+        LectureVO vo = new LectureVO();
+
+        vo.setTitle(title); vo.setLectNum(lectNum); vo.setTeacher(teacher);
+        vo.setPrice(price); vo.setLectPeriod(period); vo.setLectDesc(contents);
+        vo.setLectSum(summary); vo.setUpdateNum(updateNum);
+        
+        String oldThumbnail = req.getParameter("thumbnail");
+        String[] splits = oldThumbnail.split("/");
+        String oldOriginName = splits[splits.length-1];
+        String oldFilePath = baseUrl + managePath + oldOriginName;
+
+        File oldFile = new File(oldFilePath);
+
+        if(oldFile.exists()){
+            oldFile.delete();
+        }
+
+
+        if(multipartFile != null){
+            String originName = multipartFile.getOriginalFilename();
+
+            if(originName == null){
+                return 0;
+            }
+            String extension = originName.split("\\.")[1];
+
+            String uid = UUID.randomUUID().toString() + "." + extension;
+
+            String uploadUrl = baseUrl + managePath + uid;
+            
+            File newFile = new File(uploadUrl);
+
+            if(!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs();
+            }
+
+            InputStream input = multipartFile.getInputStream();
+            OutputStream output = new FileOutputStream(newFile);
+            byte[] bytes = new byte[1024];
+
+            while(input.read(bytes) != -1){
+                output.write(bytes);
+            }
+
+            output.flush();
+            output.close();
+            input.close();
+
+            String thumbnailPath = httpUrl + managePath + uid;
+
+            vo.setThumbnail(thumbnailPath);
+
+        }
+
+        result = manageDao.lectUpdate(vo);
+
+        return result;
+    }
+
+    @Override
+    public int lectDelete(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException {
+        
+        String oldPath = req.getParameter("thumbnail");
+
+        String[] splits = oldPath.split("/");
+
+        String oldOriginName = splits[splits.length -1];
+
+        String originPath = baseUrl + managePath + oldOriginName;
+
+        File file = new File(originPath);
+
+        if(file.exists()){
+            file.delete();
+        }
+
+        int num = Integer.parseInt(req.getParameter("title"));
+        
+        int result = 0;
+
+        result = manageDao.lectDelete(num);
+        
+        return result;
     }
     
 }

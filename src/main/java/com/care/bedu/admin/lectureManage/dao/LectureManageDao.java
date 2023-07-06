@@ -8,4 +8,6 @@ import com.care.bedu.lecture.vo.LectureVO;
 public interface LectureManageDao {
     
     public int lectInsert(LectureVO vo);
+    public int lectUpdate(LectureVO vo);
+    public int lectDelete(int num);
 }
