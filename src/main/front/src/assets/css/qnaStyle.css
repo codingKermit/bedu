@@ -213,6 +213,11 @@
     resize:none;
 }
 
+#qna-detail-replyDelBtn{
+    margin-bottom: 1rem !important;
+    margin-left: 85%;
+}
+
 
 /*qnaBoardEdit*/
 #qna-edit-content {

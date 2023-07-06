@@ -87,6 +87,11 @@ h1 {
     width: 90%;
 }
 
+#freeReplydelbtn{
+    margin-bottom: 1rem !important;
+    margin-left: 85%;
+}
+
 #freeboard-detail-contents {
     margin-bottom: 15px;
 }

@@ -31,7 +31,7 @@ public class FreeServiceImpl implements FreeService{
 		}
 		ArrayList<FreeVO> list = freeDAO.viewlist(freeVO);
 		for(FreeVO free : list) {
-			free.setStr_comm_date(regdates(free.getComm_date()));
+			free.setStrCommDate(regdates(free.getCommDate()));
 		}
 		return list;
 	}
@@ -45,9 +45,9 @@ public class FreeServiceImpl implements FreeService{
 
 	@Override
 	public int boardwrite(FreeVO freeVO) {
-//		freeVO.setReg_id(freeVO.getUser_name());
-		freeVO.setComm_cnt(0);
-		freeVO.setComm_like_yn(0);
+
+		freeVO.setCommCnt(0);
+		freeVO.setCommLikeYn(0);
 		return freeDAO.viewWrite(freeVO);
 	}
 
@@ -55,7 +55,7 @@ public class FreeServiceImpl implements FreeService{
 	public FreeVO viewone(int num) {			//게시글 상세보기
 		freeDAO.cntUp(num);						//조회수 증가
 		FreeVO freeVO = freeDAO.viewone(num);
-		freeVO.setStr_comm_date(regdates(freeVO.getComm_date()));
+		freeVO.setStrCommDate(regdates(freeVO.getCommDate()));
 		return freeVO;
 	}
 
@@ -67,7 +67,7 @@ public class FreeServiceImpl implements FreeService{
 	@Override
 	public int viewupdate(int comm_num, String title, String content) {			//게시글 수정
 		FreeVO freeVO = new FreeVO();
-		freeVO.setComm_num(comm_num);
+		freeVO.setCommNum(comm_num);
 		freeVO.setTitle(title);
 		freeVO.setContent(content);
 		return freeDAO.viewupdate(freeVO);

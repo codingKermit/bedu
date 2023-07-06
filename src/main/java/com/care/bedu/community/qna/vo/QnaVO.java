@@ -9,21 +9,22 @@ import lombok.ToString;
 @ToString
 public class QnaVO {					//질문답변게시판 객체(qna)
 	
-	private Integer qna_bd_num;	//글번호
+	private Integer qnaBdNum;	//글번호
+	private String title;	//제목
+	private String content;	//내용
+	private String userName;	//작성자닉네임
+	private String regId;	// 타 테이블에서 구분
+	private String userId;	//user회원테이블의 유저 아이디
+	private String userNum; //회원글번호
+	private Date qnaDate;	//작성시간
+	private Date regDate;	//게시판 시간
+	private String strQnaDate;
+	private String strRegDate;
+	private Integer qnaCnt;	//조회수
+	private Integer qnaLikeCnt;	//좋아요
+	private String keyword;		//검색 키워드
+	
 	private int page;	//글시작번호
 	private int limit;	//글끝번호
-	private String reg_id;	// 타 테이블에서 구분
-	private String user_name;	//작성자닉네임
-	private String user_id;	//user회원테이블의 유저 아이디
-	private String content;	//내용
-	private String user_num; //회원글번호
-	private Date qna_date;	//작성시간
-	private Date reg_date;	//게시판 시간
-	private String str_qna_date;
-	private String str_reg_date;
-	private String title;	//제목
-	private Integer qna_cnt;	//조회수
-	private Integer qna_like_yn;	//좋아요
-	private String keyword;		//검색 키워드
 
 }

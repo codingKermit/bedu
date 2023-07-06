@@ -21,6 +21,9 @@ public interface MemberMypageService {
 	/* 마이페이지 홈(전체보기를 눌렀을때 보여지는 수강정보 목록) */
 	public List<MemberMypageVO> lectureList(int numOfLecture,  int lectureCount);
 	
+	/* 마이페이지 홈(수강정보 목록) */
+	public List<MemberMypageVO> lectureListAll(int start, int numOfPage);
+	
 	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
 	public List<MemberMypageVO> getMemberMypageAll(String userid);
 }

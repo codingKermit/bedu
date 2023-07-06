@@ -47,10 +47,10 @@
                     },
                 },
                 form:{
-                    user_name:'',
+                    userName:'',
                     title:'',
                     content : '',
-                    reg_id:'',
+                    regId:'',
                 },
 
                 userlist:[]
@@ -63,45 +63,31 @@
         },
 
         mounted() {
-            this.form.user_name =this.$store.getters.getNickname;
-            if(this.form.user_name === '' || this.form.user_name === null){
+            this.form.userName =this.$store.getters.getNickname;
+            if(this.form.userName === '' || this.form.userName === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
                     name: "login"
                 })
                 return;
             }
-            this.getUserId();
+            // this.getUserId();
+            this.form.regId = this.$store.getters.getEmail;
         },
 
         created() {
-            this.form.user_name =this.$store.getters.getNickname;
-            if(this.form.user_name === '' || this.form.user_name === null){
+            this.form.userName = this.$store.getters.getNickname;
+            if(this.form.userName === '' || this.form.userName === null){
                 this.$swal('Error','로그인을 해주세요!');
                 router.push({
                     name: "login"
                 })
                 return;
             }
+            
         },
 
         methods: {
-
-            getUserId(){
-                const nickname = this.$store.getters.getNickname;
-                this.$axiosSend('get', '/api/free/getUserId', {
-                    userName: nickname
-                }).then(res => {
-                    this.userlist = res.data;
-                    for(var i=0; i< this.userlist.length; i++){
-                        this.form.reg_id = this.userlist[i].user_id;
-                    }
-                })
-                .catch((error) => {
-                    this.$swal('Error', '회원아이디가 정상적으로 불러오지 않았습니다.', error);
-                })
-
-            },
 
         
             submit() {
@@ -127,14 +113,6 @@
                     })
                     return;
                 }
-
-                var form = new FormData();
-                console.log('닉', this.form.userNick);
-                console.log('id', this.form.reg_id);
-                form.append("reg_id", this.form.reg_id);
-                form.append("user_name", this.form.user_name);
-                form.append("title", this.form.title);
-                form.append("content", this.form.content);
 
                 this.$axiosSend('post', '/api/freBd/write', this.form)
                 .then((res) => {

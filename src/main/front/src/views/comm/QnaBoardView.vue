@@ -37,14 +37,14 @@
                     <tbody>
                         <tr v-for="qna in qnalist" :key="qna">
                             <td id="qnaboard-table-tds">
-                                <b-link class="text-start text-body" :to="'/comm/qnaDetail/' + qna.qna_bd_num">
+                                <b-link class="text-start text-body" :to="'/comm/qnaDetail/' + qna.qnaBdNum">
                                     {{ qna.title }}
                                 </b-link>
                             </td>
-                            <td>{{ qna.user_name }}</td>
-                            <td>{{ qna.str_qna_date }}</td>
+                            <td>{{ qna.userName }}</td>
+                            <td>{{ qnaDateTime(qna.strQnaDate) }}</td>
                             <td>
-                                <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qna_cnt }}
+                                <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
                             </td>  
                         </tr>
                     </tbody>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-    
     import CommCategory from '@/components/CommCategory.vue';
     import { InfiniteLoading } from 'infinite-loading-vue3-ts';
     
@@ -116,13 +115,36 @@
                 if (this.sortOption === "default") {
                     // 최신 순으로 정렬
                     this.qnalist.sort((a, b) => {
-                    return new Date(b.qna_date) - new Date(a.qna_date);
+                    return new Date(b.qnaDate) - new Date(a.qnaDate);
                 });
                 } else if (this.sortOption === "highViews") {
                 // 조회수 순으로 정렬
                     this.qnalist.sort((a, b) => {
-                    return b.qna_cnt - a.qna_cnt;
+                    return b.qnaCnt - a.qnaCnt;
                 });
+                }
+            },
+
+            qnaDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
+
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const Days = Math.floor(diffInHours / 24);
+
+                if (Days > 0) {
+                    return `${Days}일 전`;
+                } else if (diffInHours > 0) {
+                    
+                    return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
                 }
             },
 
@@ -143,41 +165,21 @@
                 .catch(error => {
                     alert(error);
                 });
-            },
-
-            getTotal() {
-                this.$axiosSend('get','/api/qna/total')
-                .then((response) => {
-                    this.totalItems = response.data;
-                    this.totalPage = Math.ceil(this.totalItems / 5);
-                })
-                .catch((error) => {
-                    alert(error);
-                })
-                },
-                pageChange(val) { // 페이지 변경
-
-                if (val <= 0) {
-                    return;
-                }
-                if (val > this.totalPage) {
-                    return;
-                }
-                this.currentPage = val;
-            },      
+            },     
 
             infiniteHandler($state){
-                console.log('번호:', this.currentPage);
+               
                 this.$axiosSend('get','/api/qna/qnaList',{
                     page : this.currentPage,
                 })
                 .then(res=>{
+                    
                     if(res.data.length){
-                        this.currentPage++;
-                        this.qnalist.push(...res.data);
                         
-                        console.log('리스',this.qnalist);
+                        this.qnalist.push(...res.data);
+                        this.currentPage++;
                         $state.loaded();
+                        
                     } else{
                         $state.complete();
                     }

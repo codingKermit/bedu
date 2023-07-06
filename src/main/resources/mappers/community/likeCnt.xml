@@ -28,8 +28,8 @@
 
 	
 	<delete id="likedel">
-		delete
-		 from T_BEDU_LIKE_CNT
+		DELETE
+		 FROM T_BEDU_LIKE_CNT
 		WHERE LIKE_NUM = #{num}
 	</delete>
 	

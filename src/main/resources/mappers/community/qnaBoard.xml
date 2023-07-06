@@ -8,15 +8,15 @@
 		* FROM (
 		SELECT
 		  rownum rnum,
-		  QS_BD_NUM as qna_bd_num,
+		  QS_BD_NUM as qnaBdNum,
 		  TITLE,
 		  CONTENT,
-		  QS_DATE as qna_date, 
-		  QS_CNT as qna_cnt,
-		  USER_NAME
+		  QS_DATE as qnaDate, 
+		  QS_CNT as qnaCnt,
+		  USER_NAME as userName
 		FROM(SELECT
 			* FROM
-				T_BEDU_QS ORDER BY QS_BD_NUM DESC)) 
+				T_BEDU_QS ORDER BY QS_DATE DESC)) 
 		WHERE rnum >= #{page} AND #{limit} >= rnum
 	 </select>
 	
@@ -33,28 +33,28 @@
 		  REG_ID
 		)VALUES(
 		  BEDU_QS.NEXTVAL,
-		  #{user_name},
+		  #{userName},
 		  #{title},
 		  #{content},
-		  #{qna_cnt},
-		  #{qna_like_yn},
+		  #{qnaCnt},
+		  #{qnaLikeCnt},
 		  SYSDATE,
 		  SYSDATE,
-		  #{reg_id}
+		  #{regId}
 		)
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT
-		 QS_BD_NUM AS qna_bd_num, 
+		 QS_BD_NUM AS qnaBdNum, 
 		 TITLE, 
 		 CONTENT, 
-		 QS_CNT AS qna_cnt, 
-		 QS_LIKE_CNT AS qna_like_yn, 
-		 QS_DATE AS qna_date, 
-		 REG_ID,
-		 u.USER_NAME,
-		 u.USER_NUM
+		 QS_CNT AS qnaCnt, 
+		 QS_LIKE_CNT AS qnaLikeCnt, 
+		 QS_DATE AS qnaDate, 
+		 REG_ID as regId,
+		 u.USER_NAME as userName,
+		 u.USER_NUM as userNum
 		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
 		WHERE QS_BD_NUM = #{num}
 	</select>
@@ -62,7 +62,7 @@
 	<update id="viewupdate">
 		UPDATE
 		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}
-		WHERE QS_BD_NUM = #{qna_bd_num}
+		WHERE QS_BD_NUM = #{qnaBdNum}
 	</update>
 	
 	<delete id="viewdelete">
@@ -90,7 +90,7 @@
 	
 	<select id="getuserId" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT
-		USER_ID
+		  USER_ID as userId
 		FROM T_BEDU_USER
 		WHERE USER_NAME = #{userName} 
 	</select>
@@ -119,7 +119,7 @@
 	
 	<select id="getuserName" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT
-		 USER_NAME
+		 USER_NAME as userName
 		FROM T_BEDU_USER
 		WHERE USER_ID = #{userId}
 	</select>

@@ -5,32 +5,30 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT
-		 * FROM (SELECT
-		  ROWNUM rnum,
-		  COMM_NUM as comm_num,
-		  TITLE,
-		  CONTENT,
-		  COMM_DATE as comm_date,
-		  COMM_CNT as comm_cnt,
-		  COMM_LIKE_YN as comm_like_yn,
-		  REG_ID,
-		  u.USER_NAME,
-		  u.USER_ID,
-		  u.USER_NUM 
-		FROM T_BEDU_COMM c LEFT JOIN T_BEDU_USER u ON c.USER_NAME = u.USER_NAME 
-		ORDER BY COMM_NUM DESC) 
-		WHERE rnum >= #{page} AND #{limit} >= rnum
+		  * FROM (
+		  SELECT
+		    rownum rnum,
+		    COMM_NUM AS commNum,
+		    TITLE,
+		    CONTENT,
+		    COMM_DATE AS commDate,
+		    COMM_CNT AS commCnt,
+		    USER_NAME AS userName
+		  FROM(SELECT
+			* FROM
+		      T_BEDU_COMM ORDER BY COMM_DATE DESC)) 
+		  WHERE rnum >= #{page} AND #{limit} >= rnum
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		 COMM_NUM,
+		 COMM_NUM AS commNum,
 		 TITLE, 
 		 CONTENT, 
-		 USER_NAME, 
-		 COMM_DATE, 
-		 COMM_CNT, 
-		 REG_ID 
+		 USER_NAME AS userName, 
+		 COMM_DATE AS commDate, 
+		 COMM_CNT AS commCnt, 
+		 REG_ID AS regId
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
 			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%'||#{keyword}||'%'
@@ -51,28 +49,28 @@
           REG_ID
 		)VALUES(
 		  BEDU_COMM.NEXTVAL,
-          #{user_name}, 
+          #{userName}, 
           #{title}, 
           #{content}, 
-          #{comm_cnt}, 
-          #{comm_like_yn}, 
+          #{commCnt}, 
+          #{commLikeYn}, 
           SYSDATE, 
           SYSDATE, 
-          #{reg_id}
+          #{regId}
 		)
 	</insert>
 	
 	<select id="viewone" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		 COMM_NUM,
+		 COMM_NUM AS commNum,
 		 TITLE,
 		 CONTENT,
-		 COMM_DATE,
-		 COMM_CNT,
-		 COMM_LIKE_YN, 
-		 REG_ID,
-		 u.USER_NAME,
-		 u.USER_NUM
+		 COMM_DATE AS commDate,
+		 COMM_CNT AS commCnt,
+		 COMM_LIKE_YN AS commLikeYn, 
+		 REG_ID AS regId,
+		 u.USER_NAME AS userName,
+		 u.USER_NUM AS userNum
 		FROM T_BEDU_COMM c LEFT JOIN T_BEDU_USER u ON c.USER_NAME = u.USER_NAME
 		WHERE COMM_NUM = #{num}
 	</select>
@@ -92,7 +90,7 @@
 	<update id="viewupdate">
 		UPDATE
 		 T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}
-		WHERE COMM_NUM = #{comm_num}
+		WHERE COMM_NUM = #{commNum}
 	</update>
 	
 	<select id="getTotal" resultType="int">
@@ -101,7 +99,7 @@
 	
 	<select id="getuserId" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT
-		 USER_ID
+		 USER_ID as userId
 		FROM T_BEDU_USER
 		WHERE USER_NAME = #{userName}
 	</select>

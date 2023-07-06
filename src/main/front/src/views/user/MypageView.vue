@@ -1,4 +1,3 @@
-<!-- npm install v-pagination-3 설치해야함 -->
 <template>
     <b-container>
         <b-container>

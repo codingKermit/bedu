@@ -1,7 +1,7 @@
 package com.care.bedu.inquiry.dao;
 
-import java.util.HashMap;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,13 +9,11 @@ import com.care.bedu.inquiry.vo.InquiryVO;
 
 @Mapper
 public interface InquiryDAO {
-
-	// 문의를 생성하는 메서드입니다.
-	void createInquiry(InquiryVO inquiryVO);
-
-	// 모든 문의를 가져오는 메서드입니다.
-	List<HashMap<String, Object>> getAllInquiry();
-
-	// 검색된 문의를 가져오는 메서드입니다.
-	List<HashMap<String, Object>> getSearchedInquiry(String keyword);
+	
+	public ArrayList<InquiryVO> inquiryList(InquiryVO inquiryVO)throws SQLException; //게시글 전체 조회
+	public int inquiryWriteSave(InquiryVO inquiryVO); //게시글 작성
+	public InquiryVO inquiryone(int num); //게시글 상세보기
+	public int getTotal(); //게시글 전체 개수 조회
+	public ArrayList<InquiryVO> getuserName(String userName);
+	
 }
