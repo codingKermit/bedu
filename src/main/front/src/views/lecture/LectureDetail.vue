@@ -235,6 +235,7 @@ import '@/assets/css/lectureStyle.css';
                 reviews: [],
                 payPerMonth : "39,800",
                 payPerYear : "27,417",
+                myPageList : [], // 수강목록
             }
         },
         methods: {
@@ -358,6 +359,18 @@ import '@/assets/css/lectureStyle.css';
                         console.log(err);
                     })
                 }
+            },
+            /** 나의 수강 목록 조회 */
+            getMyPageList(){
+                this.$axiosSend('get','/api/lect/getMyPageList',{
+                    num : this.$store.getters.getUsernum,
+                })
+                .then((res)=>{
+                    console.log(res)
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
             }
         },
         mounted() {

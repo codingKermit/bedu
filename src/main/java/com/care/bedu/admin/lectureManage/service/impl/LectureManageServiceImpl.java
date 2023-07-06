@@ -24,15 +24,13 @@ public class LectureManageServiceImpl implements LectureManageService{
 
     private String baseUrl = "C:/Desktop/";
     private String httpUrl = "http://172.30.1.85:8081/";
-    private String managePath = "ADMIN/MANAGE/THUMB/";
-
+    private String thumbnailPath = "LECT/THUMB/";
+    private String descPath = "LECT/DESC/";
     @Autowired
     LectureManageDao manageDao;
 
     @Override
     public HashMap<String, Object> imgUpload(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException {
-
-        String managePath = "ADMIN/MANAGE/IMAGE/";
 
         HashMap<String, Object> map = new HashMap<>();
 
@@ -50,7 +48,7 @@ public class LectureManageServiceImpl implements LectureManageService{
         String extension = originName.split("\\.")[1];
 
         String uid = UUID.randomUUID().toString() + "." + extension;
-        String uploadUrl = baseUrl+ managePath + uid;
+        String uploadUrl = baseUrl+ descPath + uid;
         
         File file = new File(uploadUrl);
         
@@ -70,7 +68,7 @@ public class LectureManageServiceImpl implements LectureManageService{
         output.flush();
         output.close();
 
-        map.put("url", httpUrl+ managePath +uid);
+        map.put("url", httpUrl+ descPath +uid);
 
 
         return map;
@@ -113,7 +111,7 @@ public class LectureManageServiceImpl implements LectureManageService{
 
             String uid = UUID.randomUUID().toString() + "." + extension;
 
-            String uploadUrl = baseUrl + managePath + uid;
+            String uploadUrl = baseUrl + thumbnailPath + uid;
 
             File file = new File(uploadUrl);
 
@@ -133,9 +131,9 @@ public class LectureManageServiceImpl implements LectureManageService{
             output.flush();
             output.close();
 
-            String thumbnailPath = httpUrl + managePath + uid;
+            String returnPath = httpUrl + thumbnailPath + uid;
 
-            lectureVO.setThumbnail(thumbnailPath);
+            lectureVO.setThumbnail(returnPath);
 
             int result = 1;
 
@@ -148,7 +146,7 @@ public class LectureManageServiceImpl implements LectureManageService{
     public int lectUpdate(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException {
         int result = 0;
 
-        MultipartFile multipartFile = req.getFile("thumbnail");
+        MultipartFile multipartFile = req.getFile("newThumbnail");
 
         String title = req.getParameter("title");
         int lectNum = Integer.parseInt(req.getParameter("lectNum"));
@@ -165,19 +163,21 @@ public class LectureManageServiceImpl implements LectureManageService{
         vo.setPrice(price); vo.setLectPeriod(period); vo.setLectDesc(contents);
         vo.setLectSum(summary); vo.setUpdateNum(updateNum);
         
-        String oldThumbnail = req.getParameter("thumbnail");
-        String[] splits = oldThumbnail.split("/");
-        String oldOriginName = splits[splits.length-1];
-        String oldFilePath = baseUrl + managePath + oldOriginName;
-
-        File oldFile = new File(oldFilePath);
-
-        if(oldFile.exists()){
-            oldFile.delete();
-        }
-
-
+        // 새로운 썸네일 업로드시
         if(multipartFile != null){
+
+            String oldThumbnail = req.getParameter("oldThumbnail");
+            String[] splits = oldThumbnail.split("/");
+            String oldOriginName = splits[splits.length-1];
+            String oldFilePath = baseUrl + thumbnailPath + oldOriginName;
+            
+            File oldFile = new File(oldFilePath);
+            
+            // 기존의 썸네일 파일 삭제
+            if(oldFile.exists()){
+                oldFile.delete();
+            }
+
             String originName = multipartFile.getOriginalFilename();
 
             if(originName == null){
@@ -187,7 +187,7 @@ public class LectureManageServiceImpl implements LectureManageService{
 
             String uid = UUID.randomUUID().toString() + "." + extension;
 
-            String uploadUrl = baseUrl + managePath + uid;
+            String uploadUrl = baseUrl + thumbnailPath + uid;
             
             File newFile = new File(uploadUrl);
 
@@ -207,27 +207,24 @@ public class LectureManageServiceImpl implements LectureManageService{
             output.close();
             input.close();
 
-            String thumbnailPath = httpUrl + managePath + uid;
+            String returnPath = httpUrl + thumbnailPath + uid;
 
-            vo.setThumbnail(thumbnailPath);
+            vo.setThumbnail(returnPath);
 
         }
-
         result = manageDao.lectUpdate(vo);
 
         return result;
     }
 
     @Override
-    public int lectDelete(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException {
+    public int lectDelete(int num, String thumbnail, String lectDesc) throws IOException {
         
-        String oldPath = req.getParameter("thumbnail");
-
-        String[] splits = oldPath.split("/");
+        String[] splits = thumbnail.split("/");
 
         String oldOriginName = splits[splits.length -1];
 
-        String originPath = baseUrl + managePath + oldOriginName;
+        String originPath = baseUrl + thumbnailPath + oldOriginName;
 
         File file = new File(originPath);
 
@@ -235,9 +232,7 @@ public class LectureManageServiceImpl implements LectureManageService{
             file.delete();
         }
 
-        int num = Integer.parseInt(req.getParameter("title"));
-        
-        int result = 0;
+        int result = 1;
 
         result = manageDao.lectDelete(num);
         

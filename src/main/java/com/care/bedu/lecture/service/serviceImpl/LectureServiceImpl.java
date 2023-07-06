@@ -262,5 +262,35 @@ public class LectureServiceImpl implements LectureService{
 		
 		return map;
 	}
+
+
+
+	@Override
+	public int addToMyPage(int userNum, int[] list) {
+
+		int result = 1;
+		HashMap<String,Integer> map = new HashMap<>();
+		for(int l : list){
+			map.put("userNum", userNum);
+			map.put("lectNum", l);
+			System.out.println(map);
+			result = lectureDao.addToMyPage(map);
+			if(result != 1){
+				return 0;
+			}
+		}
+		return result;
+	}
+
+
+
+	@Override
+	public HashMap<String, Object> getMyPageList(int userNum) {
+		HashMap<String,Object> map = new HashMap<>();
+
+		
+
+		return map;
+	}
 	
 }

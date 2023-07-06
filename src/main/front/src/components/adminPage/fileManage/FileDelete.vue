@@ -192,7 +192,7 @@ export default{
                 cancelButtonText : '취소',
             })
             .then((result)=>{
-                if(!result.isDismissed){
+                if(result.isConfirmed){
                     this.$axiosSend('get','/api/admin/fileManage/deleteFile',{num : this.form.lectDtlNum})
                     .then(()=>{
                         this.$swal({

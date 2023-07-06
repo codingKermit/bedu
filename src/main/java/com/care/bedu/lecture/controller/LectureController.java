@@ -143,8 +143,26 @@ public class LectureController {
 		return map;
 	}
 
-	// @RequestMapping("/addToMyPage")
-	// public int addToMyPage(int userNum, ){
+	/* 강의 결제 후, 수강 목록에 추가 */
+	@RequestMapping("/addToMyPage")
+	public int addToMyPage(int userNum, int[] list){
 
-	// }
+		int result = 1;
+
+
+		result = lectureService.addToMyPage(userNum, list);
+
+		return result;
+	}
+
+	/* 수강 목록 조회 */
+	@RequestMapping("/getMyPageList")
+	public HashMap<String,Object> getMyPageList(int userNum){
+		HashMap<String, Object> map = new HashMap<>();
+
+		map = lectureService.getMyPageList(userNum);
+
+
+		return map;
+	}
 }
