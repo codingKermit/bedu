@@ -5,19 +5,19 @@
 	
 	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
 		SELECT
-			u.* FROM (
-			SELECT
-			  rownum AS rnum,
-			  QS_BD_NUM as qnaBdNum,
-			  TITLE, 
-			  CONTENT,
-			  QS_DATE as qnaDate, 
-			  QS_CNT as qnaCnt,
-			  REG_DATE as regDate,
-			  USER_NAME as userName
-			FROM T_BEDU_QS
-			ORDER BY QS_DATE DESC) u
-		WHERE u.rnum >= #{page} AND #{limit} >= u.rnum
+		  * FROM (
+		  SELECT
+		    rownum rnum,
+		    QS_BD_NUM as qnaBdNum,
+		    TITLE,
+		    CONTENT,
+		    QS_DATE as qnaDate, 
+		    QS_CNT as qnaCnt,
+		    USER_NAME as userName
+		  FROM(SELECT
+			* FROM T_BEDU_QS
+			ORDER BY QS_DATE desc)) 
+		  WHERE rnum >= #{page} AND #{limit} >= rnum
 	 </select>
 	
 	<insert id="viewWrite">

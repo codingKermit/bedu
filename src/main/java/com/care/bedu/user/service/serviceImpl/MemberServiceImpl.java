@@ -2,15 +2,14 @@ package com.care.bedu.user.service.serviceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.care.bedu.user.dao.MemberDAO;
 import com.care.bedu.user.service.MemberService;
-
 import com.care.bedu.user.vo.MemberVO;
 
 import jakarta.transaction.Transactional;
@@ -57,5 +56,9 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.getMemberByEmail(email);
     }
   
+    @Override
+    public List<Integer> getLikedBoardNumbersByEmail(String email) {
+        return memberDao.getLikedBoardNumbersByEmail(email);
+    }
 
 }

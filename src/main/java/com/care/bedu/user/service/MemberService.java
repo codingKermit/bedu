@@ -1,5 +1,7 @@
 package com.care.bedu.user.service;
 
+import java.util.List;
+
 import com.care.bedu.user.vo.MemberVO;
 
 public interface MemberService {
@@ -9,5 +11,5 @@ public interface MemberService {
     boolean isNicknameDuplicate(String nickname);
     String getPasswordByEmail(String email);
     MemberVO getMemberByEmail(String email);
-    
+    List<Integer> getLikedBoardNumbersByEmail(String email);
 }

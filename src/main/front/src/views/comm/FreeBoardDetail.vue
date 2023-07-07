@@ -64,7 +64,7 @@
                         <div class="freeReplycontent">
                             {{ reply.content }}
                         </div>
-                        <hr/>
+                
                         <div id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
                             <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)">댓글삭제</b-button>
                         </div>

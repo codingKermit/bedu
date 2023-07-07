@@ -17,13 +17,13 @@ public class AnsController {
 	@Autowired
 	private AnsService ansService;
 	
-	//답글게시글 조회
+	//답변게시글 조회
 	@RequestMapping(value="/ans/getans", method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<AnsVO> getReply(AnsVO ansVO){
 		return ansService.getlist(ansVO);
 	}
 	
-	//답글게시글 작성
+	//답변게시글 작성
 	@RequestMapping(value="/ans/write", method=RequestMethod.POST)
 	public int ansWrite(int qsBdNum, String userName, String content, String regId){
 		AnsVO ansVO = new AnsVO();
@@ -34,13 +34,13 @@ public class AnsController {
 		return ansService.boardwrite(ansVO);
 	}
 	
-	//글 총개수
+	//답변글 총개수
 	@RequestMapping(value="/ans/ansTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansTotal(int qnaNum){
 	 	return ansService.ansTotal(qnaNum);
 	}
 	
-	//글삭제
+	//답변삭제
 	@RequestMapping(value="/ans/ansdelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansDelete(int ansBdNum) throws Exception{
 		return ansService.ansDelete(ansBdNum);
