@@ -19,7 +19,7 @@ public interface FreeDAO {
 	//게시글 삭제
 	public int viewdelete(int num);							
 	//게시글 수정
-	public int viewupdate(FreeVO freeVO);				
+	public int viewupdate(FreeVO freeVO);
 	
 	//게시글 전체 개수
 	public int getTotal();									

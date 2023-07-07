@@ -27,32 +27,22 @@
    			ON B.USER_NUM = C.USER_NUM
    	</select>
 	
-	<select id="lectureListInfoFirst"  resultType="int">
-		SELECT A.TITLE,
-			   A.LECT_DESC,
-			   A.LECT_PERIOD
+	<select id="lectureListInfoFirst"  resultType="int" parameterType="com.care.bedu.user.vo.MemberMypageVO">
+		SELECT 
+			A.TITLE,
+			A.LECT_DESC,
+			A.LECT_PERIOD
 		FROM T_BEDU_LECT A
 		INNER JOIN T_BEDU_USER_LECT B
 		    ON A.LECT_NUM = B.LECT_NUM
 		INNER JOIN T_BEDU_USER C
 		    ON B.USER_NUM = C.USER_NUM
-		WHERE ROWNUM <![CDATA[<=]]> #{numOfLecture}
+		WHERE C.USER_NUM = #{userNum}
+		AND ROWNUM <![CDATA[<=]]> #{numOfLecture}
 		ORDER BY B.USER_LECT_NUM DESC
 	</select>
 	
-	<select id="lectureList"  resultType="int">
-		SELECT 
-			A.*
-		FROM T_BEDU_LECT A
-    	INNER JOIN T_BEDU_USER_LECT B
-    		ON A.LECT_NUM = B.LECT_NUM
-   		INNER JOIN T_BEDU_USER C
-   			ON B.USER_NUM = C.USER_NUM
- 		WHERE ROWNUM <![CDATA[>=]]> #{numOfLecture} AND ROWNUM <![CDATA[<=]]> #{lectureCount}
-   	 	AND A.CATE_CODE = '전체보기'
-   	 </select>
-   	 
-   	 <select id="lectureListAll"  resultType="int">
+	<select id="getMemberMypageAll"  resultType="int" parameterType="com.care.bedu.user.vo.MemberMypageVO">
 		SELECT 
 			A.TITLE,
 			A.LECT_DESC,
@@ -62,17 +52,8 @@
     		ON A.LECT_NUM = B.LECT_NUM
    		INNER JOIN T_BEDU_USER C
    			ON B.USER_NUM = C.USER_NUM
-   		WHERE ROWNUM BETWEEN #{startNo} AND  #{numOfPage}
+   		WHERE C.USER_NUM = #{userNum}
+   		AND ROWNUM BETWEEN #{startNo} AND  #{numOfPage}
    	</select>
-	 
-<!--  	<select id="getMemberMypageAll"  resultType="int">
-		SELECT 
-			A.*
-		FROM T_BEDU_LECT A
-    	INNER JOIN T_BEDU_USER_LECT B
-    		ON A.LECT_NUM = B.LECT_NUM
-   		INNER JOIN T_BEDU_USER C
-   			ON B.USER_NAME = C.USER_NAME
-   	</select>-->
 	
 </mapper>

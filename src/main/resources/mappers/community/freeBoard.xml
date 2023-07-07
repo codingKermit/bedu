@@ -89,7 +89,7 @@
 	
 	<update id="viewupdate">
 		UPDATE
-		 T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}
+		 T_BEDU_COMM SET TITLE = #{title}, CONTENT = #{content}, REG_DATE = SYSDATE
 		WHERE COMM_NUM = #{commNum}
 	</update>
 	

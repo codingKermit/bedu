@@ -3,7 +3,7 @@
         <div class="contents">
             <div class="title-div">
                 <h3 style="text-align: center;" class="fw-bold">
-                    {{ userName }} 님의 현재 수강상세정보
+                    {{ userId }} 님의 현재 수강상세정보
                 </h3>
             </div>
         </div>
@@ -53,7 +53,8 @@ export default {
     name : "mypageAll",
     data() {
        return {
-           userName : this.$store.state.nickname,
+           userNum : this.$store.state.usernum,
+           userId : this.$store.state.nickname,
            pageNumber : 0,
            listArray : [],
            numOfPage : 10,
@@ -76,9 +77,9 @@ export default {
         },
          /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
          getLectureList(){
-            const userid = this.$store.getters.getEmail;
+            const userNum = this.$store.getters.getUsernum;
             let data = []
-            this.$axiosSend('get','/api/mypageAll',{userid: userid},true)
+            this.$axiosSend('get','/api/mypageAll',{userNum: userNum},true)
             .then((res)=>{
                 this.list = res.data;
                 for(var i = 0; i < this.list.length; i++) {

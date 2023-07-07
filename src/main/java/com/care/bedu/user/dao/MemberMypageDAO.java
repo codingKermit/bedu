@@ -12,7 +12,7 @@ import com.care.bedu.user.vo.MemberMypageVO;
 public interface MemberMypageDAO {
 	
 	/* 마이페이지 홈(유저아이디 받아오기) */
-	public List<MemberMypageVO> getMemberMypage(String userid);
+	public List<MemberMypageVO> getMemberMypage(int userNum);
 	
 	/* 마이페이지 홈(전체보기 개수 추출) */
 	public int getLectureCount();
@@ -24,8 +24,8 @@ public interface MemberMypageDAO {
 	public List<MemberMypageVO> lectureList(@RequestParam("numOfLecture") int numOfLecture, @RequestParam("lectureCount") int lectureCount);
 	
 	/* 마이페이지 홈(수강정보 목록) */
-	public List<MemberMypageVO> lectureListAll(@RequestParam("startNo") int startNo, @RequestParam("numOfPage") int numOfPage);
+	//public List<MemberMypageVO> lectureListAll(@RequestParam("startNo") int startNo, @RequestParam("numOfPage") int numOfPage);
 	
 	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
-	//public List<MemberMypageVO> getMemberMypageAll(String userid);
+	public List<MemberMypageVO> getMemberMypageAll(@RequestParam("userNum") int userNum, @RequestParam("startNo") int startNo, @RequestParam("numOfPage") int numOfPage);
 }

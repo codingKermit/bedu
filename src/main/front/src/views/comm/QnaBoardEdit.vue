@@ -51,8 +51,7 @@
                     qnaBdNum: 0,  
                     title: '',
                     content: '',
-                    // str_qna_date:'',
-                    // str_reg_date:'',
+                   
                 }
             }
         },
@@ -85,7 +84,7 @@
 
             // 게시글 데이터 조회
             qnadetail(num){ 
-                this.$axiosSend('get','/api/qna/qnaDetail',{
+                this.$axiosSend('get','/api/qna/editdetail',{
                         num : num,
                 })
                 .then(response=>{

@@ -42,6 +42,12 @@ public class FreeController {
 		return freeService.viewupdate(comm_num, title, content);	
 	}
 	
+	//수정페이지 글 조회
+	@RequestMapping(value="/freBd/editdetail", method=RequestMethod.GET)				
+	public FreeVO freeEditDetail(int num){
+		return freeService.editdetail(num);	
+	}
+	
 	//게시글 삭제
 	@RequestMapping(value="/freBd/delete", method=RequestMethod.GET)				
 	public int freeDelete(int num){
