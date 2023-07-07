@@ -76,8 +76,7 @@
 
         data() {
             return {
-                qnalist: [
-                ],
+                qnalist: [],
                 form: {
                     keyword: '',
                 },
