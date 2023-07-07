@@ -55,11 +55,17 @@ public class LectureManageController {
     }
 
     @RequestMapping("/lectDelete")
-    public ResponseEntity<String> lectDelete(MultipartHttpServletRequest req, HttpServletResponse res){
+    public ResponseEntity<String> lectDelete(int num, String thumbnail, String lectDesc) throws IOException {
 
-        
+        int result = 1;
 
-        return ResponseEntity.ok().build();
+        result = lectManageService.lectDelete(num, thumbnail, lectDesc);
+
+        if(result ==1){
+            return ResponseEntity.ok().build();
+        } else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     
 }

@@ -33,7 +33,7 @@
                             class="w-100 me-3"
                             >
                             <div class="ratio ratio-16x9 mb-3">
-                                <b-img ref="thumbnail" :src="form.thumbnail != null ? form.thumbnail : require('@/assets/imgs/noImg.jpg')" fluid thumbnail ></b-img>
+                                <b-img ref="thumbnail" :src="previewImg != null ? previewImg : require('@/assets/imgs/noImg.jpg')" fluid thumbnail ></b-img>
                             </div>
                             <input :disabled="form.lectNum == 0" id="lect-manage-thumbnail" type="file" class="form-control" @change="fileChange"/>
                             </b-form-group>
@@ -135,14 +135,14 @@ export default{
             },
             keyword : '',   
             newThumbnail : '',
+            previewImg : null,
         }
     },
     methods: {
         /** 파일 업로드시 변경 */
         fileChange(e){
             this.newThumbnail = e.target.files[0]
-            this.form.thumbnail = URL.createObjectURL(this.newThumbnail);
-            console.log(this.form.thumbnail)
+            this.previewImg = URL.createObjectURL(this.newThumbnail);
         },
         /** 강의 조회 */
         getLectureList(){
@@ -163,7 +163,9 @@ export default{
             this.form.teacher = item.teacher;
             this.form.price = item.price;
             this.form.thumbnail = item.thumbnail;
+            console.log(item.thumbnail)
             this.form.period = item.lectPeriod;
+            this.previewImg = item.thumbnail;
         },
         filtering(){
             this.showList = this.lectList.filter((item)=> item.title.includes(this.keyword))
@@ -171,7 +173,7 @@ export default{
         lectUpdateFunc(){
             const formData = new FormData();
 
-            let editorNum = this.$store.getters.getUsernum;
+            const updateNum = this.$store.getters.getUsernum;
 
             formData.append("title",this.form.title);
             formData.append("lectNum", this.form.lectNum);
@@ -180,8 +182,9 @@ export default{
             formData.append("period",this.form.period);
             formData.append("contents",this.form.contents);
             formData.append("summary",this.form.summary);
-            formData.append("thumbnail",this.newThumbnail);
-            formData.append("updateNum",editorNum);
+            formData.append("newThumbnail",this.newThumbnail);
+            formData.append("oldThumbnail",this.form.thumbnail);
+            formData.append("updateNum",updateNum);
 
 
             axios.post('/api/admin/lectManage/lectUpdate',formData,{
@@ -189,8 +192,15 @@ export default{
                         "Content-Type" : "multipart/form-data"
                 }
             })
-            .then((res)=>{
-                console.log(res)
+            .then(()=>{
+                this.$swal({
+                    title : 'success',
+                    icon : 'success',
+                    text : '강의가 수정되었습니다'
+                })
+                .then(()=>{
+                    this.form.lectNum = 0
+                })
             })
             .catch((err)=>{
                 console.log(err)

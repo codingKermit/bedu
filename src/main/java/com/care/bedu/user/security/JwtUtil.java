@@ -1,6 +1,7 @@
 package com.care.bedu.user.security;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,17 +21,18 @@ public class JwtUtil {
 	@Value("${jwt.secret}")
     String secret;
 
-    public String createToken(String email, String nickname, int usernum, String cls) {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        return JWT.create()
-                .withIssuer("front")
-                .withClaim("usernum", usernum)
-                .withClaim("email", email)
-                .withClaim("nickname", nickname)
-                .withClaim("cls", cls)
-                .withIssuedAt(new Date())
-                .sign(algorithm);
-    }
+	public String createToken(String email, String nickname, int usernum, String cls, List<Integer> cbnumList) {
+	    Algorithm algorithm = Algorithm.HMAC256(secret);
+	    return JWT.create()
+	            .withIssuer("front")
+	            .withClaim("usernum", usernum)
+	            .withClaim("email", email)
+	            .withClaim("nickname", nickname)
+	            .withClaim("cls", cls)
+	            .withClaim("cbnumList", cbnumList)
+	            .withIssuedAt(new Date())
+	            .sign(algorithm);
+	}
 
     public DecodedJWT decodeToken(String token) {
         try {

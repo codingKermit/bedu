@@ -157,37 +157,41 @@ export default{
             완료 되었다는 가정 하에 코드 작성
 
             */
-            const result = true;
-            console.log(this.paymentList)
+            let result = true;
 
-            // if(result){
-            //     const userNum = this.$store.getters.getUsernum;
-            //     this.$axiosSend('get','/api/lect/addToMyPage',{
-            //         userNum : userNum,
-            //         // paymentList : this.paymentList,
-            //     })
-            //     .then((res)=>{
-            //         console.log(res)
-            //         this.$swal({
-            //             title : '감사합니다',
-            //             icon : 'success',
-            //             text : '결제가 성공적으로 완료되었습니다'
-            //         })
-            //         .then(()=>{
+            const arg = [];
+            for(var i =0;i<this.paymentList.length;i++){
+                arg.push(this.paymentList[i].lectNum);
+            }
 
-            //         })
-            //     })
-            //     .catch((err)=>{
-            //         console.log(err)
-            //         this.$swal({
-            //             title : '결제 중에 문제가 발생했습니다',
-            //             icon: 'error',
-            //             text : '결제 중에 문제가 발생했습니다. 다시 시도해주세요'
-            //         })
-            //     })
-            // }else {
+            console.log(arg)
 
-            // }
+            if(result){
+                const userNum = this.$store.getters.getUsernum;
+                this.$axiosSend('get','/api/lect/addToMyPage',{
+                    userNum : userNum,
+                    list : arg.join(","),
+                })
+                .then((res)=>{
+                    console.log(res)
+                    this.$swal({
+                        title : '감사합니다',
+                        icon : 'success',
+                        text : '결제가 성공적으로 완료되었습니다'
+                    })
+                    .then(()=>{
+                        this.removeFromCart(this.paymentList);
+                    })
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    this.$swal({
+                        title : '결제 중에 문제가 발생했습니다',
+                        icon: 'error',
+                        text : '결제 중에 문제가 발생했습니다. 다시 시도해주세요'
+                    })
+                })
+            }
 
         }
     },

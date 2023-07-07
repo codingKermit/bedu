@@ -2,6 +2,7 @@ package com.care.bedu.user.controller;
 
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,19 +63,18 @@ public class MemberController {
         String encodedPassword = memberService.getPasswordByEmail(email);
         byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
         String decodedPassword = new String(decodedBytes);
-        
             
         if (decodedPassword.equals(password)) {
-            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls());
+            List<Integer> cbnumList = memberService.getLikedBoardNumbersByEmail(email);
+            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls(), cbnumList);
             
             Map<String, Object> result = new HashMap<>();
-            
             result.put("email", loginUser.getEmail());
             result.put("user_token", accessToken);
             
             return ResponseEntity.ok(result);
         }
-        
+            
         Map<String, Object> error = new HashMap<>();
         error.put("message", "Invalid email or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);

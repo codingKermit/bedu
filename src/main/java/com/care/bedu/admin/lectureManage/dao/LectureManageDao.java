@@ -1,5 +1,7 @@
 package com.care.bedu.admin.lectureManage.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.care.bedu.lecture.vo.LectureVO;

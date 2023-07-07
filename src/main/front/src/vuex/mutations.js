@@ -18,5 +18,8 @@ export default {
     },
     [types.CLS](state, cls) {
         state.cls = cls
+    },
+    [types.LESSONS](state, lessons) {
+        state.lessons = lessons
     }
 }

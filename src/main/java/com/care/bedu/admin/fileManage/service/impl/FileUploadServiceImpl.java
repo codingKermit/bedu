@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
     // 파일 업로드 위치
-    private String fileBaseDir = "C:/Desktop/LECT/";
+    private String fileBaseDir = "C:/Desktop/LECT/VIDEO/";
 
     @Autowired
     private FileUploadDao fileDao;
