@@ -1,4 +1,4 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS } from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS } from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -30,6 +30,11 @@ let setUsernum = ({ commit }, data) => {
 // 클라스를 설정하는 액션
 let setCls = ({ commit }, data) => {
     commit(CLS, data)
+}
+
+// 사용자의 수강 목록을 설정하는 액션
+let setLessons = ({ commit }, lessons) => {
+    commit(LESSONS, lessons)
 }
 
 // 백엔드에서 반환한 결과값을 처리하여 로그인 성공 여부를 Vuex에 저장하는 함수

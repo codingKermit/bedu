@@ -26,7 +26,7 @@
                </div>
             </div>   
                <table class="w3-table-all freeboard-table" id="freeboard-table">
-               <thead>
+                  <thead>
                      <tr>
                         <th class = "freeTitle">제목</th>
                         <th>작성자</th>
@@ -42,7 +42,7 @@
                            </b-link>
                         </td>
                         <td>{{ free.userName }}</td>
-                        <td>{{ freeDateTime(free.strCommDate) }}</td>
+                        <td>{{ freeDateTime(free.commDate) }}</td>
                         <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}</td>  
                      </tr>
                   </tbody>
@@ -68,14 +68,14 @@ export default {
 
    data() {
       return {
-         sortOption: "default", // 정렬 옵션
+         // 정렬 옵션
+         sortOption: "default", 
          freelist:[],
          form: {
             keyword: ''
          },
          freeOption: "recent",
-         totalItems : 0,
-         totalPage : 0,
+        
          currentPage : 1,
       };
 
@@ -83,7 +83,10 @@ export default {
    },
 
    methods: {
+      
+      //게시글 검색
       freesearch() {    
+         
          if(this.form.keyword === null || this.form.keyword ===''){
             alert('검색어를 입력해주세요!');
             return;
@@ -100,6 +103,7 @@ export default {
             })
       },
 
+      //정렬
       sortReviews() {
          if (this.sortOption === "default") {
                 // 최신 순으로 정렬
@@ -114,8 +118,9 @@ export default {
          }
       },
 
+      //게시글 작성날짜 변환
       freeDateTime(value) {
-                // value는 날짜 값입니다
+                
          const now = new Date();
          const date = new Date(value);
 
@@ -138,7 +143,8 @@ export default {
       },
 
 
-      infiniteHandler($state){ // 스크롤 이벤트 핸들러
+      // 스크롤 이벤트 핸들러 조회
+      infiniteHandler($state){ 
          this.$axiosSend('get','/api/freBd/boardList',{page : this.currentPage})
          .then(res=>{
             if(res.data.length){

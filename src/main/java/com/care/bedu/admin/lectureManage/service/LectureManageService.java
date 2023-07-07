@@ -11,4 +11,6 @@ public interface LectureManageService {
    
     public HashMap<String, Object> imgUpload(MultipartHttpServletRequest req, HttpServletResponse res)  throws IOException;
     public int lectInsert(MultipartHttpServletRequest req, HttpServletResponse res)  throws IOException;
+    public int lectUpdate(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException;
+    public int lectDelete(int num, String thumbnail, String lectDesc) throws IOException;
 }

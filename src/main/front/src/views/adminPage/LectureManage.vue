@@ -12,6 +12,8 @@
                 </b-card-header>
                 <b-card-body>
                     <LectureInsertVue v-if="this.currentTab == 'insert'"></LectureInsertVue>
+                    <LectureUpdate v-if="this.currentTab == 'update'"></LectureUpdate>
+                    <LectureDeleteVue v-if="this.currentTab == 'delete'"></LectureDeleteVue>
                 </b-card-body>
             </b-card>
         </b-container>
@@ -20,10 +22,12 @@
 
 <script>
 import LectureInsertVue from '../../components/adminPage/lectureManage/LectureInsert.vue'
+import LectureUpdate from '@/components/adminPage/lectureManage/LectureUpdate.vue';
+import LectureDeleteVue from '@/components/adminPage/lectureManage/LectureDelete.vue';
 
 export default{
     name : 'lectureManagement',
-    components:{LectureInsertVue},
+    components:{LectureInsertVue, LectureUpdate, LectureDeleteVue},
     data() {
         return {
             currentTab : 'insert',

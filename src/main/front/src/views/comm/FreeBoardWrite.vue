@@ -29,6 +29,9 @@
     import '@/assets/css/freeBoardStyle.css';
     export default {
     
+        components:{
+            CommCategory
+        },
         name: 'freeWrite',
         data() {
             return {
@@ -58,10 +61,6 @@
             };
         },
 
-        components:{
-            CommCategory
-        },
-
         mounted() {
             this.form.userName =this.$store.getters.getNickname;
             if(this.form.userName === '' || this.form.userName === null){
@@ -71,7 +70,6 @@
                 })
                 return;
             }
-            // this.getUserId();
             this.form.regId = this.$store.getters.getEmail;
         },
 
@@ -90,6 +88,7 @@
         methods: {
 
         
+            //게시글 작성
             submit() {
 
                 if (this.form.title == null || this.form.title == "") {

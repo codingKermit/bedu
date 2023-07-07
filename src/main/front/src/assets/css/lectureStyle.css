@@ -53,8 +53,9 @@
 }
 
 /*LectureDetail css*/
-#lect-dtl-form-contents-container {
+.lect-dtl-form-contents-container {
     border-top: 3px solid black;
+    border-radius : 2rem;
     border-left: 1px solid #e6e7e8;
     border-right: 1px solid #e6e7e8;
     border-bottom: 1px solid #e6e7e8;
@@ -62,6 +63,7 @@
 
 #lect-dtl-content img {
     max-width: 100%;
+    min-width: 100%;
 }
 
 /*LectureField css*/

@@ -42,7 +42,7 @@
                                 </b-link>
                             </td>
                             <td>{{ qna.userName }}</td>
-                            <td>{{ qnaDateTime(qna.strQnaDate) }}</td>
+                            <td>{{ qnaDateTime(qna.qnaDate) }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
                             </td>  
@@ -69,6 +69,11 @@
     import '@/assets/css/qnaStyle.css';
     export default {
 
+        components:{
+            InfiniteLoading,
+            CommCategory
+        },
+
         data() {
             return {
                 qnalist: [
@@ -77,8 +82,7 @@
                     keyword: '',
                 },
                 sortOption: "default", // 정렬 옵션
-                totalItems: 0,
-                totalPage: 0,
+               
                 currentPage: 1
             };
 
@@ -87,16 +91,12 @@
         created() {
         },
 
-        components:{
-            InfiniteLoading,
-            CommCategory
-        },
-
         mounted() {
         },
 
         methods: {
 
+            //정렬 옵션
             List() {
                 
                 this.$axiosSend('get','/api/qna/qnaList', {
@@ -111,6 +111,7 @@
                 });
             },
 
+            //정렬 옵션
             sortReviews() {
                 if (this.sortOption === "default") {
                     // 최신 순으로 정렬
@@ -125,10 +126,12 @@
                 }
             },
 
-            qnaDateTime(value) {
+            //날짜 변환
+            qnaDateTime(dates) {
+
                 // value는 날짜 값입니다
                 const now = new Date();
-                const date = new Date(value);
+                const date = new Date(dates);
 
                 const diffInMilliseconds = now - date;
                 const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
@@ -139,7 +142,7 @@
                 if (Days > 0) {
                     return `${Days}일 전`;
                 } else if (diffInHours > 0) {
-                    
+                   
                     return `${diffInHours}시간 전`;
                 } else if (diffInMinutes > 0) {
                     return `${diffInMinutes}분 전`;
@@ -148,6 +151,7 @@
                 }
             },
 
+            //게시글 검색
             qnasearch() {
                 if(this.form.keyword === null || this.form.keyword ===''){
                     alert('검색어를 입력해주세요!');
@@ -167,6 +171,7 @@
                 });
             },     
 
+            //게시글 조회 이벤트 헨들러
             infiniteHandler($state){
                
                 this.$axiosSend('get','/api/qna/qnaList',{

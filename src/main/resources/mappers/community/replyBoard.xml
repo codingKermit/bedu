@@ -32,7 +32,7 @@
 		 u.USER_NAME AS userName 
 		FROM T_BEDU_REPLY r LEFT JOIN T_BEDU_USER u ON r.USER_NAME = u.USER_ID
 		WHERE COMM_NUM = #{commNum}
-		ORDER BY REPLY_NUM DESC)
+		ORDER BY REPLY_DATE ASC)
 	</select>
 	
 	<select id="replyTotal" resultType="int">

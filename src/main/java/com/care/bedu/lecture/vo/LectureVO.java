@@ -29,4 +29,6 @@ public class LectureVO {
 	private String korCategory; // 강의 카테고리 --> 한글로 저장
 	private String lectSum; // 강의 설명 요약
 	private int regNum; // 강의 등록자 계정 고유 번호
+	private String updateDate; // 최근 수정일
+	private int updateNum; // 최근 수정자 번호
 }

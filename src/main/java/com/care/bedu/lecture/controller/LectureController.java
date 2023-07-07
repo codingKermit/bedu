@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import com.care.bedu.lecture.vo.UserLectureVO;
 
 
 @RestController
@@ -125,10 +126,43 @@ public class LectureController {
 
 	/* 동영상 재생, 수강 여부 확인 */
 	@RequestMapping("/getLesson")
-	public HashMap<String,Object> getLesson(int num){
+	public HashMap<String,Object> getLesson(int num, int userNum){
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map = lectureService.getLesson(num);
+		map = lectureService.getLesson(num, userNum);
+
+		return map;
+	}
+
+	/* 모든 강의 조회 조건X */
+	@RequestMapping("/getAllLectures")
+	public HashMap<String, Object> getAllLectures(){
+		HashMap<String, Object> map = new HashMap<>();
+
+		map = lectureService.getAllLectures();
+
+		return map;
+	}
+
+	/* 강의 결제 후, 수강 목록에 추가 */
+	@RequestMapping("/addToMyPage")
+	public int addToMyPage(int userNum, int[] list){
+
+		int result = 1;
+
+
+		result = lectureService.addToMyPage(userNum, list);
+
+		return result;
+	}
+
+	/* 수강 목록 조회 */
+	@RequestMapping("/getMyPageList")
+	public HashMap<String,Object> getMyPageList(int userNum){
+		HashMap<String, Object> map = new HashMap<>();
+
+		map = lectureService.getMyPageList(userNum);
+
 
 		return map;
 	}

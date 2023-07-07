@@ -33,7 +33,8 @@
                             <router-link
                                 :to='"/lectureCategories/"+top.cateCode+"?cnt_mid_cate="+mid.cateCode'
                                 class="text-decoration-none"
-                                :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'">
+                                :class="mid.cateCode == cnt_mid_cate && top.cateCode == cnt_top_cate ? 'cnt_selected':'text-body'"
+                                >
                                 {{ mid.cateKor }}
                             </router-link>
                         </li>
@@ -156,4 +157,6 @@ export default{
         color: var(--blue) !important;
         font-weight: bold !important;
     }
+
+
 </style>

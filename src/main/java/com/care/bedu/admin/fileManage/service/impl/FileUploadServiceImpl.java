@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
     // 파일 업로드 위치
-    private String fileBaseDir = "C:/Desktop/LECT/";
+    private String fileBaseDir = "C:/Desktop/LECT/VIDEO/";
 
     @Autowired
     private FileUploadDao fileDao;
@@ -50,7 +50,13 @@ public class FileUploadServiceImpl implements FileUploadService{
 
 		// 마지막 조각이 전송 됐을 경우
         if (chunkNumber == totalChunks-1) {
-            String[] split = file.getOriginalFilename().split("\\.");
+            String splitStr = file.getOriginalFilename();
+
+            if(splitStr == null){
+                return false;
+            }
+            
+            String[] split = splitStr.split("\\.");
             String outputFilename = UUID.randomUUID() + "." + split[split.length-1];
             Path outputFile = Paths.get(fileBaseDir, outputFilename);
             Files.createFile(outputFile);

@@ -30,6 +30,10 @@
     import '@/assets/css/freeBoardStyle.css';
     export default{
 
+        components:{
+            CommCategory
+        },
+
         data(){
             return {
                 editor: Editor,
@@ -52,10 +56,6 @@
                     content: '',
                 }
             }
-        },
-
-        components:{
-            CommCategory
         },
 
         created() {
@@ -85,9 +85,11 @@
         },
 
         methods: {
-            freedetail(num){ // 게시글 데이터 조회
-                this.$axiosSend('get','/api/freBd/detail',{
-                        num : num,
+
+            // 게시글 데이터 조회
+            freedetail(commnum){ 
+                this.$axiosSend('get','/api/freBd/editdetail',{
+                        num : commnum,
                 })
                 .then(response=>{
                     this.form = response.data;
@@ -96,13 +98,8 @@
                     alert(error);
                 })
             },
-
+            //글수정
             edit(){
-                alert('게시글을 수정합니다.');
-                // const form = new FormData();
-                // form.append("comm_num",this.form.commNum);
-                // form.append("title",this.form.title);
-                // form.append("content",this.form.content);
                 
                 this.$axiosSend('post','/api/freBd/edit', this.form)
                 .then(res => {

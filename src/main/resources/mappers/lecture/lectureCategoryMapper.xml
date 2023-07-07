@@ -51,8 +51,8 @@
     <select id="getTopLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
             NUM,
-            CATE_CODE,
-            CATE_KOR
+            CATE_CODE as cateCode,
+            CATE_KOR as cateKor
         FROM
             BEDU.T_BEDU_LECT_TOP_CATE
     </select>
@@ -61,7 +61,7 @@
             NUM,
             CATE_CODE as cateCode,
             CATE_KOR as cateKor,
-            PARENT_CODE as parentCode,
+            PARENT_CODE as parentCode
         FROM
             BEDU.T_BEDU_LECT_MID_CATE
     </select>
@@ -70,7 +70,7 @@
             NUM,
             CATE_CODE as cateCode,
             CATE_KOR as cateKor,
-            PARENT_CODE as parentCode,
+            PARENT_CODE as parentCode
         FROM
             BEDU.T_BEDU_LECT_BOT_CATE
     </select>

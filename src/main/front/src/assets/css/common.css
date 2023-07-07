@@ -41,7 +41,7 @@ footer {
 header {
     margin: 0% 5% 0% 5%;
     padding-top: 3%;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
     display: flex;
     justify-content: space-between;
   }
@@ -161,4 +161,8 @@ header {
 
 .ck-content{
     height: 500px !important; /* 원하는 높이로 변경 */
+}
+
+.vh-50{
+    height: 50vh !important;
 }

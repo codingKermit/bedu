@@ -36,11 +36,11 @@
                                 <b-container>
                                     <b-row cols="3">
                                         <!-- 커리큘럼 목록 -->
-                                        <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item">
+                                        <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item mb-3">
                                             <b-link
                                                 class="text-body text-decoration-none"
                                                 :to='"/lectureDetail?num="+lect.lectNum'>
-                                                <b-container class="border rounded-3 p-3 mb-4 lecture_item">
+                                                <b-container class="border rounded-3 p-3 lecture_item h-100">
                                                     <p class="fs-5 fw-bold">{{ lect.title }}</p>
                                                     <div>
                                                         <p class="text-secondary">
@@ -123,7 +123,7 @@ import '@/assets/css/lectureStyle.css';
                         })
                 }
             },
-            '$route.params.index': { 
+            '$route.query.cnt_top_cate': { 
                 immediate: true,
                 handler(newTop) {
                     this.cnt_top_cate = newTop;

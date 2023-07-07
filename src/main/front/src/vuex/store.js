@@ -21,7 +21,9 @@ export default createStore({
         // 사용자 번호
         usernum: null,
         // CLS
-        cls: null
+        cls: null,
+        // 수강 목록
+        lessons : null,
     },
     mutations,
     getters,

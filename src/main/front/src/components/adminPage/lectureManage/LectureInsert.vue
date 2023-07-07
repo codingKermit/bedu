@@ -1,45 +1,45 @@
 <template>
     <div>
         <b-form @submit.prevent="lectureInsert" ref="lectForm">
-        <div class="row">
-            <div class="col">
-                <b-form-group
-                description="대분류를 선택해주세요"
-                label="대분류">
-                    <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
-                        <template #first>
-                            <b-form-select-option disabled selected>대분류</b-form-select-option>
-                        </template>
-                        <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
-                    </b-form-select>
-                </b-form-group>
+            <div class="row">
+                <div class="col">
+                    <b-form-group
+                    description="대분류를 선택해주세요"
+                    label="대분류">
+                        <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
+                            <template #first>
+                                <b-form-select-option disabled>대분류</b-form-select-option>
+                            </template>
+                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </div>
+                <div class="col">
+                    <b-form-group
+                    description="중분류를 선택해주세요"
+                    label="중분류">
+                        <b-form-select v-model="currentMid" required>
+                            <template #first>
+                                <b-form-select-option disabled>중분류</b-form-select-option>
+                            </template>
+                                <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </div>
+                <div class="col">
+                    <b-form-group
+                    description="소분류를 선택해주세요"
+                    label="소분류">
+                        <b-form-select v-model="currentBot" required>
+                            <template #first>
+                                <b-form-select-option disabled>소분류</b-form-select-option>
+                            </template>
+                                <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item">{{ item.cateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </div>
             </div>
-            <div class="col">
-                <b-form-group
-                description="중분류를 선택해주세요"
-                label="중분류">
-                    <b-form-select v-model="currentMid" required>
-                        <template #first>
-                            <b-form-select-option disabled>중분류</b-form-select-option>
-                        </template>
-                            <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
-                    </b-form-select>
-                </b-form-group>
-            </div>
-            <div class="col">
-                <b-form-group
-                description="소분류를 선택해주세요"
-                label="소분류">
-                    <b-form-select v-model="currentBot" required>
-                        <template #first>
-                            <b-form-select-option disabled>소분류</b-form-select-option>
-                        </template>
-                            <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
-                    </b-form-select>
-                </b-form-group>
-            </div>
-        </div>
-        <div>
+            <div>
                 <div class="d-flex">
                     <b-form-group
                     description="제목을 입력해주세요"
@@ -132,7 +132,10 @@ export default{
             botCate : [],
             currentTop : '',
             currentMid : '',
-            currentBot : '',
+            currentBot : {
+                cateCode : '',
+                cateKor : '',
+            },
             editor : Editor,
             editorConfig : {
                 // The configuration of the editor.
@@ -143,7 +146,8 @@ export default{
                 },
                 mediaEmbed: {
                     previewsInData: true
-                }
+                },
+                removePlugins: ["MediaEmbedToolbar"],
             },
         }
     },
@@ -177,9 +181,6 @@ export default{
                     icon : 'info',
                     text : '강의 설명을 입력해주세요'
                 })
-                .then(()=>{
-                    this.$refs.contents.focus()
-                })
                 return;
             }
             // 데이터 무결성 검사 종료
@@ -193,7 +194,8 @@ export default{
             formData.append("contents",this.form.contents);
             formData.append("thumbnail",this.form.thumbnail);
 
-            formData.append("cateCode",this.currentBot);
+            formData.append("cateCode",this.currentBot.cateCode);
+            formData.append("cateKor", this.currentBot.cateKor);
             formData.append("regNum",this.$store.getters.getUsernum);
 
             axios.post('/api/admin/lectManage/lectInsert',formData,{
@@ -202,16 +204,24 @@ export default{
                 }
             })
             .then(()=>{
-                this.form.contents = null;
-                this.form.period = null;
-                this.form.price = null;
-                this.form.summary = null;
-                this.form.teacher = null;
-                this.form.thumbnail = null;
-                this.form.title = null;
-                this.currentTop = null;
-                this.currentMid = null;
-                this.currentBot = null;
+                this.$swal({
+                    title : '성공',
+                    icon : 'success',
+                    text : '강의가 성공적으로 등록 되었습니다'
+                })
+                .then(()=>{
+                    this.form.contents = '';
+                    this.form.period = '';
+                    this.form.price = '';
+                    this.form.summary = '';
+                    this.form.teacher = '';
+                    this.form.thumbnail = '';
+                    this.form.title = '';
+                    this.currentTop = '';
+                    this.currentMid = '';
+                    this.currentBot = '';
+                    window.scrollTo({top: 0})
+                })
             })
             .catch((err)=>{
                 console.log(err)

@@ -42,5 +42,30 @@ public class LectureManageController {
 
         return new ResponseEntity<Object>(map,HttpStatus.OK);
     }
+
+    @RequestMapping("/lectUpdate")
+    public ResponseEntity<String> lectUpdate(MultipartHttpServletRequest req, HttpServletResponse res) throws IOException{
+
+        int result = lectManageService.lectUpdate(req, res);
+        if(result == 1){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @RequestMapping("/lectDelete")
+    public ResponseEntity<String> lectDelete(int num, String thumbnail, String lectDesc) throws IOException {
+
+        int result = 1;
+
+        result = lectManageService.lectDelete(num, thumbnail, lectDesc);
+
+        if(result ==1){
+            return ResponseEntity.ok().build();
+        } else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     
 }

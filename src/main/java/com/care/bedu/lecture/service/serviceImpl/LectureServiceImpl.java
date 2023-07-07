@@ -12,6 +12,7 @@ import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureCategoriesVO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import com.care.bedu.lecture.vo.UserLectureVO;
 import com.care.bedu.review.vo.ReviewVO;
 
 
@@ -220,7 +221,7 @@ public class LectureServiceImpl implements LectureService{
 
 	/* 동영상 정보 조회 */
 	@Override
-	public HashMap<String, Object> getLesson(int num) {
+	public HashMap<String, Object> getLesson(int num, int userNum) {
 		HashMap<String, Object> map = new HashMap<>();
 
 		LectureDetailVO vo = new LectureDetailVO();
@@ -236,7 +237,61 @@ public class LectureServiceImpl implements LectureService{
 
 		map.put("lessonList",lessonList);
 
+		HashMap<String,Integer> args = new HashMap<>();
+
+		args.put("lectNum", num); args.put("userNum", userNum);
+
+		int count = lectureDao.signUpChk(args);
+
+		if(count == 0){
+			map.put("signUp", false);
+		}
+
+		return map;
+	}
+
+
+
+	@Override
+	public HashMap<String, Object> getAllLectures() {
+		HashMap<String,Object> map = new HashMap<>();
+
+		ArrayList<LectureVO> list = new ArrayList<>();
+		list = lectureDao.getAllLectures();
+
+		map.put("item", list);
 		
+		return map;
+	}
+
+
+
+	@Override
+	public int addToMyPage(int userNum, int[] list) {
+
+		int result = 1;
+		HashMap<String,Integer> map = new HashMap<>();
+		for(int l : list){
+			map.put("userNum", userNum);
+			map.put("lectNum", l);
+			System.out.println(map);
+			result = lectureDao.addToMyPage(map);
+			if(result != 1){
+				return 0;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public HashMap<String, Object> getMyPageList(int userNum) {
+		HashMap<String,Object> map = new HashMap<>();
+
+		ArrayList<UserLectureVO> vo = new ArrayList<>();
+
+		vo = lectureDao.getMyPageList(userNum);
+
+		map.put("item", vo);
 
 		return map;
 	}

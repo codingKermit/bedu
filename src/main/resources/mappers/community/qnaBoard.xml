@@ -4,20 +4,20 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
-	SELECT
-		* FROM (
 		SELECT
-		  rownum rnum,
-		  QS_BD_NUM as qnaBdNum,
-		  TITLE,
-		  CONTENT,
-		  QS_DATE as qnaDate, 
-		  QS_CNT as qnaCnt,
-		  USER_NAME as userName
-		FROM(SELECT
-			* FROM
-				T_BEDU_QS ORDER BY QS_DATE DESC)) 
-		WHERE rnum >= #{page} AND #{limit} >= rnum
+			u.* FROM (
+			SELECT
+			  rownum AS rnum,
+			  QS_BD_NUM as qnaBdNum,
+			  TITLE, 
+			  CONTENT,
+			  QS_DATE as qnaDate, 
+			  QS_CNT as qnaCnt,
+			  REG_DATE as regDate,
+			  USER_NAME as userName
+			FROM T_BEDU_QS
+			ORDER BY QS_DATE DESC) u
+		WHERE u.rnum >= #{page} AND #{limit} >= u.rnum
 	 </select>
 	
 	<insert id="viewWrite">
@@ -61,7 +61,7 @@
 	
 	<update id="viewupdate">
 		UPDATE
-		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}
+		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}, REG_DATE = SYSDATE
 		WHERE QS_BD_NUM = #{qnaBdNum}
 	</update>
 	
@@ -128,7 +128,7 @@
 		SELECT
 		  COUNT(LIKE_NUM) 
 		FROM T_BEDU_LIKE_CNT
-		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} 
+		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} AND LIKEYN=#{likeyn}
 	</select>
 	
 </mapper>

@@ -148,9 +148,6 @@ export default{
                 lectCateCode : '',
                 lectCateKor : '',
             },
-            dummy:{
-                url : "http://127.0.0.1:8081//94dc2841-4c9f-4afe-ac3f-c5bfbf5026a1.mp4"
-            },
             playPauseToggleData : false, // 플레이 버튼 토글
             maxTime : 0, // 동영상 맥스 시간 (초단위)
             currentTime : 0, // 동영상 현재 시간 (초단위)
@@ -162,19 +159,39 @@ export default{
             playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
             fullscreenToggleData : false, // 전체화면 토글 데이터
 
-
         }
     },
     methods: {
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
+            const userNum = this.$store.getters.getUsernum;
+
             this.$axiosSend('get','/api/lect/getLesson',{
-                num : this.lessonInfo.lectDtlNum
+                num : this.lessonInfo.lectDtlNum,
+                userNum : userNum,
             })
             .then((res)=>{
-                this.lessonInfo = res.data.lessonItem
-                this.lessonInfo.lessonUrl = baseUrl+res.data.lessonItem.lessonUrl
-                this.lessonList = res.data.lessonList
+                if(res.data.signUp == 'false'){
+                    this.$swal({
+                        title : '멤버십을 구독하고 모든 강의를 무제한으로 들어보세요',
+                        icon : 'info',
+                        text : '멤버십을 가입하면 최대 38% 할인된 가격으로 모든 강의를 들어볼 수 있어요!',
+                        allowOutsideClick : false,
+                        showCancelButton : true,
+                        confirmButtonText : '무제한 수강하기',
+                        cancelButtonText : '멤버십 안내',
+                    })
+                    .then((result)=>{
+                        if(result){
+                            this.$routerPush('membership');
+                        }else{
+                            this.$routerPush('membership');
+                        }
+                    })
+                }
+                this.lessonInfo = res.data.lessonItem;
+                this.lessonInfo.lessonUrl = baseUrl+res.data.lessonItem.lessonUrl;
+                this.lessonList = res.data.lessonList;
             })
             .catch((err)=>{
                 console.log(err)
@@ -184,14 +201,14 @@ export default{
         updateProgressSituation(e){
             let progress = Math.round(e.target.currentTime)
             this.currentTime = Math.round(e.target.currentTime) ;
-            // console.log(this.lessonInfo.lectDtlNum + "동영상의 현재 재생 시간 " + progress + "초(s)")
+            console.log(this.lessonInfo.lectDtlNum + "동영상의 현재 재생 시간 " + progress + "초(s)")
             let minute = Math.round(this.currentTime / 60).toString().padStart(2,'0');
             const seconds = (this.currentTime%60).toString().padStart(2,'0') ;
             if(minute>=60){
                 const hour = Math.round(minute/60).toString().padStart(2,'0');
                 minute = Math.round(minute%60).toString().padStart(2,'0');
                 this.currentTimeForUser = hour + ":" + minute + ":" + seconds
-            } else{
+            }else{
                 this.currentTimeForUser = minute + ":"+ seconds
             }
         },

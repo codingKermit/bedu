@@ -9,6 +9,24 @@
 		  USER_NAME,
 		  QS_BD_NUM,
 		  REG_DATE, 
+		  REG_ID,
+		  LIKEYN
+		)VALUES(
+		  BEDU_LIKE_QS.NEXTVAL,
+		  #{userName},
+		  #{qsBdNum},
+		  SYSDATE,
+		  #{regId},
+		  #{likeyn}
+		)
+	</insert>
+	
+	<insert id="cntqnaSave">
+		INSERT INTO T_BEDU_LIKE_CNT(
+	      LIKE_NUM,
+		  USER_NAME,
+		  QS_BD_NUM,
+		  REG_DATE, 
 		  REG_ID
 		)VALUES(
 		  BEDU_LIKE_QS.NEXTVAL,
@@ -19,18 +37,25 @@
 		)
 	</insert>
 	
+	<select id="qnaEqcnt" resultType="int">
+		SELECT
+		  COUNT(LIKE_NUM) 
+		FROM T_BEDU_LIKE_CNT
+		WHERE QS_BD_NUM = #{qnanum} AND USER_NAME=#{userName}
+	</select>
+	
 	<select id="getlikenum" resultType="int">
 		SELECT
 		 LIKE_NUM 
 		FROM T_BEDU_LIKE_CNT
-		WHERE QS_BD_NUM = #{qnum} and USER_NAME = #{userName}
+		WHERE QS_BD_NUM = #{qnum} and USER_NAME = #{userName} and LIKEYN =#{likeyn}
 	</select>
-
 	
 	<delete id="likedel">
 		DELETE
 		 FROM T_BEDU_LIKE_CNT
 		WHERE LIKE_NUM = #{num}
 	</delete>
+	
 	
 </mapper>

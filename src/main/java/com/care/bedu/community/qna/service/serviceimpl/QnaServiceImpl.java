@@ -1,8 +1,6 @@
 package com.care.bedu.community.qna.service.serviceimpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,17 +18,10 @@ public class QnaServiceImpl implements QnaService{
 	
 	@Autowired private QnaDAO qnaDAO;
 	@Autowired private LikeCntDAO likeCntDAO;
-	
-	// 예시된 날짜(예시: 2023-05-30) 형태로 변환하는 로직
-	private String regdates(Date regdate) {
-		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
-		String strRegdate = simple.format(regdate);
-		return strRegdate;
-	}
 
-	//조회
+	//글조회
 	@Override
-	public List<QnaVO> listProc(QnaVO qnaVO) throws Exception{
+	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
@@ -41,7 +32,6 @@ public class QnaServiceImpl implements QnaService{
 		
 		List<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
 		for(QnaVO qna : qnalist) {
-			qna.setStrQnaDate(regdates(qna.getQnaDate()));
 			List<QnaVO> username = qnaDAO.getuserName(qna.getUserName());
 			for(QnaVO user : username) {
 				qna.setUserName(user.getUserName());
@@ -51,54 +41,74 @@ public class QnaServiceImpl implements QnaService{
 		return qnalist;						
 	}
 
+	//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
+	//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
 	@Override
 	public int boardwrite(QnaVO qnaVO) {
 		qnaVO.setRegId(qnaVO.getUserName());
-		qnaVO.setQnaCnt(0);			//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
-		qnaVO.setQnaLikeCnt(0);		//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
+		qnaVO.setQnaCnt(0);			
+		qnaVO.setQnaLikeCnt(0);		
 		return qnaDAO.viewWrite(qnaVO);
 	}
 
+	//조회수 증가
 	@Override
-	public QnaVO viewone(int num) {
-		qnaDAO.qnaCntUp(num);//조회수 증가
-		QnaVO qnaVO = qnaDAO.viewone(num);
-		String srtqnaDate = regdates(qnaVO.getQnaDate());
-		qnaVO.setStrQnaDate(srtqnaDate);
-		return qnaVO;						//게시글 상세보기
+	public QnaVO viewone(int qnanum, String userName, String regid) {
+		int result = likeCntDAO.qnaEqcnt(qnanum, userName);
+		if(result == 0) {
+			LikeCntVO likeCntVO = new LikeCntVO();
+			likeCntVO.setQsBdNum(qnanum);
+			likeCntVO.setUserName(userName);
+			likeCntVO.setRegId(regid);
+			int savenum = likeCntDAO.cntqnaSave(likeCntVO);
+			if(savenum == 1) {
+				qnaDAO.qnaCntUp(qnanum);
+			}
+			
+		}
+		
+		return qnaDAO.viewone(qnanum);
+								//게시글 상세보기
 	}
 
+	//게시글 삭제
 	@Override
 	public int viewdelete(int num) {
-		return qnaDAO.viewdelete(num);					//게시글 삭제
+		return qnaDAO.viewdelete(num);					
 	}
 
+	//게시글 수정
 	@Override
 	public int viewupdate(QnaVO qnaVO) {
-		return qnaDAO.viewupdate(qnaVO);					//게시글 수정
+		return qnaDAO.viewupdate(qnaVO);					
 	}
 
+	// 게시글 전체 개수 조회
 	@Override
 	public int getTotal() {
-		return qnaDAO.getTotal();						// 게시글 전체 개수 조회
+		return qnaDAO.getTotal();						
 	}
-
+	
+	//좋아요 1증가
 	@Override
-	public HashMap<String, Object> likeUp(int num, String userName, String regId) throws Exception{//게시글 좋아요 1 증가
-		int likeCnt = qnaDAO.likeName(num, userName);
+	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {//게시글 좋아요 1 증가
+		int likeCnt = qnaDAO.likeName(qnanum, userName, likeyns);
 		
-		Integer likeyn = likeCntDAO.getlikenum(num, userName);
+		Integer likeyn = likeCntDAO.getlikenum(qnanum, userName, likeyns);
+		
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(likeCnt == 0) {
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
-			likeCntVO.setQsBdNum(num);
+			likeCntVO.setQsBdNum(qnanum);
 			likeCntVO.setRegId(regId);
+			likeCntVO.setLikeyn(likeyns);
+			
 			Integer result = likeCntDAO.likeCntSave(likeCntVO);
 			
 			if(result == 1) {
-				Integer getnum = qnaDAO.likeUp(num);
+				Integer getnum = qnaDAO.likeUp(qnanum);
 				if(getnum == 1) {
 					map.put("likenum", likeyn);
 					map.put("result", getnum);
@@ -117,16 +127,19 @@ public class QnaServiceImpl implements QnaService{
 			if(likeyn != null) {
 				map.put("likenum", likeyn);
 				map.put("result", 0);
+				return map;
 			}
-			return map;
+			return null;
 		}
 	}
 
+	//유저아이디조회
 	@Override
 	public ArrayList<QnaVO> getUserId(String userName) {
 		return qnaDAO.getuserId(userName);
 	}
 
+	//좋아요 1감소
 	@Override
 	public int likeDown(int num, String userName, int likenum) {
 		
@@ -137,6 +150,12 @@ public class QnaServiceImpl implements QnaService{
 		}else {
 			return 0;
 		}
+	}
+
+	//질문글수정페이지 글조회 
+	@Override
+	public QnaVO qnaEditDetail(int num) {
+		return qnaDAO.viewone(num);
 	}
 
 }

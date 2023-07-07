@@ -18,49 +18,62 @@ public class FreeController {
 	@Autowired
 	private FreeService freeService;
 	
-	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})   		//게시글 조회
+	//게시글 조회
+	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})   		
 	public ArrayList<FreeVO> freeList(FreeVO freeVO){
 		return freeService.listProc(freeVO);
 	}
 	
-	@RequestMapping(value="/freBd/write", method=RequestMethod.POST)				//게시글 작성
+	//게시글 작성
+	@RequestMapping(value="/freBd/write", method=RequestMethod.POST)				
 	public int freeWrite(FreeVO freeVO){
-		int result = freeService.boardwrite(freeVO);
-		return result == 1 ? 1: 0;
+		return freeService.boardwrite(freeVO);
 	}
 	
-	@RequestMapping(value="/freBd/detail", method=RequestMethod.GET)				//상세보기
-	public FreeVO freeDetail(int num){
-		return freeService.viewone(num);	
+	//상세보기
+	@RequestMapping(value="/freBd/detail", method=RequestMethod.GET)				
+	public FreeVO freeDetail(int num, String userName){
+		return freeService.viewone(num, userName);	
 	}
 	
-	@RequestMapping(value="/freBd/edit", method=RequestMethod.POST)					//게시글 수정
+	//게시글 수정
+	@RequestMapping(value="/freBd/edit", method=RequestMethod.POST)					
 	public int freeEdit(int comm_num, String title, String content){
-		int result = freeService.viewupdate(comm_num, title, content);
-		return result == 1? 1:0;	
+		return freeService.viewupdate(comm_num, title, content);	
 	}
 	
-	@RequestMapping(value="/freBd/delete", method=RequestMethod.GET)				//게시글 삭제
+	//수정페이지 글 조회
+	@RequestMapping(value="/freBd/editdetail", method=RequestMethod.GET)				
+	public FreeVO freeEditDetail(int num){
+		return freeService.editdetail(num);	
+	}
+	
+	//게시글 삭제
+	@RequestMapping(value="/freBd/delete", method=RequestMethod.GET)				
 	public int freeDelete(int num){
-		int result = freeService.viewdelete(num);
-		return result == 1? 1:0;
+		return freeService.viewdelete(num);
 	}
 	
-	@RequestMapping("/freBd/total")													//전체 게시글 개수 조회
+	//전체 게시글 개수 조회
+	@RequestMapping("/freBd/total")													
 	public int getTotal(){
 		return freeService.getTotal();
 	}
 	
+	
+	//닉네임에 해당하는 아이디 조회
 	@RequestMapping(value="/free/getUserId", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public ArrayList<FreeVO> getUserId(String userName){
 	 	 return freeService.getUserId(userName);
 	 }
 	
-	@RequestMapping(value="/free/likeUp", method = RequestMethod.GET)				//게시글 좋아요 개수 1증가
-	 public HashMap<String, Object> freelikeUp(int num, String userName, String regId) throws Exception{
-		 return freeService.likeUp(num, userName, regId);
+	//게시글 좋아요 개수 1증가
+	@RequestMapping(value="/free/likeUp", method = RequestMethod.GET)				
+	 public HashMap<String, Object> freelikeUp(int num, String userName, String regId, String likeyn) throws Exception{
+		 return freeService.likeUp(num, userName, regId, likeyn);
 	 }
 	 
+	//게시글 좋아요 1감소
 	 @RequestMapping(value="/free/likeDown", method = RequestMethod.GET)													//게시글 전체 개수 조회
 	 public int freelikeDown(int num, String userName, int likebdnum){
 		 return freeService.likeDown(num, userName, likebdnum);
