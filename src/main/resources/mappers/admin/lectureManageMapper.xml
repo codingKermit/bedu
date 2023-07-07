@@ -38,21 +38,25 @@
     <update id="lectUpdate" parameterType="com.care.bedu.lecture.vo.LectureVO">
         UPDATE
             BEDU.T_BEDU_LECT
-        SET (
-            ,TEACHER = #{teacher}
+        SET 
+            TEACHER = #{teacher}
             ,LECT_DESC = #{lectDesc}
-            <if test='thumbnail != null'>
-                ,THUMBNAIL = #{thumbnail}
-            </if>
             ,LECT_SUMMARY = #{lectSum}
             ,LECT_PERIOD = #{lectPeriod}
             ,PRICE = #{price}
-            ,CATE_CODE = #{category}
-            ,CATE_KOR = #{korCategory}
             ,LATELY_UPDATE_NUM = #{updateNum}
             ,LATELY_UPDATE_DATE = SYSDATE
-        )
+            <if test='thumbnail != null'>
+                ,THUMBNAIL = #{thumbnail}
+            </if>
         WHERE LECT_NUM = #{lectNum}
     </update>
+
+    <delete id="lectDelete">
+        DELETE FROM
+            BEDU.T_BEDU_LECT
+        WHERE 
+            LECT_NUM = #{num}
+    </delete>
 
 </mapper>

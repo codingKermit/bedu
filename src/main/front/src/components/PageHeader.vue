@@ -309,6 +309,7 @@
                         this.$store.commit('NICKNAME', null);
                         this.$store.commit('USERNUM', null);
                         this.$store.commit('EMAIL', null);
+                        this.$store.commit('LESSONS', null);
                     } else {
                         // 취소(No)를 선택한 경우
                         // 아무 작업도 하지 않음

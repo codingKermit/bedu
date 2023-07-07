@@ -25,6 +25,16 @@ export default {
                     this.$store.commit('EMAIL', decodedToken.email);
                     this.$store.commit('CLS', decodedToken.cls);
                     this.$store.commit('IS_AUTH', true);
+                    
+                    this.$axiosSend('get','/api/lect/getMyPageList',{
+                            userNum : this.$store.getters.getUsernum,
+                    })
+                    .then((res)=>{
+                        this.$store.commit('LESSONS',res.data.item)
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
                 } catch (error) {
                     console.error('Invalid token:', error);
                     this.logout();
@@ -39,6 +49,7 @@ export default {
             this.$store.commit('USERNUM', null);
             this.$store.commit('EMAIL', null);
             this.$store.commit('CLS', null);
+            this.$store.commit('LESSONS', null);
         }
     }
 }
