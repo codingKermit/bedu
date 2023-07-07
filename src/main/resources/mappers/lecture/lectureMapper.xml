@@ -399,7 +399,7 @@
 		FROM
 			BEDU.T_BEDU_USER_LECT
 		WHERE
-			NUM = #{num} AND USER_NUM = #{userNum}
+			LECT_NUM = #{lectNum} AND USER_NUM = #{userNum}
 	</select>
 
 	<insert id="addToMyPage" parameterType="hashmap">
@@ -418,8 +418,16 @@
 		)
 	</insert>
 
-	<select id="getMyPageList" resultType="com.care.bedu.lecture.vo.LectureVO">
-		
+	<select id="getMyPageList" resultType="com.care.bedu.lecture.vo.UserLectureVO">
+		SELECT
+			USER_LECT_NUM as userLectNum,
+			USER_NUM as userNum,
+			LECT_NUM as lectNum,
+			LECT_REG_DATE as lectRegDate
+		FROM
+			BEDU.T_BEDU_USER_LECT
+		WHERE 
+			USER_NUM = #{userNum}
 	</select>
 
 </mapper>

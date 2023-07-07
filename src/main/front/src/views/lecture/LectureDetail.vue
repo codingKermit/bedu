@@ -55,17 +55,22 @@
             </div>
 
             <!-- 결제, 장바구니 컨테이너 -->
-            <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5">
-                <b-container class="d-flex">
-                    <div class="w-50 d-flex pt-4">
-                        <span class="fw-5 text-secondary ms-3 fs-6">강좌</span>
+            <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5 ">
+                <b-container class="d-flex align-items-center">
+                    <div class="w-50 d-flex">
+                        <span class="fw-5 text-secondary ms-3 fs-6 align-self-baseline">강좌</span>
                         <span class="mx-auto fs-5">{{ form.title }}</span>
                     </div>
-                    <div class="align-middle pt-3 ms-auto fw-bold me-4">
+                    <div class="ms-auto fw-bold me-4">
                         <span class="fs-2 text-danger">{{ form.price }}</span>
                         <span>원</span>
                     </div>
-                    <div class="w-10">
+                    <div v-if="myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
+                        <b-button class="mt-auto h-100 px-5 py-2 bedu-bg-custom-blue">
+                            수강중인 강의
+                        </b-button>
+                    </div>
+                    <div v-else class="w-10">
                         <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
                             결제하기
                         </b-button>
@@ -116,10 +121,10 @@
                 </b-container>
             </div>
 
-            <!-- 소개, 목록, 후기 탭 -->
-            <div id="lect-dtl-form-contents-container">
-                <ul class="nav nav-tabs nav-fill">
-                    <li class="nav-item ">
+            <div class="lect-dtl-form-contents-container overflow-hidden">
+                <!-- 소개, 목록, 후기 탭 -->
+                <ul class="nav nav-tabs nav-fill ">
+                    <li class="nav-item">
                         <a class="nav-link py-4 text-body " href="#description-body"><span class="py-4">강좌소개</span></a>
                     </li>
                     <li class="nav-item">
@@ -235,10 +240,14 @@ import '@/assets/css/lectureStyle.css';
                 reviews: [],
                 payPerMonth : "39,800",
                 payPerYear : "27,417",
-                myPageList : [], // 수강목록
+                myPageList : this.$store.getters.getLessons, // 수강목록
+                userNum : this.$store.getters.getUsernum,
             }
         },
         methods: {
+            test(){
+                console.log(this.$store.getters.getLessons)
+            },
             /** 동영상 재생 페이지로 이동 */
             toLesson(val){ 
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
@@ -363,7 +372,7 @@ import '@/assets/css/lectureStyle.css';
             /** 나의 수강 목록 조회 */
             getMyPageList(){
                 this.$axiosSend('get','/api/lect/getMyPageList',{
-                    num : this.$store.getters.getUsernum,
+                    userNum : this.$store.getters.getUsernum,
                 })
                 .then((res)=>{
                     console.log(res)

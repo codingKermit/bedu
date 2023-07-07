@@ -12,6 +12,7 @@ import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureCategoriesVO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import com.care.bedu.lecture.vo.UserLectureVO;
 import com.care.bedu.review.vo.ReviewVO;
 
 
@@ -238,7 +239,7 @@ public class LectureServiceImpl implements LectureService{
 
 		HashMap<String,Integer> args = new HashMap<>();
 
-		args.put("num", num); args.put("userNum", userNum);
+		args.put("lectNum", num); args.put("userNum", userNum);
 
 		int count = lectureDao.signUpChk(args);
 
@@ -282,13 +283,15 @@ public class LectureServiceImpl implements LectureService{
 		return result;
 	}
 
-
-
 	@Override
 	public HashMap<String, Object> getMyPageList(int userNum) {
 		HashMap<String,Object> map = new HashMap<>();
 
-		
+		ArrayList<UserLectureVO> vo = new ArrayList<>();
+
+		vo = lectureDao.getMyPageList(userNum);
+
+		map.put("item", vo);
 
 		return map;
 	}

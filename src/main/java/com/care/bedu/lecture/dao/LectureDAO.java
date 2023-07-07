@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import com.care.bedu.lecture.vo.UserLectureVO;
 import com.care.bedu.review.vo.ReviewVO;
 
 @Mapper
@@ -27,5 +28,5 @@ public interface LectureDAO {
 	public int signUpChk(HashMap<String, Integer> map);
 	public ArrayList<LectureVO> getAllLectures(); /* 동영상 전체 조회 조건X */
 	public int addToMyPage(HashMap<String, Integer> map); /* 수강 목록에 저장 */
-	public ArrayList<LectureVO> getMyPageList(int userNum); /* 수강 목록 조회 */
+	public ArrayList<UserLectureVO> getMyPageList(int userNum); /* 수강 목록 조회 */
 }
