@@ -58,8 +58,8 @@
                         <div  class = "name">
                             {{ ans.userName }}
                         </div>
-                        <div  class = "date">
-                            {{ ans.strAnsDate }}
+                        <div class="date">
+                            {{ DateTime(ans.ansDate) }}
                         </div>
                     </div>
                     <div class="qnaReplyContent">
@@ -118,7 +118,11 @@
             const qnanum = this.$route.params.num;
             this.userNickName =this.$store.getters.getNickname;
             this.form.regId = this.$store.getters.getEmail;
-            this.qnaRead(qnanum);
+            if(this.userNickName === null || this.userNickName ===""){
+                this.qnaReadtet(qnanum);
+            }else{
+                this.qnaRead(qnanum);
+            }
   
             this.ansread(qnanum);
             this.ansgetTotal(qnanum);
@@ -182,15 +186,31 @@
             qnaRead(qnanum){ // 게시글 데이터 조회
                 this.$axiosSend('get','/api/qna/qnaDetail',{
                         num : qnanum,
-                        userName : this.userNickName
+                        userName : this.userNickName,
+                        regid : this.form.regId
                 })
                 .then(res=>{
                     this.qna = res.data;                
-                    this.qna.strQnaDate = this.qnaDateTime(this.qna.strQnaDate);
+                    this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
                     this.nicknameEquals(this.qna.userName);
                 })
                 .catch((error)=>{
-                    alert(error);
+                    console.log(error);
+                })
+            },
+
+            //게시글 조회
+            qnaReadtet(qnanum){ // 게시글 데이터 조회
+                this.$axiosSend('get','/api/qna/editdetail',{
+                        num : qnanum,
+                })
+                .then(res=>{
+                    this.qna = res.data;                
+                    this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
+                    this.nicknameEquals(this.qna.userName);
+                })
+                .catch((error)=>{
+                    console.log(error);
                 })
             },
 
@@ -298,7 +318,7 @@
             },
 
             //작성날짜 변환
-            qnaDateTime(value) {
+            DateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
                 const date = new Date(value);
@@ -356,8 +376,7 @@
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }
-                }
-                )
+                })
                 .catch((error)=>{
                     this.$swal('Error','답변이 정상적으로 작성되지 않았습니다', error)
                 })

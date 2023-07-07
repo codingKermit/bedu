@@ -58,7 +58,7 @@
                                 {{ reply.userName }}
                             </div>
                             <div class="freeReplyDate">
-                                {{ reply.strReplyDate }}
+                                {{ DateTime(reply.replyDate) }}
                             </div>
                         </div>
                         <div class="freeReplycontent">
@@ -123,7 +123,11 @@ export default{
         this.userNickName =this.$store.getters.getNickname;
         this.form.regId = this.$store.getters.getEmail;
         const cnum = this.$route.params.num;
-        this.freeRead(cnum);
+        if(this.userNickName === null || this.userNickName ===""){
+            this.freeReadtet(cnum);
+        }else{
+            this.freeRead(cnum);
+        }
         this.replygetTotal(cnum);
         this.replyread(cnum);
         
@@ -170,12 +174,27 @@ export default{
             })
             .then(response=>{
                 this.free = response.data;
-                this.free.strCommDate = this.freeDateTime(this.free.strCommDate);
+                this.free.strCommDate = this.DateTime(this.free.commDate);
                 this.nicknameEquals(this.free.userName);
 
             })
             .catch((error)=>{
                 this.$swal('Error', '게시글이 정상적으로 조회되지 않았습니다.', error);
+            })
+        },
+
+        //비로그인게시글 조회
+        freeReadtet(commnum){ 
+            this.$axiosSend('get','/api/freBd/editdetail',{
+                num : commnum,
+            })
+            .then(res=>{
+                this.free = res.data;                
+                this.free.strQnaDate = this.DateTime(this.free.qnaDate);
+                this.nicknameEquals(this.free.userName);
+            })
+            .catch((error)=>{
+                console.log(error);
             })
         },
 
@@ -215,20 +234,19 @@ export default{
             }
 
             this.$axiosSend('get','/api/freBd/delete', {
-                    num: this.free.commNum,
+                num: this.free.commNum,
             })
-                .then(res => {
-                    if (res.data === 1) {
-                        this.$swal('Success', '글삭제완료!', 'success'),
-                            router.push({
-                                name: "freeBoard"
-                            })
-
-                    }
-                })
-                .catch(error => {
-                    this.$swal('Error', '게시글이 정상적으로 삭제되지 않았습니다.', error);
-                })
+            .then(res => {
+                if (res.data === 1) {
+                    this.$swal('Success', '글삭제완료!', 'success'),
+                    router.push({
+                        name: "freeBoard"
+                    })
+                }
+            })
+            .catch(error => {
+                this.$swal('Error', '게시글이 정상적으로 삭제되지 않았습니다.', error);
+            })
         },
 
         //댓글 작성
@@ -389,9 +407,9 @@ export default{
                 name: 'freeBoard', 
             })
         },
-        
+
         //작성날짜 변환
-        freeDateTime(value) {
+        DateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
                 const date = new Date(value);

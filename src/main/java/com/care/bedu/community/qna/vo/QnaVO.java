@@ -50,8 +50,5 @@ public class QnaVO {
 	
 	//글끝번호
 	private int limit;	
-	
-	private String strQnaDate;
-	private String strRegDate;
 
 }

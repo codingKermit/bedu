@@ -13,7 +13,10 @@ public interface FreeService {
 	//게시글 등록
 	public int boardwrite(FreeVO freeVO);							
 	//게시글 상세보기
-	public FreeVO viewone(int num, String userName);	
+	public FreeVO viewone(int num, String userName);
+	
+	//수정페이지 글 상세보기
+	public FreeVO editdetail(int num);
 	
 	//게시글 삭제
 	public int viewdelete(int num);						

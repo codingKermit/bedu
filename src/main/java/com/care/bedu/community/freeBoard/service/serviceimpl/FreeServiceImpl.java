@@ -1,8 +1,6 @@
 package com.care.bedu.community.freeBoard.service.serviceimpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +29,7 @@ public class FreeServiceImpl implements FreeService{
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}
-		ArrayList<FreeVO> list = freeDAO.viewlist(freeVO);
-		for(FreeVO free : list) {
-			free.setStrCommDate(regdates(free.getCommDate()));
-		}
-		return list;
-	}
-	
-	// 예시된 날짜(예시: 2023-05-30) 형태로 변환하는 로직
-	private String regdates(Date regdate) {
-		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
-		String strRegdate = simple.format(regdate);
-		return strRegdate;
+		return freeDAO.viewlist(freeVO);
 	}
 
 	//자유글 작성
@@ -72,9 +59,7 @@ public class FreeServiceImpl implements FreeService{
 			freeDAO.cntUp(commnum);
 		}
 		
-		FreeVO freeVO = freeDAO.viewone(commnum);
-		freeVO.setStrCommDate(regdates(freeVO.getCommDate()));
-		return freeVO;
+		return freeDAO.viewone(commnum);
 	}
 
 	//게시글 삭제
@@ -154,6 +139,11 @@ public class FreeServiceImpl implements FreeService{
 		 }else {
 			 return 0;
 		} 
+	}
+
+	@Override
+	public FreeVO editdetail(int num) {
+		return freeDAO.viewone(num);
 	}
 	
 

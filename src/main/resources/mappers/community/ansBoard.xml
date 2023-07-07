@@ -34,7 +34,7 @@
 		  u.USER_NAME as userName
 		FROM T_BEDU_ANS a LEFT JOIN T_BEDU_USER u ON a.USER_NAME = u.USER_NAME
 		WHERE QS_BD_NUM = #{qsBdNum} 
-		ORDER BY ANS_BD_NUM DESC)
+		ORDER BY ANS_DATE ASC)
 	</select>
 	
 	<select id="ansTotal" resultType="int">

@@ -15,7 +15,10 @@ public interface QnaService {
 	public int boardwrite(QnaVO qnaVO);						
 	
 	//게시글 상세보기
-	public QnaVO viewone(int num, String userName);	
+	public QnaVO viewone(int num, String userName, String regid);
+	
+	//수정페이지 글조회
+	public QnaVO qnaEditDetail(int num);	
 	
 	//게시글 삭제
 	public int viewdelete(int num);					

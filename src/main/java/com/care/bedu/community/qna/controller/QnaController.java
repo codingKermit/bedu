@@ -33,9 +33,15 @@ public class QnaController {
 	
 	//게시글 상세보기
 	 @RequestMapping(value="/qna/qnaDetail", method=RequestMethod.GET)
-	 public QnaVO qnaDetail(int num, String userName){
-	 	return qnaService.viewone(num, userName);
+	 public QnaVO qnaDetail(int num, String userName, String regid){
+	 	return qnaService.viewone(num, userName, regid);
 	 }
+	 
+	//수정페이지 글 조회
+	@RequestMapping(value="/qna/editdetail", method=RequestMethod.GET)				
+	public QnaVO qnaEditDetail(int num){
+		return qnaService.qnaEditDetail(num);	
+	}
 	
 	//게시글 수정
 	 @RequestMapping(value="/qna/qnaEdit", method=RequestMethod.POST)				

@@ -42,7 +42,7 @@
                                 </b-link>
                             </td>
                             <td>{{ qna.userName }}</td>
-                            <td>{{ qnaDateTime(qna.strQnaDate) }}</td>
+                            <td>{{ qnaDateTime(qna.qnaDate) }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
                             </td>  
@@ -110,6 +110,7 @@
                     console.log(error);
                 });
             },
+
             //정렬 옵션
             sortReviews() {
                 if (this.sortOption === "default") {
@@ -126,10 +127,11 @@
             },
 
             //날짜 변환
-            qnaDateTime(value) {
+            qnaDateTime(dates) {
+
                 // value는 날짜 값입니다
                 const now = new Date();
-                const date = new Date(value);
+                const date = new Date(dates);
 
                 const diffInMilliseconds = now - date;
                 const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
@@ -140,12 +142,11 @@
                 if (Days > 0) {
                     return `${Days}일 전`;
                 } else if (diffInHours > 0) {
-                    console.log('화깅ㄴ');
+                   
                     return `${diffInHours}시간 전`;
                 } else if (diffInMinutes > 0) {
                     return `${diffInMinutes}분 전`;
                 } else {
-                    console.log('방금');
                     return '방금 전';
                 }
             },

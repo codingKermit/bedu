@@ -87,9 +87,9 @@
         methods: {
 
             // 게시글 데이터 조회
-            freedetail(num){ 
-                this.$axiosSend('get','/api/freBd/detail',{
-                        num : num,
+            freedetail(commnum){ 
+                this.$axiosSend('get','/api/freBd/editdetail',{
+                        num : commnum,
                 })
                 .then(response=>{
                     this.form = response.data;
