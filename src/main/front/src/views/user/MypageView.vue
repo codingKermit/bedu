@@ -6,7 +6,7 @@
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <b-container class="text-dark fw-bold">
                     <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if="lectureListFirst == null">
+                    <div class="curr-subjectInfo" v-if="userList == null || lectureListFirst == null">
                        <b-container class="w-75 ms-auto py-5">
                             <p style="text-align: center;">수강내역이 없습니다.</p>
                        </b-container>
@@ -16,21 +16,21 @@
                         <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"나중에 div 안에 넣어야함-->
                             <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6" :key="index" v-for="(item,index) in lectureListFirst">
+                        <div class="col-xl-3 col-lg-4 col-md-6 "> <!--v-for="(item, index) in lectureListFirst" :key="index"-->
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                                    <div class="mypageInfo" style="float: left;">
+                                    <div class="mypageInfo">
                                         <div class="mypagecontainer">
                                                 <p class="fw-bold">프로그래밍 배워봅시다</p>
                                                 <p>
-                                                    <span>강좌이름 : </span> {{ item.lectnm }}
+                                                    <span>강좌이름 : </span> {{ lectNm }}
                                                 </p>
                                                 <p>
-                                                    <span>강의설명 : </span> {{ lectdesc }}
+                                                    <span>강의설명 : </span> {{ lectNm }}
                                                 </p>
                                                 <p>
-                                                    <span>수강기간 : </span> {{ lectperiod }}
+                                                    <span>수강기간 : </span> {{ lectNm }}
                                                 </p>
                                         </div>
                                     </div>
@@ -40,60 +40,8 @@
                     </div>
                 </b-container>
             </b-container>
-      <!--  <b-container>
-            
-            <p class="fs-4 fw-bold">현재 수강정보</p>-->
-               <!-- <div style="text-align: right;">--><!-- v-if="lectureCount+0 > numOfLecture+0"> 나중에 div 안에 넣어야함-->
-                 <!--   <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
-                </div>-->
-                <!--  링크걸어서 화면 이동 테스트중 -->
-                <!--
-                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                    <div class="mypageInfo" style="float: left;">
-                        <div class="mypagecontainer">
-                                <p class="fw-bold">프로그래밍 배워봅시다</p>
-                                <p>
-                                    <span>강좌이름 : </span> {{ lecttitle }}
-                                </p>
-                                <p>
-                                    <span>강의설명 : </span> {{ lectdesc }}
-                                </p>
-                                <p>
-                                    <span>수강기간 : </span> {{ lectperiod }}
-                                </p>
-                            </div>
-                    </div>
-                    <div class="mypageInfo" style="float: left;">
-                        <div class="mypagecontainer">
-                                <p class="fw-bold">프로그래밍 배워봅시다</p>
-                                <p>
-                                    <span>강좌이름 : </span> {{ lecttitle }}
-                                </p>
-                                <p>
-                                    <span>강의설명 : </span> {{ lectdesc }}
-                                </p>
-                                <p>
-                                    <span>수강기간 : </span> {{ lectperiod }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="mypageInfo" style="float: left;">
-                            <div class="mypagecontainer">
-                                <p class="fw-bold">프로그래밍 배워봅시다</p>
-                                <p>
-                                    <span>강좌이름 : </span> {{ lecttitle }}
-                                </p>
-                                <p>
-                                    <span>강의설명 : </span> {{ lectdesc }}
-                                </p>
-                                <p>
-                                    <span>수강기간 : </span> {{ lectperiod }}
-                                </p>
-                            </div>
-                        </div>
-                    </b-link>
-                </b-container>
-                -->
+      
+                
         <!--
         <div style="bottom;">
             <b-container>
@@ -117,16 +65,14 @@
 .mypagecontainer{
     display: table-cell;
     float : left;
-    width : 30%;
+    width : 20rem;
     padding : 10px;
-    margin-left : 5%;
+    margin-right: 10px;
     text-align : left;
     vertical-align : middle;
     border : 1px solid rgb(15, 10, 1);
 }
-.mypageInfo {
-    display : table;
-}
+
 </style>
 <script>
 
@@ -139,24 +85,21 @@ export default {
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
-            lectureLsitFirst : 0,
             dataFull : false,
             userlectnum : 0,
-            usernum : this.$store.state.usernum,
-            lectNm : this.$store.state.lectnm,
+            userNum : this.$store.state.usernum,
+            lectNum : 0,
             lectregdate : '',
             regdate : '',
             regid : '',
             userList : [],
-            lectNum : this.$store.state.lectNum,
             lecttitle : this.$store.state.title,
             username : this.$store.state.nickname,
+            lectNm : this.$store.state.lectnm
         }
     }, 
-    mounted(){
-       // this.getBookmarkList();
+    created (){
         this.getLectureList();
-
     },
     methods : {
 
@@ -179,12 +122,19 @@ export default {
             this.$axiosSend('get','/api/mypage',{userNum: userNum},true)
             .then((res)=>{
                this.lectureListFirst = res.data;
-                for(var j = 0; j < this.lectureListFirst.length; j++) {
-                        lectureListFirst.push(res.data.Data[j]);
-                }
+               this.userList = res.data;
+            //    for(var l = 0; l<this.userList.length; l++) {
+            //     for(var i = 0; i < this.lectureListFirst.length; i++) {
+            //         lectureListFirst.push(res.data.Data[i]);
+            //     }
+            //         this.userList.push(res.data.Data[l])
+            // }
                 this.lectureListFirst = res.data.Data
                 this.lectureInfo = data
                 this.lectureCount = this.lectureListFirst
+                this.userNum;
+                this.lectNum;
+                this.lectNm;
             })
             .catch((err)=>{
                 console.log(err)
@@ -192,6 +142,7 @@ export default {
             console.log("######",this.lectureListFirst)
             console.log("######22222",this.lectureInfo)
             console.log("#####!!!!",this.lectureCount)
+            console.log("#####!!!!@@@@@@@",userNum)
         },
          getLectureCount() {
             const userNum = this.$store.getters.getUsernum;
@@ -222,5 +173,13 @@ export default {
              
         },
     },
+    watch:{ // 쿼리 데이터 변경되면 데이터도 변경되도록 설정
+            '$route.query.lectNum':{
+                immediate: true,
+                handler(lectNum){
+                    this.userid = lectNum;
+                },
+            }
+        }
 }
 </script>
