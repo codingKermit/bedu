@@ -10,6 +10,7 @@ public class MemberMypageVO {
 
 	private int userlectnum;         /* 사용자강의순번 */
 	private String userid;           /* 강의듣는 회원 */
+	private int userNum;			/* 강의듣는 회원 구분 번호 */
 	private int lectnum;          	/* 강의순번    */
 	private String lectnm;           /* 강의이름    */
 	private LocalDate lectregdate;   /* 강의신청날짜 */
