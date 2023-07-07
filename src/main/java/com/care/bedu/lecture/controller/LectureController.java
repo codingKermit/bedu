@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
-import com.care.bedu.lecture.vo.UserLectureVO;
 
 
 @RestController

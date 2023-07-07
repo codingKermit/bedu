@@ -128,7 +128,7 @@
 import '@/assets/css/lectureStyle.css'
 
 /** 추후 FTP 서버 구축 후 변경 예정. 현재는 로컬에 저장 */
-const baseUrl = "http://172.30.1.85:8081/LECT/";
+const baseUrl = "http://172.30.1.85:8081/LECT/VIDEO/";
 
 export default{
     name : 'lectureLesson',
@@ -171,7 +171,8 @@ export default{
                 userNum : userNum,
             })
             .then((res)=>{
-                if(res.data.signUp == 'false'){
+                console.log(res.data)
+                if(res.data.signUp == false){
                     this.$swal({
                         title : '멤버십을 구독하고 모든 강의를 무제한으로 들어보세요',
                         icon : 'info',

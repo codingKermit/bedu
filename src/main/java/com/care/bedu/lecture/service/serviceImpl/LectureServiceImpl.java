@@ -239,12 +239,15 @@ public class LectureServiceImpl implements LectureService{
 
 		HashMap<String,Integer> args = new HashMap<>();
 
-		args.put("lectNum", num); args.put("userNum", userNum);
+		args.put("num", vo.getLectNum());
+		args.put("userNum", userNum);
 
 		int count = lectureDao.signUpChk(args);
 
 		if(count == 0){
 			map.put("signUp", false);
+		} else {
+			map.put("signUp", true);
 		}
 
 		return map;
@@ -283,6 +286,8 @@ public class LectureServiceImpl implements LectureService{
 		return result;
 	}
 
+
+
 	@Override
 	public HashMap<String, Object> getMyPageList(int userNum) {
 		HashMap<String,Object> map = new HashMap<>();
@@ -292,7 +297,7 @@ public class LectureServiceImpl implements LectureService{
 		vo = lectureDao.getMyPageList(userNum);
 
 		map.put("item", vo);
-
+		
 		return map;
 	}
 	

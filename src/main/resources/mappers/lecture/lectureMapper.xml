@@ -393,13 +393,13 @@
 			BEDU.T_BEDU_LECT
 	</select>
 
-	<select id="signUpChk" parameterType="hashmap">
+	<select id="signUpChk" parameterType="hashmap" resultType="int">
 		SELECT
 			COUNT(USER_LECT_NUM)
 		FROM
 			BEDU.T_BEDU_USER_LECT
 		WHERE
-			LECT_NUM = #{lectNum} AND USER_NUM = #{userNum}
+			LECT_NUM = #{num} AND USER_NUM = #{userNum}
 	</select>
 
 	<insert id="addToMyPage" parameterType="hashmap">
