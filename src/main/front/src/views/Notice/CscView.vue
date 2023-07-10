@@ -1,53 +1,168 @@
 <template>
-  <p id="Cschead">고객센터</p>
-  <div>
-    <b-nav id="cscmy-nav">
-      <b-nav-item v-for="(item, index) in navItems" :key="index" id="cscnav-item" :to="item.path" class="custom-nav-item">
-        <span class="custom-nav-text">{{ item.title }}</span>
-      </b-nav-item>
-    </b-nav>
-  </div>
-  <div id="cscline"></div>
-  <div id="cscdetail">자주하는 질문<b-button pill variant="outline-secondary" id="cscmo" @click="goToInquiryPage">1:1 문의하기</b-button>
-  </div>
-  <div class="csc-container">
-    <div class="cscbox" v-for="(item, index) in boxItems" :key="index" :class="{ 'expanded': item.isExpanded }"
-      @click="toggleBox(index)">
-      <div class="cscquestion">{{ item.question }}</div>
-      <div class="cscdivider" v-if="item.isExpanded"></div>
-      <div class="cscanswer" v-if="item.isExpanded">{{ item.answer }}</div>
+  <div class="d-flex">
+    <div class="cscView" id="cscView">
+      <CscCategory :currentTab="'inquiry'"></CscCategory>
+    </div>
+    <div id="cscMain">
+      <div>
+        <div>
+          <div class="cscBoradSearch" id="cscBoradSearch">
+            <div @submit="qnasearch()" class="searchForm">
+              <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
+              <input class="cscviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
+              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn" @click="goToInquiryPage">
+                <font-awesome-icon :icon="['fas', 'pencil']" />
+                문의하기
+              </b-button>
+            </div>
+          </div>
+        </div>
+        <h2>고객센터</h2>
+        <div class="selectBox">
+          <select id="cscSortOption" v-model="sortOption" @change="sortReviews">
+            <option value="default">최신 순</option>
+            <option value="highViews">????</option>
+          </select>
+        </div>
+      </div>
+      <table class="w3-table-all" id="cscboard-table">
+        <thead>
+          <tr>
+            <th id="cscTitle">제목</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+            <th>비밀글</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="index" v-for="(inquiry, index) in inquirylist">
+            <td id="cscboard-table-tds">
+              <b-link class="text-start text-body" :to="{
+                name:'inquiryDetail',
+                params : {
+                  num : inquiry.vocNum
+                }
+              }">
+                {{ inquiry.title }}
+              </b-link>
+            </td>
+            <td>{{ inquiry.userName }}</td>
+            <td>{{ formatDateTime(inquiry.regDate)}}</td>
+            <td>
+              {{ }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
-import '@/assets/css/CscViewStyle.css';
+
+import CscCategory from '@/components/CscCategory.vue';
+import '@/assets/css/cscViewStyle.css';
 export default {
+  name: 'inquirylist',
+
   data() {
     return {
-      navItems: [
-        { title: '강의상세', path: '/' },
-        { title: '계정설정', path: '/about' },
-        { title: '기기 및 재생환경', path: '/contact' },
-        { title: '결제', path: '/contact' },
-        { title: '해지/환불', path: '/contact' }
+      inquirylist: [
       ],
-      boxItems: [
-        { question: 'Q. 분야별 강의/취업 로드맵, 토픽, 챕터, 레슨 단위에 대해 알고 싶어요.', answer: 'BEDU 강의 구조는 다음과 같이 이루어져 있어요. 레슨(강의/노트/퀴즈/과제) < 챕터 < 토픽 < 분야별 강의/취업 로드맵 레슨은 동영상 강의, 노트, 퀴즈, 과제를 나타내는 가장 작은 단위의 수업이에요. 이를 묶어 놓은 것이 챕터, 그리고 챕터를 묶어 수강할 수 있도록 만든 것이 토픽입니다. 분야별 강의/취업 로드맵은 이 모든 과정을 가장 효과적으로 학습할 수 있도록 단계별로 배치한 것입니다.', isExpanded: false },
-        { question: 'Q. 동영상 강의는 몇 분 정도인가요?', answer: 'BEDU 강의는 5분 내외의 짧은 영상으로 이루져있어요. 예상 소요시간은 각 토픽 페이지에서 확인하실 수 있습니다.', isExpanded: false },
-        { question: 'Q. 강의를 듣다가 궁금증이 생기면 어떻게 해야 하나요?', answer: '레슨 하단 질문하기를 통해 커뮤니티에 궁금증을 남기고, 다른 수강생들과 함께 해결해보세요. 커뮤니티 정책을 참고하여 커뮤니티를 200% 활용해 보세요.', isExpanded: false },
-        { question: 'Q. 강의 영상을 다운로드할 수 있나요?', answer: '아니요. 강의 내용은 다운로드가 불가능합니다. 다만 노트북, 태플릿, 스마트 폰 등 다양한 기기에서 언제든지 코드잇 강의를 수강하실 수 있습니다.', isExpanded: false }
-      ],
+      form: {
+        keyword: '',
+      },
+      sortOption: "default", // 정렬 옵션
+      totalItems: 0,
+      totalPage: 0,
+      currentPage: 1
     };
+
   },
+
+  created() {
+    this.qnasearch();
+  },
+
+  components: {
+    CscCategory
+  },
+
+  mounted() {
+  },
+
   methods: {
-    toggleBox(index) {
-      this.boxItems[index].isExpanded = !this.boxItems[index].isExpanded;
-    },
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
-    }
-  },
+    },
+      
+    sortReviews() {
+      if (this.sortOption === "default") {
+        // 최신 순으로 정렬
+        this.inquirylist.sort((a, b) => {
+          return new Date(b.qna_date) - new Date(a.qna_date);
+        });
+      } else if (this.sortOption === "highViews") {
+        // 조회수 순으로 정렬
+        this.inquirylist.sort((a, b) => {
+          return b.qna_cnt - a.qna_cnt;
+        });
+      }
+    },
+
+    qnasearch() {
+      this.$axiosSend('post', '/api/inquiry/inquiryList')
+        .then(res => {
+          console.log(res)
+          this.inquirylist = res.data;
+          // this.sortReviews(); // 정렬 수행
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+
+    infiniteHandler($state) {
+      console.log('번호:', this.currentPage);
+      this.$axiosSend('get', '/api/inquiry/inquiryList', {
+        page: this.currentPage,
+      })
+        .then(res => {
+          if (res.data.length) {
+            this.currentPage++;
+            this.qnalist.push(...res.data);
+
+            console.log('리스', this.inquirylist);
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    formatDateTime(value) {
+                // value는 날짜 값입니다
+                const now = new Date();
+                const date = new Date(value);
+
+                const diffInMilliseconds = now - date;
+                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                const diffInDays = Math.floor(diffInHours / 24);
+
+                if (diffInDays > 0) {
+                    return `${diffInDays}일 전`;
+                } else if (diffInHours > 0) {
+                     return `${diffInHours}시간 전`;
+                } else if (diffInMinutes > 0) {
+                    return `${diffInMinutes}분 전`;
+                } else {
+                    return '방금 전';
+                }
+            },
+     },
 };
 </script>
-

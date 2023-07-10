@@ -15,5 +15,6 @@ public class InquiryVO {
 	private String userName; // 유저 이름
 	private Date regDate; // 문의 시간
 	private String regId; // 타 테이블에서 구분
+	private String keyword;		//검색 키워드
 	
 }

@@ -3,65 +3,79 @@
 
 <mapper namespace="com.care.bedu.inquiry.dao.InquiryDAO">
 
-	<insert id="inquiryWriteSave">
-		INSERT INTO T_BEDU_VOC(
-			VOC_NUM,
-			TITLE,
-			CONTENT,
-			FILE_NAME,
-			FILE_TYPE,
-			USER_NAME,
-			REG_DATE,
-			REG_ID
-		)VALUES(
-			T_BEDU_VOC_SEQ.NEXTVAL,
-			#{title},
-			#{content},
-			#{fileName},
-			#{fileType},
-			#{userName},
-			SYSDATE,
-			#{regId}
-		)
-	</insert>
-
 	<select id="inquirylist"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		*
+		title,
+		userName,
+		regDate
 		FROM
 		(
 		SELECT
-		 TITLE AS title,
-		 CONTENT AS content,
-		 TO_CHAR(REG_DATE, 'YYYY-MM-DD') as regDate
+		VOC_NUM as vocNum,
+		TITLE AS title,
+		USER_NAME AS userName,
+		REG_DATE AS regDate
 		FROM
-		 T_BEDU_VOC
+		BEDU.T_BEDU_VOC
 		ORDER BY
-		 REG_DATE DESC
+		REG_DATE DESC
 		)
+	</select>
+
+	<insert id="inquiryWriteSave">
+		INSERT INTO T_BEDU_VOC(
+		 VOC_NUM,
+		 TITLE,
+		 CONTENT,
+		 FILE_NAME,
+		 FILE_TYPE,
+		 USER_NAME,
+		 REG_DATE,
+		 REG_ID
+		)VALUES(
+		 T_BEDU_VOC_SEQ.NEXTVAL,
+		 #{title},
+		 #{content},
+		 #{fileName},
+		 #{fileType},
+		 #{userName},
+		 SYSDATE,
+		 #{regId}
+		)
+	</insert>
+
+	<select id="inquiryone"
+		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT
+		 	VOC_NUM AS vocNum,
+			TITLE,
+			CONTENT,
+			REG_ID as regId
+		FROM 
+			T_BEDU_VOC
+		WHERE VOC_NUM = #{num}
 	</select>
 
 	<select id="inquirysearch"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		 TITLE as title,
-		 CONTENT as content,
-		 REG_DATE
+		TITLE as title,
+		CONTENT as content,
+		REG_DATE
 		FROM
-		 T_BEDU_VOC
-		WHERE
-		 TITLE LIKE '%' || :keyword || '%' OR
-		 CONTENT LIKE '%'
-		 ||
-		 :keyword || '%' OR
-		 USER_NAME LIKE '%' || :keyword || '%'
+		T_BEDU_VOC
+		<if test="keyword != null">
+			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%'
+			|| #{keyword} || '%'
+		</if>
+		ORDER BY VOC_NUM DESC
 	</select>
 
 	<select id="getuserId"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		 USER_ID
+		USER_ID
 		FROM T_BEDU_USER
 		WHERE USER_NAME = #{userName}
 	</select>
@@ -69,11 +83,11 @@
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM T_BEDU_VOC
 	</select>
-	
+
 	<select id="getuserName"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		 USER_NAME
+		USER_NAME
 		FROM T_BEDU_USER
 		WHERE USER_ID = #{userId}
 	</select>
