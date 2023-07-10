@@ -1,5 +1,5 @@
 <template>
-    <div class="w-25 ps-5 me-5">
+    <div class="w-25 ps-5 me-5 d-none d-sm-block">
         <!-- 네비 컨테이너 -->
         <p class="fs-2 fw-bold mb-3">분야별 강의</p>
         <ul class="nav flex-column w-100">

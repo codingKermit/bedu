@@ -17,7 +17,7 @@
                 CATE_CODE,
                 CATE_KOR,
                 REG_DATE,
-                REG_NUM
+                REG_ID
             )
         VALUES(
             BEDU_LECT_SEQ.NEXTVAL,

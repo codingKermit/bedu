@@ -42,6 +42,7 @@
                         <b-navbar-nav>
                             <b-nav-item
                                 class="fs-4 fw-bold"
+                                data-bs-dismiss="offcanvas"
                                 v-if='categories.length'
                                 :to="{
                                     name : 'lectureCategories',
@@ -54,7 +55,17 @@
                                 }">
                                 분야별 강의
                             </b-nav-item>
-                            <b-nav-item to="/comm/qna" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">커뮤니티</b-nav-item>
+                            <div class="fs-4 fw-bold ">
+                                커뮤니티
+                            </div>
+                            <b-container class="fs-5 fw-bold">
+                                <b-nav-item data-bs-dismiss="offcanvas" to="/comm/qna">
+                                    질문 & 답변
+                                </b-nav-item>
+                                <b-nav-item data-bs-dismiss="offcanvas" to="/comm/freBd">
+                                    자유게시판
+                                </b-nav-item>
+                            </b-container>
                             <b-nav-item to="/review" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">수강후기</b-nav-item>
                             <b-nav-item
                                 to="/companyStudy"

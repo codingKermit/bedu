@@ -3,7 +3,7 @@
         <div class="p-5 w-100 d-flex">
             <!-- 좌측 네비, 커리큘럼 컨테이너 -->
             <CategoryNaviVue></CategoryNaviVue> <!-- 좌측 카테고리 네비게이션 컴포넌트화 -->
-            <div class="w-75 pe-5">
+            <div class="w-100 pe-0 pe-sm-3">
                 <!-- 강의 기본정보 & 커리큘럼 컨테이너-->
                 <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p>
                 <p class="fs-3 fw-bold curriculum-head my-3">커리큘럼</p>
@@ -34,7 +34,7 @@
                                 ref="lecture_list"
                                 :class='index == 0 ? "show":""'>
                                 <b-container>
-                                    <b-row cols="3">
+                                    <b-row md="3" sm="1" class="d-block d-sm-flex">
                                         <!-- 커리큘럼 목록 -->
                                         <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item mb-3">
                                             <b-link
