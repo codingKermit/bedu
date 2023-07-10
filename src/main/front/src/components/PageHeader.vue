@@ -222,6 +222,9 @@
             getCls() {
                 return this.$store.getters.getCls;
             },
+            getCbnumList() {
+                return this.$store.getters.getCbnumList;
+            },
 
         },
         methods: {

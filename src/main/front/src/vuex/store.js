@@ -24,6 +24,8 @@ export default createStore({
         cls: null,
         // 수강 목록
         lessons : null,
+
+        cbnumList: null
     },
     mutations,
     getters,

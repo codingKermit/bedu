@@ -20,4 +20,6 @@ export default {
     // state에서 수강 목록 값을 가져오는 getter
     getLessons: state => state.lessons,
 
+    getCbnumList: state => state.cbnumList,
+
 }
