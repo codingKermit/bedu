@@ -21,5 +21,8 @@ export default {
     },
     [types.LESSONS](state, lessons) {
         state.lessons = lessons
+    },
+    [types.CBNUMLIST](state, cbnumList) {
+        state.cbnumList = cbnumList
     }
 }
