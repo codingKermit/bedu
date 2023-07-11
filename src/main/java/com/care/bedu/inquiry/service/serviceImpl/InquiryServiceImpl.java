@@ -16,17 +16,21 @@ public class InquiryServiceImpl implements InquiryService {
 	@Autowired
 	private InquiryDAO inquiryDAO;
 
+
+	//게시글 리스트 조회
 	@Override
 	public List<InquiryVO> list() throws Exception {
 		List<InquiryVO> inquirylist = inquiryDAO.inquirylist();
 		return inquirylist;
 	}
-
+	
+	//게시글 전체 갯수 조회
 	@Override
 	public int getTotal() {
 		return inquiryDAO.getTotal();
 	}
 
+	//게시글 등록
 	@Override
 	public int inquiryWriteSave(InquiryVO inquiryVO) {
 		inquiryVO.setRegId(inquiryVO.getUserName());
@@ -40,11 +44,13 @@ public class InquiryServiceImpl implements InquiryService {
 		return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
 
+	//유저 아이디 조회
 	@Override
 	public ArrayList<InquiryVO> getUserName(String userName) {
 		return inquiryDAO.getuserName(userName);
 	}
 
+	//글 조회
 	@Override 
 	public InquiryVO inquiryone(int num) {
 		InquiryVO inquiryVO = inquiryDAO.inquiryone(num);
