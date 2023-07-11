@@ -1,4 +1,7 @@
 <template>
+  <div class="cscView" id="cscView">
+    <CscCategory :currentTab="'inquiry'"></CscCategory>
+  </div>
   <p id="Cschead">1:1 문의하기</p>
   <div class="card">
     <form @submit="inquiryWrite()">
@@ -17,13 +20,14 @@
       </div>
       <div>
         <b-button @click="inquiryWrite()" id="commit">저장</b-button>
-        <b-button id="list" href="#">목록으로</b-button>
+        <b-button id="list" href="#">취소</b-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import CscCategory from '@/components/CscCategory.vue';
 import '@/assets/css/inquiryStyle.css';
 import router from '@/router';
 export default {
@@ -42,7 +46,7 @@ export default {
       ],
 
       form: {
-        userName: '',
+        userName: '', 
         title: '',
         content: '',
       },
@@ -70,6 +74,10 @@ export default {
         name: "login"
       })
     }
+  },
+
+  components: {
+    CscCategory
   },
 
   methods: {

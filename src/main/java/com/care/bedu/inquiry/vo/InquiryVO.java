@@ -34,4 +34,7 @@ public class InquiryVO {
 	//검색 키워드
 	private String keyword;		
 	
+	// 비밀번호
+	private Integer password;
+	
 }

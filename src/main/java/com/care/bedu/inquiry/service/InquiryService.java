@@ -11,7 +11,7 @@ public interface InquiryService {
 	public List<InquiryVO> list() throws Exception;
 	
 	//게시글 상세보기
-	public InquiryVO inquiryone(int num); //게시글 상세보기
+	public InquiryVO inquiryone(Integer num); //게시글 상세보기
 	
 	//게시글 전체 갯수
 	public int getTotal();
@@ -21,5 +21,9 @@ public interface InquiryService {
 	
 	//글 등록 저장
 	public int inquiryWriteSave(InquiryVO inquiryVO);
+	
+	//게시글 비밀번호
+	
+	public InquiryVO inquirypassword(Integer password);
 	
 }
