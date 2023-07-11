@@ -23,8 +23,9 @@ public class ReviewController {
     // GET 요청을 처리하는 엔드포인트로, 모든 후기 목록을 가져옵니다.
     // page와 size는 요청 매개변수로 받아서 페이징 처리를 수행합니다.
     @RequestMapping("/reviews")
-    public List<HashMap<String, Object>> getAllReviews(@RequestParam int page, @RequestParam int size) {
-        return reviewService.getAllReviews(page, size);
+    public List<HashMap<String, Object>> getAllReviews(@RequestParam int page, @RequestParam int size, String tab) {
+        System.out.println("tab : " + tab);
+        return reviewService.getAllReviews(page, size, tab);
     }
     
     // GET 요청을 처리하는 엔드포인트로, 특정 후기를 가져옵니다.
@@ -46,4 +47,7 @@ public class ReviewController {
     public List<HashMap<String, Object>> getSearchedReviews(@RequestParam String keyword) {
         return reviewService.getSearchedReviews(keyword);
     }
+
+    
+
 }
