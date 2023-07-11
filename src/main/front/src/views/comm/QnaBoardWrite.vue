@@ -75,7 +75,7 @@
             }
 
             this.form.regId = this.$store.getters.getEmail;
-            this.form.userName = this.$store.getters.getEmail;
+            this.form.userName = this.$store.getters.getNickname;
         },
 
         created() {

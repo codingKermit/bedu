@@ -2,6 +2,7 @@ package com.care.bedu.community.freeBoard.service.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,19 @@ public class FreeServiceImpl implements FreeService{
 	
 	//자유게시글 조회
 	@Override
-	public ArrayList<FreeVO> listProc(FreeVO freeVO) {					
+	public List<FreeVO> listProc(FreeVO freeVO) {					
 		freeVO.setLimit(10);
-		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit()+1);			
+		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());			
 		freeVO.setLimit(freeVO.getPage()+freeVO.getLimit()-1);				
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
+		}else {
+			List<FreeVO> list = freeDAO.viewlist(freeVO);
+			for(FreeVO free: list) {
+				free.setCommDate(free.getRegDate());
+			}
+			return list;
 		}
-		return freeDAO.viewlist(freeVO);
 	}
 
 	//자유글 작성
@@ -37,7 +43,7 @@ public class FreeServiceImpl implements FreeService{
 	public int boardwrite(FreeVO freeVO) {
 
 		freeVO.setCommCnt(0);
-		freeVO.setCommLikeYn(0);
+		freeVO.setCommLikeCnt(0);
 		return freeDAO.viewWrite(freeVO);
 	}
 
@@ -55,11 +61,12 @@ public class FreeServiceImpl implements FreeService{
 			likeCntVO.setUserName(userName);
 			likeCntVO.setRegId(userName);
 			int savenum =freelikeCntDAO.cntFreeSave(likeCntVO);
-			
-			freeDAO.cntUp(commnum);
+			if(savenum == 1) {
+				freeDAO.cntUp(commnum);
+			}
 		}
-		
 		return freeDAO.viewone(commnum);
+		
 	}
 
 	//게시글 삭제
@@ -101,6 +108,7 @@ public class FreeServiceImpl implements FreeService{
 		
 		HashMap<String, Object> map = new HashMap<>();
 		if(number == 0) {
+			
 			LikeCntVO likeCntVO = new LikeCntVO();
 			likeCntVO.setUserName(userName);
 			likeCntVO.setCommBdNum(commnum);
@@ -110,6 +118,7 @@ public class FreeServiceImpl implements FreeService{
 			
 			if(result == 1) {
 				Integer getnum = freeDAO.freelikeUp(commnum);
+				
 				map.put("likenum", likeyn);
 				map.put("result", getnum);
 				return map;
@@ -141,6 +150,7 @@ public class FreeServiceImpl implements FreeService{
 		} 
 	}
 
+	//수정페이지조회
 	@Override
 	public FreeVO editdetail(int num) {
 		return freeDAO.viewone(num);

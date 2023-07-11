@@ -5,17 +5,15 @@
 	
 	<insert id="likeCntSave">
 		INSERT INTO T_BEDU_LIKE_CNT(
-	      LIKE_NUM,
 		  USER_NAME,
 		  QS_BD_NUM,
 		  REG_DATE, 
 		  REG_ID,
-		  LIKEYN
+		  LIKE_YN
 		)VALUES(
-		  BEDU_LIKE_QS.NEXTVAL,
 		  #{userName},
 		  #{qsBdNum},
-		  SYSDATE,
+		  SYSDATE(),
 		  #{regId},
 		  #{likeyn}
 		)
@@ -23,16 +21,14 @@
 	
 	<insert id="cntqnaSave">
 		INSERT INTO T_BEDU_LIKE_CNT(
-	      LIKE_NUM,
 		  USER_NAME,
 		  QS_BD_NUM,
 		  REG_DATE, 
 		  REG_ID
 		)VALUES(
-		  BEDU_LIKE_QS.NEXTVAL,
 		  #{userName},
 		  #{qsBdNum},
-		  SYSDATE,
+		  SYSDATE(),
 		  #{regId}
 		)
 	</insert>
@@ -48,7 +44,7 @@
 		SELECT
 		 LIKE_NUM 
 		FROM T_BEDU_LIKE_CNT
-		WHERE QS_BD_NUM = #{qnum} and USER_NAME = #{userName} and LIKEYN =#{likeyn}
+		WHERE QS_BD_NUM = #{qnum} and USER_NAME = #{userName} and LIKE_YN =#{likeyn}
 	</select>
 	
 	<delete id="likedel">

@@ -55,6 +55,9 @@
                 </div>
                 <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
                     <div class="d-flex mb-3 mt-4">
+                        <div class="qnauser">
+                            <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                        </div>
                         <div  class = "name">
                             {{ ans.userName }}
                         </div>
@@ -223,7 +226,7 @@
                     this.anslist = res.data;
                 })  
                 .catch((error) => {
-                    this.$swal('Error', '답변이 정상적으로 조회되지 않았습니다.', error);
+                    console.log(error);
                 })
             },
 

@@ -2,13 +2,14 @@ package com.care.bedu.community.freeBoard.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.care.bedu.community.freeBoard.vo.FreeVO;
 
 public interface FreeService {
 	
 	//게시글 조회
-	public ArrayList<FreeVO> listProc(FreeVO freeVO);
+	public List<FreeVO> listProc(FreeVO freeVO);
 	
 	//게시글 등록
 	public int boardwrite(FreeVO freeVO);							

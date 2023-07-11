@@ -5,7 +5,6 @@
 	
 	<insert id="viewWrite" parameterType="com.care.bedu.community.reply.vo.ReplyVO">
 		INSERT INTO T_BEDU_REPLY(
-		  REPLY_NUM,
 		  USER_NAME,
 		  CONTENT,
 		  COMM_NUM,
@@ -13,26 +12,25 @@
 		  REG_DATE,
 		  REG_ID
 		)VALUES(
-		  BEDU_REPLY.NEXTVAL,
 		  #{userName},
 		  #{content},
 		  #{commNum},
-		  SYSDATE,
-		  SYSDATE,
+		  SYSDATE(),
+		  SYSDATE(),
 		  #{regId}
 		)
 	</insert>
 	
 	<select id="viewList" resultType="com.care.bedu.community.reply.vo.ReplyVO">
-		SELECT * FROM (SELECT 
-		 REPLY_NUM AS replyNum,
-		 CONTENT,
-		 REPLY_DATE AS replyDate,
-		 REG_ID AS regId,
-		 u.USER_NAME AS userName 
-		FROM T_BEDU_REPLY r LEFT JOIN T_BEDU_USER u ON r.USER_NAME = u.USER_ID
+		SELECT
+		  REPLY_NUM AS replyNum,
+		  CONTENT,
+		  REPLY_DATE AS replyDate,
+		  REG_ID AS regId,
+		  u.USER_NAME AS userName 
+		FROM T_BEDU_REPLY r LEFT JOIN T_BEDU_USER u ON r.USER_NAME = u.USER_NAME
 		WHERE COMM_NUM = #{commNum}
-		ORDER BY REPLY_DATE ASC)
+		ORDER BY REPLY_DATE ASC
 	</select>
 	
 	<select id="replyTotal" resultType="int">

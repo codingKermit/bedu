@@ -29,7 +29,7 @@
                         <font-awesome-icon :icon="['fas', 'heart']"
                             />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
-                                {{ free.commLikeYn }}
+                                {{ free.commLikeCnt }}
                             </text>
                     </button>    
                 </div>
@@ -44,7 +44,7 @@
                 <div>
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" />
-                        {{replytotal}}개의 댓글이 있습니다.{{ free.commNum }}
+                        댓글 {{replytotal}}개
                     </p>
                 </div>
                 <div>
@@ -53,7 +53,10 @@
                         <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
                     <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
-                        <div class="d-flex mb-3 mt-4">
+                        <div class="d-flex mb-3 mt-4 freeReplys">
+                            <div class="freeuser">
+                                <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                            </div>
                             <div class="freeReplyName">
                                 {{ reply.userName }}
                             </div>
@@ -113,7 +116,7 @@ export default{
                 strCommDate:'',
                 userId:'',
                 commCnt : 0,
-                commLikeYn : 0,
+                commLikeCnt : 0,
             }
         }
     },
@@ -351,7 +354,7 @@ export default{
             .then(res => {
                
                 if(res.data === 1){
-                    this.free.commLikeYn--;
+                    this.free.commLikeCnt--;
                     return;
                 }else if(res.data === 0){
                     return;
@@ -386,7 +389,7 @@ export default{
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
-                    this.free.commLikeYn++;
+                    this.free.commLikeCnt++;
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 

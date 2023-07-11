@@ -1,6 +1,7 @@
 package com.care.bedu.community.freeBoard.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,7 @@ import com.care.bedu.community.freeBoard.vo.FreeVO;
 public interface FreeDAO {
 	
 	//게시글 기본 조회
-	public ArrayList<FreeVO> viewlist(FreeVO freeVO);
+	public List<FreeVO> viewlist(FreeVO freeVO);
 	
 	//게시글 작성
 	public int viewWrite(FreeVO freeVO);

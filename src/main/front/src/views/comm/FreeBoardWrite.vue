@@ -112,7 +112,7 @@
                     })
                     return;
                 }
-
+                
                 this.$axiosSend('post', '/api/freBd/write', this.form)
                 .then((res) => {
                     if (res.data === 1) {

@@ -23,29 +23,23 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
-		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit()+1);			//시작할 첫번쨰 글번호 행
-		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);
-						//끝 글번호 행
+		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit());			
+		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);					
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
-			return qnaDAO.viewsearch(qnaVO); 								//키워드검색
-		}
-		
-		List<QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
-		for(QnaVO qna : qnalist) {
-			List<QnaVO> username = qnaDAO.getuserName(qna.getUserName());
-			for(QnaVO user : username) {
-				qna.setUserName(user.getUserName());
+			return qnaDAO.viewsearch(qnaVO); 			
+		}else {
+			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
+			for(QnaVO qna : qnalist) {
+				qna.setQnaDate(qna.getRegDate());
 			}
-		}
-		
-		return qnalist;						
+			return qnalist;
+		}			
 	}
 
 	//글등록시 조회수 좋아요 개수 0으로 초기화하여 데이터베이스에 저장
 	//글등록시 조회수 조회수 개수 0으로 초기화하여 데이터베이스에 저장
 	@Override
 	public int boardwrite(QnaVO qnaVO) {
-		qnaVO.setRegId(qnaVO.getUserName());
 		qnaVO.setQnaCnt(0);			
 		qnaVO.setQnaLikeCnt(0);		
 		return qnaDAO.viewWrite(qnaVO);
@@ -91,7 +85,8 @@ public class QnaServiceImpl implements QnaService{
 	
 	//좋아요 1증가
 	@Override
-	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {//게시글 좋아요 1 증가
+	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {
+		
 		int likeCnt = qnaDAO.likeName(qnanum, userName, likeyns);
 		
 		Integer likeyn = likeCntDAO.getlikenum(qnanum, userName, likeyns);

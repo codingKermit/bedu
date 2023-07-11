@@ -95,12 +95,14 @@
 
 .date {
     
-    margin-left: 80%;
+    margin-left: 20px;
 }
 
 .name {
     font-weight: bold;
+    margin-left: 10px;
 }
+
 
 #qnaboard-detail-replywrite{
     display: none;
@@ -214,6 +216,11 @@
 }
 
 #qna-detail-replyDelBtn{
+    margin-bottom: 1rem !important;
+    margin-left: 85%;
+}
+
+#qna-detail-replywrite{
     margin-bottom: 1rem !important;
     margin-left: 85%;
 }
