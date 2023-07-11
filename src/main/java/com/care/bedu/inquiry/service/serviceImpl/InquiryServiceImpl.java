@@ -52,11 +52,14 @@ public class InquiryServiceImpl implements InquiryService {
 
 	//글 조회
 	@Override 
-	public InquiryVO inquiryone(int num) {
+	public InquiryVO inquiryone(Integer num) {
 		InquiryVO inquiryVO = inquiryDAO.inquiryone(num);
-		
-		System.out.println(inquiryone(num));
-
+		return inquiryVO;
+	}
+	
+	@Override
+	public InquiryVO inquirypassword(Integer password) {
+		InquiryVO inquiryVO = inquiryDAO.inquirypassword(password);
 		return inquiryVO;
 	}
 
