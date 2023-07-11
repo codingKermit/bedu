@@ -43,7 +43,7 @@
             PARENT_CODE as parentCode,
             parent_num as parentNum 
         FROM 
-            t_bedu_lect_bot_cate 
+            b_edu.t_bedu_lect_bot_cate 
         WHERE PARENT_CODE = #{mid}
         ORDER BY NUM
     </select>
