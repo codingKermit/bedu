@@ -1,13 +1,13 @@
 <template>
     <div class="review-list">
         <div class="review-group">
-            
-            <div class="m-select">
+            {{ currentTab }}
+            <div class="mSelect">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><a class="review-a" href="#">전체</a></li>
-                    <li><a class="review-a" href="#">기초강의</a></li>
-                    <li><a class="review-a" href="#">데이터분석</a></li>
-                    <li><a class="review-a" href="#">웹 개발</a></li>
+                    <li><a class="review-a" @click="testMethod('all')">전체</a></li>
+                    <li><a class="review-a" @click="testMethod('base')">기초강의</a></li>
+                    <li><a class="review-a" @click="testMethod('data')">데이터분석</a></li>
+                    <li><a class="review-a" @click="testMethod('web')">웹 개발</a></li>
                     <li><a class="review-a" href="#">프로그래밍 언어</a></li>
                     <li><a class="review-a" href="#">인공지능</a></li>
                     <li><a class="review-a" href="#">프로그래밍 교양</a></li>
@@ -52,19 +52,19 @@
                 </thead>
                 <tbody>
                     <tr v-for="(reviews, index) in displayedReviews" :key="index">
-                        <td class="review-title">{{ reviews.TITLE }}</td>
+                        <td class="review-title">{{ reviews.title }}</td>
                         <td>
-                            <span class="review-content">{{ reviews.CONTENT }}</span>
+                            <span class="review-content">{{ reviews.content }}</span>
                         </td>
                         <td>
                             <div class="review-star-rating">
-                                 <span class="review-star" v-for="star in reviews.STAR" :key="star"
+                                <span class="review-star" v-for="rwGrade in reviews.rwGrade" :key="rwGrade"
                                 >&#9733;</span
                                 >
                             </div>
                         </td>
-                        <td>{{ reviews.WRITER }}</td>
-                        <td>{{ formatDateTime(reviews.REVIEWDATE) }}</td>
+                        <td>{{ reviews.userName }}</td>
+                        <td>{{ formatDateTime(reviews.rwDate) }}</td>
                     </tr>
                     <infinite-loading id="infiniteReview" @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true">
                         <template #no-more>마지막 후기 입니다.</template>
@@ -99,6 +99,7 @@
                 currentPage: 1, // 현재 페이지 번호
                 itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
+                currentTab : '',
 
             };
         },
@@ -111,6 +112,9 @@
             this.fetchReviews(); 
         },
         methods: {
+            testMethod(data){
+                this.currentTab = data;
+            },
             // 후기 가져오기
             fetchReviews() {
                 this.isLoading = true; // 로딩 중 상태를 true로 설정합니다.
@@ -119,6 +123,7 @@
                     page: this.currentPage, // 현재 페이지 번호를 파라미터로 전달합니다.
                     size: this.itemsPerPage, // 한 페이지에 보여줄 아이템 수를 파라미터로 전달합니다.
                     keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
+                    tab : this.currentTab
                 })
                 .then((response) => {
                     const { totalElements } = response.data;
@@ -136,7 +141,7 @@
                         this.sortReviews(); // 정렬 수행
                 })
                 .catch((error) => {
-                     console.error(error);
+                    console.error(error);
                     this.isLoading = false; // 에러 발생 시 로딩 중 상태를 false로 설정합니다.
                 });
             },        
@@ -154,7 +159,7 @@
                 .catch((error) => {
                     console.error(error);
                 });
-                   }
+                }
             },
             handleScroll() {
                 const scrollHeight = document.documentElement.scrollHeight;
@@ -247,7 +252,7 @@
                 if (diffInDays > 0) {
                     return `${diffInDays}일 전`;
                 } else if (diffInHours > 0) {
-                     return `${diffInHours}시간 전`;
+                    return `${diffInHours}시간 전`;
                 } else if (diffInMinutes > 0) {
                     return `${diffInMinutes}분 전`;
                 } else {
@@ -263,5 +268,13 @@
             // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
             window.removeEventListener('scroll', this.handleScroll);
         },
+        watch:{
+            currentTab : {
+                imeediate : true,
+                handler(newTab){
+                    
+                }
+            }
+        }
     };
 </script>

@@ -22,9 +22,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
     
     @Override
-    public List<HashMap<String, Object>> getAllReviews(int page, int size) {
+    public List<HashMap<String, Object>> getAllReviews(int page, int size, String tab) {
         int startIndex = (page - 1) * size;
         int endIndex = startIndex + size;
+
         List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
         if (startIndex > Math.min(endIndex, allReviews.size())) {
             return new ArrayList<>(); // 시작 인덱스가 후기 목록의 범위를 벗어나면 빈 리스트를 반환합니다.
@@ -49,18 +50,20 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<HashMap<String, Object>> getSearchedReviews(String keyword) {
       // 검색 키워드에 기반하여 후기 필터링
-      List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
-      List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
-      for (HashMap<String, Object> review : allReviews) {
+    List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
+    List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
+    for (HashMap<String, Object> review : allReviews) {
         String title = (String) review.get("TITLE");
         String content = (String) review.get("CONTENT");
         String writer = (String) review.get("WRITER");
         if (title.toLowerCase().contains(keyword) ||
             content.toLowerCase().contains(keyword) ||
             writer.toLowerCase().contains(keyword)) {
-          searchedReviews.add(review);
+        searchedReviews.add(review);
         }
-      }
-      return searchedReviews;
     }
+    return searchedReviews;
+    }
+
+    
 }

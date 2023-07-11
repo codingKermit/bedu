@@ -4,65 +4,77 @@
 <mapper namespace="com.care.bedu.review.dao.ReviewDAO">
 
     <select id="getReviewById" resultType="com.care.bedu.review.vo.ReviewVO">
-        SELECT * FROM T_BEDU_RW_BD WHERE RW_NUM = :id
+        SELECT * FROM T_BEDU_RW_BD WHERE RW_NUM = #{id}
     </select>
 
     <insert id="createReview" parameterType="com.care.bedu.review.vo.ReviewVO">
-        INSERT INTO
-            T_BEDU_RW_BD
-                (TITLE,
-                USER_NAME,
-                CONTENT,
-                RW_GRADE,
-                LECT_NUM,
-                RW_DATE,
-                REG_DATE,
-                REG_ID)
+	INSERT INTO
+            t_bedu_rw_bd
+                (RW_NUM
+				TITLE,
+				USER_NAME,
+				CONTENT,
+				RW_GRADE,
+				LECT_NUM,
+				RW_DATE,
+				REG_DATE,
+				REG_ID)
         VALUES
-                (:title,
-                 :writer,
-                 :content,
-                 :star,
-                 :lectureNumber,
-                 :reviewDate,
-                 :regDate,
-                 :regId)
+                (#{rwNum},
+                #{title},
+                #{userName},
+                #{rwGrade},
+                #{lectNum},
+                #{rwDate},
+                #{regDate},
+                #{regId})
     </insert>
 
-	<select id="getAllReviews" resultType="java.util.HashMap">
-		SELECT
-    			title,
-    			writer,
-    			content,
-    			star,
-    			reviewDate
-		FROM
-    		(
-    			SELECT
-        		TITLE AS title,
-        		USER_NAME AS writer,
-        		CONTENT AS content,
-        		RW_GRADE AS star,
-        		RW_DATE AS reviewDate
-    	FROM
-       		 	T_BEDU_RW_BD
-    	ORDER BY
-        		RW_DATE DESC
-    		) 
-	</select>
+    <select id="getAllReviews" resultType="java.util.HashMap">
+        SELECT
+            TITLE as title,
+            USER_NAME as userName,
+            CONTENT as content,
+            RW_GRADE as rwGrade,
+            RW_DATE as rwDate
+        FROM
+        (
+            SELECT
+            TITLE,
+            USER_NAME,
+            CONTENT,
+            RW_GRADE,
+            RW_DATE
+        FROM
+            t_bedu_rw_bd
+        ORDER BY
+            RW_DATE DESC
+        ) AS temp
+    </select>
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
-  		SELECT 
-    			TITLE as title,
-    			USER_NAME as writer,	
-   				CONTENT as content,
-    			RW_GRADE as star,
-    			RW_DATE as reviewDate
-  		FROM T_BEDU_RW_BD
-  			WHERE
-    			TITLE LIKE '%' || :keyword || '%' OR
-    			CONTENT LIKE '%' || :keyword || '%' OR
-    			USER_NAME LIKE '%' || :keyword || '%'
-	</select>
+        SELECT 
+            TITLE as title,
+            USER_NAME as userName,
+            CONTENT as content,
+            RW_GRADE as rwGrade,
+            RW_DATE as rwDate
+        FROM t_bedu_rw_bd
+        WHERE
+            TITLE LIKE CONCAT('%', #{keyword}, '%') OR
+            CONTENT LIKE CONCAT('%', #{keyword}, '%') OR
+            USER_NAME LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="getSearchTitle" resultType="java.util.HashMap">
+        SELECT
+            TITLE as title,
+            USER_NAME as userName,
+            CONTENT as content,
+            RW_GRADE as rwGrade,
+            RW_DATE as rwDate
+        FROM t_bedu_rw_bd
+        WHERE TITLE LIKE CONCAT('%', #{title}, '%')
+    </select>
 
 </mapper>
