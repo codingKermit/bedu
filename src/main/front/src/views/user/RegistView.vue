@@ -368,17 +368,17 @@
             },
             // 약관 동의 항목을 조회하는 메서드
             fetchAgreements() {
-                const ids = [0, 1, 2]; // 변경할 id 값들을 배열로 선언
+                const ids = [1, 2, 3]; // 변경할 id 값들을 배열로 선언
 
                 // 각 id에 대해 순회하면서 약관 데이터 요청
                 ids.forEach(id => {
                     this.$axiosSend("get", `/api/agree/${id}`)
                     .then(response => {
-                        if (id === 0) {
+                        if (id === 1) {
                             this.fileText1 = response.data[0].content;
-                        } else if (id === 1) {
-                            this.fileText2 = response.data[0].content;
                         } else if (id === 2) {
+                            this.fileText2 = response.data[0].content;
+                        } else if (id === 3) {
                             this.fileText3 = response.data[0].content;
                         }
                     })

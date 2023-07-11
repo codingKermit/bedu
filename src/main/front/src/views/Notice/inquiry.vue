@@ -3,6 +3,7 @@
   <div class="card">
     <form @submit="inquiryWrite()">
       <div>
+        <label id="title" for="title">문의 목록</label>
         <b-form-select id="selectbox" v-model="selected" :options="options"></b-form-select>
         <label id="title" for="title">제목</label>
         <b-form-input placeholder="제목을 입력해주세요" id="titletext" v-model="form.title" ref="title"></b-form-input>
@@ -33,11 +34,11 @@ export default {
 
       selected: null,
       options: [
-        { value: null, text: '상담유형선택' },
-        { value: 'a', text: 'This is First option' },
-        { value: 'b', text: 'Selected Option' },
-        { value: { C: '3PO' }, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true }
+        { value: null, text: '강의상세' },
+        { value: 'a', text: '계정설정' },
+        { value: 'b', text: '기기 및 재생환경' },
+        { value: { C: '3PO' }, text: '결제' },
+        { value: 'd', text: '해지환불'}
       ],
 
       form: {

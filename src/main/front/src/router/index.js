@@ -148,7 +148,14 @@ const routes = [
         name: 'inquiry',
         component: () => import('../views/Notice/inquiry.vue')
     }
+    // ,
+    // {
+    //     path: '/inquiryDetail',
+    //     name: 'inquiryDetail',
+    //     component: () => import('../views/Notice/InquiryDetail.vue')
+    // }
     ,
+
     {
         path: '/tou',
         name: 'tou',

@@ -111,6 +111,7 @@
                         <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
                             <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                         </button>
+                        {{ getCbnumList }}
                         <span style="font-weight: bold;">님</span>
                         <ul class="dropdown-menu" v-show="isDropdownOpen">
                             <b-dropdown-item to="/mypage">
