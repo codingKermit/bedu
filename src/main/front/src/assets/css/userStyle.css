@@ -135,8 +135,6 @@
     align-items: center;
     min-height: auto;
     text-align: center;
-    padding-top: 15%;
-    padding-bottom: 5%;
 }
 
 #registChangeSection {
@@ -144,6 +142,7 @@
     justify-content: center;
     align-items: center;
     width: 50%;
+    margin-top: 7%;
 }
 
 #agreeitemPa {
@@ -201,7 +200,7 @@
     background: white;
     width: 50%;
     height: auto;
-    padding-bottom: 6.25%;
+    margin-bottom: 5%;
 }
 
 #registCheckBox {
@@ -268,10 +267,6 @@
 #registSubmit2:active {
     box-shadow: inset 1px 2px 5px 0px rgb(203, 203, 203),
         inset -1px 0px 3px 0px rgb(203, 203, 203);
-}
-
-#registSection {
-    padding-bottom: 5.625%;
 }
 
 #registFormGroup {
