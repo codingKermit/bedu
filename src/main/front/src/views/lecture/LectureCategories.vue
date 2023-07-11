@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-5 w-100 d-flex">
+        <div class="p-4 p-md-5 w-100 d-flex">
             <!-- 좌측 네비, 커리큘럼 컨테이너 -->
             <CategoryNaviVue></CategoryNaviVue> <!-- 좌측 카테고리 네비게이션 컴포넌트화 -->
             <div class="w-100 pe-0 pe-sm-3">

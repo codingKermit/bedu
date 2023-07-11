@@ -1,0 +1,127 @@
+.scrollTop {
+    background-color: var(--black);
+    top : 85%;
+    right : 3%;
+    width: 80px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    cursor: default;
+    z-index: 100;
+}
+
+.scrollTop.show {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+#nav1 {
+    display: flex;
+    align-items: center;
+}
+
+#nav2 {
+    display: flex;
+    align-items: center;
+}
+
+#bedu-logo {
+    width: auto;
+    height: 40px;
+}
+
+#nav1 a {
+    margin-right: 30px;
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+#nav2 a {
+    margin-left: 20px;
+    font-family: 'Noto Sans CJK KR', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+#nav2 .search-popup {
+    align-items: center;
+    display: inline-block;
+    margin-left: -20px;
+    margin-right: -50px;
+}
+
+#nav2 .search-popup input {
+    width: 100%;
+    height: 15px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #F6E0B3;
+    border-radius: 30px;
+}
+
+.border-bedu {
+    background-color: #F6E0B3;
+    width: 70%;
+    border-color: #EDC268;
+}
+
+.no-arrow::after {
+    display: none;
+}
+
+#nicknameToggle {
+    background-color: #F6E0B3;
+    border: none;
+    color: black;
+    margin-left: 10px;
+    margin-right: 8px;
+    border-radius: 40px;
+    padding: 5px 12px 5px 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s linear;
+}
+
+#nicknameToggle:hover{
+    box-shadow: inset 1px 1px 5px 1px rgb(77, 71, 71);
+}
+
+#headerLogout {
+    background-color: #EDC268;
+    border: #EDC268;
+}
+
+.bedu-header-search:focus{
+    box-shadow: none !important;
+}
+
+.nav-item{
+    --bs-nav-link-hover-color: var(--blue) !important;
+}
+
+.text-black-50:hover{
+    color: var(--blue) !important;
+    transition: all 0.2s;
+}
+
+.search-toggle-container{
+    height: 66px;
+}
+
+.router-link-active{
+    color : var(--black) !important;
+    font-weight: bolder !important;
+    transition: all 0.15s
+}
+
+a{
+    margin: 0px !important;
+}

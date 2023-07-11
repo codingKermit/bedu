@@ -2,7 +2,7 @@
     <div>
         <b-navbar >
             <b-collapse id="categories" class="w-100" is-nav>
-                    <b-row class="w-100">
+                    <b-row class="w-100 mx-auto">
                         <b-col v-for="(item, index) in categories" :key="index" class="col-4 px-1 col-lg-1 text-center justify-content-center mx-auto">
                                 <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
                                     <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">

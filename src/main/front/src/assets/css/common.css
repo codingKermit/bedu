@@ -8,6 +8,9 @@
     --blue-75 : rgba(48, 48, 118, 0.75);
     --black-75 : rgba(35, 24, 21, 0.75);
     --yellow-75 : rgba(237, 194, 104, 0.75);
+    --blue-100 : rgb(48, 48, 118, 1);
+    --black-100 : rgb(35, 24, 21, 1);
+    --yellow-100 : rgb(237, 194, 104, 1);
 }
 
 #app{
@@ -121,6 +124,11 @@ header {
     transition: all 0.25s;
 }
 
+.bedu-bg-custom-yellow-100{
+    background-color: var(--yellow-100) !important;
+    transition: all 0.25s;
+}
+
 
 .bedu-bg-custom-black{
     background-color: var(--black) !important;
@@ -132,6 +140,10 @@ header {
 
 .bedu-bg-custom-black-75{
     background-color: var(--black-75) !important;
+}
+
+.bedu-bg-custom-black-100{
+    background-color: var(--black-100) !important;
 }
 
 
@@ -146,6 +158,11 @@ header {
 .bedu-text-custom-blue-75{
     color: var(--blue-75) !important;
 }
+
+.bedu-text-custom-blue-100{
+    color: var(--blue-100) !important;
+}
+
 
 .bedu-text-custom-yellow{
     color: var(--yellow) !important;

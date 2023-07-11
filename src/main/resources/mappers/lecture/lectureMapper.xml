@@ -13,9 +13,9 @@
 			A.THUMBNAIL, 
 			A.LECT_CNT as lectCnt, 
 			A.REG_DATE as regDate, 
-			TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
+			format(A.PRICE,0) as PRICE, 
 			A.LECT_DESC as lectDesc,
-			TO_CHAR(TRUNC(SYSDATE)+ NUMTODSINTERVAL(SUM(B.LECT_DTL_TIME),'second'),'hh24:mi:ss' ) AS TOTALTIMES, 
+			sec_to_time(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES, 
 			A.CATE_CODE, 
 			A.CATE_KOR,
 			A.LECT_SUMMARY AS lectSum
@@ -36,11 +36,11 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				BEDU.T_BEDU_LECT WHERE CATE_CODE = #{category}) A
+				b_edu.T_BEDU_LECT WHERE CATE_CODE = #{category}) A
 		LEFT JOIN T_BEDU_LECT_DTL B
 		ON A.LECT_NUM = B.LECT_NUM
 		GROUP BY 
-			A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
+			A.LECT_NUM
 		ORDER BY LECTNUM
 	</select>
 
@@ -54,11 +54,11 @@
 			A.THUMBNAIL, 
 			A.LECT_CNT as lectCnt, 
 			A.REG_DATE as regDate, 
-			TO_CHAR(A.PRICE, '999,999,999') AS PRICE, 
+			format(A.PRICE,0) as PRICE, 
 			A.LECT_DESC as lectDesc,
 			ROUND(AVG(C.RW_GRADE)) AS SCORE, 
 			COUNT(C.LECT_NUM) AS SCOREUSERS, 
-			TO_CHAR(TRUNC(SYSDATE)+NUMTODSINTERVAL(B.TOTALTIMES,'second') ,'hh24:mi:ss' ) AS TOTALTIMES, 
+			sec_to_time(B.LECT_DTL_TIME) AS TOTALTIMES, 
 			A.CATE_CODE, 
 			A.CATE_KOR,
 			A.LECT_SUMMARY AS lectSum
@@ -79,14 +79,14 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				BEDU.T_BEDU_LECT WHERE LECT_NUM = #{LECT_NUM}) A 
+				b_edu.T_BEDU_LECT WHERE LECT_NUM = #{LECT_NUM}) A 
 		LEFT JOIN (
 			SELECT 
 				COUNT(LECT_NUM) AS TOTAL, 
 				SUM(LECT_DTL_TIME) AS TOTALTIMES, 
 				LECT_NUM as lectNum 
 			FROM 
-				BEDU.T_BEDU_LECT_DTL WHERE LECT_NUM = #{LECT_NUM}
+				b_edu.T_BEDU_LECT_DTL WHERE LECT_NUM = #{LECT_NUM}
 			GROUP BY LECT_NUM	
 			) B
 		ON A.LECT_NUM = B.lectNum 
@@ -95,16 +95,15 @@
 				RW_GRADE,
 				LECT_NUM
 			FROM 
-				BEDU.T_BEDU_RW_BD 
+				b_edu.T_BEDU_RW_BD 
 			WHERE LECT_NUM = #{LECT_NUM}) C
 		ON A.LECT_NUM = C.LECT_NUM
 		GROUP BY 
-			A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY,
-			B.TOTAL, B.TOTALTIMES
+			A.LECT_NUM
 	</select>
 
 
-	<select id="getLectureField" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="String">
+	<!-- <select id="getLectureField" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="String">
 		SELECT
 			LEC.*
 		FROM(
@@ -149,17 +148,17 @@
 				ROWNUM, A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR
 			) LEC
 		WHERE #{begin} <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
-	</select>
+	</select> -->
 
 	<select id="getVideoList" resultType="com.care.bedu.lecture.vo.LectureDetailVO">
 		SELECT 
 			LECT_DTL_NUM as lectDtlNum,
 			LECT_NUM as lectNum, 
 			LECT_DTL_TITLE as lectDtlTitle, 
-			TO_CHAR(TRUNC(SYSDATE)+NUMTODSINTERVAL(LECT_DTL_TIME, 'second')  ,'hh24:mi:ss') AS TIMES,
+			sec_to_time(LECT_DTL_TIME) AS TIMES,
 			LECT_DTL_INDEX as lectDtlIndex
 		FROM 
-			BEDU.T_BEDU_LECT_DTL 
+			b_edu.T_BEDU_LECT_DTL 
 		WHERE LECT_NUM = #{LECT_NUM}
 		ORDER BY LECT_DTL_INDEX ASC
 	</select>
@@ -167,53 +166,49 @@
 	<select id="lectureSearch" resultType="com.care.bedu.lecture.vo.LectureVO"
 	parameterType="hashmap">
 		SELECT
-			*
+			C.*
 		FROM(
-			SELECT
-				ROWNUM AS RNUM,
-				C.*
-			FROM(
+			SELECT 
+				A.LECT_NUM as lectNum, 
+				A.TITLE, 
+				A.TEACHER, 
+				COUNT(B.LECT_NUM) AS TOTAL, 
+				A.LECT_PERIOD as lectPeriod,
+				A.THUMBNAIL, 
+				A.LECT_CNT as lectCnt, 
+				A.REG_DATE as regDate,
+				FORMAT(A.PRICE, 0) AS PRICE, 
+				A.LECT_DESC as lectDesc,
+				SEC_TO_TIME(SUM(B.LECT_DTL_TIME)) AS TOTALTIMES,
+				A.CATE_CODE, 
+				A.CATE_KOR,
+				A.LECT_SUMMARY AS lectSum
+			FROM (
 				SELECT 
-					A.LECT_NUM as lectNum, 
-					A.TITLE, 
-					A.TEACHER, 
-					COUNT(B.LECT_NUM) AS TOTAL, 
-					A.LECT_PERIOD as lectPeriod,
-					A.THUMBNAIL, 
-					A.LECT_CNT as lectCnt, 
-					A.REG_DATE as regDate, 
-					TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
-					A.LECT_DESC as lectDesc,
-					TO_CHAR(TRUNC(SYSDATE)+ NUMTODSINTERVAL(SUM(B.LECT_DTL_TIME),'second'),'hh24:mi:ss' ) AS TOTALTIMES, 
-					A.CATE_CODE, 
-					A.CATE_KOR,
-					A.LECT_SUMMARY AS lectSum
-				FROM (
-					SELECT 
-						LECT_NUM,
-						TITLE,
-						TEACHER,
-						LECT_DESC,
-						THUMBNAIL,
-						LECT_CNT,
-						LECT_LIKE_CNT,
-						LECT_PERIOD,
-						PRICE,
-						CATE_CODE,
-						CATE_KOR,
-						REG_DATE,
-						REG_ID,
-						LECT_SUMMARY
-					FROM 
-						BEDU.T_BEDU_LECT WHERE TITLE LIKE '%'||#{keyword}||'%' ) A
-				LEFT JOIN T_BEDU_LECT_DTL B
-				ON A.LECT_NUM = B.LECT_NUM
-				GROUP BY 
-					A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
-				ORDER BY A.REG_DATE DESC
-			) C
-		) LEC
-		WHERE #{begin} <![CDATA[ < ]]> RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5)
+					LECT_NUM,
+					TITLE,
+					TEACHER,
+					LECT_DESC,
+					THUMBNAIL,
+					LECT_CNT,
+					LECT_LIKE_CNT,
+					LECT_PERIOD,
+					PRICE,
+					CATE_CODE,
+					CATE_KOR,
+					REG_DATE,
+					REG_ID,
+					LECT_SUMMARY
+				FROM 
+					b_edu.T_BEDU_LECT WHERE TITLE LIKE CONCAT('%',#{keyword},'%') 
+					) A
+			LEFT JOIN T_BEDU_LECT_DTL B
+			ON A.LECT_NUM = B.LECT_NUM
+			GROUP BY 
+				A.LECT_NUM
+			ORDER BY A.REG_DATE DESC
+		) C
+		<!-- WHERE #{begin} <![CDATA[ < ]]> RNUM AND RNUM <![CDATA[ < ]]>= (#{begin}+5) -->
 	</select>
 
 	<select id="searchTotal" resultType="int">
@@ -236,23 +231,19 @@
 				REG_ID,
 				LECT_SUMMARY
 			FROM 
-				BEDU.T_BEDU_LECT  
+				b_edu.T_BEDU_LECT  
 			WHERE 
-				TITLE LIKE '%'||#{keyword}||'%'
+				TITLE LIKE CONCAT('%',#{keyword},'%')
 				) A 
 	</select>
 
-	<select id="getLikeList" resultType="int">
+	<!-- <select id="getLikeList" resultType="int">
 		SELECT LECT_NUM as lectNum
 		FROM BEDU.T_BEDU_LECT_LIKE WHERE USERID = '123'
-	</select>
+	</select> -->
 
 	<select id="getNewestLecture" resultType="com.care.bedu.lecture.vo.LectureVO">
 		SELECT 
-			*
-		FROM(
-			(SELECT 
-				ROWNUM AS RNUM,
 				C.* 
 			FROM
 				(SELECT 
@@ -264,7 +255,7 @@
 					A.THUMBNAIL, 
 					A.LECT_CNT as lectCnt, 
 					A.REG_DATE as regDate, 
-					TO_CHAR(A.PRICE, '999,999,999') AS PRICE,
+					FORMAT(A.PRICE, 0) AS PRICE,
 					A.LECT_DESC as lectDesc,
 					A.CATE_CODE, 
 					A.CATE_KOR,
@@ -286,14 +277,12 @@
 						REG_ID,
 						LECT_SUMMARY
 					FROM 
-						BEDU.T_BEDU_LECT) A 
+						b_edu.T_BEDU_LECT) A 
 				LEFT JOIN BEDU.T_BEDU_LECT_DTL B
 				ON A.LECT_NUM = B.LECT_NUM
-				GROUP BY A.LECT_NUM,A.TITLE,A.TEACHER,A.LECT_PERIOD,A.THUMBNAIL, A.LECT_CNT,A.REG_DATE,A.PRICE, A.LECT_DESC,A.CATE_CODE, A.CATE_KOR,A.LECT_SUMMARY
+				GROUP BY A.LECT_NUM
 				ORDER BY A.REG_DATE DESC
 				) C
-			)
-		)
 		WHERE
 			0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>= (0+5)
 	</select>
@@ -303,27 +292,24 @@
 		*
 	FROM(
 		SELECT 
-			ROWNUM AS RNUM,
 			title, 
 			USER_NAME as writer,	
 			CONTENT as content,
 			RW_GRADE as star,
 			RW_DATE as reviewDate
 		FROM 
-			BEDU.T_BEDU_RW_BD WHERE LECT_NUM = #{num}
+			b_edu.T_BEDU_RW_BD WHERE LECT_NUM = #{num}
 		ORDER BY RW_DATE
 		)
-	WHERE 0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>=5
+	<!-- WHERE 0 <![CDATA[ < ]]>= RNUM AND RNUM <![CDATA[ < ]]>=5 -->
 	</select>
 
 	<insert id="addToCart" parameterType="hashmap">
 		INSERT INTO BEDU.T_BEDU_CART(
-			CART_NUM,
 			CART_LECT_NUM,
 			CART_USER_NUM
 		)
 		SELECT 
-			BEDU_CART_SEQ.NEXTVAL,
 			#{lectNum},
 			#{userNum}
 		FROM 
@@ -331,7 +317,7 @@
 		WHERE NOT EXISTS (
 			SELECT 0 
 			FROM
-				BEDU.T_BEDU_CART
+				b_edu.T_BEDU_CART
 			WHERE 
 				CART_LECT_NUM = #{lectNum} AND CART_USER_NUM = #{userNum}
 		)
@@ -344,9 +330,9 @@
 			B.TEACHER,
 			B.LECT_SUMMARY as lectSum,
 			B.THUMBNAIL,
-			TO_CHAR(B.PRICE, '999,999,999') AS PRICE
+			FORMAT(B.PRICE) AS PRICE
 		FROM
-			BEDU.T_BEDU_CART A
+			b_edu.T_BEDU_CART A
 		LEFT JOIN t_bedu_lect B
 		ON A.CART_LECT_NUM = B.LECT_NUM
 		WHERE
@@ -355,7 +341,7 @@
 
 	<delete id="removeFromCart" parameterType="hashmap">
 		DELETE FROM 
-			BEDU.T_BEDU_CART 
+			b_edu.T_BEDU_CART 
 		WHERE 
 			CART_USER_NUM = #{userNum} AND
 			CART_LECT_NUM = #{lectNum}
@@ -369,7 +355,7 @@
 			LECT_VIDEO_URL as lessonUrl,
 			LECT_DTL_INDEX as lectDtlIndex
 		FROM
-			BEDU.T_BEDU_LECT_DTL
+			b_edu.T_BEDU_LECT_DTL
 		WHERE LECT_DTL_NUM = #{num}
 	</select>
 
@@ -390,21 +376,21 @@
 			REG_DATE as regDate,
 			REG_ID as regNum
 		FROM
-			BEDU.T_BEDU_LECT
+			b_edu.T_BEDU_LECT
 	</select>
 
 	<select id="signUpChk" parameterType="hashmap" resultType="int">
 		SELECT
 			COUNT(USER_LECT_NUM)
 		FROM
-			BEDU.T_BEDU_USER_LECT
+			b_edu.T_BEDU_USER_LECT
 		WHERE
 			LECT_NUM = #{num} AND USER_NUM = #{userNum}
 	</select>
 
 	<insert id="addToMyPage" parameterType="hashmap">
 		INSERT INTO
-			BEDU.T_BEDU_USER_LECT(
+			b_edu.T_BEDU_USER_LECT(
 				USER_LECT_NUM,
 				USER_NUM,
 				LECT_NUM,
@@ -425,7 +411,7 @@
 			LECT_NUM as lectNum,
 			LECT_REG_DATE as lectRegDate
 		FROM
-			BEDU.T_BEDU_USER_LECT
+			b_edu.T_BEDU_USER_LECT
 		WHERE 
 			USER_NUM = #{userNum}
 	</select>

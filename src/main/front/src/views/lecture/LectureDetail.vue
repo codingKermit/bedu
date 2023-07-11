@@ -65,7 +65,7 @@
                         <span class="fs-2 text-danger">{{ form.price }}</span>
                         <span>원</span>
                     </div>
-                    <div v-if="myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
+                    <div v-if="myPageList != null && myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
                         <b-button class="mt-auto h-100 px-5 py-2 bedu-bg-custom-blue">
                             수강중인 강의
                         </b-button>

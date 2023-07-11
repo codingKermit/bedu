@@ -101,36 +101,6 @@ public class LectureServiceImpl implements LectureService{
 		return result;
 	}
 
-	/* 내가 좋아요한 강의 목록 조회 */
-	@Override
-	public ArrayList<Integer> getLikeList(String userId) {
-
-		ArrayList<Integer> list = new ArrayList<>();
-
-		list = lectureDao.getLikeList(userId);
-
-		return list;
-	}
-
-
-	/* 내가 좋아요한 목록을 조회하고 likeYn 컬럼에 값 넣기 위한 메서드 
-	 * 좋아요 기능의 구현을 어떻게 할지 명확하지 않아 사용 여부는 좀더 고려해볼것
-	*/
-	public ArrayList<LectureVO> likeCheck(ArrayList<LectureVO> dto){
-		ArrayList<Integer> likes = new ArrayList<>(); // 좋아요한 게시글 고유번호를 담을 빈 배열
-		likes = lectureDao.getLikeList("123"); // 사용자 ID를 기준으로 데이터 조회 지금은 임시로 "123"을 넣었지만 나중에는 ID로 변경할 예정
-		for(int i = 0; i< dto.size();i++){  // 조회한 게시글 목록을 반복문 사용하여 체크
-			/* 좋아요한 게시글 목록에 해당 게시글 번호가 포함 여부에 따라 값 체크 */
-			if(likes.contains(dto.get(i).getLectNum())){ 
-				dto.get(i).setLikeYn(1);
-			} else {
-				dto.get(i).setLikeYn(0);
-			}
-		}
-		return dto;
-	}
-
-
 
 	/* 신규 오픈 강좌 4개 조회 */
 	@Override

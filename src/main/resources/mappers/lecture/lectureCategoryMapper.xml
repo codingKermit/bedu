@@ -12,7 +12,7 @@
             null as parentCode,
             null as parentNum
         from
-            BEDU.T_BEDU_LECT_TOP_CATE 
+            b_edu.T_BEDU_LECT_TOP_CATE 
         union all
         select 
             num,
@@ -22,7 +22,7 @@
             PARENT_NUM as parentNum,
             PARENT_CODE as parentCode            
         from 
-            BEDU.T_BEDU_LECT_MID_CATE
+            b_edu.T_BEDU_LECT_MID_CATE
         union all
         select
             num,
@@ -32,7 +32,7 @@
             PARENT_NUM AS parnetNum,
             PARENT_CODE as parentCode
         from 
-            BEDU.T_BEDU_LECT_BOT_CATE
+            b_edu.T_BEDU_LECT_BOT_CATE
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
@@ -54,7 +54,7 @@
             CATE_CODE as cateCode,
             CATE_KOR as cateKor
         FROM
-            BEDU.T_BEDU_LECT_TOP_CATE
+            b_edu.T_BEDU_LECT_TOP_CATE
     </select>
     <select id="getMidLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
@@ -63,7 +63,7 @@
             CATE_KOR as cateKor,
             PARENT_CODE as parentCode
         FROM
-            BEDU.T_BEDU_LECT_MID_CATE
+            b_edu.T_BEDU_LECT_MID_CATE
     </select>
     <select id="getBotLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
@@ -72,7 +72,7 @@
             CATE_KOR as cateKor,
             PARENT_CODE as parentCode
         FROM
-            BEDU.T_BEDU_LECT_BOT_CATE
+            b_edu.T_BEDU_LECT_BOT_CATE
     </select>
 
 
