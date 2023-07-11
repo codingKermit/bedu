@@ -61,7 +61,7 @@
 <script>
 
 import CscCategory from '@/components/CscCategory.vue';
-import '@/assets/css/cscViewStyle.css';
+import '@/assets/css/CscViewStyle.css';
 export default {
   name: 'inquirylist',
 
