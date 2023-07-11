@@ -1,8 +1,7 @@
 package com.care.bedu.community.ans.service.serviceimpl;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,18 +18,8 @@ public class AnsServiceImpl implements AnsService{
 	//답변조회
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
-		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
-		for(AnsVO ans : list) {
-			ans.setStrAnsDate(regdates(ans.getAnsDate()));
-		}
-		return list;
-	}
-	
-	//날짜 변환
-	private String regdates(Date regdate) {
-		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
-		String strRegdate = simple.format(regdate);
-		return strRegdate;
+		return ansDAO.viewList(ansVO);
+		
 	}
 
 	//답변쓰기
@@ -48,7 +37,7 @@ public class AnsServiceImpl implements AnsService{
 
 	//글삭제
 	@Override
-	public int ansDelete(int ansBdNum) throws Exception {
+	public int ansDelete(int ansBdNum) {
 		
 		return ansDAO.ansDelete(ansBdNum);
 	}

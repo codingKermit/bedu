@@ -6,7 +6,7 @@
                 로그인
             </button>
             <!-- 회원가입 버튼 -->
-            <button @click="$router.push('/regist')" id="loRegistChangeBtn" class="registbtn">
+            <button @click="registMove" id="loRegistChangeBtn" class="registbtn">
                 회원가입
             </button>
         </div>
@@ -101,6 +101,29 @@ export default {
                 }
             }
         },
+
+        // 회원가입 버튼 클릭시 이동
+        registMove() {
+                // 스크롤을 페이지 상단으로 이동
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
+                this.$router.push({
+                    name: "regist",
+                });
+        },
+
+        loginMove() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+            this.$router.push({
+                name: "login",
+            });
+        },
+
         goToPages() {
             // 메인 페이지로 이동
             this.$router.push({

@@ -17,10 +17,10 @@
             </div>
           </div>
         </div>
-        <h2>고객센터</h2>
+        <h2>1대1 문의 </h2>
         <div class="selectBox">
           <select id="cscSortOption" v-model="sortOption" @change="sortReviews">
-            <option value="default">최신 순</option>
+            <option value="default">최신순</option>
             <option value="highViews">????</option>
           </select>
         </div>
@@ -49,7 +49,7 @@
             <td>{{ inquiry.userName }}</td>
             <td>{{ formatDateTime(inquiry.regDate)}}</td>
             <td>
-              {{ }}
+              <font-awesome-icon :icon="['fas', 'lock']" /> 
             </td>
           </tr>
         </tbody>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-
+ 
 import CscCategory from '@/components/CscCategory.vue';
 import '@/assets/css/CscViewStyle.css';
 export default {
@@ -76,7 +76,7 @@ export default {
       totalItems: 0,
       totalPage: 0,
       currentPage: 1
-    };
+    }; 
 
   },
 
@@ -163,6 +163,6 @@ export default {
                     return '방금 전';
                 }
             },
-     },
+     },  
 };
 </script>

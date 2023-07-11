@@ -4,25 +4,20 @@
 <mapper namespace="com.care.bedu.community.qna.dao.QnaDAO">
 	
 	<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlist">
-		SELECT
-		  * FROM (
-		  SELECT
-		    rownum rnum,
-		    QS_BD_NUM as qnaBdNum,
-		    TITLE,
-		    CONTENT,
-		    QS_DATE as qnaDate, 
-		    QS_CNT as qnaCnt,
-		    USER_NAME as userName
-		  FROM(SELECT
-			* FROM T_BEDU_QS
-			ORDER BY QS_DATE desc)) 
-		  WHERE rnum >= #{page} AND #{limit} >= rnum
+		 SELECT
+		   QS_BD_NUM AS qnaBdNum,
+		   TITLE,
+		   QS_DATE AS qnaDate,
+		   REG_DATE AS regDate, 
+		   QS_CNT AS qnaCnt,
+		   USER_NAME AS userName
+		 FROM T_BEDU_QS
+		 ORDER BY QS_DATE DESC
+		 LIMIT #{limit} OFFSET #{page}
 	 </select>
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(
-	      QS_BD_NUM,
 		  USER_NAME,
 		  TITLE,
 		  CONTENT,
@@ -32,14 +27,13 @@
 		  REG_DATE, 
 		  REG_ID
 		)VALUES(
-		  BEDU_QS.NEXTVAL,
 		  #{userName},
 		  #{title},
 		  #{content},
 		  #{qnaCnt},
 		  #{qnaLikeCnt},
-		  SYSDATE,
-		  SYSDATE,
+		  SYSDATE(),
+		  SYSDATE(),
 		  #{regId}
 		)
 	</insert>
@@ -52,16 +46,16 @@
 		 QS_CNT AS qnaCnt, 
 		 QS_LIKE_CNT AS qnaLikeCnt, 
 		 QS_DATE AS qnaDate, 
-		 REG_ID as regId,
-		 u.USER_NAME as userName,
-		 u.USER_NUM as userNum
-		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_ID 
+		 REG_ID AS regId,
+		 u.USER_NAME AS userName,
+		 u.USER_NUM AS userNum
+		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_NAME
 		WHERE QS_BD_NUM = #{num}
 	</select>
 	
 	<update id="viewupdate">
 		UPDATE
-		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}, REG_DATE = SYSDATE
+		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}, REG_DATE = SYSDATE()
 		WHERE QS_BD_NUM = #{qnaBdNum}
 	</update>
 	
@@ -83,7 +77,7 @@
 		 REG_ID
 		FROM T_BEDU_QS
 		<if test="keyword != null">
-			WHERE CONTENT LIKE '%'||#{keyword}||'%' OR TITLE LIKE '%' || #{keyword} || '%'
+			WHERE TITLE LIKE concat('%', #{title}, '%') OR CONTENT LIKE concat('%', #{content}, '%')
 		 </if>
 		 ORDER BY QS_BD_NUM DESC
 	</select>
@@ -128,7 +122,7 @@
 		SELECT
 		  COUNT(LIKE_NUM) 
 		FROM T_BEDU_LIKE_CNT
-		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} AND LIKEYN=#{likeyn}
+		WHERE qs_bd_num=#{qsnum} AND USER_NAME=#{userid} AND LIKE_YN=#{likeyn}
 	</select>
 	
 </mapper>

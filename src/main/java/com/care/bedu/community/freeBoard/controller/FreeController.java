@@ -2,6 +2,7 @@ package com.care.bedu.community.freeBoard.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class FreeController {
 	
 	//게시글 조회
 	@RequestMapping(value="/freBd/boardList", method= {RequestMethod.GET, RequestMethod.POST})   		
-	public ArrayList<FreeVO> freeList(FreeVO freeVO){
+	public List<FreeVO> freeList(FreeVO freeVO){
 		return freeService.listProc(freeVO);
 	}
 	

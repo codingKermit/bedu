@@ -6,8 +6,17 @@
   padding-bottom: 50px;
   width: 80%;
 }
-
-
+ 
+#csc-main-side{
+  width: 110%;
+}
+#cscside-view{
+  text-align: right;
+}
+#cscside-view, #csc-view-freepath{
+  cursor: pointer;
+  text-align: right;
+}
 #csc-detail-main{
   padding-top: 5.5%;
   margin-left: 3%;
@@ -63,7 +72,7 @@
 
 #csc-write{
   padding-top: 5.5%;
-  margin-left: 3%;
+  margin-left: 3%; 
   padding-right: 30px;
   padding-bottom: 50px;
   width: 80%;
@@ -272,11 +281,11 @@
 .cscView{
   float: left;
   padding-top: 5%;
-  padding-left: 6%;
+  padding-left: 6%; 
 }
 
 
-.ck-content{
+.ck-content{ 
   height: 500px !important;
 }
 

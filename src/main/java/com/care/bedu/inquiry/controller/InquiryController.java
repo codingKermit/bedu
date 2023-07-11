@@ -30,8 +30,13 @@ public class InquiryController {
 	}
 	
 	@RequestMapping(value="/inquiry/inquiryDetail", method=RequestMethod.GET)			//게시글 상세 보기
-	public InquiryVO inquiryDetail(int num) {
+	public InquiryVO inquiryDetail(Integer num) {
 		return inquiryService.inquiryone(num);
+	}
+
+	@RequestMapping(value="/inquiry/inquiryPassword", method=RequestMethod.GET)
+	public InquiryVO inquiryPassword(Integer password) {
+		return inquiryService.inquirypassword(password);
 	}
 	
 	 @RequestMapping("/inquiry/total")													//게시글 전체 개수 조회

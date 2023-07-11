@@ -42,7 +42,7 @@ public class FreeVO {
 	private Integer commCnt;
 	
 	//좋아요
-	private Integer commLikeYn;
+	private Integer commLikeCnt;
 	
 	//검색 키워드
 	private String keyword;

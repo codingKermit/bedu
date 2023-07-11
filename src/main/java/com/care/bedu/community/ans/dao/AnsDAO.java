@@ -1,6 +1,5 @@
 package com.care.bedu.community.ans.dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -19,5 +18,5 @@ public interface AnsDAO {
 	public int ansTotal(int qnanum);
 	
 	//글 삭제
-	public int ansDelete(Integer ansBdNum)throws SQLException;
+	public int ansDelete(Integer ansBdNum);
 }

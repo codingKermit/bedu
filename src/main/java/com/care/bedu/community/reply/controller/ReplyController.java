@@ -30,7 +30,7 @@ public class ReplyController {
 		
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setCommNum(commNum);
-		replyVO.setUserName(regId);
+		replyVO.setUserName(userName);
 		replyVO.setContent(content);
 		replyVO.setRegId(regId);
 		return replyService.boardwrite(replyVO);

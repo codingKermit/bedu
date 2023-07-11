@@ -42,7 +42,7 @@ public class AnsController {
 	
 	//답변삭제
 	@RequestMapping(value="/ans/ansdelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
-	public int ansDelete(int ansBdNum) throws Exception{
+	public int ansDelete(int ansBdNum) {
 		return ansService.ansDelete(ansBdNum);
 		
 	}

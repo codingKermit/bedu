@@ -1,35 +1,21 @@
 <template>
     <div>
-        <div class="comm-main-side" id="comm-main-side">
-            <ul class="comm-main-cate">
-                <p v-if="titleShow" class="fs-2 fw-bold mb-3 mt-15">고객센터</p>
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-qnapath" id="qna-view-qnapath">
-                        <router-link class="fs-5 text-body text-decoration-none" to="/comm/qna"
-                            style="cursor: pointer; text-align: center;">
-                            <p id="comm-p-tag" :class="this.currentTab == 'qna' ? 'fw-bold bedu-text-custom-blue' : ''">자주 묻는 질문
-                            </p>
-                        </router-link>
-                    </span>
-                </li>
-                <li class="nav-item me-4" style="width: 150px;">
-                    <span class="qna-view-freepath" id="qna-view-freepath">
-                        <router-link class="fs-5 text-body text-decoration-none" id="comm-p-tag" to="/comm/freBd"
-                            style="cursor: pointer; text-align: center;">
-                            <p id="comm-p-tag" :class="this.currentTab == 'free' ? 'fw-bold bedu-text-custom-blue' : ''">1대1 문의
-                            </p>
-                        </router-link>
-                    </span>
-                </li>
-            </ul>
+        <div id="csc-main-side">
+            <p v-if="titleShow" class="fs-2 fw-bold mb-3 mt-15">고객센터</p>
+            <router-link class="fs-5 text-body text-decoration-none" id="cscside-view" to="/">
+                <p>자주 묻는 질문</p>
+            </router-link>
+            <router-link class="fs-5 text-body text-decoration-none" id="csc-view-freepath" to="/">
+                <p>1대1 문의</p>
+            </router-link>
         </div>
     </div>
-  </template>
+</template>
   
-  <script>
-  import '@/assets/css/freeBoardStyle.css';
-  export default {
-  
+<script>
+import '@/assets/css/CscViewStyle.css';
+export default {
+
     name: 'comm-main-side',
     props: {
         titleShow: {
@@ -39,7 +25,7 @@
         },
         currentTab: String,
     },
-  
-  }
-  
-  </script>
+
+}
+
+</script>
