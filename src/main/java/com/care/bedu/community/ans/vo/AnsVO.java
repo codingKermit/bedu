@@ -32,9 +32,5 @@ public class AnsVO{
 	
 	//작성아이디
 	private String regId;
-	
-	//변환
-	private String strAnsDate;
-	private String strRegDate;
 
 }

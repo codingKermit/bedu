@@ -14,10 +14,10 @@
                     {{ qna.userName}}
                 </p>
                 <p id="qna-comm">
-                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
+                    <font-awesome-icon :icon="['fas', 'eye']"/> {{ qna.qnaCnt }}
                 </p>
                 <p id="qna-date">
-                    {{ qna.strQnaDate }} 
+                    {{ DateTime(qna.qnaDate) }} 
                 </p>
             </div>
             <hr class="mt-10">
@@ -114,6 +114,19 @@
                     userName : '',
                     regId:''
                 }
+            }
+        },
+
+        computed:{
+            getCbnumList() {
+                
+                return this.$store.getters.getCbnumList;
+            },
+            isLiked() {
+                if (Array.isArray(this.getCbnumList)) {
+                    return this.getCbnumList.includes(this.qna.qnaBdNum);
+                }
+                return false;
             }
         },
 
@@ -298,6 +311,7 @@
                     return;
                 }
                 var regid = this.form.regId;
+
                 this.$axiosSend('get','/api/qna/likeUp', {
                         num: qnum,                             
                         regId : regid,                          
@@ -310,7 +324,8 @@
                         return;
                     }else if(res.data.result === 0){                
 
-                        this.likenum = res.data.likenum;         
+                        this.likenum = res.data.likenum;
+                        this.$store.commit('CBNUMLIST_ADD', qnum);          
                         this.qnalikedown();      
                         return;
                     }    

@@ -45,6 +45,7 @@ export default {
             }
         },
         logout() {
+            localStorage.removeItem('cbnumList')
             this.$store.commit('IS_AUTH', false);
             this.$store.commit('NICKNAME', null);
             this.$store.commit('USERNUM', null);

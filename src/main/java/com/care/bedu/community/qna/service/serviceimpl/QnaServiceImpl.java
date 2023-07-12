@@ -24,11 +24,15 @@ public class QnaServiceImpl implements QnaService{
 	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit());			
-		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit()-1);					
+		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit());
+		
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 			
 		}else {
 			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
+			if(qnaVO.getPage() > Math.min(qnaVO.getLimit(), qnalist.size()) ){
+				return new ArrayList<>();
+			}
 			for(QnaVO qna : qnalist) {
 				qna.setQnaDate(qna.getRegDate());
 			}
@@ -60,8 +64,9 @@ public class QnaServiceImpl implements QnaService{
 			}
 			
 		}
-		
-		return qnaDAO.viewone(qnanum);
+		QnaVO qna =qnaDAO.viewone(qnanum);
+		qna.setQnaDate(qna.getRegDate());
+		return qna;
 								//게시글 상세보기
 	}
 

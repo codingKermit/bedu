@@ -46,9 +46,5 @@ public class FreeVO {
 	
 	//검색 키워드
 	private String keyword;
-	
-	//표준시간변환날짜
-	private String strCommDate;	
-	private String strRegDate;
 
 }

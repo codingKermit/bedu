@@ -6,7 +6,7 @@
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <b-container class="text-dark fw-bold">
                     <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if="userList == null || lectureListFirst == null">
+                    <div class="curr-subjectInfo" v-if="lectureListFirst != 0"><!--테스트를 위해 0이 아닌경우로 하기(데이터가 없을때)-->
                        <b-container class="w-75 ms-auto py-5">
                             <p style="text-align: center;">수강내역이 없습니다.</p>
                        </b-container>
@@ -16,21 +16,21 @@
                         <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"나중에 div 안에 넣어야함-->
                             <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 "> <!--v-for="(item, index) in lectureListFirst" :key="index"-->
+                        <div class="mypagecontainer" style="float:left;" v-for="(iem, index) in lectureListFirst" :key="index"> <!--v-for="(item, index) in lectureListFirst" :key="index"-->
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                                    <div class="mypageInfo">
-                                        <div class="mypagecontainer">
+                                    <div class="mypageInfo" >
+                                        <div class="mypageContain">
                                                 <p class="fw-bold">프로그래밍 배워봅시다</p>
                                                 <p>
-                                                    <span>강좌이름 : </span> {{ lectNm }}
+                                                    <span>강좌이름 : </span> {{ item.title }}
                                                 </p>
                                                 <p>
-                                                    <span>강의설명 : </span> {{ lectNm }}
+                                                    <span>강의설명 : </span> {{ lectNum }}
                                                 </p>
                                                 <p>
-                                                    <span>수강기간 : </span> {{ lectNm }}
+                                                    <span>수강기간 : </span> {{ lectNum }}
                                                 </p>
                                         </div>
                                     </div>
@@ -40,8 +40,6 @@
                     </div>
                 </b-container>
             </b-container>
-      
-                
         <!--
         <div style="bottom;">
             <b-container>
@@ -63,13 +61,11 @@
 </template>
 <style>
 .mypagecontainer{
-    display: table-cell;
-    float : left;
+    float:left;
     width : 20rem;
     padding : 10px;
     margin-right: 10px;
     text-align : left;
-    vertical-align : middle;
     border : 1px solid rgb(15, 10, 1);
 }
 
@@ -81,60 +77,49 @@ export default {
     data() {
        return {
            // bookmarkList : [],
-            lectureListFirst : [], //수강내역 전체 데이터
+           item : {
+                title : '',
+                lect_desc : '',
+                lect_period : ''
+            },
+            lectureListFirst : {}, //수강내역 전체 데이터
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
             dataFull : false,
+            userid : this.$store.state.email,
             userlectnum : 0,
-            userNum : this.$store.state.usernum,
             lectNum : 0,
             lectregdate : '',
             regdate : '',
             regid : '',
-            userList : [],
-            lecttitle : this.$store.state.title,
-            username : this.$store.state.nickname,
-            lectNm : this.$store.state.lectnm
+            title : this.$store.getters.getTitle,
+            lect_desc : this.$store.getters.getLectPeriod,
+            lect_period : this.$store.getters.lectDesc
         }
     }, 
     created (){
         this.getLectureList();
     },
     methods : {
-
-    /*
-     *북마크 완성되면 추가해야함. 
-    
-        getBookmarkList(){
-            this.bookmarkList = this.$axiosSend('get','/api/bookmarkList',{});
-            console.log('!!!!!!!!',this.bookmarkList);
-        },
-        goToDetail(bookmark_id){
-            this.$router.push({path:"/bookmark",query:{bookmark_id : bookmark_id}})
-        },
-     */
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
         getLectureList(){
-            const userNum = this.$store.getters.getUsernum;
-            let data = [];
-            let lectureListFirst = []
-            this.$axiosSend('get','/api/mypage',{userNum: userNum},true)
+            const userid = this.$store.getters.getEmail;
+            this.$axiosSend('get','/api/mypage',{userid: userid},true)
             .then((res)=>{
-               this.lectureListFirst = res.data;
-               this.userList = res.data;
-            //    for(var l = 0; l<this.userList.length; l++) {
-            //     for(var i = 0; i < this.lectureListFirst.length; i++) {
-            //         lectureListFirst.push(res.data.Data[i]);
-            //     }
-            //         this.userList.push(res.data.Data[l])
-            // }
-                this.lectureListFirst = res.data.Data
+                let data = [];
+                for(var i = 0; i <= this.numOfLecture; i++) {
+                    data.push(res.data[i])
+                }
+                //alert(data);
+                this.lectureListFirst = res.data
                 this.lectureInfo = data
-                this.lectureCount = this.lectureListFirst
-                this.userNum;
-                this.lectNum;
-                this.lectNm;
+                this.lectureCount = this.lectureListFirst.length
+                //this.userid;
+                //this.lectNum;
+                //this.lectNm;
+                
+                
             })
             .catch((err)=>{
                 console.log(err)
@@ -142,11 +127,11 @@ export default {
             console.log("######",this.lectureListFirst)
             console.log("######22222",this.lectureInfo)
             console.log("#####!!!!",this.lectureCount)
-            console.log("#####!!!!@@@@@@@",userNum)
+            console.log("#####!!!!@@@@@@@",userid)
         },
          getLectureCount() {
-            const userNum = this.$store.getters.getUsernum;
-            this.$axiosSend("get", "/api/mypageAll", {userNum: userNum}, true)
+            const userid = this.$store.getters.getEmail;
+            this.$axiosSend("get", "/api/mypageAll", {userid: userid}, true)
                     .then(res => {
                         if(this.numOfLecture < this.lectureCount) {
                             this.numOfLecture += 3; //수강정보 3개 증가
@@ -164,7 +149,7 @@ export default {
                         console.log(res);
                         
                         // 요청이 성공적으로 완료된 후 전체보기 수강정보 목록 페이지로 리디렉션
-                        this.$router.push('/mypageAll',{userNum: userNum}, true)
+                        this.$router.push('/mypageAll',{userid: userid}, true)
                     })
                     .catch(error => {
                         // 요청 실패 시 에러 처리
@@ -172,14 +157,17 @@ export default {
                     });
              
         },
-    },
-    watch:{ // 쿼리 데이터 변경되면 데이터도 변경되도록 설정
-            '$route.query.lectNum':{
-                immediate: true,
-                handler(lectNum){
-                    this.userid = lectNum;
-                },
-            }
-        }
+    /*
+     *북마크 완성되면 추가해야함. 
+    
+        getBookmarkList(){
+            this.bookmarkList = this.$axiosSend('get','/api/bookmarkList',{});
+            console.log('!!!!!!!!',this.bookmarkList);
+        },
+        goToDetail(bookmark_id){
+            this.$router.push({path:"/bookmark",query:{bookmark_id : bookmark_id}})
+        },
+     */
+    }
 }
 </script>

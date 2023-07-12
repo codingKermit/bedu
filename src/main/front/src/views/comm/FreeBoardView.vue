@@ -35,7 +35,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr v-for="free in freelist" :key="free.commNum">
+                     <tr v-for="free in freelist" :key="free">
                         <td id="freeboard-table-tds">
                            <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
                               {{ free.title }}

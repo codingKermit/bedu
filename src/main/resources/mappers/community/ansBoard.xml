@@ -28,9 +28,10 @@
 		  ANS_BD_NUM as ansBdNum,
 		  CONTENT,
 		  ANS_DATE as ansDate,
+		  REG_DATE AS regDate,
 		  ANS_LIKE_CNT as ansLikeCnt,
-		  u.USER_NAME as userName
-		FROM T_BEDU_ANS a LEFT JOIN T_BEDU_USER u ON a.USER_NAME = u.USER_NAME
+		  USER_NAME as userName
+		FROM T_BEDU_ANS 
 		WHERE QS_BD_NUM = #{qsBdNum} 
 		ORDER BY ANS_DATE ASC
 	</select>

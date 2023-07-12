@@ -21,5 +21,4 @@ export default {
     getLessons: state => state.lessons,
 
     getCbnumList: state => state.cbnumList,
-
 }

@@ -1,6 +1,5 @@
 package com.care.bedu.community.ans.service.serviceimpl;
 
-
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,13 @@ public class AnsServiceImpl implements AnsService{
 	//답변조회
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
-		return ansDAO.viewList(ansVO);
+		
+		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
+		for(AnsVO ans: list) {
+			ans.setAnsDate(ans.getRegDate());
+		}
+		
+		return list;
 		
 	}
 
