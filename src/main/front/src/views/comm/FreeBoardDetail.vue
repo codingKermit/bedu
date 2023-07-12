@@ -16,7 +16,7 @@
                         <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
                     </p>
                     <p id="free-date">
-                        {{ free.strCommDate }} 
+                        {{ DateTime(free.commDate) }} 
                     </p>
                 </div>
                 <hr class="mt-10"/>
@@ -403,7 +403,7 @@ export default{
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
                     this.free.commLikeCnt++;
-                    this.$store.commit('CBNUMLIST_ADD', cnum);
+                    this.$store.commit('CBNUMLIST_ADD', cnum);   
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 

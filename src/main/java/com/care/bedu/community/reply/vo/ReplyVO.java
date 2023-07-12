@@ -40,9 +40,5 @@ public class ReplyVO{
 	private String regId;
 	
 	private Integer lecturenum;		
-	
-	//표준날짜
-	private String strReplyDate;		
-	private String strRegDate;
 
 }

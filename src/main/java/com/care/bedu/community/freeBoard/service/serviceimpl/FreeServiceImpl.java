@@ -30,11 +30,11 @@ public class FreeServiceImpl implements FreeService{
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}else {
-			List<FreeVO> list = freeDAO.viewlist(freeVO);
-			for(FreeVO free: list) {
+			List<FreeVO> freelist = freeDAO.viewlist(freeVO);
+			for(FreeVO free: freelist) {
 				free.setCommDate(free.getRegDate());
 			}
-			return list;
+			return freelist;
 		}
 	}
 
@@ -65,7 +65,9 @@ public class FreeServiceImpl implements FreeService{
 				freeDAO.cntUp(commnum);
 			}
 		}
-		return freeDAO.viewone(commnum);
+		FreeVO free = freeDAO.viewone(commnum);
+		free.setCommDate(free.getRegDate());
+		return free;
 		
 	}
 

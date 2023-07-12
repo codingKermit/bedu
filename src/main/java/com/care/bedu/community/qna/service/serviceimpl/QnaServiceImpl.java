@@ -60,8 +60,9 @@ public class QnaServiceImpl implements QnaService{
 			}
 			
 		}
-		
-		return qnaDAO.viewone(qnanum);
+		QnaVO qna =qnaDAO.viewone(qnanum);
+		qna.setQnaDate(qna.getRegDate());
+		return qna;
 								//게시글 상세보기
 	}
 

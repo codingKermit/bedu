@@ -4,7 +4,7 @@
 <mapper namespace="com.care.bedu.community.freeBoard.dao.FreeDAO">
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
-		SELECT
+		  SELECT
 		    COMM_NUM AS commNum,
 		    TITLE,
 		    COMM_DATE AS commDate,
@@ -13,18 +13,18 @@
 		    USER_NAME AS userName
 		  FROM T_BEDU_COMM
 		  ORDER BY COMM_NUM DESC
-		  LIMIT #{limit} OFFSET #{page}
+		  LIMIT #{page}, #{limit}
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		 COMM_NUM AS commNum,
-		 TITLE, 
-		 CONTENT, 
-		 USER_NAME AS userName, 
-		 COMM_DATE AS commDate, 
-		 COMM_CNT AS commCnt, 
-		 REG_ID AS regId
+		  COMM_NUM AS commNum,
+		  TITLE, 
+		  CONTENT, 
+		  USER_NAME AS userName, 
+		  COMM_DATE AS commDate, 
+		  COMM_CNT AS commCnt, 
+		  REG_ID AS regId
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
 			WHERE TITLE LIKE concat('%', #{title}, '%') OR CONTENT LIKE concat('%', #{content}, '%')
@@ -63,9 +63,8 @@
 		 COMM_CNT AS commCnt,
 		 COMM_LIKE_CNT AS commLikeCnt, 
 		 REG_ID AS regId,
-		 u.USER_NAME AS userName,
-		 u.USER_NUM AS userNum
-		FROM T_BEDU_COMM c LEFT JOIN T_BEDU_USER u ON c.USER_NAME = u.USER_NAME
+		 REG_DATE AS regDate
+		FROM T_BEDU_COMM 
 		WHERE COMM_NUM = #{num}
 	</select>
 	

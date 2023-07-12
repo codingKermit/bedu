@@ -12,8 +12,8 @@
 		   QS_CNT AS qnaCnt,
 		   USER_NAME AS userName
 		 FROM T_BEDU_QS
-		 ORDER BY QS_DATE DESC
-		 LIMIT #{limit} OFFSET #{page}
+		 ORDER BY QS_BD_NUM DESC
+		 LIMIT #{page}, #{limit}
 	 </select>
 	
 	<insert id="viewWrite">
@@ -46,10 +46,10 @@
 		 QS_CNT AS qnaCnt, 
 		 QS_LIKE_CNT AS qnaLikeCnt, 
 		 QS_DATE AS qnaDate, 
+		 REG_DATE AS regDate,
 		 REG_ID AS regId,
-		 u.USER_NAME AS userName,
-		 u.USER_NUM AS userNum
-		FROM T_BEDU_QS q LEFT JOIN T_BEDU_USER u ON q.USER_NAME = u.USER_NAME
+		 USER_NAME AS userName
+		FROM T_BEDU_QS
 		WHERE QS_BD_NUM = #{num}
 	</select>
 	
@@ -67,13 +67,13 @@
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT 
-		 QS_BD_NUM AS qna_bd_num, 
+		 QS_BD_NUM AS qnaBdNum, 
 		 TITLE, 
 		 CONTENT,
 		 USER_NAME, 
-		 QS_CNT AS qna_cnt, 
-		 QS_LIKE_CNT AS qna_like_yn,
-		 QS_DATE AS qna_date, 
+		 QS_CNT AS qnaCnt, 
+		 QS_LIKE_CNT AS qnaLikeCnt,
+		 QS_DATE AS qnaDate, 
 		 REG_ID
 		FROM T_BEDU_QS
 		<if test="keyword != null">

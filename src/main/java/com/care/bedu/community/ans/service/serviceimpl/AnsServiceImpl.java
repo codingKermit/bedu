@@ -18,7 +18,13 @@ public class AnsServiceImpl implements AnsService{
 	//답변조회
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
-		return ansDAO.viewList(ansVO);
+		
+		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
+		for(AnsVO ans: list) {
+			ans.setAnsDate(ans.getRegDate());
+		}
+		
+		return list;
 		
 	}
 
