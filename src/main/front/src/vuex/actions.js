@@ -1,4 +1,4 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST } from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, SET_CBNUMLIST } from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -37,8 +37,10 @@ let setLessons = ({ commit }, lessons) => {
     commit(LESSONS, lessons)
 }
 
+// cbnumList를 설정하는 액션 및 로컬스토리지에 저장
 let setCbnumList = ({ commit }, data) => {
     commit(CBNUMLIST, data)
+    localStorage.setItem('cbnumList', JSON.stringify(data));
 }
 
 // 백엔드에서 반환한 결과값을 처리하여 로그인 성공 여부를 Vuex에 저장하는 함수

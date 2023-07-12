@@ -25,8 +25,7 @@
                     <div v-html="free.content"></div>
                 </div>
                 <div id="free-likeyn">
-                    <button id="free-likebtn" @click="freelikeUp(free.commNum)"
-                    :class="{ 'bedu-bg-custom-blue': isLiked }">
+                    <button id="free-likebtn" @click="freelikeUp(free.commNum)" :class="[isLikedClass()]">
                         <font-awesome-icon :icon="['fas', 'heart']"
                             />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
@@ -124,13 +123,11 @@ export default{
 
     computed: {
         getCbnumList() {
-            return this.$store.getters.getCbnumList;
+            return JSON.parse(localStorage.getItem('cbnumList')) || [];
         },
         isLiked() {
-            if (Array.isArray(this.getCbnumList)) {
-                return this.getCbnumList.includes(this.free.commNum);
-            }
-            return false;
+            const cbnumList = JSON.parse(localStorage.getItem('cbnumList')) || [];
+            return cbnumList.includes(this.free.commNum);
         }
     },
 
@@ -146,7 +143,6 @@ export default{
         }
         this.replygetTotal(cnum);
         this.replyread(cnum);
-        
     },
 
     created() {
@@ -154,6 +150,11 @@ export default{
     },
 
     methods: {
+
+        isLikedClass() {
+            const cbnumList = JSON.parse(localStorage.getItem('cbnumList')) || [];
+            return cbnumList.includes(this.free.commNum) ? 'bedu-bg-custom-blue' : '';
+        },
 
         //닉네임여부 존재 확인
         //비교 결과에 따라 수정및 삭제 버튼 노출(같은면 노출, 다르면 댓글버튼만 노출)  
@@ -403,7 +404,7 @@ export default{
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
                     this.free.commLikeCnt++;
-                    this.$store.commit('CBNUMLIST_ADD', cnum);   
+                    this.$store.commit('CBNUMLIST_ADD', cnum);
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 

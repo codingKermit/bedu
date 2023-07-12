@@ -112,7 +112,6 @@
                         <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
                             <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                         </button>
-                        {{ getCbnumList }}
                         <span style="font-weight: bold;">님</span>
                         <ul class="dropdown-menu" v-show="isDropdownOpen">
                             <b-dropdown-item to="/mypage">
@@ -285,11 +284,7 @@ import '@/assets/css/header.css'
             },
             getCls() {
                 return this.$store.getters.getCls;
-            },
-            getCbnumList() {
-                return this.$store.getters.getCbnumList;
-            },
-
+            }
         },
         methods: {
             offCanvasToggle(item){
@@ -375,10 +370,13 @@ import '@/assets/css/header.css'
                         this.$swal({
                             confirmButtonColor: '#303076',
                             title: '로그아웃이 완료되었습니다.',
-                            timer: 3000,
+                            
+                        }).then(function() {
+                            window.location.reload(true);
                         });
                         localStorage.removeItem("user_token");
                         localStorage.removeItem('login_time')
+                        localStorage.removeItem('cbnumList')
                         this.$store.commit('IS_AUTH', false);
                         this.$store.commit('NICKNAME', null);
                         this.$store.commit('USERNUM', null);
