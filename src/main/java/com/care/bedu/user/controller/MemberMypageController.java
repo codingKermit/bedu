@@ -62,7 +62,7 @@ public class MemberMypageController {
     	//현재 페이지 번호를 이용해서 출력될 페이지의 시작번호를 구한다.
     	int startNo = (pageNumber - 1) * numOfPage;
     	
-    	model.addAttribute("list", memberMypageService.getMemberMypageAll(userid, startNo, numOfPage));
+    	model.addAttribute("listArray", memberMypageService.getMemberMypageAll(userid, startNo, numOfPage));
     	
     	
     	return memberMypageService.getMemberMypageAll(userid, startNo, numOfPage);
