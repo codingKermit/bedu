@@ -381,6 +381,7 @@ import '@/assets/css/header.css'
                         this.$store.commit('IS_AUTH', false);
                         this.$store.commit('NICKNAME', null);
                         this.$store.commit('USERNUM', null);
+                        this.$store.commit('CBNUMLIST', null);
                         this.$store.commit('EMAIL', null);
                         this.$store.commit('LESSONS', []);
                     } else {
