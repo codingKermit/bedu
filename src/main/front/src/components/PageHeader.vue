@@ -13,9 +13,10 @@
                 <div class="bg-white w-100 h-100 rounded-5 py-2">
                     <font-awesome-icon class="mx-3 fs-3" :icon="['fas', 'magnifying-glass']"/>
                     <span class="w-100">
-                        <input class="border-0 h-100 w-75 bedu-header-search"></span>
-                    </div>
+                        <input class="border-0 h-100 w-75 bedu-header-search">
+                    </span>
                 </div>
+            </div>
         </b-navbar>
         
         <b-navbar v-else class="w-100 d-flex" toggleable="xxl">

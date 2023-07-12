@@ -3,12 +3,21 @@
         <b-navbar >
             <b-collapse id="categories" class="w-100" is-nav>
                     <b-row class="w-100 mx-auto">
-                        <b-col v-for="(item, index) in categories" :key="index" class="col-4 px-1 col-lg-1 text-center justify-content-center mx-auto">
-                                <b-link :to='"/lectureCategories/"+item.cateCode+"?cnt_mid_cate="+item.children[0].cateCode' class="text-body text-decoration-none">
+                        <b-col v-for="(item,index) in filds.filter((item)=> item.level ==1)" :key="index" class="col-4 px-1 col-lg-1 text-center justify-content-center mx-auto">
+                                <b-link :to="{
+                                    name : 'lectureCategories',
+                                    params : {
+                                        index : item.lectTopCate
+                                    },
+                                    query : {
+                                        cnt_mid_cate : filds.filter((fild)=>(fild.parentCode == item.lectTopCate)  )[0].lectMidCate
+                                    }
+                                }"  class="text-body text-decoration-none"
+                                >
                                     <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
-                                        <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.icon+'.png') " fluid></b-img>
+                                        <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.lectIcon+'.png') " fluid></b-img>
                                     </b-container>
-                                    <text class="fw-bold d-block text-wrap">{{ item.cateKor }}</text>
+                                    <text class="fw-bold d-block text-wrap">{{ item.lectTopCateKor }}</text>
                                 </b-link>
                         </b-col>
                     </b-row>
@@ -24,7 +33,7 @@ import '@/assets/css/lectureStyle.css';
         name: 'lectureCategories',
         data() {
             return {
-                categories: [],
+                filds: [],
             }
         },
         methods: {
@@ -39,46 +48,18 @@ import '@/assets/css/lectureStyle.css';
             //     console.log('img url ::: ', url)
             //     return url
             // },
-            getData(){
-                let cateData = [];
-                this.$axiosSend('get', '/api/lect/getCategory')
-                .then((res) => {
-                    console.log('res::: ', res)
-                    if (this.$isNotEmpty(res?.data)) {
-                        cateData = res?.data;
-                    }
-                    console.log('cateData ::: ', cateData)
-                    if(cateData.length != 0){
-                        this.convertToHierarchy(cateData)
-                    }
+            getList(){
+                this.$axiosSend('get','/api/lect/fild/getList')
+                .then((res)=>{
+                    this.filds = res.data.item
                 })
-            },
-            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-            convertToHierarchy(data) {
-                const map = {}; // 부모-자식 관계를 저장할 맵
-                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                data.forEach(category => {
-                    category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cateCode] = category;
-                });
-                
-                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-                
-                // 부모-자식 관계 설정
-                data.forEach(category => {
-                    const parentNum = category.parentNum;
-                    if (parentNum) {
-                        const parent = map[parentNum];
-                        if (parent) parent.children.push(category)
-                    } else {
-                        hierarchy.push(category);
-                    }
-                    this.categories = hierarchy;
-                });
+                .catch((err)=>{
+                    console.log(err)
+                })
             }
         },
         mounted() {
-            this.getData();
+            this.getList();
         },
         computed:{
             colsLimit(){

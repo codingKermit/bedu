@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.care.bedu.lecture.vo.LectureCategoriesVO;
-import com.care.bedu.lecture.vo.TestVO;
 
 @Mapper
 public interface LectureCategoryDAO {
@@ -16,7 +15,4 @@ public interface LectureCategoryDAO {
     public ArrayList<LectureCategoriesVO> getTopLevel();
     public ArrayList<LectureCategoriesVO> getMidLevel();
     public ArrayList<LectureCategoriesVO> getBotLevel();
-
-    public ArrayList<TestVO> test();
-
 }

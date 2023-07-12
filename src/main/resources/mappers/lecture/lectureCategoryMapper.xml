@@ -75,12 +75,4 @@
             b_edu.T_BEDU_LECT_BOT_CATE
     </select>
 
-    <select id="test" resultType="com.care.bedu.lecture.vo.TestVO">
-        SELECT
-            *
-        FROM
-            b_edu.t_bedu_lect_fild
-    </select>
-
-
 </mapper>
