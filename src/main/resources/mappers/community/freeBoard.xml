@@ -5,15 +5,15 @@
 	
 	<select id="viewlist" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		  SELECT
-		    COMM_NUM AS commNum,
+		    COMM_NUM as commNum,
 		    TITLE,
-		    COMM_DATE AS commDate,
-		    REG_DATE AS regDate,
-		    COMM_CNT AS commCnt,
-		    USER_NAME AS userName
+		    REG_DATE as regDate,
+		    COMM_DATE as commDate,
+		    COMM_CNT as commCnt,
+		    USER_NAME as userName
 		  FROM T_BEDU_COMM
 		  ORDER BY COMM_NUM DESC
-		  LIMIT #{page}, #{limit}
+		  LIMIT #{page}, #{limit} 
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
@@ -62,6 +62,7 @@
 		 COMM_DATE AS commDate,
 		 COMM_CNT AS commCnt,
 		 COMM_LIKE_CNT AS commLikeCnt, 
+		 USER_NAME AS userName,
 		 REG_ID AS regId,
 		 REG_DATE AS regDate
 		FROM T_BEDU_COMM 

@@ -14,7 +14,7 @@
                     {{ qna.userName}}
                 </p>
                 <p id="qna-comm">
-                    <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
+                    <font-awesome-icon :icon="['fas', 'eye']"/> {{ qna.qnaCnt }}
                 </p>
                 <p id="qna-date">
                     {{ DateTime(qna.qnaDate) }} 
@@ -119,7 +119,7 @@
 
         computed:{
             getCbnumList() {
-                console.log('동작');
+                
                 return this.$store.getters.getCbnumList;
             },
             isLiked() {
