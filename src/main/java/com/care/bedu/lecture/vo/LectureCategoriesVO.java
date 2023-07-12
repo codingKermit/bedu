@@ -1,5 +1,7 @@
 package com.care.bedu.lecture.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 /* 대,중,소 분류에 사용할 VO */
 public class LectureCategoriesVO {
-    int num; // 고유 번호
-    int cateCode; // 고유 코드
-    String cateKor; // 카테고리의 한글명
-    int parentNum; // 부모 카테고리의 고유 번호
-    int parentCode; // 부모 카테고리의 고유 코드
-    String icon; // 대분류의 아이콘 파일명
+   private int lectFildNum;            // 고유번호
+   private int lectTopCate;            // 대분류 코드
+   private String lectTopCateKor;      // 대분류 텍스트
+   private int lectMidCate;            // 중분류 코드
+   private String lectMidCateKor;      // 중분류 텍스트
+   private int lectBotCate;            // 소분류 코드
+   private String lectBotCateKor;      // 소분류 텍스트
+   private int parentCode;             // 부모 코드
+   private int level;                  // 레벨
+   private Date regDate;               // 등록일 
+   private String regId;               // 등록자 ID
+   private String lectIcon;            // 아이콘 경로
 }

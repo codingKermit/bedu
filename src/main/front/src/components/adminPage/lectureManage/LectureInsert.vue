@@ -10,7 +10,7 @@
                             <template #first>
                                 <b-form-select-option disabled>대분류</b-form-select-option>
                             </template>
-                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.lectTopCate">{{ item.lectTopCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
                 </div>
@@ -22,7 +22,7 @@
                             <template #first>
                                 <b-form-select-option disabled>중분류</b-form-select-option>
                             </template>
-                                <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.cateCode">{{ item.cateKor }}</b-form-select-option>
+                                <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.lectMidCate">{{ item.lectMidCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
                 </div>
@@ -34,7 +34,7 @@
                             <template #first>
                                 <b-form-select-option disabled>소분류</b-form-select-option>
                             </template>
-                                <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item">{{ item.cateKor }}</b-form-select-option>
+                                <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item">{{ item.lectBotCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
                 </div>
@@ -133,8 +133,8 @@ export default{
             currentTop : '',
             currentMid : '',
             currentBot : {
-                cateCode : '',
-                cateKor : '',
+                lectBotCate : '',
+                lectBotCateKor : '',
             },
             editor : Editor,
             editorConfig : {
@@ -194,8 +194,8 @@ export default{
             formData.append("contents",this.form.contents);
             formData.append("thumbnail",this.form.thumbnail);
 
-            formData.append("cateCode",this.currentBot.cateCode);
-            formData.append("cateKor", this.currentBot.cateKor);
+            formData.append("cateCode",this.currentBot.lectBotCate);
+            formData.append("cateKor", this.currentBot.lectBotCateKor);
             formData.append("regNum",this.$store.getters.getUsernum);
 
             axios.post('/api/admin/lectManage/lectInsert',formData,{
@@ -215,7 +215,7 @@ export default{
                     this.form.price = '';
                     this.form.summary = '';
                     this.form.teacher = '';
-                    this.form.thumbnail = '';
+                    this.form.thumbnail = ''; 
                     this.form.title = '';
                     this.currentTop = '';
                     this.currentMid = '';

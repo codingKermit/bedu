@@ -49,7 +49,7 @@ import '@/assets/css/lectureStyle.css';
             //     return url
             // },
             getList(){
-                this.$axiosSend('get','/api/lect/fild/getList')
+                this.$axiosSend('get','/api/lect/getCategory')
                 .then((res)=>{
                     this.filds = res.data.item
                 })

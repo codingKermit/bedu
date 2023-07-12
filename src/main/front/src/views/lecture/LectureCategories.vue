@@ -34,7 +34,7 @@
                                 ref="lecture_list"
                                 :class='index == 0 ? "show":""'>
                                 <b-container>
-                                    <b-row md="3" sm="1" class="d-block d-sm-flex">
+                                    <b-row cols="1" cols-lg="3" class="d-block d-sm-flex">
                                         <!-- 커리큘럼 목록 -->
                                         <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item mb-3">
                                             <b-link
@@ -43,11 +43,11 @@
                                                 <b-container class="border rounded-3 p-3 lecture_item h-100">
                                                     <p class="fs-5 fw-bold">{{ lect.title }}</p>
                                                     <div>
-                                                        <p class="text-secondary">
+                                                        <p class="text-secondary overflow-hidden">
                                                             {{ lect.lectSum }}
                                                         </p>
                                                     </div>
-                                                        <p>{{ lect.teacher }} 선생님</p>
+                                                        <p class="overflow-hidden">{{ lect.teacher }} 선생님</p>
                                                     <hr>
                                                     <p>총{{ lect.total }}강</p>
                                                     <p class="text-secondary">수강 기간 : {{ lect.lectPeriod }}일</p>
@@ -74,7 +74,8 @@ import '@/assets/css/lectureStyle.css';
         components:{CategoryNaviVue},
         data() {
             return {
-                categories: [], cnt_mid_cate: '', // 현재 어떤 중분류를 보고있는지를 코드로 저장
+                categories: [], 
+                cnt_mid_cate: '', // 현재 어떤 중분류를 보고있는지를 코드로 저장
                 cnt_mid_cate_kor: '', // 현재 보고 있는 대분류의 한글 코드명
                 cnt_top_cate: '', // 현재 어떤 중분류를 보고있는지를 코드로 저장
                 cnt_top_cate_kor: '', // 현재 보고 있는 대분류의 한글 코드명
