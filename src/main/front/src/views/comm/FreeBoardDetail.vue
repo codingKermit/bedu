@@ -25,13 +25,14 @@
                     <div v-html="free.content"></div>
                 </div>
                 <div id="free-likeyn">
-                    <button id="free-likebtn" @click="freelikeUp(free.commNum)">
+                    <button id="free-likebtn" @click="freelikeUp(free.commNum)"
+                    :class="{ 'bedu-bg-custom-blue': isLiked }">
                         <font-awesome-icon :icon="['fas', 'heart']"
                             />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.commLikeCnt }}
                             </text>
-                    </button>    
+                    </button>   
                 </div>
                 <hr style="margin-top: 9%;"/>
                 <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
@@ -118,6 +119,18 @@ export default{
                 commCnt : 0,
                 commLikeCnt : 0,
             }
+        }
+    },
+
+    computed: {
+        getCbnumList() {
+            return this.$store.getters.getCbnumList;
+        },
+        isLiked() {
+            if (Array.isArray(this.getCbnumList)) {
+                return this.getCbnumList.includes(this.free.commNum);
+            }
+            return false;
         }
     },
 
@@ -352,9 +365,10 @@ export default{
                     likebdnum : this.likenum,
             })
             .then(res => {
-               
+                const cnum = this.free.commNum;
                 if(res.data === 1){
                     this.free.commLikeCnt--;
+                    this.$store.commit('CBNUMLIST_REMOVE', cnum);
                     return;
                 }else if(res.data === 0){
                     return;
@@ -385,11 +399,11 @@ export default{
                     likeyn : this.likeyn
             })
             .then(res => {
-                
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
 
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
                     this.free.commLikeCnt++;
+                    this.$store.commit('CBNUMLIST_ADD', cnum);
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
 

@@ -1,4 +1,5 @@
 import * as types from './mutation_types'
+import { CBNUMLIST_REMOVE, CBNUMLIST_ADD } from './mutation_types'
 
 export default {
     [types.EMAIL](state, email) {
@@ -24,5 +25,16 @@ export default {
     },
     [types.CBNUMLIST](state, cbnumList) {
         state.cbnumList = cbnumList
-    }
+    },
+    [CBNUMLIST_REMOVE](state, num) {
+        const index = state.cbnumList.indexOf(num);
+        if (index !== -1) {
+          state.cbnumList.splice(index, 1);
+        }
+    },
+    [CBNUMLIST_ADD](state, num) {
+        if (!state.cbnumList.includes(num)) {
+          state.cbnumList.push(num);
+        }
+    },
 }
