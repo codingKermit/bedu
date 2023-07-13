@@ -28,7 +28,7 @@ export default {
                     this.$store.commit('IS_AUTH', true);
                     
                     this.$axiosSend('get','/api/lect/getMyPageList',{
-                            userNum : this.$store.getters.getUsernum,
+                            userName : this.$store.getters.getNickname,
                     })
                     .then((res)=>{
                         this.$store.commit('LESSONS',res.data.item)

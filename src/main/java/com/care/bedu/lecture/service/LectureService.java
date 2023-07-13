@@ -19,9 +19,9 @@ public interface LectureService {
 	public int addToCart(int lectNum, int userNum); /* 장바구니에 추가 */
 	public HashMap<String, Object> getCart(int num); /* 장바구니 조회 */
 	public int removeFromCart(int[] list, int userNum); /* 장바구니 삭제 */
-	public HashMap<String, Object> getLesson(int num, int userNum); /* 동영상 조회 */
+	public HashMap<String, Object> getLesson(int num, String userName); /* 동영상 조회 */
 	public HashMap<String, Object> getAllLectures(); /* 동영상 조회 */
-	public int addToMyPage(int userNum, int[] list); /* 결제 후 수강 목록에 추가 */
-	public HashMap<String, Object> getMyPageList(int userNum);
+	public int addToMyPage(String userName, int[] list); /* 결제 후 수강 목록에 추가 */
+	public HashMap<String, Object> getMyPageList(String userName); /* 수강 목록 조회 */
 
 }

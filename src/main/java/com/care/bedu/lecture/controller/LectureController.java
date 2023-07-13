@@ -125,10 +125,11 @@ public class LectureController {
 
 	/* 동영상 재생, 수강 여부 확인 */
 	@RequestMapping("/getLesson")
-	public HashMap<String,Object> getLesson(int num, int userNum){
+	public HashMap<String,Object> getLesson(int num, String userName){
+
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map = lectureService.getLesson(num, userNum);
+		map = lectureService.getLesson(num, userName);
 
 		return map;
 	}
@@ -145,22 +146,22 @@ public class LectureController {
 
 	/* 강의 결제 후, 수강 목록에 추가 */
 	@RequestMapping("/addToMyPage")
-	public int addToMyPage(int userNum, int[] list){
+	public int addToMyPage(String userName, int[] list){
 
 		int result = 1;
 
 
-		result = lectureService.addToMyPage(userNum, list);
+		result = lectureService.addToMyPage(userName, list);
 
 		return result;
 	}
 
 	/* 수강 목록 조회 */
 	@RequestMapping("/getMyPageList")
-	public HashMap<String,Object> getMyPageList(int userNum){
+	public HashMap<String,Object> getMyPageList(String userName){
 		HashMap<String, Object> map = new HashMap<>();
 
-		map = lectureService.getMyPageList(userNum);
+		map = lectureService.getMyPageList(userName);
 
 
 		return map;
