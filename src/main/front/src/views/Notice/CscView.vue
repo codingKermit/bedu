@@ -39,14 +39,15 @@
             <td id="cscboard-table-tds">
               <b-link class="text-start text-body" :to="{
                 name:'inquiryDetail',
-                params : {
-                  num : inquiry.vocNum
+                query : { //index.js 라우터에서 봤을 때 inquiryDetail문은 query 문으로 보내야 함
+                  vocNum : inquiry.vocNum
                 }
               }">
                 {{ inquiry.title }}
               </b-link>
             </td>
-            <td>{{ inquiry.userName }}</td>
+            <td>
+              {{ inquiry.userName }}</td>
             <td>{{ formatDateTime(inquiry.regDate)}}</td>
             <td>
               <font-awesome-icon :icon="['fas', 'lock']" /> 

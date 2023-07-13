@@ -33,7 +33,6 @@ public class InquiryServiceImpl implements InquiryService {
 	//게시글 등록
 	@Override
 	public int inquiryWriteSave(InquiryVO inquiryVO) {
-		inquiryVO.setRegId(inquiryVO.getUserName());
 		if (inquiryVO.getFileName() == null || inquiryVO.getFileName() == "") {
 			inquiryVO.setFileName("");
 		}
@@ -44,16 +43,19 @@ public class InquiryServiceImpl implements InquiryService {
 		return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
 
-	//유저 아이디 조회
+	//유저아이디조회
 	@Override
-	public ArrayList<InquiryVO> getUserName(String userName) {
-		return inquiryDAO.getuserName(userName);
+	public ArrayList<InquiryVO> getUserId(String userName) {
+		return inquiryDAO.getuserId(userName);
 	}
 
-	//글 조회
+	//글 조회 
 	@Override 
-	public InquiryVO inquiryone(Integer num) {
-		InquiryVO inquiryVO = inquiryDAO.inquiryone(num);
+	public InquiryVO inquiryone(Integer vocNum)   {
+		InquiryVO inquiryVO = new InquiryVO();
+		inquiryVO = inquiryDAO.inquiryone(vocNum);
+		int replyCnt = inquiryDAO.getReplyCnt(vocNum);
+		inquiryVO.setReplyCnt(replyCnt);
 		return inquiryVO;
 	}
 	
