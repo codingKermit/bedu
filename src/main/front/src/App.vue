@@ -31,7 +31,6 @@ export default {
                             userName : this.$store.getters.getNickname,
                     })
                     .then((res)=>{
-                        console.log(res)
                         this.$store.commit('LESSONS',res.data.item)
                     })
                     .catch((err)=>{

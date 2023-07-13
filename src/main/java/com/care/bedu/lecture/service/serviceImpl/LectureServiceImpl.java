@@ -191,7 +191,7 @@ public class LectureServiceImpl implements LectureService{
 
 	/* 동영상 정보 조회 */
 	@Override
-	public HashMap<String, Object> getLesson(int num, int userNum) {
+	public HashMap<String, Object> getLesson(int num, String userName) {
 		HashMap<String, Object> map = new HashMap<>();
 
 		LectureDetailVO vo = new LectureDetailVO();
@@ -210,7 +210,7 @@ public class LectureServiceImpl implements LectureService{
 		HashMap<String,Object> args = new HashMap<>();
 
 		args.put("num", vo.getLectNum());
-		args.put("userNum", userNum);
+		args.put("userName", userName);
 
 		int count = lectureDao.signUpChk(args);
 

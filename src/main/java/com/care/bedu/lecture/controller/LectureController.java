@@ -125,10 +125,11 @@ public class LectureController {
 
 	/* 동영상 재생, 수강 여부 확인 */
 	@RequestMapping("/getLesson")
-	public HashMap<String,Object> getLesson(int num, int userNum){
+	public HashMap<String,Object> getLesson(int num, String userName){
+
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map = lectureService.getLesson(num, userNum);
+		map = lectureService.getLesson(num, userName);
 
 		return map;
 	}

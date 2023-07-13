@@ -164,8 +164,8 @@ export default{
     methods: {
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
-            const userNum = this.$store.getters.getUsernum;
-            if(userNum == null) {
+            const userName = this.$store.getters.getNickname;
+            if(userName == null) {
                 this.$swal({
                     title:'지금 가입하세요',
                     icon : 'question',
@@ -187,9 +187,13 @@ export default{
                 })
             }
 
+            if(this.lessonInfo.lectDtlNum == undefined || this.lessonInfo.lectDtlNum == null){
+                return
+            }
+
             this.$axiosSend('get','/api/lect/getLesson',{
                 num : this.lessonInfo.lectDtlNum,
-                userNum : userNum,
+                userName : userName,
             })
             .then((res)=>{
                 console.log(res.data)
@@ -313,7 +317,7 @@ export default{
         
     },
     mounted() {
-        this.getLesson();
+    
     },
     created() {
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
