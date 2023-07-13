@@ -207,7 +207,7 @@ public class LectureServiceImpl implements LectureService{
 
 		map.put("lessonList",lessonList);
 
-		HashMap<String,Integer> args = new HashMap<>();
+		HashMap<String,Object> args = new HashMap<>();
 
 		args.put("num", vo.getLectNum());
 		args.put("userNum", userNum);
@@ -240,14 +240,13 @@ public class LectureServiceImpl implements LectureService{
 
 
 	@Override
-	public int addToMyPage(int userNum, int[] list) {
+	public int addToMyPage(String userName, int[] list) {
 
 		int result = 1;
-		HashMap<String,Integer> map = new HashMap<>();
+		HashMap<String,Object> map = new HashMap<>();
 		for(int l : list){
-			map.put("userNum", userNum);
+			map.put("userName", userName);
 			map.put("lectNum", l);
-			System.out.println(map);
 			result = lectureDao.addToMyPage(map);
 			if(result != 1){
 				return 0;
@@ -259,12 +258,12 @@ public class LectureServiceImpl implements LectureService{
 
 
 	@Override
-	public HashMap<String, Object> getMyPageList(int userNum) {
+	public HashMap<String, Object> getMyPageList(String userName) {
 		HashMap<String,Object> map = new HashMap<>();
 
 		ArrayList<UserLectureVO> vo = new ArrayList<>();
 
-		vo = lectureDao.getMyPageList(userNum);
+		vo = lectureDao.getMyPageList(userName);
 
 		map.put("item", vo);
 		

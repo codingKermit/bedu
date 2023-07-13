@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLectureVO {
     
-    private int userLectNum;
-    private int userNum;
-    private int lectNum;
-    private Date lectRegDate;
+    private int userLectNum;    // 고유 번호
+    private String userName;    // 사용자 이름
+    private int lectNum;        // 강의 번호
+    private Date lectRegDate;   // 강의 결제일
+    
 }

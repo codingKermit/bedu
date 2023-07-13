@@ -165,6 +165,27 @@ export default{
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
             const userNum = this.$store.getters.getUsernum;
+            if(userNum == null) {
+                this.$swal({
+                    title:'지금 가입하세요',
+                    icon : 'question',
+                    text : 'B:EDU에 가입하시겠습니까?',
+                    showCancelButton : true,
+                    cancelButtonText : '아니오',
+                    confirmButtonText : "예",
+                    allowOutsideClick : false,
+                })
+                .then((result)=>{
+                    if(result.isConfirmed){
+                        this.$routerPush('regist')
+                    } else{
+                        this.$routerPush('/')
+                    }
+                })
+                .finally(()=>{
+                    return;
+                })
+            }
 
             this.$axiosSend('get','/api/lect/getLesson',{
                 num : this.lessonInfo.lectDtlNum,

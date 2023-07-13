@@ -38,17 +38,11 @@
 
 #nav1 a {
     margin-right: 30px;
-    font-family: 'Noto Sans CJK KR', sans-serif;
-    font-weight: bold;
-    color: #2c3e50;
     text-decoration: none;
 }
 
 #nav2 a {
     margin-left: 20px;
-    font-family: 'Noto Sans CJK KR', sans-serif;
-    font-weight: bold;
-    color: #2c3e50;
     text-decoration: none;
 }
 
@@ -116,11 +110,11 @@
     height: 66px;
 }
 
-/* .router-link-active{
+.header-router-link-active{
     color : var(--black) !important;
-    font-weight: bolder;
+    font-weight: bolder !important;
     transition: all 0.15s
-} */
+}
 
 a{
     margin: 0px !important;

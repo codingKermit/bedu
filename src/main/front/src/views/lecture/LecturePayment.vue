@@ -167,9 +167,8 @@ export default{
             console.log(arg)
 
             if(result){
-                const userNum = this.$store.getters.getUsernum;
                 this.$axiosSend('get','/api/lect/addToMyPage',{
-                    userNum : userNum,
+                    userName : this.$store.getters.getNickname,
                     list : arg.join(","),
                 })
                 .then((res)=>{

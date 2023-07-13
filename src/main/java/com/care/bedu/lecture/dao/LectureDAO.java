@@ -25,8 +25,8 @@ public interface LectureDAO {
 	public ArrayList<LectureVO> getCart(int num); /* 장바구니 조회 */
 	public int removeFromCart(HashMap<String, Object> arg); /* 장바구니에서 삭제 */
 	public LectureDetailVO getLesson(int num); /* 동영상 재생 정보 조회 */
-	public int signUpChk(HashMap<String, Integer> map);
+	public int signUpChk(HashMap<String, Object> map);
 	public ArrayList<LectureVO> getAllLectures(); /* 동영상 전체 조회 조건X */
-	public int addToMyPage(HashMap<String, Integer> map); /* 수강 목록에 저장 */
-	public ArrayList<UserLectureVO> getMyPageList(int userNum); /* 수강 목록 조회 */
+	public int addToMyPage(HashMap<String, Object> map); /* 수강 목록에 저장 */
+	public ArrayList<UserLectureVO> getMyPageList(String userName); /* 수강 목록 조회 */
 }

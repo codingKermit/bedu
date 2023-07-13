@@ -38,8 +38,6 @@
                 <b-navbar-nav id="nav1" class="me-auto ps-3 pt-3">
                     <b-nav-item
                         v-if='categories.length'
-                        >
-                        <router-link
                             class="fs-5 fw-bold m-0 text-black-50"
                             :class="{ 'router-link-active': $route.name === 'lectureCategories'}"
                             :to="{
@@ -53,31 +51,21 @@
                             }"
                             >
                         분야별 강의
-                        </router-link>
                     </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1" >
-                        <router-link
-                            class="m-0 text-black-50"
-                            :class="{'router-link-active': $route.path.includes('comm')}"
-                            to="/comm/qna"
-                            >
-                            커뮤니티
-                        </router-link>
+                    <b-nav-item class="fs-5 fw-bold me-1" 
+                    :class="{'router-link-active': $route.path.includes('comm')}"
+                    to="/comm/qna"
+                    >
+                        커뮤니티
                     </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1">
-                        <router-link class="m-0 text-black-50" to="/review">
+                    <b-nav-item class="fs-5 fw-bold me-1" to="/review">
                             수강후기
-                        </router-link>
                     </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1" >
-                        <router-link class="m-0 text-black-50" to="/companyStudy">
-                            기업교육
-                        </router-link>
+                    <b-nav-item class="fs-5 fw-bold me-1" to="/companyStudy">
+                        기업교육
                     </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold" >
-                        <router-link class="m-0 text-black-50" to="/membership">
-                            멤버쉽 안내
-                        </router-link>
+                    <b-nav-item class="fs-5 fw-bold" to="/membership">
+                        멤버쉽 안내
                     </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav id="nav2" class="ms-auto pt-4">
