@@ -165,7 +165,7 @@ export default{
             for(var i =0;i<this.paymentList.length;i++){
                 // arg.push(this.paymentList[i].lectNum);
                 args.push({
-                    userName : this.paymentList[i].lectNum,
+                    userName : this.$store.getters.getNickname,
                     lectNum : this.paymentList[i].lectNum,
                     lectName : this.paymentList[i].title
                 })
