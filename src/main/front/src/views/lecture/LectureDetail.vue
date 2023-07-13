@@ -330,6 +330,7 @@ import '@/assets/css/lectureStyle.css';
                     this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : this.$store.getters.getUsernum,
+                        lectName : this.form.title,
                     })
                     .then(()=>{
                         this.$routerPush('lecturePayment')

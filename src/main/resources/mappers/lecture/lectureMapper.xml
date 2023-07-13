@@ -241,11 +241,13 @@
 	<insert id="addToCart" parameterType="hashmap">
 		INSERT INTO b_edu.T_BEDU_CART(
 			CART_LECT_NUM,
-			CART_USER_NAME
+			CART_USER_NAME,
+			CART_LECT_NAME
 		)
 		SELECT 
 			#{lectNum},
-			#{userNum}
+			#{userNum},
+			#{lectName}
 		FROM 
 			DUAL
 		WHERE NOT EXISTS (
@@ -253,7 +255,7 @@
 			FROM
 				b_edu.T_BEDU_CART
 			WHERE 
-				CART_LECT_NUM = #{lectNum} AND CART_USER_NAME = #{userNum}
+				CART_LECT_NUM = #{lectNum} AND CART_USER_NAME = #{userNum} AND CART_LECT_NAME = #{lectName}
 		)
 	</insert>
 
@@ -327,12 +329,14 @@
 			b_edu.T_BEDU_USER_LECT(
 				USER_NAME,
 				LECT_NUM,
-				LECT_REG_DATE
+				LECT_REG_DATE,
+				LECT_NM
 			)
 		VALUES(
 			#{userName},
 			#{lectNum},
-			SYSDATE()
+			NOW(),
+			#{lectName}
 		)
 	</insert>
 

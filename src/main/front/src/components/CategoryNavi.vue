@@ -12,7 +12,8 @@
                     <a
                         class="fs-5 text-body text-decoration-none d-flex"
                         data-bs-toggle="collapse"
-                        :href='"#top-"+top.lectTopCate'>
+                        :href='"#top-"+top.lectTopCate'
+                        >
                         <p>{{ top.lectTopCateKor }}</p>
                         <p class="ms-auto">
                             <font-awesome-icon :icon="['fas','caret-down']"/>
@@ -31,6 +32,7 @@
                             :key="mid_index"
                             class="list-unstyled py-2">
                             <router-link
+                                @click="cnt_mid_cate_kor=mid.lectMidCateKor, cnt_top_cate_kor=top.lectTopCateKor"
                                 :to="{
                                     name:'lectureCategories',
                                     params:{
@@ -71,10 +73,20 @@ export default{
             this.$axiosSend('get','/api/lect/getCategory')
                 .then((res)=>{
                     this.categories = res.data.item
+                    console.log(this.categories)
+                    this.cnt_top_cate_kor;
+
                 })
                 .catch((err)=>{
                     console.log(err)
                 })
+            },
+            topHandler(newTop){
+                this.cnt_top_cate = newTop;
+            },
+            midHandler(newMid){
+                this.cnt_mid_cate = newMid;
+                this.$emit('emitTest', this.cnt_top_cate_kor, this.cnt_mid_cate_kor)
             },
     },
     created() {
@@ -85,19 +97,18 @@ export default{
     },
     watch:{
         '$route.params.index': { 
-            /** LectureCategories.vue 와 중복되는 내용이지만 
-             * 해당 이 부분은 화면에 css를 적용하기 위한 기능, 조회기능 X
-            */
                 immediate: true,
                 handler(newTop) {
-                    this.cnt_top_cate = newTop;
+                    if(newTop != undefined){
+                        this.topHandler(newTop);
+                    }
                 }
             },
             '$route.query.cnt_mid_cate': {
                 immediate: true,
                 handler(newMid) {
                     if (newMid != undefined) {
-                        this.cnt_mid_cate = newMid;
+                        this.midHandler(newMid);
                     }
                 }
             }

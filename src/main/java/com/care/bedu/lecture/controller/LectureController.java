@@ -1,11 +1,11 @@
 package com.care.bedu.lecture.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -92,10 +92,11 @@ public class LectureController {
 
 	/* 결제하기 버튼 사용시 장바구니에 추가 */
 	@RequestMapping("/addToCart")
-	public int addToCart(int lectNum, int userNum){
+	public int addToCart(int lectNum, int userNum, String lectName){
+		System.out.println("lectName : " + lectName);
 
 		int result = 0;
-		result = lectureService.addToCart(lectNum, userNum);
+		result = lectureService.addToCart(lectNum, userNum,lectName);
 		return result;
 	}
 
@@ -146,12 +147,11 @@ public class LectureController {
 
 	/* 강의 결제 후, 수강 목록에 추가 */
 	@RequestMapping("/addToMyPage")
-	public int addToMyPage(String userName, int[] list){
+	public int addToMyPage(@RequestBody List<Map<String,Object>> args){
 
 		int result = 1;
 
-
-		result = lectureService.addToMyPage(userName, list);
+		result = lectureService.addToMyPage(args);
 
 		return result;
 	}

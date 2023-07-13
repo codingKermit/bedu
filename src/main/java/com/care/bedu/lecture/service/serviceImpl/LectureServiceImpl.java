@@ -1,7 +1,6 @@
 package com.care.bedu.lecture.service.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,8 +46,8 @@ public class LectureServiceImpl implements LectureService{
 			HashMap<String,Object> lect = new HashMap<>(); // 구조화된 데이터를 담을 해쉬맵 생성 
 			map.put("category", dto.getLectBotCate()); 
 			list = lectureDao.getLectureList(map); // 소분류에 따른 강의 목록 조회
-			lect.put("cateCode", dto.getLectBotCate()); // 소분류 코드
-			lect.put("cateKor", dto.getLectBotCateKor()); // 소분류 한글
+			lect.put("lectBotCate", dto.getLectBotCate()); // 소분류 코드
+			lect.put("lectBotCateKor", dto.getLectBotCateKor()); // 소분류 한글
 			lect.put("item",list); // 소분류 강의 목록
 			result.add(lect);
 		}
@@ -135,7 +134,7 @@ public class LectureServiceImpl implements LectureService{
 
 
 	@Override
-	public int addToCart(int lectNum, int userNum) {
+	public int addToCart(int lectNum, int userNum, String lectName) {
 		int result = 0;
 
 		/* 파라미터를 담을 맵 */
@@ -144,6 +143,7 @@ public class LectureServiceImpl implements LectureService{
 		// /* 파라미터 맵에 저장 */
 		arg.put("lectNum", lectNum);
 		arg.put("userNum", userNum);
+		arg.put("lectName",lectName);
 
 		/* 장바구니에 담기 */
 		result = lectureDao.addToCart(arg);
@@ -240,18 +240,20 @@ public class LectureServiceImpl implements LectureService{
 
 
 	@Override
-	public int addToMyPage(String userName, int[] list) {
+	public int addToMyPage(List<Map<String,Object>> args) {
 
 		int result = 1;
-		HashMap<String,Object> map = new HashMap<>();
-		for(int l : list){
-			map.put("userName", userName);
-			map.put("lectNum", l);
-			result = lectureDao.addToMyPage(map);
+		
+		System.out.println(args);
+		
+		for(Map<String,Object> m : args){
+			System.out.println(m);
+			result = lectureDao.addToMyPage(m);
 			if(result != 1){
 				return 0;
 			}
 		}
+
 		return result;
 	}
 

@@ -1,7 +1,6 @@
 package com.care.bedu.lecture.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,6 +26,6 @@ public interface LectureDAO {
 	public LectureDetailVO getLesson(int num); /* 동영상 재생 정보 조회 */
 	public int signUpChk(HashMap<String, Object> map);
 	public ArrayList<LectureVO> getAllLectures(); /* 동영상 전체 조회 조건X */
-	public int addToMyPage(HashMap<String, Object> map); /* 수강 목록에 저장 */
+	public int addToMyPage(Map<String, Object> map); /* 수강 목록에 저장 */
 	public ArrayList<UserLectureVO> getMyPageList(String userName); /* 수강 목록 조회 */
 }
