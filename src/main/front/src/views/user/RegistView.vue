@@ -186,10 +186,11 @@
                                     <strong v-if="!item.optional">[필수]</strong>
                                 </span>
                                 <span style="cursor: pointer">
-                                    <strong v-if="item.optional">
-                                        [선택]
-                                    </strong>
+                                    <strong v-if="item.optional">[선택]</strong>
                                     {{ item.label }}
+                                </span>
+                                <span id="agreeFaIcon" style="cursor: pointer">
+                                    <font-awesome-icon :icon="['fas', 'circle-chevron-right']" style="color: #d5d8dc;" />
                                 </span>
                             </label>
                         </div>
