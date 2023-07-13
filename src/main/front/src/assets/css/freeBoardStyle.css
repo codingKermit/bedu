@@ -1,4 +1,20 @@
 /*StudyReview css*/
+
+/* 자유게시판의 좋아요버튼 background색을 지정해줌 */
+.freeBackColor {
+    background-color: #D8D7FF;
+}
+
+/* 자유게시판의 좋아요버튼의 하트 색을 지정해줌 */
+.fontBackColor {
+    color: #dd2c2c;
+}
+
+/* 자유게시판의 좋아요버튼 background색을 지정해줌 */
+.freeDefault {
+    background-color: white;
+}
+
 .freeboardMain {
     padding-top: 5.5%;
     margin-left: 3%;
@@ -107,7 +123,6 @@ h1 {
 #free-likebtn {
     float: right;
     border: 0.1rem solid #dde0ea;
-    background-color: #fff;
     border-radius: 12rem;
     z-index: 2;
     width: 100px;

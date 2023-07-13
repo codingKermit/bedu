@@ -25,8 +25,9 @@
                     <div v-html="free.content"></div>
                 </div>
                 <div id="free-likeyn">
-                    <button id="free-likebtn" @click="freelikeUp(free.commNum)" :class="[isLikedClass()]">
+                    <button id="free-likebtn" @click="freelikeUp(free.commNum)" :class="[backLikedClass()]">
                         <font-awesome-icon :icon="['fas', 'heart']"
+                        :class="[fontLikedClass()]"
                             />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.commLikeCnt }}
@@ -122,9 +123,14 @@ export default{
     },
 
     computed: {
+        // 'getCbnumList' 속성은 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후,
+        // 파싱한 결과를 반환합니다. 만약 'cbnumList'가 존재하지 않으면 빈 배열을 반환합니다.
         getCbnumList() {
             return JSON.parse(localStorage.getItem('cbnumList')) || [];
         },
+        // 'isLiked' 계산된 속성은 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후,
+        // 현재 'free.commNum'이 그 목록에 포함되어 있는지 확인합니다.
+        // 포함되어 있다면 'true'를 반환하고, 포함되어 있지 않다면 'false'를 반환합니다.
         isLiked() {
             const cbnumList = JSON.parse(localStorage.getItem('cbnumList')) || [];
             return cbnumList.includes(this.free.commNum);
@@ -151,9 +157,22 @@ export default{
 
     methods: {
 
-        isLikedClass() {
+        // 'backLikedClass' 메서드는 'freeBackColor' 또는 빈 문자열을 반환합니다.
+        // 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후, 
+        // 현재 'free.commNum'이 그 목록에 포함되어 있는지 확인합니다.
+        // 포함되어 있다면 'freeBackColor' 클래스를 반환하고, 포함되어 있지 않다면 빈 문자열을 반환합니다.
+        backLikedClass() {
             const cbnumList = JSON.parse(localStorage.getItem('cbnumList')) || [];
-            return cbnumList.includes(this.free.commNum) ? 'bedu-bg-custom-blue' : '';
+            return cbnumList.includes(this.free.commNum) ? 'freeBackColor' : 'freeDefault';
+        },
+
+        // 'fontLikedClass' 메서드는 'fontBackColor' 또는 빈 문자열을 반환합니다.
+        // 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후, 
+        // 현재 'free.commNum'이 그 목록에 포함되어 있는지 확인합니다.
+        // 포함되어 있다면 'fontBackColor' 클래스를 반환하고, 포함되어 있지 않다면 빈 문자열을 반환합니다.
+        fontLikedClass() {
+            const cbnumList = JSON.parse(localStorage.getItem('cbnumList')) || [];
+            return cbnumList.includes(this.free.commNum) ? 'fontBackColor' : '';
         },
 
         //닉네임여부 존재 확인
