@@ -17,10 +17,15 @@ public class LectureCategoryServiceImpl implements LectureCategoryService{
     LectureCategoryDAO dao;
 
     @Override
-    public ArrayList<LectureCategoriesVO> getCategory() { /* 대중소 카테고리 조회 */
+    public HashMap<String, Object> getCategory() { /* 대중소 카테고리 조회 */
+        HashMap<String, Object> map = new HashMap<>();
+
         ArrayList<LectureCategoriesVO> list = new ArrayList<>();
         list = dao.getCategories();
-        return list;
+
+        map.put("item", list);
+
+        return map;
     }
 
     @Override

@@ -23,11 +23,8 @@ public class LectureCategoryController {
 
     /* 대중소 카테고리 전체 조회 */
     @RequestMapping("/getCategory")
-    public ArrayList<LectureCategoriesVO> getCategory(){
-        ArrayList<LectureCategoriesVO> list = new ArrayList<>();
-
-        list = lectCateService.getCategory();
-        return list;
+    public HashMap<String,Object> getCategory(){
+        return lectCateService.getCategory();
     }
 
     /* 대중소 각각 조회하여 반환 */

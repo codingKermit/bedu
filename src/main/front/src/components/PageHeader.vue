@@ -25,7 +25,7 @@
                         <img id="bedu-logo" src="@/assets/imgs/Logo.png"></router-link>
                 </b-navbar-brand>
                 <font-awesome-icon
-                    class="fs-3 ms-auto me-3 d-block d-xl-none"
+                    class="fs-3 ms-auto me-3 d-block d-xxl-none"
                     :icon="['fas', 'magnifying-glass']"
                     role="button"
                     @click="searchToggleFunc"/>
@@ -45,10 +45,10 @@
                             :to="{
                                 name : 'lectureCategories',
                                 params : {
-                                    index : categories[0].cateCode
+                                    index : categories.filter((fild)=>fild.level == 1)[0].lectTopCate
                                 },
                                 query : {
-                                    cnt_mid_cate : categories[0].children[0].cateCode
+                                    cnt_mid_cate : categories.filter((fild)=>fild.level == 2 )[0].lectMidCate
                                 }
                             }"
                             >
@@ -143,7 +143,7 @@
 
             <!-- 오프캔버스 -->
             <div
-                class="offcanvas  offcanvas-end d-block d-xl-none bedu-bg-custom-yellow-100"
+                class="offcanvas offcanvas-end d-xxl-none bedu-bg-custom-yellow-100"
                 id="header-toggle"
                 tabindex="-1">
                 <div class="offcanvas-header">
@@ -161,6 +161,12 @@
                                     class="fs-4 fw-bold w-50">
                                     로그인
                                 </b-nav-item>
+                                <b-nav-item
+                                v-else
+                                class="w-50"
+                                >
+                                    <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
+                                </b-nav-item>
                                 <div class="vr"></div>
                                 <b-nav-item
                                     v-if="!isLoggedIn"
@@ -168,12 +174,6 @@
                                     data-bs-dismiss="offcanvas"
                                     class="fs-4 fw-bold w-50">
                                     회원가입
-                                </b-nav-item>
-                                <b-nav-item
-                                v-if="isLoggedIn"
-                                class="w-50"
-                                >
-                                    <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                                 </b-nav-item>
                                 <b-nav-item
                                     v-if="isLoggedIn"
@@ -194,17 +194,17 @@
                                 <font-awesome-icon class="text-end" :icon="categoriesToggleData? 'fa-solid fa-chevron-up':'fa-solid fa-chevron-down'"/>
                             </b-nav-item>
                             <b-container class="collapse fs-5 fw-bold" id="categories-collapse">
-                                <b-nav-item v-for="(item,index) in categories" :key="index" data-bs-dismiss="offcanvas"
+                                <b-nav-item v-for="(item,index) in categories.filter((fild)=>fild.level == 1)" :key="index" data-bs-dismiss="offcanvas"
                                 :to="{
                                     name : 'lectureCategories',
                                     params : {
-                                        index : item.cateCode
+                                        index : item.lectTopCate
                                     },
                                     query : {
-                                        cnt_mid_cate : item.children[0].cateCode
+                                        cnt_mid_cate : categories.filter((fild)=>(fild.parentCode == item.lectTopCate)  )[0].lectMidCate
                                     }
                                 }">
-                                    {{ item.cateKor }}
+                                    {{ item.lectTopCateKor }}
                                 </b-nav-item>
                             </b-container>
                             <b-nav-item class="fs-4 fw-bold"
@@ -304,29 +304,6 @@ import '@/assets/css/header.css'
                     true
                 )
             },
-            /** 받은 카테고리를 트리 구조로 변경하는 함수 */
-            convertToHierarchy(data) {
-                const map = {}; // 부모-자식 관계를 저장할 맵
-                // 맵에 카테고리 코드를 키로하여 카테고리 객체를 저장
-                data.forEach(category => {
-                    category.children = []; // 자식 카테고리를 저장할 배열 생성
-                    map[category.cateCode] = category;
-                });
-
-                const hierarchy = []; // 최상위 부모 카테고리를 저장할 배열
-
-                // 부모-자식 관계 설정
-                data.forEach(category => {
-                    const parentNum = category.parentNum;
-                    if (parentNum != 0) {
-                        const parent = map[parentNum];
-                        if (parent) parent.children.push(category)
-                    } else {
-                        hierarchy.push(category);
-                    }
-                    this.categories = hierarchy;
-                });
-            },
             scrollHandler() {/** 스크롤이 내려감에 따라 showButton의 값 변경해주는 핸들러 */
                 this.showButton = window.scrollY > 200;
             },
@@ -341,17 +318,12 @@ import '@/assets/css/header.css'
             },
             /** 카테고리 조회 */
             getCategory() { 
-                let cateData = [];
-                this.$axiosSend('get', '/api/lect/getCategory')
-                .then((res) => {
-                    console.log('res::: ', res)
-                    if (this.$isNotEmpty(
-                        res?.data
-                    )) {
-                        cateData = res?.data;
-                    }
-                    console.log('cateData ::: ', cateData)
-                    this.convertToHierarchy(cateData)
+                this.$axiosSend('get','/api/lect/getCategory')
+                .then((res)=>{
+                    this.categories = res.data.item
+                })
+                .catch((err)=>{
+                    console.log(err)
                 })
             },
             logout() {

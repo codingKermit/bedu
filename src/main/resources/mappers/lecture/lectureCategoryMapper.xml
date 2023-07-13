@@ -4,75 +4,96 @@
 <mapper namespace="com.care.bedu.lecture.dao.LectureCategoryDAO">
 
     <select id="getCategories" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
-        select
-            NUM,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
-            ICON AS Icon,
-            null as parentCode,
-            null as parentNum
-        from
-            b_edu.T_BEDU_LECT_TOP_CATE 
-        union all
-        select 
-            num,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,  
-            null as icon,
-            PARENT_NUM as parentNum,
-            PARENT_CODE as parentCode            
-        from 
-            b_edu.T_BEDU_LECT_MID_CATE
-        union all
-        select
-            num,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
-            null as icon,
-            PARENT_NUM AS parnetNum,
-            PARENT_CODE as parentCode
-        from 
-            b_edu.T_BEDU_LECT_BOT_CATE
+        SELECT
+            LECT_FILD_NUM as lectFildNum,
+            LECT_TOP_CATE as lectTopCate,
+            LECT_TOP_CATE_KOR as lectTopCateKor,
+            LECT_MID_CATE as lectMidCate,
+            LECT_MID_CATE_KOR as lectMidCateKor,
+            LECT_BOT_CATE as lectBotCate,
+            LECT_BOT_CATE_KOR as lectBotCateKor,
+            PARENT_CODE as parentCode,
+            LEVEL as level,
+            REG_DATE as regDate,
+            REG_ID as regId,
+            LECT_ICON as lectIcon
+        FROM
+            b_edu.t_bedu_lect_fild
     </select>
 
     <select id="getBot" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
-        SELECT 
-            num,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
+        SELECT
+            LECT_FILD_NUM as lectFildNum,
+            LECT_TOP_CATE as lectTopCate,
+            LECT_TOP_CATE_KOR as lectTopCateKor,
+            LECT_MID_CATE as lectMidCate,
+            LECT_MID_CATE_KOR as lectMidCateKor,
+            LECT_BOT_CATE as lectBotCate,
+            LECT_BOT_CATE_KOR as lectBotCateKor,
             PARENT_CODE as parentCode,
-            parent_num as parentNum 
-        FROM 
-            b_edu.t_bedu_lect_bot_cate 
-        WHERE PARENT_CODE = #{mid}
-        ORDER BY NUM
+            LEVEL as level,
+            REG_DATE as regDate,
+            REG_ID as regId,
+            LECT_ICON as lectIcon
+        FROM
+            b_edu.t_bedu_lect_fild
+        WHERE PARENT_CODE = #{mid} AND LEVEL = 3
+        ORDER BY LECT_FILD_NUM
     </select>
 
     <select id="getTopLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
-            NUM,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor
+            LECT_FILD_NUM as lectFildNum,
+            LECT_TOP_CATE as lectTopCate,
+            LECT_TOP_CATE_KOR as lectTopCateKor,
+            LECT_MID_CATE as lectMidCate,
+            LECT_MID_CATE_KOR as lectMidCateKor,
+            LECT_BOT_CATE as lectBotCate,
+            LECT_BOT_CATE_KOR as lectBotCateKor,
+            PARENT_CODE as parentCode,
+            LEVEL as level,
+            REG_DATE as regDate,
+            REG_ID as regId,
+            LECT_ICON as lectIcon
         FROM
-            b_edu.T_BEDU_LECT_TOP_CATE
+            b_edu.t_bedu_lect_fild
+        WHERE LEVEL = 1
     </select>
     <select id="getMidLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
-            NUM,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
-            PARENT_CODE as parentCode
+            LECT_FILD_NUM as lectFildNum,
+            LECT_TOP_CATE as lectTopCate,
+            LECT_TOP_CATE_KOR as lectTopCateKor,
+            LECT_MID_CATE as lectMidCate,
+            LECT_MID_CATE_KOR as lectMidCateKor,
+            LECT_BOT_CATE as lectBotCate,
+            LECT_BOT_CATE_KOR as lectBotCateKor,
+            PARENT_CODE as parentCode,
+            LEVEL as level,
+            REG_DATE as regDate,
+            REG_ID as regId,
+            LECT_ICON as lectIcon
         FROM
-            b_edu.T_BEDU_LECT_MID_CATE
+            b_edu.t_bedu_lect_fild
+        WHERE LEVEL = 2
     </select>
     <select id="getBotLevel" resultType="com.care.bedu.lecture.vo.LectureCategoriesVO">
         SELECT
-            NUM,
-            CATE_CODE as cateCode,
-            CATE_KOR as cateKor,
-            PARENT_CODE as parentCode
+            LECT_FILD_NUM as lectFildNum,
+            LECT_TOP_CATE as lectTopCate,
+            LECT_TOP_CATE_KOR as lectTopCateKor,
+            LECT_MID_CATE as lectMidCate,
+            LECT_MID_CATE_KOR as lectMidCateKor,
+            LECT_BOT_CATE as lectBotCate,
+            LECT_BOT_CATE_KOR as lectBotCateKor,
+            PARENT_CODE as parentCode,
+            LEVEL as level,
+            REG_DATE as regDate,
+            REG_ID as regId,
+            LECT_ICON as lectIcon
         FROM
-            b_edu.T_BEDU_LECT_BOT_CATE
+            b_edu.t_bedu_lect_fild
+        WHERE LEVEL = 3
     </select>
 
 </mapper>

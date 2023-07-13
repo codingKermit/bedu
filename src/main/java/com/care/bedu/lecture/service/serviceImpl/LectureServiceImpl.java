@@ -45,10 +45,10 @@ public class LectureServiceImpl implements LectureService{
 		/* 반복문 사용하여 데이터 구조화 */
 		for(LectureCategoriesVO dto : dtos){
 			HashMap<String,Object> lect = new HashMap<>(); // 구조화된 데이터를 담을 해쉬맵 생성 
-			map.put("category", dto.getCateCode()); 
+			map.put("category", dto.getLectBotCate()); 
 			list = lectureDao.getLectureList(map); // 소분류에 따른 강의 목록 조회
-			lect.put("cateCode", dto.getCateCode()); // 소분류 코드
-			lect.put("cateKor", dto.getCateKor()); // 소분류 한글
+			lect.put("cateCode", dto.getLectBotCate()); // 소분류 코드
+			lect.put("cateKor", dto.getLectBotCateKor()); // 소분류 한글
 			lect.put("item",list); // 소분류 강의 목록
 			result.add(lect);
 		}

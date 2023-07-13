@@ -26,11 +26,16 @@ public class FreeServiceImpl implements FreeService{
 	public List<FreeVO> listProc(FreeVO freeVO) {					
 		freeVO.setLimit(10);
 		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());			
-		freeVO.setLimit(freeVO.getPage()+freeVO.getLimit()-1);				
+		freeVO.setLimit(freeVO.getPage()+freeVO.getLimit());				
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}else {
 			List<FreeVO> freelist = freeDAO.viewlist(freeVO);
+			
+			if(freeVO.getPage() > Math.min(freeVO.getLimit(), freelist.size()) ){
+				return new ArrayList<>();
+			}
+			
 			for(FreeVO free: freelist) {
 				free.setCommDate(free.getRegDate());
 			}

@@ -23,47 +23,45 @@
         <!-- 신규 오픈 강좌 컨테이너 -->
         <b-container class="mb-5 py-3">
             <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>
-            <div>
-                <b-row class="justify-content-center d-block d-lg-flex">
-                    <b-col v-for="(item, index) in newestLectures" :key="index">
-                        <b-link
-                            class="text-decoration-none text-body h-100 d-block"
-                            :to='"/lectureDetail?num="+item.lectNum'>
-                            <b-container class="border rounded-4 lecture_item h-100 mb-3">
-                                <div class="ps-2 h-100">
-                                    <div class="lect-upper-side">
-                                        <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>
-                                        <p class="text-secondary ">{{ item.lectSum }}</p>
-                                        <p>{{ item.teacher }} 선생님</p>
-                                    </div>
-                                    <div class="lect-lower-side">
-                                        <hr>
-                                        <p>총 {{ item.total }}강</p>
-                                        <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
-                                        <div class="text-end mb-3">
-                                            <span class="fw-bold">{{ item.price }}</span>
-                                            원
-                                        </div>
+            <b-row class="d-block d-sm-flex " cols="1" cols-sm="2" cols-lg="5">
+                <b-col v-for="(item, index) in newestLectures" :key="index">
+                    <b-link
+                        class="text-decoration-none text-body h-100 d-block"
+                        :to='"/lectureDetail?num="+item.lectNum'>
+                        <b-container class="border rounded-4 lecture_item h-100 mb-3">
+                            <div class="ps-2 h-100">
+                                <div class="lect-upper-side overflow-hidden">
+                                    <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>
+                                    <p class="text-secondary ">{{ item.lectSum }}</p>
+                                    <p>{{ item.teacher }} 선생님</p>
+                                </div>
+                                <div class="lect-lower-side">
+                                    <hr>
+                                    <p>총 {{ item.total }}강</p>
+                                    <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
+                                    <div class="text-end mb-3">
+                                        <span class="fw-bold">{{ item.price }}</span>
+                                        원
                                     </div>
                                 </div>
-                            </b-container>
-                        </b-link>
-                    </b-col>
-                </b-row>
-            </div>
+                            </div>
+                        </b-container>
+                    </b-link>
+                </b-col>
+            </b-row>
         </b-container>
 
         <!-- 금주의 인기 강좌 컨테이너 인기 기준이 없는 관계로 임시로 신규 강의와 동일한 데이터 출력 -->
         <b-container class="mb-5">
             <p class="fs-4 mb-5 fw-bold">금주의 인기 강좌</p>
             <div>
-                <b-row class="justify-content-center d-block d-md-flex">
-                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-1">
+                <b-row class="justify-content-center d-block d-md-flex" cols="1" cols-sm="2" cols-lg="5">
+                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-3">
                         <b-link
                             class="text-decoration-none text-body"
                             :to='"/lectureDetail?num="+item.lectNum'>
                             <b-container class="border rounded-4 lecture_item">
-                                <div class="ps-3">
+                                <div class="ps-3 overflow-hidden">
                                     <p class="fs-5 pt-3">{{ item.title }}</p>
                                     <p class="text-secondary">{{ item.lectSum }}</p>
                                     <p>{{ item.teacher }} 선생님</p>

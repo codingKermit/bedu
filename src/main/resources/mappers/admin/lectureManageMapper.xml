@@ -5,8 +5,7 @@
 
     <insert id="lectInsert" parameterType="com.care.bedu.lecture.vo.LectureVO">
         INSERT INTO
-            BEDU.T_BEDU_LECT(
-                LECT_NUM,
+            b_edu.T_BEDU_LECT(
                 TITLE,
                 TEACHER,
                 LECT_DESC,
@@ -17,10 +16,9 @@
                 CATE_CODE,
                 CATE_KOR,
                 REG_DATE,
-                REG_ID
+                FST_REG_ID
             )
         VALUES(
-            BEDU_LECT_SEQ.NEXTVAL,
             #{title},
             #{teacher},
             #{lectDesc},
@@ -30,22 +28,22 @@
             #{price},
             #{category},
             #{korCategory},
-            SYSDATE,
+            SYSDATE(),
             #{regNum}
         )
     </insert>
 
     <update id="lectUpdate" parameterType="com.care.bedu.lecture.vo.LectureVO">
         UPDATE
-            BEDU.T_BEDU_LECT
+        b_edu.T_BEDU_LECT
         SET 
             TEACHER = #{teacher}
             ,LECT_DESC = #{lectDesc}
             ,LECT_SUMMARY = #{lectSum}
             ,LECT_PERIOD = #{lectPeriod}
             ,PRICE = #{price}
-            ,LATELY_UPDATE_NUM = #{updateNum}
-            ,LATELY_UPDATE_DATE = SYSDATE
+            ,LAST_REG_ID = #{updateNum}
+            ,LAST_REG_DATE = SYSDATE()
             <if test='thumbnail != null'>
                 ,THUMBNAIL = #{thumbnail}
             </if>
@@ -54,7 +52,7 @@
 
     <delete id="lectDelete">
         DELETE FROM
-            BEDU.T_BEDU_LECT
+            b_edu.T_BEDU_LECT
         WHERE 
             LECT_NUM = #{num}
     </delete>

@@ -39,7 +39,7 @@
                                                 @change="getVideoList"
                                                 ></b-form-radio>
                                             </div>
-                                            <div class="me-5 text-start">
+                                            <div class="me-5 text-start overflow-hidden">
                                                 <p>강의 번호 : <span class="fw-bold">{{ item.lectNum }}</span></p>
                                                 <p>강의 제목 : <span class="fw-bold">{{ item.title }}</span></p>
                                                 <p>강사 : <span class="fw-bold">{{ item.teacher }}</span></p>
