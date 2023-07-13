@@ -1,4 +1,4 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, SET_CBNUMLIST } from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST } from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -37,9 +37,12 @@ let setLessons = ({ commit }, lessons) => {
     commit(LESSONS, lessons)
 }
 
-// cbnumList를 설정하는 액션 및 로컬스토리지에 저장
+//'decodedToken.cbnumList' 값을 받아 
+//Vuex의 'cbnumList' 상태를 갱신하고, 동시에 해당 값을 로컬 스토리지에 저장하는 역할을 함
 let setCbnumList = ({ commit }, data) => {
+    // 'CBNUMLIST' 뮤테이션을 호출하여 'cbnumList' 상태를 갱신합니다.
     commit(CBNUMLIST, data)
+    // 변경된 'data'를 JSON 문자열로 변환하여 'cbnumList'라는 localStorage 항목에 저장합니다.
     localStorage.setItem('cbnumList', JSON.stringify(data));
 }
 
