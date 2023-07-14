@@ -63,7 +63,7 @@
 .mypagecontainer{
     float:left;
     width : 20rem;
-    padding : 10px;
+    padding : 4px;
     margin-right: 10px;
     text-align : left;
     border : 1px solid rgb(15, 10, 1);
@@ -77,11 +77,9 @@ export default {
     data() {
        return {
            // bookmarkList : [],
-           item : {
-                title :'',
-                lectDesc : '',
-                lectPeriod : ''
-           },
+            title : '',
+            lectDesc : '',
+            lectPeriod : '',
             lectureListFirst : [], //수강내역 전체 데이터
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
@@ -93,9 +91,6 @@ export default {
             lectregdate : '',
             regdate : '',
             regid : '',
-            //title : this.$store.getters.getTitle,
-           // lect_desc : this.$store.getters.getLectPeriod,
-            //lect_period : this.$store.getters.lectDesc
         }
     }, 
     created (){
