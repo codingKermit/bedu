@@ -40,9 +40,9 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     
     /* 마이페이지 홈(전체보기 첫번째) */
 	@Override
-	public List<MemberMypageVO> lectureListInfoFirst(int numOfLecture) {
+	public List<MemberMypageVO> lectureListInfoFirst(String userid, int numOfLecture) {
 		
-		return memberMypageDao.lectureListInfoFirst(numOfLecture);
+		return memberMypageDao.lectureListInfoFirst(userid, numOfLecture);
 	}
 	
 	/* 마이페이지 홈(전체보기를 눌렀을때 보여지는 수강정보 목록) */

@@ -35,38 +35,39 @@
 
             <!-- 헤더 콜랩스 -->
             <b-collapse id="header-collapse" is-nav>
-                <b-navbar-nav id="nav1" class="me-auto ps-3 pt-3">
-                    <b-nav-item
-                        v-if='categories.length'
-                            class="fs-5 fw-bold m-0 text-black-50"
-                            :class="{ 'router-link-active': $route.name === 'lectureCategories'}"
-                            :to="{
-                                name : 'lectureCategories',
-                                params : {
-                                    index : categories.filter((fild)=>fild.level == 1)[0].lectTopCate
-                                },
-                                query : {
-                                    cnt_mid_cate : categories.filter((fild)=>fild.level == 2 )[0].lectMidCate
-                                }
-                            }"
-                            >
+                <b-navbar-nav id="nav1" class="me-auto pt-3 ms-2">
+                    <router-link
+                    v-if='categories.length'
+                        class="fs-5 fw-bold m-0 bedu-header-nav-item p-2"
+                        :class="{ 'header-router-link-active': $route.name === 'lectureCategories'}"
+                        :to="{
+                            name : 'lectureCategories',
+                            params : {
+                                index : categories.filter((fild)=>fild.level == 1)[0].lectTopCate
+                            },
+                            query : {
+                                cnt_mid_cate : categories.filter((fild)=>fild.level == 2 )[0].lectMidCate
+                            }
+                        }"
+                    >
                         분야별 강의
-                    </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1" 
-                    :class="{'router-link-active': $route.path.includes('comm')}"
+                    </router-link>
+                    <router-link
+                    class="fs-5 fw-bold me-1 bedu-header-nav-item" 
+                    :class="{'header-router-link-active': $route.path.includes('comm')}"
                     to="/comm/qna"
                     >
                         커뮤니티
-                    </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1" to="/review">
-                            수강후기
-                    </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold me-1" to="/companyStudy">
+                    </router-link>
+                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/review">
+                        수강후기
+                    </router-link>
+                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/companyStudy">
                         기업교육
-                    </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold" to="/membership">
+                    </router-link>
+                    <router-link class="fs-5 fw-bold bedu-header-nav-item" to="/membership">
                         멤버쉽 안내
-                    </b-nav-item>
+                    </router-link>
                 </b-navbar-nav>
                 <b-navbar-nav id="nav2" class="ms-auto pt-4">
                     <div class="search-popup">

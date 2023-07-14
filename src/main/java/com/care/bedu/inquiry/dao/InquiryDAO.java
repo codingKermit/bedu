@@ -17,15 +17,22 @@ public interface InquiryDAO {
 	//게시글 작성
 	public int inquiryWriteSave(InquiryVO inquiryVO); 
 	
-	//게시글 상세 보기 num 보기 
-	public InquiryVO inquiryone(Integer num); 
+	//게시글 상세 보기 id 보기 
+	public InquiryVO inquiryone(Integer vocNum);	
 	
 	//게시글 전체 개수 조회
 	public int getTotal(); 
 	
-	//유저 아이디 조회
-	public ArrayList<InquiryVO> getuserName(String userName);
+	//유저아이디조회
+	public ArrayList<InquiryVO> getuserId(String userName);	
+
 	
+	//유저 닉네임 조회
+	public List<InquiryVO> getuserName(String userId);	
+	
+	//패스워드 조회
 	public InquiryVO inquirypassword(Integer password);
 	
+	//댓글 갯수
+	public int getReplyCnt(Integer vocNum);
 }

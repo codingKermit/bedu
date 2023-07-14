@@ -6,12 +6,14 @@
 	<select id="inquirylist"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
+		  vocNUm,
   		  title,
     	  USER_NAME AS userName,
           REG_DATE AS regDate
 		FROM
     	(
    		SELECT
+   		  VOC_NUM as vocNum,
           TITLE,
           USER_NAME,
           REG_DATE
@@ -44,35 +46,43 @@
 		)
 	</insert>
 
-	<select id="inquiryone"
-		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+	<select id="inquiryone" resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		 	VOC_NUM AS vocNum,
-			TITLE,
-			CONTENT,
-			REG_ID as regId
+		  VOC_NUM as vocNum,
+		  TITLE as title,
+		  CONTENT as content,
+		  FILE_NAME as fileName,
+		  FILE_TYPE as fileType,
+		  REG_DATE as regDate,
+		  USER_NAME as userName,
+		  PASSWORD as password
 		FROM 
 			T_BEDU_VOC
-		WHERE VOC_NUM = #{num} 
-	</select>
-
-	<select id="getuserId"
-		resultType="com.care.bedu.inquiry.vo.InquiryVO">
-		SELECT
-		USER_ID
-		FROM T_BEDU_USER
-		WHERE USER_NAME = #{userName}
+		WHERE VOC_NUM = #{vocNum};
 	</select>
 
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM T_BEDU_VOC
 	</select>
-
-	<select id="getuserName"
-		resultType="com.care.bedu.inquiry.vo.InquiryVO">
+	
+	<select id="getuserId" resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT
-		USER_NAME
+		  USER_ID as userId
+		FROM T_BEDU_USER
+		WHERE USER_NAME = #{userName} 
+	</select>
+	
+	<select id="getuserName" resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT
+		 USER_NAME as userName
 		FROM T_BEDU_USER
 		WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="getReplyCnt" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) AS replyCnt
+		FROM T_BEDU_REPLY
+		WHERE VOC_NUM = #{vocNum}
 	</select>
 </mapper>

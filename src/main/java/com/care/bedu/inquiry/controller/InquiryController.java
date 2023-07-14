@@ -30,8 +30,8 @@ public class InquiryController {
 	}
 	
 	@RequestMapping(value="/inquiry/inquiryDetail", method=RequestMethod.GET)			//게시글 상세 보기
-	public InquiryVO inquiryDetail(Integer num) {
-		return inquiryService.inquiryone(num);
+	public InquiryVO inquiryDetail(Integer vocNum)  {
+		return inquiryService.inquiryone(vocNum);
 	}
 
 	@RequestMapping(value="/inquiry/inquiryPassword", method=RequestMethod.GET)
@@ -44,9 +44,9 @@ public class InquiryController {
 	 	return inquiryService.getTotal();
 	 }
 	 
-	 @RequestMapping(value="/inquiry/getUserId", method = RequestMethod.GET)		//현제 로그인된 닉네임에 해당하는 userid조회											//게시글 전체 개수 조회
+	 @RequestMapping(value="/inquiry/getUserId", method = RequestMethod.GET)		//현제 로그인된 닉네임에 해당하는 userid조회								
 	 public ArrayList<InquiryVO> getUserName(String userName){
-		 return inquiryService.getUserName(userName);
+		 return inquiryService.getUserId(userName);
 	 }
 	 
 }

@@ -79,6 +79,7 @@
 
 <script>
 import '@/assets/css/lectureStyle.css';
+import axios from 'axios';
 
 export default{
     name : 'lecturePayment',
@@ -160,27 +161,46 @@ export default{
             let result = true;
 
             const arg = [];
+            const args = [];
             for(var i =0;i<this.paymentList.length;i++){
-                arg.push(this.paymentList[i].lectNum);
+                // arg.push(this.paymentList[i].lectNum);
+                args.push({
+                    userName : this.$store.getters.getNickname,
+                    lectNum : this.paymentList[i].lectNum,
+                    lectName : this.paymentList[i].title
+                })
             }
-
-            console.log(arg)
+            console.log(args)
+            console.log(JSON.stringify(args))
 
             if(result){
-                this.$axiosSend('get','/api/lect/addToMyPage',{
-                    userName : this.$store.getters.getNickname,
-                    list : arg.join(","),
+                axios.post('/api/lect/addToMyPage',JSON.stringify(args),{
+                headers:{
+                    'Content-Type': 'application/json',
+                }
                 })
                 .then((res)=>{
-                    console.log(res)
-                    this.$swal({
+                    if(res.data == 1 ){
+                        this.$axiosSend('get','/api/lect/getMyPageList',{
+                            userName : this.$store.getters.getNickname,
+                    })
+                    .then((res)=>{
+                        this.$store.commit('LESSONS',res.data.item)
+                        this.$swal({
                         title : '감사합니다',
                         icon : 'success',
                         text : '결제가 성공적으로 완료되었습니다'
+                        })
+                        .then(()=>{
+                            this.removeFromCart(this.paymentList);
+                        })
+                        }
+                    )
+                    .catch((err)=>{
+                        console.log(err)
                     })
-                    .then(()=>{
-                        this.removeFromCart(this.paymentList);
-                    })
+                    }
+
                 })
                 .catch((err)=>{
                     console.log(err)

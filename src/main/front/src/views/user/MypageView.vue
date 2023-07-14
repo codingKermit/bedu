@@ -6,31 +6,31 @@
         <p class="fs-4 fw-bold">현재 수강정보</p>
             <b-container class="text-dark fw-bold">
                     <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if="lectureListFirst != 0"><!--테스트를 위해 0이 아닌경우로 하기(데이터가 없을때)-->
+                    <div class="curr-subjectInfo" v-if="lectureListFirst == 0">
                        <b-container class="w-75 ms-auto py-5">
                             <p style="text-align: center;">수강내역이 없습니다.</p>
                        </b-container>
                     </div>
                     <!--v-else를 이용하여 userList가 있고 수강내역이 있을때이라면 현재 수강정보가 보이게-->
                     <div v-else class="lecture">
-                        <div style="text-align: right;"><!-- v-if="lectureCount+0 > numOfLecture+0"나중에 div 안에 넣어야함-->
+                        <div style="text-align: right;">
                             <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
                         </div>
-                        <div class="mypagecontainer" style="float:left;" v-for="(iem, index) in lectureListFirst" :key="index"> <!--v-for="(item, index) in lectureListFirst" :key="index"-->
+                        <div class="mypagecontainer" style="float:left;" v-for="(item, index) in lectureListFirst" :key="index">
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                                    <div class="mypageInfo" >
+                                    <div class="mypageInfo">
                                         <div class="mypageContain">
                                                 <p class="fw-bold">프로그래밍 배워봅시다</p>
                                                 <p>
                                                     <span>강좌이름 : </span> {{ item.title }}
                                                 </p>
                                                 <p>
-                                                    <span>강의설명 : </span> {{ lectNum }}
+                                                    <span>강의설명 : </span> {{ item.lectDesc }}
                                                 </p>
                                                 <p>
-                                                    <span>수강기간 : </span> {{ lectNum }}
+                                                    <span>수강기간 : </span> {{ item.lectPeriod }}
                                                 </p>
                                         </div>
                                     </div>
@@ -78,11 +78,11 @@ export default {
        return {
            // bookmarkList : [],
            item : {
-                title : '',
-                lect_desc : '',
-                lect_period : ''
-            },
-            lectureListFirst : {}, //수강내역 전체 데이터
+                title :'',
+                lectDesc : '',
+                lectPeriod : ''
+           },
+            lectureListFirst : [], //수강내역 전체 데이터
             lectureInfo : {}, //화면에 노출되는 수강내역 데이터
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
@@ -93,9 +93,9 @@ export default {
             lectregdate : '',
             regdate : '',
             regid : '',
-            title : this.$store.getters.getTitle,
-            lect_desc : this.$store.getters.getLectPeriod,
-            lect_period : this.$store.getters.lectDesc
+            //title : this.$store.getters.getTitle,
+           // lect_desc : this.$store.getters.getLectPeriod,
+            //lect_period : this.$store.getters.lectDesc
         }
     }, 
     created (){
@@ -105,29 +105,20 @@ export default {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
         getLectureList(){
             const userid = this.$store.getters.getEmail;
+            let data = [];
             this.$axiosSend('get','/api/mypage',{userid: userid},true)
             .then((res)=>{
-                let data = [];
-                for(var i = 0; i <= this.numOfLecture; i++) {
+                for(var i = 0; i < this.numOfLecture; i++) {
                     data.push(res.data[i])
                 }
-                //alert(data);
                 this.lectureListFirst = res.data
                 this.lectureInfo = data
                 this.lectureCount = this.lectureListFirst.length
-                //this.userid;
-                //this.lectNum;
-                //this.lectNm;
-                
                 
             })
             .catch((err)=>{
                 console.log(err)
             })
-            console.log("######",this.lectureListFirst)
-            console.log("######22222",this.lectureInfo)
-            console.log("#####!!!!",this.lectureCount)
-            console.log("#####!!!!@@@@@@@",userid)
         },
          getLectureCount() {
             const userid = this.$store.getters.getEmail;
@@ -138,7 +129,7 @@ export default {
 
                         var data = []
                         for (var k = 0; k < this.lectureCount; k++){ //전체 수강정보에서 노출 개수만큼 데이터 추출하여 data배열에 추가
-                                data.push(this.lectureList[k]) //전체 수강정보에서 노출
+                                data.push(this.lectureListFirst[k].lectureInfo) //전체 수강정보에서 노출
                         }
                                 this.lectureInfo = data //lectureInfo객체에 data 배열 업데이트
                         }else {

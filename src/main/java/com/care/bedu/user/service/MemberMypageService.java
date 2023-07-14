@@ -16,7 +16,7 @@ public interface MemberMypageService {
 	public int getLectureCount();
 	
 	/* 마이페이지 홈(전체보기 첫번째) */
-	public List<MemberMypageVO> lectureListInfoFirst(int numOfLecture);
+	public List<MemberMypageVO> lectureListInfoFirst(String userid, int numOfLecture);
 	
 	/* 마이페이지 홈(전체보기를 눌렀을때 보여지는 수강정보 목록) */
 	public List<MemberMypageVO> lectureList(int numOfLecture,  int lectureCount);

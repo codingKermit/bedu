@@ -97,15 +97,6 @@
     box-shadow: none !important;
 }
 
-.nav-item{
-    --bs-nav-link-hover-color: var(--blue) !important;
-}
-
-.text-black-50:hover{
-    color: var(--blue) !important;
-    transition: all 0.2s;
-}
-
 .search-toggle-container{
     height: 66px;
 }
@@ -114,6 +105,16 @@
     color : var(--black) !important;
     font-weight: bolder !important;
     transition: all 0.15s
+}
+
+.bedu-header-nav-item{
+    color : rgba(0, 0, 0, 0.6);
+    padding : 0.5rem;
+}
+
+.bedu-header-nav-item:hover{
+    color: var(--blue) !important;
+    transition: all 0.2s; 
 }
 
 a{

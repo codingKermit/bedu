@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.care.bedu.user.service.MemberMypageService;
 import com.care.bedu.user.vo.MemberMypageVO;
 
@@ -38,18 +39,17 @@ public class MemberMypageController {
 		model.addAttribute("lectureCount", lectureCount);
 		
 		/* 처음에 보여지는 수강정보 목록 */
-		model.addAttribute("lectureListFirst", memberMypageService.lectureListInfoFirst(numOfLecture));
+		model.addAttribute("lectureListFirst", memberMypageService.lectureListInfoFirst(userid, numOfLecture));
 		
 		/* 전체보기를 눌렀을때 보여지는 수강정보 목록 */
 		//model.addAttribute("lectureList", memberMypageService.lectureList(numOfLecture,lectureCount));
     	
-    	return memberMypageService.lectureListInfoFirst(numOfLecture);
+    	return memberMypageService.lectureListInfoFirst(userid, numOfLecture);
     }
     
     /* 마이페이지 홈(전체보기 클릭 시 화면이동) */
     @GetMapping("/mypageAll")
     public List<MemberMypageVO> getMemberMypageAll(String userid, Model model, @PathVariable Optional<Integer> pageNum) {
-
     	//pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
     	int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
     	//화면에 보여줄 수강정보의 수

@@ -30,7 +30,7 @@
                             {{ form.scoreUsers }}
                             개)
                         </div>
-                    </div>
+                    </div> 
                     <!-- 강의 평점 컨테이너 종료 -->
 
                     <div class="list-unstyled align-middle w-100">
@@ -330,6 +330,7 @@ import '@/assets/css/lectureStyle.css';
                     this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : this.$store.getters.getUsernum,
+                        lectName : this.form.title,
                     })
                     .then(()=>{
                         this.$routerPush('lecturePayment')

@@ -13,26 +13,26 @@
    			ON B.USER_NAME = C.USER_NAME
    	</select>
 	
-	<select id="lectureListInfoFirst"  resultType="int">
+	<select id="lectureListInfoFirst" resultType="java.lang.String" parameterType="com.care.bedu.user.vo.MemberMypageVO">
 		SELECT 
-			A.TITLE,
-			A.LECT_DESC,
-			A.LECT_PERIOD
+			A.TITLE as title,
+			A.LECT_DESC as lectDesc,
+			A.LECT_PERIOD as lectPeriod
 		FROM t_bedu_lect A
 		INNER JOIN t_bedu_user_lect B
 		    ON A.LECT_NUM = B.LECT_NUM
 		INNER JOIN t_bedu_user C
 		    ON B.USER_NAME = C.USER_NAME
-		WHERE C.USER_ID = #{email}
+		WHERE C.USER_ID = #{userid}
 		ORDER BY B.USER_LECT_NUM DESC LIMIT 0,#{numOfLecture}
 		
 	</select>
 	
-	<select id="getMemberMypageAll"  resultType="int" parameterType="com.care.bedu.user.vo.MemberMypageVO">
+	<select id="getMemberMypageAll"  resultType="java.lang.String" parameterType="com.care.bedu.user.vo.MemberMypageVO">
 		SELECT 
-			A.TITLE,
-			A.LECT_DESC,
-			A.LECT_PERIOD
+			A.TITLE as title,
+			A.LECT_DESC as lectDesc,
+			A.LECT_PERIOD as lectPeriod
 		FROM t_bedu_lect A
     	INNER JOIN t_bedu_user_lect B
     		ON A.LECT_NUM = B.LECT_NUM

@@ -164,6 +164,9 @@ export default{
     methods: {
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
+            if(this.$route.name != 'lectureLesson'){
+                return;
+            }
             const userName = this.$store.getters.getNickname;
             if(userName == null) {
                 this.$swal({
@@ -185,6 +188,7 @@ export default{
                 .finally(()=>{
                     return;
                 })
+                return;
             }
 
             if(this.lessonInfo.lectDtlNum == undefined || this.lessonInfo.lectDtlNum == null){

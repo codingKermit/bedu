@@ -25,6 +25,9 @@ public class InquiryVO {
 	// 유저 이름
 	private String userName; 
 	
+	// 유저 아이디
+	private String userId;
+	
 	// 문의 시간
 	private Date regDate; 
 	
@@ -37,4 +40,12 @@ public class InquiryVO {
 	// 비밀번호
 	private Integer password;
 	
+	//글시작번호
+	private int page;	
+	
+	//글끝번호
+	private int limit;
+	
+	//답글 갯수
+	private int replyCnt;
 }

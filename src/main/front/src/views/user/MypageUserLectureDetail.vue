@@ -7,18 +7,18 @@
                 </h3>
             </div>
         </div>
-         <div v-for="(item, index) in paginatedData" :key="index">
-            <b-container class="w-75 ms-auto py-5">
+         <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
+            <b-container class="w-75 ms-auto py-5" >
                     <b-container class="border rounded-3 py-3 mb-2">
                         <p class="fw-bold">프로그래밍 배워봅시다</p>
                         <p>
                             <span>강좌이름 : </span> {{ item.title }}
                         </p>
                         <p>
-                            <span>강의설명 : </span> {{ item.lect_desc }}
+                            <span>강의설명 : </span> {{ item.lectDesc }}
                         </p>
                         <p>
-                            <span>수강기간 : </span> {{ item.lect_period }}
+                            <span>수강기간 : </span> {{ item.lectPeriod }}
                         </p>
                     </b-container>
             </b-container>
@@ -41,15 +41,15 @@ export default {
        return {
            item : {
                 title : '',
-                lect_desc : '',
-                lect_period : ''
+                lectDesc : '',
+                lectPeriod : ''
            },
            userNum : this.$store.state.usernum,
            userId : this.$store.state.nickname,
            userid : this.$store.state.email,
            pageNumber : 0,
            //listArray에 데이터 들어가는지 테스트중
-           listArray : [{title : '프로그래밍이지요이지요'},{title : '프로그래밍이지요'},{title : '프로그래밍'},{title : '프로그래밍'},{title : '프로그래밍'},{title : '프로그래밍'}], //수강내역 전체 데이터
+           listArray : [], //수강내역 전체 데이터
            numOfPage : 5,
            lectureInfo : {}, //화면에 노출되는 수강내역 데이터
            lectureCount : 0,  //수강내역 전체보기 출력
@@ -72,18 +72,16 @@ export default {
             this.$axiosSend('get','/api/mypageAll',{userid: userid},true)
             .then((res)=>{
                 for(var i = 0; i < this.numOfPage; i++) {
-                        data.push(this.listArray[i]);
+                        data.push(res.data[i]);
                 }
-                console.log(res)
-                
+                this.listArray = res.data
                 this.lectureIfo = data
                 this.lectureCount = this.listArray.length
             })
             .catch((err)=>{
                 console.log(err)
             })
-            console.log("######22222",this.lectureInfo)
-            console.log("#####!!!!",this.lectureCount)
+            
         },
     },
     computed : {
@@ -109,8 +107,9 @@ export default {
 </script>
 <style>
 .btn-cover {
-  margin-top: 1.5rem;
+  margin-top: 5rem;
   text-align: center;
+  padding-bottom : 5rem;
 }
 .btn-cover .page-btn {
   width: 5rem;
@@ -119,5 +118,17 @@ export default {
 }
 .btn-cover .page-count {
   padding: 0 1rem;
+}
+.lecturedetailcontainer{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom : -5rem;
+}
+@media (min-width: 768px) {
+    .lecturedetailcontainer {
+    width: 800px;
+  }
 }
 </style>
