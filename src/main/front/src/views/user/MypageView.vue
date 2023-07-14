@@ -22,16 +22,15 @@
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
                                     <div class="mypageInfo">
                                         <div class="mypageContain">
-                                                <p class="fw-bold">프로그래밍 배워봅시다</p>
-                                                <p>
-                                                    <span>강좌이름 : </span> {{ item.title }}
-                                                </p>
-                                                <p>
-                                                    <span>강의설명 : </span> {{ item.lectDesc }}
-                                                </p>
-                                                <p>
-                                                    <span>수강기간 : </span> {{ item.lectPeriod }}
-                                                </p>
+                                            <p class="fw-bold">
+                                                <span>강좌이름 : </span> {{ item.title }}
+                                            </p>
+                                            <p class="fw-bold">
+                                                <span>강의설명 : </span> {{ item.lectDesc }}
+                                            </p>
+                                            <p class="fw-bold">
+                                                <span>수강기간 : </span> {{ item.lectPeriod }}
+                                            </p>
                                         </div>
                                     </div>
                                 </b-link>
