@@ -21,8 +21,10 @@
                                         <div class="mypageContain">
                                             <h3> {{ item.title }} </h3>
                                             <hr>
-                                            <div>
+                                            <div class="lectdesc" v-html="item.lectDesc"></div>
+                                            <div class="lectperid">
                                                 <span>수강기간 : </span> {{ item.lectPeriod }}
+                                                <span>일</span>
                                             </div>
                                         </div>
                                     </div>
