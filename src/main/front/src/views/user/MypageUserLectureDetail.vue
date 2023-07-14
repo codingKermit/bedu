@@ -129,7 +129,7 @@ export default {
 }
 @media (min-width: 768px) {
     .lecturedetailcontainer {
-    width: 800px;
+    width: 1000px;
   }
 }
 </style>

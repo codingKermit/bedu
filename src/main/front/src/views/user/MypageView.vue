@@ -33,7 +33,7 @@
                         </div>
                     </div>
             </b-container>
-            <b-container class="mypagebookmark">
+            <b-container class="mypagebookmark"  style="padding-bottom: 10rem;">
                 <div class="mypageBookmark">
                     <b-container>
                         <p class="fs-4 fw-bold">북마크</p>
