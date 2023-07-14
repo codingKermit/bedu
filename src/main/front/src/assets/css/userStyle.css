@@ -4,7 +4,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-top: 7%;
+    padding-top: 9%;
+    padding-bottom: 8%;
 }
 
 #loginChangeSection {
@@ -109,13 +110,13 @@
 #emailOptions {
     list-style-type: none;
     padding: 0;
-    margin-left: 8%;
+    margin-left: 8.8%;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
     position: absolute;
     z-index: 999;
-    width: 79%;
+    width: 78.5%;
 }
 
 #emailOptions li {
@@ -239,7 +240,7 @@
 }
 
 #registContainer label span {
-    font-size: 17px;
+    font-size: 25px;
     white-space: nowrap;
 }
 
@@ -300,13 +301,13 @@
 }
 
 #registInputError {
-    margin-left: 8%;
+    margin-left: 9%;
     position: absolute;
     color: red;
 }
 
 #registInputCorrect {
-    margin-left: 8%;
+    margin-left: 9%;
     position: absolute;
     color: rgb(0, 182, 0);
 }
@@ -360,25 +361,20 @@
 }
 
 /* Media Queries */
-@media (max-width: 800px) {
+@media (max-width: 1300px) {
 
-    #registInputCorrect,
-    #registInputError {
-        margin-top: 0;
-        margin-left: 0;
-        font-size: 0.8rem;
+    /* 로그인 모바일 CSS */
+    #loginChangeContainer {
+        padding-top: 10%;
+    }
+
+    #loginChangeSection {
+        margin-top: 10%;
     }
 
     #loginSubmitBtn {
         width: 100%;
         margin-bottom: -500px;
-    }
-
-    #registChkAll,
-    #registCheckBox {
-        margin-top: 8%;
-        margin-left: 1%;
-        width: 99%;
     }
 
     #emailInputSection ,
@@ -387,8 +383,27 @@
     }
 
     #loginChangeSection {
-        margin-top: 45%;
         width: 105%;
+    }
+
+    #loginContainer {
+        width: 90%;
+    }
+
+
+    /* 회원가입 모바일 CSS*/
+    #registInputCorrect,
+    #registInputError {
+        margin-top: 0;
+        margin-left: 0;
+        font-size: 0.8rem;
+    }
+
+    #registChkAll,
+    #registCheckBox {
+        margin-top: 8%;
+        margin-left: 1%;
+        width: 99%;
     }
     
     #registChangeSection {
@@ -396,7 +411,6 @@
         width: 105%;
     }
   
-    #loginContainer,
     #registContainer {
         width: 90%;
     }
@@ -416,6 +430,8 @@
 
     #registEmailChk {
         margin-bottom: 2%;
+        margin-left: 0;
+        width: 100%;
     }
 
     #registPassword {
@@ -453,8 +469,7 @@
     #registCheckBox textarea {
         width: 100%;
     }
-  
-    #registEmailChk,
+
     #registNickChk {
         margin-left: 0;
         width: 100%;
