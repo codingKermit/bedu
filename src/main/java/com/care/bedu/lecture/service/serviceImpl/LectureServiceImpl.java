@@ -88,7 +88,6 @@ public class LectureServiceImpl implements LectureService{
 		dto = lectureDao.lectureSearch(arg);
 		map.put("item", dto);
 
-
 		return map;
 	}
 
@@ -244,10 +243,7 @@ public class LectureServiceImpl implements LectureService{
 
 		int result = 1;
 		
-		System.out.println(args);
-		
 		for(Map<String,Object> m : args){
-			System.out.println(m);
 			result = lectureDao.addToMyPage(m);
 			if(result != 1){
 				return 0;

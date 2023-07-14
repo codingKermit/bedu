@@ -5,7 +5,7 @@
                 <div
                     class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 lect-search-border-bedu mt-5">
                     <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
-                    <b-form-input class="border-0 me-2" v-model="keyword"></b-form-input>
+                    <b-form-input class="border-0 me-2 lect-search-input" v-model="keyword"></b-form-input>
                 </div>
             </b-form>
             <p class="fs-2 fw-bold">강좌 검색결과 ({{ total }})</p>
@@ -103,7 +103,6 @@ export default{
                     }
                     $state.complete(); // 더이상 로드할 데이터가 없음을 명시. 스크롤 이벤트의 동작이 멈춤
                 }
-                console.log($state)
             })
             .catch((err) => { console.log(err); });
         },

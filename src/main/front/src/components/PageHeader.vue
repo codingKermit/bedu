@@ -10,10 +10,12 @@
                     role="button"/>
             </div>
             <div class="h-100 w-100">
-                <div class="bg-white w-100 h-100 rounded-5 py-2">
+                <div class="bg-white w-100 h-100 rounded-5 p-2 d-flex">
                     <font-awesome-icon class="mx-3 fs-3" :icon="['fas', 'magnifying-glass']"/>
                     <span class="w-100">
-                        <input class="border-0 h-100 w-75 bedu-header-search">
+                        <b-form @submit.prevent="lectSearch">
+                            <b-form-input v-model="keyword" class="border-0 h-100 w-100 p-0 bedu-header-search"></b-form-input>
+                        </b-form>
                     </span>
                 </div>
             </div>
@@ -35,7 +37,7 @@
 
             <!-- 헤더 콜랩스 -->
             <b-collapse id="header-collapse" is-nav>
-                <b-navbar-nav id="nav1" class="me-auto pt-3 ms-2">
+                <b-navbar-nav id="nav1" class="me-auto ms-2">
                     <router-link
                     v-if='categories.length'
                         class="fs-5 fw-bold m-0 bedu-header-nav-item p-2"
@@ -69,39 +71,35 @@
                         멤버쉽 안내
                     </router-link>
                 </b-navbar-nav>
-                <b-navbar-nav id="nav2" class="ms-auto pt-4">
-                    <div class="search-popup">
-                        <div
-                            style="width: 250px; height: 30px; margin-right: 100px;"
-                            class="border-3 rounded-pill d-flex align-middle text-center border-bedu">
-                            <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
-                            <form @submit.prevent="lectSearch">
-                                <b-form-input
-                                    style="width: 250px; height: 30px; margin-right: 70px;"
-                                    class="border-0 me-2 bedu-header-search"
-                                    v-model="keyword"
-                                    id=""></b-form-input>
-                            </form>
+                <b-navbar-nav id="nav2" class="ms-auto align-items-center">
+                    <div>
+                        <div class="search-popup">
+                            <b-form @submit.prevent="lectSearch">
+                                <div class="d-flex border-0 rounded-pill border-bedu">
+                                    <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
+                                    <b-form-input size="sm" class="border-bedu bedu-header-search"></b-form-input>
+                                </div>
+                            </b-form>
                         </div>
                     </div>
                     <b-nav-item
                         style="margin-left: 10px;"
                         class="fs-5 fw-bold"
                         v-if="!isLoggedIn">
-                        <router-link class="m-0 text-black-50" to="/login">
+                        <router-link class="m-0 text-black-50 bedu-header-nav-item" to="/login">
                             로그인
                         </router-link>
                     </b-nav-item>
                     <!-- 사용자 드롭다운 메뉴 -->
                     <b-nav-item
                         v-if="isLoggedIn"
-                        class="dropdown fs-5"
+                        class="dropdown fs-5 fw-bold"
                         @click="openDropdown"
                         @mouseleave="closeDropdown">
                         <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
                             <span class="fs-5 fw-bold px-2 py-0">{{ getNickname }}</span>
                         </button>
-                        <span style="font-weight: bold;">님</span>
+                        <span>님</span>
                         <ul class="dropdown-menu" v-show="isDropdownOpen">
                             <b-dropdown-item to="/mypage">
                                 마이 페이지
@@ -119,14 +117,12 @@
                         id="headerLogout"
                         v-if="isLoggedIn"
                         @click="logout"
-                        class="fs-5 fw-bold">
+                        class="fs-5 fw-bold bedu-header-nav-item">
                         로그아웃
                     </b-nav-item>
-                    <b-nav-item class="fs-5 fw-bold" v-if="!isLoggedIn" >
-                        <router-link class="m-0 text-black-50" to="/regist">
-                            회원가입
-                        </router-link>
-                    </b-nav-item>
+                    <router-link v-if="!isLoggedIn" class="m-0 fs-5 fw-bold text-black-50 bedu-header-nav-item" to="/regist">
+                        회원가입
+                    </router-link>
                 </b-navbar-nav>
             </b-collapse>
 
@@ -222,6 +218,20 @@
                             <b-nav-item to="/membership" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">
                                 멤버쉽 안내
                             </b-nav-item>
+                            <div v-if="isLoggedIn" class="fs-4 fw-bold">
+                                <b-nav-item to="/mypage">
+                                    마이 페이지
+                                </b-nav-item>
+                                <b-nav-item to="/csc">
+                                    고객 센터
+                                </b-nav-item>
+                            </div>
+                            <div v-if="isLoggedIn && getCls === 'ADMIN'">
+                                <hr>
+                                <b-nav-item to="/adminPage" class="fs-4 fw-bold">
+                                    관리자 페이지
+                                </b-nav-item>
+                            </div>
                         </b-navbar-nav>
                     </b-nav>
                 </div>

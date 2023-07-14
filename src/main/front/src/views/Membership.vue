@@ -1,8 +1,8 @@
 <template>
     <div>
         <b-container class="h-100 pt-5">
-            <div class="row pt-5">
-                <div class="col">
+            <b-row class="row pt-5" cols="1" cols-lg="2">
+                <b-col class="mb-3 mb-lg-0">
                     <b-container class="border-4 border-dark border rounded-5 p-0 overflow-hidden"
                     @mouseenter="mouseover('month')" @mouseleave="mouseleave('month')" >
                         <div class="h-25 bedu-bg-custom-yellow-75 p-5" ref="month">
@@ -21,8 +21,8 @@
                             <p>+ 코딩 챌린지 참여</p>
                         </div>
                     </b-container>
-                </div>
-                <div class="col">
+                </b-col>
+                <b-col>
                     <b-container class="border-4 border-dark border rounded-5 p-0 overflow-hidden"
                     @mouseover="mouseover('year')" @mouseleave="mouseleave('year')" >
                         <div class="h-25 bedu-bg-custom-yellow-75 p-5" ref="year">
@@ -42,8 +42,8 @@
                             <p>+ 코딩 챌린지 참여</p>
                         </div>
                     </b-container>
-                </div>
-            </div>
+                </b-col>
+            </b-row>
         </b-container>
     </div>
 </template>

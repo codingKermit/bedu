@@ -2,20 +2,34 @@
     <div>
         <div class="p-4 p-md-5 w-100 d-flex">
             <!-- 좌측 네비, 커리큘럼 컨테이너 -->
-            
             <!-- 좌측 카테고리 네비게이션 컴포넌트화 -->
             <CategoryNaviVue @emitTest="emitTest"></CategoryNaviVue> 
             
             <div class="w-100 pe-0 pe-sm-3">
                 <!-- 모바일 화면에서 대분류 & 중분류 변경을 위한 콤보 -->
-                <div>
-                    {{ cnt_top_cate_kor }}
-                    <br>
-                    {{ cnt_mid_cate_kor }}
-                </div>
-                
+
                 <!-- 강의 기본정보 & 커리큘럼 컨테이너-->
-                <!-- <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p> -->
+                <div class="d-flex gap-1  d-block d-xxl-none">
+                    <b-form-select 
+                    class="w-50" 
+                    v-model="cnt_top_cate" :options="categories.filter((item)=>item.level == 1)"
+                    value-field="lectTopCate"
+                    text-field="lectTopCateKor"
+                    size="lg"
+                    ></b-form-select>
+
+                    <b-form-select
+                    class="w-50"
+                    v-model="cnt_mid_cate"
+                    :options="categories.filter((first)=>first.level == 2).filter((second)=>second.lectTopCate == this.cnt_top_cate)"
+                    value-field="lectMidCate"
+                    text-field="lectMidCateKor"
+                    ></b-form-select>
+                </div>
+
+                <div class="d-flex gap-5 d-none d-xxl-block">
+                    <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p>
+                </div>
                 <p class="fs-3 fw-bold curriculum-head my-3">커리큘럼</p>
                 <ul class="list-unstyled">
                     <!-- 소분류 목록 -->
@@ -94,6 +108,7 @@ import '@/assets/css/lectureStyle.css';
         },
         methods: {
             emitTest(newTop, newMid){
+                console.log(this.$route.params.index)
                 this.cnt_top_cate_kor = newTop;
                 this.cnt_mid_cate_kor = newMid;
             },
@@ -115,13 +130,26 @@ import '@/assets/css/lectureStyle.css';
                     .catch((err) => {
                         console.log(err)
                     })
-                }
+            },
+            getList(){
+                this.$axiosSend('get','/api/lect/getCategory')
+                .then((res)=>{
+                    this.categories = res.data.item
+                    this.cnt_top_cate_kor = this.categories.filter((first)=>first.level == 1).filter((second)=>second.lectTopCate == this.cnt_top_cate)[0].lectTopCateKor
+                    this.cnt_mid_cate_kor = this.categories.filter((first)=>first.level==2).filter((second)=>second.lectMidCate == this.cnt_mid_cate)[0].lectMidCateKor
+                    
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            }
         },
         created() {
             
         },
         mounted() {
-
+            this.cnt_top_cate = this.$route.params.index;
+            this.getList();
         },
         watch: {
             cnt_mid_cate: function () { // 중분류 변경되면 그에맞는 소분류, 강의 목록 조회
@@ -138,7 +166,7 @@ import '@/assets/css/lectureStyle.css';
                         })
                 }
             },
-            '$route.query.cnt_top_cate': { 
+            '$route.params.index': { 
                 immediate: true,
                 handler(newTop) {
                     this.cnt_top_cate = newTop;

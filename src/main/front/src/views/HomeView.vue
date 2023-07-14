@@ -54,17 +54,19 @@
         <!-- 금주의 인기 강좌 컨테이너 인기 기준이 없는 관계로 임시로 신규 강의와 동일한 데이터 출력 -->
         <b-container class="mb-5">
             <p class="fs-4 mb-5 fw-bold">금주의 인기 강좌</p>
-            <div>
-                <b-row class="justify-content-center d-block d-md-flex" cols="1" cols-sm="2" cols-lg="5">
-                    <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-3">
-                        <b-link
-                            class="text-decoration-none text-body"
-                            :to='"/lectureDetail?num="+item.lectNum'>
-                            <b-container class="border rounded-4 lecture_item">
-                                <div class="ps-3 overflow-hidden">
-                                    <p class="fs-5 pt-3">{{ item.title }}</p>
-                                    <p class="text-secondary">{{ item.lectSum }}</p>
+            <b-row class="d-block d-sm-flex " cols="1" cols-sm="2" cols-lg="5">
+                <b-col v-for="(item, index) in newestLectures" :key="index">
+                    <b-link
+                        class="text-decoration-none text-body h-100 d-block"
+                        :to='"/lectureDetail?num="+item.lectNum'>
+                        <b-container class="border rounded-4 lecture_item h-100 mb-3">
+                            <div class="ps-2 h-100">
+                                <div class="lect-upper-side overflow-hidden">
+                                    <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>
+                                    <p class="text-secondary ">{{ item.lectSum }}</p>
                                     <p>{{ item.teacher }} 선생님</p>
+                                </div>
+                                <div class="lect-lower-side">
                                     <hr>
                                     <p>총 {{ item.total }}강</p>
                                     <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
@@ -73,11 +75,11 @@
                                         원
                                     </div>
                                 </div>
-                            </b-container>
-                        </b-link>
-                    </b-col>
-                </b-row>
-            </div>
+                            </div>
+                        </b-container>
+                    </b-link>
+                </b-col>
+            </b-row>
         </b-container>
 
         <!-- 멤버쉽 광고 컨테이너 -->
@@ -86,9 +88,6 @@
             <div style="height: 200px; width: 100%;" class="rounded-4 border border-5 border-dark">
                 <b-container class="text-body fw-bold d-flex">
                     <div class="me-auto">
-                        <p>마참내!</p>
-                        <p>월정액을!</p>
-                        <p>즐겁다!</p>
                         <p>뭐어?! 최대 31% 할인이라고오~~~!?!?!?! 당장 사야지~~!!</p>
                         <p>대충 광고 문구 주저리주저리...</p>
                     </div>

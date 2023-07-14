@@ -73,9 +73,6 @@ export default{
             this.$axiosSend('get','/api/lect/getCategory')
                 .then((res)=>{
                     this.categories = res.data.item
-                    console.log(this.categories)
-                    this.cnt_top_cate_kor;
-
                 })
                 .catch((err)=>{
                     console.log(err)

@@ -2,8 +2,8 @@
     <div class="adminPage">
         <b-container class="py-5">
             <p class="fs-1 fw-bold">관리자 페이지</p>
-            <div class="row p-5 fs-3">
-                <div class="col">
+            <b-row class="p-5 fs-3" cols="1" cols-md="2" cols-lg="3">
+                <b-col class="mb-3">
                     <b-container>
                         <p class="fs-3 fw-bold ">강의</p>
                         <ul>
@@ -24,10 +24,20 @@
                             </li>
                         </ul>
                     </b-container>
-                </div>
-                <div class="col"></div>
-                <div class="col"></div>
-            </div>
+                </b-col>
+                <b-col class="mb-3">
+                    <p class="fs-3 fw-bold">사용자</p>
+                    <ul>
+                        <!-- 사용자 관리 페이지는 추후 개발 예정 -->
+                    </ul>
+                </b-col>
+                <b-col class="mb-3">
+                    <p class="fs-3 fw-bold">게시판</p>
+                    <ul>
+                        <!-- 게시판 관리 페이지는 추후 개발 예정-->
+                    </ul>
+                </b-col>
+            </b-row>
         </b-container>
     </div>
 </template>

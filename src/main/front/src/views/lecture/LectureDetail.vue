@@ -6,13 +6,13 @@
                 <p class="text-secondary fs-5 ms-3">{{ form.korCategory }}</p>
             </div>
             <!-- 썸네일, 강의정보 컨테이너-->
-            <div class="d-flex mb-4">
+            <b-row class="mb-4" cols="1" cols-md="2">
                 <!-- 썸네일 컨테이너 -->
-                <div class="w-50 me-5 ratio ratio-16x9">
-                    <b-img class="w-100" thumbnail="thumbnail" rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
-                </div>
+                <b-col class="mb-3 mb-md-0">
+                    <b-img class="w-100" thumbnail rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
+                </b-col>
                 <!-- 강의 정보 컨테이너 시작 -->
-                <div class="w-50">
+                <b-col class="">
                     <p class="fw-bold fs-3">{{ form.title }}</p>
 
                     <!-- 강의 평점 컨테이너 시작 -->
@@ -35,90 +35,95 @@
 
                     <div class="list-unstyled align-middle w-100">
                         <div class="mb-2 row">
-                            <span class="text-secondary col-2">강사</span>
+                            <span class="text-secondary col-3 col-md-2">강사</span>
                             <span class="text-body col">{{ form.teacher }}</span>
                         </div>
                         <div class="mb-2 row">
-                            <span class="text-secondary col-2">수강기간</span>
+                            <span class="text-secondary col-3 col-md-2">수강기간</span>
                             <span class="text-body col">
                                 구매일로부터
                                 {{ form.lectPeriod }}일</span>
                         </div>
                         <div class="mb-2 row">
-                            <span class="text-secondary col-2">학습시간</span>
+                            <span class="text-secondary col-3 col-md-2">학습시간</span>
                             <span class="text-body col">{{ form.totalTimes }}({{ form.total }}강)</span>
                         </div>
                     </div>
 
-                </div>
+                </b-col>
                 <!-- 강의 정보 컨테이너 종료 -->
-            </div>
+            </b-row>
 
             <!-- 결제, 장바구니 컨테이너 -->
             <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5 ">
-                <b-container class="d-flex align-items-center">
-                    <div class="w-50 d-flex">
-                        <span class="fw-5 text-secondary ms-3 fs-6 align-self-baseline">강좌</span>
-                        <span class="mx-auto fs-5">{{ form.title }}</span>
-                    </div>
-                    <div class="ms-auto fw-bold me-4">
-                        <span class="fs-2 text-danger">{{ form.price }}</span>
-                        <span>원</span>
-                    </div>
-                    <div v-if="myPageList != null && myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
-                        <b-button class="mt-auto h-100 px-5 py-2 bedu-bg-custom-blue">
-                            수강중인 강의
-                        </b-button>
-                    </div>
-                    <div v-else class="w-10">
-                        <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
-                            결제하기
-                        </b-button>
-                        <b-button class="px-5" data-bs-toggle="modal" data-bs-target="#cartModal" @click="addToCart">
-                            장바구니
-                        </b-button>
-                    </div>
-
-                    <!-- 결제 모달 -->
-                    <div class="modal fade" id="paymentTypeModal">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <p class="fs-3">멤버쉽 안내</p>
-                                </div>
-                                <div class="modal-body">
-                                    <b-container class="mb-3">
-                                        <p>멤버쉽 가입시 최대 31% 할인된 가격에 모든 강의를 이용할 수 있습니다</p>
-                                        <p>멤버쉽에 대해 알아보시겠습니까?</p>
-                                    </b-container>
-                                </div>
-                                <div class="modal-footer my-2">
-                                    <b-button class="m-auto fs-5 px-4 py-2 bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPayment">
-                                        결제하기
-                                    </b-button>
-                                    <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toMembership">
-                                        멤버쉽 알아보기
-                                    </b-button>
-                                </div>
+                <b-row class="align-items-center" cols="1" cols-md="2">
+                    <b-col class="mb-4">
+                        <div class="text-truncate">
+                            <span class="fw-bold text-secondary mx-3 fs-6">강좌</span>
+                            <span class="mx-auto fs-5">{{ form.title }}</span>
+                        </div>
+                    </b-col>
+                    <b-col>
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div class="fw-bold me-4">
+                                <span class="text-danger fs-2">{{ form.price }}</span>
+                                <span>원</span>
+                            </div>
+                            <div v-if="myPageList != null && myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
+                                <b-button class="mt-auto h-100 px-5 py-2 bedu-bg-custom-blue">
+                                    수강중인 강의
+                                </b-button>
+                            </div>
+                            <div v-else class="w-10">
+                                <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
+                                    결제하기
+                                </b-button>
+                                <b-button class="px-5" data-bs-toggle="modal" data-bs-target="#cartModal" @click="addToCart">
+                                    장바구니
+                                </b-button>
+                        </div>
+                        </div>
+                    </b-col>
+                </b-row>
+                <!-- 결제 모달 -->
+                <div class="modal fade" id="paymentTypeModal">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p class="fs-3">멤버쉽 안내</p>
+                            </div>
+                            <div class="modal-body">
+                                <b-container class="mb-3">
+                                    <p>멤버쉽 가입시 최대 31% 할인된 가격에 모든 강의를 이용할 수 있습니다</p>
+                                    <p>멤버쉽에 대해 알아보시겠습니까?</p>
+                                </b-container>
+                            </div>
+                            <div class="modal-footer my-2">
+                                <b-button class="m-auto fs-5 px-4 py-2 bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPayment">
+                                    결제하기
+                                </b-button>
+                                <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toMembership">
+                                    멤버쉽 알아보기
+                                </b-button>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- 장바구니 모달 -->
-                    <div class="modal fade" id="cartModal">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    강의가 장바구니에 담겼습니다. 이동하시겠습니까?
-                                </div>
-                                <div class="modal-footer">
-                                    <b-button class="bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPaymentOnly">장바구니</b-button>
-                                    <b-button data-bs-dismiss="modal">둘러보기</b-button>
-                                </div>
+                <!-- 장바구니 모달 -->
+                <div class="modal fade" id="cartModal">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                강의가 장바구니에 담겼습니다. 이동하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                                <b-button class="bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPaymentOnly">장바구니</b-button>
+                                <b-button data-bs-dismiss="modal">둘러보기</b-button>
                             </div>
                         </div>
                     </div>
-                </b-container>
+                </div>
             </div>
 
             <div class="lect-dtl-form-contents-container overflow-hidden">
@@ -163,7 +168,30 @@
 
                     <!-- 수강 후기 -->
                     <div class="mb-5">
-                        <div class="d-flex mb-5">
+                        <b-row>
+                            <b-col class="col-12 col-md-4">
+                                <p class="fs-2 fw-bold me-auto" id="lecture-review-container">수강후기</p>
+                            </b-col>
+                            <b-col>
+                                <div class="justify-content-end d-block d-md-flex">
+                                    <div class="mb-3 mb-md-0">
+                                        <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
+                                            <font-awesome-icon
+                                            :class="form.score < star ? 'text-secondary' : 'text-danger'"
+                                            :icon="['fas','star']"
+                                                />
+                                        </span>
+                                    </div>
+                                    <div class="ms-2 pt-1 align-middle">
+                                        {{ form.score }}
+                                        점 (
+                                        {{ form.scoreUsers }}
+                                        개)
+                                    </div>
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <!-- <div class="d-flex mb-5">
                             <p class="fs-2 fw-bold me-auto" id="lecture-review-container">수강후기</p>
                             <div>
                                 <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
@@ -179,7 +207,7 @@
                                 {{ form.scoreUsers }}
                                 개)
                             </div>
-                        </div>
+                        </div> -->
                         <div class="">
                             <ul>
                                 <li 

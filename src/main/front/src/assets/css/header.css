@@ -1,5 +1,5 @@
 .scrollTop {
-    background-color: var(--black);
+    background-color: rgba(0,0,0,0.7);
     top : 85%;
     right : 3%;
     width: 80px;
@@ -26,11 +26,6 @@
     align-items: center;
 }
 
-#nav2 {
-    display: flex;
-    align-items: center;
-}
-
 #bedu-logo {
     width: auto;
     height: 40px;
@@ -46,12 +41,10 @@
     text-decoration: none;
 }
 
-#nav2 .search-popup {
+/* #nav2 .search-popup {
     align-items: center;
     display: inline-block;
-    margin-left: -20px;
-    margin-right: -50px;
-}
+} */
 
 #nav2 .search-popup input {
     width: 100%;
@@ -64,7 +57,6 @@
 
 .border-bedu {
     background-color: #F6E0B3;
-    width: 70%;
     border-color: #EDC268;
 }
 
