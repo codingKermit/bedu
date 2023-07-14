@@ -10,14 +10,13 @@
          <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
             <b-container class="w-75 ms-auto py-5" >
                     <b-container class="border rounded-3 py-3 mb-2">
-                        <p class="fw-bold">프로그래밍 배워봅시다</p>
-                        <p>
+                        <p class="fw-bold">
                             <span>강좌이름 : </span> {{ item.title }}
                         </p>
-                        <p>
+                        <p class="fw-bold">
                             <span>강의설명 : </span> {{ item.lectDesc }}
                         </p>
-                        <p>
+                        <p class="fw-bold">
                             <span>수강기간 : </span> {{ item.lectPeriod }}
                         </p>
                     </b-container>
