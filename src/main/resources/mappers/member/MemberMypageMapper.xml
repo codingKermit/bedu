@@ -4,48 +4,41 @@
 <mapper namespace="com.care.bedu.user.dao.MemberMypageDAO">
 
 	<select id="getLectureCount" resultType="int">
-			SELECT 
-				COUNT(A.LECT_NUM) as totalLect
-			FROM t_bedu_lect A
-	    	INNER JOIN t_bedu_user_lect B
-	    		ON A.LECT_NUM = B.LECT_NUM
-	   		INNER JOIN t_bedu_user C
-	   			ON B.USER_NAME = C.USER_NAME
+		SELECT 
+			COUNT(A.LECT_NUM) as totalLect
+		FROM t_bedu_lect A
+    	INNER JOIN t_bedu_user_lect B
+    		ON A.LECT_NUM = B.LECT_NUM
+   		INNER JOIN t_bedu_user C
+   			ON B.USER_NAME = C.USER_NAME
    	</select>
 	
 	<select id="lectureListInfoFirst" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
-			SELECT title,
-				   lectDesc,
-			       lectPeriod
-			FROM ( SELECT 	
-					  TITLE as title,
-				      LECT_DESC as lectDesc,
-				      LECT_PERIOD as lectPeriod
-					  from t_bedu_lect ) A
-			INNER JOIN t_bedu_user_lect B
-				ON LECT_NUM = B.LECT_NUM
-			INNER JOIN t_bedu_user C
-				ON B.USER_NAME = C.USER_NAME
-			WHERE C.USER_ID = #{userid}
-			ORDER BY B.USER_LECT_NUM DESC LIMIT 0,#{numOfLecture}
+		SELECT 
+			A.TITLE as title,
+			A.LECT_DESC as lectDesc,
+			A.LECT_PERIOD as lectPeriod
+		FROM t_bedu_lect A
+		INNER JOIN t_bedu_user_lect B
+		    ON A.LECT_NUM = B.LECT_NUM
+		INNER JOIN t_bedu_user C
+		    ON B.USER_NAME = C.USER_NAME
+		WHERE C.USER_ID = #{userid}
+		ORDER BY B.USER_LECT_NUM DESC LIMIT 0,#{numOfLecture}
 	</select>
 	
 	<select id="getMemberMypageAll"  resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
-			SELECT 
-				   title,
-				   lectDesc,
-			       lectPeriod
-			FROM ( SELECT 	
-					  TITLE as title,
-				      LECT_DESC as lectDesc,
-				      LECT_PERIOD as lectPeriod
-					  from t_bedu_lect ) A
-			INNER JOIN t_bedu_user_lect B
-				ON LECT_NUM = B.LECT_NUM
-			INNER JOIN t_bedu_user C
-				ON B.USER_NAME = C.USER_NAME
-			WHERE C.USER_ID = #{userid}
-   			ORDER BY B.USER_LECT_NUM DESC LIMIT #{startNo},#{numOfPage}
+		SELECT 
+			A.TITLE as title,
+			A.LECT_DESC as lectDesc,
+			A.LECT_PERIOD as lectPeriod
+		FROM t_bedu_lect A
+    	INNER JOIN t_bedu_user_lect B
+    		ON A.LECT_NUM = B.LECT_NUM
+   		INNER JOIN t_bedu_user C
+   			ON B.USER_NAME = C.USER_NAME
+   		WHERE C.USER_ID = #{userid}
+   		ORDER BY B.USER_LECT_NUM DESC LIMIT #{startNo},#{numOfPage}
    	</select>
 	
 </mapper>
