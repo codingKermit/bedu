@@ -227,7 +227,7 @@
                         label: "개인정보 수집 및 이용에 동의",
                         optional: false,
                     },
-                    { value: 3, label: "마케팅 정보 수신 및 선택적 개인정보 제공", optional: true },
+                    { value: 3, label: "마케팅 정보 수신 약관에 동의", optional: true },
                 ],
                 fileText1: '', // 이용약관에 대한 내용을 담을 변수
                 fileText2: '', // 개인정보 수집에 대한 내용을 담을 변수

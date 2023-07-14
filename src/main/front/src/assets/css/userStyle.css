@@ -358,3 +358,105 @@
     color: #303076;
     border: 3px solid #303076;
 }
+
+/* Media Queries */
+@media (max-width: 800px) {
+
+    #registInputCorrect,
+    #registInputError {
+        margin-top: 0;
+        margin-left: 0;
+        font-size: 0.8rem;
+    }
+
+    #loginSubmitBtn {
+        width: 100%;
+        margin-bottom: -500px;
+    }
+
+    #registChkAll,
+    #registCheckBox {
+        margin-top: 8%;
+        margin-left: 1%;
+        width: 99%;
+    }
+
+    #emailInputSection ,
+    #pwdInputSection {
+        width: 100%;
+    }
+
+    #loginChangeSection {
+        margin-top: 45%;
+        width: 105%;
+    }
+    
+    #registChangeSection {
+        margin-top: 20%;
+        width: 105%;
+    }
+  
+    #loginContainer,
+    #registContainer {
+        width: 90%;
+    }
+
+    #registContainer #registChoice {
+        width: 96%;
+    }
+  
+    #registContainer #registChoice span{
+        font-size: 0.9rem;
+    }
+
+    #emailOptions {
+        width: 98%;
+        margin: 0;
+    }
+
+    #registEmailChk {
+        margin-bottom: 2%;
+    }
+
+    #registPassword {
+        margin-top: 9%;
+    }
+
+    #registNickname {
+        margin-top: 6%;
+    }
+
+    #registConfirmPassword {
+        margin-top: 5%;
+    }
+
+    #registSubmitFormBtn {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10%;
+    }
+
+    #registEmail,
+    #registNickname,
+    #registPassword,
+    #registConfirmPassword {
+        width: 100%;
+        margin-left: 0;
+    }
+  
+    #registSubmit,
+    #registSubmit2 {
+        width: 100%;
+        margin-left: 0;
+    }
+  
+    #registCheckBox textarea {
+        width: 100%;
+    }
+  
+    #registEmailChk,
+    #registNickChk {
+        margin-left: 0;
+        width: 100%;
+    }
+}
