@@ -166,11 +166,11 @@
                             </label>
 
                             <!-- 개별 약관 체크박스 -->
-                            <label
+                            <div
                                 id="registChoice"
                                 v-for="(item, index) in agreements"
                                 :key="index"
-                                :for="'agree_' + item.value"
+                                :class="{ checked: selectedAgreements.includes(item.value) }"
                                 @click="toggleCheckbox(item.value)"
                             >
                                 <input
@@ -182,17 +182,23 @@
                                     v-model="selectedAgreements"
                                     @change="updateAllChecked"
                                 />
-                                <span style="cursor: pointer">
+                                <label :for="'agree_' + item.value" style="cursor: pointer; margin-left: 2%;">
                                     <strong v-if="!item.optional">[필수]</strong>
-                                </span>
-                                <span style="cursor: pointer">
                                     <strong v-if="item.optional">[선택]</strong>
                                     {{ item.label }}
+                                </label>
+                                <span
+                                    :for="'agree_' + item.value"
+                                    id="agreeFaIcon"
+                                    style="cursor: pointer"
+                                    @click="agreeOpen(item.value)"
+                                >
+                                    <font-awesome-icon
+                                        :icon="['fas', 'circle-chevron-right']"
+                                        style="color: #d5d8dc;"
+                                    />
                                 </span>
-                                <span id="agreeFaIcon" style="cursor: pointer">
-                                    <font-awesome-icon :icon="['fas', 'circle-chevron-right']" style="color: #d5d8dc;" />
-                                </span>
-                            </label>
+                            </div>
                         </div>
                         <!-- 회원가입 Submit 버튼 -->
                         <div id="registFormGroup">
@@ -208,6 +214,20 @@
             </div>
         </div>
     </div>
+    <!-- 모달 창 -->
+    <div v-if="showModal" class="modal" @click="closeModal">
+        <div class="modal-content" @click.stop>
+            <div class="agreeOpen">
+                <span @click="agreeOpen(1)" :style="{ color: showModal && selectedAgreementContent === fileText1 ? '#303076' : '', borderBottom: showModal && selectedAgreementContent === fileText1 ? '3px solid #303076' : '' }">&nbsp;&nbsp;&nbsp;개인정보 수집 이용,동의&nbsp;&nbsp;&nbsp;</span>·
+                <span @click="agreeOpen(2)" :style="{ color: showModal && selectedAgreementContent === fileText2 ? '#303076' : '', borderBottom: showModal && selectedAgreementContent === fileText2 ? '3px solid #303076' : ''  }">&nbsp;&nbsp;&nbsp;이용약관 동의&nbsp;&nbsp;&nbsp;</span>·
+                <span @click="agreeOpen(3)" :style="{ color: showModal && selectedAgreementContent === fileText3 ? '#303076' : '', borderBottom: showModal && selectedAgreementContent === fileText3 ? '3px solid #303076' : ''  }">&nbsp;&nbsp;&nbsp;이벤트 수신동의&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div id="agreeItem" v-html="selectedAgreementContent"></div>
+            <div class="agreeClose">
+                <button id="agreeCloseBtn" @click="closeModal">확인</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -217,6 +237,8 @@
         name: 'EmailInput',
         data() {
             return {
+                showModal: false, // 모달 창 표시 여부를 나타내는 변수
+                selectedAgreementContent: "", // 선택된 약관의 내용을 저장하는 변수
                 allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
                 selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
                 agreements: [
@@ -432,6 +454,33 @@
                 this.allChecked =
                     this.selectedAgreements.length === this.agreements.length;
             },
+
+            agreeOpen(value) {
+                const agreeItem = document.getElementById('agreeItem');
+                if (agreeItem) {
+                    agreeItem.scrollTop = 0; // 스크롤 위치를 맨 위로 이동
+                }
+                document.getElementById(`agree_${value}`);
+                if (this.showModal) {
+                this.selectedAgreementContent = ""; // 모달이 열릴 때마다 초기화
+                }
+                // 선택된 약관의 내용을 할당
+                if (value === 1) {
+                    this.selectedAgreementContent = this.fileText1;
+                } else if (value === 2) {
+                    this.selectedAgreementContent = this.fileText2;
+                } else if (value === 3) {
+                    this.selectedAgreementContent = this.fileText3;
+                }
+                this.showModal = true; // 모달 창을 표시
+                document.body.style.overflow = 'hidden'; // 스크롤 막기
+            },
+
+            closeModal() {
+                this.showModal = false;
+                document.body.style.overflow = ''; // 스크롤 허용
+            },
+
             // 개별 약관 체크박스 토글 메서드
             toggleCheckbox(value) {
                 document.getElementById(`agree_${value}`);
