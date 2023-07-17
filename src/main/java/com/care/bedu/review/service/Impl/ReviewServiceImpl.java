@@ -22,7 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
     
     @Override
-    public List<HashMap<String, Object>> getAllReviews(int page, int size, String tab) {
+    public List<HashMap<String, Object>> getAllReviews(int page, int size) {
         int startIndex = (page - 1) * size;
         int endIndex = startIndex + size;
 
@@ -50,19 +50,22 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<HashMap<String, Object>> getSearchedReviews(String keyword) {
       // 검색 키워드에 기반하여 후기 필터링
-    List<HashMap<String, Object>> allReviews = reviewDAO.getAllReviews();
+    List<HashMap<String, Object>> getSearchReviews = reviewDAO.getSearchedReviews(keyword);
     List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
-    for (HashMap<String, Object> review : allReviews) {
+    for (HashMap<String, Object> review : getSearchReviews) {
         String title = (String) review.get("TITLE");
-        String content = (String) review.get("CONTENT");
-        String writer = (String) review.get("WRITER");
-        if (title.toLowerCase().contains(keyword) ||
-            content.toLowerCase().contains(keyword) ||
-            writer.toLowerCase().contains(keyword)) {
-        searchedReviews.add(review);
+        String content = (String) review.get("CONTENT"); 
+        String userName = (String) review.get("USER_NAME");
+        // Null check for title, content, and userName
+            if (title != null && content != null && userName != null) {
+                if (title.toLowerCase().contains(keyword.toLowerCase()) ||
+                    content.toLowerCase().contains(keyword.toLowerCase()) ||
+                    userName.toLowerCase().contains(keyword.toLowerCase())) {
+                    searchedReviews.add(review);
+                }
+            }
         }
-    }
-    return searchedReviews;
+        return reviewDAO.getSearchedReviews(keyword);
     }
 
     

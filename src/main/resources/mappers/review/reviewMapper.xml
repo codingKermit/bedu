@@ -32,24 +32,20 @@
 
     <select id="getAllReviews" resultType="java.util.HashMap">
         SELECT
-            TITLE as title,
-            USER_NAME as userName,
-            CONTENT as content,
-            RW_GRADE as rwGrade,
-            RW_DATE as rwDate
-        FROM
-        (
-            SELECT
-            TITLE,
-            USER_NAME,
-            CONTENT,
-            RW_GRADE,
-            RW_DATE
-        FROM
-            t_bedu_rw_bd
-        ORDER BY
-            RW_DATE DESC
-        ) AS temp
+            RW.TITLE        as title
+            , RW.CONTENT    as content
+            , RW.USER_NAME  as userName
+            , RW.RW_GRADE   as rwGrade
+            , RW.RW_DATE    as rwDate
+            , FILD.LECT_TOP_CATE
+            , FILD.LECT_TOP_CATE_KOR 
+            , FILD.LECT_MID_CATE 
+            , FILD.LECT_MID_CATE_KOR 
+            , FILD.LECT_BOT_CATE
+            , FILD.LECT_BOT_CATE_KOR 
+        FROM t_bedu_rw_bd RW
+        LEFT JOIN t_bedu_lect LECT ON RW.LECT_NUM = LECT.LECT_NUM
+        LEFT JOIN t_bedu_lect_fild FILD ON LECT.CATE_CODE = FILD.LECT_BOT_CATE;
     </select>
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
@@ -61,20 +57,8 @@
             RW_DATE as rwDate
         FROM t_bedu_rw_bd
         WHERE
-            TITLE LIKE CONCAT('%', #{keyword}, '%') OR
-            CONTENT LIKE CONCAT('%', #{keyword}, '%') OR
-            USER_NAME LIKE CONCAT('%', #{keyword}, '%')
+            title like CONCAT('%',#{keyword},'%')
     </select>
 
-    <select id="getSearchTitle" resultType="java.util.HashMap">
-        SELECT
-            TITLE as title,
-            USER_NAME as userName,
-            CONTENT as content,
-            RW_GRADE as rwGrade,
-            RW_DATE as rwDate
-        FROM t_bedu_rw_bd
-        WHERE TITLE LIKE CONCAT('%', #{title}, '%')
-    </select>
 
 </mapper>

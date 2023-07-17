@@ -7,12 +7,13 @@ import lombok.Data;
 @Data
 public class ReviewVO {
     private int id;
+    private String keyword;
     private String title;
-    private String writer;
+    private String userName;
     private String content;
-    private int star;
-    private int lectureNumber;
-    private Date reviewDate;
+    private int rwGrade;
+    private int lectNum;
+    private Date rwDate;
     private Date regDate;
     private String regId;
 }

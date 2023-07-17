@@ -1,13 +1,12 @@
 <template>
     <div class="review-list">
         <div class="review-group">
-            {{ currentTab }}
             <div class="mSelect">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><a class="review-a" @click="testMethod('all')">전체</a></li>
-                    <li><a class="review-a" @click="testMethod('base')">기초강의</a></li>
-                    <li><a class="review-a" @click="testMethod('data')">데이터분석</a></li>
-                    <li><a class="review-a" @click="testMethod('web')">웹 개발</a></li>
+                    <li><a class="review-a" href="#">전체</a></li>
+                    <li><a class="review-a" href="#">기초강의</a></li>
+                    <li><a class="review-a" href="#">데이터분석</a></li>
+                    <li><a class="review-a" href="#">웹 개발</a></li>
                     <li><a class="review-a" href="#">프로그래밍 언어</a></li>
                     <li><a class="review-a" href="#">인공지능</a></li>
                     <li><a class="review-a" href="#">프로그래밍 교양</a></li>
@@ -99,8 +98,6 @@
                 currentPage: 1, // 현재 페이지 번호
                 itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
-                currentTab : '',
-
             };
         },
         computed: {
@@ -112,9 +109,6 @@
             this.fetchReviews(); 
         },
         methods: {
-            testMethod(data){
-                this.currentTab = data;
-            },
             // 후기 가져오기
             fetchReviews() {
                 this.isLoading = true; // 로딩 중 상태를 true로 설정합니다.
@@ -123,7 +117,6 @@
                     page: this.currentPage, // 현재 페이지 번호를 파라미터로 전달합니다.
                     size: this.itemsPerPage, // 한 페이지에 보여줄 아이템 수를 파라미터로 전달합니다.
                     keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
-                    tab : this.currentTab
                 })
                 .then((response) => {
                     const { totalElements } = response.data;
@@ -132,7 +125,6 @@
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
                         }
-                        
                         this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
 
                         this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
@@ -182,7 +174,7 @@
                 })
                 .then((response) => {
                 const { totalElements } = response.data;
-                    if (response.data.length) {
+                    if (response.data.length > this.itemsPerPage) {
                         // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
@@ -208,20 +200,20 @@
                     case "highRating":
                         // 별점 높은 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort(
-                            (a, b) => b.STAR - a.STAR
+                            (a, b) => b.rwGrade - a.rwGrade
                         );
                     break;
                     case "lowRating":
                         // 별점 낮은 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort(
-                            (a, b) => a.STAR - b.STAR
+                            (a, b) => a.rwGrade - b.rwGrade
                         );
                     break;
                     default:
                         // 최신 순으로 후기 정렬
                         this.fetchedReviews = [...this.fetchedReviews].sort((a, b) => {
-                            const dateA = new Date(a.REVIEWDATE);
-                            const dateB = new Date(b.REVIEWDATE);
+                            const dateA = new Date(a.rwDate);
+                            const dateB = new Date(b.rwDate);
                         return dateB - dateA;
                         });
                     break;
@@ -229,6 +221,7 @@
             },
             // 후기 검색
             searchReviews() {
+                
                 if (this.searchKeyword === "") {
                 // 검색어가 비어있을 경우, 알림창을 표시합니다.
                     alert("검색어를 입력해주세요");
@@ -237,6 +230,7 @@
                 this.searchedReviews = []; //검색된 후기를 초기화
                 this.currentPage = 1; // 페이지 번호 초기화
                 this.fetchReviews(); // 후기 가져오기 호출
+                
             },
             formatDateTime(value) {
                 // value는 날짜 값입니다
@@ -262,19 +256,11 @@
         },
         mounted() {
             // 스크롤 이벤트를 감지하기 위해 window 객체에 이벤트 리스너를 추가합니다.
-            window.addEventListener('scroll', this.handleScroll); 
+            // window.addEventListener('scroll', this.handleScroll); 
         },
         beforeUnmount() {
             // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
-            window.removeEventListener('scroll', this.handleScroll);
+            // window.removeEventListener('scroll', this.handleScroll);
         },
-        watch:{
-            currentTab : {
-                imeediate : true,
-                handler(newTab){
-                    
-                }
-            }
-        }
     };
 </script>
