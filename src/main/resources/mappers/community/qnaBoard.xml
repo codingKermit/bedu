@@ -111,13 +111,6 @@
 		WHERE QS_BD_NUM = #{num}
 	</update>
 	
-	<select id="getuserName" resultType="com.care.bedu.community.qna.vo.QnaVO">
-		SELECT
-		 USER_NAME as userName
-		FROM T_BEDU_USER
-		WHERE USER_ID = #{userId}
-	</select>
-	
 	<select id="likeName" resultType="int">
 		SELECT
 		  COUNT(LIKE_NUM) 

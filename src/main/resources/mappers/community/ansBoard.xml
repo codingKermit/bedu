@@ -29,6 +29,7 @@
 		  CONTENT,
 		  ANS_DATE as ansDate,
 		  REG_DATE AS regDate,
+		  QS_BD_NUM AS qsBdNum,
 		  ANS_LIKE_CNT as ansLikeCnt,
 		  USER_NAME as userName
 		FROM T_BEDU_ANS 

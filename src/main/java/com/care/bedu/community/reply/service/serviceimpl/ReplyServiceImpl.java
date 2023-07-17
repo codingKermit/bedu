@@ -17,16 +17,22 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글조회
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
-		ArrayList<ReplyVO> list =replyDAO.viewList(replyVO);
-		for(ReplyVO reply: list) {
-			reply.setReplyDate(reply.getRegDate());
+		
+		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0 && replyVO.getAnsNum() == null || replyVO.getAnsNum()==0) {
+			return replyDAO.viewList3(replyVO);
+		}else if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0) {
+			return replyDAO.viewList2(replyVO);
 		}
-		return list;
+		return replyDAO.viewList(replyVO);
 	}
 
 	//댓글쓰기
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
+		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0 && replyVO.getAnsNum()!= null && replyVO.getAnsNum()>0) {
+			
+			return replyDAO.viewWrite2(replyVO);
+		}
 		return replyDAO.viewWrite(replyVO);
 	}
 

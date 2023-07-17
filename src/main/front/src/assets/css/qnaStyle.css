@@ -215,6 +215,16 @@
     resize:none;
 }
 
+#qna-detail-replywriteBtn{
+    margin-left: 40px;
+}
+
+#qnareplyDel-btn{
+    margin-left: 40px;
+}
+
+#qnareplyDel-btn
+
 #qna-detail-replyDelBtn{
     margin-bottom: 1rem !important;
     margin-left: 85%;
@@ -224,6 +234,14 @@
     margin-bottom: 1rem !important;
     margin-left: 85%;
 }
+
+#qna-detail-rewrites{
+    display: none;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 200px;
+}
+
 
 
 /*qnaBoardEdit*/

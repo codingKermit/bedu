@@ -29,12 +29,13 @@ public class QnaServiceImpl implements QnaService{
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 			
 		}else {
+			
 			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
+//			System.out.println("시작번호"+qnaVO.getPage());
+//			System.out.println("끝번호"+qnaVO.getLimit());
+//			System.out.println(Math.min(qnaVO.getLimit(), qnalist.size()));
 			if(qnaVO.getPage() > Math.min(qnaVO.getLimit(), qnalist.size()) ){
 				return new ArrayList<>();
-			}
-			for(QnaVO qna : qnalist) {
-				qna.setQnaDate(qna.getRegDate());
 			}
 			return qnalist;
 		}			
@@ -49,7 +50,7 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDAO.viewWrite(qnaVO);
 	}
 
-	//조회수 증가
+	//게시글 상세보기
 	@Override
 	public QnaVO viewone(int qnanum, String userName, String regid) {
 		int result = likeCntDAO.qnaEqcnt(qnanum, userName);
@@ -64,10 +65,8 @@ public class QnaServiceImpl implements QnaService{
 			}
 			
 		}
-		QnaVO qna =qnaDAO.viewone(qnanum);
-		qna.setQnaDate(qna.getRegDate());
-		return qna;
-								//게시글 상세보기
+		return qnaDAO.viewone(qnanum);
+								
 	}
 
 	//게시글 삭제

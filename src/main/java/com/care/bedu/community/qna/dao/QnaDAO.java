@@ -36,9 +36,6 @@ public interface QnaDAO {
 	//질문글 조회수 증가
 	public void qnaCntUp(int num);					
 	
-	//유저 닉네임 증가
-	public List<QnaVO> getuserName(String userId);	
-	
 	//질문글 좋아요 1증가
 	public int likeUp(int num);									
 	

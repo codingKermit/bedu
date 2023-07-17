@@ -37,8 +37,6 @@ public class ReplyVO{
 	private Integer rwNum;				
 	
 	//등록아이디
-	private String regId;
-	
-	private Integer lecturenum;		
+	private String regId;	
 
 }

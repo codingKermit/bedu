@@ -36,9 +36,6 @@ public class FreeServiceImpl implements FreeService{
 				return new ArrayList<>();
 			}
 			
-			for(FreeVO free: freelist) {
-				free.setCommDate(free.getRegDate());
-			}
 			return freelist;
 		}
 	}
@@ -70,9 +67,7 @@ public class FreeServiceImpl implements FreeService{
 				freeDAO.cntUp(commnum);
 			}
 		}
-		FreeVO free = freeDAO.viewone(commnum);
-		free.setCommDate(free.getRegDate());
-		return free;
+		return freeDAO.viewone(commnum);
 		
 	}
 

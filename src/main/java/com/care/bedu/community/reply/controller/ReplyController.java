@@ -26,13 +26,15 @@ public class ReplyController {
 	
 	//게시글 작성
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				
-	public int replyWrite(int commNum, String userName, String content, String regId){
+	public int replyWrite(Integer commNum, String userName, String content, String regId, Integer qsNum, Integer ansNum){
 		
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setCommNum(commNum);
 		replyVO.setUserName(userName);
 		replyVO.setContent(content);
 		replyVO.setRegId(regId);
+		replyVO.setQsNum(qsNum);
+		replyVO.setAnsNum(ansNum);
 		return replyService.boardwrite(replyVO);
 	}
 	
@@ -44,7 +46,7 @@ public class ReplyController {
 	
 	//게시글 삭제
 	@RequestMapping(value="/reply/replydelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
-	public int replyDelete(int rnum) throws Exception{
+	public int replyDelete(int rnum) {
 		return replyService.replydelete(rnum);
 		
 	}
