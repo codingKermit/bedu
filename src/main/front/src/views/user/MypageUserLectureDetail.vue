@@ -10,15 +10,17 @@
          <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
             <b-container class="w-75 ms-auto py-5" >
                     <b-container class="border rounded-3 py-3 mb-2">
-                        <p class="fw-bold">
-                            <span>강좌이름 : </span> {{ item.title }}
-                        </p>
-                        <p class="fw-bold">
-                            <span>강의설명 : </span> {{ item.lectDesc }}
-                        </p>
-                        <p class="fw-bold">
-                            <span>수강기간 : </span> {{ item.lectPeriod }}
-                        </p>
+                        <div class="mypageAll">
+                            <div class="mypageContain">
+                                <h3> {{ item.title }} </h3>
+                                <hr>
+                                <div class="lectdesc" v-html="item.lectDesc"></div>
+                                <div class="lectperid">
+                                    <span>수강기간 : </span> {{ item.lectPeriod }}
+                                    <span>일</span>
+                                </div>
+                            </div>
+                        </div>
                     </b-container>
             </b-container>
         </div>
@@ -127,7 +129,7 @@ export default {
 }
 @media (min-width: 768px) {
     .lecturedetailcontainer {
-    width: 800px;
+    width: 1000px;
   }
 }
 </style>

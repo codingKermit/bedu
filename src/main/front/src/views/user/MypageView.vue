@@ -19,15 +19,13 @@
                                 <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
                                     <div class="mypageInfo">
                                         <div class="mypageContain">
-                                            <p class="fw-bold">
-                                                <span>강좌이름 : </span> {{ item.title }}
-                                            </p>
-                                            <p class="fw-bold">
-                                                <span>강의설명 : </span> {{ item.lectDesc }}
-                                            </p>
-                                            <p class="fw-bold">
+                                            <h3> {{ item.title }} </h3>
+                                            <hr>
+                                            <div class="lectdesc" v-html="item.lectDesc"></div>
+                                            <div class="lectperid">
                                                 <span>수강기간 : </span> {{ item.lectPeriod }}
-                                            </p>
+                                                <span>일</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </b-link>
@@ -35,7 +33,7 @@
                         </div>
                     </div>
             </b-container>
-            <b-container class="mypagebookmark">
+            <b-container class="mypagebookmark"  style="padding-bottom: 10rem;">
                 <div class="mypageBookmark">
                     <b-container>
                         <p class="fs-4 fw-bold">북마크</p>
@@ -83,6 +81,7 @@
 
 <style>
 .mypagecontainer{
+    border-radius : 15px;
     float:left;
     width : 20rem;
     padding : 4px;
