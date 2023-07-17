@@ -3,9 +3,9 @@ package com.care.bedu.admin.fileManage.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.bedu.admin.fileManage.dao.FileUploadDao;
-import com.care.bedu.admin.fileManage.service.FileUploadService;
-import com.care.bedu.admin.fileManage.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.dao.FileManageDao;
+import com.care.bedu.admin.fileManage.service.FileManageService;
+import com.care.bedu.admin.fileManage.vo.FileManageVO;
 import com.care.bedu.lecture.dao.LectureDAO;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
@@ -23,18 +23,18 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Service
-public class FileUploadServiceImpl implements FileUploadService{
+public class FileManageServiceImpl implements FileManageService{
     // 파일 업로드 위치
     private String fileBaseDir = "C:/Desktop/LECT/VIDEO/";
 
     @Autowired
-    private FileUploadDao fileDao;
+    private FileManageDao fileDao;
 
     @Autowired
     private LectureDAO lecDao;
 
     @Override
-    public boolean upload(MultipartFile file, int chunkNumber, int totalChunks, FileUploadVO vo) throws IOException {
+    public boolean upload(MultipartFile file, int chunkNumber, int totalChunks, FileManageVO vo) throws IOException {
 
         File dir = new File(fileBaseDir);
         if (!dir.exists()) {

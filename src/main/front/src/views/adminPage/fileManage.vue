@@ -22,6 +22,7 @@
 <script>
 import FileUpload from '@/components/adminPage/fileManage/FileUpload.vue';
 import FileDelete from '@/components/adminPage/fileManage/FileDelete.vue';
+import '@/assets/css/admin.css'
 
 export default{
     name : 'fileManage',

@@ -53,16 +53,16 @@
                                     <input id="bedu-video-progress-bar" class="w-100 h-100" type="range" :max="maxTime" min="0" step="1"
                                     v-model="currentTime" @input="progressUpdate">
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex align-items-center">
                                 <div class="bedu-video-buttons">
-                                    <font-awesome-icon class="p-3 fs-4" 
+                                    <font-awesome-icon class="px-3 p-md-3 fs-4" 
                                     :icon="playPauseToggleData ? 'fa-solid fa-pause':'fa-solid fa-play'"
                                     role="button" @click="playToggle" ref="bedu_video_play_pause"/>
                                 </div>
                                 <div class="bedu-video-volume cursor-pointer d-flex"
                                 @mouseover="volumeSliderToggleOn"
                                 @mouseleave="volumeSliderToggleOff">
-                                    <font-awesome-icon class="fs-4 p-3" 
+                                    <font-awesome-icon class="fs-4 px-1"
                                     :icon="muteToggleData? 'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'"
                                     @click="muteToggleFunc"
                                     />
@@ -76,13 +76,13 @@
                                 <div 
                                 ref="timestamp"
                                 :class="volumeSliderOverData? 'bedu-video-timestamp-over':'bedu-video-timestamp'">
-                                    <div class="p-3">
+                                    <div class="p-1">
                                         {{ currentTimeForUser }}&nbsp;/
                                         {{ maxTimeForUser }}
                                     </div>
                                 </div>
                                 <div class="ms-auto" @click="fullscreenToggle">
-                                    <font-awesome-icon class="fs-4 p-3 cursor-pointer" :icon="['fas', 'expand']" />
+                                    <font-awesome-icon class="fs-4 px-3 p-md-3 cursor-pointer" :icon="['fas', 'expand']" />
                                 </div>
                             </div>
                         </div>
@@ -92,32 +92,31 @@
             
             <!-- 하단 네비 -->
             <b-container class="text-light" v-if="lessonList.length">
-                <div class="row">
-                <div class="col"></div>
-                <div class="col d-flex m-auto">
-                    <div v-if="lessonInfo.lectDtlIndex > 1" class="w-100">
-                        <b-button class="rounded-5 p-3 bedu-bg-custom-blue w-100"
-                        :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex-2].lectDtlNum">
-                            <font-awesome-icon class="px-2" :icon="['fas', 'left-long']" />
-                            <span>{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlTitle }}</span>
-                        </b-button>
+                <!-- <div class="row"> -->
+                <div class="d-flex">
+                    <div class="d-flex gap-3 m-auto">
+                        <div v-if="lessonInfo.lectDtlIndex > 1">
+                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue w-100"
+                            :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex-2].lectDtlNum">
+                                <font-awesome-icon class="px-2" :icon="['fas', 'left-long']" />
+                                <span>{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlTitle }}</span>
+                            </b-button>
+                        </div>
+                        
+                        <div v-if="lessonInfo.lectDtlIndex < lessonList.length">
+                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue w-100"
+                            :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex].lectDtlNum">
+                                <span>{{ lessonList[lessonInfo.lectDtlIndex].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex].lectDtlTitle }}</span>
+                                <font-awesome-icon class="px-2" :icon="['fas', 'right-long']" />
+                            </b-button>
+                        </div>
                     </div>
-                    
-                    <div v-if="lessonInfo.lectDtlIndex < lessonList.length" class="w-100">
-                        <b-button class="rounded-5 p-3 ms-3 bedu-bg-custom-blue w-100"
-                        :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex].lectDtlNum">
-                            <span>{{ lessonList[lessonInfo.lectDtlIndex].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex].lectDtlTitle }}</span>
-                            <font-awesome-icon class="px-2" :icon="['fas', 'right-long']" />
-                        </b-button>
-                    </div>
-                    <div class="position-absolute">
-                    </div>
-                </div>
-                <div class="col text-end">
+                <!-- </div> -->
+                <!-- <div class="col text-end">
                     <b-button class="bedu-custom-yellow border rounded-5 p-3">
                         수강 완료
                     </b-button>
-                </div>
+                </div> -->
             </div>
             </b-container>
         </div>

@@ -4,95 +4,99 @@
             <p class="text-center fs-4 fw-bold">검색하기</p>
             <b-form-input class="mb-5" v-model="keyword" @input="filtering"></b-form-input>
             <div class="vh-50 w-100 border rounded mb-5 text-truncate overflow-auto">
-                <b-row class="py-1 text-center w-100 mb-3 fw-bold fs-5 m-0">
-                    <b-col cols="1"></b-col>
-                    <b-col cols="1">번호</b-col>
-                    <b-col cols="4">제목</b-col>
-                    <b-col cols="2">강사</b-col>
-                    <b-col cols="4">소분류</b-col>
-                </b-row>
-                <b-row v-for="(item,index) in showList" :key="index" class="m-0 mb-1">
-                    <b-col cols="1" class="p-0"><b-form-radio class="m-auto" @change="lectSelect(item)" name="selected"></b-form-radio></b-col>
-                    <b-col cols="1">{{ item.lectNum }}</b-col>
-                    <b-col cols="4">{{ item.title }}</b-col>
-                    <b-col cols="2">{{ item.teacher }}</b-col>
-                    <b-col cols="4">{{ item.korCategory }}</b-col> 
-                </b-row>
+                <b-table :fields="listFields" :items="showList" hover fixed small striped size="sm">
+                    <template #cell()="checkbox">
+                        <b-form-radio
+                        name="selected"
+                        @change="lectSelect(checkbox.item)"
+                        ></b-form-radio>
+                    </template>
+                    <template #cell(lectNum)="lectNum">
+                        {{ lectNum.value }}
+                    </template>
+                    <template #cell(title)="title">
+                        {{ title.value }}
+                    </template>
+                    <template #cell(teacher)="teacher">
+                        {{ teacher.value }}
+                    </template>
+                    <template #cell(korCategory)="cate">
+                        {{ cate.value }}
+                    </template>
+                </b-table>
             </div>
         </b-container>
         <hr>
         <b-container>
             <b-form @submit.prevent="lectUpdateFunc">
-                <div>
-                    <div class="d-flex">
-                        <div class="w-50 p-1 mt-auto">
-                            <b-form-group 
-                            description="썸네일을 업로드해주세요"
-                            label="썸네일"
-                            label-for="lect-manage-thumbnail"
-                            class="w-100 me-3"
-                            >
-                            <div class="ratio ratio-16x9 mb-3">
-                                <b-img ref="thumbnail" :src="previewImg != null ? previewImg : require('@/assets/imgs/noImg.jpg')" fluid thumbnail ></b-img>
-                            </div>
-                            <input :disabled="form.lectNum == 0" id="lect-manage-thumbnail" type="file" class="form-control" @change="fileChange"/>
-                            </b-form-group>
-                        </div>
-                        <div class="w-50 p-1">
-                            <b-form-group
-                            description="제목을 입력해주세요"
-                            label="제목"
-                            label-for="lect-manage-title"
-                            class="w-100 me-3"
-                            >
-                                <b-form-input id="lect-manage-title" v-model="form.title" :disabled="form.lectNum == 0"></b-form-input>
-                            </b-form-group>
-                            <b-form-group
-                            description="강사의 이름을 입력해주세요"
-                            label="강사명"
-                            class="w-100 me-3"
-                            label-for="lect-manage-teacher"
-                            >
-                                <b-form-input id="lect-manage-teacher" v-model="form.teacher" :disabled="form.lectNum == 0"></b-form-input>
-                            </b-form-group>
-                            <b-form-group
-                            description="가격을 입력해주세요"
-                            label="가격"
-                            label-for="lect-manage-price"
-                            >
-                                <b-form-input id="lect-manage-price" type="number" v-model="form.price" ref="price" :disabled="form.lectNum == 0"></b-form-input>
-                            </b-form-group>
-                            <b-form-group
-                            description="수강 기간을 입력해주세요"
-                            label="수강 기간"
-                            label-for="lect-manage-period"
-                            >
-                                <b-form-input type="number" id="lect-manage-period" v-model="form.period" :disabled="form.lectNum == 0" ref="period"></b-form-input>
-                            </b-form-group>
-                        </div>
-                    </div>
-                    <div>
-                        <b-form-group
-                        description="강의 요약 설명을 입력해주세요"
-                        label="강의 요약"
+                <b-row cols="1" cols-md="2">
+                    <b-col>
+                        <b-form-group 
+                        description="썸네일을 업로드해주세요"
+                        label="썸네일"
+                        label-for="lect-manage-thumbnail"
+                        class="w-100 me-3"
                         >
-                            <b-form-textarea
-                            v-model="form.summary"
-                            max-rows="5"
-                            rows="3"
-                            no-resize
-                            :disabled="form.lectNum == 0"
-                            ></b-form-textarea>
-                        </b-form-group>
-                    </div>
-                    <div class="mb-3">
-                        <ckeditor :editor="editor" v-model="form.contents" :config="editorConfig" ref="contents"></ckeditor>
-                    </div>
-                    <div class="d-flex">
-                        <div class="ms-auto">
-                            <b-button class="bedu-bg-custom-blue me-3 px-5 py-2" type="submit">저장</b-button>
-                            <b-button class="px-5 py-2">취소</b-button>
+                        <div class="ratio ratio-16x9 mb-3">
+                            <b-img ref="thumbnail" :src="previewImg != null ? previewImg : require('@/assets/imgs/noImg.jpg')" fluid thumbnail ></b-img>
                         </div>
+                        <input :disabled="form.lectNum == 0" id="lect-manage-thumbnail" type="file" class="form-control" @change="fileChange"/>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                        description="제목을 입력해주세요"
+                        label="제목"
+                        label-for="lect-manage-title"
+                        class="w-100 me-3"
+                        >
+                            <b-form-input id="lect-manage-title" v-model="form.title" :disabled="form.lectNum == 0"></b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                        description="강사의 이름을 입력해주세요"
+                        label="강사명"
+                        class="w-100 me-3"
+                        label-for="lect-manage-teacher"
+                        >
+                            <b-form-input id="lect-manage-teacher" v-model="form.teacher" :disabled="form.lectNum == 0"></b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                        description="가격을 입력해주세요"
+                        label="가격"
+                        label-for="lect-manage-price"
+                        >
+                            <b-form-input id="lect-manage-price" type="number" v-model="form.price" ref="price" :disabled="form.lectNum == 0"></b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                        description="수강 기간을 입력해주세요"
+                        label="수강 기간"
+                        label-for="lect-manage-period"
+                        >
+                            <b-form-input type="number" id="lect-manage-period" v-model="form.period" :disabled="form.lectNum == 0" ref="period"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <div>
+                    <b-form-group
+                    description="강의 요약 설명을 입력해주세요"
+                    label="강의 요약"
+                    >
+                        <b-form-textarea
+                        v-model="form.summary"
+                        max-rows="5"
+                        rows="3"
+                        no-resize
+                        :disabled="form.lectNum == 0"
+                        ></b-form-textarea>
+                    </b-form-group>
+                </div>
+                <div class="mb-3">
+                    <ckeditor :editor="editor" v-model="form.contents" :config="editorConfig" ref="contents"></ckeditor>
+                </div>
+                <div class="d-flex">
+                    <div class="ms-auto">
+                        <b-button class="bedu-bg-custom-blue me-3 px-5 py-2" type="submit">저장</b-button>
+                        <b-button class="px-5 py-2">취소</b-button>
                     </div>
                 </div>
             </b-form>
@@ -110,6 +114,32 @@ export default{
         return {
             lectList : [],
             showList : [],
+            listFields : [
+                {
+                    key : 'checkbox',
+                    label : ''
+                },
+                {
+                    key : 'lectNum',
+                    label : 'No',
+                    sortable : true,
+                },
+                {
+                    key : 'title',
+                    label : '제목',
+                    sortable : true,
+                },
+                {
+                    key : 'teacher',
+                    label : '강사',
+                    sortable: true,
+                },
+                {
+                    key : 'korCategory',
+                    label : '소분류',
+                    sortable : false,
+                }
+            ],
             editor : Editor,
             editorConfig : {
                 // The configuration of the editor.

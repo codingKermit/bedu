@@ -13,16 +13,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.care.bedu.admin.fileManage.service.FileUploadService;
-import com.care.bedu.admin.fileManage.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.service.FileManageService;
+import com.care.bedu.admin.fileManage.vo.FileManageVO;
 
 
 @RestController
 @RequestMapping(value = "/api/admin/fileManage")
-public class FileUploadController {
+public class FileManageController {
     
     @Autowired
-    private FileUploadService service;
+    private FileManageService service;
 
     @GetMapping(value = "/upload.do")
     public ModelAndView upload(jakarta.servlet.http.HttpServletRequest request, ModelAndView mv) {
@@ -41,7 +41,7 @@ public class FileUploadController {
         int lectNum = Integer.parseInt(request.getParameter("lectNum"));
         int lectDtlIndex = Integer.parseInt(request.getParameter("lectDtlIndex"));
 
-        FileUploadVO vo = new FileUploadVO();
+        FileManageVO vo = new FileManageVO();
         vo.setLectDtlTitle(lectDtlTitle);
         vo.setLectDtlTime(lectDtlTime);
         vo.setLectNum(lectNum);
@@ -68,7 +68,6 @@ public class FileUploadController {
 
     @RequestMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(int num){
-
         boolean check = false;
 
         check = service.deleteFile(num);

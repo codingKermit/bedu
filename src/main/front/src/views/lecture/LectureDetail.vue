@@ -55,7 +55,8 @@
             </b-row>
 
             <!-- 결제, 장바구니 컨테이너 -->
-            <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5 ">
+            <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5 d-none d-md-block">
+                
                 <b-row class="align-items-center" cols="1" cols-md="2">
                     <b-col class="mb-4">
                         <div class="text-truncate">
@@ -191,24 +192,7 @@
                                 </div>
                             </b-col>
                         </b-row>
-                        <!-- <div class="d-flex mb-5">
-                            <p class="fs-2 fw-bold me-auto" id="lecture-review-container">수강후기</p>
-                            <div>
-                                <span v-for="(star, i) in 5" :key="i" class="mx-1 fs-5">
-                                    <font-awesome-icon
-                                    :class="form.score < star ? 'text-secondary' : 'text-danger'"
-                                    :icon="['fas','star']"
-                                        />
-                                </span>
-                            </div>
-                            <div class="ms-2 pt-1 align-middle">
-                                {{ form.score }}
-                                점 (
-                                {{ form.scoreUsers }}
-                                개)
-                            </div>
-                        </div> -->
-                        <div class="">
+                        <div>
                             <ul>
                                 <li 
                                     class="list-unstyled mb-5"

@@ -1,8 +1,8 @@
 <template>
     <div>
         <b-form @submit.prevent="lectureInsert" ref="lectForm">
-            <div class="row">
-                <div class="col">
+            <b-row cols="1" cols-md="3">
+                <b-col>
                     <b-form-group
                     description="대분류를 선택해주세요"
                     label="대분류">
@@ -13,8 +13,8 @@
                             <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.lectTopCate">{{ item.lectTopCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
-                </div>
-                <div class="col">
+                </b-col>
+                <b-col>
                     <b-form-group
                     description="중분류를 선택해주세요"
                     label="중분류">
@@ -25,8 +25,8 @@
                                 <b-form-select-option v-for="(item, index) in midCate.filter((i)=>i.parentCode == currentTop)" :key="index" :value="item.lectMidCate">{{ item.lectMidCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
-                </div>
-                <div class="col">
+                </b-col>
+                <b-col>
                     <b-form-group
                     description="소분류를 선택해주세요"
                     label="소분류">
@@ -37,26 +37,28 @@
                                 <b-form-select-option v-for="(item, index) in botCate.filter((i)=>i.parentCode == currentMid)" :key="index" :value="item">{{ item.lectBotCateKor }}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
-                </div>
-            </div>
-            <div>
-                <div class="d-flex">
+                </b-col>
+            </b-row>
+            <b-row cols="1" cols-md="3">
+                <b-col>
                     <b-form-group
                     description="제목을 입력해주세요"
                     label="제목"
                     label-for="lect-manage-title"
-                    class="w-50 me-3"
                     >
                         <b-form-input id="lect-manage-title" v-model="form.title" required></b-form-input>
                     </b-form-group>
+                </b-col>
+                <b-col>
                     <b-form-group
                     description="강사의 이름을 입력해주세요"
                     label="강사명"
-                    class="w-25 me-3"
                     label-for="lect-manage-teacher"
                     >
                         <b-form-input id="lect-manage-teacher"  v-model="form.teacher" required></b-form-input>
                     </b-form-group>
+                </b-col>
+                <b-col>
                     <b-form-group
                     description="가격을 입력해주세요"
                     label="가격"
@@ -64,16 +66,19 @@
                     >
                         <b-form-input id="lect-manage-price" type="number" v-model="form.price" required ref="price"></b-form-input>
                     </b-form-group>
-                </div>
-                <div class="d-flex">
+                </b-col>
+            </b-row>
+            <b-row cols="1" cols-md="2">
+                <b-col>
                     <b-form-group
                     description="썸네일을 업로드해주세요"
                     label="썸네일"
                     label-for="lect-manage-thumbnail"
-                    class="w-50 me-3"
                     >
                         <input id="lect-manage-thumbnail" type="file" class="form-control" required @change="fileChange"/>
                     </b-form-group>
+                </b-col>
+                <b-col>
                     <b-form-group
                     description="수강 기간을 입력해주세요"
                     label="수강 기간"
@@ -81,29 +86,29 @@
                     >
                         <b-form-input type="number" id="lect-manage-period" v-model="form.period" required ref="period"></b-form-input>
                     </b-form-group>
-                </div>
-                <div>
-                    <b-form-group
-                    description="강의 요약 설명을 입력해주세요"
-                    label="강의 요약"
-                    >
-                        <b-form-textarea
-                        v-model="form.summary"
-                        max-rows="5"
-                        rows="3"
-                        no-resize
-                        required
-                        ></b-form-textarea>
-                    </b-form-group>
-                </div>
-                <div class="mb-3">
-                    <ckeditor :editor="editor" :config="editorConfig" v-model="form.contents" ref="contents"></ckeditor>
-                </div>
-                <div class="d-flex">
-                    <div class="ms-auto">
-                        <b-button class="bedu-bg-custom-blue me-3 px-5 py-2" type="submit">저장</b-button>
-                        <b-button class="px-5 py-2">취소</b-button>
-                    </div>
+                </b-col>
+            </b-row>
+            <div>
+                <b-form-group
+                description="강의 요약 설명을 입력해주세요"
+                label="강의 요약"
+                >
+                    <b-form-textarea
+                    v-model="form.summary"
+                    max-rows="5"
+                    rows="3"
+                    no-resize
+                    required
+                    ></b-form-textarea>
+                </b-form-group>
+            </div>
+            <div class="mb-3">
+                <ckeditor :editor="editor" :config="editorConfig" v-model="form.contents" ref="contents"></ckeditor>
+            </div>
+            <div class="d-flex">
+                <div class="ms-auto">
+                    <b-button class="bedu-bg-custom-blue me-3 px-5 py-2" type="submit">저장</b-button>
+                    <b-button class="px-5 py-2">취소</b-button>
                 </div>
             </div>
         </b-form>

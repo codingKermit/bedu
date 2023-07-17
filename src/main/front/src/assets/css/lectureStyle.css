@@ -173,6 +173,7 @@
     transform: translateY(100%) translateY(-10px);
     transition: all 0.25s;
 }
+
 .bedu-video-volume-slider-container{
     overflow:hidden
 }
@@ -187,12 +188,16 @@
     position: relative;
     transition: all 0.25s;
 }
+
 .bedu-video-volume-slider-input{
     transform: translateX(-100%);
 }
+
 .bedu-video-timestamp{
+    width: 140px !important;
     transform: translateX(-80%);
 }
+
 .bedu-video-volume-slider-input::-webkit-slider-thumb{
     cursor: pointer;
     background: var(--blue);
@@ -222,7 +227,6 @@
     cursor: pointer;
     overflow: hidden;
     -webkit-appearance: none; 
-    height: 100px;
     background: rgba(255,255,255,0.7);
 }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="adminPage">
         <b-container class="py-5">
-            <p class="fs-1 fw-bold">관리자 페이지</p>
+            <p class="fs-1 fw-bold ps-5">관리자 페이지</p>
             <b-row class="p-5 fs-3" cols="1" cols-md="2" cols-lg="3">
                 <b-col class="mb-3">
                     <b-container>

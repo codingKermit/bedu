@@ -61,13 +61,17 @@
                     >
                         커뮤니티
                     </router-link>
-                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/review">
+                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/review"
+                    :class="{'header-router-link-active': $route.name == 'review'}"
+                    >
                         수강후기
                     </router-link>
-                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/companyStudy">
+                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/companyStudy"
+                    :class="{'header-router-link-active' : $route.name == 'companyStudy'}">
                         기업교육
                     </router-link>
-                    <router-link class="fs-5 fw-bold bedu-header-nav-item" to="/membership">
+                    <router-link class="fs-5 fw-bold bedu-header-nav-item" to="/membership"
+                    :class="{'header-router-link-active' : $route.name == 'membership'}">
                         멤버쉽 안내
                     </router-link>
                 </b-navbar-nav>
@@ -219,16 +223,16 @@
                                 멤버쉽 안내
                             </b-nav-item>
                             <div v-if="isLoggedIn" class="fs-4 fw-bold">
-                                <b-nav-item to="/mypage">
+                                <b-nav-item data-bs-dismiss="offcanvas" to="/mypage">
                                     마이 페이지
                                 </b-nav-item>
-                                <b-nav-item to="/csc">
+                                <b-nav-item data-bs-dismiss="offcanvas" to="/csc">
                                     고객 센터
                                 </b-nav-item>
                             </div>
                             <div v-if="isLoggedIn && getCls === 'ADMIN'">
                                 <hr>
-                                <b-nav-item to="/adminPage" class="fs-4 fw-bold">
+                                <b-nav-item data-bs-dismiss="offcanvas" to="/adminPage" class="fs-4 fw-bold">
                                     관리자 페이지
                                 </b-nav-item>
                             </div>

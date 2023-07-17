@@ -11,7 +11,7 @@ import org.apache.ibatis.type.Alias;
 @Getter
 @Setter
 @Alias("fileVO")
-public class FileUploadVO {
+public class FileManageVO {
 
     private int lectDtlNum;             //강의고유번호
     private String lectDtlTitle;        //강의제목

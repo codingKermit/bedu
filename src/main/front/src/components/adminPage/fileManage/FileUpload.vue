@@ -2,149 +2,133 @@
     <div>
         <!-- 상단 검색 부분 -->
         <div class="py-5">
-                <p class="text-center fs-4 fw-bold">강의를 조회하세요</p>
-                <div class="d-flex m-auto w-75">
-                    <div class="me-4 w-75">
-                        <b-form-input 
-                        v-model="keyword" 
-                        class="w-100 m-auto form-control-lg py-1"
-                        type="search"
-                        @keyup="getLectureList"
-                        ></b-form-input>
-                    </div>
-                    <div class="w-25">
-                        <b-button class="fs-5 px-5  py-2 bedu-bg-custom-blue w-100" type="submit">검색</b-button>
-                    </div>
+            <p class="text-center fs-4 fw-bold">강의를 조회하세요</p>
+            <div class="d-flex m-auto w-75">
+                <div class="me-4 w-75">
+                    <b-form-input 
+                    v-model="keyword" 
+                    class="w-100 m-auto form-control-lg py-1"
+                    type="search"
+                    @keyup="getLectureList"
+                    ></b-form-input>
+                </div>
+                <div class="w-25">
+                    <b-button class="fs-5 px-1 py-2 px-lg-5  bedu-bg-custom-blue w-100" type="submit">검색</b-button>
                 </div>
             </div>
+        </div>
             
-            <!-- 메인 컨테이너-->
-            <b-container class="d-flex">
-                <!-- 좌측 검색된 강의 목록 컨테이너-->
-                <div class="w-50">
-                    <div class="p-4">
-                        <b-container class="border rounded-4 pt-3 pb-5 vh-100 scroll-y">
-                            <b-form-group
-                                class="fs-4 text-center"
-                            >
-                            <p class="text-center fs-3 mt-2 mb-4">조회된 강의 목록</p>
-                                <ul class="list-unstyled ">
-                                    <li v-for="(item, index) in lists" :key="index" class="mb-3 fs-5">
-                                        <div class="border rounded-3 p-3 d-flex">
-                                            <div class="align-self-center me-3">
-                                                <b-form-radio 
-                                                v-model="form.lectNum" 
-                                                name="lect-num" 
-                                                :value="item.lectNum"
-                                                @change="getVideoList"
-                                                ></b-form-radio>
-                                            </div>
-                                            <div class="me-5 text-start overflow-hidden">
-                                                <p>강의 번호 : <span class="fw-bold">{{ item.lectNum }}</span></p>
-                                                <p>강의 제목 : <span class="fw-bold">{{ item.title }}</span></p>
-                                                <p>강사 : <span class="fw-bold">{{ item.teacher }}</span></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </b-form-group>
-                        </b-container>
-                    </div>
+        <!-- 메인 컨테이너-->
+        
+        <!-- 강의 목록 -->
+        <b-container class="border rounded-4 pt-3 pb-5 scroll-y mb-3">
+            <p class="text-center fs-3 mt-2 mb-4">조회된 강의 목록</p>
+            <b-table hover :fields="lectFields" :items="lists" class="fs-6" fixed small striped size="sm">
+                <template #cell()="checkbox">
+                    <b-form-radio 
+                    v-model="form.lectNum" 
+                    name="lect-num" 
+                    :value="checkbox.item.lectNum"
+                    @change="getVideoList"
+                    ></b-form-radio>
+                </template>
+                <template #cell(lectNum)="num">
+                    {{ num.value }}
+                </template>
+                <template #cell(title)="title">
+                    {{ title.value }}
+                </template>
+                <template #cell(teacher)="teacher">
+                    {{ teacher.value }}
+                </template>
+            </b-table>
+        </b-container>
+
+        <!-- 동영상 목록 -->
+        <b-container class="border rounded-4 mb-3 scroll-y video-container">
+            <b-table :fields="videoFields" :items="videoList" striped fixed small size="sm">
+                <template #cell(lectDtlTitle)="lectDtlTitle">
+                    {{ lectDtlTitle.value }}
+                </template>
+                <template #cell(times)="times">
+                    {{ times.value }}
+                </template>
+                <template #cell(lectDtlIndex)="index">
+                    {{ index.value }}
+                </template>
+            </b-table>
+        </b-container>
+
+        <hr class="my-4">
+
+        <b-row cols="1" cols-md="2" class="w-100">
+            <b-col>
+                <!-- 제목 입력 -->
+                <b-form-group
+                label="동영상 제목"
+                label-for="video-title"
+                description="동영상의 제목을 입력해주세요"
+                class="mb-5"
+                >
+                    <b-form-input id="video-title"
+                        v-model="form.lectDtlTitle"
+                        required :state="state" trim
+                        class="form-control-lg"
+                        :disabled="form.lectNum == 0"
+                    ></b-form-input>
+                </b-form-group>
+            </b-col>
+            <b-col>
+                <b-form-group
+                label="동영상 재생 인덱스"
+                label-for="video-index"
+                description="동영상의 인덱스를 선택해주세요"
+                >
+                    <b-form-select
+                    v-model="form.lectDtlIndex"
+                    required
+                    :options="indexOptions"
+                    :disabled="form.lectNum == 0"
+                    ></b-form-select>
+                </b-form-group>
+            </b-col>
+            <b-col>
+                <!-- 프로그레스 바 -->
+                <b-progress max="100">
+                    <b-progress-bar variant="warning" :value="progress" animated :label="progress+'%'"></b-progress-bar>
+                </b-progress>
+
+                <!-- 동영상 업로드 -->
+                <div class="mb-5">
+                    <label for="video-file" class="form-label"></label>
+                    <input 
+                        class="form-control-lg form-control" 
+                        type="file" 
+                        id="video-file" 
+                        accept="video/mp4,video/mkv, video/x-m4v,video/*"
+                        @change="fileChange"
+                        :disabled="form.lectNum == 0"
+                        >
                 </div>
-
-                <!-- 우측 컨테이너-->
-                <div class="w-50">
-                    <!-- 재생목록 컨테이너 -->
-                    <b-container class="pt-4">
-                        <b-container class="border rounded-4 pt-3 vh-50 scroll-y">
-                            <p class="text-center fs-3">재생목록</p>
-                            <ul class="list-unstyled">
-                                <li class="row">
-                                    <div class="col-1"></div>
-                                    <div class="col-1 fw-bold">No</div>
-                                    <div class="col-2 text-center fw-bold">Index</div>
-                                    <div class="col text-center fw-bold">Title</div>
-                                </li>
-                                <li v-for="(item, index) in videoList" :key="index" class="row mb-2">
-                                    <div class="col-1"></div>
-                                    <div class="col-1">
-                                        {{ item.lectDtlNum }}
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        {{ item.lectDtlIndex }}
-                                    </div>
-                                    <div class="col text-center">
-                                        {{ item.lectDtlTitle }}
-                                    </div>
-                                </li>
-                            </ul>
-                        </b-container>
-                    </b-container>
-                    <!-- 폼 컨테이너 -->
-                    <b-container class="py-4">
-                        <b-form @submit.prevent="uploadVideo">
-                            <!-- 제목 입력 -->
-                            <b-form-group
-                            label="동영상 제목"
-                            label-for="video-title"
-                            description="동영상의 제목을 입력해주세요"
-                            class="mb-5"
-                            >
-                                <b-form-input id="video-title"
-                                    v-model="form.lectDtlTitle"
-                                    required :state="state" trim
-                                    class="form-control-lg"
-                                    :disabled="form.lectNum == 0"
-                                ></b-form-input>
-                            </b-form-group>
-
-                            <b-form-group
-                            label="동영상 재생 인덱스"
-                            label-for="video-index"
-                            description="동영상의 인덱스를 선택해주세요"
-                            >
-                                <b-form-select
-                                v-model="form.lectDtlIndex"
-                                required
-                                :options="indexOptions"
-                                :disabled="form.lectNum == 0"
-                                ></b-form-select>
-                            </b-form-group>
-
-                            
-                            <!-- 프로그레스 바 -->
-                            <b-progress max="100">
-                                <b-progress-bar variant="warning" :value="progress" animated :label="progress+'%'"></b-progress-bar>
-                            </b-progress>
-
-                            <!-- 동영상 업로드 -->
-                            <div class="mb-5">
-                                <label for="video-file" class="form-label"></label>
-                                <input 
-                                    class="form-control-lg form-control" 
-                                    type="file" 
-                                    id="video-file" 
-                                    accept="video/mp4,video/mkv, video/x-m4v,video/*"
-                                    @change="fileChange"
-                                    :disabled="form.lectNum == 0"
-                                    >
-                            </div>
-                            <b-button 
-                                class="w-100 py-3 bedu-bg-custom-blue fs-5"
-                                type="submit"
-                            >
-                                등록하기
-                            </b-button>
-                        </b-form>
-                    </b-container>
-                </div>
-            </b-container>
+            </b-col>
+            <b-col>
+                <b-form @submit.prevent="uploadVideo">
+                    <b-button 
+                    class="w-100 py-3 bedu-bg-custom-blue fs-5"
+                    type="submit"
+                    >
+                        등록하기
+                    </b-button>
+                </b-form>
+            </b-col>
+        </b-row>
     </div>
 </template>
 
 
 <script>
 import axios from 'axios'
+
 
 export default{
     name:'fileUp',
@@ -160,8 +144,46 @@ export default{
             videoFile : null,
             totalLists : [],
             lists:[],
+            lectFields: [
+                {
+                    key : 'checkbox',
+                    label : '',
+                },
+                {
+                    key : 'lectNum',
+                    sortable: true,
+                    label : 'No'
+                },
+                {
+                    key : 'title',
+                    sortable: true,
+                    label : '제목'
+                },
+                {
+                    key : 'teacher',
+                    sortable: true,
+                    label : '강사'
+                },
+            ],
             progress : 0,
             videoList : [],
+            videoFields : [
+                {
+                    key : 'lectDtlTitle',
+                    label : '제목',
+                    sortable : true,
+                },
+                {
+                    key : 'times',
+                    label : '재생 시간',
+                    sortable : true,
+                },
+                {
+                    key : 'lectDtlIndex',
+                    label : '재생순서',
+                    sortable : true,
+                },
+            ],
             indexOptions : [],
         }
     },
@@ -327,17 +349,3 @@ export default{
 }
 
 </script>
-
-<style scoped>
-.scroll-y{
-    overflow-y: scroll;
-}
-
-#file-upload-progress{
-    transition: 0.1s;
-}
-
-.vh-50{
-    height: 50vh !important;
-}
-</style>

@@ -24,11 +24,11 @@
         <b-container class="mb-5 py-3">
             <p class="fs-4 mb-5 fw-bold">신규 오픈 강좌</p>
             <b-row class="d-block d-sm-flex " cols="1" cols-sm="2" cols-lg="5">
-                <b-col v-for="(item, index) in newestLectures" :key="index">
+                <b-col v-for="(item, index) in newestLectures" :key="index" class="mb-3">
                     <b-link
                         class="text-decoration-none text-body h-100 d-block"
                         :to='"/lectureDetail?num="+item.lectNum'>
-                        <b-container class="border rounded-4 lecture_item h-100 mb-3">
+                        <b-container class="border rounded-4 lecture_item pb-3 h-100">
                             <div class="ps-2 h-100">
                                 <div class="lect-upper-side overflow-hidden">
                                     <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>

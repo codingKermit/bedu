@@ -4,52 +4,61 @@
             <p class="text-center fs-4 fw-bold">검색하기</p>
             <b-form-input class="mb-5" v-model="keyword" @input="filtering"></b-form-input>
             <div class="vh-50 w-100 border rounded mb-5 text-truncate overflow-auto">
-                <b-row class="py-1 text-center w-100 mb-3 fw-bold fs-5 m-0">
-                    <b-col cols="1"></b-col>
-                    <b-col cols="1">번호</b-col>
-                    <b-col cols="4">제목</b-col>
-                    <b-col cols="2">강사</b-col>
-                    <b-col cols="4">소분류</b-col>
-                </b-row>
-                <b-row v-for="(item,index) in showList" :key="index" class="m-0 mb-1">
-                    <b-col cols="1" class="p-0"><b-form-radio class="m-auto" @change="lectSelect(item)" name="selected"></b-form-radio></b-col>
-                    <b-col cols="1">{{ item.lectNum }}</b-col>
-                    <b-col cols="4">{{ item.title }}</b-col>
-                    <b-col cols="2">{{ item.teacher }}</b-col>
-                    <b-col cols="4">{{ item.korCategory }}</b-col> 
-                </b-row>
+                <b-table :items="showList" :fields="listFields" hover fixed small striped size="sm">
+                    <template #cell()="checkbox">
+                        <b-form-radio
+                        @change="lectSelect(checkbox.item)"
+                        name="selected"
+                        ></b-form-radio>
+                    </template>
+                    <template #cell(lectNum)="num">
+                        {{ num.value }}
+                    </template>
+                    <template #cell(title)="title">
+                        {{ title.value }}
+                    </template>
+                    <template #cell(teacher)="teacher">
+                        {{ teacher.value }}
+                    </template>
+                    <template #cell(korCategory)="cate">
+                        {{ cate.value }}
+                    </template>
+                </b-table>
             </div>
-
         </b-container>
         <hr>
         <b-container>
             <p class="fs-4 fw-bold text-center">선택된 강의 정보</p>
-            <div class="d-flex">
-                <b-form-group
-                    label="강의번호"
-                    class="w-25 mx-1"
-                >
-                    <b-form-input v-model="targetLect.lectNum" readonly></b-form-input>
-                </b-form-group>
-                <b-form-group
-                    label="강의명"
-                    class="w-25 mx-1"
-                >
-                    <b-form-input v-model="targetLect.title" readonly></b-form-input>
-                </b-form-group>
-                <b-form-group
-                    label="강사명"
-                    class="w-25 mx-1"
-                >
-                <b-form-input v-model="targetLect.teacher" readonly></b-form-input>
-                </b-form-group>
-                <b-form-group
-                    label="카테고리"
-                    class="w-25 mx-1"
-                >
-                    <b-form-input v-model="targetLect.cateKor" readonly></b-form-input>
-                </b-form-group>
-            </div>
+            <b-row cols="1" cols-md="4">
+                <b-col>
+                    <b-form-group
+                        label="강의번호"
+                    >
+                        <b-form-input v-model="targetLect.lectNum" readonly></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group
+                        label="강의명"
+                    >
+                        <b-form-input v-model="targetLect.title" readonly></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group
+                        label="강사명"
+                    >
+                    <b-form-input v-model="targetLect.teacher" readonly></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group
+                        label="카테고리"
+                    >
+                        <b-form-input v-model="targetLect.cateKor" readonly></b-form-input>
+                    </b-form-group>
+                </b-col>
+            </b-row>
             <div class="text-end">
                 <b-button class="bedu-bg-custom-blue px-4 me-2" @click="lectDelete">삭제</b-button>
                 <b-button class="px-4">취소</b-button>
@@ -65,6 +74,31 @@ export default{
         return {
             lectList : [],
             showList : [],
+            listFields: [
+                {
+                    key: 'checkbox',
+                    label : ''
+                },
+                {
+                    key : 'lectNum',
+                    label : 'No',
+                    sortable : true,
+                },
+                {
+                    key : 'title',
+                    label : '제목',
+                    sortable: true,
+                },
+                {
+                    key: 'teacher',
+                    label : '강사',
+                    sortable : true,
+                },
+                {
+                    key : 'korCategory',
+                    label : '소분류'
+                },
+            ],
             targetLect : {
                 lectNum : '',
                 teacher : '',

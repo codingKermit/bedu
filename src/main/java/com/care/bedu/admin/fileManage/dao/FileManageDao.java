@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.care.bedu.admin.fileManage.vo.FileUploadVO;
+import com.care.bedu.admin.fileManage.vo.FileManageVO;
 import com.care.bedu.lecture.vo.LectureVO;
 
 
 @Mapper
-public interface FileUploadDao {
+public interface FileManageDao {
 
-    public int upload(FileUploadVO param);
+    public int upload(FileManageVO param);
     public ArrayList<LectureVO> getTotalLecture();
     public int deleteFile(int num);
 }

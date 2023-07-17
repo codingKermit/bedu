@@ -13,73 +13,69 @@
                         ></b-form-input>
                     </div>
                     <div class="w-25">
-                        <b-button class="fs-5 px-5  py-2 bedu-bg-custom-blue w-100" type="submit">검색</b-button>
+                        <b-button class="fs-5 px-1 py-2 px-lg-5 bedu-bg-custom-blue w-100" type="submit">검색</b-button>
                     </div>
                 </div>
             </div>
             
             <!-- 메인 컨테이너-->
-            <b-container class="d-flex">
-                <!-- 좌측 검색된 강의 목록 컨테이너-->
-                <div class="w-50">
+            <b-container>
+                <!-- 검색된 강의 목록 컨테이너-->
+                <!-- <div class="w-50"> -->
                     <div class="p-4">
-                        <b-container class="border rounded-4 pt-3 pb-5 vh-100 scroll-y">
+                        <b-container class="border rounded-4 pt-3 pb-5 scroll-y">
                             <b-form-group
                                 class="fs-4 text-center"
                             >
                             <p class="text-center fs-3 mt-2 mb-4">조회된 강의 목록</p>
-                                <ul class="list-unstyled ">
-                                    <li v-for="(item, index) in lists" :key="index" class="mb-3 fs-5">
-                                        <div v-if="item.total > 0" class="border rounded-3 p-3 d-flex">
-                                            <div class="align-self-center me-3">
-                                                <b-form-radio 
-                                                v-model="form.lectNum" 
-                                                name="lect-num" 
-                                                :value="item.lectNum"
-                                                @change="getVideoList"
-                                                ></b-form-radio>
-                                            </div>
-                                            <div class="me-5 text-start">
-                                                <p>강의 번호 : <span class="fw-bold">{{ item.lectNum }}</span></p>
-                                                <p>강의 제목 : <span class="fw-bold">{{ item.title }}</span></p>
-                                                <p>강사 : <span class="fw-bold">{{ item.teacher }}</span></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <b-table hover :fields="lectFields" :items="lists.filter((item)=>item.total>0)" class="fs-6" fixed small striped size="sm">
+                                <template #cell()="checkbox">
+                                    <b-form-radio 
+                                    v-model="form.lectNum" 
+                                    name="lect-num" 
+                                    :value="checkbox.item.lectNum"
+                                    @change="getVideoList"
+                                    ></b-form-radio>
+                                </template>
+                                <template #cell(lectNum)="num">
+                                    {{ num.value }}
+                                </template>
+                                <template #cell(title)="title">
+                                    {{ title.value }}
+                                </template>
+                                <template #cell(teacher)="teacher">
+                                    {{ teacher.value }}
+                                </template>
+                            </b-table>
                             </b-form-group>
                         </b-container>
                     </div>
-                </div>
+                <!-- </div> -->
 
                 <!-- 우측 컨테이너-->
-                <div class="w-50">
+                <div>
                     <!-- 재생목록 컨테이너 -->
                     <b-container class="pt-4">
-                        <b-container class="border rounded-4 pt-3 vh-50 scroll-y">
+                        <b-container class="border rounded-4 pt-3 scroll-y video-container">
                             <p class="text-center fs-3">재생목록</p>
-                            <ul class="list-unstyled">
-                                <li class="row">
-                                    <div class="col-1"></div>
-                                    <div class="col-1 fw-bold">No</div>
-                                    <div class="col-2 text-center fw-bold">Index</div>
-                                    <div class="col text-center fw-bold">Title</div>
-                                </li>
-                                <li v-for="(item, index) in videoList" :key="index" class="row mb-2">
-                                    <div class="col-1">
-                                        <b-form-radio v-model="form" :value="item" name="indexOptions" ></b-form-radio>
-                                    </div>
-                                    <div class="col-1">
-                                        {{ item.lectDtlNum }}
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        {{ item.lectDtlIndex }}
-                                    </div>
-                                    <div class="col text-center">
-                                        {{ item.lectDtlTitle }}
-                                    </div>
-                                </li>
-                            </ul>
+                            <b-table :fields="videoFields" :items="videoList" striped fixed small size="sm">
+                                <template #cell()="checkbox">
+                                    <b-form-radio 
+                                    v-model="form"
+                                    name="indexOptions"
+                                    :value="checkbox.item"
+                                    ></b-form-radio>
+                                </template>
+                                <template #cell(lectDtlTitle)="lectDtlTitle">
+                                    {{ lectDtlTitle.value }}
+                                </template>
+                                <template #cell(times)="times">
+                                    {{ times.value }}
+                                </template>
+                                <template #cell(lectDtlIndex)="index">
+                                    {{ index.value }}
+                                </template>
+                            </b-table>
                         </b-container>
                     </b-container>
                     <!-- 폼 컨테이너 -->
@@ -125,30 +121,72 @@
                     </b-container>
                 </div>
             </b-container>
-        
+        {{ form }}
     </div>
 </template>
 
 
 <script>
-import axios from 'axios'
-
 export default{
     name:'fileUp',
     data() {
         return {
             keyword : '',
             form: {
+                lectDtlNum : 0,
                 lectNum : 0,
                 lectDtlTitle: '',
-                lectDtlTime: 0,
+                times: 0,
+                lessonUrl : '',
                 lectDtlIndex : 0,
             },
             videoFile : null,
             lists:[],
+            lectFields: [
+                {
+                    key : 'checkbox',
+                    label : '',
+                },
+                {
+                    key : 'lectNum',
+                    sortable: true,
+                    label : 'No'
+                },
+                {
+                    key : 'title',
+                    sortable: true,
+                    label : '제목'
+                },
+                {
+                    key : 'teacher',
+                    sortable: true,
+                    label : '강사'
+                },
+            ],
             totalLists : [],
             progress : 0,
             videoList : [],
+            videoFields : [
+                {
+                    key : 'checkbox',
+                    label : ''
+                },
+                {
+                    key : 'lectDtlTitle',
+                    label : '제목',
+                    sortable : true,
+                },
+                {
+                    key : 'times',
+                    label : '재생 시간',
+                    sortable : true,
+                },
+                {
+                    key : 'lectDtlIndex',
+                    label : '재생순서',
+                    sortable : true,
+                },
+            ],
             indexOptions : [],
         }
     },
@@ -157,23 +195,7 @@ export default{
         getLectureList(){
             this.lists = this.totalLists.filter((item)=> item.title.includes(this.keyword))
         },
-        /** 파일 변경, 업로드시 데이터 바인딩을 위한 메서드 */
-        fileChange(e){
-            this.videoFile = e.target.files[0];
-            var video = document.createElement('video');
-            video.preload = 'metadata';
-            
-            var self = this;
-
-            video.onloadedmetadata = function() {
-                self.form.lectDtlTime =  Math.round(video.duration);
-            }
-
-            if(this.videoFile != undefined){ 
-                video.src = URL.createObjectURL(this.videoFile)
-            }
-
-        },
+        /** 동영상 삭제 메서드 */
         deleteVideo(){
             if(this.form.lectNum == 0){
                 this.$swal({
@@ -260,17 +282,3 @@ export default{
 }
 
 </script>
-
-<style scoped>
-.scroll-y{
-    overflow-y: scroll;
-}
-
-#file-upload-progress{
-    transition: 0.1s;
-}
-
-.vh-50{
-    height: 50vh !important;
-}
-</style>
