@@ -48,68 +48,72 @@
                     {{anstotal}}개의 답변이 있습니다.
                 </p>
             </div>
-            <div>
-                <div class="qna-detail-replywrite" id="qnaboard-detail-replywrite" >
-                    <h4>답변을 작성하시오</h4>
-                    <textarea id = "qna-detail-replycontent" class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
-                </div>
-
+            <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
+                <h4>답변을 작성하시오</h4>
+                <textarea id = "qna-detail-replycontent" class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+            </div>
+            <div class="qna-detail-replylists">
                 <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
                     <div class="d-flex mb-3 mt-4">
                         <div class="qnauser">
                             <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                         </div>
-                        <div  class = "name">
+                        <div class = "name">
                             {{ ans.userName }}
                         </div>
                         <div class="date">
-                            {{ DateTime(ans.ansDate) }}
-                        </div>
-                        <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
-                            <font-awesome-icon :icon="['fas', 'plus']" size="xl" @click="replyopen(ans.ansBdNum, ans.userName)"/>
-                        </div>
-                    </div>
-                    <div class="qnaReplyContent">
-                        {{ ans.content }}
-                    </div>
-
-                    <div id="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
-                        <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
-                    </div>
-                    <hr/>
-                    <div id="qna-detail-replyCont">
-                        <div v-for="reply in replylist" :key="reply.replyNum" id="free-detail-replylist">
-                            <div class="d-flex mb-3 mt-4 freeReplys">
-                                <div class="qnauser">
-                                    <font-awesome-icon :icon="['fas', 'user']" size="xl" />
-                                </div>
-                                <div class="qnaReplyName">
-                                    {{ reply.userName }}
-                                </div>
-                                <div class="qnaReplyDate">
-                                    {{ DateTime(reply.replyDate) }}
-                                </div>
-                                <div class="qnareplyDel-btn" id="qnareplyDel-btn">
-                                    <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
-                                </div>
+                                {{ DateTime(ans.ansDate) }}
                             </div>
-                            <div class="qnacontent">
-                                {{ reply.content }}
+                            <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
+                                <font-awesome-icon :icon="['fas', 'plus']" size="xl" @click="replyopen(ans.ansBdNum, ans.userName)"/>
                             </div>
-
-                            
+                        </div>
+                        <div class="qnaReplyContent">
+                            {{ ans.content }}
                         </div>
                         <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                             <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                             <textarea id = "qna-detail-replycon" class="form-control col-sm-5 qna-detail-replycon" v-model="reply.content" rows="5" placeholder="내용을 작성해주세요" ref="content"/>
-                            <b-button type="button" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
-                            <b-button type="reset" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
+                            <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
+                            <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                         </div>
+                        <div id="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
+                            <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
+                        </div>
+                        <hr/>
+                        <div id="qna-detail-replyCont">
+                            <div v-for="reply in replylist" :key="reply.replyNum" id="free-detail-replylist">
+                                <div class="d-flex mb-3 mt-4 freeReplys">
+                                    <div class="qnauser">
+                                        <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                                    </div>
+                                    <div class="qnaReplyName">
+                                        {{ reply.userName }}
+                                    </div>
+                                    <div class="qnaReplyDate">
+                                        {{ DateTime(reply.replyDate) }}
+                                    </div>
+                                    <div class="qnareplyDel-btn" id="qnareplyDel-btn">
+                                        <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
+                                    </div>
+                                    <div>
+                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(reply.replyNum, reply.userName, reply.content)">댓글수정</b-button>
+                                    </div>
+                                </div>
+                                <div class="qnacontent">
+                                    {{ reply.content }}
+                                </div>
+                                <div class="qnaeditcontent">
+                                    <b-form-input v-model="reply.content">{{ reply.content }}</b-form-input>
+                                </div>
+
+                            </div>
+                        </div>
+                        
                     </div>
-                    
                 </div>
+                
             </div>
-        </div>
         <br>
     </div>
 </div>
@@ -135,6 +139,7 @@
                 userNickName:'',
                 likeyn:'q',
                 userlist:[],
+                editcon:'n',
                 ansid:'',
                 replylist:[],
                 reply:{
@@ -218,6 +223,17 @@
                     document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                 }
 
+            },
+
+            //댓글 수정 폼 열기
+            replyeditopen(replynum, username, content){
+                
+                for(var i=0; i<this.replylist.length; i++){
+                    if(this.replylist[i].replyNum == replynum && this.replylist[i].userName == username){
+                        document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
+                        document.getElementsByClassName("qnacontent")[i].style.display='none';
+                    }
+                }
             },
 
             //댓글 작성폼열기
