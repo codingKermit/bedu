@@ -22,5 +22,4 @@ public interface LectureService {
 	public HashMap<String, Object> getAllLectures(); /* 동영상 조회 */
 	public int addToMyPage(List<Map<String,Object>> args); /* 결제 후 수강 목록에 추가 */
 	public HashMap<String, Object> getMyPageList(String userName); /* 수강 목록 조회 */
-
 }

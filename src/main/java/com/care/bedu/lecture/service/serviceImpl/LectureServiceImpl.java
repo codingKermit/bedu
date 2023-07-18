@@ -267,5 +267,5 @@ public class LectureServiceImpl implements LectureService{
 		
 		return map;
 	}
-	
+
 }
