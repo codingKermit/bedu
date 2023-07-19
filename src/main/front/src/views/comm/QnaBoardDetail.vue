@@ -77,34 +77,39 @@
                             <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
                             <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                         </div>
-                        <div id="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
-                            <b-button type="button" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
+                        <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
+                            <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)"/>
                         </div>
                         <hr/>
                         <div id="qna-detail-replyCont">
                             <div v-for="reply in replylist" :key="reply.replyNum" id="free-detail-replylist">
-                                <div class="d-flex mb-3 mt-4 freeReplys">
+                                <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1">
                                     <div class="qnauser">
                                         <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                                     </div>
-                                    <div class="qnaReplyName">
+                                    <div class="qnaReplyName" style="margin-left: 20px;">
                                         {{ reply.userName }}
                                     </div>
-                                    <div class="qnaReplyDate">
+                                    <div class="qnaReplyDate" style="margin-left: 20px;">
                                         {{ DateTime(reply.replyDate) }}
                                     </div>
-                                    <div class="qnareplyDel-btn" id="qnareplyDel-btn">
+                                    <div class="qnareplyDel-btn" id="qnareplyDel-btn" >
                                         <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                     </div>
-                                    <div>
-                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(reply.replyNum, reply.userName, reply.content)">댓글수정</b-button>
+                                    <div class="qnareplyeditBtns">
+                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(ans.ansBdNum, reply.replyNum, reply.userName)">댓글 수정</b-button>
                                     </div>
-                                </div>
-                                <div class="qnacontent">
-                                    {{ reply.content }}
-                                </div>
-                                <div class="qnaeditcontent">
-                                    <b-form-input v-model="reply.content">{{ reply.content }}</b-form-input>
+                                    <div class="qnareplyeditall-btn">
+                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName)">수정</b-button>
+                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditcensell(reply.replyNum, reply.userName)">취소</b-button>
+                                    </div>
+                                    <br>
+                                    <div class="qnacontent" >
+                                        {{ reply.content }}
+                                    </div>
+                                    <div class="qnaeditcontent">
+                                        <b-form-input v-model="reply.content">{{ reply.content }}</b-form-input>
+                                    </div>
                                 </div>
 
                             </div>
@@ -188,6 +193,8 @@
             }
   
             this.ansread(qnanum);
+            this.replyread(qnanum);
+            // this.replylists();
             this.ansgetTotal(qnanum);
             document.getElementById("qnaboard-detail-recensell").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="none";
@@ -225,13 +232,65 @@
 
             },
 
+            ansnumeq(ansbdnum, ansNum){
+                if(ansbdnum == ansNum){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            },
+
+            // edlbtneq(replynum, username){
+            //     for(var i=0; i<this.replylist.length; i++){
+            //         if(username === this.userNickName){
+                        
+            //             return 1;
+            //         }else{
+            //             return 0;
+            //         }
+            //     }
+            // },
+
+            // delbtneq(username){
+            //     if(this.userNickName === username){
+            //         return 1;
+            //     }else{
+            //         return 0;
+            //     }
+            // },
+
             //댓글 수정 폼 열기
-            replyeditopen(replynum, username, content){
+            replyeditopen(ansnum, replynum, username){
                 
+                console.log('나나', replynum);
+                for(var i=0; i<this.anslist.length; i++){
+                    if(this.replylist[i].ansNum == ansnum){
+                        for(var j=0; i<this.replylist.length; i++){
+                            if(this.replylist[i].replyNum == replynum){
+                                console.log('나shsh');
+                                document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
+                                document.getElementsByClassName("qnacontent")[i].style.display='none';
+                                document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
+                                document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
+                            
+                            }
+
+                    }
+
+                    }
+                    
+                }
+            },
+
+            //댓글 지우기
+            replyeditcensell(replynum, username){
                 for(var i=0; i<this.replylist.length; i++){
                     if(this.replylist[i].replyNum == replynum && this.replylist[i].userName == username){
-                        document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
-                        document.getElementsByClassName("qnacontent")[i].style.display='none';
+                        document.getElementsByClassName("qnaeditcontent")[i].style.display='none';
+                        document.getElementsByClassName("qnacontent")[i].style.display='block';
+                        document.getElementsByClassName("qnareplyeditBtns")[i].style.display='block';
+                        document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='none';
+                        
                     }
                 }
             },
@@ -263,60 +322,10 @@
                 }
             },
 
-            //댓글조회
-            replyread(qnanum, ansnum){
-                console.log(ansnum);
-                console.log('질문', qnanum);
-                if(qnanum === 0 || qnanum === null){
-                    return;
-                }
-                this.$axiosSend('get', '/api/reply/getreply', {
-                    qsNum: qnanum,
-                    ansNum: ansnum
-                }).then(res => {
-                    console.log('replylist: ', res.data);
-                    this.replylist=res.data
-                    for(var i=0; i< res.data.length; i++){
-
-                        if(res.data[i].ansBdNum === ansnum){
-                            this.replylist=res.data[i];
-                            console.log('확인');
-                            continue;
-                        }
-                    }
-                    
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            },
-
-            //질문글번호로 답변의 댓글 조회
-            qnareplyread(qnanum){
-                
-                console.log('질문번호', qnanum);
-                if(qnanum === 0 || qnanum === null){
-                    return;
-                }
-                this.$axiosSend('get', '/api/reply/getreply', {
-                    qsNum: qnanum,
-                    
-                }).then(res => {
-                    console.log('replylist: ', res.data);
-                    this.replylist=res.data;
-                    console.log('받음ㄴ:', this.replylist);
-                    // return this.replylist;
-                    
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            },
 
             //댓글삭제
             replydelete(replyNum, qnanum, ansnum){
-                console.log(qnanum);
-                console.log(ansnum);
+                
                 if(this.userNickName === null || this.userNickName ===""){
                     this.$swal('로그인을 해주세요.', 'success');
                     router.push({
@@ -337,11 +346,13 @@
                         
                         if(res.data ===1){
                             this.$swal('Success', '댓글삭제가 완료 되었습니다.', 'success');
-                            this.qnareplyread(qnanum);
+                            this.ansread(qnanum);
+                            this.replyread(qnanum);
                             return;
                         }else{
                             this.$swal('error', '댓글삭제실패!', 'error');
-                            this.qnareplyread(qnanum);
+                            this.ansread(qnanum);
+                            this.replyread(qnanum);
                             return;
                         }    
                     })
@@ -384,8 +395,9 @@
                         this.$swal('Success','작성완료!','success');
                         this.replylist = res.data;
                         this.replycensell(ansBdNum, username);
-                        this.qnareplyread(qnum);
-                                    
+                        this.ansread(qnum);
+                        this.replyread(qnum);
+                        this.reply.content="";          
                     }else{
                         this.$swal('Success','작성실패!','success')
                         }
@@ -450,31 +462,25 @@
                 })
             },
 
-            //답변 게시글조회
-            ansread(qnanum) {
+            //댓글조회
+            replyread(qnanum){
+                
+                this.$axiosSend('get', '/api/reply/getreply', {
+                    qsNum: qnanum
+                }).then(res => {
+                    this.replylist = res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            },
 
+            //답변 조회
+            ansread(qnanum) {
                 this.$axiosSend('get', '/api/ans/getans', {
                     qsBdNum: qnanum
                 }).then(res => {
-                    for(var i=0; i<res.data.length; i++){
-                        console.log(i+'번째 답변');
-                        this.anslist[i] = res.data[i];
-
-                        var ansnum = this.anslist[i].ansBdNum;
-                        console.log('조회된ansnum:',ansnum);
-                        var qnanum = this.anslist[i].qsBdNum;
-                        if(qnanum == 0 || qnanum === null){
-                            return;
-                        }
-
-                        if(ansnum == 0 || ansnum === null){
-                            return;
-                        }
-                        this.qnareplyread(qnanum);
-                        
-
-                        // this.replystartread(qnanum, res.data[i].ansBdNum);
-                    }
+                    this.anslist = res.data;
                 })  
                 .catch((error) => {
                     console.log(error);
