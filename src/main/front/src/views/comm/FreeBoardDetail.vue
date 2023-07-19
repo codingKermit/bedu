@@ -248,6 +248,7 @@ export default{
             if(commnum === 0 || commnum === null){
                 return;
             }
+            console.log('cnum', commnum);
             this.$axiosSend('get', '/api/reply/getreply', {
                 commNum: commnum
             }).then(res => {
@@ -260,7 +261,6 @@ export default{
 
         //자유글 삭제
         freedelete() {
-
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -268,7 +268,6 @@ export default{
                 })
                 return;
             }
-
             this.$axiosSend('get','/api/freBd/delete', {
                 num: this.free.commNum,
             })
@@ -318,8 +317,7 @@ export default{
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }
-                }
-                )
+                })
                 .catch((error)=>{
                     this.$swal('Error','댓글이 정상적으로 작성되지 않았습니다', error)
                 })
@@ -336,7 +334,6 @@ export default{
                 })
                 return;
             }
-
             if(userName !== this.userNickName){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
@@ -345,8 +342,7 @@ export default{
                 this.$axiosSend('get','/api/reply/replydelete', {
                     rnum: replyNum
                 })
-                .then(res => {
-                    
+                .then(res => {        
                     if(res.data ===1){
                         this.$swal('Success', '댓글삭제가 완료 되었습니다.', 'success');
                         this.replyread(this.free.commNum);
@@ -400,18 +396,14 @@ export default{
         },
         //좋아요 1증가
         freelikeUp(cnum){
-            
             if(this.userNickName === null || this.userNickName===""){
                 this.$swal('로그인을 해주세요.');
                 return;
             }
-
             if(this.free.userName === this.userNickName){
                 return;
             }
-
             var regid = this.form.regId;
-
             this.$axiosSend('get','/api/free/likeUp', {
                     num: cnum,
                     regId : regid,
@@ -420,15 +412,12 @@ export default{
             })
             .then(res => {
                 if(res.data.result === 1){                      //기존 아이디좋아요 없음
-
                     this.likenum = res.data.likenum;             //테이블의 LIKE_NUM
                     this.free.commLikeCnt++;
                     this.$store.commit('CBNUMLIST_ADD', cnum);
                     return;
                 }else if(res.data.result === 0){                //기존 아이디좋아요 있음
-
                     this.likenum = res.data.likenum;
-
                     this.freelikedown();
                     return;
                 }    
@@ -450,13 +439,11 @@ export default{
                 // value는 날짜 값입니다
                 const now = new Date();
                 const date = new Date(value);
-
                 const diffInMilliseconds = now - date;
                 const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
                 const diffInMinutes = Math.floor(diffInSeconds / 60);
                 const diffInHours = Math.floor(diffInMinutes / 60);
                 const freeDays = Math.floor(diffInHours / 24);
-                
                 if (freeDays > 0) {
                     return `${freeDays}일 전`;
                 } else if (diffInHours > 0) {

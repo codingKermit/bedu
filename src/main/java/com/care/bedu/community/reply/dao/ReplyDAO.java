@@ -10,17 +10,11 @@ import com.care.bedu.community.reply.vo.ReplyVO;
 public interface ReplyDAO {
 	//자유댓글조회
 	public ArrayList<ReplyVO> viewList(ReplyVO replyVO);
-	
-	//질문글에 답변글번호에 대한 댓글조회
-	public ArrayList<ReplyVO> viewList2(ReplyVO replyVO);
-	
-	//질문글에 질문글번호에 대한 댓글조회
+	//답변에 대한 댓글조회
 	public ArrayList<ReplyVO> viewList3(ReplyVO replyVO);
-	
 	//댓글쓰기
 	public int viewWrite(ReplyVO replyVO);
-	
-	//댓글쓰기
+	//질문의 답변의 댓글쓰기
 	public int viewWrite2(ReplyVO replyVO);
 	//댓글개수
 	public int replyTotal(int num);

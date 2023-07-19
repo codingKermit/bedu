@@ -54,21 +54,6 @@
 		ORDER BY REPLY_DATE ASC
 	</select>
 	
-	<select id="viewList2" resultType="com.care.bedu.community.reply.vo.ReplyVO">
-		SELECT
-		  REPLY_NUM AS replyNum,
-		  CONTENT,
-		  REPLY_DATE AS replyDate,
-		  REG_DATE AS regDate,
-		  QS_NUM AS qsNum,
-		  ANS_NUM AS ansNum,
-		  USER_NAME AS userName 
-		FROM T_BEDU_REPLY 
-		WHERE QS_NUM = #{qsNum} AND ANS_NUM= #{ansNum}
-		ORDER BY REPLY_DATE ASC
-	</select>
-	
-	
 	<select id="viewList3" resultType="com.care.bedu.community.reply.vo.ReplyVO">
 		SELECT
 		  REPLY_NUM AS replyNum,

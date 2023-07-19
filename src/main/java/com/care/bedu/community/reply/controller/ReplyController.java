@@ -20,6 +20,7 @@ public class ReplyController {
 	//게시글 조회
 	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		
 	public ArrayList<ReplyVO> getReply(ReplyVO replyVO){
+//		System.out.println("replycomnum"+ replyVO.getCommNum());
 		return replyService.getreply(replyVO);
 		
 	}

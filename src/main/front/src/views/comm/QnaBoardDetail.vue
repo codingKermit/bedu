@@ -97,7 +97,7 @@
                                         <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                     </div>
                                     <div class="qnareplyeditBtns">
-                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(ans.ansBdNum, reply.replyNum, reply.userName)">댓글 수정</b-button>
+                                        <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(reply.ansNum, reply.replyNum)">댓글 수정</b-button>
                                     </div>
                                     <div class="qnareplyeditall-btn">
                                         <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName)">수정</b-button>
@@ -125,595 +125,550 @@
 </template>
 
 <script>
-    import CommCategory from '@/components/CommCategory.vue';
-    import router from '@/router';
-    import '@/assets/css/qnaStyle.css'; 
-    export default{
+import CommCategory from '@/components/CommCategory.vue';
+import router from '@/router';
+import '@/assets/css/qnaStyle.css'; 
+export default{
 
-        components:{
-            CommCategory
-        },
-        
-        data() {
-            return {
-                qnum:0,
-                anslist:[],
-                anstotal:0,
-                likenum:0,
-                username:'',
-                userNickName:'',
-                likeyn:'q',
-                userlist:[],
-                editcon:'n',
-                ansid:'',
-                replylist:[],
-                reply:{
-                    content:'',
-                    qnaBdNum:0,
-                    ansNum:0,
-                    userName : '',
-                    regId:''
-                },
-                form:{
-                    ansBdNum:0,
-                    ansDate:'',
-                    qsBdNum:0,
-                    regDate:'',
-                    regId:'',
-                },
-                qna:{
-                    qnaBdNum:0,
-                    userName : '',
-                    regId:''
-                }
-            }
-        },
-
-        computed:{
-            getCbnumList() {
-                
-                return this.$store.getters.getCbnumList;
+    components:{
+        CommCategory
+    },
+    data() {
+        return {
+            //질문글번호
+            qnum:0,
+            //답변 리스트
+            anslist:[],
+            anstotal:0,
+            //like테이블의 글번호
+            likenum:0,
+            username:'',
+            userNickName:'',
+            likeyn:'q',
+            userlist:[],
+            editcon:'n',
+            ansid:'',
+            //댓글 리스트
+            replylist:[],
+            //답변의 댓글 객체
+            reply:{
+                content:'',
+                qnaBdNum:0,
+                ansNum:0,
+                userName : '',
+                regId:''
             },
-            isLiked() {
-                if (Array.isArray(this.getCbnumList)) {
-                    return this.getCbnumList.includes(this.qna.qnaBdNum);
-                }
-                return false;
-            }
-        },
-
-        mounted() {
-            const qnanum = this.$route.params.num;
-            this.userNickName =this.$store.getters.getNickname;
-            this.form.regId = this.$store.getters.getEmail;
-            if(this.userNickName === null || this.userNickName ===""){
-                this.qnaReadtet(qnanum);
-            }else{
-                this.qnaRead(qnanum);
-            }
-  
-            this.ansread(qnanum);
-            this.replyread(qnanum);
-            // this.replylists();
-            this.ansgetTotal(qnanum);
-            document.getElementById("qnaboard-detail-recensell").style.display="none";
-            document.getElementById("qnaboard-detail-rewrite").style.display="none";
-            this.form.ansBdNum = qnanum;
-        },
-
-        created() {
-        },
-
-        methods: {
-
-            //답변개수조회
-            getCountAns(){
-                this.$axiosSend('get', '/api/ans/count', {
-
-                }).then(res => {
-                    this.qsCount = res.data;
-                })
-                .catch((error) => {
-                    this.$swal('Error', '답변이 정상적으로 조회되지 않았습니다.', error);
-                })
-            },
-
-            //닉네임 존재 여부 확인
-            nicknameEquals(nickname){
-                
-                if(this.userNickName === null || this.userNickName ===""){
-                    document.getElementById("qnaboard-detail-replybtn").style.display="none";
-                }
-
-                if(this.userNickName !== nickname){
-                    document.getElementById("qnaboard-detail-editbtn").style.display="none";
-                    document.getElementById("qnaboard-detail-deletebtn").style.display="none";
-                }
-
-            },
-
-            ansnumeq(ansbdnum, ansNum){
-                if(ansbdnum == ansNum){
-                    return 1;
-                }else{
-                    return 0;
-                }
-            },
-
-            // edlbtneq(replynum, username){
-            //     for(var i=0; i<this.replylist.length; i++){
-            //         if(username === this.userNickName){
-                        
-            //             return 1;
-            //         }else{
-            //             return 0;
-            //         }
-            //     }
-            // },
-
-            // delbtneq(username){
-            //     if(this.userNickName === username){
-            //         return 1;
-            //     }else{
-            //         return 0;
-            //     }
-            // },
-
-            //댓글 수정 폼 열기
-            replyeditopen(ansnum, replynum, username){
-                
-                console.log('나나', replynum);
-                for(var i=0; i<this.anslist.length; i++){
-                    if(this.replylist[i].ansNum == ansnum){
-                        for(var j=0; i<this.replylist.length; i++){
-                            if(this.replylist[i].replyNum == replynum){
-                                console.log('나shsh');
-                                document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
-                                document.getElementsByClassName("qnacontent")[i].style.display='none';
-                                document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
-                                document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
-                            
-                            }
-
-                    }
-
-                    }
-                    
-                }
-            },
-
-            //댓글 지우기
-            replyeditcensell(replynum, username){
-                for(var i=0; i<this.replylist.length; i++){
-                    if(this.replylist[i].replyNum == replynum && this.replylist[i].userName == username){
-                        document.getElementsByClassName("qnaeditcontent")[i].style.display='none';
-                        document.getElementsByClassName("qnacontent")[i].style.display='block';
-                        document.getElementsByClassName("qnareplyeditBtns")[i].style.display='block';
-                        document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='none';
-                        
-                    }
-                }
-            },
-
-            //댓글 작성폼열기
-            replyopen(ansnum, username){
-                
-                for(var i =0; i<this.anslist.length; i++){
-                    if(this.anslist[i].ansBdNum === ansnum ){
-                        if(this.anslist[i].userName === username){
-                            document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='none';
-                            document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';  
-                            return;
-                        }
-                    }
-                }
-            },
-
-            //댓글 닫기
-            replycensell(ansnum, username){
-                for(var i =0; i<this.anslist.length; i++){
-                    if(this.anslist[i].ansBdNum === ansnum ){
-                        if(this.anslist[i].userName === username){
-                            document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='block';
-                            document.getElementsByClassName("qna-detail-rewrites")[i].style.display='none';  
-                            return;
-                        }
-                    }
-                }
-            },
-
-
-            //댓글삭제
-            replydelete(replyNum, qnanum, ansnum){
-                
-                if(this.userNickName === null || this.userNickName ===""){
-                    this.$swal('로그인을 해주세요.', 'success');
-                    router.push({
-                        name: "login"
-                    })
-                    return;
-                }
-
-                if(this.userNickName !== this.userNickName){
-                    this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
-                    return;
-                }else{
-                    
-                    this.$axiosSend('get','/api/reply/replydelete', {
-                        rnum: replyNum
-                    })
-                    .then(res => {
-                        
-                        if(res.data ===1){
-                            this.$swal('Success', '댓글삭제가 완료 되었습니다.', 'success');
-                            this.ansread(qnanum);
-                            this.replyread(qnanum);
-                            return;
-                        }else{
-                            this.$swal('error', '댓글삭제실패!', 'error');
-                            this.ansread(qnanum);
-                            this.replyread(qnanum);
-                            return;
-                        }    
-                    })
-                    .catch(error => {
-                        this.$swal(error, '댓글삭제실패!', 'error');
-                    })
-                }
-            },
-
-            //댓글쓰기
-            replywrite(ansBdNum, username){
-                
-                if(this.userNickName === null || this.userNickName ===""){
-                    this.$swal('로그인을 해주세요.', 'success');
-                    router.push({
-                        name: "login"
-                    })
-                    return;
-                }
-                if(this.reply.content == null || this.reply.content == ""){
-                    this.$swal({
-                        title :'warning!',
-                        text :"내용을 입력하세요",
-                        type :'warning',
-                        icon : 'warning',
-                    })
-                    return;
-                }
-               
-                this.reply.qsNum = this.qna.qnaBdNum;
-                this.reply.userName = this.userNickName;
-                this.reply.ansNum = ansBdNum;
-                this.reply.regId=this.form.regId;           
-                var qnum = this.reply.qsNum;
-
-                
-                this.$axiosSend('post', '/api/reply/write', this.reply)
-                .then(res=>{
-                    if(res.data === 1){
-                        this.$swal('Success','작성완료!','success');
-                        this.replylist = res.data;
-                        this.replycensell(ansBdNum, username);
-                        this.ansread(qnum);
-                        this.replyread(qnum);
-                        this.reply.content="";          
-                    }else{
-                        this.$swal('Success','작성실패!','success')
-                        }
-                    }
-                )
-                .catch((error)=>{
-                    this.$swal('Error','댓글이 정상적으로 작성되지 않았습니다', error)
-                })
-
-            },
-
-            //답변버튼 노출 비노출
-            ansdelbtneqlse(username){
-                if(this.userNickName === username){
-                    return 1;
-                }else{
-                    return 0;
-                }
-            },
-
-            //답변글 총개수
-            ansgetTotal(qnanum){
-                
-                this.$axiosSend('get','/api/ans/ansTotal', {
-                        qnaNum: qnanum,
-                })
-                .then(res => {
-                       this.anstotal=res.data;
-                })
-            },
-
-            //게시글 조회
-            qnaRead(qnanum){ // 게시글 데이터 조회
-                this.$axiosSend('get','/api/qna/qnaDetail',{
-                    num : qnanum,
-                    userName : this.userNickName,
-                    regid : this.form.regId
-                })
-                .then(res=>{
-                    this.qna = res.data;                
-                    this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
-                    this.nicknameEquals(this.qna.userName);
-                
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
-            },
-
-            //게시글 조회
-            qnaReadtet(qnanum){ // 게시글 데이터 조회
-                this.$axiosSend('get','/api/qna/editdetail',{
-                        num : qnanum,
-                })
-                .then(res=>{
-                    this.qna = res.data;                
-                    this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
-                    this.nicknameEquals(this.qna.userName);
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
-            },
-
-            //댓글조회
-            replyread(qnanum){
-                
-                this.$axiosSend('get', '/api/reply/getreply', {
-                    qsNum: qnanum
-                }).then(res => {
-                    this.replylist = res.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            },
-
-            //답변 조회
-            ansread(qnanum) {
-                this.$axiosSend('get', '/api/ans/getans', {
-                    qsBdNum: qnanum
-                }).then(res => {
-                    this.anslist = res.data;
-                })  
-                .catch((error) => {
-                    console.log(error);
-                })
-            },
-
-            //게시글 삭제
-            qnadelete(qnanum) {
-
-                if(this.userNickName === null || this.userNickName ===""){
-                    this.$swal('로그인을 해주세요.', 'success');
-                    router.push({
-                        name: "login"
-                    })
-                    return;
-                }
-
-                this.$axiosSend('get','/api/qna/qnaDelete', {
-                        num: qnanum,
-                })
-                .then(res => {
-                    if(res.data ===1){
-                    this.$swal('Success', '글삭제완료!', 'success'),
-                        router.push({
-                            name: "qnaBoard"
-                        })
-                    }    
-                })
-                .catch(error => {
-                    alert(error);
-                })
-            },
-
-            //수정페이지로 이동 (질문글번호)
-            qnaeditPath(qnum){              
-                router.push({
-                    name: 'qnaBoardedit', 
-                        num :qnum,
-                })
-            },
-
-            //좋아요 1다운
-            qnalikedown(){                                                      
             
-                this.$axiosSend('get','/api/qna/likeDown', {
-                        num : this.qna.qnaBdNum,
-                        userName : this.userNickName,
-                        likebdnum : this.likenum,
-                })
-                .then(res => {
-                    
-                    if(res.data === 1){
-                        this.qna.qnaLikeCnt--;
-                        return;
-                    }else if(res.data === 0){
-                        return;
-                    }    
-                })
-                .catch(error => {
-                    alert(error);
-                })
+            // ans(답변객체)
+            form:{          
+                ansBdNum:0,
+                ansDate:'',
+                qsBdNum:0,
+                regDate:'',
+                regId:'',
             },
+            // 질문상세글객체
+            qna:{
+                qnaBdNum:0,
+                userName : '',
+                regId:''
+            }
+        }
+    },
+    computed:{
+        getCbnumList() {
+            
+            return this.$store.getters.getCbnumList;
+        },
+        isLiked() {
+            if (Array.isArray(this.getCbnumList)) {
+                return this.getCbnumList.includes(this.qna.qnaBdNum);
+            }
+            return false;
+        }
+    },
+    mounted() {
+        const qnanum = this.$route.params.num;
+        this.userNickName =this.$store.getters.getNickname;
+        this.form.regId = this.$store.getters.getEmail;
+        if(this.userNickName === null || this.userNickName ===""){
+            this.qnaReadtet(qnanum);
+        }else{
+            this.qnaRead(qnanum);
+        }
 
-            //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
-            qnalikeUp(qnum){
-                
-                if(this.userNickName === null || this.userNickName===""){
-                    this.$swal('로그인을 해주세요.');
-                    return;
-                }
-                if(this.qna.userName === this.userNickName){
-                    return;
-                }
-                var regid = this.form.regId;
+        this.ansread(qnanum);
+        this.replyread(qnanum);
+        this.ansgetTotal(qnanum);
+        document.getElementById("qnaboard-detail-recensell").style.display="none";
+        document.getElementById("qnaboard-detail-rewrite").style.display="none";
+        this.form.ansBdNum = qnanum;
+    },
+    methods: {
+        //게시글 조회
+        qnaReadtet(qnanum){ // 게시글 데이터 조회
+            this.$axiosSend('get','/api/qna/editdetail',{num : qnanum,})
+            .then(res=>{
+                this.qna = res.data;                
+                this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
+                this.nicknameEquals(this.qna.userName);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        },
+        //답변개수조회
+        getCountAns(){
+            this.$axiosSend('get', '/api/ans/count', {
+            }).then(res => {
+                this.qsCount = res.data;
+            })
+            .catch((error) => {
+                this.$swal('Error', '답변이 정상적으로 조회되지 않았습니다.', error);
+            })
+        },
 
-                this.$axiosSend('get','/api/qna/likeUp', {
-                        num: qnum,                             
-                        regId : regid,                          
-                        userName : this.userNickName,  
-                        likeyn : this.likeyn             
-                })
-                .then(res => {
-                    if(res.data.result === 1){                                    
-                        this.qna.qnaLikeCnt++;
-                        return;
-                    }else if(res.data.result === 0){                
-
-                        this.likenum = res.data.likenum;
-                        this.$store.commit('CBNUMLIST_ADD', qnum);          
-                        this.qnalikedown();      
-                        return;
-                    }    
-                })
-                .catch(error => {
-                    alert(error);
-                })
-            },
-
-            //작성날짜 변환
-            DateTime(value) {
-                // value는 날짜 값입니다
-                const now = new Date();
-                const date = new Date(value);
-
-                const diffInMilliseconds = now - date;
-                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-                const diffInMinutes = Math.floor(diffInSeconds / 60);
-                const diffInHours = Math.floor(diffInMinutes / 60);
-                const Days = Math.floor(diffInHours / 24);
-                
-                if (Days > 0) {
-                    return `${Days}일 전`;
-                } else if (diffInHours > 0) {
-                    
-                    return `${diffInHours}시간 전`;
-                } else if (diffInMinutes > 0) {
-                    return `${diffInMinutes}분 전`;
-                } else {
-                    return '방금 전';
-                }
-            },
-
-            //답변 글 작성
-            answrite(){
-                console.log('내용',this.form.content);
-                if(this.userNickName === null || this.userNickName ===""){
-                    this.$swal('로그인을 해주세요.', 'success');
-                    router.push({
-                        name: "login"
-                    })
-                    return;
-                }
-
-                if(this.form.content == null || this.form.content == ""){
-                    this.$swal({
-                        title :'warning!',
-                        text :"내용을 입력하세요",
-                        type :'warning',
-                        icon : 'warning',
-                    })
-                    return;
-                }
-                
-                this.form.qsBdNum = this.qna.qnaBdNum;
-                this.form.userName = this.userNickName;
-                var qnanum = this.form.qsBdNum;
-
-                this.$axiosSend('post', '/api/ans/write', this.form)
-                .then(res=>{
-                    if(res.data === 1){
-                        this.$swal('Success','작성완료!','success'),
-                        this.censells();
-                        this.ansread(qnanum);
-                        this.ansgetTotal(qnanum);
-                    }else{
-                        this.$swal('Success','작성실패!','success')
-                    }
-                })
-                .catch((error)=>{
-                    this.$swal('Error','답변이 정상적으로 작성되지 않았습니다', error)
-                })
-
-            },
-
-            //취소클릭에 수정,삭제,답변글 작성 버튼
-            censells(){
-                
-                document.getElementById("qnaboard-detail-replybtn").style.display="inline";
-                document.getElementById("qnaboard-detail-rewrite").style.display="none";
-                document.getElementById("qnaboard-detail-replywrite").style.display="none";
-                document.getElementById("qnaboard-detail-editbtn").style.display="inline";
-                document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
-                document.getElementById("qnaboard-detail-recensell").style.display="none";
-                if(this.qna.userName === this.userNickName){
-                    document.getElementById("qnaboard-detail-replybtn").style.display="inline";
-                    document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
-                    document.getElementById("qnaboard-detail-editbtn").style.display="inline";
-                    return;
-                }else{
-                    document.getElementById("qnaboard-detail-deletebtn").style.display="none";
-                    document.getElementById("qnaboard-detail-editbtn").style.display="none";
-                }
-            },
-
-            //답변작성버튼 클릭에 삭제 수정버튼
-            ansopen(){
+        //닉네임 존재 여부 확인
+        nicknameEquals(nickname){
+            if(this.userNickName === null || this.userNickName ===""){
                 document.getElementById("qnaboard-detail-replybtn").style.display="none";
-                document.getElementById("qnaboard-detail-rewrite").style.display="inline";
-                document.getElementById("qnaboard-detail-replywrite").style.display="block";
+            }
+            if(this.userNickName !== nickname){
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";
-                document.getElementById("qnaboard-detail-recensell").style.display="inline";
-                this.form.content = "";
-            },
+            }
+        },
 
-            //답변 삭제
-            ansdelete(ansNum, userName, regid){
-                
-                if(this.userNickName === null || this.userNickName ===""){
-                    this.$swal('로그인을 해주세요.', 'success');
-                    router.push({
-                        name: "login"
-                    })
-                    return;
-                }
-                if(userName !== this.userNickName){
-                    this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
-                    return;
-                }else{
-                    
-                    this.$axiosSend('get','/api/ans/ansdelete', {
-                        ansBdNum : ansNum
-                    })
-                    .then(res => {
-                        
-                        if(res.data ===1){
-                            this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
-                            this.ansread(this.qna.qnaBdNum);
-                            this.ansgetTotal(this.qna.qnaBdNum);
-                            return;
-                        }else{
-                            this.$swal('error', '답변삭제실패!', 'error');
-                            this.ansread(this.qna.qnaBdNum);
-                            return;
-                        }    
-                    })
-                    .catch(error => {
-                        this.$swal(error, '답변삭제실패!', 'error');
-                    })
+        //댓글 답변번호 비교
+        ansnumeq(ansbdnum, ansNum){
+            if(ansbdnum == ansNum){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
+        //댓글 수정 폼 열기
+        replyeditopen(ansnum, replynum){
+            for(var i=0; i<this.anslist.length; i++){
+                console.log('ans', this.anslist[i].ansBdNum);
+                console.log('ansnum', ansnum);
+                if(this.anslist[i].ansBdNum == ansnum){
+                    for(var j=0; i<this.replylist.length; i++){
+                        console.log('replylist', this.replylist[i].replyNum);
+                        console.log('replynum', replynum);
+                        if(this.replylist[i].replyNum == replynum){
+                            console.log('나shsh');
+                            document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
+                            document.getElementsByClassName("qnacontent")[i].style.display='none';
+                            document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
+                            document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
+                        }
+                    }
                 }
             }
+        },
+
+        //댓글 지우기
+        replyeditcensell(replynum, username){
+            for(var i=0; i<this.replylist.length; i++){
+                if(this.replylist[i].replyNum == replynum && this.replylist[i].userName == username){
+                    document.getElementsByClassName("qnaeditcontent")[i].style.display='none';
+                    document.getElementsByClassName("qnacontent")[i].style.display='block';
+                    document.getElementsByClassName("qnareplyeditBtns")[i].style.display='block';
+                    document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='none';
+                }
+            }
+        },
+
+        //댓글 작성폼열기
+        replyopen(ansnum, username){
+            
+            for(var i =0; i<this.anslist.length; i++){
+                if(this.anslist[i].ansBdNum === ansnum ){
+                    if(this.anslist[i].userName === username){
+                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='none';
+                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';  
+                        return;
+                    }
+                }
+            }
+        },
+
+        //댓글 닫기
+        replycensell(ansnum, username){
+            for(var i =0; i<this.anslist.length; i++){
+                if(this.anslist[i].ansBdNum === ansnum ){
+                    if(this.anslist[i].userName === username){
+                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='block';
+                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='none';  
+                        return;
+                    }
+                }
+            }
+        },
+
+
+        //댓글삭제
+        replydelete(replyNum, qnanum, ansnum){
+            
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            if(this.userNickName !== this.userNickName){
+                this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
+                return;
+            }else{
+                
+                this.$axiosSend('get','/api/reply/replydelete', {
+                    rnum: replyNum
+                })
+                .then(res => {
+                    
+                    if(res.data ===1){
+                        this.$swal('Success', '댓글삭제가 완료 되었습니다.', 'success');
+                        this.ansread(qnanum);
+                        this.replyread(qnanum);
+                        return;
+                    }else{
+                        this.$swal('error', '댓글삭제실패!', 'error');
+                        this.ansread(qnanum);
+                        this.replyread(qnanum);
+                        return;
+                    }    
+                })
+                .catch(error => {
+                    this.$swal(error, '댓글삭제실패!', 'error');
+                })
+            }
+        },
+
+        //댓글쓰기
+        replywrite(ansBdNum, username){    
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+            if(this.reply.content == null || this.reply.content == ""){
+                this.$swal({
+                    title :'warning!',
+                    text :"내용을 입력하세요",
+                    type :'warning',
+                    icon : 'warning',
+                })
+                return;
+            }
+            this.reply.qsNum = this.qna.qnaBdNum;
+            this.reply.userName = this.userNickName;
+            this.reply.ansNum = ansBdNum;
+            this.reply.regId=this.form.regId;           
+            var qnum = this.reply.qsNum;
+            this.$axiosSend('post', '/api/reply/write', this.reply)
+            .then(res=>{
+                if(res.data === 1){
+                    this.$swal('Success','작성완료!','success');
+                    this.replylist = res.data;
+                    this.replycensell(ansBdNum, username);
+                    this.ansread(qnum);
+                    this.replyread(qnum);
+                    this.reply.content="";          
+                }else{
+                    this.$swal('Success','작성실패!','success')
+                    }
+                }
+            )
+            .catch((error)=>{
+                this.$swal('Error','댓글이 정상적으로 작성되지 않았습니다', error)
+            })
 
         },
-    }
+
+        //답변버튼 노출 비노출
+        ansdelbtneqlse(username){
+            if(this.userNickName === username){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
+        //답변글 총개수
+        ansgetTotal(qnanum){
+            this.$axiosSend('get','/api/ans/ansTotal', {
+                qnaNum: qnanum,
+            })
+            .then(res => {
+                this.anstotal=res.data;
+            })
+        },
+
+        //게시글 조회
+        qnaRead(qnanum){ // 게시글 데이터 조회
+            this.$axiosSend('get','/api/qna/qnaDetail',{
+                num : qnanum,
+                userName : this.userNickName,
+                regid : this.form.regId
+            })
+            .then(res=>{
+                this.qna = res.data;                
+                this.qna.strQnaDate = this.DateTime(this.qna.qnaDate);
+                this.nicknameEquals(this.qna.userName);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        },
+
+        //댓글조회
+        replyread(qnanum){
+            this.$axiosSend('get', '/api/reply/getreply', {
+                qsNum: qnanum
+            }).then(res => {
+                this.replylist = res.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        },
+
+        //답변 조회
+        ansread(qnanum) {
+            this.$axiosSend('get', '/api/ans/getans', {
+                qsBdNum: qnanum
+            }).then(res => {
+                this.anslist = res.data;
+            })  
+            .catch((error) => {
+                console.log(error);
+            })
+        },
+
+        //게시글 삭제
+        qnadelete(qnanum) {
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            this.$axiosSend('get','/api/qna/qnaDelete', {
+                    num: qnanum,
+            })
+            .then(res => {
+                if(res.data ===1){
+                this.$swal('Success', '글삭제완료!', 'success'),
+                    router.push({
+                        name: "qnaBoard"
+                    })
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },
+
+        //수정페이지로 이동 (질문글번호)
+        qnaeditPath(qnum){              
+            router.push({
+                name: 'qnaBoardedit', 
+                    num :qnum,
+            })
+        },
+
+        //좋아요 1다운
+        qnalikedown(){                                                      
+        
+            this.$axiosSend('get','/api/qna/likeDown', {
+                    num : this.qna.qnaBdNum,
+                    userName : this.userNickName,
+                    likebdnum : this.likenum,
+            })
+            .then(res => {
+                if(res.data === 1){
+                    this.qna.qnaLikeCnt--;
+                    return;
+                }else if(res.data === 0){
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },
+
+        //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
+        qnalikeUp(qnum){
+            if(this.userNickName === null || this.userNickName===""){
+                this.$swal('로그인을 해주세요.');
+                return;
+            }
+            if(this.qna.userName === this.userNickName){
+                return;
+            }
+            var regid = this.form.regId;
+
+            this.$axiosSend('get','/api/qna/likeUp', {
+                    num: qnum,                             
+                    regId : regid,                          
+                    userName : this.userNickName,  
+                    likeyn : this.likeyn             
+            })
+            .then(res => {
+                if(res.data.result === 1){                                    
+                    this.qna.qnaLikeCnt++;
+                    return;
+                }else if(res.data.result === 0){                
+
+                    this.likenum = res.data.likenum;
+                    this.$store.commit('CBNUMLIST_ADD', qnum);          
+                    this.qnalikedown();      
+                    return;
+                }    
+            })
+            .catch(error => {
+                alert(error);
+            })
+        },
+
+        //작성날짜 변환
+        DateTime(value) {
+            // value는 날짜 값입니다
+            const now = new Date();
+            const date = new Date(value);
+            const diffInMilliseconds = now - date;
+            const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const Days = Math.floor(diffInHours / 24);
+            if (Days > 0) {
+                return `${Days}일 전`;
+            } else if (diffInHours > 0) {
+                
+                return `${diffInHours}시간 전`;
+            } else if (diffInMinutes > 0) {
+                return `${diffInMinutes}분 전`;
+            } else {
+                return '방금 전';
+            }
+        },
+
+        //답변 글 작성
+        answrite(){
+            console.log('내용',this.form.content);
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+            if(this.form.content == null || this.form.content == ""){
+                this.$swal({
+                    title :'warning!',
+                    text :"내용을 입력하세요",
+                    type :'warning',
+                    icon : 'warning',
+                })
+                return;
+            }
+            this.form.qsBdNum = this.qna.qnaBdNum;
+            this.form.userName = this.userNickName;
+            var qnanum = this.form.qsBdNum;
+
+            this.$axiosSend('post', '/api/ans/write', this.form)
+            .then(res=>{
+                if(res.data === 1){
+                    this.$swal('Success','작성완료!','success'),
+                    this.censells();
+                    this.ansread(qnanum);
+                    this.ansgetTotal(qnanum);
+                }else{
+                    this.$swal('Success','작성실패!','success')
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','답변이 정상적으로 작성되지 않았습니다', error)
+            })
+
+        },
+
+        //취소클릭에 수정,삭제,답변글 작성 버튼 
+        censells(){
+            document.getElementById("qnaboard-detail-replybtn").style.display="inline";
+            document.getElementById("qnaboard-detail-rewrite").style.display="none";
+            document.getElementById("qnaboard-detail-replywrite").style.display="none";
+            document.getElementById("qnaboard-detail-editbtn").style.display="inline";
+            document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
+            document.getElementById("qnaboard-detail-recensell").style.display="none";
+            if(this.qna.userName === this.userNickName){
+                document.getElementById("qnaboard-detail-replybtn").style.display="inline";
+                document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
+                document.getElementById("qnaboard-detail-editbtn").style.display="inline";
+                return;
+            }else{
+                document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                document.getElementById("qnaboard-detail-editbtn").style.display="none";
+            }
+        },
+
+        //답변작성버튼 클릭에 삭제 수정버튼
+        ansopen(){
+            document.getElementById("qnaboard-detail-replybtn").style.display="none";
+            document.getElementById("qnaboard-detail-rewrite").style.display="inline";
+            document.getElementById("qnaboard-detail-replywrite").style.display="block";
+            document.getElementById("qnaboard-detail-editbtn").style.display="none";
+            document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+            document.getElementById("qnaboard-detail-recensell").style.display="inline";
+            this.form.content = "";
+        },
+
+        //답변 삭제
+        ansdelete(ansNum, userName, regid){   
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+            if(userName !== this.userNickName){
+                this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
+                return;
+            }else{
+                
+                this.$axiosSend('get','/api/ans/ansdelete', {
+                    ansBdNum : ansNum
+                })
+                .then(res => {
+                    
+                    if(res.data ===1){
+                        this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
+                        this.ansread(this.qna.qnaBdNum);
+                        this.ansgetTotal(this.qna.qnaBdNum);
+                        return;
+                    }else{
+                        this.$swal('error', '답변삭제실패!', 'error');
+                        this.ansread(this.qna.qnaBdNum);
+                        return;
+                    }    
+                })
+                .catch(error => {
+                    this.$swal(error, '답변삭제실패!', 'error');
+                })
+            }
+        }
+
+    },
+}
 
 </script>
