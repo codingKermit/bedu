@@ -12,7 +12,7 @@
             <h2 class="fw-bold my-5" id="videoList-container">강의목록</h2>
                     <ul class="list-unstyled mb-5">
                         <li class="py-3 fs-5 border-bottom border-1">
-                            <b-link class="d-flex text-body text-decoration-none" :to="'/lectureLesson?lectDtlNum='+video.lectDtlNum">
+                            <b-link class="d-flex text-body text-decoration-none" ><!--:to="'/lectureLesson?lectDtlNum='+video.lectDtlNum"-->
                                 <span class="me-auto ms-3 fw-bold">
                                     {{ userId }}.
                                     {{ userId }}

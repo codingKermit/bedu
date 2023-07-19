@@ -16,7 +16,7 @@
                         <div class="mypagecontainer" style="float:left;" v-for="(item, index) in lectureListFirst" :key="index">
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
-                                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
+                                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageLectureLesson"'>
                                     <div class="mypageInfo">
                                         <div class="mypageContain">
                                             <h3> {{ item.title }} </h3>
