@@ -16,7 +16,7 @@
                         <div class="mypagecontainer" style="float:left;" v-for="(item, index) in lectureListFirst" :key="index">
                             <div class="lect text-start">
                                <!--  링크걸어서 화면 이동 테스트중 -->
-                                <b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageLectureLesson"'>
+                                <b-link class="text-decoration-none text-body h-100 d-block" :to="'/lectureLesson?lectDtlNum='+lessonInfo.lectDtlNum">
                                     <div class="mypageInfo">
                                         <div class="mypageContain">
                                             <h3> {{ item.title }} </h3>
@@ -116,6 +116,10 @@ export default {
             lectregdate : '',
             regdate : '',
             regid : '',
+            lessonInfo : { //동영상 나오는 거 체크를 위해 숫자를 넣었음.
+                lectDtlNum : 6,
+            }
+
         }
     }, 
     created (){
