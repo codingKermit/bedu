@@ -22,4 +22,7 @@ export default {
 
     // state에서 CbnumList 값을 가져오는 getter
     getCbnumList: state => state.cbnumList,
+
+    // state에서 구독 정보를 가져오는 getter
+    getSubscribe : state => state.subscribe,
 }

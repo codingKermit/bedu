@@ -17,7 +17,7 @@
                                     <b-container class="bg-secondary rounded-3 bg-opacity-10 py-3 mb-2">
                                         <b-img class="category-icon" :src="require('@/assets/imgs/categories/'+item.lectIcon+'.png') " fluid></b-img>
                                     </b-container>
-                                    <text class="fw-bold d-block text-wrap">{{ item.lectTopCateKor }}</text>
+                                    <text class="fw-bold text-break">{{ item.lectTopCateKor }}</text>
                                 </b-link>
                         </b-col>
                     </b-row>
@@ -86,4 +86,8 @@ import '@/assets/css/lectureStyle.css';
     width: 52px !important;
     height: 52px !important;
   }
+    .text-break {
+    word-wrap: keep-all !important;
+    word-break: keep-all !important;
+    }
 </style>

@@ -25,6 +25,9 @@ export default {
     [types.CBNUMLIST](state, cbnumList) {
         state.cbnumList = cbnumList
     },
+    [types.SUBSCRIBE](state, subscribe){
+        state.subscribe = subscribe
+    },
     [types.CBNUMLIST_REMOVE](state, commNum) {
         // 'state.cbnumList' 배열에서 'commNum' 값을 가진 요소의 인덱스를 찾습니다.
         const index = state.cbnumList.indexOf(commNum);

@@ -70,7 +70,8 @@
                     :class="{'header-router-link-active' : $route.name == 'companyStudy'}">
                         기업교육
                     </router-link>
-                    <router-link class="fs-5 fw-bold bedu-header-nav-item" to="/membership"
+                    <router-link 
+                    class="fs-5 fw-bold bedu-header-nav-item" to="/membership"
                     :class="{'header-router-link-active' : $route.name == 'membership'}">
                         멤버쉽 안내
                     </router-link>
@@ -332,7 +333,6 @@ import '@/assets/css/header.css'
             logout() {
                 this.$swal({
                     title: '로그아웃 하시겠습니까?',
-                    
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                     confirmButtonColor: '#303076',
@@ -358,6 +358,7 @@ import '@/assets/css/header.css'
                         this.$store.commit('CBNUMLIST', null);
                         this.$store.commit('EMAIL', null);
                         this.$store.commit('LESSONS', []);
+                        this.$store.commit('SUBSCRIBE',null);
                     } else {
                         // 취소(No)를 선택한 경우
                         // 아무 작업도 하지 않음

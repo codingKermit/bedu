@@ -13,18 +13,31 @@
 				SUB_END_DATE
 			)
 		VALUES(
-			#{nickname},
-			#{type},
+			#{subName},
+			#{subType},
 			SYSDATE(),
 			<choose>
-				<when test="type == 'month'">
+				<when test="subType == 'month'">
 					DATE_ADD(SYSDATE(), INTERVAL 30 DAY)
 				</when>
-				<otherwise>
+				<when test="subType == 'year'">
 					DATE_ADD(SYSDATE(), INTERVAL 365 DAY)
-				</otherwise>
+				</when>
 			</choose>
 		)
 	</insert>
+	
+	<select id="getSubInfo" resultType="com.care.bedu.membership.vo.MembershipVO">
+		SELECT
+			SUB_NUM AS subNum,
+			SUB_NM AS subName,
+			SUB_TYPE AS subType,
+			SUB_BEGIN_DATE as begin,
+			SUB_END_DATE as end
+		FROM
+			B_EDU.T_BEDU_SUB
+		WHERE
+			SUB_NM = #{nickname}
+	</select>
 
 </mapper>

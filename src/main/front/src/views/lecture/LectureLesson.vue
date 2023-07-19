@@ -157,16 +157,74 @@ export default{
             muteToggleData : true, // 음소거 토글
             playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
             fullscreenToggleData : false, // 전체화면 토글 데이터
+            subscribeInfo : '', // 멤버쉽 정보
 
         }
     },
     methods: {
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
+
+            // 멤버쉽 정보 조회 API 호출 익명함수
+            const membershipApi = async () => {
+                return this.$axiosSend('get','/api/membership/getSubInfo',{
+                    nickname : this.$store.getters.getNickname
+                })
+                .then((res)=>{
+                    return Promise.resolve(res.data.item)
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    return err
+                })
+            }
+
+            // 수강중인 강의 정보 조회 API 호출 익명함수
+            const signUpApi = async (subInfo) =>{
+                return this.$axiosSend('get','/api/lect/getLesson',{
+                    num : this.lessonInfo.lectDtlNum,
+                    userName : userName,
+                })
+                .then((res)=>{
+                    console.log(res.data.signUp)
+                    console.log(subInfo)
+                    if(res.data.signUp == false && subInfo == null){
+                        this.$swal({
+                            title : '멤버십을 구독하고 모든 강의를 무제한으로 들어보세요',
+                            icon : 'info',
+                            text : '멤버십을 가입하면 최대 38% 할인된 가격으로 모든 강의를 들어볼 수 있어요!',
+                            allowOutsideClick : false,
+                            showCancelButton : true,
+                            confirmButtonText : '무제한 수강하기',
+                            cancelButtonText : '멤버십 안내',
+                        })
+                        .then((result)=>{
+                            if(result){
+                                this.$routerPush('membership');
+                            }else{
+                                this.$routerPush('membership');
+                            }
+                        })
+                    }
+                    this.lessonInfo = res.data.lessonItem;
+                    this.lessonInfo.lessonUrl = baseUrl+res.data.lessonItem.lessonUrl;
+                    this.lessonList = res.data.lessonList;
+                    return res.data;
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    return err
+                })
+            }
+            
+            // view가 바뀌어도 alert이 나오는 문제 차단
             if(this.$route.name != 'lectureLesson'){
                 return;
             }
+
             const userName = this.$store.getters.getNickname;
+            
+            // 로그인 하지 않은 회원의 접근 차단
             if(userName == null) {
                 this.$swal({
                     title:'지금 가입하세요',
@@ -190,41 +248,21 @@ export default{
                 return;
             }
 
+            // 비정상적인 방법의 접근 차단
             if(this.lessonInfo.lectDtlNum == undefined || this.lessonInfo.lectDtlNum == null){
                 return
             }
 
-            this.$axiosSend('get','/api/lect/getLesson',{
-                num : this.lessonInfo.lectDtlNum,
-                userName : userName,
+
+            membershipApi()
+            .then((subInfo)=>{
+                signUpApi(subInfo)
+                .then((signItem)=>{
+
+                })
             })
-            .then((res)=>{
-                console.log(res.data)
-                if(res.data.signUp == false){
-                    this.$swal({
-                        title : '멤버십을 구독하고 모든 강의를 무제한으로 들어보세요',
-                        icon : 'info',
-                        text : '멤버십을 가입하면 최대 38% 할인된 가격으로 모든 강의를 들어볼 수 있어요!',
-                        allowOutsideClick : false,
-                        showCancelButton : true,
-                        confirmButtonText : '무제한 수강하기',
-                        cancelButtonText : '멤버십 안내',
-                    })
-                    .then((result)=>{
-                        if(result){
-                            this.$routerPush('membership');
-                        }else{
-                            this.$routerPush('membership');
-                        }
-                    })
-                }
-                this.lessonInfo = res.data.lessonItem;
-                this.lessonInfo.lessonUrl = baseUrl+res.data.lessonItem.lessonUrl;
-                this.lessonList = res.data.lessonList;
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+
+
         },
         /** 사용자의 강의 가장 최근 수강 상태를 1초마다 업데이트 하는 메서드 */
         updateProgressSituation(e){

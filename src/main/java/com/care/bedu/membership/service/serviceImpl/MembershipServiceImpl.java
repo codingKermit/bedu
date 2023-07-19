@@ -1,5 +1,7 @@
 package com.care.bedu.membership.service.serviceImpl;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,34 @@ public class MembershipServiceImpl implements MembershipService{
 	@Override
 	public int getSubscribe(String nickname, String type) {
 		
-		int result = 0;
-		
-		System.out.println("nickname : " + nickname);
-		System.out.println("type : " + type);
-		
-		
 		MembershipVO vo = new MembershipVO(0, nickname, type, null, null);
 		
-		return dao.getSub(vo);
+		if(type.equals("month") || type.equals("year")) {
+			return dao.getSub(vo);
+		} else {
+			try {
+				throw new Exception("Invalid subType : Only ''month'' or ''year'' is allowed");
+			} catch (Exception e) {
+				System.out.println(e);
+				return 0;
+			}
+		}
+
+		
+		
+	}
+
+	@Override
+	public HashMap<String, Object> getSubInfo(String nickname) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		MembershipVO vo = new MembershipVO();
+		
+		vo = dao.getSubInfo(nickname);
+		
+		map.put("item", vo);
+		
+		return map;
 	}
 }

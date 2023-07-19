@@ -25,7 +25,9 @@ export default createStore({
         // 수강 목록
         lessons : null,
         // 사용자가 자유게시판 좋아요버튼 클릭 유무 리스트
-        cbnumList: null
+        cbnumList: null,
+        // 구독 정보
+        subscribe : null,
     },
     mutations,
     getters,

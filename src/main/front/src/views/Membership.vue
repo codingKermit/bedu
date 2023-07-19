@@ -75,24 +75,32 @@ export default{
 
             // 구독자 저장하는 익명 함수
             const addToSub = () =>{
-                if(result){
-                    this.$axiosSend('get','/api/membership/getSubscribe',{
-                        nickName : this.$store.getters.getNickname,
-                        type : type,
+                this.$axiosSend('get','/api/membership/getSubscribe',{
+                    nickname : this.$store.getters.getNickname,
+                    type : type,
+                })
+                .then(()=>{
+                    this.$axiosSend('get','/api/membership/getSubInfo',{
+                        nickname : this.$store.getters.getNickname,
                     })
                     .then((res)=>{
-                        console.log(res)
+                        this.$store.commit('SUBSCRIBE',res.data.item)
                     })
                     .catch((err)=>{
                         console.log(err)
                     })
-                } else{
                     this.$swal({
-                        title: 'Error',
-                        icon: 'error',
-                        text : '결제에 실패했습니다'
+                        title : '감사합니다!',
+                        icon : 'success',
+                        text : 'B:EDU를 구독해주셔서 감사합니다'
                     })
-                }
+                    .then(()=>{
+                        this.$routerPush('/')
+                    })
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
             }
             
 

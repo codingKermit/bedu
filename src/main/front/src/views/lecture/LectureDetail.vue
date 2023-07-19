@@ -46,7 +46,7 @@
                         </div>
                         <div class="mb-2 row">
                             <span class="text-secondary col-3 col-md-2">학습시간</span>
-                            <span class="text-body col">{{ form.totalTimes }}({{ form.total }}강)</span>
+                            <span class="text-body col">{{ form.totalTimes }}&nbsp;({{ form.total }}강)</span>
                         </div>
                     </div>
 
@@ -71,7 +71,7 @@
                                 <span>원</span>
                             </div>
                             <div v-if="myPageList != null && myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
-                                <b-button class="mt-auto h-100 px-5 py-2 bedu-bg-custom-blue">
+                                <b-button class="mt-auto h-100 px-5 py-3 bedu-bg-custom-blue">
                                     수강중인 강의
                                 </b-button>
                             </div>
