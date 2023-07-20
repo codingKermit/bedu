@@ -158,7 +158,6 @@ export default {
                                 this.lectureInfo = data //lectureInfo객체에 data 배열 업데이트
                         }else {
                                 this.dataFull = true //dataFull 객체를 true로 변경
-                                alert('List items are fully loaded') //모든 데이터 출력 알림
                         }
 
                         console.log(res);
