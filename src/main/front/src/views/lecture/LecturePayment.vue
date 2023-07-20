@@ -160,10 +160,8 @@ export default{
             */
             let result = true;
 
-            const arg = [];
             const args = [];
             for(var i =0;i<this.paymentList.length;i++){
-                // arg.push(this.paymentList[i].lectNum);
                 args.push({
                     userName : this.$store.getters.getNickname,
                     lectNum : this.paymentList[i].lectNum,

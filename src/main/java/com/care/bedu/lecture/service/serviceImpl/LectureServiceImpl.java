@@ -132,6 +132,7 @@ public class LectureServiceImpl implements LectureService{
 
 
 
+	/* 장바구니 담는 메서드*/
 	@Override
 	public int addToCart(int lectNum, int userNum, String lectName) {
 		int result = 0;
@@ -223,7 +224,7 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 모든 강의 정보 조회 */
 	@Override
 	public HashMap<String, Object> getAllLectures() {
 		HashMap<String,Object> map = new HashMap<>();
@@ -237,7 +238,7 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 수강 목록 저장 */
 	@Override
 	public int addToMyPage(List<Map<String,Object>> args) {
 
@@ -254,7 +255,7 @@ public class LectureServiceImpl implements LectureService{
 	}
 
 
-
+	/* 수강 목록 조회 */
 	@Override
 	public HashMap<String, Object> getMyPageList(String userName) {
 		HashMap<String,Object> map = new HashMap<>();

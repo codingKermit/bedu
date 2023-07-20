@@ -77,7 +77,7 @@
                                 ref="timestamp"
                                 :class="volumeSliderOverData? 'bedu-video-timestamp-over':'bedu-video-timestamp'">
                                     <div class="p-1">
-                                        {{ currentTimeForUser }}&nbsp;/
+                                        {{ currentTimeForUser }} /
                                         {{ maxTimeForUser }}
                                     </div>
                                 </div>
@@ -190,19 +190,19 @@ export default{
                     console.log(subInfo)
                     if(res.data.signUp == false && subInfo == null){
                         this.$swal({
-                            title : '멤버십을 구독하고 모든 강의를 무제한으로 들어보세요',
+                            title : '멤버쉽을 구독하고 모든 강의를 무제한으로 들어보세요',
                             icon : 'info',
-                            text : '멤버십을 가입하면 최대 38% 할인된 가격으로 모든 강의를 들어볼 수 있어요!',
+                            text : '멤버쉽을 가입하면 최대 38% 할인된 가격으로 모든 강의를 들어볼 수 있어요!',
                             allowOutsideClick : false,
                             showCancelButton : true,
-                            confirmButtonText : '무제한 수강하기',
-                            cancelButtonText : '멤버십 안내',
+                            confirmButtonText : '멤버쉽 구독하기',
+                            cancelButtonText : '뒤로가기',
                         })
                         .then((result)=>{
-                            if(result){
+                            if(result.isConfirmed){
                                 this.$routerPush('membership');
                             }else{
-                                this.$routerPush('membership');
+                                this.$routerPush('lectureDetail?num='+this.lessonInfo.lectNum);
                             }
                         })
                     }

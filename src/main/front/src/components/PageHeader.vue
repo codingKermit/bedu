@@ -36,7 +36,7 @@
 
 
             <!-- 헤더 콜랩스 -->
-            <b-collapse id="header-collapse" is-nav>
+            <b-collapse id="header-collapse" is-nav class="pt-3">
                 <b-navbar-nav id="nav1" class="me-auto ms-2">
                     <router-link
                     v-if='categories.length'
@@ -82,7 +82,7 @@
                             <b-form @submit.prevent="lectSearch">
                                 <div class="d-flex border-0 rounded-pill border-bedu">
                                     <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
-                                    <b-form-input size="sm" class="border-bedu bedu-header-search"></b-form-input>
+                                    <b-form-input v-model="keyword" size="sm" class="border-bedu bedu-header-search"></b-form-input>
                                 </div>
                             </b-form>
                         </div>
@@ -98,7 +98,7 @@
                     <!-- 사용자 드롭다운 메뉴 -->
                     <b-nav-item
                         v-if="isLoggedIn"
-                        class="dropdown fs-5 fw-bold"
+                        class="dropdown fs-5 fw-bold bedu-header-nav-item"
                         @click="openDropdown"
                         @mouseleave="closeDropdown">
                         <button id="nicknameToggle" class="dropdown-toggle no-arrow py-0" type="button">
