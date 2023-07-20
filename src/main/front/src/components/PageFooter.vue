@@ -10,10 +10,20 @@
                     <router-link class="bedu-ft-cate" to="">기업교육</router-link>
                 </div>
                 <div class="item">
-                    <router-link class ="bedu-ft-cate" to="/tou">사용자 이용약관</router-link>
+                <span
+                    class="bedu-ft-cate"
+                    :class="{ checked: selectedAgreements.includes(1) }"
+                    style="cursor: pointer"
+                    @click="agreeOpen(1)"
+                >사용자 이용약관</span>
                 </div>
                 <div class="item">
-                    <router-link class="bedu-ft-cate" to="/privacy">개인정보 보호 방침</router-link>
+                <span 
+                    class="bedu-ft-cate"
+                    :class="{ checked: selectedAgreements.includes(2) }"
+                    style="cursor: pointer"
+                    @click="agreeOpen(2)"
+                >개인정보 보호 방침</span>
                 </div>
                 <div class="item">
                     <router-link class="bedu-ft-cate" to="/csc">고객센터</router-link>
@@ -33,10 +43,88 @@
             </div>
         </div>  
     </div>
+    <!-- 모달 창 -->
+    <div v-if="showModal" class="modal" @click="closeModal">
+        <div class="modal-content" @click.stop>
+        <div class="agreeOpen">
+            <!-- 모달 제목 -->
+            <span>
+            &nbsp;&nbsp;{{ selectedAgreementTitle }}&nbsp;&nbsp;
+            </span>
+        </div>
+        <!-- 모달 내용 -->
+        <div id="agreeItem" v-html="selectedAgreementContent"></div>
+        <!-- 모달 닫기 버튼 -->
+        <div class="agreeClose">
+            <button id="agreeCloseBtn" @click="closeModal">확인</button>
+        </div>
+        </div>
+    </div>
 </template>
   
 <script>
-    export default {}
+    export default {
+        data() {
+            return {
+            showModal: false, // 모달 창 표시 여부를 나타내는 변수
+            selectedAgreementContent: "", // 선택된 약관의 내용을 저장하는 변수
+            selectedAgreementTitle: "",
+            allChecked: false, // "모든 이용 약관에 동의" 체크박스의 상태를 나타내는 데이터 속성
+            selectedAgreements: [], // 선택된 약관 체크박스의 값을 저장하는 배열
+            selectedAgreement: null, // 선택된 약관의 값을 저장하는 변수
+            fileText1: '', // 이용약관에 대한 내용을 담을 변수
+            fileText2: '', // 개인정보 수집에 대한 내용을 담을 변수
+            }
+        },
+        created() {
+            // 컴포넌트가 생성될 때 약관 내용을 가져오는 메서드 호출
+            this.fetchAgreements();
+        },
+        methods: {
+            // 약관 동의 항목을 조회하는 메서드
+            fetchAgreements() {
+                const ids = [1, 2]; // 변경할 id 값들을 배열로 선언
+                // 각 id에 대해 순회하면서 약관 데이터 요청
+                ids.forEach(id => {
+                    this.$axiosSend("get", `/api/agree/${id}`)
+                    .then(response => {
+                        if (id === 1) {
+                            this.fileText1 = response.data[0].content;
+                        } else if (id === 2) {
+                            this.fileText2 = response.data[0].content;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                });
+            },
+            // 모달창 Open시 메서드
+            agreeOpen(value) {
+                const agreeItem = document.getElementById('agreeItem');
+                if (agreeItem) {
+                    agreeItem.scrollTop = 0;
+                }
+                this.selectedAgreement = value;
+                if (this.showModal) {
+                    this.selectedAgreementContent = "";
+                }
+                if (value === 1) {
+                    this.selectedAgreementContent = this.fileText1;
+                    this.selectedAgreementTitle = "B:EDU 이용 약관에 동의";
+                } else if (value === 2) {
+                    this.selectedAgreementContent = this.fileText2;
+                    this.selectedAgreementTitle = "개인정보 수집 및 이용에 동의";
+                }
+                this.showModal = true;
+                document.body.style.overflow = 'hidden';
+            },
+            closeModal() {
+                this.showModal = false;
+                document.body.style.overflow = '';
+            },
+        }
+    }
 </script>
 
 <style scoped>
@@ -86,4 +174,82 @@
     justify-content: center;
     }
 
+    /* 모달 창 CSS */
+    .modal {
+        display: block; /* 모달 창 표시 */
+        position: fixed; /* 위치 고정 */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 120%;
+        background-color: rgba(0, 0, 0, 0.4); /* 배경 어둡게 */
+    }
+    
+    #agreeItem {
+        padding: 2%;
+        margin-top: 2%;
+        overflow: auto;
+        text-align: left;
+        background-color: #f5f4f4;
+    }
+    
+    .agreeOpen span {
+        color: #888;
+        font-weight: bold;
+        padding-bottom: 2%;
+    }
+    
+    .agreeOpen {
+        border-bottom: 1px solid #cfcfcf;    
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .agreeOpen > span {
+        cursor: pointer;
+    }
+    
+    /* 모달 내용 */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 2%;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        max-height: 50%;
+        display: flex;
+    }
+
+    /* 닫기버튼 */
+
+    #agreeCloseBtn {
+        width: 15%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        margin-top: 4%;
+        background-color: #303076;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .agreeClose {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* 닫기버튼 */
+    #agreeCloseBtn:hover,
+    #agreeCloseBtn:focus {
+        cursor: pointer;
+    }
+
+    @media (max-width: 1300px) {
+        #agreeCloseBtn {
+        margin-top: 5%;
+        width: 100%;
+    }
+    }
 </style>
