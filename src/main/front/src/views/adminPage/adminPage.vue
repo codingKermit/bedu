@@ -18,7 +18,7 @@
                                 </b-link>
                                 </li>
                             <li class="mb-3">
-                                <b-link class="text-decoration-none text-body">
+                                <b-link class="text-decoration-none text-body" to="categoryManage">
                                     카테고리 관리
                                 </b-link>
                             </li>

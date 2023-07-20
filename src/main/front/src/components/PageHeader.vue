@@ -178,12 +178,13 @@
                             v-if='categories.length'
                             data-bs-toggle="collapse"
                             data-bs-target="#categories-collapse"
-                            @click="offCanvasToggle('categories')"
                             >
                                 분야별 강의
-                                <font-awesome-icon class="text-end" :icon="categoriesToggleData? 'fa-solid fa-chevron-up':'fa-solid fa-chevron-down'"/>
+                                <font-awesome-icon 
+                                class="text-end" 
+                                :icon="'fa-solid fa-chevron-down'"/>
                             </b-nav-item>
-                            <b-container class="collapse fs-5 fw-bold" id="categories-collapse">
+                            <b-container class="collapse fs-5 fw-bold" id="categories-collapse" ref="categoriesToggle">
                                 <b-nav-item v-for="(item,index) in categories.filter((fild)=>fild.level == 1)" :key="index" data-bs-dismiss="offcanvas"
                                 :to="{
                                     name : 'lectureCategories',
@@ -200,10 +201,9 @@
                             <b-nav-item class="fs-4 fw-bold"
                             data-bs-toggle="collapse"
                             data-bs-target="#community-collapse"
-                            @click="offCanvasToggle('community')"
                             >
                                 커뮤니티
-                                <font-awesome-icon :icon="communityToggleData? 'fa-solid fa-chevron-up':'fa-solid fa-chevron-down'"/>
+                                <font-awesome-icon :icon="'fa-solid fa-chevron-down'"/>
                             </b-nav-item>
                             <b-container class="fs-5 fw-bold collapse" id="community-collapse">
                                 <b-nav-item data-bs-dismiss="offcanvas" to="/comm/qna">
@@ -275,8 +275,6 @@ import '@/assets/css/header.css'
                 showButton: false,
                 keyword : '',
                 searchToggleData : false,
-                categoriesToggleData : false,
-                communityToggleData : false,
             };
         },
         computed: {
@@ -291,13 +289,6 @@ import '@/assets/css/header.css'
             }
         },
         methods: {
-            offCanvasToggle(item){
-                if(item == 'categories'){
-                    this.categoriesToggleData = !this.categoriesToggleData;
-                }else{
-                    this.communityToggleData = !this.communityToggleData;
-                }
-            },
             /** 검색 메서드 */
             lectSearch(){
                 this.$routerPush(
@@ -389,10 +380,11 @@ import '@/assets/css/header.css'
                 }
             }
           },
-          watch:{ /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
+          watch:{ 
+            /** url 변경 감지하여 헤더에 있는 검색 입력부분은 비우기 */
             '$route'(){
                 this.keyword = '' 
-            }
+            },
           }
     };
 </script>
