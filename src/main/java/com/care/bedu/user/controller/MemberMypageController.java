@@ -41,10 +41,7 @@ public class MemberMypageController {
 		/* 처음에 보여지는 수강정보 목록 */
 		model.addAttribute("lectureListFirst", memberMypageService.lectureListInfoFirst(userid, numOfLecture));
 		
-		/* 전체보기를 눌렀을때 보여지는 수강정보 목록 */
-		//model.addAttribute("lectureList", memberMypageService.lectureList(numOfLecture,lectureCount));
-    	
-    	return memberMypageService.lectureListInfoFirst(userid, numOfLecture);
+		return memberMypageService.lectureListInfoFirst(userid, numOfLecture);
     }
     
     /* 마이페이지 홈(전체보기 클릭 시 화면이동) */

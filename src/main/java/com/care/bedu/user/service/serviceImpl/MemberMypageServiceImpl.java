@@ -58,11 +58,4 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 		
 		return memberMypageDao.getMemberMypageAll(userid, startNo, numOfPage);
 	}
-	
-//	/* 마이페이지 홈(수강정보 목록) */
-//	@Override
-//	public List<MemberMypageVO> lectureListAll(int startNo, int numOfPage) {
-//		
-//		return memberMypageDao.lectureListAll(startNo, numOfPage);
-//	}
 }
