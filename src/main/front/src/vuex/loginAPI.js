@@ -12,7 +12,6 @@ const getUserInfo = (email, password) => {
             'Content-type': 'application/json'
         }
     })
-        
 }
 
 // 로그인 시간을 설정하는 함수
@@ -43,6 +42,7 @@ const checkLogoutTime = () => {
             // 로그아웃 처리
             localStorage.removeItem('user_token')
             localStorage.removeItem('login_time')
+            localStorage.removeItem('cbnumList')
             // 로그아웃시 새로고침
             window.location.reload()
         }

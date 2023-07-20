@@ -69,7 +69,6 @@ export default {
     },
     methods: {
         ...mapActions(['login']),
-
         // 체크박스 토글
         toggleCheckbox() {
             const checkbox = this.$refs.saveIdCheckbox;
@@ -81,15 +80,13 @@ export default {
                 this.$swal('<span style="font-size: 23px;"><b style="color:red;">이메일</b>을 입력해주세요.</span>')
                 return
             }
-
             // 비밀번호 입력 유효성 검사
             if (this.password === '') {
                 this.$swal('<span style="font-size: 23px;"><b style="color:red;">비밀번호</b>를 입력해주세요.</span>')
                 return
             }
-
             try {
-                // 로그인 액션 호출
+                // 로그인 액션 호출 (actions.js의 login을 실행)
                 let loginResult = await this.login({ email: this.email, password: this.password })
                 if (loginResult) this.goToPages()
             } catch (err) {
@@ -101,8 +98,7 @@ export default {
                 }
             }
         },
-
-        // 회원가입 버튼 클릭시 이동
+        // 회원가입 버튼 클릭시 RegistView.vue로 이동
         registMove() {
                 // 스크롤을 페이지 상단으로 이동
                 window.scrollTo({
@@ -113,8 +109,9 @@ export default {
                     name: "regist",
                 });
         },
-
+        // 로그인 버튼 클릭시 LoginView.vue로 이동
         loginMove() {
+            // 스크롤을 페이지 상단으로 이동
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth',
@@ -123,7 +120,6 @@ export default {
                 name: "login",
             });
         },
-
         goToPages() {
             // 메인 페이지로 이동
             this.$router.push({

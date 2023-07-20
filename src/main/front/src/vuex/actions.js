@@ -63,7 +63,7 @@ let processResponse = (store, loginResponse) => {
             break
         default:
             decodedToken = jwt_decode(loginResponse.data.user_token);
-            // 토큰을 해독하여 사용자 번호, 닉네임, 이메일, 클라스를 store에 저장
+            // 토큰을 해독하여 사용자 번호, 닉네임, 이메일, Cls를 store에 저장
             setUsernum(store, decodedToken.usernum)
             setNickname(store, decodedToken.nickname)
             setEmail(store, decodedToken.email)
@@ -81,7 +81,7 @@ let processResponse = (store, loginResponse) => {
 export default {
     // 로그인 액션
     async login(store, { email, password }) {
-        // 로그인 API 호출
+        // LoginAPI.js의 로그인 API 호출
         let loginResponse = await loginAPI.doLogin(email, password)
         // 백엔드 응답 처리
         processResponse(store, loginResponse)
