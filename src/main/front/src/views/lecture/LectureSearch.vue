@@ -1,9 +1,9 @@
 <template>
     <div>
-        <b-container class="py-5">
-            <b-form class="w-50 mx-auto" @submit="search()">
+        <b-container class="p-5">
+            <b-form class="mx-auto" @submit="search()">
                 <div
-                    class="border border-3 rounded-pill p-2 d-flex align-middle text-center w-75 m-auto mb-5 lect-search-border-bedu mt-5">
+                    class="border border-3 rounded-pill p-2 d-flex align-middle text-center m-auto mb-5 lect-search-border-bedu mt-5">
                     <font-awesome-icon class="m-auto mx-3" :icon="['fas', 'magnifying-glass']"/>
                     <b-form-input class="border-0 me-2 lect-search-input" v-model="keyword"></b-form-input>
                 </div>
@@ -16,15 +16,15 @@
                         <b-link
                             :to='"/lectureDetail?num="+item.lectNum'
                             class="text-body text-decoration-none">
-                            <b-container class="d-flex">
-                                <div class="w-25 p-3">
+                            <b-row class="d-block d-sm-flex">
+                                <b-col class="p-3" cols="12" lg="4">
                                     <b-img
                                         thumbnail="thumbnail"
                                         rounded="rounded"
                                         class="w-100 h-100"
                                         :src="item.thumbnail"></b-img>
-                                </div>
-                                <div class="p-3">
+                                </b-col>
+                                <b-col class="p-3" cols="12" lg="5">
                                     <p class="fs-5 fw-bold">{{ item.title }}</p>
                                     <span class="d-flex">
                                         <p class="lect-search-teacher-name">{{ item.teacher }}
@@ -34,11 +34,11 @@
                                     </span>
                                     <p class="text-secondary">수강기간 :
                                         {{ item.lectPeriod }}일</p>
-                                </div>
-                                <div class="ms-auto my-auto">
-                                    <b-button class="align-middle px-4 py-2 rounded-5">수강신청</b-button>
-                                </div>
-                            </b-container>
+                                </b-col>
+                                <b-col class="my-auto ms-auto w-auto" cols="12" lg="2">
+                                    <b-button class="px-4 py-2 rounded-5">수강신청</b-button>
+                                </b-col>
+                            </b-row>
                         </b-link>
                     </li>
                     <InfiniteLoading

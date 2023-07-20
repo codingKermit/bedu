@@ -66,6 +66,35 @@ export default{
             tar.classList.replace('bedu-bg-custom-yellow','bedu-bg-custom-yellow-75')
         },
         getSubscribe(type){
+            const currentSubInfo = this.$store.getters.getSubscribe;
+            const userName = this.$store.getters.getNickname;
+
+            if(userName == null || userName == ''){
+                this.$swal({
+                    title : '로그인 해주세요',
+                    icon : 'info',
+                    text : '로그인 하시겠습니까?',
+                    showCancelButton : true,
+                    confirmButtonText : '로그인',
+                    cancelButtonText : '돌아가기',
+                })
+                .then((result)=>{
+                    if(result.isConfirmed){
+                        this.$routerPush('/login')
+                    }
+                })
+                return;
+            }
+
+            // 기존 멤버쉽 구독자 체크
+            if(currentSubInfo != null){
+                this.$swal({
+                    title: '구독자님 감사합니다!',
+                    icon: 'question',
+                    html : '감사하신 고객님!<br>고객님께선 이미 B:EDU에 구독해주셨습니다'
+                })
+                return;
+            }
 
             /*
 

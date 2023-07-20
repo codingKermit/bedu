@@ -77,17 +77,17 @@ import '@/assets/css/lectureStyle.css';
 
 <style scoped>
 
-.row-cols-lg-9 {
-    flex: 0 0 auto;
-    width: 11.1111111111%;
-  }
+    .row-cols-lg-9 {
+        flex: 0 0 auto;
+        width: 11.1111111111%;
+    }
 
-  .category-icon{
-    width: 52px !important;
-    height: 52px !important;
-  }
+    .category-icon{
+        width: 52px !important;
+        height: 52px !important;
+    }
     .text-break {
-    word-wrap: keep-all !important;
-    word-break: keep-all !important;
+        word-wrap: keep-all !important;
+        word-break: keep-all !important;
     }
 </style>
