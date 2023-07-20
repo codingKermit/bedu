@@ -20,9 +20,6 @@ public interface MemberMypageDAO {
 	/* 마이페이지 홈(전체보기 첫번째) */
 	public List<MemberMypageVO> lectureListInfoFirst(String userid, @RequestParam("numOfLecture") int numOfLecture);
 	
-	/* 마이페이지 홈(전체보기를 눌렀을때 보여지는 수강정보 목록) */
-	public List<MemberMypageVO> lectureList(@RequestParam("numOfLecture") int numOfLecture, @RequestParam("lectureCount") int lectureCount);
-	
 	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
 	public List<MemberMypageVO> getMemberMypageAll(String userid, @RequestParam("startNo") int startNo, @RequestParam("numOfPage") int numOfPage);
 }
