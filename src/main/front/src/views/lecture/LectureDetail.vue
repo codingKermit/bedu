@@ -9,7 +9,9 @@
             <b-row class="mb-4" cols="1" cols-md="2">
                 <!-- 썸네일 컨테이너 -->
                 <b-col class="mb-3 mb-md-0">
-                    <b-img class="w-100" thumbnail rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
+                    <div class="ratio ratio-16x9">
+                        <b-img class="w-100" thumbnail rounded="5" :src="form.thumbnail" fluid="fluid"></b-img>
+                    </div>
                 </b-col>
                 <!-- 강의 정보 컨테이너 시작 -->
                 <b-col class="">

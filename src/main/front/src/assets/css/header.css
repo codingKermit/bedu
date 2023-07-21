@@ -110,6 +110,6 @@
     transition: all 0.2s; 
 }
 
-.bedu-header-nav-item .nav-link{
+.bedu-header-nav-item .nav-link, .bedu-header-nav-item .nav-link .dropdown-menu li a{
     margin : 0px !important;
 }
