@@ -246,7 +246,7 @@ export default{
             }
         },
 
-
+        //댓글 폼 열기
         replyeditopen(ansnum, replynum, username){
             for(var y=0; y<this.anslist.length; y++){
                 if(this.anslist[y].ansBdNum == ansnum){
