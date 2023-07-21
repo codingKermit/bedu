@@ -162,6 +162,7 @@
 
                 this.$axiosSend('post','/api/qna/qnaList', this.form)
                 .then(res => {
+                    
                     this.qnalist = res.data;
                     // this.sortReviews(); // 정렬 수행
                 })
@@ -172,14 +173,11 @@
 
             //게시글 조회 이벤트 헨들러
             infiniteHandler($state){
-               
                 this.$axiosSend('get','/api/qna/qnaList',{
                     page : this.currentPage,
                 })
-                .then(res=>{
-                    
+                .then(res=>{    
                     if(res.data.length){
-                        
                         this.qnalist.push(...res.data);
                         this.currentPage++;
                         $state.loaded();

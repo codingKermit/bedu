@@ -13,7 +13,7 @@
 		    USER_NAME as userName
 		  FROM T_BEDU_COMM
 		  ORDER BY COMM_NUM DESC
-		  LIMIT #{page}, #{limit} 
+		  LIMIT #{page}, 10
 	</select>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">

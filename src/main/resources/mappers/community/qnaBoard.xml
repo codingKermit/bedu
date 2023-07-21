@@ -13,7 +13,7 @@
 		   USER_NAME AS userName
 		 FROM T_BEDU_QS
 		 ORDER BY QS_BD_NUM DESC
-		 LIMIT #{page}, #{limit}
+		 LIMIT #{page}, 10
 	 </select>
 	
 	<insert id="viewWrite">

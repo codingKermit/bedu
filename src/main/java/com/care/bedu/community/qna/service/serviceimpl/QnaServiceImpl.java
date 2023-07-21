@@ -20,23 +20,16 @@ public class QnaServiceImpl implements QnaService{
 	@Autowired private LikeCntDAO likeCntDAO;
 
 	//글조회
+	//검색어가 존재하면 검색 쿼리문 실행 아니면 기본 리스트 조회 실행
 	@Override
 	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setLimit(10);
 		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit());			
 		qnaVO.setLimit(qnaVO.getPage()+qnaVO.getLimit());
-		
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 			
-		}else {
-			
+		}else {	
 			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
-//			System.out.println("시작번호"+qnaVO.getPage());
-//			System.out.println("끝번호"+qnaVO.getLimit());
-//			System.out.println(Math.min(qnaVO.getLimit(), qnalist.size()));
-			if(qnaVO.getPage() > Math.min(qnaVO.getLimit(), qnalist.size()) ){
-				return new ArrayList<>();
-			}
 			return qnalist;
 		}			
 	}
@@ -90,11 +83,8 @@ public class QnaServiceImpl implements QnaService{
 	//좋아요 1증가
 	@Override
 	public HashMap<String, Object> likeUp(int qnanum, String userName, String regId, String likeyns) {
-		
 		int likeCnt = qnaDAO.likeName(qnanum, userName, likeyns);
-		
 		Integer likeyn = likeCntDAO.getlikenum(qnanum, userName, likeyns);
-		
 		HashMap<String, Object> map = new HashMap<>();
 		
 		if(likeCnt == 0) {
