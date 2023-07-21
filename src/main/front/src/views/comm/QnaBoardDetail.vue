@@ -71,16 +71,17 @@
                             <div class="qnaReplyContent">
                                 {{ ans.content }}
                             </div>
+                            
+                            <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
+                                <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)"/>
+                            </div>
+                            <hr/>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                                 <textarea id = "qna-detail-replycon" class="form-control col-sm-5 qna-detail-replycon" v-model="reply.content" rows="5" placeholder="내용을 작성해주세요" ref="content"/>
                                 <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
                                 <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                             </div>
-                            <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" v-if="ansdelbtneqlse(ans.userName) == 1">
-                                <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)"/>
-                            </div>
-                            <hr/>
                             <div id="qna-detail-replyCont">
                                 <div v-for="reply in replylist" :key="reply.replyNum" id="free-detail-replylist">
                                     <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1">
@@ -97,7 +98,7 @@
                                             <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                         </div>
                                         <div class="qnareplyeditBtns">
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(reply.ansNum, reply.replyNum)">댓글 수정</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(ans.ansBdNum, reply.replyNum, reply.userName)">댓글 수정</b-button>
                                         </div>
                                         <div class="qnareplyeditall-btn">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName)">수정</b-button>
@@ -108,7 +109,7 @@
                                             {{ reply.content }}
                                         </div>
                                         <div class="qnaeditcontent">
-                                            <b-form-input v-model="reply.content">{{ reply.content }}</b-form-input>
+                                            <b-form-input v-model="reply.content" ref="content">{{ reply.content }}</b-form-input>
                                         </div>
                                     </div>
                                 </div>
@@ -245,43 +246,23 @@ export default{
             }
         },
 
-       
-        //댓글 수정 폼 열기
-        // replyeditopen(ansnum, replynum){
-        //     for(var y=0; y<this.anslist.length; y++){
-        //         if(this.anslist[y].ansBdNum == ansnum){
-        //             for(var i=0; i<this.replylist.length; i++){
-        //                 if(this.replylist[i].ansNum == ansnum){
-        //                     if(this.replylist[i].replyNum == replynum){
-        //                         document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
-        //                         document.getElementsByClassName("qnacontent")[i].style.display='none';
-        //                         document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
-        //                         document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
-        //                         return;
-        //                     }
 
-        //                 }
-
-        //             }
-        //         }
-        //     }
-        // },
-
-
-        replyeditopen(ansnum, replynum){
-            
-            for(var i=0; i<this.replylist.length; i++){
-                if(this.replylist[i].replyNum == replynum){
-                    document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
-                    document.getElementsByClassName("qnacontent")[i].style.display='none';
-                    document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
-                    document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
-                    return;
+        replyeditopen(ansnum, replynum, username){
+            for(var y=0; y<this.anslist.length; y++){
+                if(this.anslist[y].ansBdNum == ansnum){
+                    for(var i =0; i<=this.replylist.length; i++){
+                        if(this.replylist[i].replyNum === replynum ){
+                                document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
+                                document.getElementsByClassName("qnacontent")[i].style.display='none';
+                                document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
+                                document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
+                                return;
+                            
+                        }
+                    }
                 }
             }
         },
-
-        
 
         //댓글 지우기
         replyeditcensell(replynum, username){

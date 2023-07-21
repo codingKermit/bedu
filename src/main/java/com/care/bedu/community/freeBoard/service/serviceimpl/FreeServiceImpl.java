@@ -25,8 +25,7 @@ public class FreeServiceImpl implements FreeService{
 	@Override
 	public List<FreeVO> listProc(FreeVO freeVO) {					
 		freeVO.setLimit(10);
-		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());			
-		freeVO.setLimit(freeVO.getPage()+freeVO.getLimit());				
+		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());							
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}else {

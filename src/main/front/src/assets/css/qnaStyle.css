@@ -232,8 +232,8 @@
     resize:none;
 }
 
-#qna-detail-replylists{
-    
+.freeReplys{
+    margin-right: -100px;
 }
 
 #qna-detail-replywriteBtn{
