@@ -36,7 +36,7 @@
         </div>
         <div class="bedu-ft-des-details">
             <div class="bedu-ft-des">
-                <p><span>(주)Test | 대표자: test </span></p>
+                <p><span>(주)Test | 대표: TEST NAME KING, 테스트 </span></p>
                 <p><span>| 개인정보책임자 : test | 대표전화: 1234-1234</span></p>
                 <p><span>| Email: test@test.com | 사업자번호: 123-12-1234</span></p>
                 <p><span>| 통신판매업번호: 제 2019-서울강남-01371호</span></p>
@@ -175,7 +175,6 @@
     flex-wrap: wrap;
     text-align: center;
     justify-content: center;
-    padding: 3%;
     }
 
     /* 모달 창 CSS */
