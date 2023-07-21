@@ -30,13 +30,7 @@ public class FreeServiceImpl implements FreeService{
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}else {
-			List<FreeVO> freelist = freeDAO.viewlist(freeVO);
-			
-			if(freeVO.getPage() > Math.min(freeVO.getLimit(), freelist.size()) ){
-				return new ArrayList<>();
-			}
-			
-			return freelist;
+			return freeDAO.viewlist(freeVO);	
 		}
 	}
 
