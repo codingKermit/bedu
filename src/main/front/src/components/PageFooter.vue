@@ -36,9 +36,11 @@
         </div>
         <div class="bedu-ft-des-details">
             <div class="bedu-ft-des">
-                <p><span>(주)Test | 통신판매업번호: 제 2019-서울강남-01371호 | </span></p>
-                <p><span>&nbsp; 평생교육시설 신고: 제원-408호 Test 사이버평생교육원 </span></p>
-                <p><span>Email: test@test.com | FAX: 02-1234-1234 | 사업자번호: 123-12-1234 | 대표자: test | 개인정보책임자 : test | 대표전화: 1234-1234 </span></p>
+                <p><span>(주)Test | 대표자: test </span></p>
+                <p><span>| 개인정보책임자 : test | 대표전화: 1234-1234</span></p>
+                <p><span>| Email: test@test.com | 사업자번호: 123-12-1234</span></p>
+                <p><span>| 통신판매업번호: 제 2019-서울강남-01371호</span></p>
+                <p><span>| 평생교육시설 신고: 제원-408호 Test 사이버평생교육원</span></p>
                 <p><span>주소: 서울시 강남구 강남대로 test</span></p>
             </div>
         </div>  
@@ -46,6 +48,10 @@
     <!-- 모달 창 -->
     <div v-if="showModal" class="modal" @click="closeModal">
         <div class="modal-content" @click.stop>
+        <!-- 모달 닫기 버튼 -->
+        <div class="agreeClose">
+            <font-awesome-icon class="fa-3x" id="agreeCloseBtn" style="color: #303076;" @click="closeModal" :icon="['fas', 'circle-xmark']" />
+        </div>
         <div class="agreeOpen">
             <!-- 모달 제목 -->
             <span>
@@ -54,10 +60,6 @@
         </div>
         <!-- 모달 내용 -->
         <div id="agreeItem" v-html="selectedAgreementContent"></div>
-        <!-- 모달 닫기 버튼 -->
-        <div class="agreeClose">
-            <button id="agreeCloseBtn" @click="closeModal">확인</button>
-        </div>
         </div>
     </div>
 </template>
@@ -111,10 +113,10 @@
                 }
                 if (value === 1) {
                     this.selectedAgreementContent = this.fileText1;
-                    this.selectedAgreementTitle = "B:EDU 이용 약관에 동의";
+                    this.selectedAgreementTitle = "B:EDU 이용약관";
                 } else if (value === 2) {
                     this.selectedAgreementContent = this.fileText2;
-                    this.selectedAgreementTitle = "개인정보 수집 및 이용에 동의";
+                    this.selectedAgreementTitle = "개인정보 수집 이용약관";
                 }
                 this.showModal = true;
                 document.body.style.overflow = 'hidden';
@@ -171,7 +173,9 @@
     display:flex;
     min-width: 100%;
     flex-wrap: wrap;
+    text-align: center;
     justify-content: center;
+    padding: 3%;
     }
 
     /* 모달 창 CSS */
@@ -183,6 +187,16 @@
         width: 100%;
         height: 120%;
         background-color: rgba(0, 0, 0, 0.4); /* 배경 어둡게 */
+    }
+
+    @media (max-width: 1300px) {
+        .bedu-ft-des {
+            font-size: 0.8rem
+        }
+
+        .bedu-ft-cate {
+            font-size: 1rem
+        }
     }
     
     #agreeItem {
@@ -222,34 +236,11 @@
         display: flex;
     }
 
-    /* 닫기버튼 */
-
     #agreeCloseBtn {
-        width: 15%;
-        padding-top: 1%;
-        padding-bottom: 1%;
-        margin-top: 4%;
-        background-color: #303076;
-        color: white;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    .agreeClose {
-        display: flex;
-        justify-content: center;
-    }
-
-    /* 닫기버튼 */
-    #agreeCloseBtn:hover,
-    #agreeCloseBtn:focus {
+        position: absolute;
+        top: -5px; 
+        right: -5px; 
+        z-index: 2; 
         cursor: pointer;
-    }
-
-    @media (max-width: 1300px) {
-        #agreeCloseBtn {
-        margin-top: 5%;
-        width: 100%;
-    }
     }
 </style>

@@ -1,4 +1,15 @@
 /* LoginView css */
+/* SweatAlert폰트 사이즈 CSS */
+#swal2-title{
+    padding-top: 8%;
+    font-size: 1.3rem !important;
+}
+
+#swal2-title span{
+    padding-top: 8%;
+    font-size: 1.3rem !important;
+}
+
 #loginChangeContainer {
     display: flex;
     flex-direction: column;
@@ -143,10 +154,12 @@
     margin-top: 7%;
 }
 
-#agreeitemPa {
-    height: 690px;
-    width: 890px;
-    margin-bottom: -450px;
+#agreeCloseBtn {
+    position: absolute;
+    top: -5px; 
+    right: -5px; 
+    z-index: 2; 
+    cursor: pointer;
 }
 
 #reLoginChangeBtn {
@@ -369,6 +382,10 @@
     text-align: left;
     background-color: #f5f4f4;
   }
+
+  #agreeItem h4 {
+    font-size: 1.2rem;
+  }
   
   .agreeOpen span {
     color: #888;
@@ -400,17 +417,6 @@
   }
 
 /* 닫기버튼 */
-
-#agreeCloseBtn {
-    width: 15%;
-    padding-top: 1%;
-    padding-bottom: 1%;
-    margin-top: 4%;
-    background-color: #303076;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
 
 .agreeClose {
     display: flex;
@@ -535,11 +541,6 @@
 
     #registNickChk {
         margin-left: 0;
-        width: 100%;
-    }
-
-    #agreeCloseBtn {
-        margin-top: 5%;
         width: 100%;
     }
 }

@@ -219,6 +219,10 @@
     <!-- 모달 창 -->
     <div v-if="showModal" class="modal" @click="closeModal">
         <div class="modal-content" @click.stop>
+            <!-- 모달 닫기 버튼 -->
+            <div class="agreeClose">
+                <font-awesome-icon class="fa-3x" id="agreeCloseBtn" style="color: #303076;" @click="closeModal" :icon="['fas', 'circle-xmark']" />
+            </div>
             <div class="agreeOpen">
                 <!-- 모달 제목 -->
                 <span
@@ -226,17 +230,13 @@
                     :key="index"
                     @click="agreeOpen(item.value)"
                     v-show="isMobileView ? item.showContent : true"
-                    :style="{ color: selectedAgreement === item.value && showModal ? '#303076' : 'initial', borderBottom: selectedAgreement === item.value && showModal ? '3px solid #303076' : 'initial'}"
+                    :style="{ color: selectedAgreement === item.value && showModal ? '#303076' : '', borderBottom: selectedAgreement === item.value && showModal ? '3px solid #303076' : ''}"
                 >
                     &nbsp;&nbsp;{{ item.label }}&nbsp;&nbsp;
                 </span>
             </div>
             <!-- 모달 내용 -->
             <div id="agreeItem" v-html="selectedAgreementContent"></div>
-            <!-- 모달 닫기 버튼 -->
-            <div class="agreeClose">
-                <button id="agreeCloseBtn" @click="closeModal">확인</button>
-            </div>
         </div>
     </div>
 </template>
@@ -281,11 +281,11 @@
                 selectedAgreement: null, // 선택된 약관의 값을 저장하는 변수
                 agreements: [
                     // 이용약관과 개인정보 수집에 대한 동의 항목을 포함
-                    { value: 1, label: "B:EDU 이용 약관에 동의", optional: false },
+                    { value: 1, label: "B:EDU 이용약관", optional: false },
                     {
-                        value: 2, label: "개인정보 수집 및 이용에 동의", optional: false,
+                        value: 2, label: "개인정보 수집 이용약관", optional: false,
                     },
-                    { value: 3, label: "마케팅 정보 수신 약관에 동의", optional: true },
+                    { value: 3, label: "마케팅 정보 수신약관", optional: true },
                 ],
                 fileText1: '', // 이용약관에 대한 내용을 담을 변수
                 fileText2: '', // 개인정보 수집에 대한 내용을 담을 변수

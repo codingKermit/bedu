@@ -49,6 +49,10 @@ header {
     justify-content: space-between;
   }
 
+  /* 이용약관 h4태그 CSS */
+  #agreeItem h4 {
+    font-size: 1.2rem !important;
+  }
 
 /* Nano Sans Kr 폰트 */
 @font-face {
