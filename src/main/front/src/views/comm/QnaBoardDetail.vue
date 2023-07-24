@@ -83,11 +83,12 @@
                                 <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                             </div>
                             <div id="qna-detail-replyCont">
-                                <div v-for="reply in replylist" :key="reply.replyNum" id="free-detail-replylist">
-                                    <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1">
+                                <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
+                                    <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
                                         <div class="qnauser">
                                             <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                                         </div>
+                                        {{ index }}번 답변글
                                         <div class="qnaReplyName" style="margin-left: 20px;">
                                             {{ reply.userName }}
                                         </div>
@@ -98,18 +99,18 @@
                                             <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                         </div>
                                         <div class="qnareplyeditBtns">
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(ans.ansBdNum, reply.replyNum, reply.userName)">댓글 수정</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(index)">댓글 수정</b-button>
                                         </div>
                                         <div class="qnareplyeditall-btn">
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName)">수정</b-button>
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditcensell(reply.replyNum, reply.userName)">취소</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName, reply.content, index)">수정</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditcensell(index)">취소</b-button>
                                         </div>
                                         <br>
                                         <div class="qnacontent">
                                             {{ reply.content }}
                                         </div>
-                                        <div class="qnaeditcontent">
-                                            <b-form-input v-model="reply.content" ref="content">{{ reply.content }}</b-form-input>
+                                        <div class="qnaeditcontent" id="qnaeditcontent" ref="sample">
+                                            <b-form-input class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-input>
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +234,7 @@ export default{
             }
             if(this.userNickName !== nickname){
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
-                document.getElementById("qnaboard-detail-deletebtn").style.display="none";
+                document.getElementById("qnaboard-detail-deletebtn").style.display="none";  
             }
         },
 
@@ -247,35 +248,21 @@ export default{
         },
 
         //댓글 폼 열기
-        replyeditopen(ansnum, replynum, username){
-            for(var y=0; y<this.anslist.length; y++){
-                if(this.anslist[y].ansBdNum == ansnum){
-                    for(var i =0; i<=this.replylist.length; i++){
-                        if(this.replylist[i].replyNum === replynum ){
-                                document.getElementsByClassName("qnaeditcontent")[i].style.display='block';
-                                document.getElementsByClassName("qnacontent")[i].style.display='none';
-                                document.getElementsByClassName("qnareplyeditBtns")[i].style.display='none';
-                                document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='block';
-                                return;
-                            
-                        }
-                    }
-                }
-            }
+        replyeditopen(index){
+            
+            console.log(this.$refs['commant-container-'+index][0].children[4].classList.add("d-none"));
+            console.log(this.$refs['commant-container-'+index][0].children[7].classList.add("d-block"));
+            console.log(this.$refs['commant-container-'+index][0].children[8].classList.add("d-block"));
+            console.log(this.$refs['commant-container-'+index][0].children[5].classList.add("d-block"));
         },
 
         //댓글 지우기
-        replyeditcensell(replynum, username){
-            for(var i=0; i<this.replylist.length; i++){
-                if(this.replylist[i].replyNum == replynum && this.replylist[i].userName == username){
+        replyeditcensell(index){
                     
-                    document.getElementsByClassName("qnaeditcontent")[i].style.display='none';
-                    document.getElementsByClassName("qnacontent")[i].style.display='block';
-                    document.getElementsByClassName("qnareplyeditBtns")[i].style.display='block';
-                    document.getElementsByClassName("qnareplyeditall-btn")[i].style.display='none';
-                    return;
-                }
-            }
+            console.log(this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none"));
+            console.log(this.$refs['commant-container-'+index][0].children[7].classList.remove("d-block"));
+            console.log(this.$refs['commant-container-'+index][0].children[8].classList.remove("d-block"));
+            console.log(this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block"));
         },
 
         //댓글 작성폼열기
@@ -286,7 +273,8 @@ export default{
                 if(this.anslist[i].ansBdNum === ansnum ){
                     if(this.anslist[i].userName === username){
                         document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='none';
-                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';  
+                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';
+                        this.anslist[i].content = "";  
                         return;
                     }
                 }
@@ -304,6 +292,31 @@ export default{
                     }
                 }
             }
+        },
+
+        replyedit(replynum, replyuser, content, index){
+           
+            if(this.userNickName != replyuser || this.userNickName== null || replynum == 0){
+                return;
+            }else if(content == null || content == ""){
+                this.$swal('내용을 수정해주세요.', 'success');
+                return;
+            }
+            this.reply.content = content;
+            this.reply.replyNum = replynum;
+            this.$axiosSend('post','/api/reply/replyEdit', 
+                this.reply
+            )
+                .then(res => {
+                    if(res.data === 1){
+                        this.$swal('Success','댓글수정완료!','success');
+                        this.replyread(this.qna.qnaBdNum);
+                        this.replyeditcensell(index);
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
+                })
         },
 
 

@@ -23,8 +23,7 @@ public class QnaServiceImpl implements QnaService{
 	//검색어가 존재하면 검색 쿼리문 실행 아니면 기본 리스트 조회 실행
 	@Override
 	public List<QnaVO> listProc(QnaVO qnaVO) {
-		qnaVO.setLimit(10);
-		qnaVO.setPage((qnaVO.getPage()-1)*qnaVO.getLimit());			
+		qnaVO.setPage((qnaVO.getPage()-1)*10);			
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO); 			
 		}else {	

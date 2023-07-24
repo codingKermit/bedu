@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.care.bedu.community.qna.vo.QnaVO;
 import com.care.bedu.community.reply.service.ReplyService;
 import com.care.bedu.community.reply.vo.ReplyVO;
 
@@ -51,4 +52,10 @@ public class ReplyController {
 		return replyService.replydelete(rnum);
 		
 	}
+	
+	//게시글 수정
+	 @RequestMapping(value="/reply/replyEdit", method=RequestMethod.POST)				
+	 public int replyEdit(ReplyVO replyVO){
+	 	return replyService.replyupdate(replyVO);	
+	 }
 }

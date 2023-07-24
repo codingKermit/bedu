@@ -102,6 +102,11 @@
     width: 90%;
 }
 
+#qnaeditcontent{
+    position: absolute;
+    margin-top : 32px;
+}
+
 .date {
     
     margin-left: 20px;

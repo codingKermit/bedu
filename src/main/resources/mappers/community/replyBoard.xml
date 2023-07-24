@@ -74,6 +74,12 @@
 	    WHERE COMM_NUM = #{num}
 	</select>
 	
+	<update id="replyupdate">
+		UPDATE
+		 T_BEDU_REPLY SET CONTENT = #{content}, REG_DATE = SYSDATE()
+		WHERE REPLY_NUM = #{replyNum}
+	</update>
+	
 	<delete id="replyDelete">
 		DELETE
 		 FROM T_BEDU_REPLY
