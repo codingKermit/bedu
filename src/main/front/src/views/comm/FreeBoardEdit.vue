@@ -113,7 +113,9 @@
                 .catch((error)=>{
                     this.$swal('Error','게시글이 정상적으로 수정되지 않았습니다',error);
                 })
-            }
+            },
+
+            
         },
     }
 </script>
