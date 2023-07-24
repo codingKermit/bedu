@@ -45,8 +45,11 @@ import '@/assets/css/common.css'
 // 공통유틸 임포트
 import commonUtils from './utils/commonUtils'
 
+/** toast 임포트 */
+import Vue3Toastify from 'vue3-toastify'
 
 app
+.use(Vue3Toastify)
 .use(router)
 .use(BootstrapVue3)
 .use(CKEditor)
