@@ -11,21 +11,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	@Bean
+    // 비밀번호 암호화에 사용할 BCryptPasswordEncoder 빈 등록
+    @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-	@Bean
+    // 보안 필터 체인 설정
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests()
-        .anyRequest().permitAll()
-        .and()
-        .cors().and()
-        .formLogin().disable();
-
+        // CSRF(Cross-Site Request Forgery) 보안 기능 비활성화
+    	http.csrf().disable()
+            // 모든 요청에 대해 권한 검사를 수행
+    		.authorizeHttpRequests()
+            // 모든 요청에 대해 접근을 허용 (모든 사용자가 접근 가능)
+            .anyRequest().permitAll()
+            .and()
+            // CORS(Cross-Origin Resource Sharing) 설정을 활성화
+            .cors().and()
+            // 폼 로그인 기능 비활성화 (API 기반의 인증 방식을 사용하기 때문에 폼 로그인은 필요 없음)
+            .formLogin().disable();
         
+        // SecurityFilterChain 객체를 생성하여 반환
         return http.build();
     }
-
 }
