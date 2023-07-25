@@ -76,7 +76,7 @@
                                 <div 
                                 ref="timestamp"
                                 :class="volumeSliderOverData? 'bedu-video-timestamp-over':'bedu-video-timestamp'">
-                                    <div class="p-1">
+                                    <div class="p-1 w-auto">
                                         {{ currentTimeForUser }} /
                                         {{ maxTimeForUser }}
                                     </div>
@@ -125,6 +125,8 @@
 
 <script>
 import '@/assets/css/lectureStyle.css'
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 /** 추후 FTP 서버 구축 후 변경 예정. 현재는 로컬에 저장 */
 const baseUrl = "http://172.30.1.85:8081/LECT/VIDEO/";
@@ -158,10 +160,34 @@ export default{
             playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
             fullscreenToggleData : false, // 전체화면 토글 데이터
             subscribeInfo : '', // 멤버쉽 정보
-
         }
     },
     methods: {
+        makeToastForNext(){
+            if(this.lessonInfo.lectDtlIndex < this.lessonList.length ){
+                toast.success(`다음 강의로`,{
+                transition: toast.TRANSITIONS.BOUNCE,
+                position : toast.POSITION.BOTTOM_RIGHT,
+                autoClose : 3000,
+                multiple: false,
+                dangerouslyHTMLString : true,
+                onClick : (event) =>{
+                        console.log(event)
+                        // alert(this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum)
+                        this.$routerPush('lectureLesson',{
+                            'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
+                        }, true)
+                    }
+                })
+            } else {
+                toast.success('강의를 전부 수강하셨습니다!',{
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    multiple: false,
+                })
+            }
+
+
+        },
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
 
@@ -186,8 +212,6 @@ export default{
                     userName : userName,
                 })
                 .then((res)=>{
-                    console.log(res.data.signUp)
-                    console.log(subInfo)
                     if(res.data.signUp == false && subInfo == null){
                         this.$swal({
                             title : '멤버쉽을 구독하고 모든 강의를 무제한으로 들어보세요',
@@ -372,6 +396,11 @@ export default{
                 this.getLesson();
             },
         
+        },
+        currentTime (){
+            if(this.currentTime == this.maxTime){
+                this.makeToastForNext();
+            }
         }
     }
 }

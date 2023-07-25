@@ -19,5 +19,7 @@ public interface ReplyDAO {
 	//댓글개수
 	public int replyTotal(int num);
 	//댓글삭제
-	public int replyDelete(int replynum);							
+	public int replyDelete(int replynum);
+	
+	public int replyupdate(ReplyVO replyVO);
 }

@@ -46,4 +46,9 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDAO.replyDelete(replynum);
 	}
 
+	@Override
+	public int replyupdate(ReplyVO replyVO) {
+		return replyDAO.replyupdate(replyVO);
+	}
+
 }
