@@ -44,21 +44,35 @@
             , FILD.LECT_BOT_CATE
             , FILD.LECT_BOT_CATE_KOR 
         FROM t_bedu_rw_bd RW
-        LEFT JOIN t_bedu_lect LECT ON RW.LECT_NUM = LECT.LECT_NUM
-        LEFT JOIN t_bedu_lect_fild FILD ON LECT.CATE_CODE = FILD.LECT_BOT_CATE;
+            LEFT JOIN t_bedu_lect LECT 
+                ON RW.LECT_NUM = LECT.LECT_NUM
+            LEFT JOIN t_bedu_lect_fild FILD 
+                ON LECT.CATE_CODE = FILD.LECT_BOT_CATE
     </select>
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
-        SELECT 
-            TITLE as title,
-            USER_NAME as userName,
-            CONTENT as content,
-            RW_GRADE as rwGrade,
-            RW_DATE as rwDate
-        FROM t_bedu_rw_bd
+        SELECT
+            RW.TITLE        as title
+            , RW.CONTENT    as content
+            , RW.USER_NAME  as userName
+            , RW.RW_GRADE   as rwGrade
+            , RW.RW_DATE    as rwDate
+            , FILD.LECT_TOP_CATE     as lectTopCate
+            , FILD.LECT_TOP_CATE_KOR as lectTopCateKor
+            , FILD.LECT_MID_CATE 
+            , FILD.LECT_MID_CATE_KOR 
+            , FILD.LECT_BOT_CATE
+            , FILD.LECT_BOT_CATE_KOR 
+        FROM t_bedu_rw_bd RW
+            LEFT JOIN t_bedu_lect LECT 
+                ON RW.LECT_NUM = LECT.LECT_NUM
+            LEFT JOIN t_bedu_lect_fild FILD 
+                ON LECT.CATE_CODE = FILD.LECT_BOT_CATE
         WHERE
-            title like CONCAT('%',#{keyword},'%')
+            RW.content like CONCAT('%',#{keyword},'%') 
+            AND RW.title like CONCAT('%',#{keyword},'%') 
+            AND RW.USER_NAME like CONCAT('%',#{keyword},'%')
+            AND FILD.LECT_TOP_CATE = #{topCate}
     </select>
-
 
 </mapper>
