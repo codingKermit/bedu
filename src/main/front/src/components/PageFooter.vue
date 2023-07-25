@@ -158,9 +158,9 @@
     row-gap: 0.5rem;
     }
     .bedu-ft-cate {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: 'Noto Sans CJK KR', sans-serif;
-    font-weight: bold;
+    font-weight: 900;
     color: #2c3e50;
     text-decoration: none;
     }
@@ -172,6 +172,7 @@
     .bedu-ft-des{
     display:flex;
     min-width: 100%;
+    color: #7e7e86;
     flex-wrap: wrap;
     text-align: center;
     justify-content: center;
