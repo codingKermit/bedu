@@ -78,9 +78,12 @@
                             <hr/>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
-                                <textarea id = "qna-detail-replycon" class="form-control col-sm-5 qna-detail-replycon" v-model="reply.content" rows="5" placeholder="내용을 작성해주세요" ref="content"/>
-                                <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
-                                <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
+                                <b-form>
+                                    <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="qna-write-title" v-model="ans.title" ref="title"></b-form-input>
+                                    <ckeditor :editor="editor" v-model="ans.content" :config="editorConfig"></ckeditor>
+                                    <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
+                                    <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
+                                </b-form>
                             </div>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
@@ -95,10 +98,10 @@
                                         <div class="qnaReplyDate" style="margin-left: 20px;">
                                             {{ DateTime(reply.replyDate) }}
                                         </div>
-                                        <div class="qnareplyDel-btn" id="qnareplyDel-btn" >
+                                        <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">
                                             <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                         </div>
-                                        <div class="qnareplyeditBtns">
+                                        <div class="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(index)">댓글 수정</b-button>
                                         </div>
                                         <div class="qnareplyeditall-btn">
@@ -126,14 +129,31 @@
 <script>
 import CommCategory from '@/components/CommCategory.vue';
 import router from '@/router';
-import '@/assets/css/qnaStyle.css'; 
+import '@/assets/css/qnaStyle.css';
+import Editor from 'ckeditor5-custom-build/build/ckeditor'; 
 export default{
 
     components:{
         CommCategory
     },
+
     data() {
         return {
+
+            editor: Editor,
+            editorConfig: {
+                resize_minHeight : 800,
+                // The configuration of the editor.
+                simpleUpload: {
+                    // 업로드 URL
+                    uploadUrl: '/api/studyUpload',
+                    method : 'POST'
+                    
+                },
+                mediaEmbed: {
+                    previewsInData: true
+                },
+            },
             //질문글번호
             qnum:0,
             //답변 리스트
@@ -235,6 +255,22 @@ export default{
             if(this.userNickName !== nickname){
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";  
+            }
+        },
+
+        replyeqbtn(username){
+            if(this.userNickName == username){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
+        replydeleteEq(username){
+            if(this.userNickName == username){
+                return 1;
+            }else{
+                return 0;
             }
         },
 
