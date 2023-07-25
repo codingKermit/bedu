@@ -25,6 +25,7 @@ export default {
                     this.$store.commit('EMAIL', decodedToken.email);
                     this.$store.commit('CLS', decodedToken.cls);
                     this.$store.commit('CBNUMLIST', decodedToken.cbnumList);
+                    this.$store.commit('SUBINFO', decodedToken.subInfo);
                     this.$store.commit('IS_AUTH', true);
                     
                     // 결제한 강의 목록 조회
@@ -69,6 +70,7 @@ export default {
             this.$store.commit('LESSONS', null);
             this.$store.commit('CBNUMLIST', null);
             this.$store.commit('SUBSCRIBE',null);
+            this.$store.commit('SUBINFO',null);
         }
     }
 }

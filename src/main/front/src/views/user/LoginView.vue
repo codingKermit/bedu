@@ -70,10 +70,10 @@ export default {
     methods: {
         ...mapActions(['login']),
         // 체크박스 토글
-        toggleCheckbox() {
-            const checkbox = this.$refs.saveIdCheckbox;
-            checkbox.checked = !checkbox.checked;
-        },
+        // toggleCheckbox() {
+        //     const checkbox = this.$refs.saveIdCheckbox;
+        //     checkbox.checked = !checkbox.checked;
+        // },
         async fnLogin() {
             // 이메일 입력 유효성 검사
             if (this.email === '') {

@@ -25,4 +25,7 @@ export default {
 
     // state에서 구독 정보를 가져오는 getter
     getSubscribe : state => state.subscribe,
+    
+    // state에서 구독 정보를 가져오는 getter
+    getSubInfo : state => state.subInfo,
 }

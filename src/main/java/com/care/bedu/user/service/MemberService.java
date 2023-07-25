@@ -12,4 +12,7 @@ public interface MemberService {
     String getPasswordByEmail(String email);
     MemberVO getMemberByEmail(String email);
     List<Integer> getLikedBoardNumbersByEmail(String email);
+    /* 구독 정보 조회 */
+    boolean getSubInfo(String nickname);
+	
 }

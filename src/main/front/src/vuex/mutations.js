@@ -25,6 +25,9 @@ export default {
     [types.CBNUMLIST](state, cbnumList) {
         state.cbnumList = cbnumList
     },
+    [types.SUBINFO](state, subInfo) {
+        state.subInfo = subInfo
+    },
     [types.SUBSCRIBE](state, subscribe){
         state.subscribe = subscribe
     },

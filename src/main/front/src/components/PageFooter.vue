@@ -158,7 +158,7 @@
     row-gap: 0.5rem;
     }
     .bedu-ft-cate {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-family: 'Noto Sans CJK KR', sans-serif;
     font-weight: 900;
     color: #2c3e50;

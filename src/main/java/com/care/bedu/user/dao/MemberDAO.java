@@ -25,4 +25,7 @@ public interface MemberDAO {
     String getNicknameByEmail(String email);
     
     List<Integer> getLikedBoardNumbersByEmail(String email);
+    
+    /* 구독 정보 조회 */
+    int getSubInfo(String nickname);
 }

@@ -28,6 +28,9 @@ export default createStore({
         cbnumList: null,
         // 구독 정보
         subscribe : null,
+        
+        subInfo : null,
+
     },
     mutations,
     getters,

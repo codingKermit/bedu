@@ -1,4 +1,4 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, SUBSCRIBE } from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, SUBSCRIBE, SUBINFO} from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -42,6 +42,11 @@ let setSubscribe = ({ commit}, subscribe) =>{
     commit(SUBSCRIBE, subscribe)
 }
 
+// 사용자 구독 정보 설정하는 액션
+let setSubInfo = ({ commit}, subInfo) =>{
+    commit(SUBINFO, subInfo)
+}
+
 //'decodedToken.cbnumList' 값을 받아 
 //Vuex의 'cbnumList' 상태를 갱신하고, 동시에 해당 값을 로컬 스토리지에 저장하는 역할을 함
 let setCbnumList = ({ commit }, data) => {
@@ -71,6 +76,7 @@ let processResponse = (store, loginResponse) => {
             setLessons(store, decodedToken.lessons)
             setCbnumList(store, decodedToken.cbnumList)
             setSubscribe(store, decodedToken.subscribe)
+            setSubInfo(store, decodedToken.subInfo)
             // 에러 상태를 초기화
             setErrorState(store, '')
             // 인증 상태를 성공으로 설정
