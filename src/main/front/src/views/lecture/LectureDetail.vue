@@ -78,55 +78,16 @@
                                 </b-button>
                             </div>
                             <div v-else class="w-10">
-                                <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" data-bs-toggle="modal" data-bs-target="#paymentTypeModal">
+                                <b-button class="d-block mb-1 w-auto px-5 py-2 bedu-bg-custom-blue" @click="toPayment">
                                     결제하기
                                 </b-button>
-                                <b-button class="px-5" data-bs-toggle="modal" data-bs-target="#cartModal" @click="addToCart">
+                                <b-button class="px-5" @click="addToCart">
                                     장바구니
                                 </b-button>
                         </div>
                         </div>
                     </b-col>
                 </b-row>
-                <!-- 결제 모달 -->
-                <div class="modal fade" id="paymentTypeModal">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p class="fs-3">멤버쉽 안내</p>
-                            </div>
-                            <div class="modal-body">
-                                <b-container class="mb-3">
-                                    <p>멤버쉽 가입시 최대 31% 할인된 가격에 모든 강의를 이용할 수 있습니다</p>
-                                    <p>멤버쉽에 대해 알아보시겠습니까?</p>
-                                </b-container>
-                            </div>
-                            <div class="modal-footer my-2">
-                                <b-button class="m-auto fs-5 px-4 py-2 bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPayment">
-                                    결제하기
-                                </b-button>
-                                <b-button class="m-auto fs-5 px-4 py-2" data-bs-dismiss="modal" @click="toMembership">
-                                    멤버쉽 알아보기
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 장바구니 모달 -->
-                <div class="modal fade" id="cartModal">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                강의가 장바구니에 담겼습니다. 이동하시겠습니까?
-                            </div>
-                            <div class="modal-footer">
-                                <b-button class="bedu-bg-custom-blue" data-bs-dismiss="modal" @click="toPaymentOnly">장바구니</b-button>
-                                <b-button data-bs-dismiss="modal">둘러보기</b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="lect-dtl-form-contents-container overflow-hidden">
@@ -259,9 +220,6 @@ import '@/assets/css/lectureStyle.css';
             }
         },
         methods: {
-            test(){
-                console.log(this.$store.getters.getLessons)
-            },
             /** 동영상 재생 페이지로 이동 */
             toLesson(val){ 
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
@@ -326,21 +284,9 @@ import '@/assets/css/lectureStyle.css';
             /** 결제 페이지 이동 */
             toPayment(){ 
                 const loginChk = localStorage.getItem('user_token');
-                
-                if(loginChk == undefined){
-                    this.$swal({
-                        text : '로그인 후 사용 가능합니다',
-                        showCancelButton : true,
-                        cancelButtonText : '돌아가기',
-                        confirmButtonText : '로그인 페이지',
-                    })
-                    .then((result)=>{
-                        if(result.isConfirmed){
-                            this.$routerPush('login')
-                        }
-                    })
-                    return;
-                } else {
+
+                // 장바구니 담는 익명 함수
+                const payment = () => {
                     this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : this.$store.getters.getUsernum,
@@ -354,14 +300,47 @@ import '@/assets/css/lectureStyle.css';
                         console.log(err);
                     })
                 }
-            },
-            /** 장바구니로 이동만 ( 서버통신 x ) */
-            toPaymentOnly(){
-                this.$routerPush('lecturePayment')
-            },
-            /** 멤버쉽 안내 페이지 이동 */
-            toMembership(){
-                this.$routerPush('/membership')
+                            
+                            if(loginChk == undefined){
+                    this.$swal({
+                        text : '로그인 후 사용 가능합니다',
+                        showCancelButton : true,
+                        cancelButtonText : '돌아가기',
+                        confirmButtonText : '로그인 페이지',
+                    })
+                    .then((result)=>{
+                        if(result.isConfirmed){
+                            this.$routerPush('login')
+                        }
+                    })
+                } else {
+                    const subInfo = this.$store.getters.getSubscribe;
+
+                    if(subInfo == null || subInfo == null || subInfo == ''){
+                        this.$swal({
+                            title :'멤버쉽 안내',
+                            icon : 'info',
+                            html : '<p>멤버쉽 가입시 최대 31% 할인된 가격에</p><p>모든 강의를 이용할 수 있습니다</p><p>멤버쉽에 대해 알아보시겠습니까?</p>',
+                            showDenyButton : true,
+                            confirmButtonText : '멤버쉽 알아보기',
+                            denyButtonText : '결제하기',
+                            customClass : {
+                                denyButton : 'bg-secondary'
+                            }
+                        })
+                        .then((result)=>{
+                            if(result.isDenied){
+                                payment();
+                            }
+                            else if(result.isConfirmed){
+                                this.$routerPush('membership')
+                            }
+                        })
+                    } else {
+                        payment();
+                    }
+
+                }
             },
             /** 장바구니에 담기만 ( 화면 전환 x ) */
             addToCart(){
@@ -373,11 +352,25 @@ import '@/assets/css/lectureStyle.css';
                         icon: 'warning',
                         text : '로그인 후 사용해주세요'
                     })
-                    return;
                 } else {
                     this.$axiosSend('post','/api/lect/addToCart',{
                         lectNum : this.form.lectNum,
                         userNum : this.$store.getters.getUsernum,
+                        lectName : this.form.title,
+                    })
+                    .then(()=>{
+                        this.$swal({
+                            icon : 'success',
+                            text : '강의가 장바구니에 담겼습니다. 이동하시겠습니까?',
+                            showCancelButton : true,
+                            cancelButtonText : '돌아보기',
+                            confirmButtonText : '장바구니',
+                        })
+                        .then((result)=>{
+                            if(result.isConfirmed){
+                                this.$routerPush('lecturePayment')
+                            }
+                        })
                     })
                     .catch((err)=>{
                         console.log(err);
