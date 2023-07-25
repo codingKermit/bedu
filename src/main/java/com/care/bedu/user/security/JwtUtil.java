@@ -21,7 +21,7 @@ public class JwtUtil {
 	@Value("${jwt.secret}")
     String secret;
 
-	public String createToken(String email, String nickname, int usernum, String cls, List<Integer> cbnumList, boolean subInfo) {
+	public String createToken(String email, String nickname, int usernum, String cls, List<Integer> cbnumList, List<Integer> qsbnumList, boolean subInfo) {
 	    Algorithm algorithm = Algorithm.HMAC256(secret);
 	    return JWT.create()
 	            .withIssuer("front")
@@ -30,6 +30,7 @@ public class JwtUtil {
 	            .withClaim("nickname", nickname)
 	            .withClaim("cls", cls)
 	            .withClaim("cbnumList", cbnumList)
+	            .withClaim("qsbnumList", qsbnumList)
 	            .withClaim("subInfo", subInfo)
 	            .withIssuedAt(new Date())
 	            .sign(algorithm);

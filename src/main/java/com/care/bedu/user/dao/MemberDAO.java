@@ -26,6 +26,8 @@ public interface MemberDAO {
     
     List<Integer> getLikedBoardNumbersByEmail(String email);
     
+    List<Integer> getLikedQSBoardNumbersByEmail(String email);
+    
     /* 구독 정보 조회 */
     int getSubInfo(String nickname);
 }

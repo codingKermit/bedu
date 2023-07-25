@@ -43,6 +43,7 @@ const checkLogoutTime = () => {
             localStorage.removeItem('user_token')
             localStorage.removeItem('login_time')
             localStorage.removeItem('cbnumList')
+            localStorage.removeItem('qsbnumList')
             // 로그아웃시 새로고침
             window.location.reload()
         }

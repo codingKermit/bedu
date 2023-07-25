@@ -26,4 +26,6 @@ public class MemberVO {
 	
 	private int cbnum;
 	
+	private int qsbnum;
+	
 }

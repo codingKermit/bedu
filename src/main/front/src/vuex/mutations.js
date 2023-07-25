@@ -25,6 +25,9 @@ export default {
     [types.CBNUMLIST](state, cbnumList) {
         state.cbnumList = cbnumList
     },
+    [types.QSBNUMLIST](state, qsbnumList) {
+        state.qsbnumList = qsbnumList
+    },
     [types.SUBINFO](state, subInfo) {
         state.subInfo = subInfo
     },

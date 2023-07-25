@@ -62,6 +62,15 @@
         FROM T_BEDU_LIKE_CNT A
         INNER JOIN T_BEDU_USER B ON A.REG_ID = B.USER_ID
         WHERE B.USER_ID = #{email}
+        AND NOT A.COMM_BD_NUM IS NULL
+    </select>
+    
+    <select id="getLikedQSBoardNumbersByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT A.QS_BD_NUM AS qsbnum
+        FROM T_BEDU_LIKE_CNT A
+        INNER JOIN T_BEDU_USER B ON A.REG_ID = B.USER_ID
+        WHERE B.USER_ID = #{email}
+        AND NOT A.QS_BD_NUM IS NULL
     </select>
     
 	<select id="getSubInfo" resultType="java.lang.Integer">

@@ -25,6 +25,7 @@ export default {
                     this.$store.commit('EMAIL', decodedToken.email);
                     this.$store.commit('CLS', decodedToken.cls);
                     this.$store.commit('CBNUMLIST', decodedToken.cbnumList);
+                    this.$store.commit('QSBNUMLIST', decodedToken.qsbnumList);
                     this.$store.commit('SUBINFO', decodedToken.subInfo);
                     this.$store.commit('IS_AUTH', true);
                     
@@ -60,7 +61,7 @@ export default {
         },
         logout() {
             localStorage.removeItem('cbnumList')
-
+            localStorage.removeItem('qsbnumList')
             
             this.$store.commit('IS_AUTH', false);
             this.$store.commit('NICKNAME', null);
@@ -69,6 +70,7 @@ export default {
             this.$store.commit('CLS', null);
             this.$store.commit('LESSONS', null);
             this.$store.commit('CBNUMLIST', null);
+            this.$store.commit('QSBNUMLIST', null);
             this.$store.commit('SUBSCRIBE',null);
             this.$store.commit('SUBINFO',null);
         }

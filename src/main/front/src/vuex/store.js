@@ -26,9 +26,11 @@ export default createStore({
         lessons : null,
         // 사용자가 자유게시판 좋아요버튼 클릭 유무 리스트
         cbnumList: null,
+        // 사용자가 질문게시판 좋아요버튼 클릭 유무 리스트
+        qsbnumList: null,
         // 구독 정보
         subscribe : null,
-        
+
         subInfo : null,
 
     },

@@ -1,4 +1,4 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, SUBSCRIBE, SUBINFO} from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, QSBNUMLIST, SUBSCRIBE, SUBINFO} from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -56,6 +56,13 @@ let setCbnumList = ({ commit }, data) => {
     localStorage.setItem('cbnumList', JSON.stringify(data));
 }
 
+let setQsbnumList = ({ commit }, data) => {
+    // 'CBNUMLIST' 뮤테이션을 호출하여 'cbnumList' 상태를 갱신합니다.
+    commit(QSBNUMLIST, data)
+    // 변경된 'data'를 JSON 문자열로 변환하여 'cbnumList'라는 localStorage 항목에 저장합니다.
+    localStorage.setItem('qsbnumList', JSON.stringify(data));
+}
+
 // 백엔드에서 반환한 결과값을 처리하여 로그인 성공 여부를 Vuex에 저장하는 함수
 let processResponse = (store, loginResponse) => {
     let decodedToken;
@@ -75,6 +82,7 @@ let processResponse = (store, loginResponse) => {
             setCls(store, decodedToken.cls)
             setLessons(store, decodedToken.lessons)
             setCbnumList(store, decodedToken.cbnumList)
+            setQsbnumList(store, decodedToken.qsbnumList)
             setSubscribe(store, decodedToken.subscribe)
             setSubInfo(store, decodedToken.subInfo)
             // 에러 상태를 초기화

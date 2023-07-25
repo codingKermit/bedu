@@ -66,8 +66,9 @@ public class MemberController {
             
         if (decodedPassword.equals(password)) {
             List<Integer> cbnumList = memberService.getLikedBoardNumbersByEmail(email);
+            List<Integer> qsbnumList = memberService.getLikedQSBoardNumbersByEmail(email);
             boolean subInfo = memberService.getSubInfo(loginUser.getNickname());
-            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls(), cbnumList, subInfo);
+            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls(), cbnumList, qsbnumList, subInfo);
             
             Map<String, Object> result = new HashMap<>();
             result.put("email", loginUser.getEmail());

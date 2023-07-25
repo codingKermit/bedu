@@ -61,6 +61,11 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.getLikedBoardNumbersByEmail(email);
     }
     
+    @Override
+    public List<Integer> getLikedQSBoardNumbersByEmail(String email) {
+        return memberDao.getLikedQSBoardNumbersByEmail(email);
+    }
+    
 	@Override
 	public boolean getSubInfo(String nickname) {
 		int count = memberDao.getSubInfo(nickname);
