@@ -1,18 +1,18 @@
 <template>
     <div class="review-list">
         <div class="review-group">
-            <div class="mSelect">
+            <div class="colTab">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><a class="review-a" href="#">전체</a></li>
-                    <li><a class="review-a" href="#">기초강의</a></li>
-                    <li><a class="review-a" href="#">데이터분석</a></li>
-                    <li><a class="review-a" href="#">웹 개발</a></li>
-                    <li><a class="review-a" href="#">프로그래밍 언어</a></li>
-                    <li><a class="review-a" href="#">인공지능</a></li>
-                    <li><a class="review-a" href="#">프로그래밍 교양</a></li>
-                    <li><a class="review-a" href="#">개발도구</a></li>
-                    <li><a class="review-a" href="#">컴퓨터 공학 전공 지식</a></li>
-                    <li><a class="review-a" href="#">디자인</a></li>
+                    <li><router-link id = "mSelect" to="/review">전체</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '1000' }}" :class="topCate == 1000 ? 'fw-bold':''">기초강의</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" :class="topCate == 2000 ? 'fw-bold':''">데이터분석</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" :class="topCate == 3000 ? 'fw-bold':''">웹 개발</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '4000' }}">프로그래밍 언어</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '5000' }}">인공지능</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '6000' }}">프로그래밍 교양</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '7000' }}">개발도구</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '8000' }}">컴퓨터공학 전공지식</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '9000' }}">디자인</router-link></li>
                 </ul>
             </div>
             <p class="fw-bold mb-0 fs-2 text-start">수강후기</p>
@@ -98,6 +98,7 @@
                 currentPage: 1, // 현재 페이지 번호
                 itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
+                topCate : '',
             };
         },
         computed: {
@@ -106,7 +107,7 @@
             },
         },
         created() {
-            this.fetchReviews(); 
+        
         },
         methods: {
             // 후기 가져오기
@@ -119,18 +120,19 @@
                     keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
                 })
                 .then((response) => {
+                    console.log(response)
                     const { totalElements } = response.data;
-                        if (response.data.length) {
+                    if (response.data.length > this.itemsPerPage) {
                         // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
-                        }
-                        this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
+                    }
+                    this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
 
-                        this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
-                        // 검색 및 정렬 수행
-                        this.fetchSearchedReviews(); // 검색 수행
-                        this.sortReviews(); // 정렬 수행
+                    this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
+                    // 검색 및 정렬 수행
+                    //this.fetchSearchedReviews(); // 검색 수행
+                    this.sortReviews(); // 정렬 수행
                 })
                 .catch((error) => {
                     console.error(error);
@@ -139,31 +141,32 @@
             },        
             fetchSearchedReviews(){
                 const keyword = this.searchKeyword.trim().toLowerCase();
-                    if (keyword === "") {
-                        this.searchedReviews = []; // 키워드가 비어있을 경우 검색된 후기를 초기화합니다.
-                    } else {
-                    this.$axiosSend("get", "/api/reviews/search", {
+                const param = {
                     keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
-                })
+                    topCate : this.topCate, // 사용자 누르는 카테고리 코드값
+                }
+                this.$axiosSend("get", "/api/reviews/search", param)
                 .then((response) => {
+                    this.fetchedReviews = [];
+                    this.fetchedReviews.push(...response.data);
+                    this.sortReviews(); // 정렬 수행
                     this.searchedReviews = response.data; 
                 })
                 .catch((error) => {
                     console.error(error);
                 });
-                }
             },
-            handleScroll() {
-                const scrollHeight = document.documentElement.scrollHeight;
-                const scrollTop = window.pageYOffset;
-                const clientHeight = document.documentElement.clientHeight;
-                const bottomOffset = 20;
+            // handleScroll() {
+            //     const scrollHeight = document.documentElement.scrollHeight;
+            //     const scrollTop = window.pageYOffset;
+            //     const clientHeight = document.documentElement.clientHeight;
+            //     const bottomOffset = 20;
 
-                if (scrollHeight - scrollTop - clientHeight <= bottomOffset && !this.isFetching) {
-                     // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우 fetchMoreReviews 함수를 호출합니다.
-                    this.fetchMoreReviews();
-                }
-            },
+            //     if (scrollHeight - scrollTop - clientHeight <= bottomOffset && !this.isFetching) {
+            //          // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우 fetchMoreReviews 함수를 호출합니다.
+            //         this.fetchMoreReviews();
+            //     }
+            // },
             fetchMoreReviews($state) {
                 this.isFetching = true;
                 // 데이터를 불러오는 비동기 작업 수행
@@ -173,8 +176,8 @@
                     keyword: this.searchKeyword,
                 })
                 .then((response) => {
-                const { totalElements } = response.data;
-                    if (response.data.length > this.itemsPerPage) {
+                    const { totalElements } = response.data;
+                    if (response.data.length) {
                         // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
                         this.currentPage++;
@@ -182,12 +185,12 @@
                     } else {
                         $state.complete(); 
                     }
-                        this.totalItems = totalElements;
-                        this.isFetching = false;
+                    this.totalItems = totalElements;
+                    this.isFetching = false;
 
-                        // 검색 및 정렬 수행
-                        this.fetchSearchedReviews(); // 검색 수행
-                        this.sortReviews(); // 정렬 수행
+                    // 검색 및 정렬 수행
+                    //this.fetchSearchedReviews(); // 검색 수행
+                    this.sortReviews(); // 정렬 수행
                 })
                 .catch((error) => {
                     console.error(error);
@@ -262,5 +265,19 @@
             // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
             // window.removeEventListener('scroll', this.handleScroll);
         },
+        watch : {
+            '$route.query.topCategory':{
+                immediate : true,
+                handler(newTopCategory){
+                    if(newTopCategory == undefined){
+                        
+                        this.fetchReviews();
+                    } else {
+                        this.topCate = newTopCategory;
+                        this.fetchSearchedReviews();
+                    }
+                }
+            }
+        }
     };
 </script>

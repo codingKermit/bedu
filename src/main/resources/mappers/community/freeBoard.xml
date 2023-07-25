@@ -27,7 +27,7 @@
 		  REG_ID AS regId
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
-			WHERE TITLE LIKE concat('%', #{title}, '%') OR CONTENT LIKE concat('%', #{content}, '%')
+			WHERE TITLE LIKE concat('%', #{keyword}, '%') OR CONTENT LIKE concat('%', #{keyword}, '%')
 		 </if>
 		 ORDER BY COMM_NUM DESC
 	</select>
@@ -88,7 +88,9 @@
 	</update>
 	
 	<select id="getTotal" resultType="int">
-		SELECT COUNT(*) FROM T_BEDU_COMM
+		SELECT
+		  COUNT(*)
+		FROM T_BEDU_COMM
 	</select>
 	
 	<select id="getuserId" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">

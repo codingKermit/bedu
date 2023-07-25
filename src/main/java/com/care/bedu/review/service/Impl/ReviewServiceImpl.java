@@ -48,25 +48,33 @@ public class ReviewServiceImpl implements ReviewService {
     }
     
     @Override
-    public List<HashMap<String, Object>> getSearchedReviews(String keyword) {
-      // 검색 키워드에 기반하여 후기 필터링
-    List<HashMap<String, Object>> getSearchReviews = reviewDAO.getSearchedReviews(keyword);
-    List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
-    for (HashMap<String, Object> review : getSearchReviews) {
-        String title = (String) review.get("TITLE");
-        String content = (String) review.get("CONTENT"); 
-        String userName = (String) review.get("USER_NAME");
-        // Null check for title, content, and userName
-            if (title != null && content != null && userName != null) {
-                if (title.toLowerCase().contains(keyword.toLowerCase()) ||
-                    content.toLowerCase().contains(keyword.toLowerCase()) ||
-                    userName.toLowerCase().contains(keyword.toLowerCase())) {
-                    searchedReviews.add(review);
-                }
-            }
-        }
-        return reviewDAO.getSearchedReviews(keyword);
+    public List<HashMap<String, Object>> getSearchedReviews(String keyword, String topCate) {
+        // 검색 키워드에 기반하여 후기 필터링
+    // List<HashMap<String, Object>> getSearchReviews = reviewDAO.getSearchedReviews(keyword, topCate);
+
+    // List<HashMap<String, Object>> searchedReviews = new ArrayList<>();
+
+    // for (HashMap<String, Object> review : getSearchReviews) {
+    //     String title = (String) review.get("TITLE");
+    //     String content = (String) review.get("CONTENT"); 
+    //     String userName = (String) review.get("USER_NAME");
+    //     // Null check for title, content, and userName
+    //         if (title != null && content != null && userName != null) {
+    //             if (title.toLowerCase().contains(keyword.toLowerCase()) ||
+    //                 content.toLowerCase().contains(keyword.toLowerCase()) ||
+    //                 userName.toLowerCase().contains(keyword.toLowerCase())) {
+    //                 searchedReviews.add(review);
+    //             }
+    //         }
+    //     }
+        // ReviewVO vo = new ReviewVO();
+        // vo.setKeyword(keyword);
+        // vo.setTopCate(topCate);
+        // System.out.println(vo);
+        //List<HashMap<String, Object>> sample = reviewDAO.getSearchedReviews(keyword, topCate);
+        //System.out.println(sample);
+        return reviewDAO.getSearchedReviews(keyword, topCate);
     }
 
-    
+
 }

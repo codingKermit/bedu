@@ -13,5 +13,7 @@ public interface ReviewService {
     // 후기를 생성하는 메서드입니다.
     ReviewVO createReview(ReviewVO reviewVO);
     
-    List<HashMap<String, Object>> getSearchedReviews(String keyword);
+    List<HashMap<String, Object>> getSearchedReviews(String keyword, String topCate);
+
+
 }

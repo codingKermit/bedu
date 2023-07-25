@@ -25,7 +25,7 @@ public class QnaServiceImpl implements QnaService{
 	public List<QnaVO> listProc(QnaVO qnaVO) {
 		qnaVO.setPage((qnaVO.getPage()-1)*10);			
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
-			return qnaDAO.viewsearch(qnaVO); 			
+			return qnaDAO.viewsearch(qnaVO);			
 		}else {	
 			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
 			return qnalist;

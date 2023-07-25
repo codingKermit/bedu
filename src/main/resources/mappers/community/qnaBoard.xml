@@ -7,8 +7,7 @@
 		 SELECT
 		   QS_BD_NUM AS qnaBdNum,
 		   TITLE,
-		   QS_DATE AS qnaDate,
-		   REG_DATE AS regDate, 
+		   QS_DATE AS qnaDate, 
 		   QS_CNT AS qnaCnt,
 		   USER_NAME AS userName
 		 FROM T_BEDU_QS
@@ -69,17 +68,14 @@
 		SELECT 
 		 QS_BD_NUM AS qnaBdNum, 
 		 TITLE, 
-		 CONTENT,
-		 USER_NAME, 
+		 USER_NAME AS userName, 
 		 QS_CNT AS qnaCnt, 
-		 QS_LIKE_CNT AS qnaLikeCnt,
-		 QS_DATE AS qnaDate, 
-		 REG_ID
+		 QS_DATE AS qnaDate
 		FROM T_BEDU_QS
 		<if test="keyword != null">
-			WHERE TITLE LIKE concat('%', #{title}, '%') OR CONTENT LIKE concat('%', #{content}, '%')
-		 </if>
-		 ORDER BY QS_BD_NUM DESC
+			WHERE TITLE LIKE concat('%', #{keyword}, '%') OR CONTENT LIKE concat('%', #{keyword}, '%')
+		</if>
+		ORDER BY QS_BD_NUM DESC
 	</select>
 	
 	<select id="getuserId" resultType="com.care.bedu.community.qna.vo.QnaVO">
@@ -90,7 +86,9 @@
 	</select>
 	
 	<select id="getTotal" resultType="int">
-		SELECT COUNT(*) FROM T_BEDU_QS
+		SELECT
+		  COUNT(*)
+		FROM T_BEDU_QS
 	</select>
 	
 	<update id="qnaCntUp">
