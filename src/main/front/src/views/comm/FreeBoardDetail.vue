@@ -53,7 +53,7 @@
                         <h4>댓글을 작성하시오</h4>
                         <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
-                    <div v-for="reply in replylist" :key="reply.replyNum" class="free-detail-replylist" id="free-detail-replylist">
+                    <div v-for="(reply, index) in replylist" :key="index" class="free-detail-replylist" id="free-detail-replylist">
                         <div class="d-flex mb-3 mt-4 freeReplys">
                             <div class="freeuser">
                                 <font-awesome-icon :icon="['fas', 'user']" size="xl" />
@@ -68,10 +68,12 @@
                         <div class="freeReplycontent">
                             {{ reply.content }}
                         </div>
-                
-                        <div id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
-                            <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)">댓글삭제</b-button>
-                        </div>
+                        <div class="freeReplydelbtn" id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
+                    
+                                <b-button type="button" id="free-reply-delb" @click="replyedit(reply.replyNum, reply.userName, index)">댓글수정</b-button>
+                                <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)" style="margin-left: 30px;">댓글삭제</b-button>
+                           
+                        </div>       
                     </div>
                 </div>
             </div>
@@ -188,6 +190,31 @@ export default{
                 document.getElementById("freeboard-detail-editbtn").style.display="none";
                 document.getElementById("freeboard-detail-deletebtn").style.display="none";
             }
+        },
+
+        //댓글 수정
+        replyedit(replynum, username, index){
+
+
+            if(this.userNickName == null || this.userNickName != username || replynum == 0 || replynum == null){
+                return;
+            }
+
+            this.form.commNum = this.free.commNum;
+            this.form.replyNum = replynum;
+            this.$axiosSend('post','/api/reply/replyEdit', 
+                this.reply
+            )
+                .then(res => {
+                    if(res.data === 1){
+                        this.$swal('Success','댓글수정완료!','success');
+                        this.replyread(this.qna.qnaBdNum);
+                        this.replyeditcensell(index);
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
+                })
         },
 
         //댓글 총개수
