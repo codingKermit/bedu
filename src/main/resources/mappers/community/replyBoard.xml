@@ -46,7 +46,6 @@
 		  REPLY_NUM AS replyNum,
 		  CONTENT,
 		  REPLY_DATE AS replyDate,
-		  REG_DATE AS regDate,
 		  REG_ID AS regId,
 		  USER_NAME AS userName 
 		FROM T_BEDU_REPLY 
@@ -59,7 +58,6 @@
 		  REPLY_NUM AS replyNum,
 		  CONTENT,
 		  REPLY_DATE AS replyDate,
-		  REG_DATE AS regDate,
 		  QS_NUM AS qsNum,
 		  ANS_NUM AS ansNum,
 		  USER_NAME AS userName 

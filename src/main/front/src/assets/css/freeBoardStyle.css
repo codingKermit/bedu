@@ -97,9 +97,18 @@ h1 {
     float: right;
 }
 
+#freeeditcontent{
+    display: none;
+}
+
 #freeboard-userinfo {
     font-size: 1rem;
     display: flex;
+}
+
+.freereplyeditall-btns{
+    display: none;
+    width: 90%;
 }
 
 #freeReplydelbtn{
