@@ -555,11 +555,8 @@ export default{
 
         //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
         qnalikeUp(qnum){
-            if(this.userNickName === null || this.userNickName===""){
+            if(this.userNickName === null || this.userNickName==="" || qnum == 0 || qnum ==null){
                 this.$swal('로그인을 해주세요.');
-                return;
-            }
-            if(this.qna.userName === this.userNickName){
                 return;
             }
             var regid = this.form.regId;

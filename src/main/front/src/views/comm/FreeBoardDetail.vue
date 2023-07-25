@@ -54,25 +54,32 @@
                         <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
                     <div v-for="(reply, index) in replylist" :key="index" class="free-detail-replylist" id="free-detail-replylist">
-                        <div class="d-flex mb-3 mt-4 freeReplys">
-                            <div class="freeuser">
-                                <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                        <div class="mb-3" :ref="'commant-container-'+index">
+                            <div class="d-flex mb-3 mt-4 freeReplys">
+                                <div class="freeuser">
+                                    <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                                </div>
+                                <div class="freeReplyName">
+                                    {{ reply.userName }}
+                                </div>
+                                <div class="freeReplyDate">
+                                    {{ DateTime(reply.replyDate) }}
+                                </div>
                             </div>
-                            <div class="freeReplyName">
-                                {{ reply.userName }}
+                            <div class="freeReplycontent">
+                                {{ reply.content }}
                             </div>
-                            <div class="freeReplyDate">
-                                {{ DateTime(reply.replyDate) }}
+                            <div class="freeeditcontent" id="freeeditcontent" ref="sample">
+                                <b-form-input class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-input>
                             </div>
-                        </div>
-                        <div class="freeReplycontent">
-                            {{ reply.content }}
-                        </div>
-                        <div class="freeReplydelbtn" id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
-                    
-                                <b-button type="button" id="free-reply-delb" @click="replyedit(reply.replyNum, reply.userName, index)">댓글수정</b-button>
-                                <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)" style="margin-left: 30px;">댓글삭제</b-button>
-                           
+                            <div class="freeReplydelbtn" id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
+                                <b-button type="button" id="free-reply-delb" @click="replyeditopen(index)">댓글수정</b-button>
+                                <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)" style="margin-left: 10px;">댓글삭제</b-button>
+                            </div>
+                            <div class="freereplyeditall-btns" id="freereplyeditall-btns">
+                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName, index, reply.content)">수정</b-button>
+                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditcensell(index)">취소</b-button>
+                            </div>
                         </div>       
                     </div>
                 </div>
@@ -105,9 +112,7 @@ export default{
             form: {
                 commNum:0,
                 replyNum: 0,
-                replyDate: '',
                 userName:'',
-                regDate: '',
                 regId: '',
             },
 
@@ -168,6 +173,22 @@ export default{
             return cbnumList.includes(this.free.commNum) ? 'freeBackColor' : 'freeDefault';
         },
 
+        //댓글 수정 폼 열기
+        replyeditopen(index){
+            
+            this.$refs['commant-container-'+index][0].children[1].classList.add("d-none");
+            this.$refs['commant-container-'+index][0].children[2].classList.add("d-block");
+            this.$refs['commant-container-'+index][0].children[3].classList.add("d-none");
+            this.$refs['commant-container-'+index][0].children[4].classList.add("d-block");
+        },
+
+        replyeditcensell(index){
+            this.$refs['commant-container-'+index][0].children[1].classList.remove("d-none");
+            this.$refs['commant-container-'+index][0].children[2].classList.remove("d-block");
+            this.$refs['commant-container-'+index][0].children[3].classList.remove("d-none");
+            this.$refs['commant-container-'+index][0].children[4].classList.remove("d-block");
+        },
+
         // 'fontLikedClass' 메서드는 'fontBackColor' 또는 빈 문자열을 반환합니다.
         // 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후, 
         // 현재 'free.commNum'이 그 목록에 포함되어 있는지 확인합니다.
@@ -193,28 +214,26 @@ export default{
         },
 
         //댓글 수정
-        replyedit(replynum, username, index){
-
-
+        replyedit(replynum, username, index, content){
             if(this.userNickName == null || this.userNickName != username || replynum == 0 || replynum == null){
                 return;
             }
-
-            this.form.commNum = this.free.commNum;
             this.form.replyNum = replynum;
-            this.$axiosSend('post','/api/reply/replyEdit', 
-                this.reply
-            )
-                .then(res => {
-                    if(res.data === 1){
-                        this.$swal('Success','댓글수정완료!','success');
-                        this.replyread(this.qna.qnaBdNum);
-                        this.replyeditcensell(index);
-                    }
-                })
-                .catch((error)=>{
-                    this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
-                })
+            this.form.content = content;
+            this.$axiosSend('post','/api/reply/replyEdit',{ 
+                replyNum: this.form.replyNum,
+                content: this.form.content
+            })
+            .then(res => {
+                if(res.data === 1){
+                    this.$swal('Success','댓글수정완료!','success');
+                    this.replyread(this.form.commNum);
+                    this.replyeditcensell(index);
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
+            })
         },
 
         //댓글 총개수
@@ -423,13 +442,11 @@ export default{
         },
         //좋아요 1증가
         freelikeUp(cnum){
-            if(this.userNickName === null || this.userNickName===""){
+            if(this.userNickName === null || this.userNickName==="" || cnum == 0 || cnum == null){
                 this.$swal('로그인을 해주세요.');
                 return;
             }
-            if(this.free.userName === this.userNickName){
-                return;
-            }
+            
             var regid = this.form.regId;
             this.$axiosSend('get','/api/free/likeUp', {
                     num: cnum,
