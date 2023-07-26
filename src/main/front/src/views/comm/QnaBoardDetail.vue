@@ -518,20 +518,34 @@ export default{
                 return;
             }
 
-            this.$axiosSend('get','/api/qna/qnaDelete', {
-                    num: qnanum,
-            })
-            .then(res => {
-                if(res.data ===1){
-                this.$swal('Success', '글삭제완료!', 'success'),
-                    router.push({
-                        name: "qnaBoard"
-                    })
-                }    
-            })
-            .catch(error => {
-                alert(error);
-            })
+            this.$swal({
+                title: '게시글을 삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {                   // 만약 알럿창에서 확인 버튼을 눌렀다면
+
+                        this.$axiosSend('get','/api/qna/qnaDelete', {
+                        num: qnanum,
+                        })
+                        .then(res => {
+                            if(res.data ===1){
+                            this.$swal('Success', '글삭제완료!', 'success'),
+                                router.push({
+                                    name: "qnaBoard"
+                                })
+                            }    
+                        })
+                        .catch(error => {
+                            alert(error);
+                        })
+                    } 
+                }).catch(error => {
+                    alert(error);
+                })
         },
 
         //수정페이지로 이동 (질문글번호)
