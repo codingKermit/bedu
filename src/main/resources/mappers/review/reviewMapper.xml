@@ -72,7 +72,9 @@
             RW.content like CONCAT('%',#{keyword},'%') 
             AND RW.title like CONCAT('%',#{keyword},'%') 
             AND RW.USER_NAME like CONCAT('%',#{keyword},'%')
+            <if test="topCate != 'all'">
             AND FILD.LECT_TOP_CATE = #{topCate}
+            </if>
     </select>
 
 </mapper>
