@@ -18,7 +18,8 @@ public class AgreeController {
 	public AgreeController(AgreeService agreeService) {
         this.agreeService = agreeService;
     }
-
+	
+	// 이용약관의 번호로 이용약관 리스트 불러오기
     @GetMapping("/agree/{id}")
     public List<AgreeVO> getAgreementById(@PathVariable Long id) {
         return agreeService.getAgreementById(id);
