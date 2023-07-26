@@ -397,17 +397,22 @@ export default{
             })
         },
         /** 브라우저 종료시 현재까지의 재생 정보 서버로 전송 */
-        unloadEvent(e){
+        unloadEvent(){
+            // console.log(this.lessonInfo)
+            // console.log(this.lessonInfo.lectDtlNum)
+            // console.log(this.currentTime)
+            const userName = this.$store.getters.getNickname;
+            const lectDtlNum = this.lessonInfo.lectDtlNum;
+            const endTime = this.currentTime;
             this.$axiosSend('get','/api/lecture/history/save',{
-                userName : this.$store.getters.getNickname,
-                lectDtlNum : this.lessonInfo.lectDtlNum,
-                endTime : this.currentTime,              
+                userName : userName,
+                lectDtlNum : lectDtlNum,
+                endTime : endTime,              
             })
         },
         /** 해당 페이지 접근 후 40초마다 현재 재생 정보 서버로 전송 */
         watchHistorySave(){
             this.timer = setInterval(()=>{
-                // alert(this.currentTime)
                 this.$axiosSend('get','/api/lecture/history/save',{
                     userName : this.$store.getters.getNickname,
                     lectDtlNum : this.lessonInfo.lectDtlNum,
@@ -427,7 +432,13 @@ export default{
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
     },
     beforeUnmount(){
+        // console.log(this.lessonInfo)
+        // console.log(this.lessonInfo.lectDtlNum)
+        // alert(this.lessonInfo.lectDtlNum)
+        // alert(this.currentTime)
+        this.unloadEvent();
         clearInterval(this.timer)
+        window.removeEventListener('beforeunload',this.unloadEvent);
     },
     watch:{
         '$route.query.lectDtlNum':{
