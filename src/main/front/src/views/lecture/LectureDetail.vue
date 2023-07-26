@@ -3,6 +3,7 @@
         <b-container class="py-5">
             <!-- 카테고리 -->
             <div>
+                {{ subInfo }}
                 <p class="text-secondary fs-5 ms-3">{{ form.korCategory }}</p>
             </div>
             <!-- 썸네일, 강의정보 컨테이너-->
@@ -72,7 +73,7 @@
                                 <span class="text-danger fs-2">{{ form.price }}</span>
                                 <span>원</span>
                             </div>
-                            <div v-if="myPageList != null && myPageList.filter((item)=>item.lectNum == form.lectNum).length" class="w-10">
+                            <div v-if="myPageList" class="w-10">
                                 <b-button class="mt-auto h-100 px-5 py-3 bedu-bg-custom-blue">
                                     수강중인 강의
                                 </b-button>
@@ -118,7 +119,14 @@
                             v-for="(video,i) in videos"
                             :key="i"
                             class="py-3 fs-5 border-bottom border-1">
-                            <b-link class="d-flex text-body text-decoration-none" :to="'/lectureLesson?lectDtlNum='+video.lectDtlNum">
+                            <b-link class="d-flex text-body text-decoration-none" 
+                            :to="{
+                                name : 'lectureLesson',
+                                query : {
+                                    lectDtlNum : video.lectDtlNum,
+                                    lectNum : this.$route.query.num
+                                }
+                            }">
                                 <span class="me-auto ms-3 fw-bold">
                                     {{ video.lectDtlIndex }}.
                                     {{video.lectDtlTitle}}
@@ -215,7 +223,7 @@ import '@/assets/css/lectureStyle.css';
                 reviews: [],
                 payPerMonth : "39,800",
                 payPerYear : "27,417",
-                myPageList : this.$store.getters.getLessons, // 수강목록
+                myPageList : false, // 수강목록에 있는지 여부 체크
                 userNum : this.$store.getters.getUsernum,
             }
         },
@@ -314,8 +322,7 @@ import '@/assets/css/lectureStyle.css';
                         }
                     })
                 } else {
-                    const subInfo = this.$store.getters.getSubscribe;
-
+                    const subInfo = this.$store.getters.getSubInfo;
                     if(subInfo == null || subInfo == null || subInfo == ''){
                         this.$swal({
                             title :'멤버쉽 안내',
@@ -378,21 +385,27 @@ import '@/assets/css/lectureStyle.css';
                 }
             },
             /** 나의 수강 목록 조회 */
-            getMyPageList(){
-                this.$axiosSend('get','/api/lect/getMyPageList',{
-                    userNum : this.$store.getters.getUsernum,
+            myPageListCheck(){
+                if(this.$store.getters.getNickname == null){
+                    return;
+                }
+
+                this.$axiosSend('get','/api/lect/getMyPagetChk',{
+                            userName : this.$store.getters.getNickname,
+                            lectNum : this.form.lectNum
                 })
                 .then((res)=>{
-                    console.log(res)
+                    this.myPageList = res.data
                 })
                 .catch((err)=>{
                     console.log(err)
                 })
-            }
+            },
         },
         mounted() {
         },
         created() {
+            this.myPageListCheck();
             this.getDetail();
             this.getVideoList();
             this.getReview();

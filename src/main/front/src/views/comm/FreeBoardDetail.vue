@@ -305,7 +305,7 @@ export default{
             })
         },
 
-        //자유글 삭제
+        //글 삭제
         freedelete() {
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
@@ -314,20 +314,31 @@ export default{
                 })
                 return;
             }
-            this.$axiosSend('get','/api/freBd/delete', {
-                num: this.free.commNum,
-            })
-            .then(res => {
-                if (res.data === 1) {
-                    this.$swal('Success', '글삭제완료!', 'success'),
-                    router.push({
-                        name: "freeBoard"
-                    })
-                }
-            })
-            .catch(error => {
-                this.$swal('Error', '게시글이 정상적으로 삭제되지 않았습니다.', error);
-            })
+            this.$swal({
+                title: '게시글을 삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        this.$axiosSend('get','/api/freBd/delete', {
+                            num: this.free.commNum,
+                        })
+                        .then(res => {
+                            if (res.data === 1) {
+                                this.$swal('Success', '글삭제완료!', 'success'),
+                                router.push({
+                                    name: "freeBoard"
+                                })
+                            }
+                        })
+                        .catch(error => {
+                            this.$swal('Error', '게시글이 정상적으로 삭제되지 않았습니다.', error);
+                        })
+                    }
+                })    
         },
 
         //댓글 작성

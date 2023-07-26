@@ -75,7 +75,7 @@
                     label="썸네일"
                     label-for="lect-manage-thumbnail"
                     >
-                        <input id="lect-manage-thumbnail" type="file" class="form-control" required @change="fileChange"/>
+                        <input id="lect-manage-thumbnail" ref="file-input" type="file" class="form-control" required @change="fileChange"/>
                     </b-form-group>
                 </b-col>
                 <b-col>
@@ -215,6 +215,7 @@ export default{
                     text : '강의가 성공적으로 등록 되었습니다'
                 })
                 .then(()=>{
+                    
                     this.form.contents = '';
                     this.form.period = '';
                     this.form.price = '';
@@ -225,6 +226,7 @@ export default{
                     this.currentTop = '';
                     this.currentMid = '';
                     this.currentBot = '';
+                    this.$refs["file-input"].value = "";
                     window.scrollTo({top: 0})
                 })
             })

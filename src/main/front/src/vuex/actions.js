@@ -32,16 +32,6 @@ let setCls = ({ commit }, data) => {
     commit(CLS, data)
 }
 
-// 사용자의 수강 목록을 설정하는 액션
-let setLessons = ({ commit }, lessons) => {
-    commit(LESSONS, lessons)
-}
-
-// 사용자 구독 정보 설정하는 액션
-let setSubscribe = ({ commit}, subscribe) =>{
-    commit(SUBSCRIBE, subscribe)
-}
-
 // 사용자 구독 정보 설정하는 액션
 let setSubInfo = ({ commit}, subInfo) =>{
     commit(SUBINFO, subInfo)
@@ -80,10 +70,8 @@ let processResponse = (store, loginResponse) => {
             setNickname(store, decodedToken.nickname)
             setEmail(store, decodedToken.email)
             setCls(store, decodedToken.cls)
-            setLessons(store, decodedToken.lessons)
             setCbnumList(store, decodedToken.cbnumList)
             setQsbnumList(store, decodedToken.qsbnumList)
-            setSubscribe(store, decodedToken.subscribe)
             setSubInfo(store, decodedToken.subInfo)
             // 에러 상태를 초기화
             setErrorState(store, '')

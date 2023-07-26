@@ -352,6 +352,15 @@
 			USER_NAME = #{userName}
 	</select>
 
+	<select id="getMyPageChk" parameterType="com.care.bedu.lecture.vo.UserLectureVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			b_edu.T_BEDU_USER_LECT
+		WHERE 
+			USER_NAME = #{userName} AND LECT_NUM = #{lectNum}
+	</select>
+
 
 
 </mapper>
