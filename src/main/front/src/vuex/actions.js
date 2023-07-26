@@ -72,7 +72,6 @@ let processResponse = (store, loginResponse) => {
             setCls(store, decodedToken.cls)
             setCbnumList(store, decodedToken.cbnumList)
             setQsbnumList(store, decodedToken.qsbnumList)
-            setSubscribe(store, decodedToken.subscribe)
             setSubInfo(store, decodedToken.subInfo)
             // 에러 상태를 초기화
             setErrorState(store, '')
