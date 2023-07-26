@@ -7,6 +7,10 @@
     width: 80%;
 }
 
+.nareplyeditBtns{
+    display: none;
+}
+
 
 #qna-detail-main{
     padding-top: 5.5%;
