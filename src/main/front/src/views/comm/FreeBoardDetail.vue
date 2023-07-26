@@ -70,15 +70,15 @@
                                 {{ reply.content }}
                             </div>
                             <div class="freeeditcontent" id="freeeditcontent" ref="sample">
-                                <b-form-input class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-input>
+                                <b-form-textarea class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-textarea>
                             </div>
                             <div class="freeReplydelbtn" id="freeReplydelbtn" v-if="replybtneq(reply.userName) == 1">
-                                <b-button type="button" id="free-reply-delb" @click="replyeditopen(index)">댓글수정</b-button>
-                                <b-button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)" style="margin-left: 10px;">댓글삭제</b-button>
+                                <button type="button" id="free-reply-delb" @click="replyeditopen(index)">수정</button>
+                                <button type="button" id="free-reply-delb" @click="replydelete(reply.replyNum, reply.userName)">삭제</button>
                             </div>
                             <div class="freereplyeditall-btns" id="freereplyeditall-btns">
-                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyedit(reply.replyNum, reply.userName, index, reply.content)">수정</b-button>
-                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditcensell(index)">취소</b-button>
+                                <b-button type="button" class="btn-custom btn-custom mt-1" style="background-color: #303076;" @click="replyedit(reply.replyNum, reply.userName, index, reply.content)">수정</b-button>
+                                <b-button type="button" class="btn-custom ms-2 mt-1" @click="replyeditcensell(index)">취소</b-button>
                             </div>
                         </div>       
                     </div>

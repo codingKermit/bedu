@@ -26,25 +26,28 @@
                </div>
             </div>   
                <table class="w3-table-all freeboard-table" id="freeboard-table">
-                  <thead>
-                     <tr>
-                        <th class = "freeTitle">제목</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th>조회 수</th>
-                     </tr>
-                  </thead>
                   <tbody>
-                     <tr v-for="free in freelist" :key="free">
-                        <td id="freeboard-table-tds">
+                     <div id="freeCommContainer" v-for="free in freelist" :key="free">
+                        <div class="freeuser">
+                           <font-awesome-icon :icon="['fas', 'user']" size="xl" /> 
+                           {{ free.userName }}
+                           <div id="commDateTime">{{ freeDateTime(free.commDate) }}</div>
+                        </div>
+                        <div id="freeboard-table-tds">
                            <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
                               {{ free.title }}
                            </b-link>
-                        </td>
-                        <td>{{ free.userName }}</td>
-                        <td>{{ freeDateTime(free.commDate) }}</td>
-                        <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}</td>  
-                     </tr>
+                        </div>
+                        <div id="commCntIcon">
+                           <div id="commCnt">
+                              <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
+                           </div>
+                           <div id="commReply">
+                              <font-awesome-icon :icon="['far', 'comment']" />
+                              {{replytotal}} 0
+                           </div>
+                        </div>
+                     </div>
                   </tbody>
                </table>
             <InfiniteLoading @infinite="infiniteHandler" @distance="1">
