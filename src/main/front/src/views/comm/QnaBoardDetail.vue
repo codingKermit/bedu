@@ -26,9 +26,10 @@
                     <div v-html="qna.content"></div>
                 </div>
                 <div id="qna-likeyn">
-                    <button id="qna-likebtn" @click="qnalikeUp(qna.qnaBdNum)">
+                    <button id="qna-likebtn" @click="qnalikeUp(qna.qnaBdNum)" :class="[backLikedClass()]">
                         <font-awesome-icon :icon="['fas', 'heart']"
-                                />
+                        :class="[fontLikedClass()]"
+                            />
                             <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
                                 {{ qna.qnaLikeCnt }}
                             </text>
@@ -50,7 +51,7 @@
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답변을 작성하시오</h4>
-                    <textarea id = "qna-detail-replycontent" class="form-control col-sm-5 qna-detail-replycontent" rows="5" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
+                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 </div>
                 <div class="qna-detail-replylists">
                     <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
@@ -79,8 +80,7 @@
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                                 <b-form>
-                                    <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="qna-write-title" v-model="ans.title" ref="title"></b-form-input>
-                                    <ckeditor :editor="editor" v-model="ans.content" :config="editorConfig"></ckeditor>
+                                    <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
                                     <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                                 </b-form>
@@ -101,7 +101,7 @@
                                         <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">
                                             <font-awesome-icon :icon="['fas', 'minus']" size="xl" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)"/>
                                         </div>
-                                        <div class="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
+                                        <div class="qnareplyeditBtns" id="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2" @click="replyeditopen(index)">댓글 수정</b-button>
                                         </div>
                                         <div class="qnareplyeditall-btn">
@@ -144,12 +144,6 @@ export default{
             editorConfig: {
                 resize_minHeight : 800,
                 // The configuration of the editor.
-                simpleUpload: {
-                    // 업로드 URL
-                    uploadUrl: '/api/studyUpload',
-                    method : 'POST'
-                    
-                },
                 mediaEmbed: {
                     previewsInData: true
                 },
@@ -182,6 +176,7 @@ export default{
             form:{          
                 ansBdNum:0,
                 ansDate:'',
+                content:'',
                 qsBdNum:0,
                 regDate:'',
                 regId:'',
@@ -195,13 +190,13 @@ export default{
         }
     },
     computed:{
-        getCbnumList() {
-            
-            return this.$store.getters.getCbnumList;
+        getQsnumList() {
+            return this.$store.getters.getQsbnumList;
         },
         isLiked() {
-            if (Array.isArray(this.getCbnumList)) {
-                return this.getCbnumList.includes(this.qna.qnaBdNum);
+            if (Array.isArray(this.getQsnumList)) {
+                console.log('확인!');
+                return this.getQsnumList.includes(this.qna.qnaBdNum);
             }
             return false;
         }
@@ -258,6 +253,19 @@ export default{
             }
         },
 
+        backLikedClass() {
+            console.log('back');
+            const qsbnumList = JSON.parse(localStorage.getItem('qsbnumList')) || [];
+            return qsbnumList.includes(this.qna.qnaBdNum) ? 'qnaBackColor' : 'qnaDefault';
+        },
+
+        fontLikedClass() {
+            console.log('font');
+            const qsbnumList = JSON.parse(localStorage.getItem('qsbnumList')) || [];
+            return qsbnumList.includes(this.qna.qnaBdNum) ? 'fontBackColor' : '';
+        },
+
+        //유저 아이디 동일비교후 수정버튼노출
         replyeqbtn(username){
             if(this.userNickName == username){
                 return 1;
@@ -266,6 +274,7 @@ export default{
             }
         },
 
+        //유저 아이디 동일비교후 삭제버튼노출
         replydeleteEq(username){
             if(this.userNickName == username){
                 return 1;
@@ -286,19 +295,19 @@ export default{
         //댓글 폼 열기
         replyeditopen(index){
             
-            console.log(this.$refs['commant-container-'+index][0].children[4].classList.add("d-none"));
-            console.log(this.$refs['commant-container-'+index][0].children[7].classList.add("d-block"));
-            console.log(this.$refs['commant-container-'+index][0].children[8].classList.add("d-block"));
-            console.log(this.$refs['commant-container-'+index][0].children[5].classList.add("d-block"));
+            this.$refs['commant-container-'+index][0].children[4].classList.add("d-none");
+            this.$refs['commant-container-'+index][0].children[7].classList.add("d-block");
+            this.$refs['commant-container-'+index][0].children[8].classList.add("d-block");
+            this.$refs['commant-container-'+index][0].children[5].classList.add("d-block");
         },
 
         //댓글 지우기
         replyeditcensell(index){
                     
-            console.log(this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none"));
-            console.log(this.$refs['commant-container-'+index][0].children[7].classList.remove("d-block"));
-            console.log(this.$refs['commant-container-'+index][0].children[8].classList.remove("d-block"));
-            console.log(this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block"));
+            this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none");
+            this.$refs['commant-container-'+index][0].children[7].classList.remove("d-block");
+            this.$refs['commant-container-'+index][0].children[8].classList.remove("d-block");
+            this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block");
         },
 
         //댓글 작성폼열기
@@ -331,7 +340,7 @@ export default{
         },
 
         replyedit(replynum, replyuser, content, index){
-           
+
             if(this.userNickName != replyuser || this.userNickName== null || replynum == 0){
                 return;
             }else if(content == null || content == ""){
@@ -340,19 +349,20 @@ export default{
             }
             this.reply.content = content;
             this.reply.replyNum = replynum;
-            this.$axiosSend('post','/api/reply/replyEdit', 
-                this.reply
-            )
-                .then(res => {
-                    if(res.data === 1){
-                        this.$swal('Success','댓글수정완료!','success');
-                        this.replyread(this.qna.qnaBdNum);
-                        this.replyeditcensell(index);
-                    }
-                })
-                .catch((error)=>{
-                    this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
-                })
+            this.$axiosSend('post','/api/reply/replyEdit',{
+                replyNum: this.reply.replyNum,
+                content: this.reply.content
+            })
+            .then(res => {
+                if(res.data === 1){
+                    this.$swal('Success','댓글수정완료!','success');
+                    this.replyread(this.qna.qnaBdNum);
+                    this.replyeditcensell(index);
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
+            })
         },
 
 
@@ -508,20 +518,34 @@ export default{
                 return;
             }
 
-            this.$axiosSend('get','/api/qna/qnaDelete', {
-                    num: qnanum,
-            })
-            .then(res => {
-                if(res.data ===1){
-                this.$swal('Success', '글삭제완료!', 'success'),
-                    router.push({
-                        name: "qnaBoard"
-                    })
-                }    
-            })
-            .catch(error => {
-                alert(error);
-            })
+            this.$swal({
+                title: '게시글을 삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {                   // 만약 알럿창에서 확인 버튼을 눌렀다면
+
+                        this.$axiosSend('get','/api/qna/qnaDelete', {
+                        num: qnanum,
+                        })
+                        .then(res => {
+                            if(res.data ===1){
+                            this.$swal('Success', '글삭제완료!', 'success'),
+                                router.push({
+                                    name: "qnaBoard"
+                                })
+                            }    
+                        })
+                        .catch(error => {
+                            alert(error);
+                        })
+                    } 
+                }).catch(error => {
+                    alert(error);
+                })
         },
 
         //수정페이지로 이동 (질문글번호)
@@ -555,11 +579,8 @@ export default{
 
         //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
         qnalikeUp(qnum){
-            if(this.userNickName === null || this.userNickName===""){
+            if(this.userNickName === null || this.userNickName==="" || qnum == 0 || qnum ==null){
                 this.$swal('로그인을 해주세요.');
-                return;
-            }
-            if(this.qna.userName === this.userNickName){
                 return;
             }
             var regid = this.form.regId;
@@ -577,7 +598,7 @@ export default{
                 }else if(res.data.result === 0){                
 
                     this.likenum = res.data.likenum;
-                    this.$store.commit('CBNUMLIST_ADD', qnum);          
+                    this.$store.commit('qsbnumList', qnum);          
                     this.qnalikedown();      
                     return;
                 }    

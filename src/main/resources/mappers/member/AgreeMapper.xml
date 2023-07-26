@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.care.bedu.user.dao.AgreeDAO">
-
+	<!-- 이용약관 번호로 이용약관 불러오기 -->
     <select id="getAgreementById" resultType="com.care.bedu.user.vo.AgreeVO">
         SELECT 
 			AGREE_NUM AS id,

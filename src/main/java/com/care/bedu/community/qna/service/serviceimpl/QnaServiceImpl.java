@@ -27,8 +27,7 @@ public class QnaServiceImpl implements QnaService{
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO);			
 		}else {	
-			List <QnaVO> qnalist = qnaDAO.viewlist(qnaVO);
-			return qnalist;
+			return qnaDAO.viewlist(qnaVO);
 		}			
 	}
 

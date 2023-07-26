@@ -7,8 +7,9 @@
     text-decoration: none;
 }
 
-#mSelect:hover{
-    background-color: blue;
+#mSelect:focus{
+    background-color:   rgb(237, 194, 104);
+    font-weight: bold;
 }
 
 .mk-c-tab.col8 {

@@ -17,7 +17,7 @@ public class AgreeServiceImpl implements AgreeService{
 	public AgreeServiceImpl(AgreeDAO agreeDao) {
 		this.agreeDao = agreeDao;
 	}
-
+	// 이용약관의 번호로 이용약관 리스트 불러오기
 	@Override
 	public List<AgreeVO> getAgreementById(Long id) {
 	    return agreeDao.getAgreementById(id);

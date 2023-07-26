@@ -17,8 +17,7 @@ public class AnsServiceImpl implements AnsService{
 	//답변조회
 	@Override
 	public ArrayList<AnsVO> getlist(AnsVO ansVO) {
-		ArrayList<AnsVO> list = ansDAO.viewList(ansVO);
-		return list;
+		return ansDAO.viewList(ansVO);
 	}
 
 	//답변쓰기
@@ -37,7 +36,6 @@ public class AnsServiceImpl implements AnsService{
 	//글삭제
 	@Override
 	public int ansDelete(int ansBdNum) {
-		
 		return ansDAO.ansDelete(ansBdNum);
 	}
 

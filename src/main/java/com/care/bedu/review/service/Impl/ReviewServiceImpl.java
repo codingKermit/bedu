@@ -71,9 +71,9 @@ public class ReviewServiceImpl implements ReviewService {
         // vo.setKeyword(keyword);
         // vo.setTopCate(topCate);
         // System.out.println(vo);
-        //List<HashMap<String, Object>> sample = reviewDAO.getSearchedReviews(keyword, topCate);
+        List<HashMap<String, Object>> sample = reviewDAO.getSearchedReviews(keyword, topCate);
         //System.out.println(sample);
-        return reviewDAO.getSearchedReviews(keyword, topCate);
+        return sample;
     }
 
 

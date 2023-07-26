@@ -45,7 +45,6 @@
 		 QS_CNT AS qnaCnt, 
 		 QS_LIKE_CNT AS qnaLikeCnt, 
 		 QS_DATE AS qnaDate, 
-		 REG_DATE AS regDate,
 		 REG_ID AS regId,
 		 USER_NAME AS userName
 		FROM T_BEDU_QS

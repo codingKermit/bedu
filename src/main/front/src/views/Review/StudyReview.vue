@@ -3,10 +3,10 @@
         <div class="review-group">
             <div class="colTab">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><router-link id = "mSelect" to="/review">전체</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '1000' }}" :class="topCate == 1000 ? 'fw-bold':''">기초강의</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" :class="topCate == 2000 ? 'fw-bold':''">데이터분석</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" :class="topCate == 3000 ? 'fw-bold':''">웹 개발</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: 'all' }}">전체</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '1000' }}" >기초강의</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" >데이터분석</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" >웹 개발</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '4000' }}">프로그래밍 언어</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '5000' }}">인공지능</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '6000' }}">프로그래밍 교양</router-link></li>
@@ -269,12 +269,13 @@
             '$route.query.topCategory':{
                 immediate : true,
                 handler(newTopCategory){
-                    if(newTopCategory == undefined){
-                        
-                        this.fetchReviews();
+                    if(newTopCategory == "" ){  
+                        this.searchedReviews = [];
+                        this.currentPage = 1;
+                        this.fetchSearchedReviews();
                     } else {
                         this.topCate = newTopCategory;
-                        this.fetchSearchedReviews();
+                        this.fetchSearchedReviews(this.topCate);
                     }
                 }
             }
