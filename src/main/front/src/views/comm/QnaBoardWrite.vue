@@ -7,8 +7,8 @@
                 <h2>질문 & 답변</h2>
                 <b-form @submit="qnaWrite()">
                     <!--게시글 Title, content 인풋-->
-                    <b-form-input placeholder="제목을 작성해주세요" class="mt-4 mb-2" v-model="form.title" ref="title"></b-form-input>
-                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+                    <b-form-input placeholder="제목을 작성해주세요" class="mt-4 mb-2" v-model="form.title" ref="title" maxlength='50'></b-form-input>
+                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" maxlength='1600'></ckeditor>
                     <!--게시글 Title, content 인풋 종료-->
 
                     <!--파일 업로드 인풋-->
