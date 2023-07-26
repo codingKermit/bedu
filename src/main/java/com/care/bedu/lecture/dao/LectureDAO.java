@@ -28,4 +28,5 @@ public interface LectureDAO {
 	public ArrayList<LectureVO> getAllLectures(); /* 동영상 전체 조회 조건X */
 	public int addToMyPage(Map<String, Object> map); /* 수강 목록에 저장 */
 	public ArrayList<UserLectureVO> getMyPageList(String userName); /* 수강 목록 조회 */
+	public int getMyPageChk(UserLectureVO vo); /* 수강 목록에 있는지 강의번호, 사용자 이름을 기준으로 체크 */
 }

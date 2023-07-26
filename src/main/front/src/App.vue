@@ -28,17 +28,6 @@ export default {
                     this.$store.commit('SUBINFO', decodedToken.subInfo);
                     this.$store.commit('IS_AUTH', true);
                     
-                    // 결제한 강의 목록 조회
-                    this.$axiosSend('get','/api/lect/getMyPageList',{
-                            userName : this.$store.getters.getNickname,
-                    })
-                    .then((res)=>{
-                        this.$store.commit('LESSONS',res.data.item)
-                    })
-                    .catch((err)=>{
-                        console.log(err)
-                    })
-
                     // 구독 정보 저장
                     this.$axiosSend('get','/api/membership/getSubInfo',{
                         nickname : this.$store.getters.getNickname

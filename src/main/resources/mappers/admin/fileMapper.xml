@@ -4,7 +4,7 @@
 <mapper namespace="com.care.bedu.admin.fileManage.dao.FileManageDao">
 
     <insert id="upload" parameterType="com.care.bedu.admin.fileManage.vo.FileManageVO">
-        CALL BEDU_LECT_DTL_PRO(
+        CALL b_edu.BEDU_LECT_DTL_PRO(
             #{lectDtlTime},
             #{lectDtlTitle},
             #{lectNum},

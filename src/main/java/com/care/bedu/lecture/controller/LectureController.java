@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.care.bedu.lecture.service.LectureService;
 import com.care.bedu.lecture.vo.LectureDetailVO;
 import com.care.bedu.lecture.vo.LectureVO;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -117,8 +120,6 @@ public class LectureController {
 	 * */
 	@RequestMapping("/addToCart")
 	public int addToCart(int lectNum, int userNum, String lectName){
-		System.out.println("lectName : " + lectName);
-
 		int result = 0;
 		result = lectureService.addToCart(lectNum, userNum,lectName);
 		return result;
@@ -161,11 +162,7 @@ public class LectureController {
 	@RequestMapping("/getLesson")
 	public HashMap<String,Object> getLesson(int num, String userName){
 
-		HashMap<String, Object> map = new HashMap<>();
-		
-		map = lectureService.getLesson(num, userName);
-
-		return map;
+		return lectureService.getLesson(num, userName);
 	}
 
 	/* 모든 강의 조회 조건X 
@@ -174,11 +171,8 @@ public class LectureController {
 	 * */
 	@RequestMapping("/getAllLectures")
 	public HashMap<String, Object> getAllLectures(){
-		HashMap<String, Object> map = new HashMap<>();
 
-		map = lectureService.getAllLectures();
-
-		return map;
+		return lectureService.getAllLectures();
 	}
 
 	/* 강의 결제 후, 수강 목록에 추가 
@@ -188,11 +182,8 @@ public class LectureController {
 	@RequestMapping("/addToMyPage")
 	public int addToMyPage(@RequestBody List<Map<String,Object>> args){
 
-		int result = 1;
 
-		result = lectureService.addToMyPage(args);
-
-		return result;
+		return lectureService.addToMyPage(args);
 	}
 
 	/* 수강 목록 조회 
@@ -201,11 +192,26 @@ public class LectureController {
 	 * */
 	@RequestMapping("/getMyPageList")
 	public HashMap<String,Object> getMyPageList(String userName){
-		HashMap<String, Object> map = new HashMap<>();
 
-		map = lectureService.getMyPageList(userName);
-
-
-		return map;
+		return lectureService.getMyPageList(userName);
 	}
+
+	/*
+	 *수강 목록 조회 ( 사용자 이름, 강의 번호 기준)
+	 * 매개 변수	: String 사용자 이름, int 강의 번호
+	 * 반환 값		: boolean 수강 여부
+	 */
+	@RequestMapping(value="/getMyPagetChk", method=RequestMethod.GET)
+	public ResponseEntity<Boolean> requestMethodName(@RequestParam String userName, int lectNum) {
+		boolean result = lectureService.getMyPageChk(userName,lectNum);
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+
+	/* 동영상 재생 정보 저장 */
+	@RequestMapping("/watchHistorySave")
+	public ResponseEntity watchHistorySave(){
+
+		return ResponseEntity.ok().build();
+	}
+	
 }

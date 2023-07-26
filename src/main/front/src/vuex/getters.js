@@ -17,15 +17,9 @@ export default {
     // state에서 인증 상태 값을 가져오는 getter
     getIsAuth: state => state.isAuth,
 
-    // state에서 수강 목록 값을 가져오는 getter
-    getLessons: state => state.lessons,
-
     // state에서 CbnumList 값을 가져오는 getter
     getCbnumList: state => state.cbnumList,
 
-    // state에서 구독 정보를 가져오는 getter
-    getSubscribe : state => state.subscribe,
-    
     // state에서 구독 정보를 가져오는 getter
     getSubInfo : state => state.subInfo,
 }

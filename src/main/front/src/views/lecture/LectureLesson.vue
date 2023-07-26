@@ -8,7 +8,15 @@
                     </span>
                 <div class="offcanvas offcanvas-start " tabindex="-1" id="lesson-list" aria-labelledby="lesson-list-Label">
                     <div class="offcanvas-header">
-                        <p class="offcanvas-title fs-3 fw-bold text-truncate d-inline-block" id="lesson-list-Label">{{ lessonInfo.lectDtlTitle }}</p>
+                        <router-link class="offcanvas-title fs-3 fw-bold text-truncate d-inline-block text-decoration-none text-body" id="lesson-list-Label"
+                        :to="{
+                            name : 'lectureDetail',
+                            query :{
+                                num : lessonInfo.lectNum
+                            }
+                        }
+                        "
+                        >{{ lectInfo.title }}</router-link>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
@@ -160,24 +168,22 @@ export default{
             playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
             fullscreenToggleData : false, // 전체화면 토글 데이터
             subscribeInfo : '', // 멤버쉽 정보
+            timer : null, // 페이지 접속 타이머
         }
     },
     methods: {
         makeToastForNext(){
             if(this.lessonInfo.lectDtlIndex < this.lessonList.length ){
-                toast.success(`다음 강의로`,{
+                toast.success(`이어보기`,{
                 transition: toast.TRANSITIONS.BOUNCE,
                 position : toast.POSITION.BOTTOM_RIGHT,
-                autoClose : 3000,
+                autoClose : false,
                 multiple: false,
-                dangerouslyHTMLString : true,
-                onClick : (event) =>{
-                        console.log(event)
-                        // alert(this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum)
-                        this.$routerPush('lectureLesson',{
-                            'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
-                        }, true)
-                    }
+                onClick : () =>{
+                    this.$routerPush('lectureLesson',{
+                        'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
+                    }, true)
+                },
                 })
             } else {
                 toast.success('강의를 전부 수강하셨습니다!',{
@@ -190,6 +196,10 @@ export default{
         },
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
+            // view가 바뀌어도 alert이 중복되어서 나오는 문제 차단
+            if(this.$route.name != 'lectureLesson'){
+                return;
+            }
 
             // 멤버쉽 정보 조회 API 호출 익명함수
             const membershipApi = async () => {
@@ -241,10 +251,7 @@ export default{
                 })
             }
             
-            // view가 바뀌어도 alert이 나오는 문제 차단
-            if(this.$route.name != 'lectureLesson'){
-                return;
-            }
+
 
             const userName = this.$store.getters.getNickname;
             
@@ -278,12 +285,10 @@ export default{
             }
 
 
+            // 멤버쉽 가입 여부 체크 익명 함수 호출 => 동영상 결제 여부 & 동영상 정보 조회 익명 함수 호출
             membershipApi()
             .then((subInfo)=>{
                 signUpApi(subInfo)
-                .then((signItem)=>{
-
-                })
             })
 
 
@@ -292,8 +297,7 @@ export default{
         updateProgressSituation(e){
             let progress = Math.round(e.target.currentTime)
             this.currentTime = Math.round(e.target.currentTime) ;
-            console.log(this.lessonInfo.lectDtlNum + "동영상의 현재 재생 시간 " + progress + "초(s)")
-            let minute = Math.round(this.currentTime / 60).toString().padStart(2,'0');
+            let minute = Math.floor(this.currentTime / 60).toString().padStart(2,'0');
             const seconds = (this.currentTime%60).toString().padStart(2,'0') ;
             if(minute>=60){
                 const hour = Math.round(minute/60).toString().padStart(2,'0');
@@ -356,6 +360,7 @@ export default{
         volumeSliderToggleOff(){
             this.volumeSliderOverData = false;
         },
+
         /** 음소거 토글 */
         muteToggleFunc(){
             if(this.muteToggleData){
@@ -366,6 +371,7 @@ export default{
                 this.$refs.bedu_video.muted=false
             }
         },
+        /** 동영상 플레이어 재생/일시정지 시에 동영상 가운데 토글 이미지 */
         playToggleCenter(){
             let video = this.$refs.bedu_video;
             this.playToggleCenterData = true;
@@ -377,15 +383,51 @@ export default{
                 this.playPauseToggleData = false;
                 video.pause();
             }
-        }
-
+        },
+        /** 강의 정보 조회 */
+        getLectInfo(){
+            this.$axiosSend('get','/api/lect/lectureDetail',{
+                num : this.lessonInfo.lectNum
+            })
+            .then((res)=>{
+                this.lectInfo = res.data
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+        /** 브라우저 종료시 현재까지의 재생 정보 서버로 전송 */
+        unloadEvent(e){
+            this.$axiosSend('get','/api/lecture/history/save',{
+                userName : this.$store.getters.getNickname,
+                lectDtlNum : this.lessonInfo.lectDtlNum,
+                endTime : this.currentTime,              
+            })
+        },
+        /** 해당 페이지 접근 후 40초마다 현재 재생 정보 서버로 전송 */
+        watchHistorySave(){
+            this.timer = setInterval(()=>{
+                // alert(this.currentTime)
+                this.$axiosSend('get','/api/lecture/history/save',{
+                    userName : this.$store.getters.getNickname,
+                    lectDtlNum : this.lessonInfo.lectDtlNum,
+                    endTime : this.currentTime,
+                })
+            },10000)
+        },
         
     },
     mounted() {
-    
+        window.addEventListener('beforeunload',this.unloadEvent);
+        this.watchHistorySave();
     },
     created() {
+        this.lessonInfo.lectNum = this.$route.query.lectNum;
+        this.getLectInfo();
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
+    },
+    beforeUnmount(){
+        clearInterval(this.timer)
     },
     watch:{
         '$route.query.lectDtlNum':{

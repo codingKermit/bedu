@@ -24,12 +24,7 @@ public class MembershipServiceImpl implements MembershipService{
 		if(type.equals("month") || type.equals("year")) {
 			return dao.getSub(vo);
 		} else {
-			try {
-				throw new Exception("Invalid subType : Only ''month'' or ''year'' is allowed");
-			} catch (Exception e) {
-				System.out.println(e);
-				return 0;
-			}
+			return 0;
 		}
 
 		

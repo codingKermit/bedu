@@ -269,4 +269,21 @@ public class LectureServiceImpl implements LectureService{
 		return map;
 	}
 
+
+
+	@Override
+	public boolean getMyPageChk(String userName, int lectNum) {
+
+		UserLectureVO vo = new UserLectureVO(0, userName, lectNum, null);
+
+		int result = lectureDao.getMyPageChk(vo);
+
+		if(result == 0){
+			return false;
+		} else{
+			return true;
+		}
+
+	}
+
 }
