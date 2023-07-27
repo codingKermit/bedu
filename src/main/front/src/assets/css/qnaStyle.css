@@ -253,11 +253,39 @@
     margin-left: 40px;
 }
 
+#qnareplydel-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
+}
+
+#qna-detail-replywrite-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
+}
+
+#qna-detail-ansdel-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
+}
+
 #qnareplyDel-btn
 
 #qna-detail-replyDelBtn{
     margin-bottom: 1rem !important;
     margin-left: 85%;
+}
+
+#qnareplyeditform-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
 }
 
 #qna-detail-replywrite{
