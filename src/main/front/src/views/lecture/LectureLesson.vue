@@ -169,6 +169,12 @@ export default{
             fullscreenToggleData : false, // 전체화면 토글 데이터
             subscribeInfo : '', // 멤버쉽 정보
             timer : null, // 페이지 접속 타이머
+            timerCount : 1,
+            watchHistory : {
+                userName : '',
+                lectDtlNum : '',
+                startTime : '',
+            },
         }
     },
     methods: {
@@ -398,12 +404,10 @@ export default{
         },
         /** 브라우저 종료시 현재까지의 재생 정보 서버로 전송 */
         unloadEvent(){
-            // console.log(this.lessonInfo)
-            // console.log(this.lessonInfo.lectDtlNum)
-            // console.log(this.currentTime)
             const userName = this.$store.getters.getNickname;
             const lectDtlNum = this.lessonInfo.lectDtlNum;
             const endTime = this.currentTime;
+
             this.$axiosSend('get','/api/lecture/history/save',{
                 userName : userName,
                 lectDtlNum : lectDtlNum,
@@ -418,35 +422,60 @@ export default{
                     lectDtlNum : this.lessonInfo.lectDtlNum,
                     endTime : this.currentTime,
                 })
-            },10000)
+            },40000)
         },
+        /** 해당 동영상 재생 정보 조회 */
+        getHistory(){
+            this.$axiosSend('get','/api/lecture/history/getHistory',{
+                userName : this.$store.getters.getNickname,
+                lectDtlNum : this.lessonInfo.lectDtlNum,
+            })
+            .then((res)=>{
+                if(res.data != "" || res.data != null || res.data != undefined){
+                    this.$swal({
+                        icon : 'info',
+                        text:'기존에 보던 시간부터 이어보시겠습니까?',
+                        showCancelButton : true,
+                        cancelButtonText : '아니오',
+                        confirmButtonText : '예'
+                    })
+                    .then((result)=>{
+                        if(result.isConfirmed){
+                            this.$refs.bedu_video.currentTime = res.data.endTime
+                        }
+                    })
+                }
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
         
     },
     mounted() {
-        window.addEventListener('beforeunload',this.unloadEvent);
-        this.watchHistorySave();
     },
     created() {
         this.lessonInfo.lectNum = this.$route.query.lectNum;
-        this.getLectInfo();
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
+
+        this.getHistory();
+        this.getLectInfo();
+        this.watchHistorySave();
     },
     beforeUnmount(){
-        // console.log(this.lessonInfo)
-        // console.log(this.lessonInfo.lectDtlNum)
-        // alert(this.lessonInfo.lectDtlNum)
-        // alert(this.currentTime)
-        this.unloadEvent();
         clearInterval(this.timer)
-        window.removeEventListener('beforeunload',this.unloadEvent);
     },
     watch:{
         '$route.query.lectDtlNum':{
             immediate: true,
             handler(newNum){
-                this.lessonInfo.lectDtlNum = newNum;
-                this.playPauseToggleData = false;
-                this.getLesson();
+                if(newNum != undefined){
+                    this.lessonInfo.lectDtlNum = newNum;
+                    this.playPauseToggleData = false;
+                    this.getLesson();
+                } else{
+                    this.unloadEvent();
+                }
             },
         
         },
@@ -454,7 +483,7 @@ export default{
             if(this.currentTime == this.maxTime){
                 this.makeToastForNext();
             }
-        }
+        },
     }
 }
 

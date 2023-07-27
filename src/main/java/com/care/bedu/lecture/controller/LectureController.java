@@ -207,11 +207,4 @@ public class LectureController {
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
 
-	/* 동영상 재생 정보 저장 */
-	@RequestMapping("/watchHistorySave")
-	public ResponseEntity watchHistorySave(){
-
-		return ResponseEntity.ok().build();
-	}
-	
 }
