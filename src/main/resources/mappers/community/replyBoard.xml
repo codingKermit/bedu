@@ -21,16 +21,48 @@
 		)
 	</insert>
 	
+	<insert id="viewWrite2" parameterType="com.care.bedu.community.reply.vo.ReplyVO">
+		INSERT INTO T_BEDU_REPLY(
+		  USER_NAME,
+		  CONTENT,
+		  QS_NUM,
+		  ANS_NUM,
+		  REPLY_DATE,
+		  REG_DATE,
+		  REG_ID
+		)VALUES(
+		  #{userName},
+		  #{content},
+		  #{qsNum},
+		  #{ansNum},
+		  SYSDATE(),
+		  SYSDATE(),
+		  #{regId}
+		)
+	</insert>
+	
 	<select id="viewList" resultType="com.care.bedu.community.reply.vo.ReplyVO">
 		SELECT
 		  REPLY_NUM AS replyNum,
 		  CONTENT,
 		  REPLY_DATE AS replyDate,
-		  REG_DATE AS regDate,
 		  REG_ID AS regId,
 		  USER_NAME AS userName 
 		FROM T_BEDU_REPLY 
 		WHERE COMM_NUM = #{commNum}
+		ORDER BY REPLY_DATE ASC
+	</select>
+	
+	<select id="viewList3" resultType="com.care.bedu.community.reply.vo.ReplyVO">
+		SELECT
+		  REPLY_NUM AS replyNum,
+		  CONTENT,
+		  REPLY_DATE AS replyDate,
+		  QS_NUM AS qsNum,
+		  ANS_NUM AS ansNum,
+		  USER_NAME AS userName 
+		FROM T_BEDU_REPLY 
+		WHERE QS_NUM = #{qsNum}
 		ORDER BY REPLY_DATE ASC
 	</select>
 	
@@ -40,13 +72,19 @@
 	    WHERE COMM_NUM = #{num}
 	</select>
 	
+	<update id="replyupdate">
+		UPDATE
+		 T_BEDU_REPLY SET CONTENT = #{content}, REG_DATE = SYSDATE()
+		WHERE REPLY_NUM = #{replyNum}
+	</update>
+	
 	<delete id="replyDelete">
 		DELETE
 		 FROM T_BEDU_REPLY
 		WHERE REPLY_NUM = #{replynum}
 	</delete>
 	
-	<!-- 1대1 문의사항 답글 삽입 -->
+		<!-- 1대1 문의사항 답글 삽입 -->
 	<insert id="inquiryInsert" parameterType="com.care.bedu.community.reply.vo.ReplyVO" >
 		INSERT INTO T_BEDU_REPLY(
 		  VOC_NUM,

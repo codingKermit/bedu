@@ -17,17 +17,19 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글조회
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
-		ArrayList<ReplyVO> list =replyDAO.viewList(replyVO);
-		for(ReplyVO reply: list) {
-			reply.setReplyDate(reply.getRegDate());
+		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0) {
+			return replyDAO.viewList3(replyVO);
+		}else {
+			return replyDAO.viewList(replyVO);
 		}
-		
-		return list;
 	}
 
 	//댓글쓰기
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
+		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0 && replyVO.getAnsNum()!= null && replyVO.getAnsNum()>0) {
+			return replyDAO.viewWrite2(replyVO);
+		}
 		return replyDAO.viewWrite(replyVO);
 	}
 
@@ -43,7 +45,11 @@ public class ReplyServiceImpl implements ReplyService{
 	public int replydelete(int replynum) {
 		return replyDAO.replyDelete(replynum);
 	}
-	
+
+	@Override
+	public int replyupdate(ReplyVO replyVO) {
+		return replyDAO.replyupdate(replyVO);
+	}
 	//1대1 문의사항 답글 조회
 	@Override 
 	public ArrayList<ReplyVO> getinquiry(ReplyVO replyVO){
@@ -58,7 +64,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 	
 //	//1대1 문의사항 답글 삭제
-//	@Override
+	@Override
 	public int inquirydelete(int inquiryNum) {
 		System.out.println(inquiryNum);
 		return replyDAO.inquiryDelete(inquiryNum);

@@ -36,10 +36,10 @@ public class ReplyVO{
 	//강의후기글번호
 	private Integer rwNum;				
 	
+	//등록아이디
+	private String regId;	
+	
 	//1대1문의글번호
 	private Integer vocNum;
-	
-	//등록아이디
-	private String regId;
-	
+
 }
