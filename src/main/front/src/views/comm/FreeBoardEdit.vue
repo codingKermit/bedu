@@ -10,7 +10,7 @@
                 <b-form-input class="mt-4 mb-2" id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 
-                <div class="m-0 my-5 d-flex justify-content-between align-items-center">
+                <div class="m-0 my-5 d-flex justify-content-between align-items-center" id="freeboard-title">
                 <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
                 </div>
 

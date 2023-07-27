@@ -38,6 +38,11 @@
                               {{ free.title }}
                            </b-link>
                         </div>
+                        <div id="CommContentDemo">
+                           <a>ContentDemoTestContentDemoTestContentDemoTestContentDemoTestContentDemoTestContentDemoTest
+                              ContentDemoTestContentDemoTestContentDemoTestContentDemoTestContentDemoTestContentDemo...
+                           </a>
+                        </div>
                         <div id="commCntIcon">
                            <div id="commCnt">
                               <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
@@ -45,6 +50,10 @@
                            <div id="commReply">
                               <font-awesome-icon :icon="['far', 'comment']" />
                               {{replytotal}} 0
+                           </div>
+                           <div id="commHeart">
+                              <font-awesome-icon :icon="['fas', 'heart']"/>
+                              0
                            </div>
                         </div>
                      </div>

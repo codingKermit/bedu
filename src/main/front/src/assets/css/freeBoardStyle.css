@@ -14,13 +14,28 @@
 .freeDefault {
     background-color: white;
 }
+/* FreeBoardView의 Content부분 추후 수정해야함 */
+#CommContentDemo {
+    color: #838383;
+    margin-top: 1%;
+}
+
+#CommContentDemo a:hover {
+    color: #6868ff;
+    cursor: pointer;
+}
 
 #commCnt {
     float: right;
-    margin-left: 2%;
+    margin-left: 1%;
 }
 
 #commReply {
+    float: right;
+    margin-left: 1%;
+}
+
+#commHeart {
     float: right;
 }
 
@@ -31,7 +46,7 @@
 
 #freeCommContainer {
     padding-top: 2%;
-    padding-bottom: 5%;
+    padding-bottom: 4%;
     border-top: 1px solid #ccc;
 }
 
@@ -201,11 +216,6 @@ h1 {
     resize:none;
 }
 
-.freeReplyBTn{
-    
-    
-}
-
 #freeboard-title {
     margin-bottom: 30px;
 }
@@ -223,7 +233,7 @@ h1 {
 
 /*freeBoardEdit*/
 #freeboard-edit-content {
-    width: 100%;
+    width: 50%;
     height: 200px;
     resize:none;
 }
@@ -322,7 +332,8 @@ h1 {
 
 #freeboard-table-tds a{
     margin-top: 2%;
-    font-weight: bolder;
+    font-weight: 700;
+    font-size: 1.25rem;
     display: inline-block;
     text-decoration: none;
 }
