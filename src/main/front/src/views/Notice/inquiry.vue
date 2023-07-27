@@ -2,7 +2,7 @@
   <div class="cscView" id="cscView">
     <CscCategory :currentTab="'inquiry'"></CscCategory>
   </div>
-  <p id="Cschead">1:1 문의하기</p>
+  <p id="Cschead">이용 문의</p>
   <div class="card"> 
     <form @submit="inquiryWrite()">
       <div>
@@ -12,10 +12,13 @@
         <b-form-input placeholder="제목을 입력해주세요" id="titletext" v-model="form.title" ref="title"></b-form-input>
       </div>
       <div>
+        <label id="title" for="password">비밀번호</label>
+        <b-form-input placeholder="숫자만 입력해주세요" id="titletext" v-model="form.password" ref="title"></b-form-input>
+      </div>
+      <div>
         <label id="textarea" for="content">질문 내용</label>
         <div>
-          <b-form-textarea id="textarea-rows" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"
-            rows="7"></b-form-textarea>
+          <b-form-textarea id="textarea-rows" v-model="form.content" placeholder="내용을 작성해주세요" ref="content" rows="7"></b-form-textarea>
         </div>
       </div>
       <div>
@@ -56,8 +59,8 @@ export default {
         title: '',
         content: '',
         regId: '',
+        password: '',
       },
-      userlist: [],
     };
   },
 
@@ -109,7 +112,14 @@ export default {
         })
         return;
       }
-
+      if (this.form.password == null || this.form.content == "") {
+        this.$swal({
+          title: 'warning!',
+          text: "비밀번호를 입력하세요",
+          type: 'warning',
+        })
+        return;
+      }
       this.$axiosSend('post', '/api/inquiry/inquiryWrite', this.form)
                 .then((res) => {
                     if (res.data === 1) {

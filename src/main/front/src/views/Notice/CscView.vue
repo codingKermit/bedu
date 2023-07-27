@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-        <h2>1대1 문의 </h2>
+        <h2>이용 문의 </h2>
         <div class="selectBox">
           <select id="cscSortOption" v-model="sortOption" @change="sortReviews">
             <option value="default">최신순</option>
@@ -31,37 +31,37 @@
             <th id="cscTitle">제목</th>
             <th>작성자</th>
             <th>작성일자</th>
-            <th>비밀글</th>
+            <th>답변여부</th>
           </tr>
         </thead>
         <tbody>
-          <tr :key="index" v-for="(inquiry, index) in inquirylist">
-            <td id="cscboard-table-tds">
-              <b-link class="text-start text-body" :to="{
-                name:'inquiryDetail',
-                query : { //index.js 라우터에서 봤을 때 inquiryDetail문은 query 문으로 보내야 함
-                  vocNum : inquiry.vocNum
-                }
-              }">
-                {{ inquiry.title }}
+          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
+            <td id="cscboard-table-tds" @click="password(inquiry)" >
+              <b-link class="text-start text-body" 
+              >
+              <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>
             </td>
             <td>
               {{ inquiry.userName }}</td>
-            <td>{{ formatDateTime(inquiry.regDate)}}</td>
+            <td>{{ formatDateTime(inquiry.regDate) }}</td>
             <td>
-              <font-awesome-icon :icon="['fas', 'lock']" /> 
+              <p v-if="inquiry.replyCnt > 0">답변완료</p>
+              <p v-else>답변대기</p>
             </td>
           </tr>
         </tbody>
       </table>
+      <b-pagination v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize" size="lg"></b-pagination>
     </div>
   </div>
 </template>
 
 <script>
- 
+
 import CscCategory from '@/components/CscCategory.vue';
+//import InquiryDetail from '@/Notice/InquiryDetail.vue';
+
 import '@/assets/css/CscViewStyle.css';
 export default {
   name: 'inquirylist',
@@ -70,14 +70,14 @@ export default {
     return {
       inquirylist: [
       ],
+
       form: {
         keyword: '',
       },
       sortOption: "default", // 정렬 옵션
-      totalItems: 0,
-      totalPage: 0,
-      currentPage: 1
-    }; 
+      currentPage: 1,
+      replyCnt: '',
+    };
 
   },
 
@@ -92,23 +92,22 @@ export default {
   mounted() {
   },
 
+  computed: {
+    paginatedInquiryList() {
+
+      // 현재 페이지에 해당하는 데이터의 시작과 끝 인덱스를 계산합니다.
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+
+      // 현재 페이지에 해당하는 데이터를 추출하여 반환합니다.
+      return this.inquirylist.slice(startIndex, endIndex);
+    },
+  },
+
   methods: {
+    
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
-    },
-      
-    sortReviews() {
-      if (this.sortOption === "default") {
-        // 최신 순으로 정렬
-        this.inquirylist.sort((a, b) => {
-          return new Date(b.qna_date) - new Date(a.qna_date);
-        });
-      } else if (this.sortOption === "highViews") {
-        // 조회수 순으로 정렬
-        this.inquirylist.sort((a, b) => {
-          return b.qna_cnt - a.qna_cnt;
-        });
-      }
     },
 
     qnasearch() {
@@ -116,54 +115,67 @@ export default {
         .then(res => {
           console.log(res)
           this.inquirylist = res.data;
-          // this.sortReviews(); // 정렬 수행
+
+          // 페이징 처리를 위한 변수들을 설정합니다.
+          this.pageSize = 10; // 한 페이지에 보여줄 게시물 수를 설정합니다.
+          this.totalPages = Math.ceil(this.inquirylist.length / this.pageSize); // 총 페이지 수를 계산합니다.
+          this.currentPage = 1; // 현재 페이지 번호를 초기화합니다.
+
+          // 페이징 처리된 데이터를 가져옵니다.
+          this.paginatedInquiryList = this.inquirylist.slice(0, this.pageSize);
+
         })
         .catch(error => {
           alert(error);
         });
     },
 
-    infiniteHandler($state) {
-      console.log('번호:', this.currentPage);
-      this.$axiosSend('get', '/api/inquiry/inquiryList', {
-        page: this.currentPage,
+    password(inquiry) {
+      this.$swal({
+        title : '비밀번호를 입력하세요',
+        html : '<input id="test" type="password">'
       })
-        .then(res => {
-          if (res.data.length) {
-            this.currentPage++;
-            this.qnalist.push(...res.data);
-
-            console.log('리스', this.inquirylist);
-            $state.loaded();
-          } else {
-            $state.complete();
+      .then((result)=>{
+        if(result.isConfirmed){
+          // 사용자가 입력한 비밀번호
+          const userInput = document.getElementById("test").value;
+          if (userInput !== null) {
+            // 입력받은 비밀번호와 inquiry.password 비교
+            if (userInput == inquiry.password) {
+              this.$routerPush('inquiryDetail',{vocNum: inquiry.vocNum},true)
+            } else {
+              this.$swal({
+                title :'올바른 비밀번호를 입력해주세요',
+                icon : 'error',
+              })
+            }
           }
-        })
-        .catch(err => {
-          console.log(err);
-        })
+        }
+      })
+
     },
+
     formatDateTime(value) {
-                // value는 날짜 값입니다
-                const now = new Date();
-                const date = new Date(value);
+      // value는 날짜 값입니다
+      const now = new Date();
+      const date = new Date(value);
 
-                const diffInMilliseconds = now - date;
-                const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-                const diffInMinutes = Math.floor(diffInSeconds / 60);
-                const diffInHours = Math.floor(diffInMinutes / 60);
-                const diffInDays = Math.floor(diffInHours / 24);
+      const diffInMilliseconds = now - date;
+      const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+      const diffInMinutes = Math.floor(diffInSeconds / 60);
+      const diffInHours = Math.floor(diffInMinutes / 60);
+      const diffInDays = Math.floor(diffInHours / 24);
 
-                if (diffInDays > 0) {
-                    return `${diffInDays}일 전`;
-                } else if (diffInHours > 0) {
-                     return `${diffInHours}시간 전`;
-                } else if (diffInMinutes > 0) {
-                    return `${diffInMinutes}분 전`;
-                } else {
-                    return '방금 전';
-                }
-            },
-     },  
+      if (diffInDays > 0) {
+        return `${diffInDays}일 전`;
+      } else if (diffInHours > 0) {
+        return `${diffInHours}시간 전`;
+      } else if (diffInMinutes > 0) {
+        return `${diffInMinutes}분 전`;
+      } else {
+        return '방금 전';
+      }
+    },
+  },
 };
 </script>

@@ -16,12 +16,15 @@ public class InquiryServiceImpl implements InquiryService {
 	@Autowired
 	private InquiryDAO inquiryDAO;
 
-
 	//게시글 리스트 조회
 	@Override
 	public List<InquiryVO> list() throws Exception {
-		List<InquiryVO> inquirylist = inquiryDAO.inquirylist();
-		return inquirylist;
+	    List<InquiryVO> inquirylist = inquiryDAO.inquirylist();
+	    for (InquiryVO inquiry : inquirylist) {
+	        int replyCnt = inquiryDAO.getReplyCnt(inquiry.getVocNum());
+	        inquiry.setReplyCnt(replyCnt);
+	    }
+	    return inquirylist;
 	}
 	
 	//게시글 전체 갯수 조회

@@ -17,19 +17,17 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글조회
 	@Override
 	public ArrayList<ReplyVO> getreply(ReplyVO replyVO) {
-		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0) {
-			return replyDAO.viewList3(replyVO);
-		}else {
-			return replyDAO.viewList(replyVO);
+		ArrayList<ReplyVO> list =replyDAO.viewList(replyVO);
+		for(ReplyVO reply: list) {
+			reply.setReplyDate(reply.getRegDate());
 		}
+		
+		return list;
 	}
 
 	//댓글쓰기
 	@Override
 	public int boardwrite(ReplyVO replyVO) {
-		if(replyVO.getQsNum() != null && replyVO.getQsNum() > 0 && replyVO.getAnsNum()!= null && replyVO.getAnsNum()>0) {
-			return replyDAO.viewWrite2(replyVO);
-		}
 		return replyDAO.viewWrite(replyVO);
 	}
 
@@ -45,10 +43,25 @@ public class ReplyServiceImpl implements ReplyService{
 	public int replydelete(int replynum) {
 		return replyDAO.replyDelete(replynum);
 	}
-
+	
+	//1대1 문의사항 답글 조회
+	@Override 
+	public ArrayList<ReplyVO> getinquiry(ReplyVO replyVO){
+		ArrayList<ReplyVO> comment = replyDAO.inquiryList(replyVO);
+		return comment;
+	}
+	
+	//1대1 문의사항 답글쓰기
 	@Override
-	public int replyupdate(ReplyVO replyVO) {
-		return replyDAO.replyupdate(replyVO);
+	public int inquirywrite(ReplyVO replyVO) {
+		return replyDAO.inquiryInsert(replyVO);
+	}
+	
+//	//1대1 문의사항 답글 삭제
+//	@Override
+	public int inquirydelete(int inquiryNum) {
+		System.out.println(inquiryNum);
+		return replyDAO.inquiryDelete(inquiryNum);
 	}
 
 }

@@ -48,4 +48,14 @@ public class InquiryVO {
 	
 	//답글 갯수
 	private int replyCnt;
+	
+	private boolean isSecret;
+	
+    public boolean isSecret() {
+        return isSecret;
+    }
+
+    public void setSecret(boolean secret) {
+        isSecret = secret;
+    }
 }
