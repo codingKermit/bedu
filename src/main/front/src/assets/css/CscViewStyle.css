@@ -6,7 +6,7 @@
   padding-bottom: 50px;
   width: 80%;
 }
-  
+
 .csc-main-side{
   width: 110%;
 }
@@ -27,8 +27,9 @@
 
 #cscboard-table {
   width: 100%;
-  padding: 25px;
-  margin-bottom:100px;
+  padding: 30%;
+  margin-top: 6%;
+  margin-bottom: 5%;
 }
 
 
@@ -40,7 +41,7 @@
 
 #cscboard-table th,
 #cscboard-table td {
-  padding: 10px;
+  padding: 0.5%;
   text-align: center;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -54,16 +55,16 @@
   border: none;
 }
 
-
 .cscviewkeyword {
   width: 300px;
   height: 40px;
   border-radius: 20px;
   border: 2px solid black;
+  text-indent: 18%;
 }
 
 .searchForm{
-  margin-right: -35px;
+  margin-left: 35px;
 }
 
 #csc-search-btn {
@@ -284,7 +285,6 @@
   padding-left: 6%; 
 }
 
-
 .ck-content{ 
   height: 500px !important;
 }
@@ -304,4 +304,58 @@
 #textarea-rows{
   width: 90.3%;
   margin-top: 1%;
+}
+
+#answer{
+  color:#01040a;
+  margin-top: 30%
+}
+
+.pagination {
+  width: 30%;
+  height: 20%;
+  margin-left: 29.5%;
+  margin-top: 1%;
+  margin-bottom: 5%;
+  --bs-pagination-font-size: 1rem;
+  --bs-pagination-color: #212529;
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(50, 62, 82, 0.25);
+  --bs-pagination-active-bg: #112b45;
+  --bs-pagination-active-border-color: #01040a;
+  --bs-pagination-disabled-color: #6c757d;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.inq-reply{
+  margin-top: 2%;
+  
+}
+
+#inq-reply-name{ 
+  margin-left: 1%;
+}
+
+#inq-reply-date{
+  margin-left: 7%;
+}
+
+#inq-reply-content{
+  word-wrap: break-word;
+  background-color: white;
+}
+
+#inq-reply-del{
+  border: 0;
+  font-weight: bolder;
+  color: #303076;
+  background-color: transparent;
+  margin-left: 84%;
+}
+
+.horizontal-line {
+  width: 90%;
+  height: 0.08px;
+  background-color: rgb(187, 177, 177);
 }

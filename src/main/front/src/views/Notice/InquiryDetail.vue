@@ -3,17 +3,15 @@
         <div class="cscDetail">
             <CscCategory></CscCategory>
         </div>
-        <div class="csc-detail-main" id="csc-detail-main">
-            <div class="justify-content-start text-start csc-detail-body" id="csc-detail-body">
-                <h2 class=" fw-bold csc-detail-title" id="csc-detail-title">
+        <div id="csc-detail-main">
+            <div id="csc-detail-body">
+                <h2 id="csc-detail-title">
                     {{ inquiry.title }}
                 </h2>
                 <div id="csc-userinfo">
-                    <p id="csc-userid">
-                        {{ inquiry.userName }}
-                    </p>
+                    {{ inquiry.userName }}
                     <p id="csc-date">
-                        {{ }}
+                        {{ DateTime(inquiry.regDate) }}
                     </p>
                 </div>
                 <hr class="mt-10">
@@ -25,7 +23,7 @@
             <div>
                 <p class="fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                         {{ inquiry.replyCnt }}개의 문의 답글이 있습니다.
+                    {{ inquiry.replyCnt }}개의 문의 답글이 있습니다.
                 </p>
             </div>
             <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp">답글작성</b-button>
@@ -36,25 +34,26 @@
                     <b-button id="list" :to="'/csc'">취소</b-button>
                 </div>
             </div>
-            <div v-for="list in replylist" :key="list.replyNum" class="">
+            <div v-for="list in replylist" :key="list.replyNum">
                 <div class="d-flex mb-3 mt-4">
-                    <div class="">
+                    <div id="inq-reply-icon">
                         <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                     </div>
-                    <div class="">
+                    <div id="inq-reply-name">
                         {{ list.userName }}
                     </div>
-                    <div class="date">
-                        {{ DateTime(list.replyDate)  }}
+                    <div id="inq-reply-date">
+                        {{ DateTime(list.replyDate) }}
                     </div>
                 </div>
-                <div class="">
+                <div id="inq-reply-content">
                     {{ list.content }}
+                    <div id="" v-if="commentDelete(list.userName) == 1">
+                        <b-button type="button" id="inq-reply-del"
+                            @click="replydelete(list.replyNum, list.userName)">답변삭제</b-button>
+                    </div>
+                    <div class="horizontal-line"></div>
                 </div>
-                <div id="" v-if="commentDelete(list.userName) == 1">
-                    <b-button type="button" @click="replydelete(list.replyNum, list.userName)">답변삭제</b-button>
-                </div>
-
             </div>
         </div>
     </div>
@@ -185,8 +184,8 @@ export default {
             } else {
                 this.reply.userName = this.userName
                 this.$axiosSend('get', 'api/reply/inquirydelete', {
-                    replyNum : replyNum,
-                    userName : this.reply.userName
+                    replyNum: replyNum,
+                    userName: this.reply.userName
                 })
                     .then(res => {
                         if (res.data === 1) {
@@ -194,7 +193,7 @@ export default {
                             return;
                         } else {
                             this.$swal('error', '답변삭제실패???!!!!!!!!!!!', 'error');
-                            return; 
+                            return;
                         }
                     })
                     .catch(error => {
