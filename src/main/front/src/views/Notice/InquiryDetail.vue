@@ -26,9 +26,13 @@
                     {{ inquiry.replyCnt }}개의 문의 답글이 있습니다.
                 </p>
             </div>
+            <div class="inq-button-group">
             <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp">답글작성</b-button>
+            <b-button type="button" id="" @click="tmp = !tmp">삭제</b-button>
+            </div>
             <div v-if="tmp">
-                <b-form-textarea id="textarea-rows" v-model="reply.content" placeholder="답글을 입력해주세요" rows="8"></b-form-textarea>
+                <b-form-textarea id="textarea-rows" v-model="reply.content" placeholder="답글을 입력해주세요"
+                    rows="8"></b-form-textarea>
                 <div>
                     <b-button @click="replyWrite()" id="commit">저장</b-button>
                     <b-button id="list" :to="'/csc'">취소</b-button>
@@ -47,8 +51,10 @@
                     </div>
                 </div>
                 <div id="inq-reply-content">
-                    {{ list.content }}
-                    <div id="" v-if="commentDelete(list.userName) == 1">
+                    <div id="inq-reply-content2">
+                        {{ list.content }}
+                    </div>
+                    <div v-if="commentDelete(list.userName) == 1">
                         <b-button type="button" id="inq-reply-del"
                             @click="replydelete(list.replyNum, list.userName)">답변삭제</b-button>
                     </div>

@@ -296,9 +296,9 @@
 }
 
 #inquiry-detail-rewrite{
-  margin-left: 83%;
+  margin-left: 79%;
+  background-color: #303076;
   margin-top: 0.000001%;
-
 }
 
 #textarea-rows{
@@ -309,6 +309,11 @@
 #answer{
   color:#01040a;
   margin-top: 30%
+}
+
+.inq-button-group {
+  display: flex;
+  gap: 10px; 
 }
 
 .pagination {
@@ -342,8 +347,12 @@
 }
 
 #inq-reply-content{
-  word-wrap: break-word;
   background-color: white;
+  overflow-wrap: break-word;
+}
+
+#inq-reply-content2{
+  margin-right: 9%;
 }
 
 #inq-reply-del{
@@ -351,7 +360,8 @@
   font-weight: bolder;
   color: #303076;
   background-color: transparent;
-  margin-left: 84%;
+  margin-left: 84.5%;
+  margin-bottom: 1%;
 }
 
 .horizontal-line {
