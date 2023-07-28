@@ -1,9 +1,9 @@
 <template>
-  <div class="cscView" id="cscView">
+  <div class="cscView">
     <CscCategory :currentTab="'inquiry'"></CscCategory>
   </div>
   <p id="Cschead">이용 문의</p>
-  <div class="card"> 
+  <div class="inquirycard"> 
     <form @submit="inquiryWrite()">
       <div>
         <label id="title" for="title">문의 목록</label>

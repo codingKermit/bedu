@@ -5,39 +5,45 @@
   margin-left: 15%;
 }
 
-.card{
-  width: 79%;
-  height: 250%;
+.inquirycard{
+  width: 80%;
+  height: 15%;
   margin-left: 15%;
-  margin-top: 3%;
+  margin-top: 1%;
+  margin-bottom: 15%;
   padding: 3%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-sizing: center;
 }
 
 #selectbox{
   width: 22%;
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
   font-size: 130%;
 }
 #title{
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
+  width: 7%;
+  font-weight: bold;
+  font-size: 106%;
 }
+
 #titletext{
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
 }
 #textarea{ 
-  margin-bottom: 1.5%;
+  font-weight: bold;
+  font-size: 106%;
 }
 #textarea-rows{ 
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
+  width: 100%;
 }
 #attach{
   background-color: azure;   
 }
 #list{
-  margin-top: 5%;
   width:6%;
-  margin-left: 1%;
   background-color: #6c757d;
 }
 #commit{

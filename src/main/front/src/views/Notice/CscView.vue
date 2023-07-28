@@ -1,16 +1,16 @@
 <template>
   <div class="d-flex">
-    <div class="cscView" id="cscView">
+    <div class="cscView">
       <CscCategory :currentTab="'inquiry'"></CscCategory>
     </div>
     <div id="cscMain">
       <div>
         <div>
-          <div class="cscBoradSearch" id="cscBoradSearch">
+          <div id="cscBoradSearch">
             <div @submit="qnasearch()" class="searchForm">
               <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
               <input class="cscviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
-              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn" @click="goToInquiryPage">
+              <b-button id="csc-writepath-btn" @click="goToInquiryPage">
                 <font-awesome-icon :icon="['fas', 'pencil']" />
                 문의하기
               </b-button>
@@ -18,17 +18,11 @@
           </div>
         </div>
         <h2>이용 문의 </h2>
-        <div class="selectBox">
-          <select id="cscSortOption" v-model="sortOption" @change="sortReviews">
-            <option value="default">최신순</option>
-            <option value="highViews">????</option>
-          </select>
-        </div>
       </div>
-      <table class="w3-table-all" id="cscboard-table">
+      <table id="cscboard-table">
         <thead>
           <tr>
-            <th id="cscTitle">제목</th>
+            <th>제목</th>
             <th>작성자</th>
             <th>작성일자</th>
             <th>답변여부</th>
@@ -36,23 +30,25 @@
         </thead>
         <tbody>
           <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
-            <td id="cscboard-table-tds" @click="password(inquiry)" >
-              <b-link class="text-start text-body" 
-              >
-              <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
+            <td id="cscboard-table-tds" @click="password(inquiry)">
+              <b-link class="text-start text-body">
+                <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>
             </td>
             <td>
               {{ inquiry.userName }}</td>
             <td>{{ formatDateTime(inquiry.regDate) }}</td>
-            <td>
+            <td id="answer">
               <p v-if="inquiry.replyCnt > 0">답변완료</p>
               <p v-else>답변대기</p>
             </td>
           </tr>
         </tbody>
       </table>
-      <b-pagination v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize" size="lg"></b-pagination>
+      <div id="pagination">
+        <b-pagination v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize"
+          size="lg"></b-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -74,7 +70,6 @@ export default {
       form: {
         keyword: '',
       },
-      sortOption: "default", // 정렬 옵션
       currentPage: 1,
       replyCnt: '',
     };
@@ -105,7 +100,7 @@ export default {
   },
 
   methods: {
-    
+
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
     },
@@ -132,26 +127,34 @@ export default {
 
     password(inquiry) {
       this.$swal({
-        title : '비밀번호를 입력하세요',
-        html : '<input id="test" type="password">'
+        title: '비밀번호를 입력하세요',
+        html: '<input id="test" type="password">',
+        icon: 'info',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        showCancelButton: true,
+        inputAttributes: {
+          autocapitalize: 'off',
+        },
+
       })
-      .then((result)=>{
-        if(result.isConfirmed){
-          // 사용자가 입력한 비밀번호
-          const userInput = document.getElementById("test").value;
-          if (userInput !== null) {
-            // 입력받은 비밀번호와 inquiry.password 비교
-            if (userInput == inquiry.password) {
-              this.$routerPush('inquiryDetail',{vocNum: inquiry.vocNum},true)
-            } else {
-              this.$swal({
-                title :'올바른 비밀번호를 입력해주세요',
-                icon : 'error',
-              })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // 사용자가 입력한 비밀번호
+            const userInput = document.getElementById("test").value;
+            if (userInput !== null) {
+              // 입력받은 비밀번호와 inquiry.password 비교
+              if (userInput == inquiry.password) {
+                this.$routerPush('inquiryDetail', { vocNum: inquiry.vocNum }, true)
+              } else {
+                this.$swal({
+                  title: '올바른 비밀번호를 입력해주세요',
+                  icon: 'error',
+                })
+              }
             }
           }
-        }
-      })
+        })
 
     },
 
