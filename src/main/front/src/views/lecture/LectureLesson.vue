@@ -143,20 +143,10 @@ export default{
     name : 'lectureLesson',
     data() {
         return {
-            lessonInfo : {
-                lectDtlIndex : 0,
-                lectDtlNum : 0,
-                lectDtlTitle : '',
-                lectNum : 0,
-                lessonUrl : '',
-            },
+            lessonInfo : {},
             isAvailable : '',
             lessonList : [],
-            lectInfo : {
-                lectNum : 0,
-                lectCateCode : '',
-                lectCateKor : '',
-            },
+            lectInfo : {},
             playPauseToggleData : false, // 플레이 버튼 토글
             maxTime : 0, // 동영상 맥스 시간 (초단위)
             currentTime : 0, // 동영상 현재 시간 (초단위)
@@ -170,36 +160,37 @@ export default{
             subscribeInfo : '', // 멤버쉽 정보
             timer : null, // 페이지 접속 타이머
             timerCount : 1,
-            watchHistory : {
-                userName : '',
-                lectDtlNum : '',
-                startTime : '',
-            },
+            watchHistory : {},
         }
     },
     methods: {
-        makeToastForNext(){
-            if(this.lessonInfo.lectDtlIndex < this.lessonList.length ){
-                toast.success(`이어보기`,{
-                transition: toast.TRANSITIONS.BOUNCE,
-                position : toast.POSITION.BOTTOM_RIGHT,
-                autoClose : false,
-                multiple: false,
-                onClick : () =>{
-                    this.$routerPush('lectureLesson',{
-                        'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
-                    }, true)
-                },
-                })
-            } else {
-                toast.success('강의를 전부 수강하셨습니다!',{
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                    multiple: false,
-                })
-            }
-
-
+        setComplete(){
+            this.$axiosSend('get','/api/lecture/history/setComplete',{
+                userName : this.$store.getters.getNickname,
+                lectDtlNum : this.lessonInfo.lectDtlNum,
+                complete : 1,
+            })
         },
+        // makeToastForNext(){
+        //     if(this.lessonInfo.lectDtlIndex < this.lessonList.length ){
+        //         toast.success(`이어보기`,{
+        //         transition: toast.TRANSITIONS.BOUNCE,
+        //         position : toast.POSITION.BOTTOM_RIGHT,
+        //         autoClose : false,
+        //         multiple: false,
+        //         onClick : () =>{
+        //             this.$routerPush('lectureLesson',{
+        //                 'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
+        //             }, true)
+        //         },
+        //         })
+        //     } else {
+        //         toast.success('강의를 전부 수강하셨습니다!',{
+        //             position: toast.POSITION.BOTTOM_RIGHT,
+        //             multiple: false,
+        //         })
+        //     }
+        // },
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
             // view가 바뀌어도 alert이 중복되어서 나오는 문제 차단
@@ -411,7 +402,7 @@ export default{
             this.$axiosSend('get','/api/lecture/history/save',{
                 userName : userName,
                 lectDtlNum : lectDtlNum,
-                endTime : endTime,              
+                endTime : endTime,     
             })
         },
         /** 해당 페이지 접근 후 40초마다 현재 재생 정보 서버로 전송 */
@@ -443,14 +434,14 @@ export default{
                         if(result.isConfirmed){
                             this.$refs.bedu_video.currentTime = res.data.endTime
                         }
+                        this.watchHistorySave();
                     })
                 }
             })
             .catch((err)=>{
                 console.log(err)
             })
-        }
-        
+        },
     },
     mounted() {
     },
@@ -458,9 +449,8 @@ export default{
         this.lessonInfo.lectNum = this.$route.query.lectNum;
         this.lessonInfo.lectDtlNum = this.$route.query.lectDtlNum;
 
-        this.getHistory();
         this.getLectInfo();
-        this.watchHistorySave();
+
     },
     beforeUnmount(){
         clearInterval(this.timer)
@@ -468,12 +458,17 @@ export default{
     watch:{
         '$route.query.lectDtlNum':{
             immediate: true,
-            handler(newNum){
-                if(newNum != undefined){
+            handler(newNum, oldNum){
+                // 기존 번호, 새로운 번호가 둘다 undefined가 아닌 경우 레슨 재생 중 다른 레슨으로 변경하는 경우
+                if(newNum != undefined && oldNum != undefined){
+                    this.unloadEvent();
+                } else if(newNum != undefined){ // 다른 페이지로 변경한게 아니라면 동작
+                    // 다른 레슨으로 전환시 지금까지의 재생 정보 저장 후 변경
                     this.lessonInfo.lectDtlNum = newNum;
                     this.playPauseToggleData = false;
                     this.getLesson();
-                } else{
+                    this.getHistory();
+                } else { // 다른 페이지로 변경한거라면 lectDtlNum을 업데이트 하지 않고 그대로 재생 정보 저장
                     this.unloadEvent();
                 }
             },
@@ -481,7 +476,8 @@ export default{
         },
         currentTime (){
             if(this.currentTime == this.maxTime){
-                this.makeToastForNext();
+                this.setComplete();
+                // this.makeToastForNext();
             }
         },
     }

@@ -23,7 +23,6 @@ public class LectureHistoryServiceImpl implements LectureHistoryService{
     @Override
     public int watchHistorySave(String userName, int lectDtlNum, String endTime) {
         LectureHistoryVO vo = new LectureHistoryVO();
-
         vo.setUserName(userName);
         vo.setLectDtlNum(lectDtlNum);
         vo.setEndTime(Integer.parseInt(endTime));
