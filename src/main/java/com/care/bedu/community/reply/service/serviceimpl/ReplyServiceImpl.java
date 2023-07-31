@@ -33,13 +33,6 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDAO.viewWrite(replyVO);
 	}
 
-	//댓글 총개수
-	@Override
-	public int replyTotal(int num) {
-		// TODO Auto-generated method stub
-		return replyDAO.replyTotal(num);
-	}
-
 	//댓글 삭제
 	@Override
 	public int replydelete(int replynum) {
@@ -63,11 +56,17 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDAO.inquiryInsert(replyVO);
 	}
 	
-//	//1대1 문의사항 답글 삭제
+	//1대1 문의사항 답글 삭제
 	@Override
 	public int inquirydelete(int inquiryNum) {
 		System.out.println(inquiryNum);
 		return replyDAO.inquiryDelete(inquiryNum);
+	}
+
+	//댓글 개수
+	@Override
+	public int replyTotal(ReplyVO replyVO) {
+		return replyDAO.replyTotal(replyVO);
 	}
 
 }

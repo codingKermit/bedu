@@ -9,6 +9,7 @@
 		   TITLE,
 		   QS_DATE AS qnaDate, 
 		   QS_CNT AS qnaCnt,
+		   QS_LIKE_CNT AS qnaLikeCnt,
 		   USER_NAME AS userName
 		 FROM T_BEDU_QS
 		 ORDER BY QS_BD_NUM DESC

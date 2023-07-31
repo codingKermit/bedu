@@ -21,7 +21,7 @@ public class QnaController {
 	
 	 //질문게시글 조회
 	 @RequestMapping(value="/qna/qnaList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	 public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception{
+	 public List<QnaVO> qnaList(QnaVO qnaVO){
 		 return qnaService.listProc(qnaVO);
 	 }
 	

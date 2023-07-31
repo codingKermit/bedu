@@ -17,10 +17,10 @@ public interface ReplyDAO {
 	//질문의 답변의 댓글쓰기
 	public int viewWrite2(ReplyVO replyVO);
 	//댓글개수
-	public int replyTotal(int num);
+	public int replyTotal(ReplyVO replyVO);
 	//댓글삭제
 	public int replyDelete(int replynum);
-	
+	//댓글수정
 	public int replyupdate(ReplyVO replyVO);
 	
 	//1대1 문의사항 답급

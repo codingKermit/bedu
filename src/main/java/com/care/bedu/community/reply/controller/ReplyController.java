@@ -22,20 +22,19 @@ public class ReplyController {
 	@RequestMapping(value="/reply/getreply", method= {RequestMethod.GET, RequestMethod.POST})   		
 	public ArrayList<ReplyVO> getReply(ReplyVO replyVO){
 		return replyService.getreply(replyVO);
-		
 	}
 	
 	//댓글 작성
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				
 	public int replyWrite(ReplyVO replyVO){
-		System.out.println("확인");
 		return replyService.boardwrite(replyVO);
 	}
 	
 	//댓글 총 개수
 	@RequestMapping(value="/reply/replyTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
-	public int replyTotal(int num){
-	 	return replyService.replyTotal(num);
+	public int replyTotal(ReplyVO replyVO){
+		System.out.println(replyVO.getQsNum());
+	 	return replyService.replyTotal(replyVO);
 	}
 	
 	//댓글 삭제
@@ -44,6 +43,7 @@ public class ReplyController {
 		return replyService.replydelete(rnum);
 		
 	}
+
 	
 	//댓글 수정
 	 @RequestMapping(value="/reply/replyEdit", method=RequestMethod.POST)				
