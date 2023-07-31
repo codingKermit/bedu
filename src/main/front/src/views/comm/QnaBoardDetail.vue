@@ -51,8 +51,8 @@
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답변을 작성하시오</h4>
-                    <b-form-input v-model="form.content" ref="content" maxlength='1600'></b-form-input>
-                    <!-- <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content" maxlength='1600'></ckeditor> -->
+                    <!-- <b-form-input v-model="form.content" ref="content" maxlength='1600'></b-form-input> -->
+                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content" maxlength='1600'></ckeditor>
                 </div>
                 <hr>
                 <div class="qna-detail-replylists">
@@ -224,6 +224,23 @@ export default{
         document.getElementById("qnaboard-detail-recensell").style.display="none";
         document.getElementById("qnaboard-detail-rewrite").style.display="none";
         this.form.ansBdNum = qnanum;
+
+        window.addEventListener('error', e => {
+            if (e.message === 'ResizeObserver loop limit exceeded') {
+                const resizeObserverErrDiv = document.getElementById(
+                    'webpack-dev-server-client-overlay-div'
+                );
+                const resizeObserverErr = document.getElementById(
+                    'webpack-dev-server-client-overlay'
+                );
+                if (resizeObserverErr) {
+                    resizeObserverErr.setAttribute('style', 'display: none');
+                }
+                if (resizeObserverErrDiv) {
+                    resizeObserverErrDiv.setAttribute('style', 'display: none');
+                }
+            }
+        })
     },
     methods: {
         //게시글 조회

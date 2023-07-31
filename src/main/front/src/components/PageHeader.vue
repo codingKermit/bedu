@@ -4,7 +4,7 @@
         <b-navbar v-if="searchToggleData" class="search-toggle-container d-flex p-0">
             <div class="text-center align-item-center">
                 <font-awesome-icon
-                    icon="fa-solid fa-chevron-left"
+                    icon="fa-solid fa-chevron-right"
                     class="align-self-center fs-1 mx-3"
                     @click="searchToggleFunc"
                     role="button"/>
