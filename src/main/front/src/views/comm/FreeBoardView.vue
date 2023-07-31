@@ -1,52 +1,73 @@
 <template>
-   <div class = "d-flex">
-      <div class="freeboard-view" id="freeboard-view">
+   <div class = "d-block d-xxl-flex">
+      <div class="freeboard-view d-none d-xxl-block" id="freeboard-view">
          <CommCategory :currentTab="'free'"></CommCategory>
       </div> 
          <div class="freeboardMain">
-            <div>
-               <div>
-                  <div class="freeBoradSearch">
-                     <div @submit="freesearch()" class = "freeSearch">
-                        <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
-                        <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
-                        <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
-                        <font-awesome-icon :icon="['fas', 'pencil']" />
-                        글쓰기
-                        </b-button>
+            <div class="commFreeContainer">
+               <h2 style="margin: 0;">자유게시판</h2>
+
+               <div v-if="freeBdSearch" class="freeBoradSearch">
+                  <div @submit="freesearch()" id="freeSearch">
+                     <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
+                     <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                  </div>
+                  <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
+                     <font-awesome-icon :icon="['fas', 'pencil']" />
+                     글쓰기
+                  </b-button>
+               </div>
+
+               <div v-else class="freeBoradSearch" toggleable="xxl">
+                  <div @submit="freesearch()" id="freeSearch">
+                     <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" />
+                     <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                  </div>
+                  <b-button :to="'/comm/freBdWrite'" id="free-keywordbtn" class="btn btn-primary free-keywordbtn">
+                     <font-awesome-icon :icon="['fas', 'pencil']" />
+                     @@@
+                  </b-button>
+               </div>
+
+            </div>   
+            <div class="freeSelectBox">
+                  <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
+                     <option value="default">최신 순</option>
+                     <option value="highViews">조회수 순</option>
+                  </select>
+               </div>
+
+            <div class="w-100 pe-0 pe-sm-3 freeboard-table" id="freeboard-table">
+               <div id="freeCommContainer" v-for="free in freelist" :key="free">
+                  <div class="freeuser">
+                     <font-awesome-icon :icon="['fas', 'user']" size="xl" /> 
+                     {{ free.userName }}
+                     <div id="commDateTime">{{ freeDateTime(free.commDate) }}</div>
+                  </div>
+                  <div id="freeboard-table-tds">
+                     <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
+                        {{ free.title }}
+                     </b-link>
+                  </div>
+                  <div class="d-none d-xxl-flex">
+                     <p id="CommContentDemo">테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트
+                     </p>
+                  </div>
+                  <div id="commCntIcon">
+                     <div id="commCnt">
+                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
+                     </div>
+                     <div id="commReply">
+                        <font-awesome-icon :icon="['far', 'comment']" />
+                        {{replytotal}} 0
+                     </div>
+                     <div id="commHeart">
+                        <font-awesome-icon :icon="['fas', 'heart']"/>
+                        0
                      </div>
                   </div>
-               <h2>자유게시판</h2>
-               <div class="freeSelectBox">
-                     <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
-                        <option value="default">최신 순</option>
-                        <option value="highViews">조회수 순</option>
-                     </select>
-                  </div>
                </div>
-            </div>   
-               <table class="w3-table-all freeboard-table" id="freeboard-table">
-                  <thead>
-                     <tr>
-                        <th class = "freeTitle">제목</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th>조회 수</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr v-for="free in freelist" :key="free">
-                        <td id="freeboard-table-tds">
-                           <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
-                              {{ free.title }}
-                           </b-link>
-                        </td>
-                        <td>{{ free.userName }}</td>
-                        <td>{{ freeDateTime(free.commDate) }}</td>
-                        <td><font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}</td>  
-                     </tr>
-                  </tbody>
-               </table>
+            </div>
             <InfiniteLoading @infinite="infiniteHandler" @distance="1">
                <!-- 로딩중일때 보여질 부분 -->
                <template #spinner></template>
@@ -77,6 +98,7 @@ export default {
          freeOption: "recent",
         
          currentPage : 1,
+         freeBdSearch: false
       };
 
 

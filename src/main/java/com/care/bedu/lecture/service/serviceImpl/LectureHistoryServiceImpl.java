@@ -23,19 +23,12 @@ public class LectureHistoryServiceImpl implements LectureHistoryService{
     @Override
     public int watchHistorySave(String userName, int lectDtlNum, String endTime) {
         LectureHistoryVO vo = new LectureHistoryVO();
+
         vo.setUserName(userName);
         vo.setLectDtlNum(lectDtlNum);
         vo.setEndTime(Integer.parseInt(endTime));
 
         return dao.watchHistorySave(vo);
     }
-
-    /* 동영상 재생 정보 조회 */
-    @Override
-    public LectureHistoryVO getHistory(String userName, int lectDtlNum) {
-
-        LectureHistoryVO vo = new LectureHistoryVO(0, userName, lectDtlNum, 0, 0, 0);
-
-        return dao.getHistory(vo);
-    }
+    
 }

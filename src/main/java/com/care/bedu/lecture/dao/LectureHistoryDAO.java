@@ -9,6 +9,5 @@ public interface LectureHistoryDAO {
     
     /* 동영상 재생 정보 저장 & 업데이트  */
     public int watchHistorySave(LectureHistoryVO vo);
-    /* 동영상 재생 정보 조회 */
-    public LectureHistoryVO getHistory(LectureHistoryVO vo);
+
 }

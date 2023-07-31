@@ -27,8 +27,15 @@ public class ReplyController {
 	
 	//댓글 작성
 	@RequestMapping(value="/reply/write", method=RequestMethod.POST)				
-	public int replyWrite(ReplyVO replyVO){
-		System.out.println("확인");
+	public int replyWrite(Integer commNum, String userName, String content, String regId, Integer qsNum, Integer ansNum){
+		
+		ReplyVO replyVO = new ReplyVO();
+		replyVO.setCommNum(commNum);
+		replyVO.setUserName(userName);
+		replyVO.setContent(content);
+		replyVO.setRegId(regId);
+		replyVO.setQsNum(qsNum);
+		replyVO.setAnsNum(ansNum);
 		return replyService.boardwrite(replyVO);
 	}
 	

@@ -1,9 +1,9 @@
 <template>
-  <div class="cscView">
+  <div class="cscView" id="cscView">
     <CscCategory :currentTab="'inquiry'"></CscCategory>
   </div>
   <p id="Cschead">이용 문의</p>
-  <div class="inquirycard"> 
+  <div class="card"> 
     <form @submit="inquiryWrite()">
       <div>
         <label id="title" for="title">문의 목록</label>
@@ -23,7 +23,7 @@
       </div>
       <div>
         <b-button @click="inquiryWrite()" id="commit">저장</b-button>
-        <b-button id="list" :to="'/csc'">취소</b-button>
+        <b-button id="inquiry-cancel" :to="'/csc'">취소</b-button>
       </div>
     </form>
   </div>
