@@ -14,17 +14,26 @@
    	</select>
 	
 	<select id="lectureListInfoFirst" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
-		SELECT 
-			A.TITLE as title,
-			A.LECT_DESC as lectDesc,
-			A.LECT_PERIOD as lectPeriod
-		FROM t_bedu_lect A
-		INNER JOIN t_bedu_user_lect B
-		    ON A.LECT_NUM = B.LECT_NUM
-		INNER JOIN t_bedu_user C
-		    ON B.USER_NAME = C.USER_NAME
-		WHERE C.USER_ID = #{userid}
-		ORDER BY B.USER_LECT_NUM DESC LIMIT 0,#{numOfLecture}
+		select 
+			B.TITLE as title,
+			B.TEACHER as teacher,
+			B.THUMBNAIL as thumbnail,
+			B.LECT_NUM as lectNum,
+			B.LECT_SUMMARY as lectSum,
+			B.LECT_PERIOD as lectPeriod
+		from 
+			b_edu.t_bedu_user_lect A
+		inner join
+			b_edu.t_bedu_lect B
+		on 
+			A.LECT_NUM = B.LECT_NUM 
+		inner join 
+			b_edu.t_bedu_user C
+		on
+			A.USER_NAME = C.USER_NAME 
+		where C.USER_ID = #{userid}
+		group by A.USER_LECT_NUM
+		order by A.LECT_REG_DATE desc limit 0,5
 	</select>
 	
 	<select id="getMemberMypageAll"  resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
