@@ -20,32 +20,38 @@
                 <hr>
                 <!-- 장바구니 목록  -->
                 <div>
-                    <b-row v-for="(cart, index ) in carts" :key="index" class="mb-3 border p-1 rounded-2">
-                        <b-col cols="1" class="align-items-center justify-content-center d-flex">
-                            <b-form-checkbox class="align-self-center text-center" :id="'cart-check-'+index" v-model="paymentList" :value="cart"></b-form-checkbox>
-                        </b-col>
-                        <b-col cols="3">
-                            <div class="ratio ratio-16x9">
-                                <b-img :src="cart.thumbnail"></b-img>
+                    <ul class="list-unstyled">
+                        <li v-for="(cart, index ) in carts" :key="index">
+                            <div class="d-flex mb-3 border p-1">
+                                <div class="form-check mx-2">
+                                    <input class="form-check-input cart-list" type="checkbox" :id="'cart-check-'+index" 
+                                    v-model="paymentList" :value="cart"
+                                    >
+                                </div>
+                                <div class="cart-payment-thumbnail-container">
+                                    <b-img :src="cart.thumbnail" class="w-100 h-100"></b-img>
+                                </div>
+                                <div class="w-75 ms-3 row">
+                                    <span></span>
+                                    <span class="d-block">{{ cart.title }}</span>
+                                    <span class="text-secondary">{{ cart.teacher }}</span>
+                                </div>
+                                <div class="cart-payment-delete-xmark">
+                                    <font-awesome-icon :icon="['fas', 'xmark']" role="button"
+                                    @click="removeFromCart([cart])"
+                                    />
+                                </div>
+                                <div class="d-flex cart-payment-price-container">
+                                    <div class="align-self-center d-flex px-4">
+                                        <span class="text-danger fw-bold">
+                                            {{ cart.price }} 
+                                        </span>
+                                        &nbsp;원
+                                    </div>
+                                </div>
                             </div>
-                        </b-col>
-                        <b-col cols="4" class="align-self-center">
-                            <div>{{ cart.title }}</div>
-                            <div class="text-secondary">{{ cart.teacher }}</div>
-                        </b-col>
-                        <b-col cols="1" class="align-items-center justify-content-center d-flex">
-                            <font-awesome-icon :icon="['fas', 'xmark']" role="button" @click="removeFromCart([cart])"/>                            
-                        </b-col>
-                        <b-col cols="3" class="d-flex">
-                            <div class="vr h-100"></div>
-                            <div class="align-self-center w-100 text-end">
-                                <span class="text-danger fw-bold">
-                                    {{ cart.price }} 
-                                </span>
-                                &nbsp;원
-                            </div>
-                        </b-col>
-                    </b-row>
+                        </li>
+                    </ul>
                 </div>
             </b-container>
 

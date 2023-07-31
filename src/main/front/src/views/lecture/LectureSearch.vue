@@ -18,13 +18,11 @@
                             class="text-body text-decoration-none">
                             <b-row class="d-block d-sm-flex">
                                 <b-col class="p-3" cols="12" lg="4">
-                                    <div class="ratio ratio-16x9">
-                                        <b-img
-                                        thumbnail
+                                    <b-img
+                                        thumbnail="thumbnail"
                                         rounded="rounded"
                                         class="w-100 h-100"
                                         :src="item.thumbnail"></b-img>
-                                    </div>
                                 </b-col>
                                 <b-col class="p-3" cols="12" lg="5">
                                     <p class="fs-5 fw-bold">{{ item.title }}</p>
@@ -42,7 +40,6 @@
                                 </b-col>
                             </b-row>
                         </b-link>
-                        <hr>
                     </li>
                     <InfiniteLoading
                         @infinite="infiniteHandler"

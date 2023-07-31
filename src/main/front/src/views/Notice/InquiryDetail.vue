@@ -26,16 +26,16 @@
                     {{ inquiry.replyCnt }}개의 문의 답글이 있습니다.
                 </p>
             </div>
-            <div class="inq-button-group">
-            <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp">답글작성</b-button>
-            <b-button type="button" id="" @click="tmp = !tmp">삭제</b-button>
+            <div v-show="!tmp" class="inq-button-group">
+                <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp">답글작성</b-button>
+                <b-button type="button" id="" @click="tmp = !tmp" :to="'/csc'">뒤로</b-button>
             </div>
             <div v-if="tmp">
-                <b-form-textarea id="textarea-rows" v-model="reply.content" placeholder="답글을 입력해주세요"
+                <b-form-textarea id="textarea-row" v-model="reply.content" placeholder="답글을 입력해주세요"
                     rows="8"></b-form-textarea>
                 <div>
-                    <b-button @click="replyWrite()" id="commit">저장</b-button>
-                    <b-button id="list" :to="'/csc'">취소</b-button>
+                    <b-button @click="replyWrite()" id="reply-commit">저장</b-button>
+                    <b-button @click="cancelWrite()" id="reply-cancel">취소</b-button>
                 </div>
             </div>
             <div v-for="list in replylist" :key="list.replyNum">
@@ -150,6 +150,10 @@ export default {
                     console.log(error);
                 })
         },
+        
+        cancelWrite() {
+            this.tmp = false;
+        },
 
         //댓글 삽입
         replyWrite() {
@@ -159,7 +163,14 @@ export default {
                 })
                 return;
             }
-
+            if (this.reply.content == null || this.reply.content == "") {
+                this.$swal({
+                    title: 'warning!',
+                    text: "내용을 입력해주세요",
+                    type: 'warning',
+                })
+                return;
+            }
             this.reply.userName = this.userName
             this.$axiosSend('post', '/api/reply/inquiryWrite', {
                 vocNum: this.reply.vocNum,

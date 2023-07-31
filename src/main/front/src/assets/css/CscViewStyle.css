@@ -285,6 +285,17 @@
   padding-left: 6%; 
 }
 
+#reply-commit{
+  margin-top: 0.5%;
+  margin-left: 81.2%;
+  margin-right: 0.8%;
+  background-color: #303076;
+}
+
+#reply-cancel{
+  margin-top: 0.5%;
+}
+
 .ck-content{ 
   height: 500px !important;
 }
@@ -301,9 +312,10 @@
   margin-top: 0.000001%;
 }
 
-#textarea-rows{
+#textarea-row{
   width: 90.3%;
   margin-top: 1%;
+  margin-right: 12%;
 }
 
 #answer{

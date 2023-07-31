@@ -259,16 +259,6 @@
     color: #000000;
     background-color: transparent;
 }
-#qna-detail-ansedit-btn{
-    border: 0;
-    font-weight: bolder;
-    color: #000000;
-    background-color: transparent;
-}
-
-#qnaansEditContent{
-    display: none;
-}
 
 #qna-detail-replywrite-btn{
     border: 0;

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.care.bedu.community.qna.vo.QnaVO;
 import com.care.bedu.community.reply.service.ReplyService;
 import com.care.bedu.community.reply.vo.ReplyVO;
 
@@ -33,7 +32,6 @@ public class ReplyController {
 	//댓글 총 개수
 	@RequestMapping(value="/reply/replyTotal", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int replyTotal(ReplyVO replyVO){
-		System.out.println(replyVO.getQsNum());
 	 	return replyService.replyTotal(replyVO);
 	}
 	

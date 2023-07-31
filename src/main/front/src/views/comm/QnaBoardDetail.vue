@@ -50,53 +50,40 @@
                     </p>
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
-                    <b-form>
-                        <h4>답변을 작성해주세요.</h4>
-                        <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content" maxlength='1600'></ckeditor>
-                    </b-form>
-                    <!-- <b-form-input v-model="form.content" ref="content" maxlength='1600'></b-form-input> -->
+                    <h4>답변을 작성하시오</h4>
+                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
                 </div>
                 <div class="qna-detail-replylists">
-                    <div v-for="(ans, index) in anslist" :key="index" class="qna-detail-replylist">
-                        <div class="mb-3 qna-detail-ans" id="qna-detail-ans" :ref="'qnadetailcon'+index">
-                            <div class="d-flex mb-3 mt-4">
-                                <div class="qnauser">
-                                    <font-awesome-icon :icon="['fas', 'user']" size="xl" />
-                                </div>
-                                <div class = "name">
-                                    {{ ans.userName }}
-                                </div>
-                                <div class="date">
+                    <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
+                        <div class="d-flex mb-3 mt-4">
+                            <div class="qnauser">
+                                <font-awesome-icon :icon="['fas', 'user']" size="xl" />
+                            </div>
+                            <div class = "name">
+                                {{ ans.userName }}
+                            </div>
+                            <div class="date">
                                     {{ DateTime(ans.ansDate) }}
                                 </div>
+                                <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
+                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName)">댓글작성</b-button>
+                                </div>
                                 <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" style="margin-left: 30px;" v-if="ansdelbtneqlse(ans.userName) == 1">
-                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-ansedit-btn" id="qna-detail-ansedit-btn" @click="anseditopen(index, ans.content)">답변수정</b-button>
-                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-ansdel-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
+                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                                 </div>
                             </div>
                             <div class="qnaReplyContent">
                                 {{ ans.content }}
                             </div>
-                            <div class="qnaansEditContent" id="qnaansEditContent">
-                                <b-form-input v-model="form.content" ref="content"></b-form-input>
-                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnadetailans-btn" id="qnadetailans-btn" @click="ansedit(ans.ansBdNum, ans.content)">수정</b-button>
-                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnadetailanscensell-btn" id="qnadetailanscensell-btn" @click="anscensell(index)">취소</b-button>
-                            </div>
-                            <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
-                                <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(index)">댓글작성</b-button>
-                            </div>
+                            <hr/>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
-                                <h5 id="qna-detail-retext">댓글을 작성해주세요.</h5>
+                                <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                                 <b-form>
                                     <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
-                                    <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName, index)">등록</b-button>
-                                    <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(index)">취소</b-button>
+                                    <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
+                                    <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
                                 </b-form>
                             </div>
-                            <p class = "fw-bold fs-5">
-                                <font-awesome-icon :icon="['far', 'comment']" />
-                                {{ replygetTotal(ans.ansBdNum, ans.qsBdNum) }}개의 댓글이 있습니다.
-                            </p>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
                                     <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
@@ -119,6 +106,7 @@
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyEdit-btn" id="qnareplyEdit-btn" @click="replyedit(reply.replyNum, reply.userName, reply.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyform-censell" id="qnareplyform-censell" @click="replyeditcensell(index)">취소</b-button>
                                         </div>
+                                        <br>
                                         <div class="qnacontent">
                                             {{ reply.content }}
                                         </div>
@@ -127,9 +115,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                           
+                            </div>   
                     </div>
                 </div>   
             </div>
@@ -176,14 +162,12 @@ export default{
             ansid:'',
             //댓글 리스트
             replylist:[],
-            //댓글 총 개수
-            replytotal:0,
             //답변의 댓글 객체
             reply:{
                 content:'',
-                qsNum:0,
+                qnaBdNum:0,
                 ansNum:0,
-                userName:'',
+                userName : '',
                 regId:''
             },
             // ans(답변객체)
@@ -216,7 +200,6 @@ export default{
         }
     },
     mounted() {
-        
         const qnanum = this.$route.params.num;
         this.userNickName =this.$store.getters.getNickname;
         this.form.regId = this.$store.getters.getEmail;
@@ -233,23 +216,22 @@ export default{
         document.getElementById("qnaboard-detail-rewrite").style.display="none";
         this.form.ansBdNum = qnanum;
 
-        // window.addEventListener('error', e => {
-                
-        //         if (e.message === 'ResizeObserver loop limit exceeded') {
-        //             const resizeObserverErrDiv = document.getElementById(
-        //                 'webpack-dev-server-client-overlay-div'
-        //             );
-        //             const resizeObserverErr = document.getElementById(
-        //                 'webpack-dev-server-client-overlay'
-        //             );
-        //             if (resizeObserverErr) {
-        //                 resizeObserverErr.setAttribute('style', 'display: none');
-        //             }
-        //             if (resizeObserverErrDiv) {
-        //                 resizeObserverErrDiv.setAttribute('style', 'display: none');
-        //             }
-        //         }
-        //     })
+        window.addEventListener('error', e => {
+            if (e.message === 'ResizeObserver loop limit exceeded') {
+                const resizeObserverErrDiv = document.getElementById(
+                    'webpack-dev-server-client-overlay-div'
+                );
+                const resizeObserverErr = document.getElementById(
+                    'webpack-dev-server-client-overlay'
+                );
+                if (resizeObserverErr) {
+                    resizeObserverErr.setAttribute('style', 'display: none');
+                }
+                if (resizeObserverErrDiv) {
+                    resizeObserverErrDiv.setAttribute('style', 'display: none');
+                }
+            }
+        })
     },
     methods: {
         //게시글 조회
@@ -325,7 +307,7 @@ export default{
             }
         },
 
-        //댓글 수정 폼 열기
+        //댓글 폼 열기
         replyeditopen(index){
             
             this.$refs['commant-container-'+index][0].children[4].classList.add("d-none");
@@ -334,7 +316,7 @@ export default{
             this.$refs['commant-container-'+index][0].children[5].classList.add("d-block");
         },
 
-        //댓글폼 지우기
+        //댓글 지우기
         replyeditcensell(index){
                     
             this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none");
@@ -343,24 +325,33 @@ export default{
             this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block");
         },
 
-        //답변수정폼열기
-        anseditopen(index, content){
-            this.$refs['qnadetailcon'+index][0].children[1].classList.add("d-none");
-            this.$refs['qnadetailcon'+index][0].children[2].classList.add("d-block");
-            this.form.content = content;
-        },
-
         //댓글 작성폼열기
         //
-        replyopen(index){
-            this.$refs['qnadetailcon'+index][0].children[3].classList.add("d-none");
-            this.$refs['qnadetailcon'+index][0].children[4].classList.add("d-block");
+        replyopen(ansnum, username){
+            
+            for(var i =0; i<this.anslist.length; i++){
+                if(this.anslist[i].ansBdNum === ansnum ){
+                    if(this.anslist[i].userName === username){
+                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='none';
+                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';
+                        this.anslist[i].content = "";  
+                        return;
+                    }
+                }
+            }
         },
 
-        //댓글 폼닫기
-        replycensell(index){
-            this.$refs['qnadetailcon'+index][0].children[3].classList.remove('d-none');
-            this.$refs['qnadetailcon'+index][0].children[4].classList.remove('d-block');
+        //댓글 닫기
+        replycensell(ansnum, username){
+            for(var i =0; i<this.anslist.length; i++){
+                if(this.anslist[i].ansBdNum === ansnum ){
+                    if(this.anslist[i].userName === username){
+                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='block';
+                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='none';  
+                        return;
+                    }
+                }
+            }
         },
 
         replyedit(replynum, replyuser, content, index){
@@ -443,7 +434,7 @@ export default{
         },
 
         //댓글쓰기
-        replywrite(ansBdNum, username, index){    
+        replywrite(ansBdNum, username){    
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -467,23 +458,15 @@ export default{
             var qnum = this.reply.qsNum;
             this.$axiosSend('post', '/api/reply/write', this.reply)
             .then(res=>{
-                if(res.data == 1){
-                    console.log('sssaa');
+                if(res.data === 1){
                     this.$swal('Success','작성완료!','success');
-                    this.ansread(qnum);
-                    this.replyread(qnum);
-                    this.replycensell(index);
-                    this.reply.content="";
-                    return;          
-                }else{
-                    this.$swal('Success','작성실패!','success');
                     this.replylist = res.data;
                     this.replycensell(ansBdNum, username);
                     this.ansread(qnum);
                     this.replyread(qnum);
-                    this.replycensell(index);
-                    this.reply.content="";
-                    return;
+                    this.reply.content="";          
+                }else{
+                    this.$swal('Success','작성실패!','success')
                     }
                 }
             )
@@ -509,20 +492,6 @@ export default{
             })
             .then(res => {
                 this.anstotal=res.data;
-            })
-        },
-
-        //댓글 총개수
-        replygetTotal(ansnum, qnanum){
-            console.log('번호', ansnum);
-            console.log(qnanum);
-            this.$axiosSend('get','/api/reply/replyTotal', {
-                ansNum: ansnum,
-                qsNum: qnanum,
-            })
-            .then(res => {
-                console.log('받은값:', res.data);
-                this.replytotal = res.data;
             })
         },
 
@@ -657,7 +626,7 @@ export default{
                 }else if(res.data.result === 0){                
 
                     this.likenum = res.data.likenum;
-                    this.$store.commit('QSBNUMLIST_ADD', qnum);          
+                    this.$store.commit('qsbnumList', qnum);          
                     this.qnalikedown();      
                     return;
                 }    
@@ -691,6 +660,7 @@ export default{
 
         //답변 글 작성
         answrite(){
+            console.log('내용',this.form.content);
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -749,8 +719,6 @@ export default{
 
         //답변작성버튼 클릭에 삭제 수정버튼
         ansopen(){
-            console.log('옵저버');
-            
             document.getElementById("qnaboard-detail-replybtn").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="inline";
             document.getElementById("qnaboard-detail-replywrite").style.display="block";
@@ -772,9 +740,7 @@ export default{
             if(userName !== this.userNickName){
                 this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
                 return;
-            }
-            
-            else{
+            }else{
 
                 this.$swal({
                 title: '답변을 삭제 하시겠습니까?',
