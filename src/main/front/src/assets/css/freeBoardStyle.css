@@ -17,10 +17,22 @@
 /* FreeBoardView의 Content부분 추후 수정해야함 */
 #CommContentDemo {
     color: #838383;
+    width: 100%;
     margin-top: 1%;
+    overflow: hidden;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 2%;
 }
 
-#CommContentDemo a:hover {
+
+#CommContentDemo:hover {
     color: #6868ff;
     cursor: pointer;
 }
@@ -55,12 +67,9 @@
     margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
-    width: 70%;
 }
 
 #freeboard-table {
-    width: 100%;
-    padding: 25px;
     margin-bottom:100px;
 }
 
@@ -76,22 +85,26 @@
     color: #303076;
     background-color: transparent;
 }
-
-.freeQnaSortOption {
+.freeSelectBox {
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 1%;
+}
+.freeQnaSortOption {
+    margin-top: 1%;
     width: 110px;
     height: 40px;
     font-size: 120%;
     border: none;
-    float: right;
 }
 
-#freeboard-table th,
-#freeboard-table td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
+#freeSearch {
+    width: 70%;
+}
+
+.commFreeContainer {
+    display: flex;
+    justify-content: space-between;
 }
 
 #freeboard-reviews {
@@ -104,26 +117,26 @@
 
 .freeViewKeyword {
     width: 300px;
-    height: 40px;
+    height: 100%;
     border-radius: 20px;
     border: 2px solid black;
 }
 
+.freeBoradSearch {
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
 #free-view-keywordbtn {
-    margin-left: 15px;
+    margin-left: 2%;
+    width: 30%;
 }
 
 #free-keywordbtn {
-    height: 40px;
     margin-left: 15px;
-    margin-top: 2px;
-    margin-bottom: 6px;
     background-color: var(--blue) !important;
-    text-overflow: clip;
-}
-
-.freeBoradSearch {
-    float: right;
+    display: inline-block;
 }
 
 h1 {
@@ -269,9 +282,10 @@ h1 {
 }
 
 #free-search-icon {
-    position: relative;
-    z-index: 2;
-    margin-right: -8%;
+    position: absolute;
+    display: inline-block;
+    margin-top: 11px;
+    margin-left: 12px;
 }
 
 #free-detail-replywrite{
@@ -308,13 +322,6 @@ h1 {
     padding-left: 6%;
 }
 
-.freeSearch{
-    margin-right: -35px;
-}
-
-.freeSelectBox{
-    margin-top: 2%;
-}
 
 .writeMain{
     float: left;
@@ -344,4 +351,10 @@ h1 {
 
 .text-start{
     font: bold;
+}
+
+@media (max-width: 700px) {
+    #commCntIcon {
+        margin-bottom: 10%;
+    }
 }
