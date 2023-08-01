@@ -52,15 +52,8 @@ public class MemberMypageController {
     	//화면에 보여줄 수강정보의 수
     	int numOfPage = 5;
     	
-    	//구한 값을 뷰 페이지로 보내준다.
-    	model.addAttribute("pageNumber", pageNumber);
-    	model.addAttribute("numOfPage", numOfPage);
-    	
     	//현재 페이지 번호를 이용해서 출력될 페이지의 시작번호를 구한다.
     	int startNo = (pageNumber - 1) * numOfPage;
-    	
-    	model.addAttribute("listArray", memberMypageService.getMemberMypageAll(userid, startNo, numOfPage));
-    	
     	
     	return memberMypageService.getMemberMypageAll(userid, startNo, numOfPage);
     }

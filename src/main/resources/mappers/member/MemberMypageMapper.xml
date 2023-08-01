@@ -33,7 +33,7 @@
 			A.USER_NAME = C.USER_NAME 
 		where C.USER_ID = #{userid}
 		group by A.USER_LECT_NUM
-		order by A.LECT_REG_DATE desc limit 0,5
+		order by A.LECT_REG_DATE desc limit 0,3
 	</select>
 	
 	<select id="getMemberMypageAll"  resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">

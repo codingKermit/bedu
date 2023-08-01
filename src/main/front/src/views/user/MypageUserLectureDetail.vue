@@ -1,13 +1,46 @@
 <template>
-    <b-container>
-        <div class="contents">
-            <div class="title-div">
-                <h3 style="text-align: center;" class="fw-bold">
+    <div>
+        <div class="p-4 p-md-5 w-100 d-flex">
+            <!-- 좌측 네비 -->
+            <my-page-cate-navi></my-page-cate-navi>
+
+            <div class="w-100">
+                <p class="fs-4 fw-bold">
                     {{ userId }} 님의 현재 수강상세정보
-                </h3>
+                </p>
+                <div class="mb-3">
+                    <b-input-group class="w-25 ms-auto">
+                        <b-form-input v-model="keyword"></b-form-input>
+                        <template #append>
+                            <b-button class="bedu-bg-custom-blue">검색</b-button>
+                        </template>
+                    </b-input-group>
+                </div>
+                <div class="d-flex w-100">
+                    <div class="me-auto d-flex">
+                        <b-button class="border border-dark" @click="this.groupSelected = '학습중'">
+                            학습중
+                        </b-button>
+                        <div class="vr mx-2"></div>
+                        <b-button @click="this.groupSelected = '완강'">
+                            완강
+                        </b-button>
+                        <div class="vr mx-2"></div>
+                        <b-button @click="this.groupSelected = '전체'">
+                            전체
+                        </b-button>
+                    </div>
+                    <div>
+                        <b-form-select :options="orderOptions" v-model="orderSelected"></b-form-select>
+                    </div>
+                </div>
             </div>
         </div>
-         <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
+        <div>
+        </div>
+        <b-row cols="1" cols-md="3">
+        </b-row>
+        <!-- <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
             <b-container class="w-75 ms-auto py-5" >
                     <b-container class="border rounded-3 py-3 mb-2">
                         <div class="mypageAll">
@@ -23,7 +56,7 @@
                         </div>
                     </b-container>
             </b-container>
-        </div>
+        </div> -->
                 <div class="btn-cover">
                     <b-button :disabled="pageNumber === 0" @click="prevPage()" class="page-btn">
                         이전
@@ -33,10 +66,12 @@
                         다음
                     </b-button>
                 </div>
-        </b-container>
+    </div>
 </template>
 <script>
+import MyPageCateNavi from '../../components/myPage/MyPageCateNavi.vue';
 export default {
+  components: { MyPageCateNavi },
     name : "mypageAll",
     data() {
        return {
@@ -54,6 +89,11 @@ export default {
            numOfPage : 5,
            lectureInfo : {}, //화면에 노출되는 수강내역 데이터
            lectureCount : 0,  //수강내역 전체보기 출력
+           keyword : '',
+           orderOptions : ['제목순','최근 신청순', '최근 학습순'],
+           orderSelected : '제목순',
+           groupSelected : '',
+
         }
     }, 
     mounted(){
@@ -76,7 +116,9 @@ export default {
                         data.push(res.data[i]);
                 }
                 this.listArray = res.data
-                this.lectureIfo = data
+                this.lectureInfo = data
+                console.log(this.listArray)
+                console.log(this.lectureInfo)
                 this.lectureCount = this.listArray.length
             })
             .catch((err)=>{
