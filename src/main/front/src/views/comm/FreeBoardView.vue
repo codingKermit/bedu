@@ -34,6 +34,7 @@
                   <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
                      <option value="default">최신 순</option>
                      <option value="highViews">조회수 순</option>
+                     <option value="likeview">좋아요 순</option>
                   </select>
                </div>
 
@@ -136,6 +137,11 @@ export default {
                // 조회수 순으로 정렬
             this.freelist.sort((a, b) => {
                return b.commCnt - a.commCnt;
+            });
+         } else if(this.sortOption === "likeview"){
+                //좋아요 순으로 정렬
+                    this.freelist.sort((a, b) => {
+                    return b.commLikeCnt- a.commLikeCnt;
             });
          }
       },

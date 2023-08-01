@@ -54,8 +54,8 @@
                     <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
                 </div>
                 <div class="qna-detail-replylists">
-                    <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
-                        <div class="d-flex mb-3 mt-4">
+                    <div v-for="(ans,index) in anslist" :key="index" class="qna-detail-replylist">
+                        <div class="d-flex mb-3 mt-4" :ref="'qnadetail-ans'+index">
                             <div class="qnauser">
                                 <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                             </div>
@@ -75,7 +75,6 @@
                             <div class="qnaReplyContent">
                                 {{ ans.content }}
                             </div>
-                            <hr/>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                                 <b-form>
@@ -102,16 +101,13 @@
                                         <div class="qnareplyeditBtns" id="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyeditform-btn" id="qnareplyeditform-btn" @click="replyeditopen(index)">댓글수정</b-button>
                                         </div>
-                                        <div class="qnareplyeditall-btn">
+                                        <div class="qnareplyeditcontent" id="qnareplyeditcontent">
+                                            <b-form-input class="replyeditcontent" v-model="reply.content">{{ reply.content }}</b-form-input>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyEdit-btn" id="qnareplyEdit-btn" @click="replyedit(reply.replyNum, reply.userName, reply.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyform-censell" id="qnareplyform-censell" @click="replyeditcensell(index)">취소</b-button>
                                         </div>
-                                        <br>
                                         <div class="qnacontent">
                                             {{ reply.content }}
-                                        </div>
-                                        <div class="qnaeditcontent" id="qnaeditcontent" ref="sample">
-                                            <b-form-input class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-input>
                                         </div>
                                     </div>
                                 </div>
@@ -152,11 +148,13 @@ export default{
             anslist:[],
             //답변총개수
             anstotal:0,
+            replyTotal:0,
             //like테이블의 글번호
             likenum:0,
             username:'',
             //로그인닉네임
             userNickName:'',
+            //질문글 좋아요 여부 문자
             likeyn:'q',
             editcon:'n',
             ansid:'',
@@ -309,20 +307,19 @@ export default{
 
         //댓글 폼 열기
         replyeditopen(index){
-            
+            this.$refs['commant-container-'+index][0].children[3].classList.add("d-none");
             this.$refs['commant-container-'+index][0].children[4].classList.add("d-none");
-            this.$refs['commant-container-'+index][0].children[7].classList.add("d-block");
-            this.$refs['commant-container-'+index][0].children[8].classList.add("d-block");
             this.$refs['commant-container-'+index][0].children[5].classList.add("d-block");
+            this.$refs['commant-container-'+index][0].children[6].classList.add("d-none");
         },
 
         //댓글 지우기
         replyeditcensell(index){
                     
+            this.$refs['commant-container-'+index][0].children[3].classList.remove("d-none");
             this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none");
-            this.$refs['commant-container-'+index][0].children[7].classList.remove("d-block");
-            this.$refs['commant-container-'+index][0].children[8].classList.remove("d-block");
             this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block");
+            this.$refs['commant-container-'+index][0].children[6].classList.remove("d-none");
         },
 
         //댓글 작성폼열기
@@ -492,6 +489,18 @@ export default{
             })
             .then(res => {
                 this.anstotal=res.data;
+            })
+        },
+
+        //댓글 총개수
+        replygetTotal(ansnum, qnanum){
+            this.$axiosSend('get','/api/reply/replyTotal', {
+                ansNum: ansnum,
+                qsNum: qnanum
+            })
+            .then(res => {
+                console.log('받은수:', res.data);
+                this.replyTotal = res.data;
             })
         },
 
