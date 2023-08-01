@@ -10,6 +10,7 @@
 		    REG_DATE as regDate,
 		    COMM_DATE as commDate,
 		    COMM_CNT as commCnt,
+		    COMM_LIKE_CNT as commLikeCnt,
 		    USER_NAME as userName
 		  FROM T_BEDU_COMM
 		  ORDER BY COMM_NUM DESC

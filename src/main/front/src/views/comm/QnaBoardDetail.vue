@@ -54,7 +54,7 @@
                     <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
                 </div>
                 <div class="qna-detail-replylists">
-                    <div v-for="ans in anslist" :key="ans.ansBdNum" class="qna-detail-replylist">
+                    <div v-for="(ans,index) in anslist" :key="index" class="qna-detail-replylist">
                         <div class="d-flex mb-3 mt-4">
                             <div class="qnauser">
                                 <font-awesome-icon :icon="['fas', 'user']" size="xl" />
@@ -63,27 +63,30 @@
                                 {{ ans.userName }}
                             </div>
                             <div class="date">
-                                    {{ DateTime(ans.ansDate) }}
-                                </div>
+                                {{ DateTime(ans.ansDate) }}
+                            </div>
+                        </div>
+                        <div class="qna-detail-anscon" :ref="'qna-detail-ans'+index">
+                            <div class="qnaReplyContent">
+                                {{ ans.content }}
+                            </div>
+                            <div class="qna-detail-replybtns" id="qna-detail-replybtns">
                                 <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
-                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName)">댓글작성</b-button>
+                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName, index)">댓글작성</b-button>
                                 </div>
                                 <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" style="margin-left: 30px;" v-if="ansdelbtneqlse(ans.userName) == 1">
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                                 </div>
                             </div>
-                            <div class="qnaReplyContent">
-                                {{ ans.content }}
-                            </div>
-                            <hr/>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
                                 <b-form>
                                     <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
                                     <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
-                                    <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName)">취소</b-button>
+                                    <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
                             </div>
+                            <hr>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
                                     <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
@@ -102,20 +105,19 @@
                                         <div class="qnareplyeditBtns" id="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyeditform-btn" id="qnareplyeditform-btn" @click="replyeditopen(index)">댓글수정</b-button>
                                         </div>
-                                        <div class="qnareplyeditall-btn">
+                                        <div class="qnareplyeditcontent" id="qnareplyeditcontent">
+                                            <b-form-input class="replyeditcontent" v-model="reply.content">{{ reply.content }}</b-form-input>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyEdit-btn" id="qnareplyEdit-btn" @click="replyedit(reply.replyNum, reply.userName, reply.content, index)">수정</b-button>
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyform-censell" id="qnareplyform-censell" @click="replyeditcensell(index)">취소</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyform-censell" id="qnareplyform-censell" @click="replyeditcensell(index)">닫기</b-button>
                                         </div>
-                                        <br>
                                         <div class="qnacontent">
                                             {{ reply.content }}
                                         </div>
-                                        <div class="qnaeditcontent" id="qnaeditcontent" ref="sample">
-                                            <b-form-input class="replyeditcontent" v-model="reply.content" :ref="'content_'+index" >{{ reply.content }}</b-form-input>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>   
+                            </div>
+                        </div>
+                           
                     </div>
                 </div>   
             </div>
@@ -152,11 +154,13 @@ export default{
             anslist:[],
             //답변총개수
             anstotal:0,
+            replyTotal:0,
             //like테이블의 글번호
             likenum:0,
             username:'',
             //로그인닉네임
             userNickName:'',
+            //질문글 좋아요 여부 문자
             likeyn:'q',
             editcon:'n',
             ansid:'',
@@ -309,49 +313,33 @@ export default{
 
         //댓글 폼 열기
         replyeditopen(index){
-            
+            this.$refs['commant-container-'+index][0].children[3].classList.add("d-none");
             this.$refs['commant-container-'+index][0].children[4].classList.add("d-none");
-            this.$refs['commant-container-'+index][0].children[7].classList.add("d-block");
-            this.$refs['commant-container-'+index][0].children[8].classList.add("d-block");
             this.$refs['commant-container-'+index][0].children[5].classList.add("d-block");
+            this.$refs['commant-container-'+index][0].children[6].classList.add("d-none");
         },
 
         //댓글 지우기
         replyeditcensell(index){
                     
+            this.$refs['commant-container-'+index][0].children[3].classList.remove("d-none");
             this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none");
-            this.$refs['commant-container-'+index][0].children[7].classList.remove("d-block");
-            this.$refs['commant-container-'+index][0].children[8].classList.remove("d-block");
             this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block");
+            this.$refs['commant-container-'+index][0].children[6].classList.remove("d-none");
         },
 
         //댓글 작성폼열기
         //
-        replyopen(ansnum, username){
+        replyopen(ansnum, username, index){
             
-            for(var i =0; i<this.anslist.length; i++){
-                if(this.anslist[i].ansBdNum === ansnum ){
-                    if(this.anslist[i].userName === username){
-                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='none';
-                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='block';
-                        this.anslist[i].content = "";  
-                        return;
-                    }
-                }
-            }
+            this.$refs['qna-detail-ans'+index][0].children[1].classList.add("d-none");
+            this.$refs['qna-detail-ans'+index][0].children[2].classList.add("d-block");
         },
 
         //댓글 닫기
-        replycensell(ansnum, username){
-            for(var i =0; i<this.anslist.length; i++){
-                if(this.anslist[i].ansBdNum === ansnum ){
-                    if(this.anslist[i].userName === username){
-                        document.getElementsByClassName("qna-detail-replywriteBtn")[i].style.display='block';
-                        document.getElementsByClassName("qna-detail-rewrites")[i].style.display='none';  
-                        return;
-                    }
-                }
-            }
+        replycensell(ansnum, username, index){
+            this.$refs['qna-detail-ans'+index][0].children[1].classList.remove("d-none");
+            this.$refs['qna-detail-ans'+index][0].children[2].classList.remove("d-block");
         },
 
         replyedit(replynum, replyuser, content, index){
@@ -492,6 +480,18 @@ export default{
             })
             .then(res => {
                 this.anstotal=res.data;
+            })
+        },
+
+        //댓글 총개수
+        replygetTotal(ansnum, qnanum){
+            this.$axiosSend('get','/api/reply/replyTotal', {
+                ansNum: ansnum,
+                qsNum: qnanum
+            })
+            .then(res => {
+                console.log('받은수:', res.data);
+                this.replyTotal = res.data;
             })
         },
 

@@ -22,6 +22,7 @@
                     <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
                         <option value="highViews">조회수 순</option>
+                        <option value="likeview">좋아요 순</option>
                     </select>
                 </div>
             </div>
@@ -121,6 +122,11 @@
                 // 조회수 순으로 정렬
                     this.qnalist.sort((a, b) => {
                     return b.qnaCnt - a.qnaCnt;
+                });
+                }else if(this.sortOption === "likeview"){
+                    console.log('클릭');
+                    this.qnalist.sort((a, b) => {
+                    return b.qnaLikeCnt- a.qnaLikeCnt;
                 });
                 }
             },
