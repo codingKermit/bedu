@@ -78,6 +78,10 @@
     width: 80%;
 }
 
+.qna-detail-replybtns{
+    display: flex;
+}
+
 .qnareplyeditcontent{
     display: none;
 }
