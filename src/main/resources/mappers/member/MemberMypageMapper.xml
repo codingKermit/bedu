@@ -11,6 +11,8 @@
     		ON A.LECT_NUM = B.LECT_NUM
    		INNER JOIN t_bedu_user C
    			ON B.USER_NAME = C.USER_NAME
+		WHERE
+			C.USER_ID = #{userid}
    	</select>
 	
 	<select id="lectureListInfoFirst" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
@@ -40,14 +42,16 @@
 		SELECT 
 			A.TITLE as title,
 			A.LECT_DESC as lectDesc,
-			A.LECT_PERIOD as lectPeriod
+			A.LECT_PERIOD as lectPeriod,
+			A.THUMBNAIL as thumbnail,
+			A.LECT_SUMMARY as lectSum
 		FROM t_bedu_lect A
     	INNER JOIN t_bedu_user_lect B
     		ON A.LECT_NUM = B.LECT_NUM
    		INNER JOIN t_bedu_user C
    			ON B.USER_NAME = C.USER_NAME
    		WHERE C.USER_ID = #{userid}
-   		ORDER BY B.USER_LECT_NUM DESC LIMIT #{startNo},#{numOfPage}
+   		ORDER BY B.USER_LECT_NUM DESC LIMIT #{startNo},9
    	</select>
 	
 </mapper>

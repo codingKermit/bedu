@@ -33,9 +33,9 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     
     /* 마이페이지 홈(전체보기 개수 추출) */
     @Override
-	public int getLectureCount() {
+	public int getLectureCount(String userId) {
 		
-		return memberMypageDao.getLectureCount();
+		return memberMypageDao.getLectureCount(userId);
 	}
     
     /* 마이페이지 홈(전체보기 첫번째) */

@@ -4,6 +4,7 @@
             <!-- 좌측 네비 -->
             <my-page-cate-navi></my-page-cate-navi>
 
+            <!-- 우측 컨테이너 -->
             <div class="w-100">
                 <p class="fs-4 fw-bold">
                     {{ userId }} 님의 현재 수강상세정보
@@ -12,21 +13,22 @@
                     <b-input-group class="w-25 ms-auto">
                         <b-form-input v-model="keyword"></b-form-input>
                         <template #append>
-                            <b-button class="bedu-bg-custom-blue">검색</b-button>
+                            <b-button class="bedu-bg-custom-blue" @click="getLectureAllList">검색</b-button>
                         </template>
                     </b-input-group>
                 </div>
-                <div class="d-flex w-100">
+                <div class="d-flex w-100 mb-5">
                     <div class="me-auto d-flex">
-                        <b-button class="border border-dark" @click="this.groupSelected = '학습중'">
+                        <b-button @click="this.groupSelected = 'learning'" pill
+                        >
                             학습중
                         </b-button>
-                        <div class="vr mx-2"></div>
-                        <b-button @click="this.groupSelected = '완강'">
+                        <b-button class="mx-2" @click="this.groupSelected = 'done'" pill
+                        >
                             완강
                         </b-button>
-                        <div class="vr mx-2"></div>
-                        <b-button @click="this.groupSelected = '전체'">
+                        <b-button @click="this.groupSelected = 'all'" pill
+                        >
                             전체
                         </b-button>
                     </div>
@@ -34,12 +36,28 @@
                         <b-form-select :options="orderOptions" v-model="orderSelected"></b-form-select>
                     </div>
                 </div>
+                <div>
+                    <b-row cols="1" cols-md="3">
+                        <b-col v-for="(item, index) in listArray" :key="index">
+                            <b-container class="border p-1 mb-3">
+                                <div class="ratio ratio-16x9 mb-3">
+                                    <b-img :src="item.thumbnail"></b-img>
+                                </div>
+                                <div class="mb-3">
+                                    {{ item.title }}
+                                </div>
+                                <div>
+
+                                </div>
+                            </b-container>
+                        </b-col>
+                    </b-row>
+                </div>
+                <div>
+                    <b-pagination align="center" v-model="currentPage" :total-rows="lectureCount" :per-page="numOfPage"></b-pagination>
+                </div>
             </div>
         </div>
-        <div>
-        </div>
-        <b-row cols="1" cols-md="3">
-        </b-row>
         <!-- <div class="lecturedetailcontainer" v-for="(item, index) in paginatedData" :key="index">
             <b-container class="w-75 ms-auto py-5" >
                     <b-container class="border rounded-3 py-3 mb-2">
@@ -57,7 +75,7 @@
                     </b-container>
             </b-container>
         </div> -->
-                <div class="btn-cover">
+                <!-- <div class="btn-cover">
                     <b-button :disabled="pageNumber === 0" @click="prevPage()" class="page-btn">
                         이전
                     </b-button>
@@ -65,7 +83,7 @@
                     <b-button :disabled="pageNumber >= pageCount - 1" @click="nextPage()" class="page-btn">
                         다음
                     </b-button>
-                </div>
+                </div> -->
     </div>
 </template>
 <script>
@@ -83,21 +101,31 @@ export default {
            userNum : this.$store.state.usernum,
            userId : this.$store.state.nickname,
            userid : this.$store.state.email,
-           pageNumber : 0,
+           currentPage : 1,
            //listArray에 데이터 들어가는지 테스트중
            listArray : [], //수강내역 전체 데이터
-           numOfPage : 5,
+           numOfPage : 9,
            lectureInfo : {}, //화면에 노출되는 수강내역 데이터
            lectureCount : 0,  //수강내역 전체보기 출력
            keyword : '',
-           orderOptions : ['제목순','최근 신청순', '최근 학습순'],
-           orderSelected : '제목순',
-           groupSelected : '',
+           orderOptions : [
+            {
+                text : '제목순',
+                value : 'title'
+            },{
+                text : '최근 결제순',
+                value : 'recentlyPay'
+            }, {
+                text : '최근 수강순',
+                value : 'recentlyView'
+            }],
+           orderSelected : 'title',
+           groupSelected : 'all',
 
         }
     }, 
     mounted(){
-        this.getLectureAllList();
+        // this.getLectureAllList();
     },
     methods : {
         nextPage () {
@@ -109,17 +137,18 @@ export default {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
          getLectureAllList(){
             const userid = this.$store.getters.getEmail;
-            let data = []
-            this.$axiosSend('get','/api/mypageAll',{userid: userid},true)
+            // let data = []
+            this.$axiosSend('get','/api/mypageAll',{
+                userid: userid,
+                page : this.currentPage,
+                order : this.orderSelected,
+                group : this.groupSelected,
+                keyword : this.keyword
+            })
             .then((res)=>{
-                for(var i = 0; i < this.numOfPage; i++) {
-                        data.push(res.data[i]);
-                }
-                this.listArray = res.data
-                this.lectureInfo = data
-                console.log(this.listArray)
-                console.log(this.lectureInfo)
-                this.lectureCount = this.listArray.length
+                console.log(res)
+                this.listArray = res.data.list
+                this.lectureCount = res.data.count
             })
             .catch((err)=>{
                 console.log(err)
@@ -144,6 +173,15 @@ export default {
             return this.listArray.slice(startNo,end)
             
         },
+    },
+    watch:{
+        currentPage:{
+            immediate : true,
+            handler(after, before){
+                this.currentPage = after
+                this.getLectureAllList();
+            }
+        }
     }
 }
 
