@@ -14,6 +14,9 @@ public interface InquiryDAO {
 	//리스트 조회
 	public List<InquiryVO> inquirylist() throws SQLException;
 	
+	//검색 리스트 조회
+	public List<InquiryVO> inquirysearch(String keyword) throws SQLException;
+	
 	//게시글 작성
 	public int inquiryWriteSave(InquiryVO inquiryVO); 
 	

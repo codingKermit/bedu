@@ -7,9 +7,9 @@
       <div>
         <div>
           <div class="cscBoradSearch" id="cscBoradSearch">
-            <div @submit="qnasearch()" class="searchForm">
+            <div @submit="inquirysearch()" class="searchForm">
               <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
-              <input class="cscviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch">
+              <input class="cscviewkeyword" v-model="form.keyword"  @keyup.enter="inquirysearch">
               <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn" @click="goToInquiryPage">
                 <font-awesome-icon :icon="['fas', 'pencil']" />
                 문의하기
@@ -18,12 +18,6 @@
           </div>
         </div>
         <h2>이용 문의 </h2>
-        <div class="selectBox">
-          <select id="cscSortOption" v-model="sortOption" @change="sortReviews">
-            <option value="default">최신순</option>
-            <option value="highViews">????</option>
-          </select>
-        </div>
       </div>
       <table class="w3-table-all" id="cscboard-table">
         <thead>
@@ -36,10 +30,9 @@
         </thead>
         <tbody>
           <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
-            <td id="cscboard-table-tds" @click="password(inquiry)" >
-              <b-link class="text-start text-body" 
-              >
-              <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
+            <td id="cscboard-table-tds" @click="password(inquiry)">
+              <b-link class="text-start text-body">
+                <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>
             </td>
             <td>
@@ -82,7 +75,7 @@ export default {
   },
 
   created() {
-    this.qnasearch();
+    this.inquiryList();
   },
 
   components: {
@@ -105,13 +98,13 @@ export default {
   },
 
   methods: {
-    
+
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
     },
 
-    qnasearch() {
-      this.$axiosSend('post', '/api/inquiry/inquiryList')
+    inquiryList() {
+      this.$axiosSend('post', '/api/inquiry/inquiryList',)
         .then(res => {
           console.log(res)
           this.inquirylist = res.data;
@@ -130,29 +123,49 @@ export default {
         });
     },
 
-    password(inquiry) {
+    inquirysearch() {
+      
+      const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.
+
+      if (!keyword) {
+        alert("검색어를 입력해주세요!");
+        return;
+      }
+
+      this.$axiosSend('get', '/api/inquiry/inquirySerach', { keyword })
+        .then((response) => {
+          const dataFromBackend = response.data;
+          console.log("Response from Backend:", dataFromBackend);
+          this.inquirylist = response.data;
+        })
+        .catch((error) => {
+          alert("검색되는 결과가 없습니다.");
+          console.error("Error:", error);
+        });
+      },
+
+    password(inquiry) { 
       this.$swal({
-        title : '비밀번호를 입력하세요',
-        html : '<input id="test" type="password">'
+        title: '비밀번호를 입력하세요',
+        html: '<input id="test" type="password">'
       })
-      .then((result)=>{
-        if(result.isConfirmed){
-          // 사용자가 입력한 비밀번호
-          const userInput = document.getElementById("test").value;
-          if (userInput !== null) {
-            // 입력받은 비밀번호와 inquiry.password 비교
-            if (userInput == inquiry.password) {
-              this.$routerPush('inquiryDetail',{vocNum: inquiry.vocNum},true)
-            } else {
-              this.$swal({
-                title :'올바른 비밀번호를 입력해주세요',
-                icon : 'error',
-              })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // 사용자가 입력한 비밀번호
+            const userInput = document.getElementById("test").value;
+            if (userInput !== null) {
+              // 입력받은 비밀번호와 inquiry.password 비교
+              if (userInput == inquiry.password) {
+                this.$routerPush('inquiryDetail', { vocNum: inquiry.vocNum }, true)
+              } else {
+                this.$swal({
+                  title: '올바른 비밀번호를 입력해주세요',
+                  icon: 'error',
+                })
+              }
             }
           }
-        }
-      })
-
+        })
     },
 
     formatDateTime(value) {

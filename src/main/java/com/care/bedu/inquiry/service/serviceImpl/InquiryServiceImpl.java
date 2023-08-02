@@ -23,6 +23,17 @@ public class InquiryServiceImpl implements InquiryService {
 	    for (InquiryVO inquiry : inquirylist) {
 	        int replyCnt = inquiryDAO.getReplyCnt(inquiry.getVocNum());
 	        inquiry.setReplyCnt(replyCnt);
+	    } 
+	    return inquirylist;
+	}
+	
+	//게시글 검색 리스트 조회
+	@Override
+	public List<InquiryVO> inquiryList(String keyword) throws Exception {
+	    List<InquiryVO> inquirylist = inquiryDAO.inquirysearch(keyword);
+	    for (InquiryVO inquiry : inquirylist) {
+	        int replyCnt = inquiryDAO.getReplyCnt(inquiry.getVocNum());
+	        inquiry.setReplyCnt(replyCnt);
 	    }
 	    return inquirylist;
 	}
@@ -62,6 +73,7 @@ public class InquiryServiceImpl implements InquiryService {
 		return inquiryVO;
 	}
 	
+	//비밀번호
 	@Override
 	public InquiryVO inquirypassword(Integer password) {
 		InquiryVO inquiryVO = inquiryDAO.inquirypassword(password);
