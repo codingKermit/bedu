@@ -51,7 +51,8 @@
    		INNER JOIN t_bedu_user C
    			ON B.USER_NAME = C.USER_NAME
    		WHERE C.USER_ID = #{userid}
-   		ORDER BY B.USER_LECT_NUM DESC LIMIT #{startNo},9
+   		ORDER BY B.USER_LECT_NUM DESC 
+		LIMIT #{startNo},9
    	</select>
 	
 </mapper>

@@ -24,4 +24,19 @@
             complete = #{complete}
     </insert>
 
+    <select id="getHistory" parameterType="com.care.bedu.lecture.vo.LectureHistoryVO" resultType="com.care.bedu.lecture.vo.LectureHistoryVO">
+        SELECT
+            history_num as num,
+            user_name as userName,
+            lect_dtl_num as lectDtlNum,
+            history_start_time as startTime,
+            history_end_time as endTime,
+            complete
+        FROM
+            b_edu.t_bedu_history
+        WHERE
+            USER_NAME = #{userName} AND
+            LECT_DTL_NUM = #{lectDtlNum}
+    </select>
+
 </mapper>

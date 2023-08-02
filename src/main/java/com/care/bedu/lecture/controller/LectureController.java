@@ -206,12 +206,4 @@ public class LectureController {
 		boolean result = lectureService.getMyPageChk(userName,lectNum);
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
-
-	/* 동영상 재생 정보 저장 */
-	@RequestMapping("/watchHistorySave")
-	public ResponseEntity watchHistorySave(){
-
-		return ResponseEntity.ok().build();
-	}
-	
 }
