@@ -37,8 +37,6 @@ public class InquiryController {
         } else {
             inquiryList = inquiryService.list();
         }
-        System.out.println(inquiryList);
-        System.out.println();
         return inquiryList;
     } 
 	
@@ -53,6 +51,12 @@ public class InquiryController {
 		return inquiryService.inquiryone(vocNum);
 	}
 
+	@RequestMapping(value="/inquiry/inquiryDelete", method=RequestMethod.GET)
+	public int inquirydelete(Integer num) {
+		return inquiryService.inquirydelete(num);
+	}
+	
+	
 	@RequestMapping(value="/inquiry/inquiryPassword", method=RequestMethod.GET)
 	public InquiryVO inquiryPassword(Integer password) {
 		return inquiryService.inquirypassword(password);

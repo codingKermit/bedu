@@ -81,7 +81,13 @@
 			T_BEDU_VOC
 		WHERE VOC_NUM = #{vocNum};
 	</select>
-
+	
+	<delete id="inquirydelete">
+		DELETE
+		 FROM T_BEDU_VOC 
+		WHERE VOC_NUM = #{num}
+	</delete>
+	
 	<!-- 1대1 문의사항 게시글 전체 조회 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM T_BEDU_VOC

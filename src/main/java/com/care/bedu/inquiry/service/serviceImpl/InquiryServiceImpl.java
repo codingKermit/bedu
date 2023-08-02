@@ -73,6 +73,11 @@ public class InquiryServiceImpl implements InquiryService {
 		return inquiryVO;
 	}
 	
+	@Override
+	public int inquirydelete(Integer num) {
+		return inquiryDAO.inquirydelete(num);
+	}
+	
 	//비밀번호
 	@Override
 	public InquiryVO inquirypassword(Integer password) {

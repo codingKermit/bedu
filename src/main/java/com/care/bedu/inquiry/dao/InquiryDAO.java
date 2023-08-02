@@ -20,8 +20,11 @@ public interface InquiryDAO {
 	//게시글 작성
 	public int inquiryWriteSave(InquiryVO inquiryVO); 
 	
-	//게시글 상세 보기 id 보기 
+	//게시글 상세 보기
 	public InquiryVO inquiryone(Integer vocNum);	
+	
+	//게시글 삭제
+	public int inquirydelete(Integer num);
 	
 	//게시글 전체 개수 조회
 	public int getTotal(); 

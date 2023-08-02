@@ -5,6 +5,11 @@
         </div>
         <div id="csc-detail-main">
             <div id="csc-detail-body">
+                <div v-if="commentDelete(inquiry.userName) == 1">
+                    <b-button type="button" id="reply-commit" @click="inquirydelete(inquiry.vocNum, inquiry.userName)">
+                        게시글 삭제
+                    </b-button>
+                </div>
                 <h2 id="csc-detail-title">
                     {{ inquiry.title }}
                 </h2>
@@ -128,6 +133,32 @@ export default {
                 });
         },
 
+        //1대1 게시글 삭제
+        inquirydelete(vocNum, userName) {
+            if (userName !== 'ADMIN') {
+                this.$swal('관리자만 삭제가 가능합니다.', 'FAIL');
+                return;
+            } else {
+                this.inquiry.userName = this.userName
+                this.$axiosSend('get', 'api/inquiry/inquiryDelete', {
+                    num : vocNum,
+                    userName: this.inquiry.userName
+                })
+                    .then(res => {
+                        if (res.data === 1) {
+                            this.$swal('success', '답변 삭제가 완료 되었습니다.', 'success');
+                            router.push({
+                            name: "csc"
+                        })
+                            return;
+                        } else {
+                            this.$swal('error', '답변삭제실패???!!!!!!!!!!!', 'error');
+                            return;
+                        }
+                    })
+            }
+        },
+
         //댓글 조회
         replyList(vocNum) {
             this.$axiosSend('get', '/api/reply/getinquiry', {
@@ -150,7 +181,7 @@ export default {
                     console.log(error);
                 })
         },
-        
+
         cancelWrite() {
             this.tmp = false;
         },

@@ -9,7 +9,7 @@
           <div class="cscBoradSearch" id="cscBoradSearch">
             <div @submit="inquirysearch()" class="searchForm">
               <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
-              <input class="cscviewkeyword" v-model="form.keyword"  @keyup.enter="inquirysearch">
+              <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="inquirysearch">
               <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn" @click="goToInquiryPage">
                 <font-awesome-icon :icon="['fas', 'pencil']" />
                 문의하기
@@ -45,6 +45,9 @@
           </tr>
         </tbody>
       </table>
+      <!-- 검색 결과가 없을 때 -->
+      <p v-if="inquirylist.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>
+      <!--페이징 진행-->
       <b-pagination v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize" size="lg"></b-pagination>
     </div>
   </div>
@@ -71,9 +74,7 @@ export default {
       currentPage: 1,
       replyCnt: '',
     };
-
   },
-
   created() {
     this.inquiryList();
   },
@@ -124,7 +125,7 @@ export default {
     },
 
     inquirysearch() {
-      
+
       const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.
 
       if (!keyword) {
@@ -142,9 +143,9 @@ export default {
           alert("검색되는 결과가 없습니다.");
           console.error("Error:", error);
         });
-      },
+    },
 
-    password(inquiry) { 
+    password(inquiry) {
       this.$swal({
         title: '비밀번호를 입력하세요',
         html: '<input id="test" type="password">'
