@@ -59,13 +59,14 @@
 #freeCommContainer {
     padding-top: 2%;
     padding-bottom: 4%;
+    padding-right: 2%;
     border-top: 1px solid #ccc;
 }
 
 .freeboardMain {
     padding-top: 5.5%;
     margin-left: 3%;
-    padding-right: 30px;
+    padding-right: 3%;
     padding-bottom: 50px;
 }
 
@@ -98,15 +99,6 @@
     border: none;
 }
 
-#freeSearch {
-    width: 70%;
-}
-
-.commFreeContainer {
-    display: flex;
-    justify-content: space-between;
-}
-
 #freeboard-reviews {
     margin-bottom: 15px;
 }
@@ -116,16 +108,10 @@
 }
 
 .freeViewKeyword {
-    width: 300px;
-    height: 100%;
+    width: 100%;
+    height: 40px;
     border-radius: 20px;
     border: 2px solid black;
-}
-
-.freeBoradSearch {
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
 }
 
 #free-view-keywordbtn {
@@ -136,7 +122,6 @@
 #free-keywordbtn {
     margin-left: 15px;
     background-color: var(--blue) !important;
-    display: inline-block;
 }
 
 h1 {
@@ -281,12 +266,9 @@ h1 {
     word-wrap: break-word;
 }
 
-#free-search-icon {
+/* #free-search-icon {
     position: absolute;
-    display: inline-block;
-    margin-top: 11px;
-    margin-left: 12px;
-}
+} */
 
 #free-detail-replywrite{
     display: none;
@@ -353,8 +335,21 @@ h1 {
     font: bold;
 }
 
-@media (max-width: 700px) {
+#toggle-target {
+    justify-content: end;
+}
+
+@media (max-width: 1400px) {
     #commCntIcon {
         margin-bottom: 10%;
     }
+  
+    #free-keywordbtn {
+        position: fixed!important;;
+        bottom: 5%;
+        right: 10%;
+        width: 80%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+      }
 }
