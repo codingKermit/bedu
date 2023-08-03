@@ -67,9 +67,17 @@
 	</select>
 	
 	<select id="replyTotal" resultType="int">
-		SELECT COUNT(*)
-		  FROM T_BEDU_REPLY
-	    WHERE ANS_NUM = #{ansNum} AND QS_NUM = #{qsNum}
+		SELECT
+		  count(*)  
+		FROM T_BEDU_REPLY
+		WHERE ANS_NUM = #{ansNum}
+	</select>
+	
+	<select id="replycommTotal" resultType="int">
+		SELECT
+		  count(*)  
+		FROM T_BEDU_REPLY
+		WHERE COMM_NUM = #{commNum}
 	</select>
 	
 	<update id="replyupdate">

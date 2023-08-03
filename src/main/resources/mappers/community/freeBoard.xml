@@ -19,13 +19,13 @@
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
 		SELECT 
-		  COMM_NUM AS commNum,
+		  COMM_NUM as commNum,
 		  TITLE, 
 		  CONTENT, 
-		  USER_NAME AS userName, 
-		  COMM_DATE AS commDate, 
-		  COMM_CNT AS commCnt, 
-		  REG_ID AS regId
+		  USER_NAME as userName, 
+		  COMM_DATE as commDate, 
+		  COMM_CNT as commCnt, 
+		  REG_ID as regId
 		FROM T_BEDU_COMM
 		<if test="keyword != null">
 			WHERE TITLE LIKE concat('%', #{keyword}, '%') OR CONTENT LIKE concat('%', #{keyword}, '%')

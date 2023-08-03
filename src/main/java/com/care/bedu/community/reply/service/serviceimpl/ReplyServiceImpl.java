@@ -66,6 +66,9 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글 개수
 	@Override
 	public int replyTotal(ReplyVO replyVO) {
+		if(replyVO.getCommNum() != null && replyVO.getCommNum() > 0) {	
+			return replyDAO.replycommTotal(replyVO);	
+		}
 		return replyDAO.replyTotal(replyVO);
 	}
 
