@@ -4,14 +4,14 @@ const routes = [
     {
         path: '/',
         name: 'main',
-        component: () => import('../views/HomeView.vue')
+        component: () => import('@/views/HomeView.vue')
     }
     ,
     {
         path: '/course',
         name: 'course',
 
-        component: () => import('../views/lecture/LectureCourse.vue')
+        component: () => import('@/views/lecture/LectureCourse.vue')
     }
     , 
     {
@@ -55,123 +55,123 @@ const routes = [
     {
         path: '/review',
         name: 'review',
-        component: () => import('../views/Review/StudyReview.vue')
+        component: () => import('@/views/Review/StudyReview.vue')
     }
     ,
     {
         path: '/review/reviewWrite',
         name: 'reviewWrite',
-        component: () => import('../views/Review/ReviewWrite.vue')
+        component: () => import('@/views/Review/ReviewWrite.vue')
     }
     ,
     {
         path: '/companyStudy',
         name: 'companyStudy',
-        component: () => import('../views/CompanyStudy.vue')
+        component: () => import('@/views/CompanyStudy.vue')
     }
     ,
     {
         path: '/login',
         name: 'login',
-        component: () => import('../views/user/LoginView.vue')
+        component: () => import('@/views/user/LoginView.vue')
     }
     ,
     {
         path: '/regist',
         name: 'regist',
-        component: () => import('../views/user/RegistView.vue'),
+        component: () => import('@/views/user/RegistView.vue'),
     }
     ,
     {
         path: '/mypage',
         name: 'mypage',
-        component: () => import('../views/user/MypageView.vue'),
+        component: () => import('@/views/user/MypageView.vue'),
     }
     ,
     {
         path: '/comm/freBd',
         name: 'freeBoard',
-        component: () => import('../views/comm/FreeBoardView.vue')
+        component: () => import('@/views/comm/FreeBoardView.vue')
     }
     ,
     {
         path: '/comm/freBdWrite',
         name: 'freeBoardWrite',
-        component: () => import('../views/comm/FreeBoardWrite.vue')
+        component: () => import('@/views/comm/FreeBoardWrite.vue')
     }
     ,
     {
         path: '/comm/freBdDetail/:num',
         name: 'freeBoardDetail',
-        component: () => import('../views/comm/FreeBoardDetail.vue')
+        component: () => import('@/views/comm/FreeBoardDetail.vue')
     }
     ,
     {
         path: '/comm/freBdEdit/:num',
         name: 'freeBoardEdit',
-        component: () => import('../views/comm/FreeBoardEdit.vue')
+        component: () => import('@/views/comm/FreeBoardEdit.vue')
     }
 
     ,
     {
         path: '/comm/qna',
         name: 'qnaBoard',
-        component: () => import('../views/comm/QnaBoardView.vue')
+        component: () => import('@/views/comm/QnaBoardView.vue')
     }
     ,
     {
         path: '/comm/qnaWrite',
         name: 'qnaBoardwrite',
-        component: () => import('../views/comm/QnaBoardWrite.vue')
+        component: () => import('@/views/comm/QnaBoardWrite.vue')
     }
     ,
     {
         path: '/comm/qnaDetail/:num',
         name: 'qnaBoarddetail',
-        component: () => import('../views/comm/QnaBoardDetail.vue')
+        component: () => import('@/views/comm/QnaBoardDetail.vue')
     }
     ,
     {
         path: '/comm/qnaEdit/:num',
         name: 'qnaBoardedit',
-        component: () => import('../views/comm/QnaBoardEdit.vue')
+        component: () => import('@/views/comm/QnaBoardEdit.vue')
     }
     ,
     {
         path: '/csc',
         name: 'csc',
-        component: () => import('../views/Notice/CscView.vue')
+        component: () => import('@/views/Notice/CscView.vue')
     }
     ,
     {
         path: '/inquiry',
         name: 'inquiry',
-        component: () => import('../views/Notice/inquiry.vue')
+        component: () => import('@/views/Notice/inquiry.vue')
     }
     ,
     {
         path: '/inquiryDetail',
         name: 'inquiryDetail',
-         component: () => import('../views/Notice/InquiryDetail.vue')
+         component: () => import('@/views/Notice/InquiryDetail.vue')
     }
     ,
 
     {
         path: '/tou',
         name: 'tou',
-        component: () => import('../views/Notice/TouView.vue')
+        component: () => import('@/views/Notice/TouView.vue')
     }
     ,
     {
         path: '/privacy',
         name: 'privacy',
-        component: () => import('../views/Notice/PrivacyView.vue')
+        component: () => import('@/views/Notice/PrivacyView.vue')
     }
     ,
     {
         path: '/fileManage',
         name: 'fileManage',
-        component: () => import('../views/adminPage/FileManage.vue')
+        component: () => import('@/views/adminPage/FileManage.vue')
     },
     {
         path: '/lectureManage',
@@ -186,7 +186,7 @@ const routes = [
     {
         path: '/adminPage',
         name: 'adminPage',
-        component: () => import('../views/adminPage/AdminPage.vue')
+        component: () => import('@/views/adminPage/AdminPage.vue')
     },
     {
         path: '/membership',
