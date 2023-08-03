@@ -9,7 +9,7 @@
                <b-navbar v-if="freeBdSearch" class="freeBoradSearch d-flex p-0">
                   <div class="text-center align-item-center">
                      <font-awesome-icon
-                        icon="fa-solid fa-chevron-left"
+                        icon="fa-solid fa-chevron-right"
                         class="fs-3 d-flex"
                         @click="searchToggleFunc"
                         role="button"/>
@@ -17,19 +17,19 @@
                   <div class="w-100 h-100">
                      <div class="w-100 h-100 rounded-5 p-2 ">
                         <div @submit="freesearch()" id="freeSearch">
-                           <font-awesome-icon class="fs-3 d-flex" style="position: absolute; padding-left: 1%" id="free-search-icon ms-3 fs-3" :icon="['fas', 'magnifying-glass']" />
-                           <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                           <font-awesome-icon class="fs-3 d-flex" style="position: absolute; padding-left: 2%; margin-top: 6px;" id="free-search-icon ms-3 fs-3" :icon="['fas', 'magnifying-glass']" />
+                           <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" style="padding-left: 11%; padding-right: 2%;" v-model="form.keyword">       
                         </div>
                      </div>
                   </div>
                </b-navbar>
                <!-- pc화면 -->
                <b-navbar v-else class="freeBoradSearch" toggleable="xxl">
-                  <h2 id="freeCommTitle" style="margin: 0;">자유게시판</h2>
+                  <h2 id="freeCommTitle" >자유게시판</h2>
                   <b-collapse id="toggle-target" is-nav>
                      <div @submit="freesearch()" id="freeSearch">
-                        <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" style="position: absolute; padding-left: 1%; margin-top: 5px;"/>
-                        <input class="freeViewKeyword" @keyup.enter="freesearch" ref="keyword" v-model="form.keyword">       
+                        <font-awesome-icon id="free-search-icon" :icon="['fas', 'magnifying-glass']" style="position: relative; z-index: 2; margin-right: -10%;"/>
+                        <input class="freeViewKeyword" @keyup.enter="freesearch" style="padding: 3px 10px 3px 40px;" ref="keyword" v-model="form.keyword">       
                      </div>
                   </b-collapse>
                   <font-awesome-icon 

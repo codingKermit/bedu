@@ -1,6 +1,6 @@
 <template>
-    <div class = "d-flex">
-        <div class = "writeMain">
+    <div class = "d-block d-xxl-flex">
+        <div class = "writeMain d-none d-xxl-block">
             <CommCategory></CommCategory>
         </div>
         <div class="freeboard-write" id="freeboard-write">

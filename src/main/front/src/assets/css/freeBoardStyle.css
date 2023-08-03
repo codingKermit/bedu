@@ -71,6 +71,7 @@
 }
 
 #freeboard-table {
+    padding-left: 2%;
     margin-bottom:100px;
 }
 
@@ -120,7 +121,6 @@
 }
 
 #free-keywordbtn {
-    margin-left: 15px;
     background-color: var(--blue) !important;
 }
 
@@ -341,7 +341,7 @@ h1 {
 
 @media (max-width: 1400px) {
     #commCntIcon {
-        margin-bottom: 10%;
+        margin-bottom: 4%;
     }
   
     #free-keywordbtn {
@@ -349,7 +349,9 @@ h1 {
         bottom: 5%;
         right: 10%;
         width: 80%;
-        padding-top: 3%;
-        padding-bottom: 3%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-radius: 2rem;
+        font-size: 1.5rem;
       }
 }
