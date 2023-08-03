@@ -9,7 +9,7 @@
                     <div class="qnaBoradSearch" id="qnaBoradSearch">
                         <div @submit="qnasearch()" class = "searchForm">
                             <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
-                            <input class="qnaviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch()">
+                            <input class="qnaviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch()"/>
                             <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
                             <font-awesome-icon :icon="['fas', 'pencil']" />
                             글쓰기

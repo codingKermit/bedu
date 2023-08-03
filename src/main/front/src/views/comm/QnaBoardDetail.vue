@@ -79,10 +79,10 @@
                                 </div>
                             </div>
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
-                                <h5 id="qna-detail-retext">댓글을 작성하시오.</h5>
+                                <h5 id="qna-detail-retext">댓글을 작성해주세요.</h5>
                                 <b-form>
                                     <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
-                                    <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName)">댓글등록</b-button>
+                                    <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName, index)">댓글등록</b-button>
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
                             </div>
@@ -286,16 +286,16 @@ export default{
 
         //유저 아이디 동일비교후 수정버튼노출
         replyeqbtn(username){
-            if(this.userNickName == username){
+            if(this.userNickName == username || this.userNickName == 'ADMIN'){
                 return 1;
             }else{
                 return 0;
             }
         },
 
-        //유저 아이디 동일비교후 삭제버튼노출
+        //유저 아이디 동일비교후 삭제버튼노출 관리자 로그인이면 노출
         replydeleteEq(username){
-            if(this.userNickName == username){
+            if(this.userNickName == username || this.userNickName == 'ADMIN'){
                 return 1;
             }else{
                 return 0;
@@ -371,7 +371,6 @@ export default{
 
         //댓글삭제
         replydelete(replyNum, qnanum, ansnum){
-            
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -379,23 +378,51 @@ export default{
                 })
                 return;
             }
+            console.log(this.userNickName);
+            if(this.userNickName == 'ADMIN'){
+                console.log('실행');
 
+                        this.$axiosSend('get','/api/reply/replydelete', {
+                            rnum: replyNum
+                        })
+                        .then(res => {
+                            
+                            if(res.data ===1){
+                                this.$swal('Success', '관리자 권한으로 댓글삭제가 완료 되었습니다.', 'success');
+                                this.ansread(qnanum);
+                                this.replyread(qnanum);
+                                return;
+                            }else{
+                                this.$swal('error', '댓글삭제실패!', 'error');
+                                this.ansread(qnanum);
+                                this.replyread(qnanum);
+                                return;
+                            }    
+                        })
+                        .catch(error => {
+                            this.$swal(error, '댓글삭제실패!', 'error');
+                            return;
+                        })
+            
+                
+            }
             if(this.userNickName !== this.userNickName){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
-            }else{
-
+            }
+            else{
+                console.log('실행함!');
                 this.$swal({
-                title: '댓글을 삭제 하시겠습니까?',
-                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
-                confirmButtonColor: '#303076',
-                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
-                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    title: '글을 삭제 하시겠습니까?',
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
+                    confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
                 }).then(result => {
                     if (result.isConfirmed) {
                         this.$axiosSend('get','/api/reply/replydelete', {
-                        rnum: replyNum
+                            rnum: replyNum
                         })
                         .then(res => {
                             
@@ -422,7 +449,7 @@ export default{
         },
 
         //댓글쓰기
-        replywrite(ansBdNum, username){    
+        replywrite(ansBdNum, username, index){    
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -449,12 +476,14 @@ export default{
                 if(res.data === 1){
                     this.$swal('Success','작성완료!','success');
                     this.replylist = res.data;
-                    this.replycensell(ansBdNum, username);
+                    this.replycensell(ansBdNum, username, index);
                     this.ansread(qnum);
                     this.replyread(qnum);
-                    this.reply.content="";          
+                    this.reply.content="";
+                    return;          
                 }else{
-                    this.$swal('Success','작성실패!','success')
+                    this.$swal('Success','작성실패!','success');
+                    return;
                     }
                 }
             )
@@ -466,7 +495,7 @@ export default{
 
         //답변버튼 노출 비노출
         ansdelbtneqlse(username){
-            if(this.userNickName === username){
+            if(this.userNickName === username || this.userNickName == 'ADMIN'){
                 return 1;
             }else{
                 return 0;
@@ -737,27 +766,20 @@ export default{
                 })
                 return;
             }
-            if(userName !== this.userNickName){
-                this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
-                return;
-            }else{
+            this.$axiosSend('get', '/api/reply/replyTotal', {
+                ansNum: ansNum
+            })
+            .then(res=>{
+                console.log('이름', userName);
 
-                this.$swal({
-                title: '답변을 삭제 하시겠습니까?',
-                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
-                confirmButtonColor: '#303076',
-                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
-                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        this.$axiosSend('get','/api/ans/ansdelete', {
+                if(this.userNickName == 'ADMIN'){
+                    this.$axiosSend('get','/api/ans/ansdelete', {
                         ansBdNum : ansNum
                     })
                     .then(res => {
                         
                         if(res.data ===1){
-                            this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
+                            this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
                             this.ansread(this.qna.qnaBdNum);
                             this.ansgetTotal(this.qna.qnaBdNum);
                             return;
@@ -770,12 +792,57 @@ export default{
                     .catch(error => {
                         this.$swal(error, '답변삭제실패!', 'error');
                     })
-                    }
+                }
 
-                }).catch(error => {
-                    this.$swal(error, '답변삭제실패!', 'error');
-                })
-            }
+                if(userName !== this.userNickName){
+                    this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
+                    return;
+                }else if(res.data > 0){
+
+                    this.$swal({
+                    title: '답변을 삭제 하시겠습니까?',
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
+                    confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            this.$axiosSend('get','/api/ans/ansdelete', {
+                            ansBdNum : ansNum
+                        })
+                        .then(res => {
+                            
+                            if(res.data ===1){
+                                this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
+                                this.ansread(this.qna.qnaBdNum);
+                                this.ansgetTotal(this.qna.qnaBdNum);
+                                return;
+                            }else{
+                                this.$swal('error', '답변삭제실패!', 'error');
+                                this.ansread(this.qna.qnaBdNum);
+                                return;
+                            }    
+                        })
+                        .catch(error => {
+                            this.$swal(error, '답변삭제실패!', 'error');
+                        })
+                        }
+
+                    }).catch(error => {
+                        this.$swal(error, '답변삭제실패!', 'error');
+                    })
+                }
+                
+                else{
+                    return;
+                    
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','답변이 정상적으로 작성되지 않았습니다', error)
+            })
+
         }
 
     },

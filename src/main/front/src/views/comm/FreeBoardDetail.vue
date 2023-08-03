@@ -240,9 +240,10 @@ export default{
         replygetTotal(cnum){
             
             this.$axiosSend('get','/api/reply/replyTotal', {
-                num: cnum,
+                commNum: cnum,
             })
             .then(res => {
+                
                 this.replytotal = res.data;
             })
         },

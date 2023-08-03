@@ -16,8 +16,12 @@ public interface ReplyDAO {
 	public int viewWrite(ReplyVO replyVO);
 	//질문의 답변의 댓글쓰기
 	public int viewWrite2(ReplyVO replyVO);
-	//댓글개수
+	//질문댓글개수
 	public int replyTotal(ReplyVO replyVO);
+	
+	//자유댓글개수
+	public int replycommTotal(ReplyVO replyVO);
+	
 	//댓글삭제
 	public int replyDelete(int replynum);
 	//댓글수정
