@@ -24,7 +24,7 @@ public interface InquiryDAO {
 	public InquiryVO inquiryone(Integer vocNum);	
 	
 	//게시글 삭제
-	public int inquirydelete(Integer num);
+	public int inquirydelete(Integer vocNum);
 	
 	//게시글 전체 개수 조회
 	public int getTotal(); 

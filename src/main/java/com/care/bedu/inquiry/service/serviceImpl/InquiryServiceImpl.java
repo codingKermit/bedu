@@ -64,18 +64,20 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	//글 조회 
-	@Override 
-	public InquiryVO inquiryone(Integer vocNum)   {
-		InquiryVO inquiryVO = new InquiryVO();
-		inquiryVO = inquiryDAO.inquiryone(vocNum);
-		int replyCnt = inquiryDAO.getReplyCnt(vocNum);
-		inquiryVO.setReplyCnt(replyCnt);
-		return inquiryVO;
+	@Override
+	public InquiryVO inquiryone(Integer vocNum) {
+	    InquiryVO inquiryVO = inquiryDAO.inquiryone(vocNum);
+	    if (inquiryVO != null) {
+	        Integer replyCnt = inquiryDAO.getReplyCnt(vocNum);
+	        inquiryVO.setReplyCnt(replyCnt);
+	    }
+	    return inquiryVO;
 	}
 	
+	//글 삭제
 	@Override
-	public int inquirydelete(Integer num) {
-		return inquiryDAO.inquirydelete(num);
+	public int inquirydelete(Integer vocNum) {
+		return inquiryDAO.inquirydelete(vocNum);
 	}
 	
 	//비밀번호

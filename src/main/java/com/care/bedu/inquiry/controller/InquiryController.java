@@ -52,8 +52,8 @@ public class InquiryController {
 	}
 
 	@RequestMapping(value="/inquiry/inquiryDelete", method=RequestMethod.GET)
-	public int inquirydelete(Integer num) {
-		return inquiryService.inquirydelete(num);
+	public int inquirydelete(Integer vocNum) {
+		return inquiryService.inquirydelete(vocNum);
 	}
 	
 	
