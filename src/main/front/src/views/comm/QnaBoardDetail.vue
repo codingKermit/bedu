@@ -380,8 +380,6 @@ export default{
             }
             console.log(this.userNickName);
             if(this.userNickName == 'ADMIN'){
-                console.log('실행');
-
                         this.$axiosSend('get','/api/reply/replydelete', {
                             rnum: replyNum
                         })
@@ -766,11 +764,12 @@ export default{
                 })
                 return;
             }
+            console.log('숫자');
             this.$axiosSend('get', '/api/reply/replyTotal', {
                 ansNum: ansNum
             })
             .then(res=>{
-                console.log('이름', userName);
+                console.log('숫자', res.data);
 
                 if(this.userNickName == 'ADMIN'){
                     this.$axiosSend('get','/api/ans/ansdelete', {
@@ -794,11 +793,19 @@ export default{
                     })
                 }
 
+
                 if(userName !== this.userNickName){
                     this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
                     return;
-                }else if(res.data > 0){
+                }
+                
+                if(res.data > 0){
+                    this.$swal('댓글이 잇으므로 삭제 할수없습니다. 관리자한테 문의 주세요.');
+                    return;
+                    
+                }
 
+                if(res.data ==0){
                     this.$swal({
                     title: '답변을 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -833,7 +840,6 @@ export default{
                         this.$swal(error, '답변삭제실패!', 'error');
                     })
                 }
-                
                 else{
                     return;
                     

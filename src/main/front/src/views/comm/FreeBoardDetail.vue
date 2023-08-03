@@ -215,10 +215,38 @@ export default{
 
         //댓글 수정
         replyedit(replynum, username, index, content){
-            if(this.userNickName == null || this.userNickName != username || replynum == 0 || replynum == null){
+            if(this.userNickName == null || replynum == 0 || replynum == null){
+                this.$swal('로그인을 해주세요');
                 return;
             }
-            this.form.replyNum = replynum;
+            if(this.userNickName == 'ADMIN'){
+                this.form.replyNum = replynum;
+                this.form.content = content;
+                this.$axiosSend('post','/api/reply/replyEdit',{ 
+                    replyNum: this.form.replyNum,
+                    content: this.form.content
+                })
+                .then(res => {
+                    if(res.data === 1){
+                        this.$swal('Success','관리자 권한으로 댓글수정을 완료했습니다.','success');
+                        this.replyread(this.form.commNum);
+                        this.replyeditcensell(index);
+                        return;
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','관리자 권한댓글이 정상적으로 수정되지 않았습니다',error);
+                })
+                return;
+            }
+            
+            if(this.userNickName != username ){
+                this.$swal('댓글은 본인 글만 삭제할수있습니다.');
+                return;
+            }
+            else{
+
+                this.form.replyNum = replynum;
             this.form.content = content;
             this.$axiosSend('post','/api/reply/replyEdit',{ 
                 replyNum: this.form.replyNum,
@@ -229,11 +257,15 @@ export default{
                     this.$swal('Success','댓글수정완료!','success');
                     this.replyread(this.form.commNum);
                     this.replyeditcensell(index);
+                    return;
                 }
             })
             .catch((error)=>{
                 this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
             })
+
+            }
+            
         },
 
         //댓글 총개수
@@ -243,8 +275,10 @@ export default{
                 commNum: cnum,
             })
             .then(res => {
-                
                 this.replytotal = res.data;
+                return;
+            }).catch((error)=>{
+                this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
             })
         },
 
@@ -283,7 +317,7 @@ export default{
 
         //댓글삭제버튼 노출 비노출
         replybtneq(username){
-            if(this.userNickName === username){
+            if(this.userNickName === username || this.userNickName == 'ADMIN'){
                 return 1;
             }else{
                 return 0;
@@ -372,6 +406,7 @@ export default{
                         this.censells();
                         this.replyread(commNum);
                         this.replygetTotal(commNum);
+                        return;
                     }else{
                         this.$swal('Success','작성실패!','success')
                     }
@@ -392,6 +427,33 @@ export default{
                 })
                 return;
             }
+
+            if(this.userNickName == "ADMIN"){
+                this.$axiosSend('get','/api/reply/replydelete', {
+                    rnum: replyNum
+                })
+                .then(res => {        
+                    
+                    if(res.data ==1){
+                    
+                        this.$swal('Success', '관리자 권한으로 댓글삭제가 완료 되었습니다.', 'success');
+                        this.replyread(this.free.commNum);
+                        this.replygetTotal(this.free.commNum);
+                        return;
+                    }
+                    // else if(res.data == 0){
+                    //     this.$swal('관리자 권한으로 댓글삭제실패!');
+                    //     this.replyread(this.free.commNum);
+                    //     this.replygetTotal(this.free.commNum);
+                    //     return;
+                    // }    
+                })
+                .catch((error)=>{
+                    this.$swal('Error','댓글이 정상적으로 삭제 되지 않았습니다.', error)
+                })
+                return;
+            }
+
             if(userName !== this.userNickName){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
