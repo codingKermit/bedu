@@ -10,8 +10,14 @@ public interface InquiryService {
 	//게시글 리스트
 	public List<InquiryVO> list() throws Exception;
 	
-	//게시글 상세보기
+	//검색 게시글 리스트
+	public List<InquiryVO> inquiryList(String keyword) throws Exception;
+	
+	//게시글 상세보기   
 	public InquiryVO inquiryone(Integer vocNum);
+	
+	//게시글 삭제
+	public int inquirydelete(Integer num);
 	
 	//게시글 전체 갯수
 	public int getTotal();

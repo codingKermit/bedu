@@ -24,19 +24,21 @@ public class InquiryController {
     @RequestMapping(value="/inquiry/inquiryList", method= {RequestMethod.GET, RequestMethod.POST})
     public List<InquiryVO> inquiryList(@RequestParam(required = false) Integer password) throws Exception {
         List<InquiryVO> inquiryList = inquiryService.list();
-
-        // 비밀글 여부를 확인하여 비밀글인 경우에는 비밀번호 검증을 수행합니다.
-        for (InquiryVO inquiry : inquiryList) {
-            if (inquiry.isSecret()) {
-                if (password == null || !password.equals(inquiry.getPassword())) {
-                    // 비밀번호가 일치하지 않는 경우 비밀글 제목과 작성자 정보를 가려서 보여줍니다.
-                    inquiry.setTitle("비밀글입니다.");
-                }
-            }
-        }
         return inquiryList;
     }
 
+    // 게시글 검색 조회
+    @RequestMapping(value="/inquiry/inquirySerach", method= {RequestMethod.GET, RequestMethod.POST})
+    public List<InquiryVO> inquiryList(@RequestParam(required = false) String keyword) throws Exception {
+        List<InquiryVO> inquiryList;
+        
+        if (keyword != null && !keyword.isEmpty()) {
+            inquiryList = inquiryService.inquiryList(keyword);
+        } else {
+            inquiryList = inquiryService.list();
+        }
+        return inquiryList;
+    } 
 	
 	@RequestMapping(value="/inquiry/inquiryWrite", method=RequestMethod.POST)			//게시글 작성
 	public int inquiryWrite(InquiryVO inquiryVO) {
@@ -49,6 +51,12 @@ public class InquiryController {
 		return inquiryService.inquiryone(vocNum);
 	}
 
+	@RequestMapping(value="/inquiry/inquiryDelete", method=RequestMethod.GET)
+	public int inquirydelete(Integer num) {
+		return inquiryService.inquirydelete(num);
+	}
+	
+	
 	@RequestMapping(value="/inquiry/inquiryPassword", method=RequestMethod.GET)
 	public InquiryVO inquiryPassword(Integer password) {
 		return inquiryService.inquirypassword(password);

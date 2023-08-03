@@ -78,7 +78,11 @@
     width: 80%;
 }
 
-.qnaeditcontent{
+.qna-detail-replybtns{
+    display: flex;
+}
+
+.qnareplyeditcontent{
     display: none;
 }
 

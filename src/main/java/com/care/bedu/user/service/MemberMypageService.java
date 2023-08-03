@@ -13,7 +13,7 @@ public interface MemberMypageService {
 	public List<MemberMypageVO> getMemberMypage(String userid);
 	
 	/* 마이페이지 홈(전체보기 개수 추출) */
-	public int getLectureCount();
+	public int getLectureCount(String userId);
 	
 	/* 마이페이지 홈(전체보기 첫번째) */
 	public List<MemberMypageVO> lectureListInfoFirst(String userid, int numOfLecture);

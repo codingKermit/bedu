@@ -11,10 +11,11 @@ public interface ReplyService {
 	//게시글 등록
 	public int boardwrite(ReplyVO replyVO);
 	//댓글 총개수
-	public int replyTotal(int num);
+	public int replyTotal(ReplyVO replyVO);
 	//댓글 삭제
 	public int replydelete(int replynum);
 	
+	//댓글 수정
 	public int replyupdate(ReplyVO replyVO);
 	
 	//1대1 답글 조회

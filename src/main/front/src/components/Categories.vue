@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar >
+        <b-navbar>
             <b-collapse id="categories" class="w-100" is-nav>
                     <b-row class="w-100 mx-auto">
                         <b-col v-for="(item,index) in filds.filter((item)=> item.level ==1)" :key="index" class="col-4 px-1 col-lg-1 text-center justify-content-center mx-auto">

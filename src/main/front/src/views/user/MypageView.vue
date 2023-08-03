@@ -1,82 +1,112 @@
 <template>
-    <b-container>
-        <p class="fs-4 fw-bold" style="padding-top: 5rem;">현재 수강정보</p>
-            <b-container class="text-dark fw-bold">
-                    <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                    <div class="curr-subjectInfo" v-if="lectureListFirst == 0">
-                       <b-container class="w-75 ms-auto py-5">
-                            <p style="text-align: center;">수강내역이 없습니다.</p>
-                       </b-container>
-                    </div>
-                    <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
-                    <div v-else class="lecture">
-                        <div style="text-align: right;">
-                            <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
-                        </div>
-                        <div class="mypagecontainer" style="float:left;" v-for="(item, index) in lectureListFirst" :key="index">
-                            <div class="lect text-start">
-                               <!--  링크걸어서 화면 이동 테스트중 -->
-                                <b-link class="text-decoration-none text-body h-100 d-block" :to="'/lectureLesson?lectDtlNum='+lessonInfo.lectDtlNum">
-                                    <div class="mypageInfo">
-                                        <div class="mypageContain">
-                                            <h3> {{ item.title }} </h3>
-                                            <hr>
-                                            <div class="lectdesc" v-html="item.lectDesc"></div>
-                                            <div class="lectperid">
-                                                <span>수강기간 : </span> {{ item.lectPeriod }}
-                                                <span>일</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </b-link>
+    <div >
+        <div class="p-4 p-md-5 w-100 d-flex">
+            <!-- 좌측 네비-->
+            <my-page-cate-navi></my-page-cate-navi>
+            <div class="w-75">
+                <p class="fs-4 fw-bold">현재 수강정보</p>
+                    <b-container class="text-dark fw-bold">
+                            <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
+                            <div class="curr-subjectInfo" v-if="lectureListFirst == 0">
+                               <b-container class="w-75 ms-auto py-5">
+                                    <p class="text-center">수강내역이 없습니다.</p>
+                               </b-container>
                             </div>
-                        </div>
-                    </div>
-            </b-container>
-            <b-container class="mypagebookmark"  style="padding-bottom: 10rem;">
-                <div class="mypageBookmark">
-                    <b-container>
-                        <p class="fs-4 fw-bold">북마크</p>
-                            <b-container class="w-75 ms-auto py-5">
-                                    <!-- v-if문 이용하여  북마크 내역이 없을때 북마크내역이 없다는 문구 보이게-->
-                                    <div class="curr-subjectInfo" ><!--v-if="bookmarkFirst == 0"-->
-                                        <b-container class="w-75 ms-auto py-5">
-                                                <p style="text-align: center;">북마크가 없습니다.</p>
-                                        </b-container>
+                            <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
+                            <div v-else class="lecture">
+        
+                                <div>
+                                    <div class="text-end mb-3">
+                                        <b-link :to="{
+                                            name:'mypageAll',
+                                            params:{
+                                                userid : this.$store.getters.getEmail
+                                            }
+                                        }" class="text-end text-body text-decoration-none">전체보기</b-link>
                                     </div>
-                                   <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
-                                   <!-- <div  class="bookMark"> --><!--v-else-->
-                                        <!--
-                                        <div style="text-align: right;">
-                                            <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
-                                        </div>
-                                        <div class="mypagebookmarkcontainer" style="float:left;" v-for="(item, index) in bookmarkFirst" :key="index">
-                                            <div class="lect text-start">-->
-                                            <!--  링크걸어서 화면 이동 테스트중 -->
-                                                <!--<b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                                                    <div class="mypagebookmarkInfo">
-                                                        <div class="mypagebookmarkContain">
-                                                            <p class="fw-bold">
-                                                                <span>강좌이름 : </span> {{ item.title }}
-                                                            </p>
-                                                            <p class="fw-bold">
-                                                                <span>강의설명 : </span> {{ item.lectDesc }}
-                                                            </p>
-                                                            <p class="fw-bold">
-                                                                <span>수강기간 : </span> {{ item.lectPeriod }}
-                                                            </p>
-                                                        </div>
+                                    <b-row cols="1" cols-md="3" class="mb-5">
+                                        <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button">
+                                                <!--  링크걸어서 화면 이동 테스트중 -->
+                                                <b-link class="text-decoration-none text-body"
+                                                :to="{
+                                                name : 'lectureDetail',
+                                                query:{
+                                                    num : item.lectNum
+                                                }
+                                                }"
+                                                >
+                                                <b-container class="border rounded-3 py-3 text-start">
+                                                    <div class="ratio ratio-16x9 mb-3">
+                                                        <b-img :src="item.thumbnail"></b-img>
                                                     </div>
+                                                    <div> {{ item.title }} </div>
+                                                    <hr>
+                                                    <div class="my-3">{{ item.teacher }}</div>
+                                                    <div class="mb-3">
+                                                        <span>수강기간 : </span> {{ item.lectPeriod }}
+                                                        <span>일</span>
+                                                    </div>
+                                                </b-container>
                                                 </b-link>
-                                            </div>
-                                        </div>
-                                    </div>-->
-                            </b-container>
+                                        </b-col>
+                                    </b-row>
+                                </div>
+                            </div>
                     </b-container>
-                </div>
-        </b-container>        
-    </b-container>
-    
+                    <b-row>
+                        <b-col>
+                            <p class="fs-4 fw-bold">최근 학습 강의</p>
+
+                        </b-col>
+                        <b-col>
+                            <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
+                        </b-col>
+                    </b-row>
+                    <b-container>
+                        <div>
+                            <b-container>
+                                <p class="fs-4 fw-bold">북마크</p>
+                                    <b-container class="w-75 ms-auto py-5">
+                                            <!-- v-if문 이용하여  북마크 내역이 없을때 북마크내역이 없다는 문구 보이게-->
+                                            <div class="curr-subjectInfo" ><!--v-if="bookmarkFirst == 0"-->
+                                                <b-container class="w-75 ms-auto py-5">
+                                                        <p class="text-center">북마크가 없습니다.</p>
+                                                </b-container>
+                                            </div>
+                                           <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
+                                           <!-- <div  class="bookMark"> --><!--v-else-->
+                                                <!--
+                                                <div style="text-align: right;">
+                                                    <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
+                                                </div>
+                                                <div class="mypagebookmarkcontainer" style="float:left;" v-for="(item, index) in bookmarkFirst" :key="index">
+                                                    <div class="lect text-start">-->
+                                                    <!--  링크걸어서 화면 이동 테스트중 -->
+                                                        <!--<b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
+                                                            <div class="mypagebookmarkInfo">
+                                                                <div class="mypagebookmarkContain">
+                                                                    <p class="fw-bold">
+                                                                        <span>강좌이름 : </span> {{ item.title }}
+                                                                    </p>
+                                                                    <p class="fw-bold">
+                                                                        <span>강의설명 : </span> {{ item.lectDesc }}
+                                                                    </p>
+                                                                    <p class="fw-bold">
+                                                                        <span>수강기간 : </span> {{ item.lectPeriod }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </b-link>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                    </b-container>
+                            </b-container>
+                        </div>
+                </b-container>        
+            </div>
+        </div>
+    </div>
 </template>
 
 <style>
@@ -96,8 +126,10 @@
 }
 </style>
 <script>
+import MyPageCateNavi from '../../components/myPage/MyPageCateNavi.vue';
 
 export default {
+  components: { MyPageCateNavi },
     name : "mypage",
     data() {
        return {

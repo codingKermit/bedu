@@ -3,13 +3,13 @@
         <div class="p-4 p-md-5 w-100 d-flex">
             <!-- 좌측 네비, 커리큘럼 컨테이너 -->
             <!-- 좌측 카테고리 네비게이션 컴포넌트화 -->
-            <CategoryNaviVue @emitTest="emitTest"></CategoryNaviVue> 
+            <CategoryNaviVue @emitTest="cateEmit"></CategoryNaviVue> 
             
             <div class="w-100 pe-0 pe-sm-3">
                 <!-- 모바일 화면에서 대분류 & 중분류 변경을 위한 콤보 -->
 
                 <!-- 강의 기본정보 & 커리큘럼 컨테이너-->
-                <div class="d-flex gap-1  d-block d-xxl-none">
+                <div class="d-flex gap-1 d-block d-xxl-none">
                     <b-form-select 
                     class="w-50" 
                     v-model="cnt_top_cate" :options="categories.filter((item)=>item.level == 1)"
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="d-flex gap-5 d-none d-xxl-block">
-                    <p class="fs-2 fw-bold py-3">{{ cnt_mid_cate_kor }}</p>
+                    <p class="fs-2 fw-bold pb-3">{{ cnt_mid_cate_kor }}</p>
                 </div>
                 <p class="fs-3 fw-bold curriculum-head my-3">커리큘럼</p>
                 <ul class="list-unstyled">
@@ -58,9 +58,9 @@
                                 ref="lecture_list"
                                 :class='index == 0 ? "show":""'>
                                 <b-container>
-                                    <b-row cols="1" cols-lg="3" class="d-block d-sm-flex">
+                                    <b-row cols="1" cols-lg="3">
                                         <!-- 커리큘럼 목록 -->
-                                        <b-col v-for="(lect, index) in bot.item" :key="index" class="lecture-item mb-3">
+                                        <b-col v-for="(lect, index) in bot.item" :key="index" class="mb-3">
                                             <b-link
                                                 class="text-body text-decoration-none"
                                                 :to='"/lectureDetail?num="+lect.lectNum'>
@@ -107,7 +107,7 @@ import '@/assets/css/lectureStyle.css';
             }
         },
         methods: {
-            emitTest(newTop, newMid){
+            cateEmit(newTop, newMid){
                 console.log(this.$route.params.index)
                 this.cnt_top_cate_kor = newTop;
                 this.cnt_mid_cate_kor = newMid;

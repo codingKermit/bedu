@@ -27,6 +27,22 @@
     	) AS subquery
 	</select>
 
+	<select id="inquirysearch" resultType="com.care.bedu.inquiry.vo.InquiryVO">
+	SELECT 
+	    VOC_NUM AS vocNUm,
+	    TITLE,
+	    USER_NAME AS userName,
+	    REG_DATE AS regDate,
+	    PASSWORD AS password
+	FROM 
+	    T_BEDU_VOC
+	WHERE 
+	    TITLE LIKE CONCAT('%', #{keyword}, '%') OR
+	    CONTENT LIKE CONCAT('%', #{keyword}, '%')
+	ORDER BY 
+	    VOC_NUM DESC;
+	</select>
+	
 	<!-- 1대1 문의사항 게시글 삽입 -->
 	<insert id="inquiryWriteSave">
 		INSERT INTO T_BEDU_VOC(
@@ -65,7 +81,13 @@
 			T_BEDU_VOC
 		WHERE VOC_NUM = #{vocNum};
 	</select>
-
+	
+	<delete id="inquirydelete">
+		DELETE
+		 FROM T_BEDU_VOC 
+		WHERE VOC_NUM = #{num}
+	</delete>
+	
 	<!-- 1대1 문의사항 게시글 전체 조회 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM T_BEDU_VOC

@@ -328,10 +328,16 @@
   gap: 10px; 
 }
 
+#searched{
+  margin-left: 32%;
+  margin-bottom: 5%;
+  font-size: 110%;
+}
+
 .pagination {
   width: 30%;
   height: 20%;
-  margin-left: 29.5%;
+  margin-left: 31%;
   margin-top: 1%;
   margin-bottom: 5%;
   --bs-pagination-font-size: 1rem;
