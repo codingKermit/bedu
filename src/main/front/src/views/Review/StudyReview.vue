@@ -3,10 +3,10 @@
         <div class="review-group">
             <div class="colTab">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: 'all' }}">전체</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ path: '/review', query: { topCategory: 'all' }}">전체</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '1000' }}" >기초강의</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" >데이터분석</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" >웹 개발</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" >데이터분석</router-link></li>
+                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" >웹 개발</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '4000' }}">프로그래밍 언어</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '5000' }}">인공지능</router-link></li>
                     <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '6000' }}">프로그래밍 교양</router-link></li>
@@ -40,13 +40,21 @@
         <!-- <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button> -->
         <div id="scroll-container">
             <table id="review-table">
+                <colgroup>
+                    <col width="10%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    
+                </colgroup>
                 <thead>
                     <tr>
-                        <th>강좌</th>
-                        <th>수강후기</th>
-                        <th>별점</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
+                        <th scope="col">강좌</th>
+                        <th scope="col">수강후기</th>
+                        <th scope="col">별점</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">작성일</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,7 +104,7 @@
                 content: "",
                 isLoading: false, // 로딩 중 여부
                 currentPage: 1, // 현재 페이지 번호
-                itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
+                itemsPerPage: 10, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
                 topCate : '',
             };
@@ -128,7 +136,6 @@
                         this.currentPage++;
                     }
                     this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
-
                     this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
                     // 검색 및 정렬 수행
                     //this.fetchSearchedReviews(); // 검색 수행
@@ -187,7 +194,6 @@
                     }
                     this.totalItems = totalElements;
                     this.isFetching = false;
-
                     // 검색 및 정렬 수행
                     //this.fetchSearchedReviews(); // 검색 수행
                     this.sortReviews(); // 정렬 수행
@@ -224,14 +230,13 @@
             },
             // 후기 검색
             searchReviews() {
-                
                 if (this.searchKeyword === "") {
                 // 검색어가 비어있을 경우, 알림창을 표시합니다.
                     alert("검색어를 입력해주세요");
                 return; // 메소드를 종료합니다.
                 }
+                this.topCate = '';
                 this.searchedReviews = []; //검색된 후기를 초기화
-                this.currentPage = 1; // 페이지 번호 초기화
                 this.fetchReviews(); // 후기 가져오기 호출
                 
             },
