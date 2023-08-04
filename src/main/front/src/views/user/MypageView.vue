@@ -3,7 +3,7 @@
         <div class="p-4 p-md-5 w-100 d-flex">
             <!-- 좌측 네비-->
             <my-page-cate-navi></my-page-cate-navi>
-            <div class="w-75">
+            <div class="w-100">
                 <p class="fs-4 fw-bold">현재 수강정보</p>
                     <b-container class="text-dark fw-bold">
                             <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
@@ -29,10 +29,10 @@
                                                 <!--  링크걸어서 화면 이동 테스트중 -->
                                                 <b-link class="text-decoration-none text-body"
                                                 :to="{
-                                                name : 'lectureDetail',
-                                                query:{
-                                                    num : item.lectNum
-                                                }
+                                                    name : 'lectureDetail',
+                                                    query:{
+                                                        num : item.lectNum
+                                                    }
                                                 }"
                                                 >
                                                 <b-container class="border rounded-3 py-3 text-start">
@@ -56,7 +56,36 @@
                     <b-row>
                         <b-col>
                             <p class="fs-4 fw-bold">최근 학습 강의</p>
-
+                            <b-container v-if="!recentlyViewed" class="py-5">
+                                <div class="py-5 text-center">
+                                    최근 학습한 강의가 없습니다
+                                </div>
+                            </b-container>
+                            <b-container v-else class="mb-5 py-3 border rounded-3">
+                                <b-link class="text-decoration-none text-body"
+                                :to="{
+                                    name : 'lectureDetail',
+                                    query :{
+                                        num : recentlyViewed.lectNum
+                                    }
+                                }">
+                                    <div class="ratio ratio-16x9 mb-3">
+                                        <b-img :src="recentlyViewed.thumbnail"></b-img>
+                                    </div>
+                                    <div>
+                                        {{ recentlyViewed.title }}
+                                    </div>
+                                    <hr>
+                                    <div class="my-3">
+                                        {{ recentlyViewed.lectSum }}
+                                    </div>
+                                    <div>
+                                        <span>수강기간 : </span>
+                                        {{ recentlyViewed.lectPeriod }}
+                                        <span>일</span>
+                                    </div>
+                                </b-link>
+                            </b-container>
                         </b-col>
                         <b-col>
                             <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
@@ -150,12 +179,14 @@ export default {
             regid : '',
             lessonInfo : { //동영상 나오는 거 체크를 위해 숫자를 넣었음.
                 lectDtlNum : 6,
-            }
+            },
+            recentlyViewed : {}, // 최근 학습 강의
 
         }
     }, 
     created (){
         this.getLectureList();
+        this.getRecentlyViewd();
     },
     methods : {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
@@ -202,6 +233,18 @@ export default {
                         console.error(error);
                     });
              
+        },
+        getRecentlyViewd(){
+            this.$axiosSend('get','/api/getRecentlyViewd',{
+                userName : this.$store.getters.getNickname
+            })
+            .then((res)=>{
+                console.log(res)
+                this.recentlyViewed = res.data;
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         },
     /*
      *북마크 완성되면 추가해야함. 

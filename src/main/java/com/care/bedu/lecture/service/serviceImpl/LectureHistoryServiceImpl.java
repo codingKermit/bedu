@@ -28,7 +28,7 @@ public class LectureHistoryServiceImpl implements LectureHistoryService{
     @Override
     public LectureHistoryVO getHistory(String userName, int lectDtlNum) {
 
-        LectureHistoryVO vo = new LectureHistoryVO(0, userName, lectDtlNum, 0, 0, 0);
+        LectureHistoryVO vo = new LectureHistoryVO(0, userName, lectDtlNum, null, 0, 0);
 
         return dao.getHistory(vo);
     }
@@ -36,7 +36,7 @@ public class LectureHistoryServiceImpl implements LectureHistoryService{
     @Override
     public int setComplete(String userName, int lectDtlNum) {
 
-        return dao.setComplete(new LectureHistoryVO(0, userName, lectDtlNum, lectDtlNum, lectDtlNum, 1));
+        return dao.setComplete(new LectureHistoryVO(0, userName, lectDtlNum, null, lectDtlNum, 1));
     }
     
 }

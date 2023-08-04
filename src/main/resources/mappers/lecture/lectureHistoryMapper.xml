@@ -8,13 +8,13 @@
             b_edu.t_bedu_history(
                 user_name,
                 lect_dtl_num,
-                history_start_time,
+                history_record_day,
                 history_end_time
             )
         VALUES(
             #{userName},
             #{lectDtlNum},
-            #{startTime},
+            NOW(),
             #{endTime}
         )
         ON DUPLICATE KEY UPDATE
@@ -26,7 +26,7 @@
             history_num as num,
             user_name as userName,
             lect_dtl_num as lectDtlNum,
-            history_start_time as startTime,
+            history_record_day as historyRecordDay,
             history_end_time as endTime,
             complete as complete
         FROM
