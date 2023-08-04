@@ -211,7 +211,7 @@ export default{
         const qnanum = this.$route.params.num;
         this.userNickName =this.$store.getters.getNickname;
         this.form.regId = this.$store.getters.getEmail;
-        console.log('sss',this.$store.getters.getCls);
+
         if(this.userNickName === null || this.userNickName ===""){
             this.qnaReadtet(qnanum);
         }else{
@@ -277,7 +277,7 @@ export default{
             }
         },
 
-        //전체답변삭제(관리자)
+        //전체답변삭제버튼(관리자)
         admindelbtn(){
             if(this.userNickName != null && this.userNickName == 'ADMIN'){
                 return 1;
@@ -285,7 +285,58 @@ export default{
                 return 0;
             }
         },
+        //전체 답변삭제(관리자)
         ansalldel(){
+
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            if(this.anstotal > 0){
+
+                this.$swal({
+                    title: '관리자 권한으로 답변을 전체 삭제 하시겠습니까?',
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
+                    confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        this.$axiosSend('get','/api/ans/ansdelete', {
+                            qsBdNum : this.qna.qnaBdNum,
+                            userName: this.userNickName
+                    })
+                    .then(res => {
+                        if(res.data > 0){
+                            this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
+                            this.ansread(this.qna.qnaBdNum);
+                            this.ansgetTotal(this.qna.qnaBdNum);
+                            return;
+                        }else{
+                            this.$swal('error', '답변전체삭제실패!', 'error');
+                            this.ansread(this.qna.qnaBdNum);
+                            return;
+                        }    
+                    })
+                    .catch(error => {
+                        this.$swal(error, '답변전체삭제실패!', 'error');
+                    })
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+                })
+
+            .catch((error)=>{
+                this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+            })
+            }
+            
 
         },
 

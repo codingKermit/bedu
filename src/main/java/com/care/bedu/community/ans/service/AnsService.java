@@ -16,5 +16,5 @@ public interface AnsService {
 	public int ansTotal(int qnanum);
 	
 	//글 삭제
-	public int ansDelete(int ansBdNum);
+	public int ansDelete(AnsVO ansVO);
 }

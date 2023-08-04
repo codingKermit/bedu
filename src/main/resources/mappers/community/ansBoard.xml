@@ -48,6 +48,12 @@
 		 FROM T_BEDU_ANS
 		WHERE ANS_BD_NUM = #{ansBdNum}
 	</delete>
+	
+	<delete id="ansalladminDelete">
+		DELETE
+		 FROM T_BEDU_ANS
+		WHERE QS_BD_NUM = #{qsBdNum}
+	</delete>
 
 	
 </mapper>
