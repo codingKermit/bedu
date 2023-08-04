@@ -89,7 +89,13 @@
 	<delete id="replyDelete">
 		DELETE
 		 FROM T_BEDU_REPLY
-		WHERE REPLY_NUM = #{replynum}
+		WHERE REPLY_NUM = #{replyNum}
+	</delete>
+	
+	<delete id="replyadminDelete">
+		DELETE
+		 FROM T_BEDU_REPLY
+		WHERE COMM_NUM = #{commNum}
 	</delete>
 	
 		<!-- 1대1 문의사항 답글 삽입 -->

@@ -40,6 +40,7 @@
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답변작성</b-button>
+                    <b-button type="button" class="btn-custom ms-1 qnaboard-detail-adminalldel" v-if="admindelbtn() == 1" id="qnaboard-detail-adminalldel" @click="ansalldel()">답변전체삭제</b-button>
                     <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
                 </div>
@@ -51,7 +52,9 @@
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답변을 작성하시오</h4>
-                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
+                    <b-form>
+                        <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
+                    </b-form>
                 </div>
                 <div class="qna-detail-replylists">
                     <div v-for="(ans,index) in anslist" :key="index" class="qna-detail-replylist">
@@ -131,6 +134,7 @@ import CommCategory from '@/components/CommCategory.vue';
 import router from '@/router';
 import '@/assets/css/qnaStyle.css';
 import Editor from 'ckeditor5-custom-build/build/ckeditor'; 
+
 export default{
 
     components:{
@@ -207,6 +211,7 @@ export default{
         const qnanum = this.$route.params.num;
         this.userNickName =this.$store.getters.getNickname;
         this.form.regId = this.$store.getters.getEmail;
+        console.log('sss',this.$store.getters.getCls);
         if(this.userNickName === null || this.userNickName ===""){
             this.qnaReadtet(qnanum);
         }else{
@@ -270,6 +275,18 @@ export default{
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";  
             }
+        },
+
+        //전체답변삭제(관리자)
+        admindelbtn(){
+            if(this.userNickName != null && this.userNickName == 'ADMIN'){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+        ansalldel(){
+
         },
 
         backLikedClass() {
@@ -381,7 +398,7 @@ export default{
             
             if(this.userNickName == 'ADMIN'){
                 this.$axiosSend('get','/api/reply/replydelete', {
-                    rnum: replyNum
+                    replyNum: replyNum
                 })
                 .then(res => {
                     

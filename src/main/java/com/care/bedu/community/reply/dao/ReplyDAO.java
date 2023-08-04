@@ -23,7 +23,11 @@ public interface ReplyDAO {
 	public int replycommTotal(ReplyVO replyVO);
 	
 	//댓글삭제
-	public int replyDelete(int replynum);
+	public int replyDelete(ReplyVO replyVO);
+	
+	//자유댓글전체삭제(관리자)
+	public int replyadminDelete(ReplyVO replyVO);
+	
 	//댓글수정
 	public int replyupdate(ReplyVO replyVO);
 	

@@ -35,9 +35,16 @@ public class ReplyServiceImpl implements ReplyService{
 
 	//댓글 삭제
 	@Override
-	public int replydelete(int replynum) {
-		System.out.println(replynum);
-		return replyDAO.replyDelete(replynum);
+	public int replydelete(ReplyVO replyVO) {
+		if(replyVO.getCommNum() != null && replyVO.getCommNum() >0
+				&& replyVO.getUserName().equals("ADMIN") && replyVO.getUserName() != null) {
+			return replyDAO.replyadminDelete(replyVO);									
+		}else if(replyVO.getReplyNum() != null && replyVO.getReplyNum()>0){
+			return replyDAO.replyDelete(replyVO);
+		}else {
+			return 0;
+		}
+		
 	}
 
 	@Override
