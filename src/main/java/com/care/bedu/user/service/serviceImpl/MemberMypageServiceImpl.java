@@ -2,6 +2,7 @@ package com.care.bedu.user.service.serviceImpl;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,9 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 	public List<MemberMypageVO> getMemberMypageAll(String userid, int startNo, int numOfPage) {
 		
 		return memberMypageDao.getMemberMypageAll(userid, startNo, numOfPage);
+	}
+	@Override
+	public Map<String, Object> getRecentlyViewd(String userName) {
+		return memberMypageDao.getRecentlyViewd(userName);
 	}
 }

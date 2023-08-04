@@ -13,7 +13,7 @@ public interface ReplyService {
 	//댓글 총개수
 	public int replyTotal(ReplyVO replyVO);
 	//댓글 삭제
-	public int replydelete(int replynum);
+	public int replydelete(ReplyVO replyVO);
 	
 	//댓글 수정
 	public int replyupdate(ReplyVO replyVO);

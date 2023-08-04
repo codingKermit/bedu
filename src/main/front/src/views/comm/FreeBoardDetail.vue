@@ -39,6 +39,7 @@
                     <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                    <b-button type="button" v-if="replyadmindel() == 1" class="btn-custom ms-1 free-detail-adminalldel" id="free-detail-adminalldel" @click="adminreplyalldel(free.commNum)">댓글전체삭제</b-button>
                     <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
                 </div>
@@ -189,6 +190,58 @@ export default{
             this.$refs['commant-container-'+index][0].children[4].classList.remove("d-block");
         },
 
+        replyadmindel(){
+            if(this.userNickName == "ADMIN"){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
+        //게시글의 댓글 전체 삭제(관리자 권한)
+        adminreplyalldel(commnum){
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            if(this.replytotal > 0){
+
+                this.$swal({
+                title: '관리자 권한으로 댓글을 전체삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        this.$axiosSend('get','/api/reply/replydelete', {
+                            commNum: commnum,
+                            userName : this.userNickName
+                })
+                        .then(res => {
+                            if (res.data > 0) {
+                                this.$swal('Success', '댓글전체삭제완료!', 'success');
+                                this.replygetTotal(commnum);
+                                this.replyread(commnum);
+                                return;
+                            }
+                        })
+                        .catch(error => {
+                            this.$swal('Error', '댓글이 정상적으로 삭제되지 않았습니다.', error);
+                        })
+                    }
+                })
+
+            }
+
+            
+        },
+
         // 'fontLikedClass' 메서드는 'fontBackColor' 또는 빈 문자열을 반환합니다.
         // 'cbnumList'라는 localStorage 항목을 가져와서 파싱한 후, 
         // 현재 'free.commNum'이 그 목록에 포함되어 있는지 확인합니다.
@@ -329,7 +382,7 @@ export default{
             if(commnum === 0 || commnum === null){
                 return;
             }
-            console.log('cnum', commnum);
+            
             this.$axiosSend('get', '/api/reply/getreply', {
                 commNum: commnum
             }).then(res => {

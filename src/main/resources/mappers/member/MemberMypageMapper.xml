@@ -54,5 +54,9 @@
    		ORDER BY B.USER_LECT_NUM DESC 
 		LIMIT #{startNo},9
    	</select>
+
+	<select id="getRecentlyViewd" resultType="java.util.HashMap">
+		call BEDU_RECENT_VIEW_LECT_PRO(#{userName})
+	</select>
 	
 </mapper>

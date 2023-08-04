@@ -35,8 +35,15 @@ public class AnsServiceImpl implements AnsService{
 
 	//글삭제
 	@Override
-	public int ansDelete(int ansBdNum) {
-		return ansDAO.ansDelete(ansBdNum);
+	public int ansDelete(AnsVO ansVO) {
+		if(ansVO.getQsBdNum() > 0 && ansVO.getUserName().equals("ADMIN") && ansVO.getUserName() != null) {
+			return ansDAO.ansalladminDelete(ansVO);
+		}else if(ansVO.getAnsBdNum() != null && ansVO.getAnsBdNum() >0) {
+			return ansDAO.ansDelete(ansVO.getAnsBdNum());
+		}else {
+			return 0;
+		}
+		
 	}
 
 }

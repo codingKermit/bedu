@@ -40,6 +40,7 @@
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답변작성</b-button>
+                    <b-button type="button" class="btn-custom ms-1 qnaboard-detail-adminalldel" v-if="admindelbtn() == 1" id="qnaboard-detail-adminalldel" @click="ansalldel()">답변전체삭제</b-button>
                     <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
                 </div>
@@ -51,7 +52,9 @@
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답변을 작성하시오</h4>
-                    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
+                    <b-form>
+                        <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
+                    </b-form>
                 </div>
                 <div class="qna-detail-replylists">
                     <div v-for="(ans,index) in anslist" :key="index" class="qna-detail-replylist">
@@ -131,6 +134,7 @@ import CommCategory from '@/components/CommCategory.vue';
 import router from '@/router';
 import '@/assets/css/qnaStyle.css';
 import Editor from 'ckeditor5-custom-build/build/ckeditor'; 
+
 export default{
 
     components:{
@@ -207,6 +211,7 @@ export default{
         const qnanum = this.$route.params.num;
         this.userNickName =this.$store.getters.getNickname;
         this.form.regId = this.$store.getters.getEmail;
+
         if(this.userNickName === null || this.userNickName ===""){
             this.qnaReadtet(qnanum);
         }else{
@@ -270,6 +275,69 @@ export default{
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";  
             }
+        },
+
+        //전체답변삭제버튼(관리자)
+        admindelbtn(){
+            if(this.userNickName != null && this.userNickName == 'ADMIN'){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+        //전체 답변삭제(관리자)
+        ansalldel(){
+
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            if(this.anstotal > 0){
+
+                this.$swal({
+                    title: '관리자 권한으로 답변을 전체 삭제 하시겠습니까?',
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
+                    confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        this.$axiosSend('get','/api/ans/ansdelete', {
+                            qsBdNum : this.qna.qnaBdNum,
+                            userName: this.userNickName
+                    })
+                    .then(res => {
+                        if(res.data > 0){
+                            this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
+                            this.ansread(this.qna.qnaBdNum);
+                            this.ansgetTotal(this.qna.qnaBdNum);
+                            return;
+                        }else{
+                            this.$swal('error', '답변전체삭제실패!', 'error');
+                            this.ansread(this.qna.qnaBdNum);
+                            return;
+                        }    
+                    })
+                    .catch(error => {
+                        this.$swal(error, '답변전체삭제실패!', 'error');
+                    })
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+                })
+
+            .catch((error)=>{
+                this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+            })
+            }
+            
+
         },
 
         backLikedClass() {
@@ -381,7 +449,7 @@ export default{
             
             if(this.userNickName == 'ADMIN'){
                 this.$axiosSend('get','/api/reply/replydelete', {
-                    rnum: replyNum
+                    replyNum: replyNum
                 })
                 .then(res => {
                     

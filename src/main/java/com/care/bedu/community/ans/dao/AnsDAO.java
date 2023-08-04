@@ -19,4 +19,7 @@ public interface AnsDAO {
 	
 	//글 삭제
 	public int ansDelete(Integer ansBdNum);
+	
+	//전체답변 삭제
+	public int ansalladminDelete(AnsVO ansVO);
 }

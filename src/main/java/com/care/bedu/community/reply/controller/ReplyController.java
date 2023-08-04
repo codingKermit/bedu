@@ -37,8 +37,8 @@ public class ReplyController {
 	
 	//댓글 삭제
 	@RequestMapping(value="/reply/replydelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
-	public int replyDelete(int rnum) {
-		return replyService.replydelete(rnum);
+	public int replyDelete(ReplyVO replyVO) {
+		return replyService.replydelete(replyVO);
 		
 	}
 
