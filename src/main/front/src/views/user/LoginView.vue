@@ -18,7 +18,7 @@
             </div>
             <div id="loginSection">
                 <form class="login-form" @submit.prevent="fnLogin">
-                    <div class="form-group">
+                    <div class="form-group" >
                         <!-- 이메일 입력 필드 -->
                         <input
                             id="emailInputSection"
@@ -26,26 +26,30 @@
                             placeholder="사용자 이메일"
                         />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="passwordInputContatiner">
                         <!-- 비밀번호 입력 필드 -->
                         <input
-                            id="pwdInputSection"
-                            v-model="password"
-                            type="password" 
-                            placeholder="비밀번호"
+                        id="pwdInputSection"
+                        v-model="password"
+                        :type="showPassword ? 'text' : 'password'"
+                        placeholder="비밀번호"
+                        />
+                        <font-awesome-icon
+                        id="passwordEyeToggle"
+                        :icon="showPassword ? ['fas', 'eye'] : ['fas', 'eye-slash']"
+                        @click="togglePasswordVisibility"
                         />
                     </div>
                     <!-- 아이디 저장 체크박스 -->
-                    <!-- <div id="idRememberSection">
+                    <div id="idRememberSection">
                         <input
                             class="form-check-input"
                             type="checkbox"
-                            ref="saveIdCheckbox"
+                            v-model="isEmailSaved"
+                            @change="handleEmailSaving"
                         />
-                        <span style="cursor: pointer" @click="toggleCheckbox"
-                            >아이디 저장</span
-                        >
-                    </div> -->
+                        <span style="cursor: pointer; margin-left: 10px;" @click="toggleCheckbox">아이디 저장</span>
+                    </div>
                     <div>
                         <!-- 로그인 버튼 -->
                         <button id="loginSubmitBtn" type="submit">로그인</button>
@@ -65,15 +69,25 @@ export default {
         return {
             email: '',
             password: '',
+            showPassword: false,
+            isEmailSaved: false,
         };
     },
     methods: {
         ...mapActions(['login']),
         // 체크박스 토글
-        // toggleCheckbox() {
-        //     const checkbox = this.$refs.saveIdCheckbox;
-        //     checkbox.checked = !checkbox.checked;
-        // },
+        toggleCheckbox() {
+            this.isEmailSaved = !this.isEmailSaved;
+            this.handleEmailSaving();
+        },
+        handleEmailSaving() {
+            if (this.isEmailSaved) {
+                localStorage.setItem('savedEmail', this.email);
+            } else {
+                localStorage.removeItem('savedEmail');
+                this.email = '';
+            }
+        },
         async fnLogin() {
             // 이메일 입력 유효성 검사
             if (this.email === '') {
@@ -88,7 +102,12 @@ export default {
             try {
                 // 로그인 액션 호출 (actions.js의 login을 실행)
                 let loginResult = await this.login({ email: this.email, password: this.password })
-                if (loginResult) this.goToPages()
+                if (loginResult) {
+                    if (this.isEmailSaved) {
+                        localStorage.setItem('savedEmail', this.email);
+                    }
+                    this.goToPages()
+                }
             } catch (err) {
                 // 네트워크 에러인 경우
                 if (err.message.indexOf('Network Error') > -1) {
@@ -125,12 +144,22 @@ export default {
             this.$router.push({
                 name: 'main'
             })
-        }
+        },
+        togglePasswordVisibility() {
+            this.showPassword = !this.showPassword;
+        },
     },
     computed: {
         ...mapGetters({
             errorState: 'getErrorState'
         })
-    }
+    },
+    created() {
+        const savedEmail = localStorage.getItem('savedEmail');
+        if (savedEmail) {
+            this.email = savedEmail;
+            this.isEmailSaved = true;
+        }
+    },
 }
 </script>

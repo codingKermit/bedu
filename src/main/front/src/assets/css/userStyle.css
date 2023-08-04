@@ -19,6 +19,16 @@
     padding-bottom: 8%;
 }
 
+#passwordInputContatiner {
+    position: relative;
+}
+
+#passwordEyeToggle {
+    position: absolute;
+    top:50%;
+    right: 21%;
+}
+
 #loginChangeSection {
     display: flex;
     justify-content: center;
@@ -90,19 +100,9 @@
 }
 
 #idRememberSection {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 3.125%;
-    margin-left: 5%;
-}
-
-#idRememberSection span {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-left: 1.5625%;
-    margin-top: 0.9375%;
+    position: absolute;
+    margin-top: 2%;
+    left: 19%;
 }
 
 #loginSubmitBtn {
@@ -442,6 +442,7 @@
     }
 
     #loginSubmitBtn {
+        margin-top: 15%;
         width: 100%;
         margin-bottom: -500px;
     }
@@ -449,6 +450,16 @@
     #emailInputSection ,
     #pwdInputSection {
         width: 100%;
+    }
+
+    #passwordInputContatiner {
+        position: relative;
+    }
+    
+    #passwordEyeToggle {
+        position: absolute;
+        top: 45%;
+        right: 5%;
     }
 
     #loginChangeSection {
@@ -459,18 +470,25 @@
         width: 90%;
     }
 
+    #idRememberSection {
+        position: absolute;
+        margin-top: 5%;
+        left: 0;
+    }
 
     /* 회원가입 모바일 CSS*/
     #registInputCorrect,
     #registInputError {
+        position: relative;
+        padding: 1%;
         margin-top: 0;
         margin-left: 0;
-        font-size: 0.8rem;
+        margin-bottom: 0;
+        font-size: 1rem;
     }
 
     #registChkAll,
     #registCheckBox {
-        margin-top: 8%;
         margin-left: 1%;
         width: 99%;
     }
@@ -498,21 +516,8 @@
     }
 
     #registEmailChk {
-        margin-bottom: 2%;
         margin-left: 0;
         width: 100%;
-    }
-
-    #registPassword {
-        margin-top: 9%;
-    }
-
-    #registNickname {
-        margin-top: 6%;
-    }
-
-    #registConfirmPassword {
-        margin-top: 5%;
     }
 
     #registSubmitFormBtn {
