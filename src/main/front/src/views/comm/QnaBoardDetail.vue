@@ -378,29 +378,29 @@ export default{
                 })
                 return;
             }
-            console.log(this.userNickName);
+            
             if(this.userNickName == 'ADMIN'){
-                        this.$axiosSend('get','/api/reply/replydelete', {
-                            rnum: replyNum
-                        })
-                        .then(res => {
-                            
-                            if(res.data ===1){
-                                this.$swal('Success', '관리자 권한으로 댓글삭제가 완료 되었습니다.', 'success');
-                                this.ansread(qnanum);
-                                this.replyread(qnanum);
-                                return;
-                            }else{
-                                this.$swal('error', '댓글삭제실패!', 'error');
-                                this.ansread(qnanum);
-                                this.replyread(qnanum);
-                                return;
-                            }    
-                        })
-                        .catch(error => {
-                            this.$swal(error, '댓글삭제실패!', 'error');
-                            return;
-                        })
+                this.$axiosSend('get','/api/reply/replydelete', {
+                    rnum: replyNum
+                })
+                .then(res => {
+                    
+                    if(res.data ===1){
+                        this.$swal('Success', '관리자 권한으로 댓글삭제가 완료 되었습니다.', 'success');
+                        this.ansread(qnanum);
+                        this.replyread(qnanum);
+                        return;
+                    }else{
+                        this.$swal('error', '댓글삭제실패!', 'error');
+                        this.ansread(qnanum);
+                        this.replyread(qnanum);
+                        return;
+                    }    
+                })
+                .catch(error => {
+                    this.$swal(error, '댓글삭제실패!', 'error');
+                    return;
+                })
             
                 
             }
@@ -517,7 +517,6 @@ export default{
                 qsNum: qnanum
             })
             .then(res => {
-                console.log('받은수:', res.data);
                 this.replyTotal = res.data;
             })
         },
@@ -687,7 +686,7 @@ export default{
 
         //답변 글 작성
         answrite(){
-            console.log('내용',this.form.content);
+            
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -764,13 +763,11 @@ export default{
                 })
                 return;
             }
-            console.log('숫자');
+            
             this.$axiosSend('get', '/api/reply/replyTotal', {
                 ansNum: ansNum
             })
             .then(res=>{
-                console.log('숫자', res.data);
-
                 if(this.userNickName == 'ADMIN'){
                     this.$axiosSend('get','/api/ans/ansdelete', {
                         ansBdNum : ansNum
@@ -792,20 +789,17 @@ export default{
                         this.$swal(error, '답변삭제실패!', 'error');
                     })
                 }
-
-
-                if(userName !== this.userNickName){
+                else if(userName !== this.userNickName){
                     this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
                     return;
                 }
                 
-                if(res.data > 0){
+                else if(res.data > 0){
                     this.$swal('댓글이 잇으므로 삭제 할수없습니다. 관리자한테 문의 주세요.');
                     return;
-                    
                 }
 
-                if(res.data ==0){
+                else if(res.data ==0){
                     this.$swal({
                     title: '답변을 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
