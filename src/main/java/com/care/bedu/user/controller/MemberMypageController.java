@@ -59,10 +59,10 @@ public class MemberMypageController {
 
 		HashMap<String, Object> map = new HashMap<>();
 
-		System.out.println("order : " + order);
-		System.out.println("group : " + group);
-		System.out.println("page : " + page);
-		System.out.println("keyword : " + keyword);
+		// System.out.println("order : " + order);
+		// System.out.println("group : " + group);
+		// System.out.println("page : " + page);
+		// System.out.println("keyword : " + keyword);
 
 		map.put("list",memberMypageService.getMemberMypageAll(userid, startNo, numOfPage)); 
     	

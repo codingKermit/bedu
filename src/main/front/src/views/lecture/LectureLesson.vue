@@ -24,7 +24,14 @@
                             <ul class="list-unstyled">
                                 <li v-for="(item, index ) in lessonList" :key="index" class="mb-3 ms-3 bedu-video-center-toggle-button">
                                     <b-link class="text-body text-decoration-none fs-6 d-flex" 
-                                    :to="'/lectureLesson?lectDtlNum='+item.lectDtlNum">
+                                    :to="{
+                                        name : 'lectureLesson',
+                                        query : {
+                                            lectDtlNum : item.lectDtlNum,
+                                            lectNum : item.lectNum
+                                        },
+                                    }"
+                                    >
                                         <p class="me-auto">
                                             {{ item.lectDtlIndex }}.{{ item.lectDtlTitle }}
                                         </p>
@@ -45,7 +52,6 @@
                     ></video>
                     <!-- 비디오 컨트롤러 -->
                     <div class="bedu-video-controls-container text-light text-opacity-75"
-                    :class="fullscreenToggleData ? 'vh-100 vw-100':''"
                     >
                         <div class="w-100 h-100 d-block" @click="playToggleCenter">
                             <!-- 동영상 가운데 재생 토글 버튼 -->
@@ -97,35 +103,53 @@
                     </div>
                 </div>
             </b-container>
-            
             <!-- 하단 네비 -->
             <b-container class="text-light" v-if="lessonList.length">
-                <!-- <div class="row"> -->
-                <div class="d-flex">
-                    <div class="d-flex gap-3 m-auto">
-                        <div v-if="lessonInfo.lectDtlIndex > 1">
-                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue w-100"
-                            :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex-2].lectDtlNum">
+                <b-row>
+                    <b-col cols="6">
+                        <div v-if="lessonInfo.lectDtlIndex > 1" class="text-end">
+                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue"
+                            :to="{
+                                name : 'lectureLesson',
+                                query:{
+                                    lectDtlNum : lessonList[lessonInfo.lectDtlIndex-2].lectDtlNum,
+                                    lectNum : this.lessonInfo.lectNum
+                                }
+                            }">
                                 <font-awesome-icon class="px-2" :icon="['fas', 'left-long']" />
                                 <span>{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex-2].lectDtlTitle }}</span>
                             </b-button>
                         </div>
-                        
+                    </b-col>
+                    
+                    <b-col cols="4">
                         <div v-if="lessonInfo.lectDtlIndex < lessonList.length">
-                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue w-100"
-                            :to="'/lectureLesson?lectDtlNum='+lessonList[lessonInfo.lectDtlIndex].lectDtlNum">
+                            <b-button class="rounded-5 p-3 bedu-bg-custom-blue"
+                            :to="{
+                                name : 'lectureLesson',
+                                query : {
+                                    lectDtlNum : lessonList[lessonInfo.lectDtlIndex].lectDtlNum,
+                                    lectNum : this.lessonInfo.lectNum
+                                }
+                            }"
+                            >
                                 <span>{{ lessonList[lessonInfo.lectDtlIndex].lectDtlIndex }}.{{ lessonList[lessonInfo.lectDtlIndex].lectDtlTitle }}</span>
                                 <font-awesome-icon class="px-2" :icon="['fas', 'right-long']" />
                             </b-button>
                         </div>
-                    </div>
-                <!-- </div> -->
-                <!-- <div class="col text-end">
-                    <b-button class="bedu-custom-yellow border rounded-5 p-3">
-                        수강 완료
-                    </b-button>
-                </div> -->
-            </div>
+                    </b-col>
+                    <b-col cols="2" class="text-end">
+                        <div v-if="completeToggleData">
+                            <b-button v-if="isCompleted" class="bedu-bg-custom-yellow border-0 rounded-pill p-3">
+                                <font-awesome-icon :icon="['fas', 'check']" />
+                                완료됨
+                            </b-button>
+                            <b-button v-else class="bedu-bg-custom-yellow border rounded-5 p-3" @click="setComplete">
+                                수강 완료
+                            </b-button>
+                        </div>
+                    </b-col>
+            </b-row>
             </b-container>
         </div>
     </b-container>
@@ -142,16 +166,15 @@ export default{
     name : 'lectureLesson',
     data() {
         return {
-            lessonInfo : {
+            lessonInfo : { // 현재 동영상의 정보
                 lectDtlIndex : 0,
                 lectDtlNum : 0,
                 lectDtlTitle : '',
                 lectNum : 0,
                 lessonUrl : '',
             },
-            isAvailable : '',
-            lessonList : [],
-            lectInfo : {
+            lessonList : [], // 강의 내의 다른 동영상 목록
+            lectInfo : { // 강의 정보
                 lectNum : 0,
                 lectCateCode : '',
                 lectCateKor : '',
@@ -165,9 +188,10 @@ export default{
             volumeSliderOverData : false, // 볼륨 슬라이더 토글
             muteToggleData : true, // 음소거 토글
             playToggleCenterData : false, // 동영상 가운데 재생, 일시정지 나타나는 토글
-            fullscreenToggleData : false, // 전체화면 토글 데이터
             subscribeInfo : '', // 멤버쉽 정보
             timer : null, // 페이지 접속 타이머
+            completeToggleData : false, // 80%이상 재생시 수강 완료 나오도록 하는 토글 데이터
+            isCompleted : 0,
         }
     },
     methods: {
@@ -177,29 +201,16 @@ export default{
                 lectDtlNum : this.lessonInfo.lectDtlNum,
                 complete : 1,
             })
+            .then(()=>{
+                this.$swal({
+                    title : '강의가 완료됨',
+                    icon : 'success'
+                })
+                .then(()=>{
+                    this.isCompleted = 1;
+                })
+            })
         },
-        // makeToastForNext(){
-        //     if(this.lessonInfo.lectDtlIndex < this.lessonList.length ){
-        //         toast.success(`이어보기`,{
-        //         transition: toast.TRANSITIONS.BOUNCE,
-        //         position : toast.POSITION.BOTTOM_RIGHT,
-        //         autoClose : false,
-        //         multiple: false,
-        //         onClick : () =>{
-        //             this.$routerPush('lectureLesson',{
-        //                 'lectDtlNum' : this.lessonList[this.lessonInfo.lectDtlIndex].lectDtlNum
-        //             }, true)
-        //         },
-        //         })
-        //     } else {
-        //         toast.success('강의를 전부 수강하셨습니다!',{
-        //             position: toast.POSITION.BOTTOM_RIGHT,
-        //             multiple: false,
-        //         })
-        //     }
-
-
-        // },
         /** 강의 정보 및 수강 가능 여부 확인 */
         getLesson(){
             // view가 바뀌어도 alert이 중복되어서 나오는 문제 차단
@@ -302,6 +313,14 @@ export default{
         /** 사용자의 강의 가장 최근 수강 상태를 1초마다 업데이트 하는 메서드 */
         updateProgressSituation(e){
             let progress = Math.round(e.target.currentTime)
+            console.log("progress : " + progress)
+            
+            let percent = Math.round((progress / this.maxTime) * 100)
+
+            if(percent >= 80){
+                this.completeToggleData = true;
+            }
+
             this.currentTime = Math.round(e.target.currentTime) ;
             let minute = Math.floor(this.currentTime / 60).toString().padStart(2,'0');
             const seconds = (this.currentTime%60).toString().padStart(2,'0') ;
@@ -344,17 +363,14 @@ export default{
         },
         /** 전체화면 토글 */
         fullscreenToggle(){
-            if(this.fullscreenToggleData){
-                document.exitFullscreen();
-                this.fullscreenToggleData = false;
-            } else{
+            if(!document.fullscreenElement){
                 this.$refs.bedu_video_container.requestFullscreen();
-                this.fullscreenToggleData = true;
+            } else {
+                document.exitFullscreen();
             }
         },
         /** 동영상 볼륨 변경 토글 */
         volumeToggle(e){
-            // console.log(e.target.value)
             console.log(
                 this.$refs.bedu_video.volume = e.target.value / 100
             )
@@ -407,20 +423,25 @@ export default{
             const userName = this.$store.getters.getNickname;
             const lectDtlNum = this.lessonInfo.lectDtlNum;
             const endTime = this.currentTime;
-            this.$axiosSend('get','/api/lecture/history/save',{
-                userName : userName,
-                lectDtlNum : lectDtlNum,
-                endTime : endTime,              
-            })
+            if(this.currentTime){
+                this.$axiosSend('get','/api/lecture/history/save',{
+                    userName : userName,
+                    lectDtlNum : lectDtlNum,
+                    endTime : endTime,              
+                })
+            }
         },
         /** 해당 페이지 접근 후 40초마다 현재 재생 정보 서버로 전송 */
         watchHistorySave(){
             this.timer = setInterval(()=>{
-                this.$axiosSend('get','/api/lecture/history/save',{
-                    userName : this.$store.getters.getNickname,
-                    lectDtlNum : this.lessonInfo.lectDtlNum,
-                    endTime : this.currentTime,
-                })
+                // 현재 재생 시간이 0초라면 재생 정보 저장 안함
+                if(this.currentTime){
+                    this.$axiosSend('get','/api/lecture/history/save',{
+                        userName : this.$store.getters.getNickname,
+                        lectDtlNum : this.lessonInfo.lectDtlNum,
+                        endTime : this.currentTime,
+                    })
+                }
             },40000)
         },
         /** 해당 동영상 재생 정보 조회 */
@@ -431,19 +452,27 @@ export default{
             })
             .then((res)=>{
                 if(res.data != "" || res.data != null || res.data != undefined){
-                    this.$swal({
-                        icon : 'info',
-                        text:'기존에 보던 시간부터 이어보시겠습니까?',
-                        showCancelButton : true,
-                        cancelButtonText : '아니오',
-                        confirmButtonText : '예'
-                    })
-                    .then((result)=>{
-                        if(result.isConfirmed){
-                            this.$refs.bedu_video.currentTime = res.data.endTime
+                    // 이어보기 시점이 0초가 아닐 때에 이어보기 기능 동작
+                    if(res.data.endTime){
+                        // 이미 수강 완료한 동영상이라면 `수강 완료` 버튼 대신 `완료됨` 버튼으로 나타나도록 토글 변경
+                        this.isCompleted = res.data.complete
+                        if(this.isCompleted){
+                            this.completeToggleData = true;
                         }
-                        this.watchHistorySave();
-                    })
+                        this.$swal({
+                            icon : 'info',
+                            text:'기존에 보던 시간부터 이어보시겠습니까?',
+                            showCancelButton : true,
+                            cancelButtonText : '아니오',
+                            confirmButtonText : '예'
+                        })
+                        .then((result)=>{
+                            if(result.isConfirmed){
+                                this.$refs.bedu_video.currentTime = res.data.endTime
+                            }
+                            this.watchHistorySave();
+                        })
+                    }
                 }
             })
             .catch((err)=>{
@@ -453,6 +482,7 @@ export default{
         
     },
     mounted() {
+
     },
     created() {
         this.lessonInfo.lectNum = this.$route.query.lectNum;
@@ -465,11 +495,9 @@ export default{
     watch:{
         '$route.query.lectDtlNum':{
             immediate: true,
-            handler(newNum, oldNum){
-                // 기존 번호, 새로운 번호가 둘다 undefined가 아닌 경우 레슨 재생 중 다른 레슨으로 변경하는 경우
-                if(newNum != undefined && oldNum != undefined){
-                    this.unloadEvent();
-                } else if(newNum != undefined){ // 다른 페이지로 변경한게 아니라면 동작
+            handler(newNum){
+                if(newNum != undefined){ 
+                    // 다른 페이지로 변경한게 아니라면 동작
                     // 다른 레슨으로 전환시 지금까지의 재생 정보 저장 후 변경
                     this.lessonInfo.lectDtlNum = newNum;
                     this.playPauseToggleData = false;
@@ -479,13 +507,6 @@ export default{
                     this.unloadEvent();
                 }
             },
-        
-        },
-        currentTime (){
-            if(this.currentTime == this.maxTime){
-                this.setComplete();
-                // this.makeToastForNext();
-            }
         },
     }
 }

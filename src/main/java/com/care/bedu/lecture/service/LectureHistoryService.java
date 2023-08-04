@@ -9,4 +9,7 @@ public interface LectureHistoryService {
 
     /* 동영상 재생 정보 조회 */
     public LectureHistoryVO getHistory(String userName, int lectDtlNum);
+
+    /* 동영상 수강 완료 처리 */
+    public int setComplete(String userName, int lectDtlNum);
 }
