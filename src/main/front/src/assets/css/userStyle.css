@@ -465,7 +465,7 @@
     
     #passwordEyeToggle {
         position: absolute;
-        top: 40.5%;
+        top: 39%;
         right: 3%;
     }
 
@@ -492,7 +492,7 @@
         margin-top: 0;
         margin-left: 0;
         margin-bottom: 0;
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     #registChkAll,
