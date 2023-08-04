@@ -13,7 +13,7 @@ import com.care.bedu.lecture.vo.LectureHistoryVO;
 
 @RestController
 @RequestMapping("/api/lecture/history")
-public class LectureWatchController {
+public class LectureHistoryController {
     
     @Autowired
     LectureHistoryServiceImpl service;
@@ -23,9 +23,15 @@ public class LectureWatchController {
         service.watchHistorySave(userName, lectDtlNum, endTime);
     }
 
-        /* 동영상 재생 정보 조회 */
+    /* 동영상 재생 정보 조회 */
     @RequestMapping("/getHistory")
     public ResponseEntity<LectureHistoryVO> getHistory(String userName, int lectDtlNum){
         return new ResponseEntity<LectureHistoryVO>(service.getHistory(userName, lectDtlNum), HttpStatus.OK);
+    }
+
+    /* 강의 수강 완료 */
+    @RequestMapping("/setComplete")
+    public int setComplete(String userName, int lectDtlNum){
+        return service.setComplete(userName, lectDtlNum);
     }
 }

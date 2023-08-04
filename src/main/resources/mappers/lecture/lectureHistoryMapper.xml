@@ -9,19 +9,16 @@
                 user_name,
                 lect_dtl_num,
                 history_start_time,
-                history_end_time,
-                complete
+                history_end_time
             )
         VALUES(
             #{userName},
             #{lectDtlNum},
             #{startTime},
-            #{endTime},
-            #{complete}
+            #{endTime}
         )
         ON DUPLICATE KEY UPDATE
-            history_end_time = #{endTime},
-            complete = #{complete}
+            history_end_time = #{endTime}
     </insert>
 
     <select id="getHistory" parameterType="com.care.bedu.lecture.vo.LectureHistoryVO" resultType="com.care.bedu.lecture.vo.LectureHistoryVO">
@@ -31,12 +28,22 @@
             lect_dtl_num as lectDtlNum,
             history_start_time as startTime,
             history_end_time as endTime,
-            complete
+            complete as complete
         FROM
             b_edu.t_bedu_history
         WHERE
             USER_NAME = #{userName} AND
             LECT_DTL_NUM = #{lectDtlNum}
     </select>
+
+    <update id="setComplete">
+        UPDATE 
+            B_EDU.T_BEDU_HISTORY
+        SET
+            COMPLETE = #{complete}
+        WHERE
+            user_name = #{userName} AND
+            lect_dtl_num = #{lectDtlNum}
+    </update>
 
 </mapper>

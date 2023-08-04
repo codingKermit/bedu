@@ -32,5 +32,11 @@ public class LectureHistoryServiceImpl implements LectureHistoryService{
 
         return dao.getHistory(vo);
     }
+
+    @Override
+    public int setComplete(String userName, int lectDtlNum) {
+
+        return dao.setComplete(new LectureHistoryVO(0, userName, lectDtlNum, lectDtlNum, lectDtlNum, 1));
+    }
     
 }

@@ -36,6 +36,7 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글 삭제
 	@Override
 	public int replydelete(int replynum) {
+		System.out.println(replynum);
 		return replyDAO.replyDelete(replynum);
 	}
 

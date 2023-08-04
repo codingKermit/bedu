@@ -5,11 +5,6 @@
         </div>
         <div id="csc-detail-main">
             <div id="csc-detail-body">
-                <div v-if="commentDelete(inquiry.userName) == 1">
-                    <b-button type="button" id="reply-commit" @click="inquirydelete(inquiry.vocNum, inquiry.userName)">
-                        게시글 삭제
-                    </b-button>
-                </div>
                 <h2 id="csc-detail-title">
                     {{ inquiry.title }}
                 </h2>
@@ -33,7 +28,7 @@
             </div>
             <div v-show="!tmp" class="inq-button-group">
                 <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp">답글작성</b-button>
-                <b-button type="button" id="" @click="tmp = !tmp" :to="'/csc'">뒤로</b-button>
+                <b-button type="button" @click="inquirydelete(inquiry.vocNum, this.getCls)">삭제</b-button>
             </div>
             <div v-if="tmp">
                 <b-form-textarea id="textarea-row" v-model="reply.content" placeholder="답글을 입력해주세요"
@@ -92,7 +87,6 @@ export default {
                 userName: '',
                 content: '',
             },
-
             replylist: [],
 
             reply: { //1대1 문의사항 글쓰기
@@ -112,8 +106,13 @@ export default {
         this.userName = this.$store.getters.getNickname;
         this.regId = this.$store.getters.getEmail;
     },
-    created() {
+    computed: {
+        getCls() {
+            const cls = this.$store.getters.getCls;
+            console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
+            return cls;
 
+        },
     },
 
     methods: {
@@ -139,20 +138,21 @@ export default {
                 this.$swal('관리자만 삭제가 가능합니다.', 'FAIL');
                 return;
             } else {
-                this.inquiry.userName = this.userName
                 this.$axiosSend('get', 'api/inquiry/inquiryDelete', {
-                    num : vocNum,
-                    userName: this.inquiry.userName
+                    vocNum: vocNum,
+                    userName: this.getCls
                 })
                     .then(res => {
                         if (res.data === 1) {
                             this.$swal('success', '답변 삭제가 완료 되었습니다.', 'success');
                             router.push({
-                            name: "csc"
-                        })
+                                name: "csc"
+                            })
+                            console.log(res.data);
                             return;
                         } else {
                             this.$swal('error', '답변삭제실패???!!!!!!!!!!!', 'error');
+                            console.log(res.data);
                             return;
                         }
                     })

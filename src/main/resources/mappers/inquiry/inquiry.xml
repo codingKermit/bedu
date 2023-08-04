@@ -79,13 +79,13 @@
 		  PASSWORD as password
 		FROM 
 			T_BEDU_VOC
-		WHERE VOC_NUM = #{vocNum};
+		WHERE VOC_NUM = #{vocNum}
 	</select>
 	
 	<delete id="inquirydelete">
 		DELETE
 		 FROM T_BEDU_VOC 
-		WHERE VOC_NUM = #{num}
+		WHERE VOC_NUM = #{vocNum}	
 	</delete>
 	
 	<!-- 1대1 문의사항 게시글 전체 조회 -->
