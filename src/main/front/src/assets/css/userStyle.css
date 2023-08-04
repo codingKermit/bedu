@@ -25,8 +25,8 @@
 
 #passwordEyeToggle {
     position: absolute;
-    top:50%;
-    right: 21%;
+    top:35.5%;
+    right: 14%;
 }
 
 #loginChangeSection {
@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     width: 50%;
+    margin-top: 7%;
 }
 
 #loLoginChangeBtn {
@@ -75,6 +76,7 @@
     position: relative;
     background: white;
     width: 62.5%;
+    margin-bottom: 5%;
 }
 
 #loginLogoContainer {
@@ -103,6 +105,7 @@
     position: absolute;
     margin-top: 2%;
     left: 19%;
+    font-size: 1.1rem;
 }
 
 #loginSubmitBtn {
@@ -144,6 +147,7 @@
     flex-direction: column;
     align-items: center;
     min-height: auto;
+    padding-top: 5%;
 }
 
 #registChangeSection {
@@ -435,6 +439,7 @@
     /* 로그인 모바일 CSS */
     #loginChangeContainer {
         padding-top: 10%;
+        padding-bottom: 20%;
     }
 
     #loginChangeSection {
@@ -442,13 +447,15 @@
     }
 
     #loginSubmitBtn {
-        margin-top: 15%;
+        font-size: 0.9rem;
+        margin-top: 18%;
         width: 100%;
         margin-bottom: -500px;
     }
 
     #emailInputSection ,
     #pwdInputSection {
+        font-size: 0.9rem;
         width: 100%;
     }
 
@@ -458,8 +465,8 @@
     
     #passwordEyeToggle {
         position: absolute;
-        top: 45%;
-        right: 5%;
+        top: 40.5%;
+        right: 3%;
     }
 
     #loginChangeSection {
@@ -472,6 +479,7 @@
 
     #idRememberSection {
         position: absolute;
+        font-size: 0.9rem;
         margin-top: 5%;
         left: 0;
     }
@@ -491,6 +499,7 @@
     #registCheckBox {
         margin-left: 1%;
         width: 99%;
+        font-size: 0.9rem;
     }
     
     #registChangeSection {
@@ -518,18 +527,25 @@
     #registEmailChk {
         margin-left: 0;
         width: 100%;
+        font-size: 0.9rem;
     }
 
     #registSubmitFormBtn {
+        font-size: 0.9rem;
         width: 100%;
         margin-left: 0;
         margin-bottom: 10%;
+    }
+
+    #registContainer label span {
+        font-size: 0.9rem;
     }
 
     #registEmail,
     #registNickname,
     #registPassword,
     #registConfirmPassword {
+        font-size: 0.9rem;
         width: 100%;
         margin-left: 0;
     }
@@ -547,5 +563,6 @@
     #registNickChk {
         margin-left: 0;
         width: 100%;
+        font-size: 0.9rem;
     }
 }

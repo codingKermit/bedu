@@ -19,6 +19,7 @@
                         <!-- 이메일 입력 필드 -->
                         <div id="registFormGroup">
                             <input
+                                type="email"
                                 id="registEmail"
                                 placeholder="이메일 입력"
                                 v-model="emailValue"
@@ -103,10 +104,15 @@
                         <!-- 비밀번호 입력 필드 -->
                         <div id="registFormGroup">
                             <input
-                                type="password"
+                                :type="showPassword ? 'text' : 'password'"
                                 id="registPassword"
                                 placeholder="비밀번호 입력"
                                 v-model="member.password"
+                            />
+                            <font-awesome-icon
+                            id="passwordEyeToggle"
+                            :icon="showPassword ? ['fas', 'eye'] : ['fas', 'eye-slash']"
+                            @click="togglePasswordVisibility"
                             />
                             <p
                                 v-show="
@@ -254,6 +260,7 @@
                 emailChecked: false, // 이메일 중복 체크 상태를 나타내는 변수
                 nickChecked: false, // 닉네임 중복 체크 상태를 나타내는 변수
                 confirmPassword: "", // 비밀번호 확인을 위해 입력된 값을 저장하는 변수
+                showPassword: false,
                 emailValue: '', // 이메일 입력 필드의 값
                 emailList: [], // 이메일 목록을 담을 배열
                 isMobileView: false, // 모바일 화면 여부를 나타내는 변수
@@ -481,6 +488,9 @@
                     return;
                 }
                 this.valid.password = false;
+            },
+            togglePasswordVisibility() {
+                this.showPassword = !this.showPassword;
             },
             // "모든 이용 약관에 동의" 체크박스 토글 메서드
             toggleAllAgreements(event) {

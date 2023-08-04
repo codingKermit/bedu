@@ -21,6 +21,7 @@
                     <div class="form-group" >
                         <!-- 이메일 입력 필드 -->
                         <input
+                            type="email"
                             id="emailInputSection"
                             v-model="email"
                             placeholder="사용자 이메일"
@@ -31,13 +32,8 @@
                         <input
                         id="pwdInputSection"
                         v-model="password"
-                        :type="showPassword ? 'text' : 'password'"
+                        type="password"
                         placeholder="비밀번호"
-                        />
-                        <font-awesome-icon
-                        id="passwordEyeToggle"
-                        :icon="showPassword ? ['fas', 'eye'] : ['fas', 'eye-slash']"
-                        @click="togglePasswordVisibility"
                         />
                     </div>
                     <!-- 아이디 저장 체크박스 -->
@@ -69,7 +65,6 @@ export default {
         return {
             email: '',
             password: '',
-            showPassword: false,
             isEmailSaved: false,
         };
     },
@@ -144,9 +139,6 @@ export default {
             this.$router.push({
                 name: 'main'
             })
-        },
-        togglePasswordVisibility() {
-            this.showPassword = !this.showPassword;
         },
     },
     computed: {

@@ -37,6 +37,13 @@
     height: 40px;
 }
 
+@media (max-width: 1300px) {
+    #bedu-logo {
+        width: auto;
+        height: 1.7rem;
+    }
+}
+
 #nav1 a {
     margin-right: 30px;
     text-decoration: none;
