@@ -31,6 +31,8 @@ public interface ReplyDAO {
 	//댓글수정
 	public int replyupdate(ReplyVO replyVO);
 	
+	public int replyadminalldelete(ReplyVO replyVO);
+	
 	//1대1 문의사항 답급
 	public int inquiryInsert(ReplyVO replyVO);
 	

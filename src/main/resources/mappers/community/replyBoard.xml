@@ -98,6 +98,12 @@
 		WHERE COMM_NUM = #{commNum}
 	</delete>
 	
+	<delete id="replyadminalldelete">
+		DELETE
+		 FROM T_BEDU_REPLY
+		WHERE ANS_NUM = #{ansNum}
+	</delete>
+	
 		<!-- 1대1 문의사항 답글 삽입 -->
 	<insert id="inquiryInsert" parameterType="com.care.bedu.community.reply.vo.ReplyVO" >
 		INSERT INTO T_BEDU_REPLY(

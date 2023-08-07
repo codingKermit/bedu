@@ -41,7 +41,11 @@ public class ReplyServiceImpl implements ReplyService{
 			return replyDAO.replyadminDelete(replyVO);									
 		}else if(replyVO.getReplyNum() != null && replyVO.getReplyNum()>0){
 			return replyDAO.replyDelete(replyVO);
-		}else {
+		}else if(replyVO.getAnsNum() != null && replyVO.getAnsNum() >0
+				&& replyVO.getUserName().equals("ADMIN") && replyVO.getUserName() != null) {
+			return replyDAO.replyadminalldelete(replyVO);
+		}
+		else {
 			return 0;
 		}
 		
