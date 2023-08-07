@@ -17,10 +17,10 @@
 			#{subType},
 			SYSDATE(),
 			<choose>
-				<when test="subType == 'month'">
+				<when test="subType.equals('month')">
 					DATE_ADD(SYSDATE(), INTERVAL 30 DAY)
 				</when>
-				<when test="subType == 'year'">
+				<when test="subType.equals('year')">
 					DATE_ADD(SYSDATE(), INTERVAL 365 DAY)
 				</when>
 			</choose>

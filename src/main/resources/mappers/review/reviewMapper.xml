@@ -69,11 +69,9 @@
             LEFT JOIN t_bedu_lect_fild FILD 
                 ON LECT.CATE_CODE = FILD.LECT_BOT_CATE
         WHERE
-            RW.content like CONCAT('%',#{keyword},'%') 
-            AND RW.title like CONCAT('%',#{keyword},'%') 
-            AND RW.USER_NAME like CONCAT('%',#{keyword},'%')
-            <if test="topCate != 'all'">
-            AND FILD.LECT_TOP_CATE = #{topCate}
+            RW.CONTENT like CONCAT('%',#{keyword},'%')
+            <if test="topCate != 'all'"> 
+            AND FILD.LECT_TOP_CATE = #{topCate} 
             </if>
     </select>
 

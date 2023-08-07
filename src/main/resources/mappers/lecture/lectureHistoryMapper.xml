@@ -18,7 +18,8 @@
             #{endTime}
         )
         ON DUPLICATE KEY UPDATE
-            history_end_time = #{endTime}
+            history_end_time = #{endTime},
+            history_record_day = NOW()
     </insert>
 
     <select id="getHistory" parameterType="com.care.bedu.lecture.vo.LectureHistoryVO" resultType="com.care.bedu.lecture.vo.LectureHistoryVO">

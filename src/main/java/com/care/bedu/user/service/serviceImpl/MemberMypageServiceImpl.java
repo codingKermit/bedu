@@ -1,6 +1,7 @@
 package com.care.bedu.user.service.serviceImpl;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,29 +29,36 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     
     /* 마이페이지 홈(유저아이디 받아오기) */
     @Override
-    public List<MemberMypageVO> getMemberMypage(String userid) {
-    	return memberMypageDao.getMemberMypage(userid);
+    public List<MemberMypageVO> getMemberMypage(String userName) {
+    	return memberMypageDao.getMemberMypage(userName);
     }
     
     /* 마이페이지 홈(전체보기 개수 추출) */
     @Override
-	public int getLectureCount(String userId) {
+	public int getLectureCount(String userName) {
 		
-		return memberMypageDao.getLectureCount(userId);
+		return memberMypageDao.getLectureCount(userName);
 	}
     
     /* 마이페이지 홈(전체보기 첫번째) */
 	@Override
-	public List<MemberMypageVO> lectureListInfoFirst(String userid, int numOfLecture) {
+	public List<MemberMypageVO> lectureListInfoFirst(String userName, int numOfLecture) {
 		
-		return memberMypageDao.lectureListInfoFirst(userid, numOfLecture);
+		return memberMypageDao.lectureListInfoFirst(userName, numOfLecture);
 	}
 	
 	/* 마이페이지 홈(전체보기 클릭 시 화면이동) */
 	@Override
-	public List<MemberMypageVO> getMemberMypageAll(String userid, int startNo, int numOfPage) {
-		
-		return memberMypageDao.getMemberMypageAll(userid, startNo, numOfPage);
+	public List<MemberMypageVO> getMemberMypageAll(String userName, int startNo, int numOfPage,String order, String group, String keyword) {
+		HashMap<String , Object> args = new HashMap<>();
+
+		args.put("userName", userName);
+		args.put("startNo", startNo);
+		args.put("order", order);
+		args.put("group", group);
+		args.put("keyword", keyword);
+
+		return memberMypageDao.getMemberMypageAll(args);
 	}
 	@Override
 	public Map<String, Object> getRecentlyViewd(String userName) {
