@@ -385,7 +385,7 @@
             // 이메일의 유효성을 검사하는 메서드
             checkEmail() {
                 // 유효한 이메일 형식인지 확인하기 위한 정규식
-                const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+                const validateEmail = /^[a-z0-9_\\.\\-]+@[a-z0-9\\-]+\.[a-z0-9\\-]+/;
                 // 이메일 값이 없는 경우 유효하지 않은 상태로 처리
                 if (!this.member.email) {
                     this.valid.email = false;
@@ -477,7 +477,7 @@
             // 비밀번호의 유효성을 검사하는 메서드
             checkPassword() {
                 // 유효한 비밀번호 형식인지 확인하기 위한 정규식
-                const validatePassword = /^.{6,15}$/;
+                const validatePassword = /^[1-9a-zA-Z].{6,15}$/;
                 if (
                     !validatePassword.test(this.member.password) ||
                     !this.member.password ||
