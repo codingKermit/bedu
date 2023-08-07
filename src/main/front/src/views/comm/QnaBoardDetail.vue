@@ -338,8 +338,6 @@ export default{
                 this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
             })
             }
-            
-
         },
 
         //댓글전체삭제admin
@@ -474,43 +472,70 @@ export default{
 
         replyedit(replynum, replyuser, content, index){
 
-            if(this.userNickName != replyuser || this.userNickName== null || replynum == 0){
-                return;
-            }else if(content == null || content == ""){
-                this.$swal('내용을 수정해주세요.', 'success');
-                return;
-            }
-            this.reply.content = content;
-            this.reply.replyNum = replynum;
-            this.$axiosSend('post','/api/reply/replyEdit',{
-                replyNum: this.reply.replyNum,
-                content: this.reply.content
-            })
-            .then(res => {
-                if(res.data === 1){
-                    this.$swal('Success','댓글수정완료!','success');
-                    this.replyread(this.qna.qnaBdNum);
-                    this.replyeditcensell(index);
-                }
-            })
-            .catch((error)=>{
-                this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
-            })
-        },
-
-
-        //댓글삭제
-        replydelete(replyNum, qnanum, ansnum){
-            if(this.userNickName === null || this.userNickName ===""){
+            if(this.userNickName =="" || this.userNickName== null || replynum == 0){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
                     name: "login"
                 })
                 return;
+            }else if(content == null || content == ""){
+                this.$swal('내용을 수정해주세요.', 'success');
+                return;
+            }else if(this.userNickName =='ADMIN'){
+                this.reply.content = content;
+                this.reply.replyNum = replynum;
+                this.$axiosSend('post','/api/reply/replyEdit',{
+                    replyNum: this.reply.replyNum,
+                    content: this.reply.content
+                })
+                .then(res => {
+                    if(res.data === 1){
+                        this.$swal('Success','관리자 권한으로 해당댓글수정이 완료되었습니다!');
+                        this.replyread(this.qna.qnaBdNum);
+                        this.replyeditcensell(index);
+                        return;
+                    }
+                })
+                .catch((error)=>{
+                    this.$swal('Error','관리자 권한으로 해당댓글수정이 실패했습니다.',error);
+                })
+            }else if(this.userNickName == replyuser && this.userNickName != 'ADMIN'){
+
+                this.reply.content = content;
+                this.reply.replyNum = replynum;
+                this.$axiosSend('post','/api/reply/replyEdit',{
+                    replyNum: this.reply.replyNum,
+                    content: this.reply.content
+                })
+            .then(res => {
+                if(res.data === 1){
+                    this.$swal('Success','댓글수정완료!','success');
+                    this.replyread(this.qna.qnaBdNum);
+                    this.replyeditcensell(index);
+                    return;
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','댓글이 정상적으로 수정되지 않았습니다',error);
+            })
+            }else{
+                return;
             }
-            
-            if(this.userNickName == 'ADMIN'){
-                this.$axiosSend('get','/api/reply/replydelete', {
+        },
+
+        replyadmindelete(replyNum, qnanum){
+
+            this.$swal({
+                    title: '관리자 권한으로 댓글을 삭제 하시겠습니까?',
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                    confirmButtonColor: '#303076',
+                    confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+
+                        this.$axiosSend('get','/api/reply/replydelete', {
                     replyNum: replyNum
                 })
                 .then(res => {
@@ -531,17 +556,35 @@ export default{
                     this.$swal(error, '댓글삭제실패!', 'error');
                     return;
                 })
-            
-                
+                    }
+                }).catch(error => {
+                    this.$swal(error, '댓글삭제실패!', 'error');
+                    return;
+                })
+        },
+
+
+        //댓글삭제
+        replydelete(replyNum, qnanum, ansnum){
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
             }
-            if(this.userNickName !== this.userNickName){
+            
+            if(this.userNickName == 'ADMIN'){
+                this.replyadmindelete(replyNum, qnanum);
+                return;                
+            }
+            if(this.userNickName != this.userNickName){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
             }
             else{
-                console.log('실행함!');
                 this.$swal({
-                    title: '글을 삭제 하시겠습니까?',
+                    title: '댓글을 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                     confirmButtonColor: '#303076',
