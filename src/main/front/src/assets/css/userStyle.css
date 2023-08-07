@@ -289,6 +289,11 @@
     margin-bottom: 4%;
 }
 
+#registFormGroupPassword {
+    margin-left: 2%;
+    margin-bottom: 4%;
+}
+
 #registEmail {
     width: 58.5%;
     padding: 2.2%;
@@ -309,6 +314,12 @@
 }
 
 #registInputError {
+    margin-left: 9%;
+    position: absolute;
+    color: red;
+}
+
+#registInputErrorPassword {
     margin-left: 9%;
     position: absolute;
     color: red;
@@ -436,6 +447,18 @@
 /* Media Queries */
 @media (max-width: 1300px) {
 
+    #registFormGroup {
+        position: relative;
+        margin-left: 2%;
+        margin-bottom: 4%;
+    }
+
+    #registFormGroupPassword {
+        position: relative;
+        margin-left: 2%;
+        margin-bottom: 0;
+    }
+
     /* 로그인 모바일 CSS */
     #loginChangeContainer {
         padding-top: 10%;
@@ -464,9 +487,12 @@
     }
     
     #passwordEyeToggle {
-        position: absolute;
-        top: 39%;
-        right: 3%;
+        position: relative;
+        display: inline-block;
+        z-index: 3;
+        top: -22px;
+        right: -87%;
+        transform: translateY(-50%);
     }
 
     #loginChangeSection {
@@ -488,8 +514,15 @@
     #registInputCorrect,
     #registInputError {
         position: relative;
-        padding: 1%;
         margin-top: 0;
+        margin-left: 0;
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+
+    #registInputErrorPassword {
+        position: relative;
+        margin-top: -20px;
         margin-left: 0;
         margin-bottom: 0;
         font-size: 0.9rem;
@@ -541,10 +574,16 @@
         font-size: 0.9rem;
     }
 
+    #registConfirmPassword {
+        font-size: 0.9rem;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1%;
+    }
+
     #registEmail,
     #registNickname,
-    #registPassword,
-    #registConfirmPassword {
+    #registPassword {
         font-size: 0.9rem;
         width: 100%;
         margin-left: 0;

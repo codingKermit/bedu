@@ -102,7 +102,7 @@
                             </p>
                         </div>
                         <!-- 비밀번호 입력 필드 -->
-                        <div id="registFormGroup">
+                        <div id="registFormGroupPassword">
                             <input
                                 :type="showPassword ? 'text' : 'password'"
                                 id="registPassword"
@@ -121,7 +121,7 @@
                                     (member.password.length < 6 ||
                                         member.password.length > 15)
                                 "
-                                id="registInputError"
+                                id="registInputErrorPassword"
                             >
                                 비밀번호는 6자리 이상 15자리 이하로
                                 작성해주세요.
