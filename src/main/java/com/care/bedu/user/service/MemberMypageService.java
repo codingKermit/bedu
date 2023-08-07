@@ -12,7 +12,7 @@ public interface MemberMypageService {
 	public List<MemberMypageVO> getMemberMypage(String userName);
 	
 	/* 마이페이지 홈(전체보기 개수 추출) */
-	public int getLectureCount(String userName);
+	public int getLectureCount(String userName, String group, String keyword);
 	
 	/* 마이페이지 홈(전체보기 첫번째) */
 	public List<MemberMypageVO> lectureListInfoFirst(String userName, int numOfLecture);

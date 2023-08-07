@@ -35,9 +35,14 @@ public class MemberMypageServiceImpl implements MemberMypageService {
     
     /* 마이페이지 홈(전체보기 개수 추출) */
     @Override
-	public int getLectureCount(String userName) {
-		
-		return memberMypageDao.getLectureCount(userName);
+	public int getLectureCount(String userName, String group, String keyword) {
+		HashMap<String,Object> args = new HashMap<>();
+
+		args.put("userName", userName);
+		args.put("group",group);
+		args.put("keyword", keyword);
+
+		return memberMypageDao.getLectureCount(args);
 	}
     
     /* 마이페이지 홈(전체보기 첫번째) */
@@ -57,7 +62,7 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 		args.put("order", order);
 		args.put("group", group);
 		args.put("keyword", keyword);
-
+		
 		return memberMypageDao.getMemberMypageAll(args);
 	}
 	@Override

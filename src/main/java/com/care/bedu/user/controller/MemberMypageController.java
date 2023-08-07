@@ -53,7 +53,7 @@ public class MemberMypageController {
 
 		map.put("list",memberMypageService.getMemberMypageAll(userName, startNo, numOfPage,order, group, keyword)); 
     	
-		map.put("count",memberMypageService.getLectureCount(userName));
+		map.put("count",memberMypageService.getLectureCount(userName, group, keyword));
 
 		return new ResponseEntity<HashMap<String,Object>>(map, HttpStatus.OK);
     }

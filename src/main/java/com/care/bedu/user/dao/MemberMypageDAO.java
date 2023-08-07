@@ -17,7 +17,7 @@ public interface MemberMypageDAO {
 	public List<MemberMypageVO> getMemberMypage(String userName);
 	
 	/* 마이페이지 홈(전체보기 개수 추출) */
-	public int getLectureCount(String userName);
+	public int getLectureCount(Map<String,Object> args);
 	
 	/* 마이페이지 홈(전체보기 첫번째) */
 	public List<MemberMypageVO> lectureListInfoFirst(String userName, @RequestParam("numOfLecture") int numOfLecture);

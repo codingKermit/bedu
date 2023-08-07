@@ -17,7 +17,15 @@
         
                                 <div>
                                     <div class="text-end mb-3">
-                                        <b-link to="/mypageAll" class="text-end text-body text-decoration-none">전체보기</b-link>
+                                        <b-link :to="{
+                                            name : 'mypageAll',
+                                            query : {
+                                                group : 'all',
+                                                order : 'title',
+                                                page : 1,
+                                                keyword : '',
+                                            }
+                                        }" class="text-end text-body text-decoration-none">전체보기</b-link>
                                     </div>
                                     <b-row cols="1" cols-md="3" class="mb-5">
                                         <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button">

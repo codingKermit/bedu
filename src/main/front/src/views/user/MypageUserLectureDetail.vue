@@ -25,6 +25,8 @@
                             query:{
                                 group : 'learning',
                                 order : this.orderSelected,
+                                page : this.currentPage,
+                                keyword : this.keyword
                             }
                          }"
                         >
@@ -36,6 +38,8 @@
                             query:{
                                 group : 'done',
                                 order : this.orderSelected,
+                                page : this.currentPage,
+                                keyword : this.keyword
                             }
                          }"
                         >
@@ -47,6 +51,8 @@
                             query:{
                                 group : 'all',
                                 order : this.orderSelected,
+                                page : this.currentPage,
+                                keyword : this.keyword
                             }
                          }"
                         >
@@ -94,6 +100,8 @@
                 </div>
             </div>
         </div>
+        <h1>{{ currentPage }}</h1>
+        <h1>{{ lectureCount }}</h1>
     </div>
 </template>
 <script>
@@ -110,7 +118,7 @@ export default {
            },
            userNum : this.$store.getters.getUsernum,
            userId : this.$store.getters.getNickname,
-           currentPage : 1,
+           currentPage : this.$route.query.page,
            listArray : [], //수강내역 전체 데이터
            numOfPage : 9,
            lectureInfo : {}, //화면에 노출되는 수강내역 데이터
@@ -136,40 +144,61 @@ export default {
         
     },
     methods : {
+        // 페이징 변경 감지
         pageChange(e){
-            console.log(e)
+            this.$routerPush('',{
+                group : this.groupSelected,
+                order : this.orderSelected,
+                page : e.target.__vnode.children,
+                keyword : this.keyword
+            },true)
         },
+
+        // 정렬순서 변경 감지
         orderChange(e){
             this.$routerPush('',{
                 group : this.groupSelected,
                 order : e,
+                page : this.currentPage,
+                keyword : this.keyword
             },true);
         },
+
+        // 검색어 입력 바인딩 문제 해결 후 검색
         keywordBindingWithSearch(e){
-            this.keyword = e.target.value
-            this.getLectureAllList();
+            this.$routerPush('',{
+                group : this.groupSelected,
+                order : this.orderSelected,
+                page : this.currentPage,
+                keyword : e.target.value
+            },true)
         },
+
+        // 검색어 입력 바인딩 문제 해결
         keywordBinding(e){
             this.keyword = e.target.value
         },
-        nextPage () {
-            this.pageNumber += 1;
-        },
-        prevPage () {
-            this.pageNumber -= 1;
-        },
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
         getLectureAllList(){
+            if(this.$route.name != 'mypageAll'){
+                return;
+            }
+            const userName = this.$store.getters.getNickname;
+            const page = this.currentPage;
+            const group = this.groupSelected;
+            const order = this.orderSelected;
+            const keyword = this.keyword;
+
             this.$axiosSend('get','/api/mypageAll',{
-                userName: this.$store.getters.getNickname,
-                page : this.currentPage,
-                order : this.orderSelected,
-                group : this.groupSelected,
-                keyword : this.keyword
+                userName: userName,
+                page : page,
+                order : order,
+                group : group,
+                keyword : keyword
             })
             .then((res)=>{
-                this.listArray = res.data.list
                 this.lectureCount = res.data.count
+                this.listArray = res.data.list
             })
             .catch((err)=>{
                 console.log(err)
@@ -177,28 +206,14 @@ export default {
             
         },
     },
-    computed : {
-
-    },
     watch:{
-        currentPage:{
+        '$route.query':{
             immediate : true,
-            handler(after){
-                this.currentPage = after
-                this.getLectureAllList();
-            }
-        },
-        '$route.query.group':{
-            immediate : true,
-            handler(newGroup){
-                this.groupSelected = newGroup
-                this.getLectureAllList();
-            }
-        },
-        '$route.query.order':{
-            immediate : true,
-            handler(newOrder){
-                this.orderSelected = newOrder;
+            handler(val){
+                this.groupSelected = val.group;
+                this.orderSelected = val.order;
+                this.currentPage = val.page;
+                this.keyword = val.keyword;
                 this.getLectureAllList();
             }
         },

@@ -3,16 +3,43 @@
 
 <mapper namespace="com.care.bedu.user.dao.MemberMypageDAO">
 
-	<select id="getLectureCount" resultType="int">
-		SELECT 
-			COUNT(A.LECT_NUM) as totalLect
-		FROM t_bedu_lect A
-    	INNER JOIN t_bedu_user_lect B
-    		ON A.LECT_NUM = B.LECT_NUM
-   		INNER JOIN t_bedu_user C
-   			ON B.USER_NAME = C.USER_NAME
-		WHERE
-			C.USER_NAME = #{userName}
+	<select id="getLectureCount" resultType="int" parameterType="java.util.Map">
+		select 
+			COUNT(T.TITLE)
+		from
+			(SELECT 
+				A.TITLE ,
+				COUNT(C.LECT_DTL_NUM) as ARG1,
+				SUM(D.complete) as ARG2
+			FROM b_edu.t_bedu_lect A
+			INNER JOIN b_edu.t_bedu_user_lect B
+				ON A.LECT_NUM = B.LECT_NUM
+			LEFT join b_edu.t_bedu_lect_dtl C
+				on A.LECT_NUM = C.LECT_NUM
+			left join
+				b_edu.t_bedu_history D
+			on C.LECT_DTL_NUM  = D.lect_dtl_num 
+			where
+				B.USER_NAME = #{userName}
+				and
+				(
+					A.TITLE like concat('%',#{keyword},'%') or
+					A.TEACHER like	CONCAT('%',#{keyword},'%')
+				)
+			group by A.LECT_NUM
+			having
+			<choose>
+				<when test="group.equals('learning')">
+					ARG1 != ARG2
+				</when>
+				<when test="group.equals('done')">
+					ARG1 = ARG2
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+			) T
    	</select>
 	
 	<select id="lectureListInfoFirst" resultType="com.care.bedu.lecture.vo.LectureVO" parameterType="com.care.bedu.user.vo.MemberMypageVO">
