@@ -37,6 +37,7 @@ public class AnsServiceImpl implements AnsService{
 	@Override
 	public int ansDelete(AnsVO ansVO) {
 		if(ansVO.getQsBdNum() > 0 && ansVO.getUserName().equals("ADMIN") && ansVO.getUserName() != null) {
+			System.out.println("확인");
 			return ansDAO.ansalladminDelete(ansVO);
 		}else if(ansVO.getAnsBdNum() != null && ansVO.getAnsBdNum() >0) {
 			return ansDAO.ansDelete(ansVO.getAnsBdNum());

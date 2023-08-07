@@ -80,7 +80,9 @@
                                 <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" style="margin-left: 30px;" v-if="ansdelbtneqlse(ans.userName) == 1">
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                                 </div>
+                                <b-button type="button" v-if="admindelbtn() ==1" class="btn-custom btn-custom mt-1 qna-detail-adminreplyall-btn" id="qna-detail-adminreplyall-btn" @click="replyadminalldel(ans.ansBdNum, ans.userName)">댓글전체삭제</b-button>
                             </div>
+                            
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
                                 <h5 id="qna-detail-retext">댓글을 작성해주세요.</h5>
                                 <b-form>
@@ -89,7 +91,6 @@
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
                             </div>
-                            <hr>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
                                     <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
@@ -104,6 +105,7 @@
                                         </div>
                                         <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplydel-btn" id="qnareplydel-btn" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)">댓글삭제</b-button>
+                                            
                                         </div>
                                         <div class="qnareplyeditBtns" id="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyeditform-btn" id="qnareplyeditform-btn" @click="replyeditopen(index)">댓글수정</b-button>
@@ -299,7 +301,7 @@ export default{
             if(this.anstotal > 0){
 
                 this.$swal({
-                    title: '관리자 권한으로 답변을 전체 삭제 하시겠습니까?',
+                    title: '관리자 권한으로 모든 답변을 강제로 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                     confirmButtonColor: '#303076',
@@ -338,6 +340,66 @@ export default{
             }
             
 
+        },
+
+        //댓글전체삭제admin
+        replyadminalldel(ansnum, username){
+
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+            this.$axiosSend('get','/api/reply/replyTotal', {
+                ansNum: ansnum,
+            })
+            .then(res => {
+                
+                if(res.data>0){
+
+                    this.$swal({
+                        title: '관리자 권한으로 댓글을 전체 삭제 하시겠습니까?',
+                        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                        cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                        confirmButtonColor: '#303076',
+                        confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            this.$axiosSend('get','/api/reply/replydelete', {
+                                ansNum : ansnum,
+                                userName: this.userNickName
+                            })
+                            .then(res => {
+                                if(res.data > 0){
+                                    this.$swal('Success', '관리자 권한에 모든 댓글이 삭제 되었습니다.', 'success');
+                                    this.ansread(this.qna.qnaBdNum);
+                                    this.ansgetTotal(this.qna.qnaBdNum);
+                                    this.replyread(this.qna.qnaBdNum);
+                                    return;
+                                }else{
+                                    this.$swal('error', '댓글전체삭제실패!', 'error');
+                                    this.ansread(this.qna.qnaBdNum);
+                                    return;
+                                }    
+                            })
+                            .catch(error => {
+                                this.$swal(error, '댓글전체삭제실패!', 'error');
+                            })
+                        }
+                    })
+                    .catch((error)=>{
+                        this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+                    })
+                }else{
+                    this.$swal('삭제할 댓글이 존재하지않습니다.');
+                }
+            }).catch((error)=>{
+                console.log(error);
+            })
+            
         },
 
         backLikedClass() {
@@ -579,13 +641,15 @@ export default{
         },
 
         //댓글 총개수
-        replygetTotal(ansnum, qnanum){
+        replygetTotal(ansnum){
             this.$axiosSend('get','/api/reply/replyTotal', {
                 ansNum: ansnum,
-                qsNum: qnanum
             })
             .then(res => {
+                console.log(res.data);
                 this.replyTotal = res.data;
+            }).catch((error)=>{
+                console.log(error);
             })
         },
 
