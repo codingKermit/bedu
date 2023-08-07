@@ -17,12 +17,7 @@
         
                                 <div>
                                     <div class="text-end mb-3">
-                                        <b-link :to="{
-                                            name:'mypageAll',
-                                            params:{
-                                                userid : this.$store.getters.getEmail
-                                            }
-                                        }" class="text-end text-body text-decoration-none">전체보기</b-link>
+                                        <b-link to="/mypageAll" class="text-end text-body text-decoration-none">전체보기</b-link>
                                     </div>
                                     <b-row cols="1" cols-md="3" class="mb-5">
                                         <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button">
@@ -171,7 +166,7 @@ export default {
             lectureCount : 0, //수강내역 전체보기 출력
             numOfLecture : 3, //처음에 출력할 수강내역 개수
             dataFull : false,
-            userid : this.$store.state.email,
+            userName : this.$store.getters.getNickname,
             userlectnum : 0,
             lectNum : 0,
             lectregdate : '',
@@ -191,9 +186,8 @@ export default {
     methods : {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
         getLectureList(){
-            const userid = this.$store.getters.getEmail;
             let data = [];
-            this.$axiosSend('get','/api/mypage',{userid: userid},true)
+            this.$axiosSend('get','/api/mypage',{userName: this.$store.getters.getNickname},true)
             .then((res)=>{
                 for(var i = 0; i < this.numOfLecture; i++) {
                     data.push(res.data[i])
@@ -208,8 +202,7 @@ export default {
             })
         },
          getLectureCount() {
-            const userid = this.$store.getters.getEmail;
-            this.$axiosSend("get", "/api/mypageAll", {userid: userid}, true)
+            this.$axiosSend("get", "/api/mypageAll", {userName: this.$store.getters.getNickname}, true)
                     .then(res => {
                         if(this.numOfLecture < this.lectureCount) {
                             this.numOfLecture += 3; //수강정보 3개 증가
@@ -226,7 +219,7 @@ export default {
                         console.log(res);
                         
                         // 요청이 성공적으로 완료된 후 전체보기 수강정보 목록 페이지로 리디렉션
-                        this.$router.push('/mypageAll',{userid: userid}, true)
+                        this.$routerPpush('/mypageAll',{userName: this.$store.getters.getNickname}, true)
                     })
                     .catch(error => {
                         // 요청 실패 시 에러 처리

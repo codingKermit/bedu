@@ -31,4 +31,5 @@ public class LectureVO {
 	private int regNum; // 강의 등록자 계정 고유 번호
 	private String updateDate; // 최근 수정일
 	private int updateNum; // 최근 수정자 번호
+	private int progress; // 강의 진행 퍼센트
 }

@@ -61,7 +61,13 @@
                     >
                         커뮤니티
                     </router-link>
-                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" to="/review"
+                    <router-link class="fs-5 fw-bold me-1 bedu-header-nav-item" 
+                    :to="{
+                        name : 'review',
+                        query : {
+                            topCategory : 'all'
+                        }
+                        }"
                     :class="{'header-router-link-active': $route.name == 'review'}"
                     >
                         수강후기
@@ -213,7 +219,13 @@
                                     자유게시판
                                 </b-nav-item>
                             </b-container>
-                            <b-nav-item to="/review" data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">
+                            <b-nav-item 
+                            :to="{
+                                name : 'review',
+                                query :{
+                                    topCategory : 'all'
+                                }}" 
+                                data-bs-dismiss="offcanvas" class="fs-4 fw-bold ">
                                 수강후기
                             </b-nav-item>
                             <b-nav-item

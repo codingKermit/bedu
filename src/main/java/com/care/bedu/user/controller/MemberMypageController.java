@@ -30,25 +30,17 @@ public class MemberMypageController {
 
     /* 마이페이지 홈 */
     @GetMapping("/mypage")
-    public List<MemberMypageVO> getMemberMypage(String userid, Model model){
+    public List<MemberMypageVO> getMemberMypage(String userName, Model model){
 
     	/* 처음에 출력할 수강정보 개수 */
 		int numOfLecture = 3;
-		// model.addAttribute("numOfLecture", numOfLecture);
 		
-		/* 현재수강정보 전체보기 출력 */
-		// int lectureCount = memberMypageService.getLectureCount();
-		// model.addAttribute("lectureCount", lectureCount);
-		
-		/* 처음에 보여지는 수강정보 목록 */
-		// model.addAttribute("lectureListFirst", memberMypageService.lectureListInfoFirst(userid, numOfLecture));
-		
-		return memberMypageService.lectureListInfoFirst(userid, numOfLecture);
+		return memberMypageService.lectureListInfoFirst(userName, numOfLecture);
     }
     
     /* 마이페이지 홈(전체보기 클릭 시 화면이동) */
     @GetMapping("/mypageAll")
-    public ResponseEntity<HashMap<String,Object>> getMemberMypageAll(String userid, Model model, int page, String order, String group, String keyword) {
+    public ResponseEntity<HashMap<String,Object>> getMemberMypageAll(String userName, int page,String order, String group, String keyword) {
     	//pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
     	//화면에 보여줄 수강정보의 수
     	int numOfPage = 9;
@@ -58,14 +50,10 @@ public class MemberMypageController {
 
 		HashMap<String, Object> map = new HashMap<>();
 
-		// System.out.println("order : " + order);
-		// System.out.println("group : " + group);
-		// System.out.println("page : " + page);
-		// System.out.println("keyword : " + keyword);
 
-		map.put("list",memberMypageService.getMemberMypageAll(userid, startNo, numOfPage)); 
+		map.put("list",memberMypageService.getMemberMypageAll(userName, startNo, numOfPage,order, group, keyword)); 
     	
-		map.put("count",memberMypageService.getLectureCount(userid));
+		map.put("count",memberMypageService.getLectureCount(userName));
 
 		return new ResponseEntity<HashMap<String,Object>>(map, HttpStatus.OK);
     }
