@@ -3,13 +3,9 @@
     padding: 25px;
 }
 
-#mSelect{
-    text-decoration: none;
-}
-
-#mSelect:focus{
-    background-color:   rgb(237, 194, 104);
-    font-weight: bold;
+.buttonColor{
+    background-color: rgb(237, 194, 104) !important;
+    text-decoration: none;  
 }
 
 .mk-c-tab.col8 {
@@ -17,10 +13,9 @@
     border-bottom: 0;
     border-right: 0;
     padding: 0;
+    text-decoration: none;
     
 }
-
-
 
 .mk-c-tab {
     text-align: center;
