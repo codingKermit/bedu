@@ -249,6 +249,25 @@
     margin-right: -100px;
 }
 
+
+.qna-detail-adminreplyall-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
+}
+
+.qna-detail-editopen-btn{
+    border: 0;
+    font-weight: bolder;
+    color: #000000;
+    background-color: transparent;
+}
+
+.qna-detail-ansconedit{
+    display: none;
+}
+
 #qna-detail-replywriteBtn{
     margin-left: 40px;
 }

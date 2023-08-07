@@ -40,6 +40,12 @@ public class AnsController {
 	 	return ansService.ansTotal(qnaNum);
 	}
 	
+	//답변글 총개수
+	@RequestMapping(value="/ans/ansedit", method=RequestMethod.GET)													//게시글 전체 개수 조회
+	public int ansedit(AnsVO ansVO){
+		 return ansService.boardedit(ansVO);
+	}
+	
 	//답변삭제
 	@RequestMapping(value="/ans/ansdelete", method=RequestMethod.GET)													//게시글 전체 개수 조회
 	public int ansDelete(AnsVO ansVO) {

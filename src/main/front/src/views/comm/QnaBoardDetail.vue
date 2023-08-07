@@ -80,6 +80,8 @@
                                 <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" style="margin-left: 30px;" v-if="ansdelbtneqlse(ans.userName) == 1">
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                                 </div>
+
+                                <b-button type="button" v-if="admindelbtn() ==1" class="btn-custom btn-custom mt-1 qna-detail-editopen-btn" id="qna-detail-editopen-btn" @click="anseditopen(index)">답변수정</b-button>
                                 <b-button type="button" v-if="admindelbtn() ==1" class="btn-custom btn-custom mt-1 qna-detail-adminreplyall-btn" id="qna-detail-adminreplyall-btn" @click="replyadminalldel(ans.ansBdNum, ans.userName)">댓글전체삭제</b-button>
                             </div>
                             
@@ -90,6 +92,11 @@
                                     <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName, index)">댓글등록</b-button>
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
+                            </div>
+                            <div class="qna-detail-ansconedit">
+                                <b-form-input class="mt-4 mb-2 qna-detail-ansedit" id="qna-detail-ansedit" v-model="ans.content" ref="content"></b-form-input>
+                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditbtn" id="qna-detail-anseditbtn" @click="ansedit(ans.ansBdNum, ans.userName, ans.content, index)">수정</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
                             </div>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
@@ -104,7 +111,7 @@
                                             {{ DateTime(reply.replyDate) }}
                                         </div>
                                         <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplydel-btn" id="qnareplydel-btn" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum)">댓글삭제</b-button>
+                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplydel-btn" id="qnareplydel-btn" @click="replydelete(reply.replyNum, reply.qsNum, reply.ansNum, reply.userName)">댓글삭제</b-button>
                                             
                                         </div>
                                         <div class="qnareplyeditBtns" id="qnareplyeditBtns" v-if="replyeqbtn(reply.userName) == 1">
@@ -400,6 +407,36 @@ export default{
             
         },
 
+        ansedit(ansnum, username, content, index){
+            if(this.userNickName =="" || this.userNickName== null){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }else if(this.userNickName == username && this.userNickName != 'ADMIN'){
+
+                this.$axiosSend('get','/api/ans/ansedit',{
+                ansBdNum: ansnum,
+                content: content
+            })
+            .then(res => {
+                if(res.data === 1){
+                    this.$swal('Success','해당답변수정이 완료되었습니다!');
+                    this.ansread(this.qna.qnaBdNum);
+                    this.anseditcensell(index);
+                    return;
+                }
+            })
+            .catch((error)=>{
+                this.$swal('Error','해당답변수정이 실패했습니다.',error);
+            })
+            }else{
+                this.$swal('본인 글만 수정가능합니다..');
+            }
+            
+        },
+
         backLikedClass() {
             console.log('back');
             const qsbnumList = JSON.parse(localStorage.getItem('qsbnumList')) || [];
@@ -454,6 +491,16 @@ export default{
             this.$refs['commant-container-'+index][0].children[4].classList.remove("d-none");
             this.$refs['commant-container-'+index][0].children[5].classList.remove("d-block");
             this.$refs['commant-container-'+index][0].children[6].classList.remove("d-none");
+        },
+
+        anseditcensell(index){
+            this.$refs['qna-detail-ans'+index][0].children[0].classList.remove("d-none");
+            this.$refs['qna-detail-ans'+index][0].children[3].classList.remove("d-block");
+        },
+
+        anseditopen(index){
+            this.$refs['qna-detail-ans'+index][0].children[0].classList.add("d-none");
+            this.$refs['qna-detail-ans'+index][0].children[3].classList.add("d-block");
         },
 
         //댓글 작성폼열기
@@ -523,6 +570,7 @@ export default{
             }
         },
 
+        //관리자 답변에 전체 댓글삭제 
         replyadmindelete(replyNum, qnanum){
 
             this.$swal({
@@ -565,7 +613,7 @@ export default{
 
 
         //댓글삭제
-        replydelete(replyNum, qnanum, ansnum){
+        replydelete(replyNum, qnanum, ansnum, username){
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -574,11 +622,11 @@ export default{
                 return;
             }
             
-            if(this.userNickName == 'ADMIN'){
+            else if(this.userNickName == 'ADMIN'){
                 this.replyadmindelete(replyNum, qnanum);
                 return;                
             }
-            if(this.userNickName != this.userNickName){
+            else if(this.userNickName != username && this.userNickName != 'ADMIN'){
                 this.$swal('댓글은 본인 글만 삭제 가능합니다!', 'success');
                 return;
             }

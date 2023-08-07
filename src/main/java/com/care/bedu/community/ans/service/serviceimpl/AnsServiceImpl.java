@@ -47,4 +47,9 @@ public class AnsServiceImpl implements AnsService{
 		
 	}
 
+	@Override
+	public int boardedit(AnsVO ansVO) {
+		return ansDAO.ansedit(ansVO);
+	}
+
 }

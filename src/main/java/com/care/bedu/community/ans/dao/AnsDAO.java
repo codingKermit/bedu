@@ -17,6 +17,9 @@ public interface AnsDAO {
 	//글 총개수
 	public int ansTotal(int qnanum);
 	
+	//글 수정
+	public int ansedit(AnsVO ansVO);
+	
 	//글 삭제
 	public int ansDelete(Integer ansBdNum);
 	

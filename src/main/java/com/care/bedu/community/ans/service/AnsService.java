@@ -12,6 +12,9 @@ public interface AnsService {
 	//게시글 등록
 	public int boardwrite(AnsVO ansVO);	
 	
+	//게시글 수정
+	public int boardedit(AnsVO ansVO);	
+	
 	//글 총개수
 	public int ansTotal(int qnanum);
 	
