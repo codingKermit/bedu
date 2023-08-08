@@ -38,9 +38,9 @@ public class InquiryVO {
 	private String keyword;		
 	
 	// 비밀번호
-	private Integer password;
+	private String password;
 	
-	//글시작번호
+	//글시작번호0
 	private int page;	
 	
 	//글끝번호

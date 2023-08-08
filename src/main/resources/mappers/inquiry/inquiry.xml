@@ -11,7 +11,7 @@
   		  title,
     	  USER_NAME AS userName,
           REG_DATE AS regDate,
-          PASSWORD AS password
+          PASSWORD AS password60
 		FROM
     	(
    		SELECT
@@ -79,7 +79,15 @@
 		  PASSWORD as password
 		FROM 
 			T_BEDU_VOC
-		WHERE VOC_NUM = #{vocNum}
+		WHERE VOC_NUM = #{vocNum} 
+	</select>
+	
+	<select id="checkPassword" resultType="java.lang.Boolean">
+ 		SELECT 
+ 			COUNT(*) 
+ 		FROM 
+ 			T_BEDU_VOC 
+ 		WHERE VOC_NUM = #{vocNum} AND PASSWORD = #{password}
 	</select>
 	
 	<delete id="inquirydelete">

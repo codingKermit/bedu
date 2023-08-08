@@ -1,6 +1,7 @@
 package com.care.bedu.inquiry.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,12 @@ public class InquiryServiceImpl implements InquiryService {
 		if (inquiryVO.getFileType() == null || inquiryVO.getFileType() == "") {
 			inquiryVO.setFileType("");
 		}
-
+		
+        // 비밀번호를 Base64로 인코딩하여 설정
+		byte[] password = inquiryVO.getPassword().getBytes();
+		String encodedPassword = Base64.getEncoder().encodeToString(password);
+        inquiryVO.setPassword(encodedPassword);
+        
 		return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
 
@@ -64,27 +70,27 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	//글 조회 
-	@Override
-	public InquiryVO inquiryone(Integer vocNum) {
-	    InquiryVO inquiryVO = inquiryDAO.inquiryone(vocNum);
-	    if (inquiryVO != null) {
-	        Integer replyCnt = inquiryDAO.getReplyCnt(vocNum);
-	        inquiryVO.setReplyCnt(replyCnt);
-	    }
-	    return inquiryVO;
+	@Override 
+	public InquiryVO inquiryone(Integer vocNum)   {
+		InquiryVO inquiryVO = new InquiryVO();
+		inquiryVO = inquiryDAO.inquiryone(vocNum);
+		int replyCnt = inquiryDAO.getReplyCnt(vocNum);
+		inquiryVO.setReplyCnt(replyCnt);
+		return inquiryVO;
 	}
 	
 	//글 삭제
 	@Override
 	public int inquirydelete(Integer vocNum) {
+		System.out.println(inquiryDAO.inquirydelete(vocNum));
 		return inquiryDAO.inquirydelete(vocNum);
 	}
 	
-	//비밀번호
-	@Override
-	public InquiryVO inquirypassword(Integer password) {
-		InquiryVO inquiryVO = inquiryDAO.inquirypassword(password);
-		return inquiryVO;
-	}
+//	//비밀번호
+//	@Override
+//	public InquiryVO inquirypassword(Integer password) {
+//		InquiryVO inquiryVO = inquiryDAO.inquirypassword(password);
+//		return inquiryVO;
+//	}
 
 }
