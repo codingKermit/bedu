@@ -12,12 +12,16 @@ import com.care.bedu.community.freeBoard.dao.FreeLikeCntDAO;
 import com.care.bedu.community.freeBoard.service.FreeService;
 import com.care.bedu.community.freeBoard.vo.FreeVO;
 import com.care.bedu.community.qna.vo.LikeCntVO;
+import com.care.bedu.community.reply.dao.ReplyDAO;
+import com.care.bedu.community.reply.vo.ReplyVO;
 
 //자유게시판
 @Service
 public class FreeServiceImpl implements FreeService{
 	
 	@Autowired private FreeDAO freeDAO;
+	
+	@Autowired private ReplyDAO replyDAO;
 	
 	@Autowired private FreeLikeCntDAO freelikeCntDAO; 
 	
@@ -29,7 +33,14 @@ public class FreeServiceImpl implements FreeService{
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
 		}else {
-			return freeDAO.viewlist(freeVO);	
+			List<FreeVO> list = freeDAO.viewlist(freeVO);
+			ReplyVO replyVO = new ReplyVO();
+			for(FreeVO free : list) {
+				replyVO.setCommNum(free.getCommNum());
+				int total = replyDAO.replycommTotal(replyVO);
+				free.setReplyTotal(total);
+			}
+			return list;
 		}
 	}
 

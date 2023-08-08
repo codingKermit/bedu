@@ -46,5 +46,7 @@ public class FreeVO {
 	
 	//검색 키워드
 	private String keyword;
+	
+	private int replyTotal;
 
 }

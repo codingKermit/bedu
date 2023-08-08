@@ -75,7 +75,7 @@
                      </div>
                      <div id="commReply">
                         <font-awesome-icon :icon="['far', 'comment']" />
-                        {{replytotal}} 0
+                        {{free.replyTotal}} 
                      </div>
                      <div id="commHeart">
                         <font-awesome-icon :icon="['fas', 'heart']"/>

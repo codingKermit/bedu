@@ -249,7 +249,9 @@ export default{
                     resizeObserverErrDiv.setAttribute('style', 'display: none');
                 }
             }
-        })
+        });
+
+        
     },
     methods: {
         //게시글 조회
