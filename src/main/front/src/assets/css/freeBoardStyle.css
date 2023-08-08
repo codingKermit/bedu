@@ -16,6 +16,7 @@
 }
 /* FreeBoardView의 Content부분 추후 수정해야함 */
 #CommContentDemo {
+    text-decoration: none;
     color: #838383;
     width: 100%;
     margin-top: 1%;
@@ -64,6 +65,7 @@
 }
 
 .freeboardMain {
+    width: 100%!important;
     padding-top: 5.5%;
     margin-left: 3%;
     padding-right: 3%;
@@ -341,7 +343,7 @@ h1 {
 
 @media (max-width: 1400px) {
     #commCntIcon {
-        margin-bottom: 4%;
+        margin-bottom: 6%;
     }
   
     #free-keywordbtn {

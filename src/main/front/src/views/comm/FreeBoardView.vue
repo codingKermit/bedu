@@ -66,8 +66,8 @@
                      </b-link>
                   </div>
                   <div class="d-none d-xxl-flex">
-                     <p id="CommContentDemo">테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트
-                     </p>
+                     <b-link :to="'/comm/freBdDetail/' + free.commNum" id="CommContentDemo" v-html="free.content">
+                     </b-link>
                   </div>
                   <div id="commCntIcon">
                      <div id="commCnt">
@@ -79,7 +79,7 @@
                      </div>
                      <div id="commHeart">
                         <font-awesome-icon :icon="['fas', 'heart']"/>
-                        0
+                        {{ free.commLikeCnt }}
                      </div>
                   </div>
                </div>
