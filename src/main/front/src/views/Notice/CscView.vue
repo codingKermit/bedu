@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
-            <td id="cscboard-table-tds" @click="password(inquiry)">
+            <td id="cscboard-table-tds" @click="password(getCls,inquiry)">
               <b-link class="text-start text-body">
                 <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>
@@ -96,6 +96,12 @@ export default {
       // 현재 페이지에 해당하는 데이터를 추출하여 반환합니다.
       return this.inquirylist.slice(startIndex, endIndex);
     },
+    getCls() {
+            const cls = this.$store.getters.getCls;
+            console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
+            return cls;
+
+        },
   },
 
   methods: {
@@ -145,7 +151,7 @@ export default {
         });
     },
 
-    password(inquiry) {
+    password(userName, inquiry) {
       this.$swal({
         title: '비밀번호를 입력하세요',
         html: '<input id="test" type="password">'
@@ -156,7 +162,7 @@ export default {
             const userInput = document.getElementById("test").value;
             if (userInput !== null) {
               // 입력받은 비밀번호와 inquiry.password 비교
-              if (userInput == inquiry.password) {
+              if (userName == "ADMIN" || userInput == inquiry.password) {
                 this.$routerPush('inquiryDetail', { vocNum: inquiry.vocNum }, true)
               } else {
                 this.$swal({

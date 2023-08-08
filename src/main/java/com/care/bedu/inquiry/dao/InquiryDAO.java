@@ -36,8 +36,11 @@ public interface InquiryDAO {
 	//유저 닉네임 조회
 	public List<InquiryVO> getuserName(String userId);	
 	
-	//패스워드 조회
-	public InquiryVO inquirypassword(Integer password);
+    // 비밀번호 확인
+    Integer checkPassword(Integer vocNum, Integer password);
+
+    // 게시글 비밀번호 조회
+    Integer getInquiryPassword(Integer vocNum);
 	
 	//댓글 갯수
 	public int getReplyCnt(Integer vocNum);

@@ -29,5 +29,6 @@ public interface InquiryService {
 	public int inquiryWriteSave(InquiryVO inquiryVO);
 	
 	//게시글 비밀번호	
-	public InquiryVO inquirypassword(Integer password);
+//	public InquiryVO inquirypassword(Integer password);
+	
 }
