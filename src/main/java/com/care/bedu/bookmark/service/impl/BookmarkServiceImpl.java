@@ -18,13 +18,30 @@ public class BookmarkServiceImpl implements BookmarkService{
     @Override
     public int inOut(int lectNum, String userName) {
 
-        return dao.inOut(lectNum, userName);
+        BookmarkVO vo = new BookmarkVO(0, userName, lectNum, null);
+        int check = dao.getBookmark(vo);
+        int result = 0;
+
+        if(check > 0){
+            dao.remove(vo);
+            result = 2;
+        } else {
+            dao.save(vo);
+            result = 1;
+        }
+        return result;
     }
 
     @Override
     public List<BookmarkVO> getList(String userName) {
 
         return dao.getList(userName);
+    }
+
+    @Override
+    public int getBookmark(int lectNum, String userName) {
+    
+        return dao.getBookmark(new BookmarkVO(0, userName, lectNum, null));
     }
     
 }

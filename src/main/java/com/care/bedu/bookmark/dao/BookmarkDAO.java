@@ -9,7 +9,9 @@ import com.care.bedu.bookmark.vo.BookmarkVO;
 @Mapper
 public interface BookmarkDAO {
     
-    public int inOut(int lectNum, String userName);     // 북마크 저장 & 삭제 프로시저 호출
-    public List<BookmarkVO> getList(String userName);   // 북마크 목록 조회
+    public int getBookmark(BookmarkVO vo);   // 북마크 여부 조회
+    public int save(BookmarkVO vo);          // 북마크 저장
+    public int remove(BookmarkVO vo);        // 북마크 삭제
+    public List<BookmarkVO> getList(String userName);       // 북마크 목록 조회
     
 }

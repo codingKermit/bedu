@@ -3,9 +3,39 @@
 
 <mapper namespace="com.care.bedu.bookmark.dao.BookmarkDAO">
 
-    <select id="inOut" parameterType="com.care.bedu.bookmark.vo.BookmarkVO">
-        CALL B_EDU.BEDU_BOOKMARK_INOUT_PRO(#{userName}, #{lectNum})
+    <select id="getBookmark" parameterType="com.care.bedu.bookmark.vo.BookmarkVO" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            B_EDU.T_BEDU_BOOKMARK
+        WHERE
+            USER_NAME = #{userName} AND
+            LECT_NUM = #{lectNum}
     </select>
+
+    <insert id="save" parameterType="com.care.bedu.bookmark.vo.BookmarkVO">
+        INSERT INTO
+            B_EDU.T_BEDU_BOOKMARK
+        (
+            USER_NAME,
+            LECT_NUM,
+            BOOKMARK_DATE
+        )
+        VALUES(
+            #{userName},
+            #{lectNum},
+            NOW()
+        )
+    </insert>
+    
+    <delete id="remove" parameterType="com.care.bedu.bookmark.vo.BookmarkVO">
+        DELETE FROM
+            B_EDU.T_BEDU_BOOKMARK
+        WHERE
+            USER_NAME = #{userName} AND
+            LECT_NUM = #{lectNum}
+    </delete>
+
 
     <select id="getList" resultType="com.care.bedu.bookmark.vo.BookmarkVO">
         SELECT

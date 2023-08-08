@@ -22,7 +22,6 @@
                                             query : {
                                                 group : 'all',
                                                 order : 'title',
-                                                page : 1,
                                                 keyword : '',
                                             }
                                         }" class="text-end text-body text-decoration-none">전체보기</b-link>
