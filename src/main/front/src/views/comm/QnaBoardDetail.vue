@@ -81,7 +81,7 @@
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
                                 </div>
 
-                                <b-button type="button" v-if="admindelbtn() ==1" class="btn-custom btn-custom mt-1 qna-detail-editopen-btn" id="qna-detail-editopen-btn" @click="anseditopen(index)">답변수정</b-button>
+                                <b-button type="button" v-if="btn(ans.userName) == 1" class="btn-custom btn-custom mt-1 qna-detail-editopen-btn" id="qna-detail-editopen-btn" @click="anseditopen(index)">답변수정</b-button>
                                 <b-button type="button" v-if="admindelbtn() ==1" class="btn-custom btn-custom mt-1 qna-detail-adminreplyall-btn" id="qna-detail-adminreplyall-btn" @click="replyadminalldel(ans.ansBdNum, ans.userName)">댓글전체삭제</b-button>
                             </div>
                             
@@ -407,32 +407,95 @@ export default{
             
         },
 
+        //답벼수정버튼
+        btn(username){
+            if(this.userNickName == username || this.userNickName=='ADMIN'){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
         ansedit(ansnum, username, content, index){
-            if(this.userNickName =="" || this.userNickName== null){
+            if(this.userNickName =="" || this.userNickName== null || ansnum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
                     name: "login"
                 })
                 return;
             }else if(this.userNickName == username && this.userNickName != 'ADMIN'){
+                this.$axiosSend('get','/api/reply/replyTotal', {
+                ansNum: ansnum,
+                })
+                .then(res => {
+                    if(res.data >0){
+                        this.$swal('이미 댓글이 존재하여 수정할수없습니다. 관리자한테 문의해 주세요.');
+                        return;
+                    }else{
 
-                this.$axiosSend('get','/api/ans/ansedit',{
-                ansBdNum: ansnum,
-                content: content
-            })
-            .then(res => {
-                if(res.data === 1){
-                    this.$swal('Success','해당답변수정이 완료되었습니다!');
-                    this.ansread(this.qna.qnaBdNum);
-                    this.anseditcensell(index);
+                        this.$axiosSend('get','/api/ans/ansedit',{
+                            ansBdNum: ansnum,
+                            content: content
+                        })
+                        .then(res => {
+                            if(res.data === 1){
+                                this.$swal('Success','해당답변수정이 완료되었습니다!');
+                                this.ansread(this.qna.qnaBdNum);
+                                this.anseditcensell(index);
+                                return;
+                            }
+                        })
+                        .catch((error)=>{
+                            this.$swal('Error','해당답변수정이 실패했습니다.',error);
+                        })
+                        return;
+                    }
+                }).catch((error)=>{
+                    console.log(error);
+                })
+                
+            }else if(this.userNickName =='ADMIN'){
+                this.$swal({
+                        title: '관리자 권한으로 답변을 수정 하시겠습니까?',
+                        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                        cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                        confirmButtonColor: '#303076',
+                        confirmButtonText: '수정', // confirm 버튼 텍스트 지정
+                        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                        if (result.isConfirmed) {
+                            this.$axiosSend('get','/api/ans/ansedit', {
+                                ansNum : ansnum,
+                                userName: this.userNickName
+                            })
+                            .then(res => {
+                                if(res.data > 0){
+                                    this.$swal('Success', '관리자권한으로 해당 답변이 수정 되었습니다.', 'success');
+                                    this.ansread(this.qna.qnaBdNum);
+                                    this.ansgetTotal(this.qna.qnaBdNum);
+                                    this.replyread(this.qna.qnaBdNum);
+                                    return;
+                                }else{
+                                    this.$swal('error', '관리자권한으로 답변이 수정실패!', 'error');
+                                    this.ansread(this.qna.qnaBdNum);
+                                    this.ansgetTotal(this.qna.qnaBdNum);
+                                    this.replyread(this.qna.qnaBdNum);
+                                    return;
+                                }    
+                            })
+                            .catch(error => {
+                                this.$swal(error, '해당답변수정이 실패했습니다', 'error');
+                            })
+                        }
+                    })
+                    .catch((error)=>{
+                        this.$swal('Error','답변이 정상적으로 수정되지 않았습니다',error);
+                    })
                     return;
-                }
-            })
-            .catch((error)=>{
-                this.$swal('Error','해당답변수정이 실패했습니다.',error);
-            })
-            }else{
-                this.$swal('본인 글만 수정가능합니다..');
+            }
+            else{
+                this.$swal('본인 글만 수정가능합니다.');
+                return;
             }
             
         },
@@ -856,7 +919,7 @@ export default{
 
         //성공값인 result값이 1이 있을 경우 기존 아이디좋아요 증가  
         qnalikeUp(qnum){
-            if(this.userNickName === null || this.userNickName==="" || qnum == 0 || qnum ==null){
+            if(this.userNickName === null || this.userNickName===""){
                 this.$swal('로그인을 해주세요.');
                 return;
             }
@@ -977,9 +1040,44 @@ export default{
             this.form.content = "";
         },
 
+        //답변 관리자 삭제시 알림창 띄우고 삭제 클릭시 답변삭제 진행
+        ansdelAlert(ansNum){
+            this.$swal({
+                title: '관리자 권한으로 답변을 삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        this.$axiosSend('get','/api/ans/ansdelete', {
+                        ansBdNum : ansNum
+                    })
+                .then(res => {
+                
+                    if(res.data ==1){
+                        this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
+                        this.ansread(this.qna.qnaBdNum);
+                        this.ansgetTotal(this.qna.qnaBdNum);
+                        return;
+                    }else{
+                        this.$swal('error', '답변삭제실패!', 'error');
+                        this.ansread(this.qna.qnaBdNum);
+                        return;
+                    }    
+                })
+            .catch(error => {
+                this.$swal(error, '답변삭제실패!', 'error');
+            })
+                    }
+            })    
+            
+        },
+
         //답변 삭제
         ansdelete(ansNum, userName, regid){   
-            if(this.userNickName === null || this.userNickName ===""){
+            if(this.userNickName === null || this.userNickName ==="" || ansNum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
                     name: "login"
@@ -992,33 +1090,16 @@ export default{
             })
             .then(res=>{
                 if(this.userNickName == 'ADMIN'){
-                    this.$axiosSend('get','/api/ans/ansdelete', {
-                        ansBdNum : ansNum
-                    })
-                    .then(res => {
-                        
-                        if(res.data ===1){
-                            this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
-                            this.ansread(this.qna.qnaBdNum);
-                            this.ansgetTotal(this.qna.qnaBdNum);
-                            return;
-                        }else{
-                            this.$swal('error', '답변삭제실패!', 'error');
-                            this.ansread(this.qna.qnaBdNum);
-                            return;
-                        }    
-                    })
-                    .catch(error => {
-                        this.$swal(error, '답변삭제실패!', 'error');
-                    })
+                    this.ansdelAlert(ansNum);
+                    return;
                 }
-                else if(userName !== this.userNickName){
+                else if(userName != this.userNickName){
                     this.$swal('답변은 본인 글만 삭제 가능합니다!', 'success');
                     return;
                 }
                 
                 else if(res.data > 0){
-                    this.$swal('댓글이 잇으므로 삭제 할수없습니다. 관리자한테 문의 주세요.');
+                    this.$swal('댓글이 존재하여 삭제 할수없습니다. 관리자한테 문의 주세요.');
                     return;
                 }
 
@@ -1059,7 +1140,6 @@ export default{
                 }
                 else{
                     return;
-                    
                 }
             })
             .catch((error)=>{

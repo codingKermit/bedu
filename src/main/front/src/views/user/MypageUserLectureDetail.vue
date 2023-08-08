@@ -96,12 +96,10 @@
                     </b-row>
                 </div>
                 <div>
-                    <b-pagination @page-click="pageChange" align="center" v-model="currentPage" :total-rows="lectureCount" :per-page="numOfPage"></b-pagination>
+                    <b-pagination align="center" v-model="currentPage" :total-rows="lectureCount" :per-page="numOfPage"></b-pagination>
                 </div>
             </div>
         </div>
-        <h1>{{ currentPage }}</h1>
-        <h1>{{ lectureCount }}</h1>
     </div>
 </template>
 <script>
@@ -118,7 +116,7 @@ export default {
            },
            userNum : this.$store.getters.getUsernum,
            userId : this.$store.getters.getNickname,
-           currentPage : this.$route.query.page,
+           currentPage : 1,
            listArray : [], //수강내역 전체 데이터
            numOfPage : 9,
            lectureInfo : {}, //화면에 노출되는 수강내역 데이터
@@ -144,16 +142,6 @@ export default {
         
     },
     methods : {
-        // 페이징 변경 감지
-        pageChange(e){
-            this.$routerPush('',{
-                group : this.groupSelected,
-                order : this.orderSelected,
-                page : e.target.__vnode.children,
-                keyword : this.keyword
-            },true)
-        },
-
         // 정렬순서 변경 감지
         orderChange(e){
             this.$routerPush('',{
@@ -163,7 +151,6 @@ export default {
                 keyword : this.keyword
             },true);
         },
-
         // 검색어 입력 바인딩 문제 해결 후 검색
         keywordBindingWithSearch(e){
             this.$routerPush('',{
@@ -212,10 +199,13 @@ export default {
             handler(val){
                 this.groupSelected = val.group;
                 this.orderSelected = val.order;
-                this.currentPage = val.page;
+                // this.currentPage = val.page;
                 this.keyword = val.keyword;
                 this.getLectureAllList();
             }
+        },
+        currentPage(){
+            this.getLectureAllList();
         },
     }
 }
