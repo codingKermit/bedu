@@ -126,7 +126,6 @@
                     size: this.itemsPerPage,
                 })
                 .then((response) => {
-                    const { totalElements } = response.data;
                     if (response.data.length) {
                         // 가져온 후기를 fetchedReviews 배열에 추가
                         this.fetchedReviews.push(...response.data);
@@ -135,11 +134,9 @@
                     } else {
                         $state.complete(); 
                     }
-                    // 인피니티 스크롤 상태 추가
-                    this.totalItems = totalElements;
                     this.isFetching = false;
                     // 검색 및 정렬 수행
-                    //this.fetchSearchedReviews(); // 검색 수행
+                    this.fetchSearchedReviews(); // 검색 수행
                     this.sortReviews(); // 정렬 수행
                 })
                 .catch((error) => {
