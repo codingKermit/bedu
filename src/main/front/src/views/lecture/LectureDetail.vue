@@ -16,8 +16,13 @@
                 </b-col>
                 <!-- 강의 정보 컨테이너 시작 -->
                 <b-col class="">
-                    <p class="fw-bold fs-3">{{ form.title }}</p>
-
+                    <p class="fw-bold fs-3 d-flex">
+                        {{ form.title }}
+                        <span class="ms-auto me-3" role="button" @click="bookmarkFunc" v-if="this.$store.getters.getNickname != undefined"
+                        :class="bookmark ? 'bedu-text-custom-yellow':''">
+                            <font-awesome-icon :icon="bookmark ? ['fas', 'bookmark'] : ['far', 'bookmark']"/>
+                        </span>
+                    </p>
                     <!-- 강의 평점 컨테이너 시작 -->
                     <div class="d-flex mb-3">
                         <div>
@@ -38,18 +43,25 @@
 
                     <div class="list-unstyled align-middle w-100">
                         <div class="mb-2 row">
-                            <span class="text-secondary col-3 col-md-2">강사</span>
+                            <span class="text-secondary col-4 col-md-2">강사</span>
                             <span class="text-body col">{{ form.teacher }}</span>
                         </div>
                         <div class="mb-2 row">
-                            <span class="text-secondary col-3 col-md-2">수강기간</span>
+                            <span class="text-secondary col-4 col-md-2">수강기간</span>
                             <span class="text-body col">
                                 구매일로부터
                                 {{ form.lectPeriod }}일</span>
                         </div>
                         <div class="mb-2 row">
-                            <span class="text-secondary col-3 col-md-2">학습시간</span>
-                            <span class="text-body col">{{ form.totalTimes }}&nbsp;({{ form.total }}강)</span>
+                            <div class="text-secondary col-4 col-md-2">학습시간</div>
+                            <div class="text-body col">
+                                <span class="me-1">
+                                    {{ form.totalTimes }}
+                                </span>
+                                <span>
+                                    ({{ form.total }}강)
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -225,9 +237,45 @@ import '@/assets/css/lectureStyle.css';
                 payPerYear : "27,417",
                 myPageList : false, // 수강목록에 있는지 여부 체크
                 userNum : this.$store.getters.getUsernum,
+                bookmark : 0,
             }
         },
         methods: {
+            bookmarkFunc(){
+                this.$axiosSend('get','/api/bookmark/inOut',{
+                    lectNum : this.form.lectNum,
+                    userName : this.$store.getters.getNickname
+                })
+                .then((res)=>{
+                    console.log(res.data)
+                    
+                    if(res.data == 2){
+                        this.bookmark = 0;
+                    } else {
+                        this.bookmark = 1
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            },
+            getBookmark(){
+                this.$axiosSend('get','/api/bookmark/getBookmark',{
+                    lectNum : this.form.lectNum,
+                    userName : this.$store.getters.getNickname
+                })
+                .then((res)=>{
+                    console.log(res)
+                    if(res.data > 0){
+                        this.bookmark = 1;
+                    } else {
+                        this.bookmark = 0;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            },
             /** 동영상 재생 페이지로 이동 */
             toLesson(val){ 
                 this.$routerPush('lectureLesson',{ lessonId : val.lectDtlNum},true);
@@ -409,6 +457,7 @@ import '@/assets/css/lectureStyle.css';
             this.getDetail();
             this.getVideoList();
             this.getReview();
+            this.getBookmark();
         }
     }
 </script>

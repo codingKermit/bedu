@@ -25,7 +25,6 @@
                             query:{
                                 group : 'learning',
                                 order : this.orderSelected,
-                                page : this.currentPage,
                                 keyword : this.keyword
                             }
                          }"
@@ -38,7 +37,6 @@
                             query:{
                                 group : 'done',
                                 order : this.orderSelected,
-                                page : this.currentPage,
                                 keyword : this.keyword
                             }
                          }"
@@ -51,7 +49,6 @@
                             query:{
                                 group : 'all',
                                 order : this.orderSelected,
-                                page : this.currentPage,
                                 keyword : this.keyword
                             }
                          }"
@@ -147,7 +144,6 @@ export default {
             this.$routerPush('',{
                 group : this.groupSelected,
                 order : e,
-                page : this.currentPage,
                 keyword : this.keyword
             },true);
         },
