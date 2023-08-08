@@ -256,6 +256,7 @@
 
             <!-- 화면 상단으로 끌어올리는 컨테이너 -->
             <div
+                id="scrollTopCircle"
                 ref="scrollTop"
                 class="position-fixed d-flex scrollTop rounded-circle"
                 @click="scrollToTop"
