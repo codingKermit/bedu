@@ -3,16 +3,16 @@
         <div class="review-group">
             <div class="colTab">
                 <ul class="mk-c-tab col8 tab-event">
-                    <li><router-link id = "mSelect" :to ="{ path: '/review', query: { topCategory: 'all' }}">전체</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '1000' }}" >기초강의</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '3000' }}" >데이터분석</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '2000' }}" >웹 개발</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '4000' }}">프로그래밍 언어</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '5000' }}">인공지능</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '6000' }}">프로그래밍 교양</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '7000' }}">개발도구</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '8000' }}">컴퓨터공학 전공지식</router-link></li>
-                    <li><router-link id = "mSelect" :to ="{ name: 'review', query: { topCategory: '9000' }}">디자인</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == 'all' ? 'buttonColor':'' " :to ="{ path: 'review', query: { topCategory: 'all' }}">전체</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '1000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '1000' }}">기초강의</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '2000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '2000' }}">웹 개발</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '3000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '3000' }}">데이터분석</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '4000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '4000' }}">인공지능</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '5000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '5000' }}">프로그래밍 교양</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '6000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '6000' }}">컴퓨터공학 전공지식</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '7000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '7000' }}">개발도구</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '8000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '8000' }}">프로그래밍 언어</router-link></li>
+                    <li><router-link class="text-decoration-none" :class = "topCate == '9000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '9000' }}">디자인</router-link></li>
                 </ul>
             </div>
             <p class="fw-bold mb-0 fs-2 text-start">수강후기</p>
@@ -30,7 +30,7 @@
                         <input
                         type="text"
                         v-model="searchKeyword"
-                        @keyup.enter="searchReviews"
+                        @keyup.enter="fetchSearchedReviews"
                         />
                     </div>  
                 </div>
@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(reviews, index) in displayedReviews" :key="index">
+                    <tr v-for="(reviews, index) in fetchedReviews" :key="index">
                         <td class="review-title">{{ reviews.title }}</td>
                         <td>
                             <span class="review-content">{{ reviews.content }}</span>
@@ -101,86 +101,29 @@
                 fetchedReviews: [], // 검색 전에 모든 후기를 저장하는 배열
                 searchedReviews: [], // 검색 결과를 저장하는 배열
                 sortOption: "default", // 정렬 옵션
-                content: "",
                 isLoading: false, // 로딩 중 여부
                 currentPage: 1, // 현재 페이지 번호
-                itemsPerPage: 10, // 한 페이지에 보여줄 아이템 수
+                itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
                 topCate : '',
             };
         },
         computed: {
             displayedReviews() {
-                return this.searchKeyword ? this.searchedReviews : this.fetchedReviews;
+                return this.searchKeyword ? this.fetchedReviews : this.searchedReviews;
             },
         },
         created() {
         
         },
         methods: {
-            // 후기 가져오기
-            fetchReviews() {
-                this.isLoading = true; // 로딩 중 상태를 true로 설정합니다.
-                this.fetchedReviews = []; // fetchedReviews 배열을 초기화합니다.
-                this.$axiosSend("get", "/api/reviews", {
-                    page: this.currentPage, // 현재 페이지 번호를 파라미터로 전달합니다.
-                    size: this.itemsPerPage, // 한 페이지에 보여줄 아이템 수를 파라미터로 전달합니다.
-                    keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
-                })
-                .then((response) => {
-                    console.log(response)
-                    const { totalElements } = response.data;
-                    if (response.data.length > this.itemsPerPage) {
-                        // 가져온 후기를 fetchedReviews 배열에 추가
-                        this.fetchedReviews.push(...response.data);
-                        this.currentPage++;
-                    }
-                    this.totalItems = totalElements; // 총 아이템 수를 업데이트합니다
-                    this.isLoading = false; // 로딩 중 상태를 false로 설정합니다.
-                    // 검색 및 정렬 수행
-                    //this.fetchSearchedReviews(); // 검색 수행
-                    this.sortReviews(); // 정렬 수행
-                })
-                .catch((error) => {
-                    console.error(error);
-                    this.isLoading = false; // 에러 발생 시 로딩 중 상태를 false로 설정합니다.
-                });
-            },        
-            fetchSearchedReviews(){
-                const keyword = this.searchKeyword.trim().toLowerCase();
-                const param = {
-                    keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
-                    topCate : this.topCate, // 사용자 누르는 카테고리 코드값
-                }
-                this.$axiosSend("get", "/api/reviews/search", param)
-                .then((response) => {
-                    this.fetchedReviews = [];
-                    this.fetchedReviews.push(...response.data);
-                    this.sortReviews(); // 정렬 수행
-                    this.searchedReviews = response.data; 
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-            },
-            // handleScroll() {
-            //     const scrollHeight = document.documentElement.scrollHeight;
-            //     const scrollTop = window.pageYOffset;
-            //     const clientHeight = document.documentElement.clientHeight;
-            //     const bottomOffset = 20;
-
-            //     if (scrollHeight - scrollTop - clientHeight <= bottomOffset && !this.isFetching) {
-            //          // 맨 아래로 스크롤하고 데이터를 불러오는 중이 아닌 경우 fetchMoreReviews 함수를 호출합니다.
-            //         this.fetchMoreReviews();
-            //     }
-            // },
+            // 후기 불러오는거
             fetchMoreReviews($state) {
                 this.isFetching = true;
                 // 데이터를 불러오는 비동기 작업 수행
                 this.$axiosSend("get", "/api/reviews", {
                     page: this.currentPage,
                     size: this.itemsPerPage,
-                    keyword: this.searchKeyword,
                 })
                 .then((response) => {
                     const { totalElements } = response.data;
@@ -192,6 +135,7 @@
                     } else {
                         $state.complete(); 
                     }
+                    // 인피니티 스크롤 상태 추가
                     this.totalItems = totalElements;
                     this.isFetching = false;
                     // 검색 및 정렬 수행
@@ -201,6 +145,22 @@
                 .catch((error) => {
                     console.error(error);
                     this.isFetching = false;
+                });
+            },
+            // 검색했을때 실행되는 메소드
+            fetchSearchedReviews(){
+                const param = {
+                    keyword: this.searchKeyword, // 검색어를 파라미터로 전달합니다.
+                    topCate : this.topCate, // 사용자 누르는 카테고리 코드값
+                }
+                this.$axiosSend("get", "/api/reviews/search", param)
+                .then((response) => {
+                    this.fetchedReviews = [];
+                    this.fetchedReviews.push(...response.data);
+                    this.sortReviews(); // 정렬 수행
+                })
+                .catch((error) => {
+                    console.error(error);
                 });
             },
             //별점순, 최신순 정렬
@@ -228,18 +188,7 @@
                     break;
                 }
             },
-            // 후기 검색
-            searchReviews() {
-                if (this.searchKeyword === "") {
-                // 검색어가 비어있을 경우, 알림창을 표시합니다.
-                    alert("검색어를 입력해주세요");
-                return; // 메소드를 종료합니다.
-                }
-                this.topCate = '';
-                this.searchedReviews = []; //검색된 후기를 초기화
-                this.fetchReviews(); // 후기 가져오기 호출
-                
-            },
+            // 작성일자 형식 메소드
             formatDateTime(value) {
                 // value는 날짜 값입니다
                 const now = new Date();
@@ -262,17 +211,10 @@
                 }
             },
         },
-        mounted() {
-            // 스크롤 이벤트를 감지하기 위해 window 객체에 이벤트 리스너를 추가합니다.
-            // window.addEventListener('scroll', this.handleScroll); 
-        },
-        beforeUnmount() {
-            // 컴포넌트가 해제되기 전에 스크롤 이벤트 리스너를 제거합니다.
-            // window.removeEventListener('scroll', this.handleScroll);
-        },
         watch : {
             '$route.query.topCategory':{
                 immediate : true,
+
                 handler(newTopCategory){
                     if(newTopCategory == "" ){  
                         this.searchedReviews = [];
