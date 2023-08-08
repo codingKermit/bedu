@@ -1,4 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Swal from 'sweetalert2';
+import store from "../vuex/store";
+
+// 자동로그아웃시에 토큰이 없을경우 메인화면으로 이동
+// 사용법은 routes의 component밑에 beforeEnter : requireAuth()를 넣어주면됨
+const requireAuth = () => (from, to, next) => {
+    const token = localStorage.getItem('user_token')
+    if (token) {
+        store.state.isLogin = true
+        return next()
+    }
+    Swal.fire({
+        html: '<span style="font-size: 1.3rem !important;">로그인이 되어있지 않습니다<br>메인페이지로 이동합니다.</span>'
+    });
+    next('/')
+}
 
 const routes = [
     {
@@ -186,7 +202,8 @@ const routes = [
     {
         path: '/adminPage',
         name: 'adminPage',
-        component: () => import('@/views/adminPage/AdminPage.vue')
+        component: () => import('@/views/adminPage/AdminPage.vue'),
+        beforeEnter : requireAuth()
     },
     {
         path: '/membership',
@@ -199,7 +216,8 @@ const routes = [
         path: '/mypageAll',
         name: 'mypageAll',
 
-        component : () => import('@/views/user/MypageUserLectureDetail.vue')
+        component : () => import('@/views/user/MypageUserLectureDetail.vue'),
+        beforeEnter : requireAuth()
 
     }
 ]

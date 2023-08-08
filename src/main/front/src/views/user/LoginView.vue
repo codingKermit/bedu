@@ -89,6 +89,14 @@ export default {
                 this.$swal('<span style="font-size: 23px;"><b style="color:red;">이메일</b>을 입력해주세요.</span>')
                 return
             }
+
+            // 이메일 유효성 검사
+            const emailRegex = /^[a-z0-9_\\.\\-]+@[a-z0-9\\-]+\.[a-z0-9\\-]+/;
+            if (!emailRegex.test(this.email)) {
+                this.$swal('<span style="font-size: 23px;"><b style="color:red;">올바른 이메일</b> 형식이 아닙니다.</span>');
+                return;
+            }
+
             // 비밀번호 입력 유효성 검사
             if (this.password === '') {
                 this.$swal('<span style="font-size: 23px;"><b style="color:red;">비밀번호</b>를 입력해주세요.</span>')
