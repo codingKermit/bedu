@@ -1,5 +1,5 @@
 <template>
-   <div class = "d-block d-xxl-flex">
+   <div class = "d-block">
       <div class="freeboard-view d-none d-xxl-block" id="freeboard-view">
          <CommCategory :currentTab="'free'"></CommCategory>
       </div> 

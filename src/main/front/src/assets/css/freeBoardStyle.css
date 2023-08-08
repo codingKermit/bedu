@@ -65,10 +65,10 @@
 }
 
 .freeboardMain {
-    width: 100%!important;
+    display: grid;
     padding-top: 5.5%;
     margin-left: 3%;
-    padding-right: 3%;
+    margin-right: 2%;
     padding-bottom: 50px;
 }
 
