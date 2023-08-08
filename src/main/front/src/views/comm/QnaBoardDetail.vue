@@ -93,7 +93,7 @@
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
                             </div>
-                            <div class="qna-detail-ansconedit">
+                            <div class="qna-detail-ansconedit" id="qna-detail-ansconedit">
                                 <b-form-input class="mt-4 mb-2 qna-detail-ansedit" id="qna-detail-ansedit" v-model="ans.content" ref="content"></b-form-input>
                                 <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditbtn" id="qna-detail-anseditbtn" @click="ansedit(ans.ansBdNum, ans.userName, ans.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
@@ -237,10 +237,10 @@ export default{
         window.addEventListener('error', e => {
             if (e.message === 'ResizeObserver loop limit exceeded') {
                 const resizeObserverErrDiv = document.getElementById(
-                    'webpack-dev-server-client-overlay-div'
+                    'qna-detail-ansconedit'
                 );
                 const resizeObserverErr = document.getElementById(
-                    'webpack-dev-server-client-overlay'
+                    'qna-detail-ansconedit'
                 );
                 if (resizeObserverErr) {
                     resizeObserverErr.setAttribute('style', 'display: none');
@@ -407,7 +407,7 @@ export default{
             
         },
 
-        //답벼수정버튼
+        //로그인 닉네임과 글 작성 닉네임 동일하거나 관리자면 답변수정버튼노출
         btn(username){
             if(this.userNickName == username || this.userNickName=='ADMIN'){
                 return 1;
@@ -416,6 +416,7 @@ export default{
             }
         },
 
+        //답변수정처리
         ansedit(ansnum, username, content, index){
             if(this.userNickName =="" || this.userNickName== null || ansnum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
@@ -428,7 +429,7 @@ export default{
                 ansNum: ansnum,
                 })
                 .then(res => {
-                    if(res.data >0){
+                    if(res.data >0){                                            //답변에 댓글 개수가 1개라도 존재시 직접삭제불가(관리자문의)
                         this.$swal('이미 댓글이 존재하여 수정할수없습니다. 관리자한테 문의해 주세요.');
                         return;
                     }else{
@@ -556,11 +557,13 @@ export default{
             this.$refs['commant-container-'+index][0].children[6].classList.remove("d-none");
         },
 
+        //답변 닫기
         anseditcensell(index){
             this.$refs['qna-detail-ans'+index][0].children[0].classList.remove("d-none");
             this.$refs['qna-detail-ans'+index][0].children[3].classList.remove("d-block");
         },
 
+        //답변 폼 열기
         anseditopen(index){
             this.$refs['qna-detail-ans'+index][0].children[0].classList.add("d-none");
             this.$refs['qna-detail-ans'+index][0].children[3].classList.add("d-block");
@@ -580,18 +583,19 @@ export default{
             this.$refs['qna-detail-ans'+index][0].children[2].classList.remove("d-block");
         },
 
+        //댓글 수정
         replyedit(replynum, replyuser, content, index){
 
-            if(this.userNickName =="" || this.userNickName== null || replynum == 0){
+            if(this.userNickName =="" || this.userNickName== null || replynum == 0){            
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
                     name: "login"
                 })
                 return;
-            }else if(content == null || content == ""){
+            }else if(content == null || content == ""){                             
                 this.$swal('내용을 수정해주세요.', 'success');
                 return;
-            }else if(this.userNickName =='ADMIN'){
+            }else if(this.userNickName =='ADMIN'){                                  // 로그인 닉네임 관리자일시 어떤 글이든 즉시 수정
                 this.reply.content = content;
                 this.reply.replyNum = replynum;
                 this.$axiosSend('post','/api/reply/replyEdit',{
