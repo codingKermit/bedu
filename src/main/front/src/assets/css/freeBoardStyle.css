@@ -134,6 +134,10 @@ h1 {
     display: none;
 }
 
+#freeboard-title {
+    margin-bottom: 1%;
+}
+
 #freeBoardTitle {
     display: flex;
     justify-content: space-between;
@@ -210,22 +214,19 @@ h1 {
 
 /*freeBoardWrite*/
 #freeboard-write {
-    display: grid;
+    display: flow-root;
     padding-top: 5.5%;
     margin-left: 3%;
     padding-bottom: 50px;
     margin-right: 3%;
 }
 
-#freeboard-write-content {
-    margin-bottom: 10px;
-    width: 100%;
-    height: 200px;
-    resize:none;
-}
-
-#freeboard-title {
-    margin-bottom: 30px;
+#freeboard-detail-contatiner {
+    display: grid;
+    padding-top: 5.5%;
+    margin-left: 3%;
+    padding-bottom: 50px;
+    margin-right: 3%;
 }
 
 #comm-main-side {
@@ -240,10 +241,8 @@ h1 {
 }
 
 /*freeBoardEdit*/
-#freeboard-edit-content {
-    width: 50%;
-    height: 200px;
-    resize:none;
+#freeboard-edit-title {
+    margin-bottom: 1%;
 }
 
 #freeboard-detail-contents {
@@ -321,10 +320,6 @@ h1 {
     padding-left: 6%;
 }
 
-.ck-content{
-    height: 500px !important;
-}
-
 .freeTitle{
     width: 30%;
 }
@@ -398,4 +393,13 @@ h1 {
         font-size: 0.8rem;
       }
       
+      #free-likebtn {
+        font-size: 0.8rem;
+        border: 0.1rem solid #dde0ea;
+        border-radius: 12rem;
+        z-index: 2;
+        width: 70px;
+        height: 35px;
+        text-align: center;
+    }
 }

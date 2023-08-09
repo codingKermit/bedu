@@ -1,20 +1,22 @@
 <template>
-    <div class = "d-flex">
-        <div class = "writeMain">
-        <CommCategory></CommCategory>
+    <div class = "d-block">
+        <div class = "writeMain d-none d-xxl-block">
+            <CommCategory></CommCategory>
         </div>
         <div id="freeboard-write">
-            <h2>자유게시판 수정</h2>
+            <h2 class=" mb-3 fw-bold">
+                자유게시판 수정
+            </h2>
             <b-form @submit="edit()">
                 <input type="hidden" v-model="form.commNum" ref="commNum"/>
-                <b-form-input class="mt-4 mb-2" id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
+                <b-form-input id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 
-                <div class="m-0 my-5 d-flex justify-content-between align-items-center" id="freeboard-title">
-                <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                <div id="freeboard-title">
+                    <input type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
                 </div>
 
-                <div class="my-3 justify-content-md-end d-md-flex freeboard-edit-btncontain" id="freeboard-edit-btncontain">
+                <div id="freeboard-edit-btncontain">
                     <b-button type="submit" class="px-4 bedu-bg-custom-blue freeboard-edit-submit" id="freeboard-edit-submit">수정</b-button>
                     <b-button class="px-4 btn-custom ms-2 freeboard-edit-reset" id="freeboard-edit-reset" type="reset" :to="'/comm/freBd'">취소</b-button>
                 </div>

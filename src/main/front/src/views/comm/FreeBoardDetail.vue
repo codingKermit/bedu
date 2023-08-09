@@ -3,9 +3,9 @@
         <div class = "writeMain d-none d-xxl-block">
             <CommCategory></CommCategory>
         </div>
-        <div class="freeboard-write" id="freeboard-write">
-            <div class="justify-content-start text-start"  id="freeboard-detail-body">
-                <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
+        <div id="freeboard-detail-contatiner">
+            <div class="justify-content-start text-start">
+                <h2 class=" mb-3 fw-bold free-detail-title">
                     {{ free.title }}
                 </h2>
                 <div id="freeBoardTitle">
