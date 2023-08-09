@@ -12,8 +12,8 @@
                 <b-form-input id="freeboard-edit-title" ref="title" v-model="form.title"></b-form-input>
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 
-                <div id="freeboard-title">
-                    <input class="fotm-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                <div class="m-0 my-3 d-flex justify-content-between align-items-center">
+                    <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
                 </div>
 
                 <div id="freeboard-edit-btncontain">

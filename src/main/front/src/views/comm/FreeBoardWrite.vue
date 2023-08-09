@@ -1,6 +1,6 @@
 <template>
-    <div class = "d-flex">
-        <div class = "writeMain">
+    <div class = "d-block">
+        <div class = "writeMain d-none d-xxl-block">
             <CommCategory></CommCategory>
         </div>  
             <div class="freeboard-write" id="freeboard-write">
@@ -8,8 +8,8 @@
                 <b-form @submit="submit()">
                     <b-form-input placeholder="제목을 작성해주세요" class="mt-4 mb-2" id="freeboard-write-title" v-model="form.title" maxlength='50' ref="title"></b-form-input>
                         <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" maxlength='1600'></ckeditor>
-                    <div class="m-0 my-5 d-flex justify-content-between align-items-center">
-                    <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                    <div class="m-0 my-3 d-flex justify-content-between align-items-center">
+                        <input class="form-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
                     </div>    
                     
                     <div id="freeboard-write-conbtn">
