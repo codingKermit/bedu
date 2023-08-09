@@ -8,48 +8,50 @@
                 <h2 class=" mb-3 fw-bold free-detail-title" id="free-detail-title">
                     {{ free.title }}
                 </h2>
-                <div id="freeboard-userinfo">
-                    <p id="freeboard-userid">
-                        {{ free.userName}}
-                    </p>
-                    <p id="free-comm">
-                        <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
-                    </p>
-                    <p id="free-date">
-                        {{ DateTime(free.commDate) }} 
-                    </p>
+                <div id="freeBoardTitle">
+                    <div id="freeboard-userinfo">
+                        <p id="freeboard-userid">
+                            {{ free.userName}}
+                        </p>
+                        <p id="free-comm">
+                            <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
+                        </p>
+                        <p id="free-date">
+                            {{ DateTime(free.commDate) }} 
+                        </p>
+                    </div>
+                    <div id="freeBoardEditDele">
+                        <b-button type="button" class="bedu-bg-custom-blue freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
+                        <b-button type="button" class="ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
+                    </div>
                 </div>
                 <div id="freeboard-detail-contents">
                     <!-- {{ free.content }} -->
-                    <div v-html="free.content"></div>
-                </div>
-                <div id="free-likeyn">
-                    <button id="free-likebtn" @click="freelikeUp(free.commNum)" :class="[backLikedClass()]">
-                        <font-awesome-icon :icon="['fas', 'heart']"
-                        :class="[fontLikedClass()]"
-                            />
+                    <div id="freeContent" v-html="free.content"></div>
+                    <div id="free-likeyn">
+                        <button id="free-likebtn" @click="freelikeUp(free.commNum)" :class="[backLikedClass()]">
+                            <font-awesome-icon :icon="['fas', 'heart']" :class="[fontLikedClass()]" />
                             <text class="fw-bold ms-2 free-detail-likeyn" id="free-detail-likeyn">
                                 {{ free.commLikeCnt }}
                             </text>
-                    </button>   
+                        </button>   
+                    </div>
                 </div>
-                <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
-                    <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
-                    <b-button type="button" class="btn-custom ms-1 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
-                    <b-button type="button" v-if="replyadmindel() == 1" class="btn-custom ms-1 free-detail-adminalldel" id="free-detail-adminalldel" @click="adminreplyalldel(free.commNum)">댓글전체삭제</b-button>
-                    <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
-                    <b-button type="button" class="btn-custom ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
-                </div>
-                <div>
+                <div id="freeLikeReply">
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" />
                         댓글 {{replytotal}}개
                     </p>
+                    <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
+                        <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
+                        <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
+                        <b-button type="button" class="btn-custom ms-2 free-detail-replybtn" id="free-detail-replybtn" @click="replyopen()">댓글작성</b-button>
+                        <b-button type="button" v-if="replyadmindel() == 1" class="btn-custom ms-2 free-detail-adminalldel" id="free-detail-adminalldel" @click="adminreplyalldel(free.commNum)">댓글전체삭제</b-button>
+                    </div>
                 </div>
                 <div>
                     <div class="free-detail-replywrite" id="free-detail-replywrite" style="display: none;">
-                        <h4>댓글을 작성하시오</h4>
+                        <h4>댓글을 작성해주세요</h4>
                         <textarea class="form-control col-sm-5 qna-detail-replycontent" rows="5" id="qna-detail-replycontent" v-model="form.content" placeholder="내용을 작성해주세요" ref="content"/>
                     </div>
                     <div v-for="(reply, index) in replylist" :key="index" class="free-detail-replylist" id="free-detail-replylist">
@@ -633,7 +635,10 @@ export default{
             document.getElementById("freeboard-detail-deletebtn").style.display="none";
             document.getElementById("qna-detail-recensell").style.display="inline";
             this.form.content = "";
-            
+
+            if(this.userNickName == "ADMIN"){
+                document.getElementById("free-detail-adminalldel").style.display="none";
+            }
         },
 
         //댓글작성버튼 클릭에 삭제 수정버튼 노출
@@ -644,13 +649,19 @@ export default{
             document.getElementById("freeboard-detail-editbtn").style.display="inline";
             document.getElementById("freeboard-detail-deletebtn").style.display="inline";
             document.getElementById("qna-detail-recensell").style.display="none";
-            if(this.free.userName === this.userNickName){
+            if(this.free.userName === this.userNickName && this.userNickName == "ADMIN"){
                 document.getElementById("free-detail-replybtn").style.display="inline";
                 document.getElementById("freeboard-detail-editbtn").style.display="inline";
                 document.getElementById("freeboard-detail-deletebtn").style.display="inline";
-                
+                document.getElementById("free-detail-adminalldel").style.display="inline";
+
                 return;
-            }else{
+            } else if (this.free.userName === this.userNickName){
+                document.getElementById("free-detail-replybtn").style.display="inline";
+                document.getElementById("freeboard-detail-editbtn").style.display="inline";
+                document.getElementById("freeboard-detail-deletebtn").style.display="inline";
+                return;
+            } else {
                 
                 document.getElementById("freeboard-detail-editbtn").style.display="none";
                 document.getElementById("freeboard-detail-deletebtn").style.display="none";

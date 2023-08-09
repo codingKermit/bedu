@@ -29,7 +29,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
 }
 
 
@@ -58,8 +58,7 @@
 }
 
 #freeCommContainer {
-    padding-top: 2%;
-    padding-bottom: 4%;
+    padding-bottom: 2%;
     padding-right: 2%;
     border-top: 1px solid #ccc;
 }
@@ -130,19 +129,22 @@ h1 {
     margin-bottom: 30px;
 }
 /*FreeBoardDetail css*/
-#freeboard-detail-top {
-    margin-top: 40%;
-    border-top: 1px solid #ccc;
-    float: right;
-}
 
 #freeeditcontent{
     display: none;
 }
 
+#freeBoardTitle {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1%;
+}
+
 #freeboard-userinfo {
     font-size: 1rem;
     display: flex;
+    align-items: flex-end;
 }
 
 .freereplyeditall-btns{
@@ -163,8 +165,11 @@ h1 {
     margin-left: 20px;
 }
 
+#freeContent {
+    margin-bottom: 8%;
+}
+
 #free-likebtn {
-    float: right;
     border: 0.1rem solid #dde0ea;
     border-radius: 12rem;
     z-index: 2;
@@ -174,7 +179,9 @@ h1 {
 }
 
 #free-likeyn {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2%;
 }
 
 #free-detail-replylist{
@@ -192,6 +199,13 @@ h1 {
 
 #qna-detail-recensell {
     display: none;
+}
+
+#freeLikeReply {
+    padding-top: 2%;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
 }
 
 /*freeBoardWrite*/
@@ -233,9 +247,8 @@ h1 {
 }
 
 #freeboard-detail-contents {
-    border-top: 1px solid #ccc;
+    margin-top: 2%;
     word-wrap: break-word;
-    margin-bottom: 15px;
 }
 
 #freeboard-detail-main {
@@ -270,7 +283,7 @@ h1 {
 #free-detail-replywrite{
     display: none;
     word-wrap: break-word;
-    margin-bottom: 50px;
+    margin-bottom: 2%;
 }
 
 .replyeditcontent {
@@ -320,7 +333,15 @@ h1 {
     margin-top: 2%;
     font-weight: 700;
     font-size: 1.25rem;
-    display: inline-block;
+    overflow: hidden;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
     text-decoration: none;
 }
 
@@ -352,7 +373,29 @@ h1 {
         font-size: 1.5rem;
       }
 
+      #freeboard-userinfo {
+        font-size: 0.9rem;
+      }
+
       #scrollTopCircle {
         display: none!important;
       }
+
+      #freeCommContainer {
+        padding-top: 1%;
+        padding-bottom: 5%;
+      }
+
+      #freeboard-table-tds {
+        margin-bottom: 4%;
+      }
+
+      #freeBoardEditDele button{
+        font-size: 0.8rem;
+      }
+
+      #freeboard-detail-top button{
+        font-size: 0.8rem;
+      }
+      
 }

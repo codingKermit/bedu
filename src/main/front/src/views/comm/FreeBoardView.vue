@@ -46,20 +46,15 @@
                </b-navbar>
             </div>   
             <div class="freeSelectBox">
-                  <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
-                     <option value="default">최신 순</option>
-                     <option value="highViews">조회수 순</option>
-                     <option value="likeview">좋아요 순</option>
-                  </select>
-               </div>
+               <select class="freeQnaSortOption" v-model="sortOption" @change="sortReviews">
+                  <option value="default">최신 순</option>
+                  <option value="highViews">조회수 순</option>
+                  <option value="likeview">좋아요 순</option>
+               </select>
+            </div>
 
             <div class="w-100 pe-0 pe-sm-3 freeboard-table" id="freeboard-table">
                <div id="freeCommContainer" v-for="free in freelist" :key="free">
-                  <div class="freeuser">
-                     <font-awesome-icon :icon="['fas', 'user']" size="xl" /> 
-                     {{ free.userName }}
-                     <div id="commDateTime">{{ freeDateTime(free.commDate) }}</div>
-                  </div>
                   <div id="freeboard-table-tds">
                      <b-link class="text-start text-body" :to="'/comm/freBdDetail/' + free.commNum">
                         {{ free.title }}
@@ -69,13 +64,15 @@
                      <b-link :to="'/comm/freBdDetail/' + free.commNum" id="CommContentDemo" v-html="free.content">
                      </b-link>
                   </div>
-                  <div id="commCntIcon">
+                  <div class="freeuser">
+                     <font-awesome-icon :icon="['fas', 'user']" size="xl" /> 
+                     {{ free.userName }}
+                     <div id="commDateTime">{{ freeDateTime(free.commDate) }}</div>
                      <div id="commCnt">
                         <font-awesome-icon :icon="['fas', 'eye']" /> {{ free.commCnt }}
                      </div>
                      <div id="commReply">
-                        <font-awesome-icon :icon="['far', 'comment']" />
-                        {{free.replyTotal}} 
+                        <font-awesome-icon :icon="['far', 'comment']" /> {{free.replyTotal}} 
                      </div>
                      <div id="commHeart">
                         <font-awesome-icon :icon="['fas', 'heart']"/>
