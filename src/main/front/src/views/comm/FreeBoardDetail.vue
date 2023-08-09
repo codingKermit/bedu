@@ -483,7 +483,7 @@ export default{
 
             if(this.userNickName == "ADMIN"){
                 this.$axiosSend('get','/api/reply/replydelete', {
-                    rnum: replyNum
+                    replyNum : replyNum
                 })
                 .then(res => {        
                     
@@ -513,7 +513,7 @@ export default{
             }else{
                 
                 this.$axiosSend('get','/api/reply/replydelete', {
-                    rnum: replyNum
+                    replyNum : replyNum
                 })
                 .then(res => {        
                     if(res.data ===1){
