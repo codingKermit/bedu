@@ -68,6 +68,7 @@
                                 {{ DateTime(ans.ansDate) }}
                             </div>
                         </div>
+                        
                         <div class="qna-detail-anscon" :ref="'qna-detail-ans'+index">
                             <div class="qnaReplyContent">
                                 <div v-html="ans.content"></div>
@@ -97,6 +98,11 @@
                                 <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditbtn" id="qna-detail-anseditbtn" @click="ansedit(ans.ansBdNum, ans.userName, ans.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
                             </div>
+                            <hr>
+                            <p class = "fw-bold fs-5">
+                            <font-awesome-icon :icon="['far', 'comment']" />
+                            {{ ans.replyTotal }}개의 댓글이있습니다.
+                            </p>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
                                     <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
