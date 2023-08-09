@@ -13,7 +13,7 @@
                 <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
                 
                 <div id="freeboard-title">
-                    <input type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
+                    <input class="fotm-control me-auto" type="file" :state="Boolean(form.fileYn)" name="file" ref="file">
                 </div>
 
                 <div id="freeboard-edit-btncontain">
