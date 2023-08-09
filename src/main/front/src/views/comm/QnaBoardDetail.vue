@@ -8,7 +8,6 @@
                 <h2 class=" fw-bold qna-detail-title" id="qna-detail-title">
                     {{ qna.title }}
                 </h2>
-                
                 <div id="qna-userinfo">
                     <p id="qna-userid">
                         {{ qna.userName}}
@@ -51,7 +50,7 @@
                     </p>
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
-                    <h4>답변을 작성하시오</h4>
+                    <h4>답변을 작성해주세요.</h4>
                     <b-form>
                         <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
                     </b-form>
@@ -71,7 +70,7 @@
                         </div>
                         <div class="qna-detail-anscon" :ref="'qna-detail-ans'+index">
                             <div class="qnaReplyContent">
-                                {{ ans.content }}
+                                <div v-html="ans.content"></div>
                             </div>
                             <div class="qna-detail-replybtns" id="qna-detail-replybtns">
                                 <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
@@ -157,6 +156,12 @@ export default{
             editorConfig: {
                 resize_minHeight : 800,
                 // The configuration of the editor.
+                simpleUpload: {
+                        // 업로드 URL
+                        uploadUrl: '/api/studyUpload',
+                        method : 'POST'
+                        
+                    },
                 mediaEmbed: {
                     previewsInData: true
                 },
@@ -231,10 +236,10 @@ export default{
         this.replyread(qnanum);
         this.ansgetTotal(qnanum);
         document.getElementById("qnaboard-detail-recensell").style.display="none";
-        document.getElementById("qnaboard-detail-rewrite").style.display="none";
         this.form.ansBdNum = qnanum;
 
         window.addEventListener('error', e => {
+            console.log('llll');
             if (e.message === 'ResizeObserver loop limit exceeded') {
                 const resizeObserverErrDiv = document.getElementById(
                     'qna-detail-ansconedit'
@@ -243,11 +248,16 @@ export default{
                     'qna-detail-ansconedit'
                 );
                 if (resizeObserverErr) {
+                    console.log('llll');
                     resizeObserverErr.setAttribute('style', 'display: none');
+                    
                 }
                 if (resizeObserverErrDiv) {
+                    console.log('llll');
                     resizeObserverErrDiv.setAttribute('style', 'display: none');
+                    
                 }
+                
             }
         });
 
@@ -1024,6 +1034,7 @@ export default{
             document.getElementById("qnaboard-detail-editbtn").style.display="inline";
             document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
             document.getElementById("qnaboard-detail-recensell").style.display="none";
+            document.getElementById("qnaboard-detail-adminalldel").style.display="inline";
             if(this.qna.userName === this.userNickName){
                 document.getElementById("qnaboard-detail-replybtn").style.display="inline";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
@@ -1032,11 +1043,14 @@ export default{
             }else{
                 document.getElementById("qnaboard-detail-deletebtn").style.display="none";
                 document.getElementById("qnaboard-detail-editbtn").style.display="none";
+                return;
             }
         },
 
         //답변작성버튼 클릭에 삭제 수정버튼
         ansopen(){
+            
+            document.getElementById("qnaboard-detail-adminalldel").style.display="none";
             document.getElementById("qnaboard-detail-replybtn").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="inline";
             document.getElementById("qnaboard-detail-replywrite").style.display="block";

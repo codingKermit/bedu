@@ -470,7 +470,7 @@ export default{
 
         },
 
-        //댓글삭제
+        //댓글삭제1개만
         replydelete(replyNum, userName){
             
             if(this.userNickName === null || this.userNickName ===""){
@@ -493,13 +493,13 @@ export default{
                         this.replyread(this.free.commNum);
                         this.replygetTotal(this.free.commNum);
                         return;
+                    }else{
+                        this.$swal('댓글삭제실패!');
+                        this.replyread(this.free.commNum);
+                        this.replygetTotal(this.free.commNum);
+                        return;
                     }
-                    // else if(res.data == 0){
-                    //     this.$swal('관리자 권한으로 댓글삭제실패!');
-                    //     this.replyread(this.free.commNum);
-                    //     this.replygetTotal(this.free.commNum);
-                    //     return;
-                    // }    
+                        
                 })
                 .catch((error)=>{
                     this.$swal('Error','댓글이 정상적으로 삭제 되지 않았습니다.', error)
