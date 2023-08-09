@@ -131,6 +131,8 @@ h1 {
 }
 /*FreeBoardDetail css*/
 #freeboard-detail-top {
+    margin-top: 40%;
+    border-top: 1px solid #ccc;
     float: right;
 }
 
@@ -148,18 +150,9 @@ h1 {
     width: 90%;
 }
 
-
-#freeboard-detail-body {
-    width: 90%;
-}
-
 #freeReplydelbtn{
     margin-bottom: 1rem !important;
     float: right;
-}
-
-#freeboard-detail-contents {
-    margin-bottom: 15px;
 }
 
 #free-comm {
@@ -203,10 +196,11 @@ h1 {
 
 /*freeBoardWrite*/
 #freeboard-write {
+    display: grid;
     padding-top: 5.5%;
     margin-left: 3%;
     padding-bottom: 50px;
-    width: 80%;
+    margin-right: 3%;
 }
 
 #freeboard-write-content {
@@ -239,6 +233,7 @@ h1 {
 }
 
 #freeboard-detail-contents {
+    border-top: 1px solid #ccc;
     word-wrap: break-word;
     margin-bottom: 15px;
 }

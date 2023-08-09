@@ -1,5 +1,5 @@
 <template>
-    <div class = "d-block d-xxl-flex">
+    <div class = "d-block">
         <div class = "writeMain d-none d-xxl-block">
             <CommCategory></CommCategory>
         </div>
@@ -19,7 +19,6 @@
                         {{ DateTime(free.commDate) }} 
                     </p>
                 </div>
-                <hr class="mt-10"/>
                 <div id="freeboard-detail-contents">
                     <!-- {{ free.content }} -->
                     <div v-html="free.content"></div>
@@ -34,7 +33,6 @@
                             </text>
                     </button>   
                 </div>
-                <hr style="margin-top: 9%;"/>
                 <div class="mb-3 freeboard-detail-top" id="freeboard-detail-top">
                     <b-button type="button" class="btn-custom ms-2" id="qna-detail-rewrite" @click="replywrite()">댓글등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qna-detail-recensell" @click="censells()" id="qna-detail-recensell">취소</b-button>
