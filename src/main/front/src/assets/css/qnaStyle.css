@@ -11,13 +11,20 @@
     display: none;
 }
 
+.qna-detail-main{
+    width: 100px;
+    margin:0 auto;
+    text-align: center;
+    justify-content: center;
+}
+
 
 #qna-detail-main{
     padding-top: 5.5%;
     margin-left: 3%;
-    padding-right: 30px;
+    /* padding-right: 30px; */
     padding-bottom: 50px;
-    width: 80%;
+    width: 100%;
 }
 
 #qnaboard-table {
@@ -36,6 +43,10 @@
     padding-top: 3%;
     margin-left: 4%;
     float: left;
+}
+
+.qna-detail-replytotalicon{
+    margin-top: 30px;
 }
 
 #qnaboard-table th,
@@ -147,9 +158,14 @@
 .qna-detail-replylist{
     padding-left: 8%;
     padding-right: 8%;
-    border:1px solid;
+    width: 105%;
+    border:1px #0000FF solid;
     margin-top:30px;
     border-radius: 20px 20px / 20px 20px;
+}
+
+.qna-detail-icon{
+    color: aqua;
 }
 
 .qnaboard-detail-rewrite{

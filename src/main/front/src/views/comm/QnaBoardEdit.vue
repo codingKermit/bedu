@@ -1,6 +1,6 @@
 <template>
     <div class = "d-flex">
-            <div class = "writeMain">
+            <div class = "writeMain d-none d-xxl-block">
                 <CommCategory></CommCategory>
             </div>
         <div id="qna-write">

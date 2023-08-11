@@ -1,10 +1,10 @@
 <template>
     <div class = "d-flex">
-        <div class="qnaView" id="qnaView">
+        <div class="qnaView d-none d-xxl-block" id="qnaView">
             <CommCategory :currentTab="'qna'"></CommCategory>
         </div> 
         <div id="qnaMain">
-            <div>
+            <div class="w-100">
                 <div>
                     <div class="qnaBoradSearch" id="qnaBoradSearch">
                         <div @submit="qnasearch()" class = "searchForm">
