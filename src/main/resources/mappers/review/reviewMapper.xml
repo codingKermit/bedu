@@ -42,7 +42,7 @@
             , FILD.LECT_MID_CATE 
             , FILD.LECT_MID_CATE_KOR 
             , FILD.LECT_BOT_CATE
-            , FILD.LECT_BOT_CATE_KOR 
+            , FILD.LECT_BOT_CATE_KOR
         FROM t_bedu_rw_bd RW
             LEFT JOIN t_bedu_lect LECT 
                 ON RW.LECT_NUM = LECT.LECT_NUM

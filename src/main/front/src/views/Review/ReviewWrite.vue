@@ -1,23 +1,58 @@
 <template>
-    <div class="review-form">
+    <div>
         <h2 id="review-write">수강후기 작성</h2>
-        <form @submit.prevent="submitReview">
+        <b-form @submit.prevent="submitReview">
+            <b-row>
+                <b-col>
+                    <b-form-group
+                    description="대분류를 선택해주세요"
+                    label="대분류">
+                        <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
+                            <template #first>
+                                <b-form-select-option disabled>대분류</b-form-select-option>
+                            </template>
+                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.lectTopCate">{{ item.lectTopCateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group
+                    description="중분류를 선택해주세요"
+                    label="중분류">
+                        <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
+                            <template #first>
+                                <b-form-select-option disabled>중분류</b-form-select-option>
+                            </template>
+                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.lectTopCate">{{ item.lectTopCateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group
+                    description="소분류를 선택해주세요"
+                    label="소분류">
+                        <b-form-select v-model="currentTop" @input="this.currentMid = null" required>
+                            <template #first>
+                                <b-form-select-option disabled>소분류</b-form-select-option>
+                            </template>
+                            <b-form-select-option v-for="(item, index) in topCate" :key="index" :value="item.lectTopCate">{{ item.lectTopCateKor }}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    
+                </b-col>
+            </b-row>
             <div class="form-group">
-                <label id="review-label" for="title">강좌</label>
-                <input type="text" id="title" v-model="reviews.title" required>
+                <label id="review-label" for="rwGrade">별점</label>
+            <div class="star-rating">
+                <span v-for="rwGrade in 5" :key="rwGrade" @click="setStars(rwGrade)" :class="{ 'filled': rwGrade <= reviews.rwGrade }">&#9733;</span>
             </div>
-            <div class="form-group">
-                <label id="review-label" for="writer">수강후기</label>
-                <textarea id="writer" v-model="reviews.writer" required></textarea>
-            </div>
-            <div class="form-group">
-                <label id="review-label" for="stars">별점</label>
-                <div class="star-rating">
-                <span v-for="star in 5" :key="star" @click="setStars(star)" :class="{ 'filled': star <= reviews.star }">&#9733;</span>
-                </div>
             </div>
             <button id="review-WriteBtn" type="submit">작성 완료</button>
-        </form>
+        </b-form>
     </div>
 </template>
 
@@ -29,8 +64,8 @@
             return {
                 reviews: {
                     title: '',
-                    writer: '',
-                    star: 0,
+                    content: '',
+                    rwGrade: 0,
                 }
             };
         },
@@ -39,7 +74,7 @@
                 const reviewData = {
                     title: this.reviews.title,
                     writer: this.reviews.writer,
-                    star: this.reviews.star
+                    rwGrade: this.reviews.rwGrade
                 };
 
                 this.$axiosSend("post", "/api/reviews/write", reviewData)
@@ -53,10 +88,9 @@
                         console.error(error);
                     });
             },
-            setStars(star) {
-                this.reviews.star = star;
+            setStars(rwGrade) {
+                this.reviews.rwGrade = rwGrade;
             }
         }
     }
 </script>
-  

@@ -1,8 +1,8 @@
 <template>
     <div class="review-list">
         <div class="review-group">
-            <div class="colTab">
-                <ul class="mk-c-tab col8 tab-event">
+            <div class="colTab d-none d-xl-block">
+                <ul class="mk-c-tab col8 tab-event ">
                     <li><router-link class="text-decoration-none" :class = "topCate == 'all' ? 'buttonColor':'' " :to ="{ path: 'review', query: { topCategory: 'all' }}">전체</router-link></li>
                     <li><router-link class="text-decoration-none" :class = "topCate == '1000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '1000' }}">기초강의</router-link></li>
                     <li><router-link class="text-decoration-none" :class = "topCate == '2000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '2000' }}">웹 개발</router-link></li>
@@ -15,6 +15,18 @@
                     <li><router-link class="text-decoration-none" :class = "topCate == '9000' ? 'buttonColor':'' " :to ="{ name: 'review', query: { topCategory: '9000' }}">디자인</router-link></li>
                 </ul>
             </div>
+            <div class = "selectBox d-block d-xl-none">
+                <select v-model="topCate"
+                @change="selectTopCate"
+                >
+                    <option
+                    v-for="(item, index) in selectList"
+                    :key="index"
+                    :value="item.value"
+                    >{{ item.name }}</option>
+                </select>
+            </div>
+            <hr>
             <p class="fw-bold mb-0 fs-2 text-start">수강후기</p>
             <div class="review-search">
                 <div id="review-sort">
@@ -37,13 +49,13 @@
                 
             </div>
         </div>
-        <!-- <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button> -->
+        <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button>
         <div id="scroll-container">
             <table id="review-table">
                 <colgroup>
+                    <col width="15%">
+                    <col width="25%">
                     <col width="10%">
-                    <col width="25%">
-                    <col width="25%">
                     <col width="25%">
                     <col width="25%">
                     
@@ -106,6 +118,20 @@
                 itemsPerPage: 20, // 한 페이지에 보여줄 아이템 수
                 totalItems: 0, // 총 아이템 수
                 topCate : '',
+                selectList : [
+                    {name : "전체", value: "all"},
+                    {name : "기초강의", value: "1000"},
+                    {name : "웹 개발", value: "2000"},
+                    {name : "데이터분석", value: "3000"},
+                    {name : "인공지능", value: "4000"},
+                    {name : "프로그래밍 교양", value: "5000"},
+                    {name : "컴퓨터공학 전공지식", value: "6000"},
+                    {name : "개발도구", value: "7000"},
+                    {name : "프로그래밍 언어", value: "8000"},
+                    {name : "디자인", value: "9000"},
+
+                    ],
+
             };
         },
         computed: {
@@ -117,6 +143,11 @@
         
         },
         methods: {
+            selectTopCate(){
+                this.$routerPush('',{
+                    topCategory: this.topCate
+                },true)
+            },
             // 후기 불러오는거
             fetchMoreReviews($state) {
                 this.isFetching = true;
