@@ -84,10 +84,10 @@
 	
 	<select id="checkPassword" resultType="java.lang.Boolean">
  		SELECT 
- 			COUNT(*) 
+ 			PASSWORD
  		FROM 
  			T_BEDU_VOC 
- 		WHERE VOC_NUM = #{vocNum} AND PASSWORD = #{password}
+ 		WHERE VOC_NUM = #{vocNum} 
 	</select>
 	
 	<delete id="inquirydelete">

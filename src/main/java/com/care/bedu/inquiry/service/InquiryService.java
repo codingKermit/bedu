@@ -14,7 +14,7 @@ public interface InquiryService {
 	public List<InquiryVO> inquiryList(String keyword) throws Exception;
 	
 	//게시글 상세보기   
-	public InquiryVO inquiryone(Integer vocNum);
+	public InquiryVO inquiryone(Integer vocNum, String userInput);
 	
 	//게시글 삭제
 	public int inquirydelete(Integer vocNum);
@@ -27,8 +27,5 @@ public interface InquiryService {
 	
 	//글 등록 저장
 	public int inquiryWriteSave(InquiryVO inquiryVO);
-	
-	//게시글 비밀번호	
-//	public InquiryVO inquirypassword(Integer password);
 	
 }
