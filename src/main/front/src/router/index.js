@@ -219,6 +219,22 @@ const routes = [
         component : () => import('@/views/user/MypageUserLectureDetail.vue'),
         beforeEnter : requireAuth()
 
+    },
+    {
+        path : '/bookmark',
+        name : 'bookmark',
+        component:()=> import('@/views/user/BookmarkList.vue'),
+        beforeEnter : requireAuth()
+    },
+    {
+        path : '/profile',
+        name : 'profile',
+        component : () => import('@/views/user/Profile.vue')
+    },
+    {
+        path : '/myPost',
+        name : 'myPost',
+        component : ()=> import('@/views/user/MyPost.vue')
     }
 ]
 

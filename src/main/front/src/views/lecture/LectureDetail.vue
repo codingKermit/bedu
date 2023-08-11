@@ -18,7 +18,7 @@
                 <b-col class="">
                     <p class="fw-bold fs-3 d-flex">
                         {{ form.title }}
-                        <span class="ms-auto me-3" role="button" @click="bookmarkFunc" v-if="this.$store.getters.getNickname != undefined"
+                        <span class="ms-auto me-5" role="button" @click="bookmarkFunc" v-if="this.$store.getters.getNickname != undefined"
                         :class="bookmark ? 'bedu-text-custom-yellow':''">
                             <font-awesome-icon :icon="bookmark ? ['fas', 'bookmark'] : ['far', 'bookmark']"/>
                         </span>
@@ -150,6 +150,7 @@
                         </li>
                     </ul>
 
+
                     <!-- 수강 후기 -->
                     <div class="mb-5">
                         <b-row>
@@ -176,7 +177,7 @@
                             </b-col>
                         </b-row>
                         <div>
-                            <ul>
+                            <ul class="p-0">
                                 <li 
                                     class="list-unstyled mb-5"
                                     v-for="(review, index) in reviews" :key="index">
@@ -199,6 +200,7 @@
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                 </b-container>
             </div>

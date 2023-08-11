@@ -12,8 +12,11 @@ public interface BookmarkService {
     public int inOut(int lectNum, String userName);         
     
     //북마크 목록 조회
-    public List<BookmarkVO> getList(String userName);       
+    public List<BookmarkVO> getList(String userName, int begin, String order);       
 
     // 북마크 여부 조회
     public int getBookmark(int lectNum, String userName);
+
+    /** 북마크 갯수 조회 */
+    public int getTotal(String userName);
 }

@@ -17,12 +17,23 @@
             <b-nav-item class="fs-5">
                 작성한 게시글
             </b-nav-item>
-            <b-nav-item class="fs-5">
-                좋아요
+            <b-nav-item class="fs-5"
+            :to="{
+                name : 'bookmark',
+                query: {
+                    order : 'title'
+                }
+            }">
+                북마크
             </b-nav-item>
             <b-nav-item class="fs-5"
             :to="{
-                name : 'mypageAll'
+                name : 'mypageAll',
+                query : {
+                    group : 'all',
+                    order : 'title',
+                    keyword : '',
+                }
             }">
                 내 학습
             </b-nav-item>
