@@ -291,7 +291,6 @@
 
 #registFormGroupPassword {
     margin-left: 2%;
-    margin-bottom: 4%;
 }
 
 #registEmail {
@@ -320,7 +319,7 @@
 }
 
 #registInputErrorPassword {
-    margin-left: 9%;
+    margin-left: 11%;
     position: absolute;
     color: red;
 }
@@ -363,6 +362,7 @@
     margin-left: 9%;
     font-size: 1.1rem;
     font-weight: 400;
+    margin-top: 4%;
 }
 
 #registSubmitFormBtn {
@@ -487,12 +487,8 @@
     }
     
     #passwordEyeToggle {
-        position: relative;
-        display: inline-block;
-        z-index: 3;
-        top: -22px;
-        right: -87%;
-        transform: translateY(-50%);
+        position: absolute;
+        right: 5%;
     }
 
     #loginChangeSection {
@@ -522,8 +518,7 @@
 
     #registInputErrorPassword {
         position: relative;
-        margin-top: -20px;
-        margin-left: 0;
+        margin-left: 2%;
         margin-bottom: 0;
         font-size: 0.9rem;
     }
@@ -578,7 +573,7 @@
         font-size: 0.9rem;
         width: 100%;
         margin-left: 0;
-        margin-top: 1%;
+        margin-top: 4%;
     }
 
     #registEmail,

@@ -114,19 +114,19 @@
                             :icon="showPassword ? ['fas', 'eye'] : ['fas', 'eye-slash']"
                             @click="togglePasswordVisibility"
                             />
-                            <p
-                                v-show="
-                                    valid.password &&
-                                    member.password &&
-                                    (member.password.length < 6 ||
-                                        member.password.length > 15)
-                                "
-                                id="registInputErrorPassword"
-                            >
-                                비밀번호는 6자리 이상 15자리 이하로
-                                작성해주세요.
-                            </p>
                         </div>
+                        <p
+                            v-show="
+                                valid.password &&
+                                member.password &&
+                                (member.password.length < 6 ||
+                                    member.password.length > 15)
+                            "
+                            id="registInputErrorPassword"
+                        >
+                            비밀번호는 6자리 이상 15자리 이하로
+                            작성해주세요.
+                        </p>
                         <!-- 비밀번호 확인 필드 -->
                         <div id="registFormGroup">
                             <input
@@ -145,7 +145,7 @@
                             </p>
                             <p
                                 v-show="
-                                    !valid.password &&
+                                    valid.password &&
                                     member.password &&
                                     member.password == confirmPassword &&
                                     member.password.length >= 6 &&
@@ -583,7 +583,7 @@
                 ) {
                     this.$swal("닉네임을 다시 확인해주세요.");
                 } else if (
-                    this.valid.password ||
+                    !this.valid.password ||
                     !this.member.password ||
                     this.member.password !== this.confirmPassword ||
                     this.member.password.length < 6 ||
@@ -601,7 +601,7 @@
                     this.valid.emailDomain &&
                     this.nickChecked &&
                     this.valid.nickChk &&
-                    !this.valid.password &&
+                    this.valid.password &&
                     this.member.password &&
                     this.member.password == this.confirmPassword &&
                     this.member.password.length >= 6 &&
