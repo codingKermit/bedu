@@ -62,8 +62,8 @@
                 </div>
                 <div>
                     <b-row cols="1" cols-md="3">
-                        <b-col v-for="(item, index) in listArray" :key="index">
-                            <b-container class="border rounded-3 p-3 mb-3">
+                        <b-col v-for="(item, index) in listArray" :key="index" class="mb-3">
+                            <b-container class="border rounded-3 p-3 h-100">
                                 <b-link class="text-body text-decoration-none"
                                 :to="{
                                     name : 'lectureDetail',
@@ -140,10 +140,10 @@ export default {
     },
     methods : {
         // 정렬순서 변경 감지
-        orderChange(e){
+        orderChange(){
             this.$routerPush('',{
                 group : this.groupSelected,
-                order : e,
+                order : this.orderSelected,
                 keyword : this.keyword
             },true);
         },

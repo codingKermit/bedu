@@ -18,7 +18,10 @@ public class BookmarkServiceImpl implements BookmarkService{
     @Override
     public int inOut(int lectNum, String userName) {
 
-        BookmarkVO vo = new BookmarkVO(0, userName, lectNum, null);
+        BookmarkVO vo = new BookmarkVO();
+        vo.setLectNum(lectNum);
+        vo.setUserName(userName);
+        
         int check = dao.getBookmark(vo);
         int result = 0;
 
@@ -33,15 +36,24 @@ public class BookmarkServiceImpl implements BookmarkService{
     }
 
     @Override
-    public List<BookmarkVO> getList(String userName) {
+    public List<BookmarkVO> getList(String userName, int begin, String order) {
 
-        return dao.getList(userName);
+        return dao.getList(userName, begin, order);
     }
 
     @Override
     public int getBookmark(int lectNum, String userName) {
+        BookmarkVO vo = new BookmarkVO();
+        vo.setLectNum(lectNum);
+        vo.setUserName(userName);
     
-        return dao.getBookmark(new BookmarkVO(0, userName, lectNum, null));
+        return dao.getBookmark(vo);
     }
+
+	@Override
+	public int getTotal(String userName) {
+
+        return dao.getTotal(userName);
+	}
     
 }

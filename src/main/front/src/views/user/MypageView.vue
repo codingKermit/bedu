@@ -27,7 +27,7 @@
                                         }" class="text-end text-body text-decoration-none">전체보기</b-link>
                                     </div>
                                     <b-row cols="1" cols-md="3" class="mb-5">
-                                        <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button">
+                                        <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button" class="mb-3">
                                                 <!--  링크걸어서 화면 이동 테스트중 -->
                                                 <b-link class="text-decoration-none text-body"
                                                 :to="{
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                     </b-container>
-                    <b-row>
+                    <b-row cols="1" cols-md="2">
                         <b-col>
                             <p class="fs-4 fw-bold">최근 학습 강의</p>
                             <b-container v-if="!recentlyViewed" class="py-5">
@@ -223,8 +223,6 @@ export default {
                                 this.dataFull = true //dataFull 객체를 true로 변경
                         }
 
-                        console.log(res);
-                        
                         // 요청이 성공적으로 완료된 후 전체보기 수강정보 목록 페이지로 리디렉션
                         this.$routerPpush('/mypageAll',{userName: this.$store.getters.getNickname}, true)
                     })
@@ -239,7 +237,6 @@ export default {
                 userName : this.$store.getters.getNickname
             })
             .then((res)=>{
-                console.log(res)
                 this.recentlyViewed = res.data;
             })
             .catch((err)=>{

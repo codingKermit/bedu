@@ -28,15 +28,14 @@
                     <b-link
                         class="text-decoration-none text-body h-100 d-block"
                         :to='"/lectureDetail?num="+item.lectNum'>
-                        <b-container class="border rounded-4 lecture_item pb-3 h-100">
-                            <div class="ps-2 h-100">
-                                <div class="lect-upper-side overflow-hidden">
+                        <b-container class="border rounded-4 lecture_item p-3 h-100">
+                            <div class="h-100">
+                                <div class="h-75 border-bottom mb-3">
                                     <p class="fs-5 pt-3 d-inline-block text-truncate">{{ item.title }}</p>
                                     <p class="text-secondary ">{{ item.lectSum }}</p>
                                     <p>{{ item.teacher }} 선생님</p>
                                 </div>
-                                <div class="lect-lower-side">
-                                    <hr>
+                                <div class="h-25">
                                     <p>총 {{ item.total }}강</p>
                                     <p class="text-secondary">수강기간 : {{ item.lectPeriod }}일</p>
                                     <div class="text-end mb-3">

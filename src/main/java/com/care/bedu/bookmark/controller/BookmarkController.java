@@ -27,9 +27,9 @@ public class BookmarkController {
 
     /** 북마크 목록 조회 */
     @RequestMapping("/getList")
-    public ResponseEntity getList(String userName){
+    public ResponseEntity getList(String userName, int begin, String order){
 
-        return new ResponseEntity<>(service.getList(userName),HttpStatus.OK);
+        return new ResponseEntity<>(service.getList(userName,begin,order),HttpStatus.OK);
     }
 
     // 북마크 여부 조회
@@ -37,6 +37,11 @@ public class BookmarkController {
     public ResponseEntity getBookmark(String userName, int lectNum){
 
         return new ResponseEntity(service.getBookmark(lectNum, userName), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getTotal")
+    public int getTotal(String userName){
+        return service.getTotal(userName);
     }
 
 }
