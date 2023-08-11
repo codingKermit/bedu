@@ -6,19 +6,20 @@
 
             <!-- 우측 컨테이너 -->
             <div class="w-100">
+                <my-page-cate-navi-toggle></my-page-cate-navi-toggle>
                 <p class="fs-4 fw-bold">
                     {{ userId }} 님의 현재 수강상세정보
                 </p>
                 <div class="mb-3">
-                    <b-input-group class="w-25 ms-auto">
+                    <b-input-group class="w-auto ms-auto">
                         <b-form-input @keyup="keywordBinding" @keyup.enter="keywordBindingWithSearch"></b-form-input>
                         <template #append>
                             <b-button class="bedu-bg-custom-blue" @click="getLectureAllList">검색</b-button>
                         </template>
                     </b-input-group>
                 </div>
-                <div class="d-flex w-100 mb-5">
-                    <div class="me-auto d-flex">
+                <div class="d-block d-md-flex w-100 mb-5">
+                    <div class="me-auto d-flex mb-3">
                         <b-button 
                          pill
                          :to="{
@@ -101,8 +102,9 @@
 </template>
 <script>
 import MyPageCateNavi from '../../components/myPage/MyPageCateNavi.vue';
+import MyPageCateNaviToggle from '../../components/myPage/MyPageCateNaviToggle.vue';
 export default {
-  components: { MyPageCateNavi },
+  components: { MyPageCateNavi, MyPageCateNaviToggle },
     name : "mypageAll",
     data() {
        return {

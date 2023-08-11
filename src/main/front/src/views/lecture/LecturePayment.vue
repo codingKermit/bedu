@@ -21,22 +21,22 @@
                 <!-- 장바구니 목록  -->
                 <div>
                     <b-row v-for="(cart, index ) in carts" :key="index" class="mb-3 border p-1 rounded-2">
-                        <b-col cols="1" class="align-items-center justify-content-center d-flex">
+                        <b-col cols="12" md="1" class="align-items-center justify-content-center d-block d-md-flex mb-2 mb-md-0">
                             <b-form-checkbox class="align-self-center text-center" :id="'cart-check-'+index" v-model="paymentList" :value="cart"></b-form-checkbox>
                         </b-col>
-                        <b-col cols="3">
+                        <b-col cols="4">
                             <div class="ratio ratio-16x9">
                                 <b-img :src="cart.thumbnail"></b-img>
                             </div>
                         </b-col>
-                        <b-col cols="4" class="align-self-center">
+                        <b-col cols="8" md="4" class="align-self-center">
                             <div>{{ cart.title }}</div>
                             <div class="text-secondary">{{ cart.teacher }}</div>
                         </b-col>
-                        <b-col cols="1" class="align-items-center justify-content-center d-flex">
+                        <b-col cols="6" md="1" class="align-items-center justify-content-center d-flex">
                             <font-awesome-icon :icon="['fas', 'xmark']" role="button" @click="removeFromCart([cart])"/>                            
                         </b-col>
-                        <b-col cols="3" class="d-flex">
+                        <b-col cols="6" md="2" class="d-flex">
                             <div class="vr h-100"></div>
                             <div class="align-self-center w-100 text-end">
                                 <span class="text-danger fw-bold">
@@ -50,7 +50,7 @@
             </b-container>
 
             <!-- 오른쪽 결제 내용 박스 -->
-            <b-container class="w-25 ms-auto py-5">
+            <b-container class="w-25 ms-auto py-5 d-none d-xl-block">
                 <b-container class="border rounded-3 py-3 mb-2">
                     <p class="fw-bold">구매자 정보</p>
                     <p>
@@ -66,6 +66,16 @@
                     </div>
                     <b-button class="w-100 bedu-bg-custom-blue" @click="cashOut">결제하기</b-button>
                 </b-container>
+            </b-container>
+
+            <b-container class="position-fixed bottom-0 w-100 p-3 bg-white start-0 d-flex shadow-lg">
+                <div class="ms-4 text-center align-self-center">
+                    <span class="fw-bold">
+                        {{ getCurrencyPrice }}
+                    </span>
+                    원
+                </div>
+                <b-button class="ms-auto px-5" @click="cashOut">결제하기</b-button>
             </b-container>
         </b-container>
     </div>

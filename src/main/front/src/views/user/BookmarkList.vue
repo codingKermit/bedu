@@ -5,7 +5,8 @@
             <my-page-cate-navi></my-page-cate-navi>
 
 
-            <div class="w-100 ">
+            <div class="w-100">
+                <my-page-cate-navi-toggle></my-page-cate-navi-toggle>
                 <div class="d-flex mb-5">
                     <div class="me-auto">
                         <div>
@@ -53,8 +54,9 @@
 
 <script>
 import MyPageCateNavi from '../../components/myPage/MyPageCateNavi.vue'
+import MyPageCateNaviToggle from '../../components/myPage/MyPageCateNaviToggle.vue'
 export default{
-  components: { MyPageCateNavi },
+  components: { MyPageCateNavi, MyPageCateNaviToggle },
     name : 'bookmarkList',
     data() {
         return {

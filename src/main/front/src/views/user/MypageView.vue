@@ -3,7 +3,9 @@
         <div class="p-4 p-md-5 w-100 d-flex">
             <!-- 좌측 네비-->
             <my-page-cate-navi></my-page-cate-navi>
+
             <div class="w-100">
+                <my-page-cate-navi-toggle></my-page-cate-navi-toggle>
                 <p class="fs-4 fw-bold">현재 수강정보</p>
                     <b-container class="text-dark fw-bold">
                             <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
@@ -158,9 +160,10 @@
 </style>
 <script>
 import MyPageCateNavi from '../../components/myPage/MyPageCateNavi.vue';
+import MyPageCateNaviToggle from '../../components/myPage/MyPageCateNaviToggle.vue';
 
 export default {
-  components: { MyPageCateNavi },
+  components: { MyPageCateNavi, MyPageCateNaviToggle },
     name : "mypage",
     data() {
        return {

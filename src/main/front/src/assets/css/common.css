@@ -122,6 +122,15 @@ header {
     background-color: var(--blue) !important;
 }
 
+.bedu-bg-custom-blue-50{
+    background-color: var(--blue-50) !important;
+}
+
+.bedu-bg-custom-blue-75{
+    background-color: var(--blue-75) !important;
+}
+
+
 .bedu-bg-custom-blue:hover, .bedu-bg-custom-yellow:hover, .bedu-bg-custom-black:hover{
     opacity: 0.9;
 }

@@ -202,6 +202,20 @@
                         </div>
 
                     </div>
+
+                    <!-- 모바일 화면 하단 장바구니 -->
+                    <div v-if="!myPageList" class="position-fixed d-flex shadow-lg w-100 start-0 p-3 bg-white bottom-0">
+                        <div class="align-self-center">
+                            <span>
+                                {{ form.price }}
+                            </span>
+                            원
+                        </div>
+                        <div class="ms-auto gap-2 d-flex">
+                            <b-button class="bedu-bg-custom-blue" @click="toPayment">결제하기</b-button>
+                            <b-button @click="addToCart">장바구니</b-button>
+                        </div>
+                    </div>
                 </b-container>
             </div>
         </b-container>

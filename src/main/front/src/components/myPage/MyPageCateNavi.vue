@@ -14,7 +14,10 @@
             }">
                 장바구니
             </b-nav-item>
-            <b-nav-item class="fs-5">
+            <b-nav-item class="fs-5"
+            :to="{
+                name:'myPost'
+            }">
                 작성한 게시글
             </b-nav-item>
             <b-nav-item class="fs-5"
@@ -37,7 +40,10 @@
             }">
                 내 학습
             </b-nav-item>
-            <b-nav-item class="fs-5">
+            <b-nav-item class="fs-5"
+            :to="{
+                name : 'profile'
+            }">
                 프로필
             </b-nav-item>
         </b-nav>

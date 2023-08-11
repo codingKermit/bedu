@@ -6,8 +6,8 @@
             <CategoryNaviVue @emitTest="cateEmit"></CategoryNaviVue> 
             
             <div class="w-100 pe-0 pe-sm-3">
+                
                 <!-- 모바일 화면에서 대분류 & 중분류 변경을 위한 콤보 -->
-
                 <!-- 강의 기본정보 & 커리큘럼 컨테이너-->
                 <div class="d-flex gap-1 d-block d-xxl-none">
                     <b-form-select 
