@@ -64,8 +64,8 @@
 }
 
 .freeboardMain {
-    display: flow-root;
-    padding-top: 5%;
+    display: grid;
+    padding-top: 5.5%;
     margin-left: 3%;
     margin-right: 2%;
     padding-bottom: 50px;
@@ -217,8 +217,7 @@ h1 {
 /*freeBoardWrite*/
 #freeboard-write {
     display: flow-root;
-    padding-top: 5.6%;
-    padding-left: 0.9%;
+    padding-top: 5.5%;
     margin-left: 3%;
     padding-bottom: 50px;
     margin-right: 3%;
@@ -227,7 +226,6 @@ h1 {
 #freeboard-detail-contatiner {
     display: grid;
     padding-top: 5.5%;
-    padding-left: 1%;
     margin-left: 3%;
     padding-bottom: 50px;
     margin-right: 3%;

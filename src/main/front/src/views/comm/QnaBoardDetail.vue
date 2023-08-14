@@ -19,12 +19,10 @@
                         {{ DateTime(qna.qnaDate) }} 
                     </p>
                 </div>
-                <hr class="mt-10">
                 <div id="qna-detail-contents">
                     <!-- {{ qna.content }} -->
                     <div v-html="qna.content"></div>
-                </div>
-                <div id="qna-likeyn">
+                    <div id="qna-likeyn">
                     <button id="qna-likebtn" @click="qnalikeUp(qna.qnaBdNum)" :class="[backLikedClass()]">
                         <font-awesome-icon :icon="['fas', 'heart']"
                         :class="[fontLikedClass()]"
@@ -34,7 +32,8 @@
                             </text>
                     </button>    
                 </div>
-                <hr style="margin-top: 9%;"/>
+                </div>
+                <hr style="margin-top: 20%;"/>
                 <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
@@ -46,7 +45,7 @@
                 <div>
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" class="qna-detail-icon"/>
-                        {{anstotal}}개의 답변이 있습니다.
+                        답변 {{anstotal}}개
                     </p>
                 </div>
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
@@ -243,28 +242,28 @@ export default{
         document.getElementById("qnaboard-detail-recensell").style.display="none";
         this.form.ansBdNum = qnanum;
 
-        // window.addEventListener('error', e => {
-        //     console.log('llll');
-        //     if (e.message === 'ResizeObserver loop limit exceeded') {
-        //         const resizeObserverErrDiv = document.getElementById(
-        //             'qna-detail-ansconedit'
-        //         );
-        //         const resizeObserverErr = document.getElementById(
-        //             'qna-detail-ansconedit'
-        //         );
-        //         if (resizeObserverErr) {
-        //             console.log('llll');
-        //             resizeObserverErr.setAttribute('style', 'display: none');
+        window.addEventListener('error', e => {
+            console.log('llll');
+            if (e.message === 'ResizeObserver loop limit exceeded') {
+                const resizeObserverErrDiv = document.getElementById(
+                    'qna-detail-ansconedit'
+                );
+                const resizeObserverErr = document.getElementById(
+                    'qna-detail-ansconedit'
+                );
+                if (resizeObserverErr) {
+                    console.log('llll');
+                    resizeObserverErr.setAttribute('style', 'display: none');
                     
-        //         }
-        //         if (resizeObserverErrDiv) {
-        //             console.log('llll');
-        //             resizeObserverErrDiv.setAttribute('style', 'display: none');
+                }
+                if (resizeObserverErrDiv) {
+                    console.log('llll');
+                    resizeObserverErrDiv.setAttribute('style', 'display: none');
                     
-        //         }
+                }
                 
-        //     }
-        // });
+            }
+        });
 
         
     },

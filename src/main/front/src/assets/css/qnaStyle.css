@@ -4,7 +4,7 @@
     margin-left: 3%;
     padding-right: 30px;
     padding-bottom: 50px;
-    width: 80%;
+    width: 100%;
 }
 
 .nareplyeditBtns{
@@ -12,7 +12,7 @@
 }
 
 .qna-detail-main{
-    width: 100px;
+    width: 100%;
     margin:0 auto;
     text-align: center;
     justify-content: center;
@@ -51,7 +51,9 @@
 
 #qnaboard-table th,
 #qnaboard-table td {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     text-align: center;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
