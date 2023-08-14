@@ -18,7 +18,7 @@
                 </b-button>
               </div>
               </div>
-              <div class="button-container2">
+              <div class="button2">
                 <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn2" @click="goToInquiryPage">
                   <font-awesome-icon :icon="['fas', 'pencil']" />
                   문의하기
@@ -46,9 +46,9 @@
             <td>
               {{ inquiry.userName }}</td>
             <td>{{ formatDateTime(inquiry.regDate) }}</td>
-            <td>
-              <p v-if="inquiry.replyCnt > 0">답변완료</p>
-              <p v-else>답변대기</p>
+            <td id="replyCnt">
+              <div v-if="inquiry.replyCnt > 0">답변완료</div>
+              <div v-else>답변대기</div>
             </td>
           </tr>
         </tbody>
@@ -165,7 +165,7 @@ export default {
     password(userName, inquiry) {
       this.$swal({
         title: '비밀번호를 입력하세요',
-        html: '<input id="test" type="password">'
+        html: '<input id="test" type="password">',
       })
         .then((result) => {
           if (result.isConfirmed) {
