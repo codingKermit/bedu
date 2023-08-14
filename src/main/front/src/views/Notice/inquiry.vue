@@ -22,8 +22,8 @@
         </div>
       </div>
       <div>
-        <b-button @click="inquiryWrite()" id="commit">저장</b-button>
-        <b-button id="inquiry-cancel" :to="'/csc'">취소</b-button>
+        <b-button @click="inquiryWrite()" id="commit" class="w-25 p-1">저장</b-button>
+        <b-button id="inquiry-cancel" :to="'/csc'" class="w-25 p-1">취소</b-button>
       </div>
     </form>
   </div>

@@ -1,9 +1,9 @@
 <template>
     <div class = "d-flex">
-        <div class = "qnaDetail">
+        <div class = "qnaDetail d-none d-xxl-block">
             <CommCategory></CommCategory>
         </div>
-        <div class="qna-detail-main" id="qna-detail-main">
+        <div class="qna-detail-main justify-content-start text-start" id="qna-detail-main">
             <div class="justify-content-start text-start qna-detail-body" id="qna-detail-body">
                 <h2 class=" fw-bold qna-detail-title" id="qna-detail-title">
                     {{ qna.title }}
@@ -45,7 +45,7 @@
                 </div>
                 <div>
                     <p class = "fw-bold fs-5">
-                        <font-awesome-icon :icon="['far', 'comment']" />
+                        <font-awesome-icon :icon="['far', 'comment']" class="qna-detail-icon"/>
                         {{anstotal}}개의 답변이 있습니다.
                     </p>
                 </div>
@@ -98,10 +98,9 @@
                                 <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditbtn" id="qna-detail-anseditbtn" @click="ansedit(ans.ansBdNum, ans.userName, ans.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
                             </div>
-                            <hr>
-                            <p class = "fw-bold fs-5">
-                            <font-awesome-icon :icon="['far', 'comment']" />
-                            {{ ans.replyTotal }}개의 댓글이있습니다.
+                            <p class = "fw-bold fs-5 qna-detail-replytotalicon">
+                                <font-awesome-icon :icon="['far', 'comment']" />
+                            {{ ans.replyTotal }}개의 댓글
                             </p>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
@@ -244,28 +243,28 @@ export default{
         document.getElementById("qnaboard-detail-recensell").style.display="none";
         this.form.ansBdNum = qnanum;
 
-        window.addEventListener('error', e => {
-            console.log('llll');
-            if (e.message === 'ResizeObserver loop limit exceeded') {
-                const resizeObserverErrDiv = document.getElementById(
-                    'qna-detail-ansconedit'
-                );
-                const resizeObserverErr = document.getElementById(
-                    'qna-detail-ansconedit'
-                );
-                if (resizeObserverErr) {
-                    console.log('llll');
-                    resizeObserverErr.setAttribute('style', 'display: none');
+        // window.addEventListener('error', e => {
+        //     console.log('llll');
+        //     if (e.message === 'ResizeObserver loop limit exceeded') {
+        //         const resizeObserverErrDiv = document.getElementById(
+        //             'qna-detail-ansconedit'
+        //         );
+        //         const resizeObserverErr = document.getElementById(
+        //             'qna-detail-ansconedit'
+        //         );
+        //         if (resizeObserverErr) {
+        //             console.log('llll');
+        //             resizeObserverErr.setAttribute('style', 'display: none');
                     
-                }
-                if (resizeObserverErrDiv) {
-                    console.log('llll');
-                    resizeObserverErrDiv.setAttribute('style', 'display: none');
+        //         }
+        //         if (resizeObserverErrDiv) {
+        //             console.log('llll');
+        //             resizeObserverErrDiv.setAttribute('style', 'display: none');
                     
-                }
+        //         }
                 
-            }
-        });
+        //     }
+        // });
 
         
     },

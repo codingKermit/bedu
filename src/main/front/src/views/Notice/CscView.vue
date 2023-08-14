@@ -1,23 +1,31 @@
 <template>
   <div class="d-flex">
-    <div class="cscView" id="cscView">
+    <div class="cscView">
       <CscCategory :currentTab="'inquiry'"></CscCategory>
     </div>
     <div id="cscMain">
       <div>
         <div>
-          <div class="cscBoradSearch" id="cscBoradSearch">
-            <div @submit="inquirysearch()" class="searchForm">
-              <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
-              <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="inquirysearch">
-              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn" @click="goToInquiryPage">
-                <font-awesome-icon :icon="['fas', 'pencil']" />
-                문의하기
-              </b-button>
+          <h2>이용 문의 </h2>
+          <div id="cscBoradSearch">
+            <div class="button-container1">
+              <div @submit="inquirysearch()" class="searchForm">
+                <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
+                <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="inquirysearch">
+                <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="goToInquiryPage">
+                  <font-awesome-icon :icon="['fas', 'pencil']" />
+                  문의하기
+                </b-button>
+              </div>
+              </div>
+              <div class="button-container2">
+                <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn2" @click="goToInquiryPage">
+                  <font-awesome-icon :icon="['fas', 'pencil']" />
+                  문의하기
+                </b-button>
             </div>
           </div>
         </div>
-        <h2>이용 문의 </h2>
       </div>
       <table class="w3-table-all" id="cscboard-table">
         <thead>
@@ -29,8 +37,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
-            <td id="cscboard-table-tds" @click="password(getCls,inquiry)">
+          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList"  @click="password(getCls, inquiry)">
+            <td id="cscboard-table-tds">
               <b-link class="text-start text-body">
                 <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>
@@ -48,7 +56,9 @@
       <!-- 검색 결과가 없을 때 -->
       <p v-if="inquirylist.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>
       <!--페이징 진행-->
-      <b-pagination v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize" size="lg"></b-pagination>
+      <div class="pagination-container">
+      <b-pagination  v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize"></b-pagination>
+    </div>
     </div>
   </div>
 </template>
@@ -73,6 +83,7 @@ export default {
       sortOption: "default", // 정렬 옵션
       currentPage: 1,
       replyCnt: '',
+      inquirybutton: false,
     };
   },
   created() {
@@ -97,11 +108,11 @@ export default {
       return this.inquirylist.slice(startIndex, endIndex);
     },
     getCls() {
-            const cls = this.$store.getters.getCls;
-            console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
-            return cls;
+      const cls = this.$store.getters.getCls;
+      console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
+      return cls;
 
-        },
+    },
   },
 
   methods: {
@@ -160,6 +171,10 @@ export default {
           if (result.isConfirmed) {
             // 사용자가 입력한 비밀번호
             const userInput = document.getElementById("test").value;
+            this.$axiosSend('get', '/api/inquiry/inquiryDetail', {
+              vocNum: inquiry.vocNum,
+              userInput: userInput
+            })
             if (userInput !== null) {
               // 입력받은 비밀번호와 inquiry.password 비교
               if (userName == "ADMIN" || userInput == inquiry.password) {
@@ -174,6 +189,41 @@ export default {
           }
         })
     },
+
+    /*   password(userName, inquiry) {
+      this.$swal({
+        title: '비밀번호를 입력하세요',
+        html: '<input id="test" type="password">'
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          // 사용자가 입력한 비밀번호
+          const userInput = document.getElementById("test").value;
+    
+          if (userInput !== null ) {
+            // Axios를 사용하여 백엔드로 비밀번호 요청 보내기
+            this.$axiosSend('get', '/api/inquiry/inquiryDetail', {
+              vocNum: inquiry.vocNum,
+              userInput: userInput
+            })
+            .then(response => {
+              console.log(response)
+              if ( userName == "ADMIN" || userInput == inquiry.password) {
+                this.$router.push('inquiryDetail', { vocNum: inquiry.vocNum }, true);
+              } else {
+                this.$swal({
+                  title: '올바른 비밀번호를 입력해주세요',
+                  icon: 'error',
+                });
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+          }
+        }
+      });
+    }, */
 
     formatDateTime(value) {
       // value는 날짜 값입니다

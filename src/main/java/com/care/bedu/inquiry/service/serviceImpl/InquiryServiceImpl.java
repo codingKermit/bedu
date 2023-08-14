@@ -1,11 +1,11 @@
 package com.care.bedu.inquiry.service.serviceImpl;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.care.bedu.inquiry.dao.InquiryDAO;
 import com.care.bedu.inquiry.service.InquiryService;
@@ -55,12 +55,12 @@ public class InquiryServiceImpl implements InquiryService {
 			inquiryVO.setFileType("");
 		}
 		
-        // 비밀번호를 Base64로 인코딩하여 설정
-		byte[] password = inquiryVO.getPassword().getBytes();
-		String encodedPassword = Base64.getEncoder().encodeToString(password);
-        inquiryVO.setPassword(encodedPassword);
-        
-		return inquiryDAO.inquiryWriteSave(inquiryVO);
+//	    // 비밀번호를 BCrypt 해시로 변환하여 설정
+//	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//	    String encodedPassword = passwordEncoder.encode(inquiryVO.getPassword());
+//	    inquiryVO.setPassword(encodedPassword);
+
+	    return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
 
 	//유저아이디조회
@@ -70,27 +70,29 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	//글 조회 
-	@Override 
-	public InquiryVO inquiryone(Integer vocNum)   {
-		InquiryVO inquiryVO = new InquiryVO();
-		inquiryVO = inquiryDAO.inquiryone(vocNum);
-		int replyCnt = inquiryDAO.getReplyCnt(vocNum);
-		inquiryVO.setReplyCnt(replyCnt);
-		return inquiryVO;
+	@Override
+	public InquiryVO inquiryone(Integer vocNum, String userInput) {
+	    InquiryVO inquiryVO = inquiryDAO.inquiryone(vocNum);
+	    int replyCnt = inquiryDAO.getReplyCnt(vocNum);
+	    inquiryVO.setReplyCnt(replyCnt);
+
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//		String password = inquiryVO.getPassword();
+//
+//		if (passwordEncoder.matches(userInput, password)) {
+//			return inquiryVO;
+//		} else {
+//			return null;
+//		}
+	    
+	    return inquiryVO;
+
 	}
 	
 	//글 삭제
 	@Override
 	public int inquirydelete(Integer vocNum) {
-		System.out.println(inquiryDAO.inquirydelete(vocNum));
 		return inquiryDAO.inquirydelete(vocNum);
 	}
-	
-//	//비밀번호
-//	@Override
-//	public InquiryVO inquirypassword(Integer password) {
-//		InquiryVO inquiryVO = inquiryDAO.inquirypassword(password);
-//		return inquiryVO;
-//	}
 
 }

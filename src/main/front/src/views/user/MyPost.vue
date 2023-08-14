@@ -12,12 +12,19 @@
                     <b-nav>
                         <b-nav-item>질문&답변</b-nav-item>
                         <b-nav-item>자유게시판</b-nav-item>
+                        <b-nav-item class="ms-auto">
+                            <b-form-select
+                            v-model="orderSelected"
+                            :options="orderOptions"></b-form-select>
+                        </b-nav-item>
                     </b-nav>
                 </div>
 
                 <!-- 리스트 목록 -->
                 <div>
-
+                    <b-table>
+                        
+                    </b-table>
                 </div>
             </div>
         </div>
@@ -34,7 +41,7 @@ export default{
         return {
             list : [],
             currentTab : 'qna',
-            orderSelected : '',
+            orderSelected : 'title',
             orderOptions : [
                 {
                     text : '제목순',
@@ -48,8 +55,8 @@ export default{
                     text : '오래된순',
                     value : 'oldest'
                 },
-
             ],
+
         }
     },
     methods: {

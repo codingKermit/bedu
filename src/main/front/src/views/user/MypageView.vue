@@ -93,6 +93,48 @@
                         </b-col>
                         <b-col>
                             <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
+                            <div class="py-5 text-center">
+                                <div v-if="this.$store.getters.getSubInfo">
+                                    <div class="mb-5">
+                                        <span>
+                                            {{ this.$store.getters.getNickname }}
+                                        </span>
+                                        <span>
+                                            님의 구독정보
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span v-if="subInfo.subType == 'year'">
+                                            연간
+                                        </span>
+                                        <span v-else>
+                                            월간
+                                        </span>
+                                        <span>
+                                            구독
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span>
+                                            멤버쉽 시작일 : 
+                                        </span>
+                                        <span>
+                                            {{ formattedBeginDate }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            멤버쉽 종료일 : 
+                                        </span>
+                                        <span>
+                                            {{ formattedEndDate }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    구독 정보가 없습니다
+                                </div>
+                            </div>
                         </b-col>
                     </b-row>
                     <b-container>
@@ -186,12 +228,14 @@ export default {
                 lectDtlNum : 6,
             },
             recentlyViewed : {}, // 최근 학습 강의
+            subInfo : {},
 
         }
     }, 
     created (){
         this.getLectureList();
         this.getRecentlyViewd();
+        this.getSubInfo();
     },
     methods : {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
@@ -246,17 +290,29 @@ export default {
                 console.log(err)
             })
         },
-    /*
-     *북마크 완성되면 추가해야함. 
-    
-        getBookmarkList(){
-            this.bookmarkList = this.$axiosSend('get','/api/bookmarkList',{});
-            console.log('!!!!!!!!',this.bookmarkList);
+        getSubInfo(){
+            this.$axiosSend('get','/api/membership/getSubInfo',{
+                nickname : this.$store.getters.getNickname
+            })
+            .then((res)=>{
+                this.subInfo = res.data.item
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         },
-        goToDetail(bookmark_id){
-            this.$router.push({path:"/bookmark",query:{bookmark_id : bookmark_id}})
+    },
+    computed : {
+        formattedEndDate(){
+            const originDate = new Date(this.subInfo.end);
+            const options = {year: 'numeric', month: 'long', day: 'numeric' };
+            return originDate.toLocaleDateString('ko-KR', options);
         },
-     */
+        formattedBeginDate(){
+            const originDate = new Date(this.subInfo.begin);
+            const options = {year: 'numeric', month: 'long', day: 'numeric' };
+            return originDate.toLocaleDateString('ko-KR', options);
+        }
     }
 }
 </script>
