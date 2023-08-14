@@ -20,7 +20,7 @@
 #csc-detail-main{
   padding-top: 5.5%;
   margin-left: 3%;
-  padding-right: 30px;
+  padding-right: 5%;
   padding-bottom: 50px;
   width: 80%;
 }
@@ -295,8 +295,7 @@
 
 #reply-commit{
   margin-top: 0.5%;
-  margin-left: 81.2%;
-  margin-right: 0.8%;
+  margin-right: 0.6%;
   background-color: #303076;
 }
 
@@ -315,7 +314,7 @@
 }
 
 #inquiry-detail-rewrite{
-  margin-left: 79%;
+  margin-right: 0.8%;
   background-color: #303076;
   margin-top: 0.000001%;
 }
@@ -331,11 +330,6 @@
   margin-top: 30%
 }
 
-.inq-button-group {
-  display: flex;
-  gap: 10px; 
-}
-
 #searched{
   margin-left: 32%;
   margin-bottom: 5%;
@@ -343,11 +337,12 @@
 }
 
 .pagination {
-  font-size: 135%;
-  margin-left: 31%;
+  font-size: 110%;
+  margin-left: 38%;
   margin-top: 1%;
   margin-bottom: 5%;
-  --bs-pagination-font-size: 125%;
+  align-items: center;
+  --bs-pagination-font-size: 110%;
   --bs-pagination-color: #212529;
   --bs-pagination-focus-box-shadow: 0 0 0 41% rgba(50, 62, 82, 0.25);
   --bs-pagination-active-bg: #112b45;
@@ -358,7 +353,14 @@
   list-style: none;
 }
 
+@media (max-width: 767px) {
+  .pagination-container {
+    display: none;
+  }
+}
+
 .pagination-container {
+  width: 100%;
   justify-content: center;
   align-items: center;
 }

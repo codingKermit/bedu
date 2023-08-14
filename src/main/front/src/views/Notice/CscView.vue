@@ -37,8 +37,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList">
-            <td id="cscboard-table-tds" @click="password(getCls, inquiry)">
+          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList"  @click="password(getCls, inquiry)">
+            <td id="cscboard-table-tds">
               <b-link class="text-start text-body">
                 <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
               </b-link>

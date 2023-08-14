@@ -11,7 +11,7 @@
   		  title,
     	  USER_NAME AS userName,
           REG_DATE AS regDate,
-          PASSWORD AS password60
+          PASSWORD AS password
 		FROM
     	(
    		SELECT

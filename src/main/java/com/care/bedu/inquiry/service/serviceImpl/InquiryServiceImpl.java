@@ -55,10 +55,10 @@ public class InquiryServiceImpl implements InquiryService {
 			inquiryVO.setFileType("");
 		}
 		
-	    // 비밀번호를 BCrypt 해시로 변환하여 설정
-	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	    String encodedPassword = passwordEncoder.encode(inquiryVO.getPassword());
-	    inquiryVO.setPassword(encodedPassword);
+//	    // 비밀번호를 BCrypt 해시로 변환하여 설정
+//	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//	    String encodedPassword = passwordEncoder.encode(inquiryVO.getPassword());
+//	    inquiryVO.setPassword(encodedPassword);
 
 	    return inquiryDAO.inquiryWriteSave(inquiryVO);
 	}
