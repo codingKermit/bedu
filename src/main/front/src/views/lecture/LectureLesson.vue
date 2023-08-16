@@ -202,7 +202,6 @@ export default{
             this.$axiosSend('get','/api/lecture/history/setComplete',{
                 userName : this.$store.getters.getNickname,
                 lectDtlNum : this.lessonInfo.lectDtlNum,
-                complete : 1,
             })
             .then(()=>{
                 this.$swal({
