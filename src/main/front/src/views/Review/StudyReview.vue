@@ -1,3 +1,6 @@
+<!-- 작성자 원준용 -->
+
+
 <template>
     <div class="review-list">
         <div class="review-group">
@@ -16,9 +19,7 @@
                 </ul>
             </div>
             <div class = "selectBox d-block d-xl-none">
-                <select v-model="topCate"
-                @change="selectTopCate"
-                >
+                <select v-model="topCate" @change="selectTopCate">
                     <option
                     v-for="(item, index) in selectList"
                     :key="index"
@@ -27,8 +28,9 @@
                 </select>
             </div>
             <hr>
-            <p class="fw-bold mb-0 fs-2 text-start">수강후기</p>
+            <h2 class="fw-bold mb-0 fs-2 text-start">수강후기</h2>
             <div class="review-search">
+            <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button>
                 <div id="review-sort">
                     <select id="sortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
@@ -49,16 +51,14 @@
                 
             </div>
         </div>
-        <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button>
         <div id="scroll-container">
-            <table id="review-table">
+            <table class="review-table">
                 <colgroup>
-                    <col width="15%">
                     <col width="25%">
                     <col width="10%">
-                    <col width="25%">
-                    <col width="25%">
-                    
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
                     <tr>
@@ -71,7 +71,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(reviews, index) in fetchedReviews" :key="index">
-                        <td class="review-title">{{ reviews.title }}</td>
+                        <td class="title">{{ reviews.title }}</td>
                         <td>
                             <span class="review-content">{{ reviews.content }}</span>
                         </td>
@@ -85,16 +85,17 @@
                         <td>{{ reviews.userName }}</td>
                         <td>{{ formatDateTime(reviews.rwDate) }}</td>
                     </tr>
-                    <infinite-loading id="infiniteReview" @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true">
-                        <template #no-more>마지막 후기 입니다.</template>
-                    </infinite-loading>
+                    <!-- 웹사이트 수강후기 리스트 종료 -->
                 </tbody>
-                <tr v-if="isLoading">
-                    <td colspan="5" class="loading-text">로딩 중...</td>
-                </tr>
-                <div class="infinite-loading-container">
-                </div>
             </table>
+            <!-- 무한스크롤 화면상태 코드 시작 -->
+            <infinite-loading id="infiniteReview" @infinite="fetchMoreReviews" :force-use-infinite-wrapper="true">
+                <template #no-more>마지막 후기 입니다.</template>
+            </infinite-loading>
+            <tr v-if="isLoading">
+                <td colspan="5" class="loading-text">로딩 중...</td>
+            </tr>
+            <!-- 무한스크롤 화면상태 코드 종료 -->
         </div>
     </div>
 </template>
@@ -129,7 +130,6 @@
                     {name : "개발도구", value: "7000"},
                     {name : "프로그래밍 언어", value: "8000"},
                     {name : "디자인", value: "9000"},
-
                     ],
 
             };
