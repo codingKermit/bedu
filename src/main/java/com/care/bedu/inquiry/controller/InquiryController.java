@@ -1,3 +1,6 @@
+//작성자: 황용학
+
+
 package com.care.bedu.inquiry.controller;
 
 import java.util.ArrayList;
@@ -19,6 +22,13 @@ public class InquiryController {
 	@Autowired
 	private InquiryService inquiryService;
 
+	//자주 묻는 질문 조회
+    @RequestMapping(value = "/inquiry/faqlist", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<InquiryVO> inquiryList() throws Exception {
+        List<InquiryVO> faqList = inquiryService.faqList();
+        return faqList;
+    }
+	
 	// 게시글 조회
 	@RequestMapping(value = "/inquiry/inquiryList", method = { RequestMethod.GET, RequestMethod.POST })
 	public List<InquiryVO> inquiryList(@RequestParam(required = false) Integer password) throws Exception {

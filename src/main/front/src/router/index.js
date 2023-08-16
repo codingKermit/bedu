@@ -159,6 +159,14 @@ const routes = [
         component: () => import('@/views/Notice/CscView.vue')
     }
     ,
+
+    {
+        path: '/faq',
+        name: 'faq',
+        component: () => import('@/views/Notice/Faquestion.vue')
+    }
+    ,
+
     {
         path: '/inquiry',
         name: 'inquiry',

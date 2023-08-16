@@ -1,3 +1,6 @@
+//작성자: 황용학
+
+
 package com.care.bedu.inquiry.dao;
 
 import java.sql.SQLException;
@@ -10,6 +13,9 @@ import com.care.bedu.inquiry.vo.InquiryVO;
 
 @Mapper
 public interface InquiryDAO {
+	
+	//자주 묻는 질문 조회
+	public List<InquiryVO> faqlist() throws SQLException;
 	
 	//리스트 조회
 	public List<InquiryVO> inquirylist() throws SQLException;

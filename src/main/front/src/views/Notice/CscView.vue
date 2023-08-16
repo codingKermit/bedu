@@ -1,3 +1,6 @@
+<!--작성자:황용학-->
+
+
 <template>
   <div class="d-flex">
     <div class="cscView">
@@ -27,7 +30,7 @@
           </div>
         </div>
       </div>
-      <table class="w3-table-all" id="cscboard-table">
+      <table id="cscboard-table">
         <thead>
           <tr>
             <th id="cscTitle">제목</th>
@@ -128,7 +131,7 @@ export default {
           this.inquirylist = res.data;
 
           // 페이징 처리를 위한 변수들을 설정합니다.
-          this.pageSize = 10; // 한 페이지에 보여줄 게시물 수를 설정합니다.
+          this.pageSize = 15; // 한 페이지에 보여줄 게시물 수를 설정합니다.
           this.totalPages = Math.ceil(this.inquirylist.length / this.pageSize); // 총 페이지 수를 계산합니다.
           this.currentPage = 1; // 현재 페이지 번호를 초기화합니다.
 

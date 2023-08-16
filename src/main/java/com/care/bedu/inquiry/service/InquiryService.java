@@ -1,3 +1,6 @@
+//작성자: 황용학
+
+
 package com.care.bedu.inquiry.service;
 
 import java.util.ArrayList;
@@ -6,6 +9,9 @@ import java.util.List;
 import com.care.bedu.inquiry.vo.InquiryVO;
 
 public interface InquiryService {
+	
+	//자주 묻는 게시판 리스트
+	public List<InquiryVO> faqList() throws Exception;
 	
 	//게시글 리스트
 	public List<InquiryVO> list() throws Exception;

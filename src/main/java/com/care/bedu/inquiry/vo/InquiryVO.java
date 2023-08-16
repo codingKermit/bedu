@@ -1,3 +1,6 @@
+//작성자: 황용학
+
+
 package com.care.bedu.inquiry.vo;
 
 import java.util.Date;
@@ -6,6 +9,15 @@ import lombok.Data;
 
 @Data
 public class InquiryVO {
+	
+	// 자주 묻는 질문 번호
+	private Integer faqNum;
+	
+	// 제목
+	private String faqTitle; 
+	
+	// 내용
+	private String faqContent; 
 	
 	// 글번호
 	private Integer vocNum; 
