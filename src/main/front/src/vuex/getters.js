@@ -1,3 +1,6 @@
+// 작성자 이준원
+
+
 export default {
     // state에서 닉네임 값을 가져오는 getter
     getNickname: state => state.nickname,

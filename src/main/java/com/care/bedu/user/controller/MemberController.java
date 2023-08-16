@@ -1,3 +1,6 @@
+//작성자 이준원
+
+
 package com.care.bedu.user.controller;
 
 import java.util.Base64;
@@ -89,5 +92,35 @@ public class MemberController {
         error.put("message", "Invalid email or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
-   
+    
+    @PostMapping("/passwordChk")
+    public ResponseEntity<Map<String, Object>> checkPassword(@RequestBody Map<String, String> paramMap) {
+        String email = paramMap.get("email");
+        String submittedPassword = paramMap.get("password");
+
+        MemberVO user = memberService.getMemberByEmail(email);
+        Map<String, Object> response = new HashMap<>();
+
+        if (user != null) {
+            String encodedPassword = memberService.getPasswordByEmail(email);
+
+            if (encodedPassword != null) {
+                byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
+                String decodedPassword = new String(decodedBytes);
+
+                if (decodedPassword.equals(submittedPassword)) {
+                    response.put("success", true);
+                    response.put("message", "비밀번호 일치");
+                } else {
+                    response.put("success", false);
+                    response.put("message", "비밀번호 불일치");
+                }
+            }
+        } else {
+            response.put("success", false);
+            response.put("message", "사용자 정보를 찾을 수 없음");
+        }
+
+        return ResponseEntity.ok(response);
+    }
 }
