@@ -1,3 +1,6 @@
+// 작성자 이준원
+
+
 import * as types from './mutation_types'
 
 export default {

@@ -1,4 +1,7 @@
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, LESSONS, CBNUMLIST, QSBNUMLIST, SUBSCRIBE, SUBINFO} from './mutation_types'
+// 작성자 이준원
+
+
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, CBNUMLIST, QSBNUMLIST, SUBINFO} from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 

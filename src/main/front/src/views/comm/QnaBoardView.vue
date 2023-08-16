@@ -1,23 +1,43 @@
 <template>
-    <div class = "d-flex">
+    <div class= "d-flex">
         <div class="qnaView d-none d-xxl-block" id="qnaView">
             <CommCategory :currentTab="'qna'"></CommCategory>
         </div> 
         <div id="qnaMain">
-            <div class="w-100">
-                <div>
+            <div class="qnamain-search-cont w-100">
+                <!-- 모바일 화면 -->
+                <b-navbar v-if="qsSearch" class="d-flex p-0">
+                    <div class="text-center align-item-center">
+                     <font-awesome-icon
+                        icon="fa-solid fa-chevron-right"
+                        class="fs-3 d-flex"
+                        @click="searchToggleFunc"
+                        role="button"/>
+                  </div>
+                  <div class="w-100 h-100">
+                     <div class="w-100 h-100 rounded-5 p-2 ">
+                        <div @submit="qnasearch()" id="qnaSearch">
+                           <font-awesome-icon class="fs-3 d-flex" style="position: absolute; padding-left: 2%; margin-top: 6px;" id="free-search-icon ms-3 fs-3" :icon="['fas', 'magnifying-glass']" />
+                           <input class="qnaviewkeyword" @keyup.enter="qnasearch()" ref="keyword" style="padding-left: 11%; padding-right: 2%;" v-model="form.keyword">       
+                        </div>
+                     </div>
+                  </div>
+                </b-navbar>
+                <!-- pc화면 -->
+                <b-navbar v-else toggleable="xxl">
+                    <h2>질문 & 답변</h2>
                     <div class="qnaBoradSearch" id="qnaBoradSearch">
-                        <div @submit="qnasearch()" class = "searchForm">
-                            <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']" />
-                            <input class="qnaviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch()"/>
-                            <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
+                    <div @submit="qnasearch()" class = "searchForm ">
+                        <font-awesome-icon id="qna-search-icon" :icon="['fas', 'magnifying-glass']"
+                         role="button" />
+                        <input class="qnaviewkeyword" v-model="form.keyword" ref="keyword" @keyup.enter="qnasearch()"/>
+                        <b-button :to="'/comm/qnaWrite'" class="bedu-bg-custom-blue qna-writepath-btn" id="qna-writepath-btn">
                             <font-awesome-icon :icon="['fas', 'pencil']" />
                             글쓰기
-                            </b-button>
-                        </div>
+                        </b-button>
                     </div>
                 </div>
-                <h2>질문 & 답변</h2>
+                </b-navbar>
                 <div class = "selectBox">
                     <select id="qnaSortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
@@ -25,7 +45,9 @@
                         <option value="likeview">좋아요 순</option>
                     </select>
                 </div>
+                
             </div>
+            <div class="w-100">
                 <table class="w3-table-all" id="qnaboard-table">
                     <thead>
                         <tr>
@@ -59,6 +81,8 @@
                     <template #no-results> <!-- 처리 실패 후, 보여질 부분 -->
                     </template>
                 </InfiniteLoading>
+            </div>
+                
         </div>
     </div>
 </template>
@@ -83,7 +107,9 @@
                 },
                 sortOption: "default", // 정렬 옵션
                
-                currentPage: 1
+                currentPage: 1,
+
+                qsSearch: false
             };
 
         },
@@ -153,6 +179,14 @@
                     return `${diffInMinutes}분 전`;
                 } else {
                     return '방금 전';
+                }
+            },
+
+            searchToggleFunc(){
+                if(this.qsSearch){
+                    this.qsSearch = false;
+                } else{
+                    this.qsSearch = true;
                 }
             },
 

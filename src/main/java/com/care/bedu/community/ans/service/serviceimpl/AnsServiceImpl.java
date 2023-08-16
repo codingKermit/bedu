@@ -1,7 +1,6 @@
 package com.care.bedu.community.ans.service.serviceimpl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.care.bedu.community.ans.dao.AnsDAO;
 import com.care.bedu.community.ans.service.AnsService;
 import com.care.bedu.community.ans.vo.AnsVO;
-import com.care.bedu.community.freeBoard.vo.FreeVO;
 import com.care.bedu.community.reply.dao.ReplyDAO;
 import com.care.bedu.community.reply.vo.ReplyVO;
 

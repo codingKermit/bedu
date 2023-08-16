@@ -1,3 +1,6 @@
+<!-- 작성자 이준원 -->
+
+
 <template>
     <div id="registChangeContainer">
         <!-- 로그인 및 회원가입 이동 버튼 -->
