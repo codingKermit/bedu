@@ -1,3 +1,6 @@
+<!-- 작성자 우지원 -->
+
+
 <template>
     <div class="lecture py-5">
         <img src="@/assets/imgs/character/im.png" class="character d-none d-xxl-block">

@@ -1,6 +1,8 @@
-package com.care.bedu.admin.lectureManage.dao;
+/* 작업자 우지원 */
 
-import java.util.HashMap;
+
+
+package com.care.bedu.admin.lectureManage.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

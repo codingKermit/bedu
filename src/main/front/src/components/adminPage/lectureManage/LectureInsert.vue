@@ -1,3 +1,6 @@
+<!-- 작성자 우지원 -->
+
+
 <template>
     <div>
         <b-form @submit.prevent="lectureInsert" ref="lectForm">

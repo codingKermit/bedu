@@ -1,6 +1,9 @@
+/* 작업자 우지원 */
+
+
+
 package com.care.bedu.lecture.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.care.bedu.lecture.service.serviceImpl.LectureCategoryServiceImpl;
-import com.care.bedu.lecture.vo.LectureCategoriesVO;
 
 
 

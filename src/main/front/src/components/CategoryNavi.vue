@@ -1,3 +1,6 @@
+<!-- 작성자 우지원 -->
+
+
 <template>
     <div class="w-25 ps-5 me-5 d-none d-xxl-block">
         <!-- 네비 컨테이너 -->
