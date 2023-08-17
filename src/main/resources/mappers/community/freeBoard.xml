@@ -82,6 +82,8 @@
 		 USER_NAME AS userName
 		FROM T_BEDU_COMM 
 		WHERE USER_NAME = #{userName}
+		ORDER BY COMM_NUM desc
+		LIMIT 10 offset #{page}
 	</select>
 	
 	<delete id="viewdelete">

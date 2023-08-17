@@ -26,7 +26,10 @@ public class QnaServiceImpl implements QnaService{
 		qnaVO.setPage((qnaVO.getPage()-1)*10);			
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO);			
-		}else {	
+		}else if(qnaVO.getUserName() != null && qnaVO.getUserName() != "") {
+			return qnaDAO.nameview(qnaVO);
+		}
+		else {
 			return qnaDAO.viewlist(qnaVO);
 		}			
 	}

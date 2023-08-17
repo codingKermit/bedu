@@ -32,7 +32,10 @@ public class FreeServiceImpl implements FreeService{
 		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());							
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
-		}else {
+		}else if(freeVO.getUserName() != null && freeVO.getUserName() != "") {
+			return freeDAO.nameview(freeVO);
+		}
+		else {
 			List<FreeVO> list = freeDAO.viewlist(freeVO);
 			ReplyVO replyVO = new ReplyVO();
 			for(FreeVO free : list) {
