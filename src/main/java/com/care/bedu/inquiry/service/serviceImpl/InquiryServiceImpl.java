@@ -28,6 +28,13 @@ public class InquiryServiceImpl implements InquiryService {
 		return faqlist;
 	}
 	
+	//자주 묻는 질문 검색 리스트 조회
+	@Override
+	public List<InquiryVO> faqList(String faqKeyword) throws Exception {
+		List<InquiryVO> faqlist = inquiryDAO.faqsearch(faqKeyword);
+		return faqlist;
+	}
+	
 	//게시글 리스트 조회
 	@Override
 	public List<InquiryVO> list() throws Exception {

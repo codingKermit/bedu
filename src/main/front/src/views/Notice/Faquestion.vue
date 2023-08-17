@@ -11,17 +11,17 @@
         <div>
           <h2>자주 묻는 질문 </h2>
           <div id="cscBoradSearch">
-            <div @submit="inquirysearch()" class="searchForm">
+            <div @submit="faqsearch()" class="searchForm">
               <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
-              <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="inquirysearch">
-              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="inquirysearch">
+              <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="faqsearch">
+              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="faqsearch">
                 검색
               </b-button>
             </div>
           </div>
         </div>
       </div>
-      <table id="cscboard-table">
+      <table id="faqboard-table">
         <thead>
           <tr id="faq-head">
             <th>번호</th>
@@ -40,8 +40,8 @@
           </tr>
         </tbody>
       </table>
-      <!-- 검색 결과가 없을 때
-      <p v-if="faqList.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>-->
+      <!-- 검색 결과가 없을 때-->
+      <p v-if="faqList.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>
 
       <!--페이징 진행-->
       <div class="pagination-container">
@@ -102,7 +102,7 @@ export default {
           this.faqList = res.data;
 
           // 페이징 처리를 위한 변수들을 설정합니다.
-          this.pageSize = 15; // 한 페이지에 보여줄 게시물 수를 설정합니다.
+          this.pageSize = 10; // 한 페이지에 보여줄 게시물 수를 설정합니다.
           this.totalPages = Math.ceil(this.faqList.length / this.pageSize); // 총 페이지 수를 계산합니다.
           this.currentPage = 1; // 현재 페이지 번호를 초기화합니다.
 
@@ -115,7 +115,7 @@ export default {
         });
     },
  
-    inquirysearch() {
+    faqsearch() {
 
       const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.
 
@@ -124,7 +124,7 @@ export default {
         return;
       }
 
-      this.$axiosSend('get', '/api/inquiry/inquirySerach', { keyword })
+      this.$axiosSend('get', '/api/inquiry/faqSerach', { keyword })
         .then((response) => {
           const dataFromBackend = response.data;
           console.log("Response from Backend:", dataFromBackend);

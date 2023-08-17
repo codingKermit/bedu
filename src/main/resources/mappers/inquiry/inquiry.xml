@@ -26,6 +26,20 @@
     	) AS subquery
 	</select>
 	
+	<select id="faqsearch" resultType="com.care.bedu.inquiry.vo.InquiryVO">
+		SELECT 
+   		  FAQ_NUM as faqNum,
+          TITLE as faqTitle,
+		  CONTENT as faqContent
+		FROM 
+		    T_BEDU_FAQ
+		WHERE 
+		    TITLE LIKE CONCAT('%', #{keyword}, '%') OR
+		    CONTENT LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY 
+		    FAQ_NUM ASC;
+	</select>
+	
 	<!-- 1대1 문의사항 게시글 조회 -->
 	<select id="inquirylist"
 		resultType="com.care.bedu.inquiry.vo.InquiryVO">

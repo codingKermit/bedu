@@ -28,6 +28,19 @@ public class InquiryController {
         List<InquiryVO> faqList = inquiryService.faqList();
         return faqList;
     }
+    
+	// 게시글 검색 조회
+	@RequestMapping(value = "/inquiry/faqSerach", method = { RequestMethod.GET, RequestMethod.POST })
+	public List<InquiryVO> faqList(@RequestParam(required = false) String keyword) throws Exception {
+		List<InquiryVO> faqList;
+
+		if (keyword != null && !keyword.isEmpty()) {
+			faqList = inquiryService.faqList(keyword);
+		} else {
+			faqList = inquiryService.faqList();
+		}
+		return faqList;
+	}
 	
 	// 게시글 조회
 	@RequestMapping(value = "/inquiry/inquiryList", method = { RequestMethod.GET, RequestMethod.POST })
@@ -61,7 +74,7 @@ public class InquiryController {
 	public InquiryVO inquiryDetail(Integer vocNum, String userInput) {
 		return inquiryService.inquiryone(vocNum, userInput);
 	}
-
+	
 	// 게시글 삭제
 	@RequestMapping(value = "/inquiry/inquiryDelete", method = RequestMethod.GET)
 	public int inquirydelete(Integer vocNum) {

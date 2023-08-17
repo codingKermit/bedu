@@ -13,11 +13,15 @@ public class InquiryVO {
 	// 자주 묻는 질문 번호
 	private Integer faqNum;
 	
-	// 제목
+	// 자주 묻는 질문 제목
 	private String faqTitle; 
 	
-	// 내용
+	// 자주 묻는 질문 내용
 	private String faqContent; 
+	
+	//자주 묻는 질문 키워드
+	
+	private String faqKeyword;
 	
 	// 글번호
 	private Integer vocNum; 

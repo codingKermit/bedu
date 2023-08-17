@@ -17,6 +17,9 @@ public interface InquiryDAO {
 	//자주 묻는 질문 조회
 	public List<InquiryVO> faqlist() throws SQLException;
 	
+	//자주 묻는 질문 검색
+	public List<InquiryVO> faqsearch(String faqKeyword) throws SQLException;
+	
 	//리스트 조회
 	public List<InquiryVO> inquirylist() throws SQLException;
 	
