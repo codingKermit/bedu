@@ -10,185 +10,178 @@
             <div class="w-100">
                 <my-page-cate-navi-toggle></my-page-cate-navi-toggle>
                 <p class="fs-4 fw-bold">현재 수강정보</p>
-                    <b-container class="text-dark fw-bold">
-                            <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
-                            <div class="curr-subjectInfo" v-if="lectureListFirst == 0">
-                               <b-container class="w-75 ms-auto py-5">
-                                    <p class="text-center">수강내역이 없습니다.</p>
-                               </b-container>
-                            </div>
-                            <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
-                            <div v-else class="lecture">
-        
-                                <div>
-                                    <div class="text-end mb-3">
-                                        <b-link :to="{
-                                            name : 'mypageAll',
-                                            query : {
-                                                group : 'all',
-                                                order : 'title',
-                                                keyword : '',
-                                            }
-                                        }" class="text-end text-body text-decoration-none">전체보기</b-link>
-                                    </div>
-                                    <b-row cols="1" cols-md="3" class="mb-5">
-                                        <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button" class="mb-3">
-                                                <!--  링크걸어서 화면 이동 테스트중 -->
-                                                <b-link class="text-decoration-none text-body"
-                                                :to="{
-                                                    name : 'lectureDetail',
-                                                    query:{
-                                                        num : item.lectNum
-                                                    }
-                                                }"
-                                                >
-                                                <b-container class="border rounded-3 py-3 text-start">
-                                                    <div class="ratio ratio-16x9 mb-3">
-                                                        <b-img :src="item.thumbnail"></b-img>
-                                                    </div>
-                                                    <div> {{ item.title }} </div>
-                                                    <hr>
-                                                    <div class="my-3">{{ item.teacher }}</div>
-                                                    <div class="mb-3">
-                                                        <span>수강기간 : </span> {{ item.lectPeriod }}
-                                                        <span>일</span>
-                                                    </div>
-                                                </b-container>
-                                                </b-link>
-                                        </b-col>
-                                    </b-row>
-                                </div>
-                            </div>
-                    </b-container>
-                    <b-row cols="1" cols-md="2">
-                        <b-col>
-                            <p class="fs-4 fw-bold">최근 학습 강의</p>
-                            <b-container v-if="!recentlyViewed" class="py-5">
-                                <div class="py-5 text-center">
-                                    최근 학습한 강의가 없습니다
-                                </div>
-                            </b-container>
-                            <b-container v-else class="mb-5 py-3 border rounded-3">
-                                <b-link class="text-decoration-none text-body"
-                                :to="{
-                                    name : 'lectureDetail',
-                                    query :{
-                                        num : recentlyViewed.lectNum
-                                    }
-                                }">
-                                    <div class="ratio ratio-16x9 mb-3">
-                                        <b-img :src="recentlyViewed.thumbnail"></b-img>
-                                    </div>
-                                    <div>
-                                        {{ recentlyViewed.title }}
-                                    </div>
-                                    <hr>
-                                    <div class="my-3">
-                                        {{ recentlyViewed.lectSum }}
-                                    </div>
-                                    <div>
-                                        <span>수강기간 : </span>
-                                        {{ recentlyViewed.lectPeriod }}
-                                        <span>일</span>
-                                    </div>
-                                </b-link>
-                            </b-container>
-                        </b-col>
-                        <b-col>
-                            <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
-                            <div class="py-5 text-center">
-                                <div v-if="this.$store.getters.getSubInfo">
-                                    <div class="mb-5">
-                                        <span>
-                                            {{ this.$store.getters.getNickname }}
-                                        </span>
-                                        <span>
-                                            님의 구독정보
-                                        </span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <span v-if="subInfo.subType == 'year'">
-                                            연간
-                                        </span>
-                                        <span v-else>
-                                            월간
-                                        </span>
-                                        <span>
-                                            구독
-                                        </span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <span>
-                                            멤버쉽 시작일 : 
-                                        </span>
-                                        <span>
-                                            {{ formattedBeginDate }}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            멤버쉽 종료일 : 
-                                        </span>
-                                        <span>
-                                            {{ formattedEndDate }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    구독 정보가 없습니다
-                                </div>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <b-container>
-                        <div>
-                            <b-container>
-                                <p class="fs-4 fw-bold">북마크</p>
-                                    <b-container class="w-100 ms-auto py-5">
-                                            <div v-if="!newestBookmark" class="curr-subjectInfo" >
-                                                <b-container class="w-75 ms-auto py-5">
-                                                        <p class="text-center">북마크가 없습니다.</p>
-                                                </b-container>
-                                            </div>
-                                            <div v-else>
-                                                <b-container class="w-100 ms-auto py-5">
-                                                    <b-row cols="1" cols-md="3">
-                                                        <b-col v-for="(item, index) in newestBookmark" :key="index">
-                                                            <!-- {{ item }} -->
-                                                            <b-link class="text-decoration-none text-body"
-                                                            :to="{
-                                                                name : '',
-                                                                
-                                                            }">
-                                                                <b-container class="border rounded-3 py-3 text-start">
-                                                                    <div class="ratio ratio-16x9 mb-3">
-                                                                        <b-img :src="item.thumbnail"></b-img>
-                                                                    </div>
-                                                                    <div>
-                                                                        {{ item.title }}
-                                                                    </div>
-                                                                    <hr>
-                                                                    <div>
-                                                                        {{ item.teacher }}
-                                                                    </div>
-                                                                    <div>
-                                                                        <span>
-                                                                            수강기간 : 
-                                                                        </span>
-                                                                        <span>
-                                                                            {{ item.period }} 일
-                                                                        </span>
-                                                                    </div>
-                                                                </b-container>
-                                                            </b-link>
-                                                        </b-col>
-                                                    </b-row>
-                                                </b-container>
-                                            </div>
-                                    </b-container>
+                <b-container class="text-dark fw-bold">
+                        <!-- v-if문 이용하여  수강내역이 없을때 수강내역이 없다는 문구 보이게-->
+                        <div v-if="lectureListFirst == 0">
+                            <b-container class="w-75 ms-auto py-5">
+                                <p class="text-center">수강내역이 없습니다.</p>
                             </b-container>
                         </div>
-                </b-container>        
+                        <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
+                        <div v-else>
+                            <div class="text-end mb-3">
+                                <b-link :to="{
+                                    name : 'mypageAll',
+                                    query : {
+                                        group : 'all',
+                                        order : 'title',
+                                        keyword : '',
+                                    }
+                                }" class="text-end text-body text-decoration-none">전체보기</b-link>
+                            </div>
+                            <b-row cols="1" cols-md="3" class="mb-5">
+                                <b-col v-for="(item, index) in lectureListFirst" :key="index" role="button" class="mb-3">
+                                        <!--  링크걸어서 화면 이동 테스트중 -->
+                                        <b-link class="text-decoration-none text-body"
+                                        :to="{
+                                            name : 'lectureDetail',
+                                            query:{
+                                                num : item.lectNum
+                                            }
+                                        }"
+                                        >
+                                            <b-container class="border rounded-3 py-3 text-start">
+                                                <div class="ratio ratio-16x9 mb-3">
+                                                    <b-img :src="item.thumbnail"></b-img>
+                                                </div>
+                                                <div> {{ item.title }} </div>
+                                                <hr>
+                                                <div class="my-3">{{ item.teacher }}</div>
+                                                <div class="mb-3">
+                                                    <span>수강기간 : </span> {{ item.lectPeriod }}
+                                                    <span>일</span>
+                                                </div>
+                                            </b-container>
+                                        </b-link>
+                                </b-col>
+                            </b-row>
+                        </div>
+                </b-container>
+                <b-row cols="1" cols-md="2">
+                    <b-col>
+                        <p class="fs-4 fw-bold">최근 학습 강의</p>
+                        <b-container v-if="!recentlyViewed" class="py-5">
+                            <div class="py-5 text-center">
+                                최근 학습한 강의가 없습니다
+                            </div>
+                        </b-container>
+                        <b-container v-else class="mb-5 py-3 border rounded-3">
+                            <b-link class="text-decoration-none text-body"
+                            :to="{
+                                name : 'lectureDetail',
+                                query :{
+                                    num : recentlyViewed.lectNum
+                                }
+                            }">
+                                <div class="ratio ratio-16x9 mb-3">
+                                    <b-img :src="recentlyViewed.thumbnail"></b-img>
+                                </div>
+                                <div>
+                                    {{ recentlyViewed.title }}
+                                </div>
+                                <hr>
+                                <div class="my-3">
+                                    {{ recentlyViewed.lectSum }}
+                                </div>
+                                <div>
+                                    <span>수강기간 : </span>
+                                    {{ recentlyViewed.lectPeriod }}
+                                    <span>일</span>
+                                </div>
+                            </b-link>
+                        </b-container>
+                    </b-col>
+                    <b-col>
+                        <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
+                        <div class="py-5 text-center">
+                            <div v-if="this.$store.getters.getSubInfo">
+                                <div class="mb-5">
+                                    <span>
+                                        {{ this.$store.getters.getNickname }}
+                                    </span>
+                                    <span>
+                                        님의 구독정보
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <span v-if="subInfo.subType == 'year'">
+                                        연간
+                                    </span>
+                                    <span v-else>
+                                        월간
+                                    </span>
+                                    <span>
+                                        구독
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <span>
+                                        멤버쉽 시작일 : 
+                                    </span>
+                                    <span>
+                                        {{ formattedBeginDate }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        멤버쉽 종료일 : 
+                                    </span>
+                                    <span>
+                                        {{ formattedEndDate }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div v-else>
+                                구독 정보가 없습니다
+                            </div>
+                        </div>
+                    </b-col>
+                </b-row>
+                <div>
+                    <p class="fs-4 fw-bold">북마크</p>
+                    <b-container class="w-100 ms-auto fw-bold">
+                            <div v-if="!newestBookmark" class="curr-subjectInfo" >
+                                <b-container class="w-75 ms-auto py-5">
+                                        <p class="text-center">북마크가 없습니다.</p>
+                                </b-container>
+                            </div>
+                            <div v-else class="w-100 py-5">
+                                <b-row cols="1" cols-md="3">
+                                    <b-col class="mb-3" v-for="(item, index) in newestBookmark" :key="index">
+                                        <!-- {{ item }} -->
+                                        <b-link class="text-decoration-none text-body"
+                                        :to="{
+                                            name : 'lectureDetail',
+                                            query:{
+                                                num : item.lectNum
+                                            }
+                                        }">
+                                            <b-container class="border h-100 rounded-3 py-3 text-start">
+                                                <div class="ratio ratio-16x9 mb-3">
+                                                    <b-img :src="item.thumbnail"></b-img>
+                                                </div>
+                                                <div>
+                                                    {{ item.title }}
+                                                </div>
+                                                <hr>
+                                                <div>
+                                                    {{ item.teacher }}
+                                                </div>
+                                                <div>
+                                                    <span>
+                                                        수강기간 : 
+                                                    </span>
+                                                    <span>
+                                                        {{ item.lectPeriod }} 일
+                                                    </span>
+                                                </div>
+                                            </b-container>
+                                        </b-link>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                    </b-container>
+                </div>
             </div>
         </div>
     </div>
