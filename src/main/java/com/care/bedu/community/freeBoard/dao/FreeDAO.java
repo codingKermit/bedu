@@ -19,7 +19,7 @@ public interface FreeDAO {
 	public FreeVO viewone(int num);	
 	
 	//본인이 작성한글 전부 조회 
-	public List<FreeVO> nameview(FreeVO freeVO);
+	public List<FreeVO> nameview(String userName, int page);
 	
 	//게시글 삭제
 	public int viewdelete(int num);							

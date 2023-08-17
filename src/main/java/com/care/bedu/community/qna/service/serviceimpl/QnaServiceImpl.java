@@ -26,8 +26,6 @@ public class QnaServiceImpl implements QnaService{
 		qnaVO.setPage((qnaVO.getPage()-1)*10);			
 		if(qnaVO.getKeyword() != null && qnaVO.getKeyword() != "") {
 			return qnaDAO.viewsearch(qnaVO);			
-		}else if(qnaVO.getUserName() != null && qnaVO.getUserName() != "") {
-			return qnaDAO.nameview(qnaVO);
 		}
 		else {
 			return qnaDAO.viewlist(qnaVO);
@@ -145,6 +143,13 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public QnaVO qnaEditDetail(int num) {
 		return qnaDAO.viewone(num);
+	}
+
+	//본인글 조회
+	@Override
+	public List<QnaVO> namelist(String name, int page) {
+		page = (page -1 )*10;
+		return qnaDAO.nameview(name, page);
 	}
 
 }

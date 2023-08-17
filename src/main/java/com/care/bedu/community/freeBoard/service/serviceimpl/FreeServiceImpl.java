@@ -32,8 +32,6 @@ public class FreeServiceImpl implements FreeService{
 		freeVO.setPage((freeVO.getPage()-1) * freeVO.getLimit());							
 		if(freeVO.getKeyword() != null) {				
 			return freeDAO.viewsearch(freeVO);
-		}else if(freeVO.getUserName() != null && freeVO.getUserName() != "") {
-			return freeDAO.nameview(freeVO);
 		}
 		else {
 			List<FreeVO> list = freeDAO.viewlist(freeVO);
@@ -163,6 +161,13 @@ public class FreeServiceImpl implements FreeService{
 	@Override
 	public FreeVO editdetail(int num) {
 		return freeDAO.viewone(num);
+	}
+
+	//본인글 조회
+	@Override
+	public List<FreeVO> namelist(String name, int page) {
+		page = (page -1 )*10;
+		return freeDAO.nameview(name, page);
 	}
 	
 

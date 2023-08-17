@@ -11,6 +11,9 @@ public interface FreeService {
 	//게시글 조회
 	public List<FreeVO> listProc(FreeVO freeVO);
 	
+	////본인글 조회
+	public List<FreeVO> namelist(String name, int page);
+	
 	//게시글 등록
 	public int boardwrite(FreeVO freeVO);							
 	//게시글 상세보기
