@@ -28,4 +28,6 @@ public interface MemberDAO {
     List<Integer> getLikedQSBoardNumbersByEmail(String email);
     /* 구독 정보 조회 */
     int getSubInfo(String nickname);
+	// 비밀번호 변경 dao
+    void passwordChange(String email, String password);
 }

@@ -24,5 +24,6 @@ public interface MemberService {
     List<Integer> getLikedQSBoardNumbersByEmail(String email);
     /* 구독 정보 조회 */
     boolean getSubInfo(String nickname);
-	
+	// 비밀번호 변경 service
+	void passwordChange(String email, String password);
 }

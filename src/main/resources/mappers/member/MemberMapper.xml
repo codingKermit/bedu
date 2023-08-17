@@ -85,4 +85,11 @@
 		WHERE
 			SUB_NM = #{nickname}
 	</select>
+	
+	<update id="passwordChange" parameterType="com.care.bedu.user.vo.MemberVO">
+		UPDATE t_bedu_user
+		SET USER_PW = #{password}
+		WHERE USER_ID = #{email}
+	</update>
+	
 </mapper>

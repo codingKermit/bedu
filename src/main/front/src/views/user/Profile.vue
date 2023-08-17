@@ -28,7 +28,7 @@
                         <input
                             type="hidden"
                             id="emailInputSection"
-                            :value="email"
+                            :value="member.email"
                             @input="updateEmail"
                         />
                         <input
@@ -44,12 +44,12 @@
                         <input
                             type="hidden"
                             id="emailInputSection"
-                            :value="email"
+                            :value="member.email"
                             @input="updateEmail"
                         />
                         <input
                             id="pwdInputSection"
-                            v-model="newPassword"
+                            v-model="member.newPassword"
                             type="password"
                             placeholder="비밀번호를 입력해주세요"
                         />
@@ -61,13 +61,13 @@
                         />
                         <p
                             v-show="
-                                newPassword !== newPasswordChk
+                                member.newPassword !== newPasswordChk
                             "
                             id="registInputError"
                         >
                             비밀번호가 일치하지 않습니다.
                         </p>
-                        <b-button @click="PasswordChange">확인</b-button>
+                        <b-button @click="PasswordChange">비밀번호 변경</b-button>
                         <b-button @click="cancelPasswordChange">취소</b-button>
                     </div>
                 </div>
@@ -91,14 +91,22 @@ export default{
             showPasswordCbtn: true,
             showPasswordChk: false,
             showPasswordChange: false,
+            member: {
             email: this.$store.getters.getEmail,
-            password: '',
             newPassword: '',
+            },
+            password: '',
             newPasswordChk: '',
             valid : {
                 password: false
             }
         }
+    },
+    watch: {
+        // Password Data 변경 감지
+        "member.newPassword": function () {
+            this.checkPassword();
+        },
     },
     methods: {
         togglePasswordChange() {
@@ -114,15 +122,15 @@ export default{
             this.showPasswordCbtn = true,
             this.showPasswordChange = false;
             this.password = '', // 비밀번호 초기화
-            this.newPassword = '',
+            this.member.newPassword = '',
             this.newPasswordChk = '';
         },
         updateEmail(event) {
             const newEmail = event.target.value;
-            this.email = newEmail;
+            this.member.email = newEmail;
         },
         checkPasswordChk() {
-            const email = this.email; // 이메일 가져오기
+            const email = this.member.email; // 이메일 가져오기
             const password = this.password; // 사용자가 입력한 비밀번호 가져오기
             
             const reqData = {
@@ -159,10 +167,10 @@ export default{
             // 유효한 비밀번호 형식인지 확인하기 위한 정규식
             const validatePassword = /^[1-9a-zA-Z].{6,15}$/;
             if (
-                !validatePassword.test(this.newPassword) ||
-                !this.newPassword ||
-                this.newPassword.length < 6 ||
-                this.newPassword.length > 15
+                !validatePassword.test(this.member.newPassword) ||
+                !this.member.newPassword ||
+                this.member.newPassword.length < 6 ||
+                this.member.newPassword.length > 15
             ) {
                 this.valid.password = true;
                 return;
@@ -171,26 +179,62 @@ export default{
         },
         PasswordChange() {
             console.log(this.valid.password)
-            console.log(this.newPassword)
+            console.log(this.member.newPassword)
             console.log(this.newPasswordChk)
-            console.log(this.newPassword.length)
+            console.log(this.member.newPassword.length)
             
             if (
                 !this.valid.password ||
-                !this.newPassword ||
-                this.newPassword !== this.newPasswordChk ||
-                this.newPassword.length < 6 ||
-                this.newPassword.length > 15
+                !this.member.newPassword ||
+                this.member.newPassword !== this.newPasswordChk ||
+                this.member.newPassword.length < 6 ||
+                this.member.newPassword.length > 15
             ) {
                 this.$swal("비밀번호를 다시 확인해주세요.");
             } else if (
                 this.valid.password &&
-                this.newPassword &&
-                this.newPassword == this.newPasswordChk &&
-                this.newPassword.length >= 6 &&
-                this.newPassword.length <= 15
+                this.member.newPassword &&
+                this.member.newPassword == this.newPasswordChk &&
+                this.member.newPassword.length >= 6 &&
+                this.member.newPassword.length <= 15
             ) {
-                this.$swal("ㅇㅇ");
+            const email = this.member.email; // 이메일 가져오기
+            const password = this.member.newPassword; // 사용자가 입력한 비밀번호 가져오기
+            
+            const passwordData = {
+                email: email,
+                password: password
+            };
+            return axios.post('/api/passwordChange', passwordData, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then((response) => {
+                this.$swal(response.data);
+                localStorage.removeItem("user_token");
+                localStorage.removeItem('login_time');
+                localStorage.removeItem('cbnumList');
+                localStorage.removeItem('qsbnumList');
+                this.$store.commit('IS_AUTH', false);
+                this.$store.commit('NICKNAME', null);
+                this.$store.commit('USERNUM', null);
+                this.$store.commit('CBNUMLIST', null);
+                this.$store.commit('QSBNUMLIST', null);
+                this.$store.commit('EMAIL', null);
+                this.$store.commit('LESSONS', []);
+                this.$store.commit('SUBSCRIBE',null);
+                this.$router.push({
+                    name: "login",
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                this.$swal("비밀번호 변경 실패");
+            });
+            } else {
+                this.$swal("비밀번호를 다시 확인해주세요.");
+                return;
             }
         }
     },

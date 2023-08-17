@@ -76,4 +76,11 @@ public class MemberServiceImpl implements MemberService {
 		int count = memberDao.getSubInfo(nickname);
         return count > 0;
 	}
+	
+	@Override
+    public void passwordChange(String email, String password) {
+        // Base64 인코딩을 사용하여 비밀번호를 암호화합니다.
+        String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+        memberDao.passwordChange(email, encodedPassword);
+    }
 }

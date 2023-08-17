@@ -123,4 +123,14 @@ public class MemberController {
 
         return ResponseEntity.ok(response);
     }
+    
+    @PostMapping("/passwordChange")
+    public ResponseEntity<String> passwordChange(@RequestBody MemberVO memberVo) {
+        try {
+            memberService.passwordChange(memberVo.getEmail(), memberVo.getPassword());
+            return new ResponseEntity<>("비밀번호 변경이 완료되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("비밀번호 변경 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
