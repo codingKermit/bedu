@@ -23,8 +23,8 @@ public class InquiryController {
 	private InquiryService inquiryService;
 
 	//자주 묻는 질문 조회
-    @RequestMapping(value = "/inquiry/faqlist", method = {RequestMethod.GET, RequestMethod.POST})
-    public List<InquiryVO> inquiryList() throws Exception {
+    @RequestMapping(value = "/inquiry/faqList", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<InquiryVO> faqList() throws Exception {
         List<InquiryVO> faqList = inquiryService.faqList();
         return faqList;
     }
@@ -59,8 +59,6 @@ public class InquiryController {
 	// 게시글 상세 보기
 	@RequestMapping(value = "/inquiry/inquiryDetail", method = RequestMethod.GET)
 	public InquiryVO inquiryDetail(Integer vocNum, String userInput) {
-		System.out.println("userInput: " + userInput);
-		System.out.println(vocNum);
 		return inquiryService.inquiryone(vocNum, userInput);
 	}
 

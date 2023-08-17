@@ -24,6 +24,7 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public List<InquiryVO> faqList() throws Exception {
 		List<InquiryVO> faqlist = inquiryDAO.faqlist();
+		System.out.println(faqlist);
 		return faqlist;
 	}
 	
