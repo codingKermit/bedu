@@ -97,7 +97,7 @@
                     </b-row>
                 </div>
                 <div>
-                    <b-pagination align="center" v-model="currentPage" :total-rows="lectureCount" :per-page="numOfPage"></b-pagination>
+                    <b-pagination v-model="currentPage" :total-rows="lectureCount" :per-page="numOfPage"></b-pagination>
                 </div>
             </div>
         </div>

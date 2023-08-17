@@ -128,6 +128,9 @@ public class LectureServiceImpl implements LectureService{
 		ArrayList<ReviewVO> result = new ArrayList<>();
 
 		result = lectureDao.getReview(num);
+		for(ReviewVO vo : result){
+			System.out.println(vo);
+		}
 
 		map.put("item", result);
 
