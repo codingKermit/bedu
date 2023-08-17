@@ -23,4 +23,7 @@ public interface BookmarkService {
 
     /** 북마크 갯수 조회 */
     public int getTotal(String userName);
+
+    /** 대시보드 최신 북마크 3개만 조회 */
+    public List<BookmarkVO> getNewest(String userName);
 }

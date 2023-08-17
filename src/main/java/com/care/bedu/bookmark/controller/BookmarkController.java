@@ -48,4 +48,10 @@ public class BookmarkController {
         return service.getTotal(userName);
     }
 
+    @RequestMapping("/getNewest")
+    public ResponseEntity getNewest(String userName){
+
+        return new ResponseEntity(service.getNewest(userName), HttpStatus.OK);
+    }
+
 }

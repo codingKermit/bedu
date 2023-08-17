@@ -1,3 +1,6 @@
+//작성자 변의준
+
+
 <template>
     <div class= "d-flex">
         <div class="qnaView d-none d-xxl-block" id="qnaView">

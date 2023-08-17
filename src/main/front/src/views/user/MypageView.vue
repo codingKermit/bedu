@@ -144,40 +144,47 @@
                         <div>
                             <b-container>
                                 <p class="fs-4 fw-bold">북마크</p>
-                                    <b-container class="w-75 ms-auto py-5">
-                                            <!-- v-if문 이용하여  북마크 내역이 없을때 북마크내역이 없다는 문구 보이게-->
-                                            <div class="curr-subjectInfo" ><!--v-if="bookmarkFirst == 0"-->
+                                    <b-container class="w-100 ms-auto py-5">
+                                            <div v-if="!newestBookmark" class="curr-subjectInfo" >
                                                 <b-container class="w-75 ms-auto py-5">
                                                         <p class="text-center">북마크가 없습니다.</p>
                                                 </b-container>
                                             </div>
-                                           <!--v-else를 이용하여 수강내역이 있을때이라면 현재 수강정보가 보이게-->
-                                           <!-- <div  class="bookMark"> --><!--v-else-->
-                                                <!--
-                                                <div style="text-align: right;">
-                                                    <a  @click="getLectureCount" style="cursor:pointer; text-align: right;">전체보기</a>
-                                                </div>
-                                                <div class="mypagebookmarkcontainer" style="float:left;" v-for="(item, index) in bookmarkFirst" :key="index">
-                                                    <div class="lect text-start">-->
-                                                    <!--  링크걸어서 화면 이동 테스트중 -->
-                                                        <!--<b-link class="text-decoration-none text-body h-100 d-block" :to='"/mypageAll"'>
-                                                            <div class="mypagebookmarkInfo">
-                                                                <div class="mypagebookmarkContain">
-                                                                    <p class="fw-bold">
-                                                                        <span>강좌이름 : </span> {{ item.title }}
-                                                                    </p>
-                                                                    <p class="fw-bold">
-                                                                        <span>강의설명 : </span> {{ item.lectDesc }}
-                                                                    </p>
-                                                                    <p class="fw-bold">
-                                                                        <span>수강기간 : </span> {{ item.lectPeriod }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </b-link>
-                                                    </div>
-                                                </div>
-                                            </div>-->
+                                            <div v-else>
+                                                <b-container class="w-100 ms-auto py-5">
+                                                    <b-row cols="1" cols-md="3">
+                                                        <b-col v-for="(item, index) in newestBookmark" :key="index">
+                                                            <!-- {{ item }} -->
+                                                            <b-link class="text-decoration-none text-body"
+                                                            :to="{
+                                                                name : '',
+                                                                
+                                                            }">
+                                                                <b-container class="border rounded-3 py-3 text-start">
+                                                                    <div class="ratio ratio-16x9 mb-3">
+                                                                        <b-img :src="item.thumbnail"></b-img>
+                                                                    </div>
+                                                                    <div>
+                                                                        {{ item.title }}
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div>
+                                                                        {{ item.teacher }}
+                                                                    </div>
+                                                                    <div>
+                                                                        <span>
+                                                                            수강기간 : 
+                                                                        </span>
+                                                                        <span>
+                                                                            {{ item.period }} 일
+                                                                        </span>
+                                                                    </div>
+                                                                </b-container>
+                                                            </b-link>
+                                                        </b-col>
+                                                    </b-row>
+                                                </b-container>
+                                            </div>
                                     </b-container>
                             </b-container>
                         </div>
@@ -232,6 +239,7 @@ export default {
             },
             recentlyViewed : {}, // 최근 학습 강의
             subInfo : {},
+            newestBookmark : [], // 최신 북마크 3개
 
         }
     }, 
@@ -239,6 +247,7 @@ export default {
         this.getLectureList();
         this.getRecentlyViewd();
         this.getSubInfo();
+        this.getNewBookmark();
     },
     methods : {
         /* 마이페이지 홈(유저아이디 가져오기, 데이터 출력) */
@@ -299,6 +308,18 @@ export default {
             })
             .then((res)=>{
                 this.subInfo = res.data.item
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        },
+        getNewBookmark(){
+            this.$axiosSend('get','/api/bookmark/getNewest',{
+                userName : this.$store.getters.getNickname
+            })
+            .then((res)=>{
+                console.log(res)
+                this.newestBookmark = res.data;
             })
             .catch((err)=>{
                 console.log(err)

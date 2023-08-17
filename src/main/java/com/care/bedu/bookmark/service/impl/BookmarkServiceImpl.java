@@ -59,5 +59,10 @@ public class BookmarkServiceImpl implements BookmarkService{
 
         return dao.getTotal(userName);
 	}
+
+    @Override
+    public List<BookmarkVO> getNewest(String userName) {
+        return dao.getNewest(userName);
+    }
     
 }

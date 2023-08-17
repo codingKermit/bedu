@@ -1,3 +1,6 @@
+//작성자 변의준
+
+
 <template>
     <div class = "d-flex">
         <div class = "qnaDetail d-none d-xxl-block">
@@ -102,15 +105,15 @@
                             {{ ans.replyTotal }}개의 댓글
                             </p>
                             <div id="qna-detail-replyCont">
-                                <div v-for="(reply, index) in replylist" :key="index" id="free-detail-replylist">
-                                    <div class="d-flex mb-3 mt-3 freeReplys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
+                                <div v-for="(reply, index) in replylist" :key="index" class="d-flex free-detail-replylist" id="free-detail-replylist">
+                                    <div class="d-flex mb-3 mt-3 qna-detail-replys d-flex" id="qna-detail-replys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
                                         <div class="qnauser">
                                             <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                                         </div>
-                                        <div class="qnaReplyName" style="margin-left: 20px;">
+                                        <div class="qnaReplyName" style="margin-left: 50px;">
                                             {{ reply.userName }}
                                         </div>
-                                        <div class="qnaReplyDate" style="margin-left: 20px;">
+                                        <div class="qnaReplyDate" style="margin-left: 50px;">
                                             {{ DateTime(reply.replyDate) }}
                                         </div>
                                         <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">
@@ -243,7 +246,7 @@ export default{
         this.form.ansBdNum = qnanum;
 
         window.addEventListener('error', e => {
-            console.log('llll');
+            
             if (e.message === 'ResizeObserver loop limit exceeded') {
                 const resizeObserverErrDiv = document.getElementById(
                     'qna-detail-ansconedit'
@@ -993,7 +996,7 @@ export default{
         //답변 글 작성
         answrite(){
             
-            if(this.userNickName === null || this.userNickName ===""){
+            if(this.userNickName === null || this.userNickName ==="" || this.qna.qnaBdNum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
                     name: "login"
@@ -1015,8 +1018,10 @@ export default{
 
             this.$axiosSend('post', '/api/ans/write', this.form)
             .then(res=>{
+                console.log('wwqq', res.data);
                 if(res.data === 1){
-                    this.$swal('Success','작성완료!','success'),
+                    this.$swal('Success','작성완료!','success');
+                    console.log('성공');
                     this.censells();
                     this.ansread(qnanum);
                     this.ansgetTotal(qnanum);
@@ -1038,7 +1043,9 @@ export default{
             document.getElementById("qnaboard-detail-editbtn").style.display="inline";
             document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
             document.getElementById("qnaboard-detail-recensell").style.display="none";
-            document.getElementById("qnaboard-detail-adminalldel").style.display="inline";
+            if(this.userNickName =='ADMIN'&& this.userNickName !=null){
+                document.getElementById("qnaboard-detail-adminalldel").style.display="inline";
+            }
             if(this.qna.userName === this.userNickName){
                 document.getElementById("qnaboard-detail-replybtn").style.display="inline";
                 document.getElementById("qnaboard-detail-deletebtn").style.display="inline";
@@ -1053,10 +1060,13 @@ export default{
 
         //답변작성버튼 클릭에 삭제 수정버튼
         ansopen(){
-            
-            document.getElementById("qnaboard-detail-adminalldel").style.display="none";
+            if(this.userNickName == 'ADMIN' && this.userNickName != null){
+                document.getElementById("qnaboard-detail-adminalldel").style.display="none";
+            }
+            console.log('sssdd');
             document.getElementById("qnaboard-detail-replybtn").style.display="none";
             document.getElementById("qnaboard-detail-rewrite").style.display="inline";
+            
             document.getElementById("qnaboard-detail-replywrite").style.display="block";
             document.getElementById("qnaboard-detail-editbtn").style.display="none";
             document.getElementById("qnaboard-detail-deletebtn").style.display="none";

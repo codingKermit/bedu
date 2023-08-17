@@ -18,6 +18,9 @@
     justify-content: center;
 }
 
+.qna-detail-replylists{
+}
+
 
 #qna-detail-main{
     padding-top: 5.5%;
@@ -36,6 +39,7 @@
 .qnacontent{
     position: absolute;
     margin-top : 32px;
+    word-wrap: break-word;
 }
 
 

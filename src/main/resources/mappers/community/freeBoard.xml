@@ -71,6 +71,19 @@
 		WHERE COMM_NUM = #{num}
 	</select>
 	
+	<select id="nameview" resultType="com.care.bedu.community.freeBoard.vo.FreeVO">
+		SELECT 
+		 COMM_NUM AS commNum,
+		 TITLE,
+		 CONTENT,
+		 COMM_DATE AS commDate,
+		 COMM_CNT AS commCnt,
+		 COMM_LIKE_CNT AS commLikeCnt, 
+		 USER_NAME AS userName
+		FROM T_BEDU_COMM 
+		WHERE USER_NAME = #{userName}
+	</select>
+	
 	<delete id="viewdelete">
 		DELETE
 		 FROM T_BEDU_COMM 

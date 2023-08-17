@@ -11,7 +11,10 @@ import com.care.bedu.community.qna.vo.QnaVO;
 public interface QnaDAO {
 	
 	//게시글 전체 조회
-	public List<QnaVO> viewlist(QnaVO qnaVO);				
+	public List<QnaVO> viewlist(QnaVO qnaVO);
+	
+	//본인이 쓴글에 한해서 전체 조회
+	public List<QnaVO> nameview(QnaVO qnaVO);
 	
 	//게시글 작성
 	public int viewWrite(QnaVO qnaVO);						
