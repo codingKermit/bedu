@@ -230,8 +230,8 @@
 			title, 
 			USER_NAME as writer,	
 			CONTENT as content,
-			RW_GRADE as star,
-			RW_DATE as reviewDate
+			RW_GRADE as rwGrade,
+			RW_DATE as rwDate
 		FROM 
 			b_edu.T_BEDU_RW_BD WHERE LECT_NUM = #{num}
 		ORDER BY RW_DATE

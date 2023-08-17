@@ -93,7 +93,7 @@
                     </b-col>
                     <b-col>
                         <p class="fw-bold fs-4">나의 멤버쉽 정보</p>
-                        <div class="py-5 text-center">
+                        <div class="py-5 text-center h-100">
                             <div v-if="this.$store.getters.getSubInfo">
                                 <div class="mb-5">
                                     <span>

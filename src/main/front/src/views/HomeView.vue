@@ -84,7 +84,7 @@
             </b-row>
         </b-container>
 
-        <!-- 멤버쉽 광고 컨테이너 -->
+        <!-- 멤버쉽 광고 컨테이너
         <b-container>
             <p class="fs-4 fw-bold">멤버쉽 안내</p>
             <div style="height: 200px; width: 100%;" class="rounded-4 border border-5 border-dark">
@@ -100,7 +100,7 @@
                     </div>
                 </b-container>
             </div>
-        </b-container>
+        </b-container> -->
     </div >
 </template>
 

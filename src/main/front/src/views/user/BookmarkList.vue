@@ -27,28 +27,36 @@
                 </div>
                 <b-row cols="1" cols-md="3" class="mb-5">
                     <b-col v-for="(item,index) in list" :key="index" class="mb-3">
-                        <b-container class="border rounded-3 p-3">
-                            <div class="ratio ratio-16x9 mb-3">
-                                <b-img :src="item.thumbnail"></b-img>
-                            </div>
-                            <div>
-                                {{ item.title }}
-                            </div>
-                            <div>
-                                {{ item.teacher }}
-                            </div>
-                            <div>
-                                <span v-for="(star,index) in 5" :key="index">
-                                    <font-awesome-icon
-                                    :class="item.score >= star ? 'text-danger' : 'text-secondary'"
-                                    :icon="['fas','star']"/>
-                                </span>
-                            </div>
-                        </b-container>
+                        <b-link class="text-decoration-none text-body"
+                        :to="{
+                            name : 'lectureDetail',
+                            query : {
+                                num : item.lectNum
+                            },
+                        }">
+                            <b-container class="border rounded-3 p-3">
+                                <div class="ratio ratio-16x9 mb-3">
+                                    <b-img :src="item.thumbnail"></b-img>
+                                </div>
+                                <div>
+                                    {{ item.title }}
+                                </div>
+                                <div>
+                                    {{ item.teacher }}
+                                </div>
+                                <div>
+                                    <span v-for="(star,index) in 5" :key="index">
+                                        <font-awesome-icon
+                                        :class="item.score >= star ? 'text-danger' : 'text-secondary'"
+                                        :icon="['fas','star']"/>
+                                    </span>
+                                </div>
+                            </b-container>
+                        </b-link>
                     </b-col>
                 </b-row>
                 <div>
-                    <b-pagination :total-rows="total" :per-page="9" align="center"></b-pagination>
+                    <b-pagination :total-rows="total" :per-page="9"></b-pagination>
                 </div>
             </div>
         </div>
