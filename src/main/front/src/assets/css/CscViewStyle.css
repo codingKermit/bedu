@@ -1,4 +1,6 @@
-/*StudyReview css*/
+/*작성자:황용학*/
+
+
 #cscMain {
   padding-top: 5.5%;
   margin-left: 3%;
@@ -7,17 +9,21 @@
   width: 80%;
 }
 
-.csc-main-side{
+.csc-main-side {
   width: 110%;
 }
-#cscside-view{
+
+#cscside-view {
   text-align: right;
 }
-#cscside-view, #csc-view-freepath{
+
+#cscside-view,
+#csc-view-freepath {
   cursor: pointer;
   text-align: right;
 }
-#csc-detail-main{
+
+#csc-detail-main {
   padding-top: 5.5%;
   margin-left: 3%;
   padding-right: 5%;
@@ -39,10 +45,16 @@
   float: left;
 }
 
-#cscboard-table th,
+#cscboard-table th{
+  text-align: center;
+  padding: 0.5%;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
 #cscboard-table td {
   padding: 0.5%;
-  text-align: center;
+  margin-left: 5%;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
 }
@@ -64,24 +76,24 @@
   text-indent: 18%;
 }
 
-.searchForm{
-  margin-left: 4%;
+.searchForm {
+  margin-left: -3%;
 }
 
 #csc-search-btn {
   margin-left: 15px;
 }
 
-#csc-write{
+#csc-write {
   padding-top: 5.5%;
-  margin-left: 3%; 
+  margin-left: 3%;
   padding-right: 30px;
   padding-bottom: 50px;
   width: 80%;
 }
 
 #csc-writepath-btn1 {
-  margin-bottom:1%;
+  margin-bottom: 1%;
   background-color: var(--blue) !important
 }
 
@@ -91,11 +103,11 @@
   justify-content: space-between;
 }
 
-.h3{
+.h3 {
   font: bold;
 }
 
-#csc-detail-btns{
+#csc-detail-btns {
   float: right;
 }
 
@@ -104,7 +116,7 @@
 }
 
 .date {
-  
+
   margin-left: 80%;
 }
 
@@ -112,7 +124,7 @@
   font-weight: bold;
 }
 
-#cscboard-detail-replywrite{
+#cscboard-detail-replywrite {
   display: none;
   word-wrap: break-word;
   width: 50%;
@@ -124,21 +136,21 @@
 }
 
 
-#csc-detail-replycontent{
-  width: 200%; 
+#csc-detail-replycontent {
+  width: 200%;
   height: 100px;
   resize: none;
 }
 
-.csc-detail-replylist{
+.csc-detail-replylist {
   padding-left: 8%;
   padding-right: 8%;
-  border:1px solid;
-  margin-top:30px;
+  border: 1px solid;
+  margin-top: 30px;
   border-radius: 20px 20px / 20px 20px;
 }
 
-#csc-detail-btncontent{
+#csc-detail-btncontent {
   margin-top: 60px;
   display: flex;
 }
@@ -162,7 +174,7 @@
   margin-top: 19px;
 }
 
-#cscboard-table-tds a{
+#cscboard-table-tds a {
   width: 120px;
   display: inline-block;
   overflow: hidden;
@@ -171,7 +183,7 @@
   text-decoration: none;
 }
 
-.selectBox{
+.selectBox {
   margin-top: 2%;
 }
 
@@ -183,11 +195,11 @@
   float: right;
 }
 
-.text-start{
+.text-start {
   font: bold;
 }
 
-#cscTitle{
+#cscTitle {
   width: 30%;
 }
 
@@ -216,7 +228,7 @@
   margin-bottom: 10px;
   width: 100%;
   height: 200px;
-  resize:none;
+  resize: none;
 }
 
 
@@ -224,7 +236,7 @@
 #csc-edit-content {
   width: 100%;
   height: 200px;
-  resize:none;
+  resize: none;
 }
 
 #comm-main-side {
@@ -233,7 +245,7 @@
   padding-left: 6%;
 }
 
-.comm-main-cate{
+.comm-main-cate {
   list-style-type: none;
   padding: 0;
 }
@@ -249,11 +261,11 @@
 }
 
 
-#cscboard-detail-rewrite{
+#cscboard-detail-rewrite {
   background-color: var(--blue) !important
 }
 
-#cscboard-detail-replybtn{
+#cscboard-detail-replybtn {
   background-color: var(--blue) !important
 }
 
@@ -263,17 +275,17 @@
   margin-right: -8%;
 }
 
-.csc-writebtn{
+.csc-writebtn {
   background-color: var(--blue) !important;
   margin-right: 10px;
 }
 
-#buttonSet{
+#buttonSet {
   float: right;
   margin: 10px;
 }
 
-.writeMain{
+.writeMain {
   float: left;
   padding-top: 5%;
   padding-left: 6%;
@@ -283,58 +295,58 @@
   .cscView {
     float: left;
     padding-top: 5%;
-    padding-left: 6%; 
+    padding-left: 6%;
   }
 }
 
-.cscView{
-  float: left;
-  padding-top: 5%;
-  padding-left: 6%; 
-}
-
-#reply-commit{
-  margin-top: 0.5%;
-  margin-right: 0.6%;
-  background-color: #303076;
-}
-
-#reply-cancel{
-  margin-top: 0.5%;
-}
-
-#replyCnt{
-  margin-top: 93%;
-}
-
-.ck-content{ 
-  height: 500px !important;
-}
-
-.cscDetail{
+.cscView {
   float: left;
   padding-top: 5%;
   padding-left: 6%;
 }
 
-#inquiry-detail-rewrite{
+#reply-commit {
+  margin-top: 0.5%;
+  margin-right: 0.6%;
+  background-color: #303076;
+}
+
+#reply-cancel {
+  margin-top: 0.5%;
+}
+
+#replyCnt {
+  margin-top: 93%;
+}
+
+.ck-content {
+  height: 500px !important;
+}
+
+.cscDetail {
+  float: left;
+  padding-top: 5%;
+  padding-left: 6%;
+}
+
+#inquiry-detail-rewrite {
   margin-right: 0.8%;
   background-color: #303076;
   margin-top: 0.000001%;
 }
 
-#textarea-row{
+#textarea-row {
   width: 90.3%;
   margin-top: 1%;
   margin-right: 12%;
 }
 
-#answer{
-  color:#01040a;
+#answer {
+  color: #01040a;
   margin-top: 30%
 }
 
-#searched{
+#searched {
   margin-left: 32%;
   margin-bottom: 5%;
   font-size: 110%;
@@ -370,29 +382,29 @@
 }
 
 
-.inq-reply{
+.inq-reply {
   margin-top: 2%;
-  
+
 }
 
-#inq-reply-name{ 
+#inq-reply-name {
   margin-left: 1%;
 }
 
-#inq-reply-date{
+#inq-reply-date {
   margin-left: 7%;
 }
 
-#inq-reply-content{
+#inq-reply-content {
   background-color: white;
   overflow-wrap: break-word;
 }
 
-#inq-reply-content2{
+#inq-reply-content2 {
   margin-right: 9%;
 }
 
-#inq-reply-del{
+#inq-reply-del {
   border: 0;
   font-weight: bolder;
   color: #303076;
@@ -427,12 +439,15 @@
 }
 
 #csc-writepath-btn2 {
-  font-size: 150%; /* 버튼 내용 폰트 크기 */
-  padding: 2%; /* 버튼 내용 패딩 */
-  border-radius: 10px; /* 버튼 테두리 둥글게 */
+  font-size: 150%;
+  /* 버튼 내용 폰트 크기 */
+  padding: 2%;
+  /* 버튼 내용 패딩 */
+  border-radius: 10px;
+  /* 버튼 테두리 둥글게 */
   margin-left: -35%;
   margin-top: 5%;
-  position: fixed!important;
+  position: fixed !important;
   bottom: 5%;
   right: 25%;
   width: 50%;
@@ -442,7 +457,7 @@
   font-size: 1.5rem;
 }
 
-#paginationing{
+#paginationing {
   width: 100%;
   height: 50%;
 }
@@ -451,4 +466,115 @@
   /* 원하는 스타일 속성 설정 */
   font-size: 100%;
   padding: 5%;
+}
+
+#Cschead {
+  font-size: 2.9rem;
+  font-weight: bold;
+  padding-top: 7%;
+  margin-left: 8%;
+}
+
+.customer-center {
+  display: flex;
+  height: 100vh;
+}
+
+#cscdetail {
+  font-size: 20px;
+  margin-top: 0.5%;
+  margin-left: 18%;
+}
+
+#cscmo {
+  margin-left: 62%;
+  margin-bottom: 0.7%;
+  font-size: 19px;
+}
+
+.custom-nav-item .custom-nav-text {
+  color: rgb(105, 99, 99);
+  margin-top: 115%;
+  margin-left: 0%;
+}
+
+.custom-nav-text:hover {
+  color: rgb(15, 10, 1);
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.cscbox {
+  width: 65.4%;
+  height: 14%;
+  background-color: #f4f4ea;
+  transition: height 0.2s ease;
+  cursor: pointer;
+  margin-top: 1%;
+  margin-bottom: 0.7%;
+  margin-left: 8%;
+  border-radius: 10px;
+}
+
+#cscmy-nav {
+  font-size: 160%;
+  margin-left: 28%;
+  margin-bottom: 3%;
+}
+
+#csccount {
+  color: rgb(10, 0, 203);
+  font-size: 21px;
+}
+
+.cscbox.expanded {
+  height: auto;
+}
+
+.csc-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 7%;
+}
+
+.cscquestion {
+  padding: 1%;
+  margin-left: 0%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  font-size: 21px;
+}
+
+.cscanswer {
+  padding: 1%;
+  font-size: 18px;
+  margin-left: 0%;
+  margin-bottom: 1%;
+  display: inline-block;
+}
+
+.cscdivider {
+  height: 1%;
+  background-color: #d1c4c4;
+  margin: 1%;
+}
+
+@media (max-width: 767px) {
+  .box {
+    width: 100px;
+    height: 50px;
+  }
+}
+
+#faq-head {
+  height: 10%;
+  width: 10%;
+}
+
+.faq-answer {
+  padding: 1%;
+  font-size: 18px;
+  margin-left: 0%;
+  margin-bottom: 1%;
+  display: inline-block;
 }

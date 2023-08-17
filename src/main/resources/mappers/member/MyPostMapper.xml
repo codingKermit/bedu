@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.care.bedu.user.dao.MyPostDAO">
+
+    <select id="getQna">
+        SELECT
+            *
+        FROM
+            B_EDU.t_bedu_qs
+        WHERE
+            USER_NAME = #{userName}
+    </select>
+
+    <select id="getFree">
+        SELECT
+            *
+        FROM
+            B_EDU.t_bedu_ans
+        WHERE
+            USER_NAME = #{userName}
+    </select>
+
+</mapper>

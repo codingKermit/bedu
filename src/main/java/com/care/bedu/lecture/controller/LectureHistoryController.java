@@ -1,6 +1,8 @@
-package com.care.bedu.lecture.controller;
+/* 작업자 우지원 */
 
-import java.sql.Timestamp;
+
+
+package com.care.bedu.lecture.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

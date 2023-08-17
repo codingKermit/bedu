@@ -1,3 +1,6 @@
+<!-- 작성자 우지원 -->
+
+
 <template>
     <div>
         <b-container class="py-5">
@@ -204,7 +207,7 @@
                     </div>
 
                     <!-- 모바일 화면 하단 장바구니 -->
-                    <div v-if="!myPageList" class="position-fixed d-flex shadow-lg w-100 start-0 p-3 bg-white bottom-0">
+                    <div v-if="!myPageList" class="d-md-none position-fixed d-flex shadow-lg w-100 start-0 p-3 bg-white bottom-0">
                         <div class="align-self-center">
                             <span>
                                 {{ form.price }}

@@ -1,3 +1,6 @@
+//작성자: 황용학
+
+
 package com.care.bedu.inquiry.service.serviceImpl;
 
 import java.util.ArrayList;
@@ -5,7 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.care.bedu.inquiry.dao.InquiryDAO;
 import com.care.bedu.inquiry.service.InquiryService;
@@ -17,6 +20,13 @@ public class InquiryServiceImpl implements InquiryService {
 	@Autowired
 	private InquiryDAO inquiryDAO;
 
+	//자주 묻는 게시글 조회
+	@Override
+	public List<InquiryVO> faqList() throws Exception {
+		List<InquiryVO> faqlist = inquiryDAO.faqlist();
+		return faqlist;
+	}
+	
 	//게시글 리스트 조회
 	@Override
 	public List<InquiryVO> list() throws Exception {

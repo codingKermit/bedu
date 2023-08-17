@@ -1,3 +1,6 @@
+<!-- 작성자 우지원 -->
+
+
 <template>
     <b-container class="py-5">
         <div class="mx-auto">
@@ -199,7 +202,6 @@ export default{
             this.$axiosSend('get','/api/lecture/history/setComplete',{
                 userName : this.$store.getters.getNickname,
                 lectDtlNum : this.lessonInfo.lectDtlNum,
-                complete : 1,
             })
             .then(()=>{
                 this.$swal({
