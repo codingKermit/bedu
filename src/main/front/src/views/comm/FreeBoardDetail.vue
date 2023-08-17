@@ -1,3 +1,6 @@
+//작성자 변의준
+
+
 <template>
     <div class = "d-block">
         <div class = "writeMain d-none d-xxl-block">

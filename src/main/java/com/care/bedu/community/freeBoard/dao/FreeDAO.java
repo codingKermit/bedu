@@ -16,7 +16,11 @@ public interface FreeDAO {
 	//게시글 작성
 	public int viewWrite(FreeVO freeVO);
 	//게시글 상세 보기
-	public FreeVO viewone(int num);							
+	public FreeVO viewone(int num);	
+	
+	//본인이 작성한글 전부 조회 
+	public List<FreeVO> nameview(int num);
+	
 	//게시글 삭제
 	public int viewdelete(int num);							
 	//게시글 수정

@@ -52,6 +52,19 @@
 		WHERE QS_BD_NUM = #{num}
 	</select>
 	
+	<select id="nameview" resultType="com.care.bedu.community.qna.vo.QnaVO">
+		SELECT
+		 QS_BD_NUM AS qnaBdNum, 
+		 TITLE, 
+		 CONTENT, 
+		 QS_CNT AS qnaCnt, 
+		 QS_LIKE_CNT AS qnaLikeCnt, 
+		 QS_DATE AS qnaDate, 
+		 USER_NAME AS userName
+		FROM T_BEDU_QS
+		WHERE USER_NAME = #{userName}
+	</select>
+	
 	<update id="viewupdate">
 		UPDATE
 		 T_BEDU_QS SET TITLE = #{title}, CONTENT = #{content}, REG_DATE = SYSDATE()
