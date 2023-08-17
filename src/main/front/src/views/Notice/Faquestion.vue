@@ -128,7 +128,7 @@ export default {
         .then((response) => {
           const dataFromBackend = response.data;
           console.log("Response from Backend:", dataFromBackend);
-          this.inquirylist = response.data;
+          this.faqList = response.data;
         })
         .catch((error) => {
           alert("검색되는 결과가 없습니다.");

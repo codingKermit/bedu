@@ -24,7 +24,6 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public List<InquiryVO> faqList() throws Exception {
 		List<InquiryVO> faqlist = inquiryDAO.faqlist();
-		System.out.println(faqlist);
 		return faqlist;
 	}
 	
@@ -32,6 +31,7 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public List<InquiryVO> faqList(String faqKeyword) throws Exception {
 		List<InquiryVO> faqlist = inquiryDAO.faqsearch(faqKeyword);
+		System.out.println(faqlist);
 		return faqlist;
 	}
 	
