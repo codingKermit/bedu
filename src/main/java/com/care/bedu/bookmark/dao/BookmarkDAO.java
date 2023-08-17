@@ -21,5 +21,6 @@ public interface BookmarkDAO {
     
     // 북마크 목록 조회
     public List<BookmarkVO> getList(@RequestParam("userName") String userName, @RequestParam("begin") int begin, @RequestParam("order") String order);       
+    public List<BookmarkVO> getNewest(@RequestParam("userName") String userName);       
 
 }
