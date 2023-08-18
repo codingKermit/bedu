@@ -52,6 +52,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+var imp = window.IMP;
+imp.init('imp03767037')
+
+
+
 export default{
     name : 'membership',
     data() {
@@ -69,90 +76,116 @@ export default{
             tar.classList.replace('bedu-bg-custom-yellow','bedu-bg-custom-yellow-75')
         },
         getSubscribe(type){
-            const currentSubInfo = this.$store.getters.getSubscribe;
-            const userName = this.$store.getters.getNickname;
 
-            if(userName == null || userName == ''){
-                this.$swal({
-                    title : '로그인 해주세요',
-                    icon : 'info',
-                    text : '로그인 하시겠습니까?',
-                    showCancelButton : true,
-                    confirmButtonText : '로그인',
-                    cancelButtonText : '돌아가기',
-                })
-                .then((result)=>{
-                    if(result.isConfirmed){
-                        this.$routerPush('/login')
-                    }
-                })
-                return;
-            }
+            this.getToken();
 
-            // 기존 멤버쉽 구독자 체크
-            if(currentSubInfo != null){
-                this.$swal({
-                    title: '구독자님 감사합니다!',
-                    icon: 'question',
-                    html : '감사하신 고객님!<br>고객님께선 이미 B:EDU에 구독해주셨습니다'
-                })
-                return;
-            }
+            // const currentSubInfo = this.$store.getters.getSubscribe;
+            // const userName = this.$store.getters.getNickname;
 
-            /*
+            // if(userName == null || userName == ''){
+            //     this.$swal({
+            //         title : '로그인 해주세요',
+            //         icon : 'info',
+            //         text : '로그인 하시겠습니까?',
+            //         showCancelButton : true,
+            //         confirmButtonText : '로그인',
+            //         cancelButtonText : '돌아가기',
+            //     })
+            //     .then((result)=>{
+            //         if(result.isConfirmed){
+            //             this.$routerPush('/login')
+            //         }
+            //     })
+            //     return;
+            // }
 
-             결제 API 호출 후 완료 되었다는 전제 하에 코드 작성
+            // // 기존 멤버쉽 구독자 체크
+            // if(currentSubInfo != null){
+            //     this.$swal({
+            //         title: '구독자님 감사합니다!',
+            //         icon: 'question',
+            //         html : '감사하신 고객님!<br>고객님께선 이미 B:EDU에 구독해주셨습니다'
+            //     })
+            //     return;
+            // }
+
+            // /*
+
+            //  결제 API 호출 후 완료 되었다는 전제 하에 코드 작성
             
-             */
+            //  */
 
-            // 구독자 저장하는 익명 함수
-            const addToSub = () =>{
-                this.$axiosSend('get','/api/membership/getSubscribe',{
-                    nickname : this.$store.getters.getNickname,
-                    type : type,
-                })
-                .then(()=>{
-                    this.$axiosSend('get','/api/membership/getSubInfo',{
-                        nickname : this.$store.getters.getNickname,
-                    })
-                    .then((res)=>{
-                        this.$store.commit('SUBSCRIBE',res.data.item)
-                    })
-                    .catch((err)=>{
-                        console.log(err)
-                    })
-                    this.$swal({
-                        title : '감사합니다!',
-                        icon : 'success',
-                        text : 'B:EDU를 구독해주셔서 감사합니다'
-                    })
-                    .then(()=>{
-                        this.$routerPush('/')
-                    })
-                })
-                .catch((err)=>{
-                    console.log(err)
-                })
+            // // 구독자 저장하는 익명 함수
+            // const addToSub = () =>{
+            //     this.$axiosSend('get','/api/membership/getSubscribe',{
+            //         nickname : this.$store.getters.getNickname,
+            //         type : type,
+            //     })
+            //     .then(()=>{
+            //         this.$axiosSend('get','/api/membership/getSubInfo',{
+            //             nickname : this.$store.getters.getNickname,
+            //         })
+            //         .then((res)=>{
+            //             this.$store.commit('SUBSCRIBE',res.data.item)
+            //         })
+            //         .catch((err)=>{
+            //             console.log(err)
+            //         })
+            //         this.$swal({
+            //             title : '감사합니다!',
+            //             icon : 'success',
+            //             text : 'B:EDU를 구독해주셔서 감사합니다'
+            //         })
+            //         .then(()=>{
+            //             this.$routerPush('/')
+            //         })
+            //     })
+            //     .catch((err)=>{
+            //         console.log(err)
+            //     })
+            // }
+            
+
+            // this.$swal({
+            //     title : '구독하시겠습니까?',
+            //     icon : 'info',
+            //     text : 'B:EDU에 구독하세요!',
+            //     showCancelButton: true,
+            //     cancelButtonText : '돌아가기',
+            //     confirmButtonText : '결제하기',
+            // })
+            // .then((result)=>{
+            //     if(result.isConfirmed){
+            //         addToSub();
+            //     }
+            // })
+            
+            // var result = true;
+
+
+
+
+        },
+        getToken(){
+
+
+
+            imp.request_pay({
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: "57008833-33004",
+                name: "당근 10kg",
+                amount: 1004,
+                buyer_email: "Iamport@chai.finance",
+                buyer_name: "포트원 기술지원팀",
+                buyer_tel: "010-1234-5678",
+                buyer_addr: "서울특별시 강남구 삼성동",
+                buyer_postcode: "123-456",
+            },
+            function(rsp){
+                console.log(rsp)
             }
-            
-
-            this.$swal({
-                title : '구독하시겠습니까?',
-                icon : 'info',
-                text : 'B:EDU에 구독하세요!',
-                showCancelButton: true,
-                cancelButtonText : '돌아가기',
-                confirmButtonText : '결제하기',
-            })
-            .then((result)=>{
-                if(result.isConfirmed){
-                    addToSub();
-                }
-            })
-            
-            var result = true;
-
-
+            )
 
 
         },
