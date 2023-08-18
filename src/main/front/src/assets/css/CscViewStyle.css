@@ -402,12 +402,12 @@
 
 @media (max-width: 767px) {
   .pagination-container {
-    display: none;
+    width: 14%;
+    align-items: left;
   }
 }
 
 .pagination-container {
-  width: 100%;
   justify-content: center;
   align-items: center;
 }
@@ -595,11 +595,6 @@
     width: 100px;
     height: 50px;
   }
-}
-
-#faq-head {
-  height: 10%;
-  width: 10%;
 }
 
 .faq-answer {

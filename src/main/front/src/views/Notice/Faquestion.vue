@@ -34,7 +34,7 @@
         <thead>
           <tr id="faq-head">
             <th>번호</th>
-            <th>제목</th>
+            <th>질문/대답</th>
           </tr>
         </thead>
         <tbody>
