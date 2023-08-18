@@ -11,11 +11,20 @@
         <div>
           <h2>자주 묻는 질문 </h2>
           <div id="cscBoradSearch">
-            <div @submit="faqsearch()" class="searchForm">
-              <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
-              <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="faqsearch">
-              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="faqsearch">
-                검색
+            <div class="button-container1">
+              <div @submit="faqsearch()" class="searchForm">
+                <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
+                <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="faqsearch">
+                <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="goToInquiryPage">
+                  <font-awesome-icon :icon="['fas', 'pencil']" />
+                  문의하기
+                </b-button>
+              </div>
+            </div>
+            <div class="button2">
+              <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn2" @click="goToInquiryPage">
+                <font-awesome-icon :icon="['fas', 'pencil']" />
+                문의하기
               </b-button>
             </div>
           </div>
@@ -91,6 +100,10 @@ export default {
   },
 
   methods: {
+    
+    goToInquiryPage() {
+      window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
+    },
 
     toggleBox(index) {
       this.displayedFaqList[index].isExpanded = !this.displayedFaqList[index].isExpanded;
@@ -114,7 +127,7 @@ export default {
           alert(error);
         });
     },
- 
+
     faqsearch() {
 
       const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.
