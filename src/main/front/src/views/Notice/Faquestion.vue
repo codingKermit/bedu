@@ -15,12 +15,14 @@
               <div @submit="faqsearch()" class="searchForm">
                 <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
                 <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="faqsearch">
+                <!--PC 문의하기-->
                 <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="goToInquiryPage">
                   <font-awesome-icon :icon="['fas', 'pencil']" />
                   문의하기
                 </b-button>
               </div>
             </div>
+             <!--모바일 문의하기-->
             <div class="button2">
               <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn2" @click="goToInquiryPage">
                 <font-awesome-icon :icon="['fas', 'pencil']" />
@@ -52,9 +54,15 @@
       <!-- 검색 결과가 없을 때-->
       <p v-if="faqList.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>
 
-      <!--페이징 진행-->
-      <div class="pagination-container">
+      <!--PC 페이징 진행-->
+      <div class="pagination-container1">
         <b-pagination v-model="currentPage" :total-rows="faqList.length" :per-page="itemsPerPage"></b-pagination>
+      </div>
+
+      <!--모바일 페이징 진행-->
+      <div class="pagination-container2">
+        <b-pagination v-model="currentPage" :total-rows="faqList.length" :per-page="itemsPerPage"
+          size="sm"></b-pagination>
       </div>
     </div>
   </div>
@@ -100,7 +108,7 @@ export default {
   },
 
   methods: {
-    
+
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
     },
