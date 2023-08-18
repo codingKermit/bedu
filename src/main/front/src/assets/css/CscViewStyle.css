@@ -385,9 +385,8 @@
 
 .pagination {
   font-size: 110%;
-  margin-left: 38%;
-  margin-top: 1%;
   margin-bottom: 5%;
+  text-align: center;
   align-items: center;
   --bs-pagination-font-size: 110%;
   --bs-pagination-color: #212529;
@@ -401,13 +400,26 @@
 }
 
 @media (max-width: 767px) {
-  .pagination-container {
+  .pagination-container1 {
     display: none;
+    width: 14%;
+    align-items: left;
+    font-size: 14px; /* Adjust as needed */
+    margin: 10px 0; /* Adjust as needed */
   }
 }
 
-.pagination-container {
-  width: 100%;
+@media (min-width: 768px) {
+  .pagination-container2 {
+    display: none;
+    width: 0%;
+    font-size: 14px; /* Adjust as needed */
+    margin: 10px 0; /* Adjust as needed */
+  }
+}
+
+.pagination-container1 {
+  margin-left: 40%;
   justify-content: center;
   align-items: center;
 }
@@ -595,11 +607,6 @@
     width: 100px;
     height: 50px;
   }
-}
-
-#faq-head {
-  height: 10%;
-  width: 10%;
 }
 
 .faq-answer {

@@ -157,8 +157,19 @@
                     <!-- 수강 후기 -->
                     <div class="mb-5">
                         <b-row>
-                            <b-col class="col-12 col-md-4">
-                                <p class="fs-2 fw-bold me-auto" id="lecture-review-container">수강후기</p>
+                            <b-col class="col-12 col-md-3">
+                                <p class="fs-2 fw-bold me-auto" id="lecture-review-container">
+                                    수강후기
+                                </p>
+                                <b-link class="text-body text-decoration-none"
+                                :to="{
+                                    name : 'reviewWrite',
+                                    query : {
+                                        num : this.form.lectNum
+                                    }
+                                }">
+                                    후기쓰기 <font-awesome-icon :icon="['fas', 'pencil']" />
+                                </b-link>
                             </b-col>
                             <b-col>
                                 <div class="justify-content-end d-block d-md-flex">
