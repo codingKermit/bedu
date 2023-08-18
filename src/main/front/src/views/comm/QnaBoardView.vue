@@ -144,19 +144,21 @@
             sortReviews() {
                 if (this.sortOption === "default") {
                     // 최신 순으로 정렬
+                    
                     this.qnalist.sort((a, b) => {
                     return new Date(b.qnaDate) - new Date(a.qnaDate);
                 });
                 } else if (this.sortOption === "highViews") {
-                // 조회수 순으로 정렬
+
+                    // 조회수 순으로 정렬
                     this.qnalist.sort((a, b) => {
-                    return b.qnaCnt - a.qnaCnt;
-                });
+                        return b.qnaCnt - a.qnaCnt;
+                    });
+
                 }else if(this.sortOption === "likeview"){
-                    console.log('클릭');
                     this.qnalist.sort((a, b) => {
-                    return b.qnaLikeCnt- a.qnaLikeCnt;
-                });
+                        return b.qnaLikeCnt- a.qnaLikeCnt;
+                    });
                 }
             },
 

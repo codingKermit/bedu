@@ -13,6 +13,9 @@ public interface InquiryService {
 	//자주 묻는 게시판 리스트
 	public List<InquiryVO> faqList() throws Exception;
 	
+	//자주 묻는 게시판 검색 리스트
+	public List<InquiryVO> faqList(String faqKeyword) throws Exception;
+	
 	//게시글 리스트
 	public List<InquiryVO> list() throws Exception;
 	

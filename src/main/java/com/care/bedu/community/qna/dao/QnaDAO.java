@@ -14,7 +14,7 @@ public interface QnaDAO {
 	public List<QnaVO> viewlist(QnaVO qnaVO);
 	
 	//본인이 쓴글에 한해서 전체 조회
-	public List<QnaVO> nameview(QnaVO qnaVO);
+	public List<QnaVO> nameview(String userName, int page);
 	
 	//게시글 작성
 	public int viewWrite(QnaVO qnaVO);						

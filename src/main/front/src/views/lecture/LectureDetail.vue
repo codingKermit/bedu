@@ -76,7 +76,7 @@
             <div class="bg-secondary bg-opacity-10 p-3 py-5 mb-5 d-none d-md-block">
                 
                 <b-row class="align-items-center" cols="1" cols-md="2">
-                    <b-col class="mb-4">
+                    <b-col class="align-items-center">
                         <div class="text-truncate">
                             <span class="fw-bold text-secondary mx-3 fs-6">강좌</span>
                             <span class="mx-auto fs-5">{{ form.title }}</span>
@@ -190,7 +190,7 @@
                                             <div class="ms-auto">
                                                 <span v-for="(star,index) in 5" :key="index">
                                                     <font-awesome-icon
-                                                        :class="review.star < star ? 'text-secondary' : 'text-danger'"
+                                                        :class="review.rwGrade < star ? 'text-secondary' : 'text-danger'"
                                                         :icon ="['fas','star']"
                                                     />
                                                 </span>
@@ -284,7 +284,6 @@ import '@/assets/css/lectureStyle.css';
                     userName : this.$store.getters.getNickname
                 })
                 .then((res)=>{
-                    console.log(res)
                     if(res.data > 0){
                         this.bookmark = 1;
                     } else {
@@ -341,6 +340,7 @@ import '@/assets/css/lectureStyle.css';
             getReview(){
                 this.$axiosSend('get','/api/lect/getReview',{num : this.form.lectNum})
                 .then((res)=>{
+                    console.log(res.data.item)
                     if(this.$isNotEmptyArray(res.data.item)){
                         this.reviews = res.data.item;
                     } else{

@@ -9,7 +9,10 @@ import com.care.bedu.community.qna.vo.QnaVO;
 public interface QnaService {
 	
 	//게시글 리스트 5개 조회
-	public List<QnaVO> listProc(QnaVO qnaVO);			
+	public List<QnaVO> listProc(QnaVO qnaVO);
+	
+	//본인글 조회
+	public List<QnaVO> namelist(String name, int page);
 	
 	//게시글 작성
 	public int boardwrite(QnaVO qnaVO);						

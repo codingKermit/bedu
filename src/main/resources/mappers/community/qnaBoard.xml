@@ -15,6 +15,32 @@
 		 ORDER BY QS_BD_NUM DESC
 		 LIMIT #{page}, 10
 	 </select>
+	 
+	 <select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewcnt">
+		 SELECT
+		   QS_BD_NUM AS qnaBdNum,
+		   TITLE,
+		   QS_DATE AS qnaDate, 
+		   QS_CNT AS qnaCnt,
+		   QS_LIKE_CNT AS qnaLikeCnt,
+		   USER_NAME AS userName
+		 FROM T_BEDU_QS
+		 ORDER BY QS_CNT DESC
+		 LIMIT #{page}, 10
+	 </select>
+	 
+	 <select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlike">
+		 SELECT
+		   QS_BD_NUM AS qnaBdNum,
+		   TITLE,
+		   QS_DATE AS qnaDate, 
+		   QS_CNT AS qnaCnt,
+		   QS_LIKE_CNT AS qnaLikeCnt,
+		   USER_NAME AS userName
+		 FROM T_BEDU_QS
+		 ORDER BY QS_LIKE_CNT DESC
+		 LIMIT #{page}, 10
+	 </select>
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(
@@ -54,15 +80,16 @@
 	
 	<select id="nameview" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		SELECT
-		 QS_BD_NUM AS qnaBdNum, 
-		 TITLE, 
-		 CONTENT, 
-		 QS_CNT AS qnaCnt, 
-		 QS_LIKE_CNT AS qnaLikeCnt, 
-		 QS_DATE AS qnaDate, 
-		 USER_NAME AS userName
-		FROM T_BEDU_QS
-		WHERE USER_NAME = #{userName}
+		   QS_BD_NUM AS qnaBdNum,
+		   TITLE,
+		   QS_DATE AS qnaDate,
+		   REG_DATE AS regDate, 
+		   QS_CNT AS qnaCnt,
+		   USER_NAME AS userName
+		 FROM T_BEDU_Qs
+		 where user_name= {userName}
+		 ORDER BY QS_BD_NUM DESC
+		 LIMIT 10 offset {page}
 	</select>
 	
 	<update id="viewupdate">

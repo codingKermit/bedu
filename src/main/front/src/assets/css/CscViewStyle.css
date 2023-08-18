@@ -38,6 +38,12 @@
   margin-bottom: 5%;
 }
 
+#faqboard-table {
+  width: 100%;
+  padding: 30%;
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
 
 #csc-view-side {
   padding-top: 3%;
@@ -47,13 +53,29 @@
 
 #cscboard-table th{
   text-align: center;
-  padding: 0.5%;
+  padding: 1%;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+#faqboard-table th {
+  text-align: center;
+  padding: 1%;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
 }
 
 #cscboard-table td {
-  padding: 0.5%;
+  text-align: center;
+  padding: 1%;
+  margin-left: 45%;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+
+#faqboard-table td {
+  padding: 2.5%;
   margin-left: 5%;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -175,6 +197,15 @@
 }
 
 #cscboard-table-tds a {
+  width: 120px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+#faqboard-table-tds a {
   width: 120px;
   display: inline-block;
   overflow: hidden;

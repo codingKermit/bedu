@@ -23,11 +23,24 @@ public class InquiryController {
 	private InquiryService inquiryService;
 
 	//자주 묻는 질문 조회
-    @RequestMapping(value = "/inquiry/faqlist", method = {RequestMethod.GET, RequestMethod.POST})
-    public List<InquiryVO> inquiryList() throws Exception {
+    @RequestMapping(value = "/inquiry/faqList", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<InquiryVO> faqList() throws Exception {
         List<InquiryVO> faqList = inquiryService.faqList();
         return faqList;
     }
+    
+	// 게시글 검색 조회
+	@RequestMapping(value = "/inquiry/faqSerach", method = { RequestMethod.GET, RequestMethod.POST })
+	public List<InquiryVO> faqList(@RequestParam(required = false) String keyword) throws Exception {
+		List<InquiryVO> faqList;
+
+		if (keyword != null && !keyword.isEmpty()) {
+			faqList = inquiryService.faqList(keyword);
+		} else {
+			faqList = inquiryService.faqList();
+		}
+		return faqList;
+	}
 	
 	// 게시글 조회
 	@RequestMapping(value = "/inquiry/inquiryList", method = { RequestMethod.GET, RequestMethod.POST })
@@ -59,11 +72,9 @@ public class InquiryController {
 	// 게시글 상세 보기
 	@RequestMapping(value = "/inquiry/inquiryDetail", method = RequestMethod.GET)
 	public InquiryVO inquiryDetail(Integer vocNum, String userInput) {
-		System.out.println("userInput: " + userInput);
-		System.out.println(vocNum);
 		return inquiryService.inquiryone(vocNum, userInput);
 	}
-
+	
 	// 게시글 삭제
 	@RequestMapping(value = "/inquiry/inquiryDelete", method = RequestMethod.GET)
 	public int inquirydelete(Integer vocNum) {
