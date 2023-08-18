@@ -83,4 +83,9 @@ public class MemberServiceImpl implements MemberService {
         String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
         memberDao.passwordChange(email, encodedPassword);
     }
+	
+	@Override
+    public void withDraw(String email) {
+        memberDao.withDraw(email);
+    }
 }

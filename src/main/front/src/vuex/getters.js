@@ -14,6 +14,9 @@ export default {
     // state에서 CLS 값을 가져오는 getter
     getCls: state => state.cls,
 
+    // state에서 UDY 값을 가져오는 getter
+    getUdy: state => state.udy,
+
     // state에서 에러 상태 값을 가져오는 getter
     getErrorState: state => state.errorState,
 

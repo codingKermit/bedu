@@ -30,4 +30,6 @@ public interface MemberDAO {
     int getSubInfo(String nickname);
 	// 비밀번호 변경 dao
     void passwordChange(String email, String password);
+    
+    void withDraw(String email);
 }

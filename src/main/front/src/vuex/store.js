@@ -25,6 +25,8 @@ export default createStore({
         usernum: null,
         // CLS
         cls: null,
+        // 탈퇴여부
+        udy: null,
         // 수강 목록
         lessons : null,
         // 사용자가 자유게시판 좋아요버튼 클릭 유무 리스트

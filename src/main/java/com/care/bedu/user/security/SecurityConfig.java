@@ -26,9 +26,9 @@ public class SecurityConfig {
         // CSRF(Cross-Site Request Forgery) 보안 기능 비활성화
     	http.csrf().disable()
             // 모든 요청에 대해 권한 검사를 수행
-    		.authorizeHttpRequests()
-            // 모든 요청에 대해 접근을 허용 (모든 사용자가 접근 가능)
-            .anyRequest().permitAll()
+	    	.authorizeHttpRequests()
+	    	.requestMatchers("/api/**").permitAll() // Allow unauthenticated access
+	    	.anyRequest().authenticated() // Require authentication for all other requests
             .and()
             // CORS(Cross-Origin Resource Sharing) 설정을 활성화
             .cors().and()

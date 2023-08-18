@@ -1,7 +1,7 @@
 // 작성자 이준원
 
 
-import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, CBNUMLIST, QSBNUMLIST, SUBINFO} from './mutation_types'
+import { EMAIL, IS_AUTH, ERROR_STATE, NICKNAME, USERNUM, CLS, CBNUMLIST, QSBNUMLIST, SUBINFO, UDY} from './mutation_types'
 import loginAPI from './loginAPI'
 import jwt_decode from 'jwt-decode'
 
@@ -23,6 +23,11 @@ let setIsAuth = ({ commit }, data) => {
 // 닉네임을 설정하는 액션
 let setNickname = ({ commit }, data) => {
     commit(NICKNAME, data)
+}
+
+// 닉네임을 설정하는 액션
+let setUdy = ({ commit }, data) => {
+    commit(UDY, data)
 }
 
 // 사용자 번호를 설정하는 액션
@@ -73,6 +78,7 @@ let processResponse = (store, loginResponse) => {
             setNickname(store, decodedToken.nickname)
             setEmail(store, decodedToken.email)
             setCls(store, decodedToken.cls)
+            setUdy(store, decodedToken.udy)
             setCbnumList(store, decodedToken.cbnumList)
             setQsbnumList(store, decodedToken.qsbnumList)
             setSubInfo(store, decodedToken.subInfo)

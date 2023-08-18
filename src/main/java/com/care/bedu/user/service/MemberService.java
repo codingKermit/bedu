@@ -26,4 +26,6 @@ public interface MemberService {
     boolean getSubInfo(String nickname);
 	// 비밀번호 변경 service
 	void passwordChange(String email, String password);
+	
+	void withDraw(String email);
 }

@@ -57,6 +57,7 @@
       		USER_WITH_DRAW_YN AS udy
 	    FROM t_bedu_user
 	    WHERE USER_ID = #{email}
+	    AND USER_WITH_DRAW_YN = 'N'
 	</select>
 	
 	<!-- 이메일로 좋아요누른 자유게시판번호 불러오기 -->
@@ -89,6 +90,12 @@
 	<update id="passwordChange" parameterType="com.care.bedu.user.vo.MemberVO">
 		UPDATE t_bedu_user
 		SET USER_PW = #{password}
+		WHERE USER_ID = #{email}
+	</update>
+	
+	<update id="withDraw" parameterType="com.care.bedu.user.vo.MemberVO">
+		UPDATE t_bedu_user
+		SET USER_WITH_DRAW_YN = 'Y'
 		WHERE USER_ID = #{email}
 	</update>
 	

@@ -24,6 +24,7 @@ export default {
                     this.$store.commit('USERNUM', decodedToken.usernum);
                     this.$store.commit('EMAIL', decodedToken.email);
                     this.$store.commit('CLS', decodedToken.cls);
+                    this.$store.commit('UDY', decodedToken.udy);
                     this.$store.commit('CBNUMLIST', decodedToken.cbnumList);
                     this.$store.commit('QSBNUMLIST', decodedToken.qsbnumList);
                     this.$store.commit('SUBINFO', decodedToken.subInfo);
@@ -57,6 +58,7 @@ export default {
             this.$store.commit('USERNUM', null);
             this.$store.commit('EMAIL', null);
             this.$store.commit('CLS', null);
+            this.$store.commit('UDY', null);
             this.$store.commit('LESSONS', null);
             this.$store.commit('CBNUMLIST', null);
             this.$store.commit('QSBNUMLIST', null);

@@ -26,7 +26,7 @@ public class JwtUtil {
     String secret;
 
     // JWT를 생성하는 메소드
-    public String createToken(String email, String nickname, int usernum, String cls, List<Integer> cbnumList, List<Integer> qsbnumList, boolean subInfo) {
+    public String createToken(String email, String nickname, int usernum, String cls, String udy,List<Integer> cbnumList, List<Integer> qsbnumList, boolean subInfo) {
         // HMAC256 알고리즘을 사용하여 JWT 생성에 필요한 암호화 키를 생성
         Algorithm algorithm = Algorithm.HMAC256(secret);
         // JWT 생성
@@ -36,6 +36,7 @@ public class JwtUtil {
                 .withClaim("email", email) // 이메일 정보를 토큰에 포함
                 .withClaim("nickname", nickname) // 닉네임 정보를 토큰에 포함
                 .withClaim("cls", cls) // cls 정보를 토큰에 포함
+                .withClaim("udy", udy)
                 .withClaim("cbnumList", cbnumList) // 좋아요한 게시물 번호 목록 정보를 토큰에 포함
                 .withClaim("qsbnumList", qsbnumList) // 좋아요한 퀴즈 게시물 번호 목록 정보를 토큰에 포함
                 .withClaim("subInfo", subInfo) // 구독 정보를 토큰에 포함

@@ -65,27 +65,35 @@ public class MemberController {
         String password = paramMap.get("password");
     	// 이메일을 통해 사용자 정보 조회
         MemberVO loginUser = memberService.getMemberByEmail(email);
-        // 사용자의 비밀번호를 Base64로 인코딩되어 저장된 값으로 조회
-        String encodedPassword = memberService.getPasswordByEmail(email);
         
-        if (encodedPassword != null) {
-	        // Base64로 인코딩된 비밀번호를 디코딩하여 원래 비밀번호 값 복구
-	        byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
-	        String decodedPassword = new String(decodedBytes);
-	            
-	        if (decodedPassword.equals(password)) {
-	        	// 로그인 성공 시, 사용자가 좋아요를 누른 게시물 목록과 구독 정보를 조회
-	            List<Integer> cbnumList = memberService.getLikedBoardNumbersByEmail(email);
-	            List<Integer> qsbnumList = memberService.getLikedQSBoardNumbersByEmail(email);
-	            boolean subInfo = memberService.getSubInfo(loginUser.getNickname());
-	            // JWT를 사용하여 사용자의 정보를 암호화하여 토큰 생성
-	            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls(), cbnumList, qsbnumList, subInfo);
-	            // 로그인 성공 응답에 사용자 정보와 토큰을 담아서 반환
-	            Map<String, Object> result = new HashMap<>();
-	            result.put("user_token", accessToken);
-	            
-	            return ResponseEntity.ok(result);
+        if (loginUser != null) {
+	        // 사용자의 비밀번호를 Base64로 인코딩되어 저장된 값으로 조회
+	        String encodedPassword = memberService.getPasswordByEmail(email);
+	        
+	        if (encodedPassword != null) {
+		        // Base64로 인코딩된 비밀번호를 디코딩하여 원래 비밀번호 값 복구
+		        byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
+		        String decodedPassword = new String(decodedBytes);
+		            
+		        if (decodedPassword.equals(password)) {
+		        	// 로그인 성공 시, 사용자가 좋아요를 누른 게시물 목록과 구독 정보를 조회
+		            List<Integer> cbnumList = memberService.getLikedBoardNumbersByEmail(email);
+		            List<Integer> qsbnumList = memberService.getLikedQSBoardNumbersByEmail(email);
+		            boolean subInfo = memberService.getSubInfo(loginUser.getNickname());
+		            // JWT를 사용하여 사용자의 정보를 암호화하여 토큰 생성
+		            String accessToken = jwtUtil.createToken(loginUser.getEmail(), loginUser.getNickname(), loginUser.getUsernum(), loginUser.getCls(), loginUser.getUdy(), cbnumList, qsbnumList, subInfo);
+		            // 로그인 성공 응답에 사용자 정보와 토큰을 담아서 반환
+		            Map<String, Object> result = new HashMap<>();
+		            result.put("user_token", accessToken);
+		            
+		            return ResponseEntity.ok(result);
+		        }
 	        }
+        } else {
+            // 로그인 실패 시, 사용자 정보가 없음을 반환
+            Map<String, Object> error = new HashMap<>();
+            error.put("message", "User not found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
         // 로그인 실패 시, 인증 오류 응답 반환    
         Map<String, Object> error = new HashMap<>();
@@ -133,4 +141,15 @@ public class MemberController {
             return new ResponseEntity<>("비밀번호 변경 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @PostMapping("/withDraw/{email}")
+    public ResponseEntity<String> withDraw(@PathVariable String email) {
+        try {
+            memberService.withDraw(email);
+            return new ResponseEntity<>("회원탈퇴가 완료되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("회원탈퇴 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 }

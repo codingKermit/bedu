@@ -22,6 +22,9 @@ export default {
     [types.CLS](state, cls) {
         state.cls = cls
     },
+    [types.UDY](state, udy) {
+        state.udy = udy
+    },
     [types.LESSONS](state, lessons) {
         state.lessons = lessons
     },

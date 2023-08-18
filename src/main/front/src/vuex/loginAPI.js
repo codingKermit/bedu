@@ -59,6 +59,7 @@ export default {
         try {
             const getUserInfoPromise = getUserInfo(email, password)
             const [userInfoResponse] = await Promise.all([getUserInfoPromise])
+            console.log(userInfoResponse.data.length)
             if (userInfoResponse.data.length === 0) {
                 // 사용자 정보가 없을 경우 'notFound' 반환
                 return 'notFound'
