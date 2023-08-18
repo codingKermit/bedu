@@ -130,6 +130,17 @@
                             비밀번호는 6자리 이상 15자리 이하로
                             작성해주세요.
                         </p>
+                        <p
+                            v-show="
+                                valid.password &&
+                                member.password &&
+                                member.password.length >= 6 &&
+                                    member.password.length <= 15
+                            "
+                            id="registInputErrorPassword"
+                        >
+                            올바른 비밀번호 형식이 아닙니다.
+                        </p>
                         <!-- 비밀번호 확인 필드 -->
                         <div id="registFormGroup">
                             <input
@@ -148,7 +159,7 @@
                             </p>
                             <p
                                 v-show="
-                                    valid.password &&
+                                    !valid.password &&
                                     member.password &&
                                     member.password == confirmPassword &&
                                     member.password.length >= 6 &&
@@ -480,7 +491,7 @@
             // 비밀번호의 유효성을 검사하는 메서드
             checkPassword() {
                 // 유효한 비밀번호 형식인지 확인하기 위한 정규식
-                const validatePassword = /^[1-9a-zA-Z].{6,15}$/;
+                let validatePassword = /^(?=.*[a-zA-Z])(?=.*\d).{6,15}$/;
                 if (
                     !validatePassword.test(this.member.password) ||
                     !this.member.password ||
@@ -586,7 +597,7 @@
                 ) {
                     this.$swal("닉네임을 다시 확인해주세요.");
                 } else if (
-                    !this.valid.password ||
+                    this.valid.password ||
                     !this.member.password ||
                     this.member.password !== this.confirmPassword ||
                     this.member.password.length < 6 ||
@@ -604,7 +615,7 @@
                     this.valid.emailDomain &&
                     this.nickChecked &&
                     this.valid.nickChk &&
-                    this.valid.password &&
+                    !this.valid.password &&
                     this.member.password &&
                     this.member.password == this.confirmPassword &&
                     this.member.password.length >= 6 &&

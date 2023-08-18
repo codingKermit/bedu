@@ -234,7 +234,7 @@ export default{
         // 비밀번호의 유효성을 검사하는 메서드
         checkPassword() {
             // 유효한 비밀번호 형식인지 확인하기 위한 정규식
-            const validatePassword = /^[1-9a-zA-Z].{6,15}$/;
+            const validatePassword = /^[0-9a-zA-Z].{6,15}$/;
             if (
                 !validatePassword.test(this.member.newPassword) ||
                 !this.member.newPassword ||
