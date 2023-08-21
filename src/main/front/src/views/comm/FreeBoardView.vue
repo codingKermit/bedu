@@ -160,7 +160,6 @@ export default {
             });
          }
       },
-
       //게시글 작성날짜 변환
       freeDateTime(value) {
                 

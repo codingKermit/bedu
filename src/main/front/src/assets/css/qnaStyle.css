@@ -18,17 +18,16 @@
     justify-content: center;
 }
 
-.qna-detail-replylists{
-    word-wrap: break-word;
-}
-
-
 #qna-detail-main{
     padding-top: 5.5%;
     margin-left: 3%;
     /* padding-right: 30px; */
     padding-bottom: 50px;
     width: 100%;
+}
+
+.qna-detail-anscon{
+    word-wrap: break-word;
 }
 
 #qnaboard-table {

@@ -45,6 +45,7 @@
                     <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
                 </div>
+                <b-button type="button" class="btn-custom ms-2"  @click="namelist()">확인</b-button>
                 <div>
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" class="qna-detail-icon"/>
@@ -271,6 +272,20 @@ export default{
         
     },
     methods: {
+
+        namelist(){
+            this.$axiosSend('get','/api/qna/nameList',{
+                userName: this.userNickName,
+                page : 1
+            })
+            .then(res=>{
+                console.log(res.data);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        },
+
         //게시글 조회
         qnaReadtet(qnanum){ // 게시글 데이터 조회
             this.$axiosSend('get','/api/qna/editdetail',{num : qnanum,})
