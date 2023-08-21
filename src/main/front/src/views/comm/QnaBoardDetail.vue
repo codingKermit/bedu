@@ -45,7 +45,6 @@
                     <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
                 </div>
-                <b-button type="button" class="btn-custom ms-2"  @click="namelist()">확인</b-button>
                 <div>
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" class="qna-detail-icon"/>
@@ -73,9 +72,7 @@
                         </div>
                         
                         <div class="qna-detail-anscon" :ref="'qna-detail-ans'+index">
-                            <div class="qnaReplyContent">
-                                <div v-html="ans.content"></div>
-                            </div>
+                            <div class="qnaReplyContent" v-html="ans.content"></div>
                             <div class="qna-detail-replybtns" id="qna-detail-replybtns">
                                 <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName, index)">댓글작성</b-button>
@@ -106,8 +103,8 @@
                             {{ ans.replyTotal }}개의 댓글
                             </p>
                             <div id="qna-detail-replyCont">
-                                <div v-for="(reply, index) in replylist" :key="index" class="d-flex free-detail-replylist" id="free-detail-replylist">
-                                    <div class="d-flex mb-3 mt-3 qna-detail-replys d-flex" id="qna-detail-replys" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
+                                <div v-for="(reply, index) in replylist" :key="index" class="d-flex qna-detail-replylistes" id="qna-detail-replylistes">
+                                    <div class="d-flex mb-3 mt-3 qna-detail-replylistescon" id="qna-detail-replylistescon" v-if="ansnumeq(ans.ansBdNum, reply.ansNum) == 1" :ref="'commant-container-'+index">
                                         <div class="qnauser">
                                             <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                                         </div>
@@ -272,19 +269,6 @@ export default{
         
     },
     methods: {
-
-        namelist(){
-            this.$axiosSend('get','/api/qna/nameList',{
-                userName: this.userNickName,
-                page : 1
-            })
-            .then(res=>{
-                console.log(res.data);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-        },
 
         //게시글 조회
         qnaReadtet(qnanum){ // 게시글 데이터 조회

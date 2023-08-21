@@ -30,6 +30,19 @@
     word-wrap: break-word;
 }
 
+#qna-detail-replyCont{
+    word-wrap: break-word;
+    padding-left: 8%;
+    padding-right: 8%;
+    width: 105%;
+    margin-top: 30px;
+    border-radius: 20px 20px / 20px 20px;
+}
+
+.qna-detail-replylistescon{
+    word-wrap: break-word;
+}
+
 #qnaboard-table {
     width: 100%;
     padding: 25px;
@@ -39,7 +52,6 @@
 .qnacontent{
     position: absolute;
     margin-top : 32px;
-    word-wrap: break-word;
 }
 
 
