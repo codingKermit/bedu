@@ -30,7 +30,6 @@
             <hr>
             <h2 class="fw-bold mb-0 fs-2 text-start">수강후기</h2>
             <div class="review-search">
-            <b-button type="button" :to="'/review/reviewWrite'">작성하기</b-button>
                 <div id="review-sort">
                     <select id="sortOption" v-model="sortOption" @change="sortReviews">
                         <option value="default">최신 순</option>
@@ -62,7 +61,7 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th scope="col">강좌</th>
+                        <th scope="col">강의</th>
                         <th scope="col">수강후기</th>
                         <th scope="col">별점</th>
                         <th scope="col">작성자</th>
@@ -71,7 +70,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(reviews, index) in fetchedReviews" :key="index">
-                        <td class="title">{{ reviews.title }}</td>
+                        <td class="title">{{ reviews.cateKor }}</td>
                         <td>
                             <span class="review-content">{{ reviews.content }}</span>
                         </td>
@@ -136,7 +135,7 @@
         },
         computed: {
             displayedReviews() {
-                return this.searchKeyword ? this.fetchedReviews : this.searchedReviews;
+                return this.searchKeyword ? this.fetchMoreReviews : this.fetchSearchedReviews;
             },
         },
         created() {

@@ -38,16 +38,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
     
     @Override
-    public ReviewVO createReview(ReviewVO reviewVO) {
-        // 후기를 생성하는 로직입니다.
-        reviewDAO.createReview(reviewVO);
-        return reviewVO;
-    }
+    public int createReview(ReviewVO reviewVO) {
 
-    @Override
-    public ReviewVO getReviewById(int id) {
-        // 특정 후기를 ID로 가져오는 로직입니다.
-        return reviewDAO.getReviewById(id);
+        // 후기를 생성하는 로직입니다.
+        return reviewDAO.createReview(reviewVO);
     }
     
     @Override

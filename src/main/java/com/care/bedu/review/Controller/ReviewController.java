@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +21,13 @@ import com.care.bedu.review.vo.ReviewVO;
 @RequestMapping("/api")
 public class ReviewController {
 
+    private final ReviewService reviewService;
+    
     @Autowired
-    private ReviewService reviewService;
+    public ReviewController(ReviewService reviewService){
+        this.reviewService = reviewService;
+    }
+
     
     // GET 요청을 처리하는 엔드포인트로, 모든 후기 목록을 가져옵니다.
     // page와 size는 요청 매개변수로 받아서 페이징 처리를 수행합니다.
@@ -29,17 +36,18 @@ public class ReviewController {
         return reviewService.getAllReviews(page, size);
     }
     
-    // GET 요청을 처리하는 엔드포인트로, 특정 후기를 가져옵니다.
-    // id는 경로 변수로 받아서 해당 ID에 해당하는 후기를 반환합니다
-    @RequestMapping("/{id}")
-    public ReviewVO getReviewById(@PathVariable int id) {
-        return reviewService.getReviewById(id);
-    }
     
     // POST 요청을 처리하는 엔드포인트로, 새로운 후기를 생성합니다.
     // 요청 본문에 있는 ReviewVO 객체를 받아서 후기를 생성하고 생성된 후기를 반환합니다.
-    @RequestMapping("/reviews/write")
-    public ReviewVO createReview(@RequestBody ReviewVO reviewVO) {
+    @RequestMapping(value = "/reviews/write", method = RequestMethod.POST)
+    public int createReview(String content, int rwGrade, int lectNum, String userName) {
+        ReviewVO reviewVO = new ReviewVO();
+        
+        reviewVO.setUserName(userName);
+        reviewVO.setContent(content);
+        reviewVO.setRwGrade(rwGrade);
+        reviewVO.setLectNum(lectNum);
+
         return reviewService.createReview(reviewVO);
     }
     // GET 요청을 처리하는 엔드포인트로, 검색된 후기 목록을 가져옵니다.

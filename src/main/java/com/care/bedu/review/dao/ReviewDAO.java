@@ -15,7 +15,7 @@ public interface ReviewDAO {
     ReviewVO getReviewById(int id);
     
     // 후기를 생성하는 메서드입니다.
-    void createReview(ReviewVO reviewVO);
+    int createReview(ReviewVO reviewVO);
     
     // 모든 후기를 가져오는 메서드입니다.
     List<HashMap<String, Object>> getAllReviews();

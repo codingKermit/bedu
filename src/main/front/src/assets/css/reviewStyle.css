@@ -199,3 +199,11 @@ textarea {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.content{
+    width: 80%;
+}
+
+.inputContent{
+    height: 150px;
+}
