@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewVO {
-    private int id;
+    private String category;
+    private String korCategory;
     private String topCate;
     private String keyword;
-    private String title;
+    private String cateKor;
     private String userName;
     private String content;
     private int rwGrade;

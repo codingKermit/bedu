@@ -8,41 +8,35 @@
     </select>
 
     <insert id="createReview" parameterType="com.care.bedu.review.vo.ReviewVO">
-	INSERT INTO
-            t_bedu_rw_bd
-                (RW_NUM
-				TITLE,
-				USER_NAME,
-				CONTENT,
-				RW_GRADE,
-				LECT_NUM,
-				RW_DATE,
-				REG_DATE,
-				REG_ID)
-        VALUES
-                (#{rwNum},
-                #{title},
-                #{userName},
-                #{rwGrade},
-                #{lectNum},
-                #{rwDate},
-                #{regDate},
-                #{regId})
+	INSERT INTO t_bedu_rw_bd (
+            USER_NAME,
+            CONTENT,
+            RW_GRADE,
+            LECT_NUM,
+            RW_DATE
+            ) VALUES (
+            #{userName},
+            #{content},
+            #{rwGrade},
+            #{lectNum},
+            NOW()
+            )
     </insert>
+
 
     <select id="getAllReviews" resultType="java.util.HashMap">
         SELECT
-            RW.TITLE        as title
-            , RW.CONTENT    as content
+            RW.CONTENT    as content
             , RW.USER_NAME  as userName
             , RW.RW_GRADE   as rwGrade
             , RW.RW_DATE    as rwDate
-            , FILD.LECT_TOP_CATE
-            , FILD.LECT_TOP_CATE_KOR 
-            , FILD.LECT_MID_CATE 
-            , FILD.LECT_MID_CATE_KOR 
-            , FILD.LECT_BOT_CATE
-            , FILD.LECT_BOT_CATE_KOR
+            , FILD.LECT_TOP_CATE        as lectTopCate
+            , FILD.LECT_TOP_CATE_KOR    as lectTopCateKor 
+            , FILD.LECT_MID_CATE        as lectMidCate
+            , FILD.LECT_MID_CATE_KOR    as lectMidCateKor 
+            , FILD.LECT_BOT_CATE        as lectBOtCate
+            , FILD.LECT_BOT_CATE_KOR    as lectBotCateKor
+            , LECT.CATE_KOR             as cateKor
         FROM t_bedu_rw_bd RW
             LEFT JOIN t_bedu_lect LECT 
                 ON RW.LECT_NUM = LECT.LECT_NUM
@@ -52,17 +46,18 @@
     
     <select id="getSearchedReviews" resultType="java.util.HashMap">
         SELECT
-            RW.TITLE        as title
-            , RW.CONTENT    as content
-            , RW.USER_NAME  as userName
-            , RW.RW_GRADE   as rwGrade
-            , RW.RW_DATE    as rwDate
-            , FILD.LECT_TOP_CATE     as lectTopCate
-            , FILD.LECT_TOP_CATE_KOR as lectTopCateKor
-            , FILD.LECT_MID_CATE 
-            , FILD.LECT_MID_CATE_KOR 
-            , FILD.LECT_BOT_CATE
-            , FILD.LECT_BOT_CATE_KOR 
+            RW.CONTENT                as content
+            , RW.USER_NAME              as userName
+            , RW.RW_GRADE               as rwGrade
+            , RW.RW_DATE                as rwDate
+            , RW.LECT_NUM               as lectNum
+            , FILD.LECT_TOP_CATE        as lectTopCate
+            , FILD.LECT_TOP_CATE_KOR    as lectTopCateKor
+            , FILD.LECT_MID_CATE        as lectMidCate
+            , FILD.LECT_MID_CATE_KOR    as lectMidCateKor
+            , FILD.LECT_BOT_CATE        as lectBOtCate
+            , FILD.LECT_BOT_CATE_KOR    as lectBotCateKor
+            , LECT.CATE_KOR             as cateKor
         FROM t_bedu_rw_bd RW
             LEFT JOIN t_bedu_lect LECT 
                 ON RW.LECT_NUM = LECT.LECT_NUM

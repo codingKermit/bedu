@@ -25,7 +25,7 @@
           FAQ_NUM ASC
     	) AS subquery
 	</select>
-	
+	<!-- 자주 묻는 질문 검색 -->
 	<select id="faqsearch" resultType="com.care.bedu.inquiry.vo.InquiryVO">
 		SELECT 
    		  FAQ_NUM as faqNum,
@@ -64,6 +64,7 @@
     	) AS subquery
 	</select>
 
+	<!-- 이용 문의 검색 -->
 	<select id="inquirysearch" resultType="com.care.bedu.inquiry.vo.InquiryVO">
 	SELECT 
 	    VOC_NUM AS vocNUm,
@@ -119,6 +120,7 @@
 		WHERE VOC_NUM = #{vocNum} 
 	</select>
 	
+	<!-- 비밀번호 체크 -->
 	<select id="checkPassword" resultType="java.lang.Boolean">
  		SELECT 
  			PASSWORD
@@ -127,6 +129,7 @@
  		WHERE VOC_NUM = #{vocNum} 
 	</select>
 	
+	<!-- 1대1 문의사항 게시글 삭제 -->
 	<delete id="inquirydelete">
 		DELETE
 		 FROM T_BEDU_VOC 

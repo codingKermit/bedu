@@ -93,7 +93,7 @@ export default {
         },
 
   methods: {
-
+    //문의하기 작성 페이지
     inquiryWrite() {
 
       if (this.form.title == null || this.form.title == "") {

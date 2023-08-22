@@ -34,7 +34,6 @@
                         <!-- 조회 데이터가 없을 때 보여질 부분 -->
                         <b-container class="text-center py-5">
                             <p class="fw-bold">검색 결과가 없습니다</p>
-                            <p>단어의 철자가 정확한지 확인해 보세요.</p>
                         </b-container>
                     </template>
                 </InfiniteLoading>
