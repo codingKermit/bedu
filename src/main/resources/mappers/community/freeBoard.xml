@@ -83,7 +83,7 @@
 		FROM T_BEDU_COMM 
 		WHERE USER_NAME = #{userName}
 		ORDER BY COMM_NUM desc
-		LIMIT 10 offset #{page}
+		LIMIT #{page}, 10
 	</select>
 	
 	<delete id="viewdelete">

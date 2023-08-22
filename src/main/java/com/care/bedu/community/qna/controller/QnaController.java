@@ -26,8 +26,8 @@ public class QnaController {
 	 }
 	 
 	//질문게시글 조회
-		 @RequestMapping(value="/qna/nameList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-		 public List<QnaVO> nameList(int page, String userName){
+		 @RequestMapping(value="/qna/nameList", method= {RequestMethod.GET, RequestMethod.POST})    //작성자글 조회
+		 public List<QnaVO> nameList(String userName, int page){
 			 return qnaService.namelist(userName, page);
 		 }
 	
