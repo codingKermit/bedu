@@ -63,7 +63,7 @@ export default{
     name : 'membership',
     data() {
         return {
-            
+            token : {},
         }
     },
     methods: {
@@ -78,6 +78,8 @@ export default{
         getSubscribe(type){
 
             this.getToken();
+            // this.getCertification();
+            // this.requestPay();
 
             // const currentSubInfo = this.$store.getters.getSubscribe;
             // const userName = this.$store.getters.getNickname;
@@ -166,27 +168,46 @@ export default{
 
 
         },
-        getToken(){
+        requestPay(){
 
             imp.request_pay({
                 pg: "html5_inicis",
                 pay_method: "card",
                 merchant_uid: "57008833-33004",
                 name: "당근 10kg",
-                amount: 1,
+                amount: 100,
                 buyer_email: "Iamport@chai.finance",
                 buyer_name: "포트원 기술지원팀",
                 buyer_tel: "010-1234-5678",
-                buyer_addr: "서울특별시 강남구 삼성동",
-                buyer_postcode: "123-456",
+                buyer_addr: null,
+                buyer_postcode: null,
             },
             function(rsp){
                 console.log(rsp)
             }
             )
-
-
         },
+        getCertification(){
+            imp.certification({
+                pg : 'inicis_unified',
+                merchant_uid : '57008833-33004',
+            },function(rsp){
+                console.log(rsp)
+            })
+        },
+        getToken(){
+            this.$axiosSend('get','/api/membership/test',{
+                imp_key : '0863237328336256',
+                imp_secret : 'Gy2JNtCERVsYKhV87L8nyeXW0sr3fh7ujJYIQkVwaT8CEzrvZ6QukY5ZYYH6yDdHZn49Cl8ooSOoko9e'
+            })
+            .then((res)=>{
+                console.log(res)
+                this.token = res.data
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
     },
     
 }
