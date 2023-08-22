@@ -9,12 +9,12 @@
         <div id="csc-detail-main">
             <div id="csc-detail-body">
                 <h2 id="csc-detail-title">
-                    {{ inquiry.title }}
+                    {{ inquiry.title }} <!-- 1대1 제목-->
                 </h2>
                 <div id="csc-userinfo">
-                    {{ inquiry.userName }}
+                    {{ inquiry.userName }} <!-- 1대1 닉네임-->
                     <p id="csc-date">
-                        {{ DateTime(inquiry.regDate) }}
+                        {{ DateTime(inquiry.regDate) }} <!-- 1대1 날짜-->
                     </p>
                 </div>
                 <hr class="mt-10">
@@ -26,7 +26,7 @@
             <div class="inquiry-rewrite">
                 <p class="fw-bold fs-5">
                     <font-awesome-icon :icon="['far', 'comment']" />
-                    {{ inquiry.replyCnt }}개의 문의 답글이 있습니다.
+                    {{ inquiry.replyCnt }}개의 문의 답글이 있습니다. <!-- 1대1 댓글-->
                 </p>
                 <div v-show="!tmp">
                     <b-button type="button" id="inquiry-detail-rewrite" @click="tmp = !tmp" class="w-45 p-2">답글작성</b-button>
@@ -48,17 +48,17 @@
                         <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                     </div>
                     <div id="inq-reply-name">
-                        {{ list.userName }}
+                        {{ list.userName }} <!-- 1대1 닉네임-->
                     </div>
                     <div id="inq-reply-date">
-                        {{ DateTime(list.replyDate) }}
+                        {{ DateTime(list.replyDate) }} <!-- 1대1 댓글 날짜-->
                     </div>
                 </div>
                 <div id="inq-reply-content">
                     <div id="inq-reply-content2">
                         {{ list.content }}
                     </div>
-                    <div v-if="commentDelete(list.userName) == 1">
+                    <div v-if="commentDelete(list.userName) == 1"> <!-- 1대1 댓글 삭제-->
                         <b-button type="button" id="inq-reply-del" @click="replydelete(list.replyNum, list.userName)"
                             class="w-45 p-1">답변삭제</b-button>
                     </div>
@@ -113,7 +113,6 @@ export default {
     computed: {
         getCls() {
             const cls = this.$store.getters.getCls;
-            console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
             return cls;
 
         },

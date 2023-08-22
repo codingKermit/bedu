@@ -12,7 +12,7 @@
           <h2>자주 묻는 질문 </h2>
           <div id="cscBoradSearch">
             <div class="button-container1">
-              <div @submit="faqsearch()" class="searchForm">
+              <div @submit="faqsearch()" class="searchForm"><!--자주 묻는 질문 검색-->
                 <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
                 <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="faqsearch">
                 <!--PC 문의하기-->
@@ -34,19 +34,19 @@
       </div>
       <table id="faqboard-table">
         <thead>
-          <tr id="faq-head">
+          <tr>
             <th>번호</th>
             <th>질문/대답</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(faq, index) in displayedFaqList" :key="index" :class="{ 'expanded': faq.isExpanded }">
+          <tr v-for="(faq, index) in displayedFaqList" :key="index" :class="{ 'expanded': faq.isExpanded }"><!--자주 묻는 질문 리스트-->
             <td>
-              {{ faq.faqNum }}
+              {{ faq.faqNum }}<!--자주 묻는 질문 넘버-->
             </td>
             <td>
-              <div class="faq-question" @click="toggleBox(index)">{{ faq.faqTitle }}</div>
-              <div class="faq-answer" v-if="faq.isExpanded">{{ faq.faqContent }}</div>
+              <div class="faq-question" @click="toggleBox(index)">{{ faq.faqTitle }}</div><!--자주 묻는 질문 제목-->
+              <div class="faq-answer" v-if="faq.isExpanded">{{ faq.faqContent }}</div><!--자주 묻는 질문 내용-->
             </td>
           </tr>
         </tbody>
@@ -91,7 +91,7 @@ export default {
   },
 
   components: {
-    CscCategory
+    CscCategory //카테고리
   },
 
   created() {
@@ -99,6 +99,7 @@ export default {
   },
 
   computed: {
+    //자주 묻는 질문 리스트
     displayedFaqList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
@@ -110,12 +111,13 @@ export default {
   methods: {
 
     goToInquiryPage() {
-      window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
+      window.location.href = "/inquiry"; //1대1 문의 작성 페이지로 이동
     },
 
     toggleBox(index) {
       this.displayedFaqList[index].isExpanded = !this.displayedFaqList[index].isExpanded;
     },
+    //자주 묻는 질문 리스트
     faqqList() {
       this.$axiosSend('post', '/api/inquiry/faqList',)
         .then(res => {
@@ -135,7 +137,7 @@ export default {
           alert(error);
         });
     },
-
+    //자주 묻는 질문 리스트 검색
     faqsearch() {
 
       const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.

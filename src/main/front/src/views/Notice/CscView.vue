@@ -15,12 +15,16 @@
               <div @submit="inquirysearch()" class="searchForm">
                 <font-awesome-icon id="csc-search-icon" :icon="['fas', 'magnifying-glass']" />
                 <input class="cscviewkeyword" v-model="form.keyword" @keyup.enter="inquirysearch">
+                
+                <!--웹 1대1 문의하기 버튼-->
                 <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn1" @click="goToInquiryPage">
                   <font-awesome-icon :icon="['fas', 'pencil']" />
                   문의하기
                 </b-button>
               </div>
               </div>
+
+              <!--모바일 1대1 문의하기 버튼-->
               <div class="button2">
                 <b-button class="bedu-bg-custom-blue csc-writepath-btn" id="csc-writepath-btn2" @click="goToInquiryPage">
                   <font-awesome-icon :icon="['fas', 'pencil']" />
@@ -40,15 +44,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList"  @click="password(getCls, inquiry)">
+          <tr :key="index" v-for="(inquiry, index) in paginatedInquiryList"  @click="password(getCls, inquiry)"><!--1대1 문의사항 리스트-->
             <td id="cscboard-table-tds">
               <b-link class="text-start text-body">
-                <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }}
+                <font-awesome-icon :icon="['fas', 'lock']" /> {{ inquiry.title }} <!--1대1 문의사항 제목-->
               </b-link>
             </td>
             <td>
-              {{ inquiry.userName }}</td>
-            <td>{{ formatDateTime(inquiry.regDate) }}</td>
+              {{ inquiry.userName }}</td> <!--1대1 문의사항 닉네임-->
+            <td>{{ formatDateTime(inquiry.regDate) }}</td> <!--1대1 문의사항 날짜-->
             <td id="replyCnt">
               <div v-if="inquiry.replyCnt > 0">답변완료</div>
               <div v-else>답변대기</div>
@@ -59,7 +63,7 @@
       <!-- 검색 결과가 없을 때 -->
       <p v-if="inquirylist.length === 0 && form.keyword.trim() !== ''" id="searched">검색되는 결과가 없습니다.</p>
       <!--페이징 진행-->
-      <div class="pagination-container">
+      <div class="pagination-container1">
       <b-pagination  v-model="currentPage" :total-rows="inquirylist.length" :per-page="pageSize"></b-pagination>
     </div>
     </div>
@@ -110,6 +114,8 @@ export default {
       // 현재 페이지에 해당하는 데이터를 추출하여 반환합니다.
       return this.inquirylist.slice(startIndex, endIndex);
     },
+
+    //관리자 권한 비밀번호 없이 게시글 입장
     getCls() {
       const cls = this.$store.getters.getCls;
       console.log('getCls:', cls); // 디버깅용으로 cls 값을 출력
@@ -119,11 +125,11 @@ export default {
   },
 
   methods: {
-
+    //1대1 문의하기 페이지로 이동
     goToInquiryPage() {
       window.location.href = "/inquiry"; // 원하는 문의 페이지의 URL로 변경해주세요
     },
-
+    //1대1 문의 게시 리스트
     inquiryList() {
       this.$axiosSend('post', '/api/inquiry/inquiryList',)
         .then(res => {
@@ -144,6 +150,7 @@ export default {
         });
     },
 
+    //1대1 문의 검색
     inquirysearch() {
 
       const keyword = this.form.keyword.trim(); // 입력된 검색어를 양쪽 공백을 제거하여 가져옵니다.
@@ -152,7 +159,6 @@ export default {
         alert("검색어를 입력해주세요!");
         return;
       }
-
       this.$axiosSend('get', '/api/inquiry/inquirySerach', { keyword })
         .then((response) => {
           const dataFromBackend = response.data;
@@ -164,7 +170,7 @@ export default {
           console.error("Error:", error);
         });
     },
-
+    //비밀번호 비교 하는 함수 "ADMIN"은 그냥 입장 가능
     password(userName, inquiry) {
       this.$swal({
         title: '비밀번호를 입력하세요',
@@ -193,41 +199,7 @@ export default {
         })
     },
 
-    /*   password(userName, inquiry) {
-      this.$swal({
-        title: '비밀번호를 입력하세요',
-        html: '<input id="test" type="password">'
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          // 사용자가 입력한 비밀번호
-          const userInput = document.getElementById("test").value;
-    
-          if (userInput !== null ) {
-            // Axios를 사용하여 백엔드로 비밀번호 요청 보내기
-            this.$axiosSend('get', '/api/inquiry/inquiryDetail', {
-              vocNum: inquiry.vocNum,
-              userInput: userInput
-            })
-            .then(response => {
-              console.log(response)
-              if ( userName == "ADMIN" || userInput == inquiry.password) {
-                this.$router.push('inquiryDetail', { vocNum: inquiry.vocNum }, true);
-              } else {
-                this.$swal({
-                  title: '올바른 비밀번호를 입력해주세요',
-                  icon: 'error',
-                });
-              }
-            })
-            .catch(error => {
-              console.error(error);
-            });
-          }
-        }
-      });
-    }, */
-
+    //날짜
     formatDateTime(value) {
       // value는 날짜 값입니다
       const now = new Date();

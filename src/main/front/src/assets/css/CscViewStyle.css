@@ -65,6 +65,7 @@
   border-top: 1px solid #ccc;
 }
 
+
 #cscboard-table td {
   text-align: center;
   padding: 1%;
@@ -386,8 +387,6 @@
 .pagination {
   font-size: 110%;
   margin-bottom: 5%;
-  text-align: center;
-  align-items: center;
   --bs-pagination-font-size: 110%;
   --bs-pagination-color: #212529;
   --bs-pagination-focus-box-shadow: 0 0 0 41% rgba(50, 62, 82, 0.25);
@@ -402,10 +401,9 @@
 @media (max-width: 767px) {
   .pagination-container1 {
     display: none;
-    width: 14%;
     align-items: left;
     font-size: 14px; /* Adjust as needed */
-    margin: 10px 0; /* Adjust as needed */
+    margin: 10px ; /* Adjust as needed */
   }
 }
 
@@ -414,16 +412,13 @@
     display: none;
     width: 0%;
     font-size: 14px; /* Adjust as needed */
-    margin: 10px 0; /* Adjust as needed */
+    margin: 10px ; /* Adjust as needed */
   }
 }
 
 .pagination-container1 {
-  margin-left: 40%;
-  justify-content: center;
-  align-items: center;
+  margin-left: 43%;
 }
-
 
 .inq-reply {
   margin-top: 2%;
