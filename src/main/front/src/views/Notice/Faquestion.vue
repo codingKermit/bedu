@@ -33,6 +33,10 @@
         </div>
       </div>
       <table id="faqboard-table">
+        <colgroup>
+          <col width="1.38%">
+          <col width="20%">
+        </colgroup>
         <thead>
           <tr>
             <th>번호</th>
