@@ -25,7 +25,7 @@ public class FreeController {
 		return freeService.listProc(freeVO);
 	}
 	
-	//게시글 조회
+	//작성자게시글 조회
 		@RequestMapping(value="/freBd/namelist", method= {RequestMethod.GET, RequestMethod.POST})   		
 		public List<FreeVO> freename(int page, String userName){
 			return freeService.namelist(userName, page);

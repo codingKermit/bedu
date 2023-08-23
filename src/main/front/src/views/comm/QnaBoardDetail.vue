@@ -108,10 +108,10 @@
                                         <div class="qnauser">
                                             <font-awesome-icon :icon="['fas', 'user']" size="xl" />
                                         </div>
-                                        <div class="qnaReplyName" style="margin-left: 50px;">
+                                        <div class="qnaReplyName" style="margin-left: 10px;">
                                             {{ reply.userName }}
                                         </div>
-                                        <div class="qnaReplyDate" style="margin-left: 50px;">
+                                        <div class="qnaReplyDate" style="margin-left: 10px;">
                                             {{ DateTime(reply.replyDate) }}
                                         </div>
                                         <div class="qnareplyDel-btn" id="qnareplyDel-btn" v-if="replydeleteEq(reply.userName)==1">

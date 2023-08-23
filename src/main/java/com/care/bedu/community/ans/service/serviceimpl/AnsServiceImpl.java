@@ -57,6 +57,7 @@ public class AnsServiceImpl implements AnsService{
 		
 	}
 
+	//글수정
 	@Override
 	public int boardedit(AnsVO ansVO) {
 		return ansDAO.ansedit(ansVO);

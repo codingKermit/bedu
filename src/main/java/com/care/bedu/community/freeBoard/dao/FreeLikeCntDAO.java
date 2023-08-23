@@ -6,7 +6,7 @@ import com.care.bedu.community.qna.vo.LikeCntVO;
   @Mapper 
   public interface FreeLikeCntDAO {
   
-	  //글
+	  //좋아요 클릭 여부 확인
 	  public int getfreelikeName(int commnum, String userid, String likeyn);
 	  
 	  //좋아요 데이터 삭제

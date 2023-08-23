@@ -186,6 +186,7 @@ export default{
             this.$refs['commant-container-'+index][0].children[4].classList.add("d-block");
         },
 
+        //댓글수정폼닫기
         replyeditcensell(index){
             this.$refs['commant-container-'+index][0].children[1].classList.remove("d-none");
             this.$refs['commant-container-'+index][0].children[2].classList.remove("d-block");
@@ -356,7 +357,7 @@ export default{
             })
         },
 
-        //비로그인게시글 조회
+        //비로그인 게시글 조회
         freeReadtet(commnum){ 
             this.$axiosSend('get','/api/freBd/editdetail',{
                 num : commnum,
