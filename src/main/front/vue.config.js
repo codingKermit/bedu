@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  outputDir: '../resources/static',
+  filenameHashing: false, // build 파일 해싱 제거
   devServer: {
     historyApiFallback: true,
     proxy: {

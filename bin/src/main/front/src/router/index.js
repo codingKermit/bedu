@@ -164,7 +164,7 @@ const routes = [
     {
         path: '/fileManage',
         name: 'fileManage',
-        component: () => import('../views/adminPage/fileManage.vue')
+        component: () => import('../views/adminPage/FileManage.vue')
     },
     {
         path: '/lectureManage',
@@ -174,7 +174,7 @@ const routes = [
     {
         path: '/adminPage',
         name: 'adminPage',
-        component: () => import('../views/adminPage/adminPage.vue')
+        component: () => import('../views/adminPage/AdminPage.vue')
     },
     {
         path: '/membership',
