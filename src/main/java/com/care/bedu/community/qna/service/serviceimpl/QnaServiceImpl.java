@@ -44,7 +44,6 @@ public class QnaServiceImpl implements QnaService{
 	//게시글 상세보기
 	@Override
 	public QnaVO viewone(int qnanum, String userName, String regid) {
-		
 		qnaDAO.qnaCntUp(qnanum);
 		return qnaDAO.viewone(qnanum);
 								

@@ -229,6 +229,7 @@ export default{
 
         if(this.userNickName === null || this.userNickName ===""){
             this.qnaReadtet(qnanum);
+            this.qnaRead(qnanum);
         }else{
             this.qnaRead(qnanum);
         }
