@@ -18,7 +18,6 @@
                     <b-button variant="outline-primary" type="submit" class="px-4 btn-custom ms-2 qna-edit bedu-bg-custom-blue" id="qna-edit">수정</b-button>
                     <b-button class="px-4 btn-custom ms-2 qna-edit-censell" id="qna-edit-censell" type="reset" :to="'/comm/qna'" >취소</b-button>
                 </div>
-
             </b-form>
         </div>
     </div>
@@ -74,13 +73,7 @@
 
         created() {
             const nick =this.$store.getters.getNickname;
-            if(nick === '' || nick === null){
-                this.$swal('Error','로그인을 해주세요!');
-                router.push({
-                    name: "login"
-                })
-                return;
-            }
+            
         },
 
         methods: {

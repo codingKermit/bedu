@@ -55,6 +55,12 @@
 		WHERE QS_BD_NUM = #{qsBdNum}
 	</delete>
 	
+	<delete id="ansreplyallDelete">
+		DELETE
+		 FROM T_BEDU_REPLY
+		WHERE ANS_NUM = #{ansBdNum}
+	</delete>
+	
 	<update id="ansedit">
 		UPDATE
 		 T_BEDU_ANS SET CONTENT = #{content}, REG_DATE = SYSDATE()

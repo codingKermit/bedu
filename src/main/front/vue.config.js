@@ -2,6 +2,10 @@ const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
+<<<<<<< HEAD
+=======
+  filenameHashing: false, // build 파일 해싱 제거
+>>>>>>> ab2c6e0056c5bcd6ab1742269bc39d507d1f36ae
   devServer: {
     historyApiFallback: true,
     proxy: {

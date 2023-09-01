@@ -26,13 +26,17 @@
     width: 100%;
 }
 
+#qna-detail-replylistes{
+    margin-bottom: 50px;
+    word-wrap: break-word;
+}
+
 .qna-detail-anscon{
     word-wrap: break-word;
 }
 
 #qna-detail-replyCont{
     word-wrap: break-word;
-    padding-left: 8%;
     padding-right: 8%;
     width: 105%;
     margin-top: 30px;
@@ -41,7 +45,7 @@
 }
 
 .qna-detail-replylistescon{
-    word-wrap: break-word;
+    width: 100%;
 }
 
 #qnaboard-table {
@@ -53,6 +57,9 @@
 .qnacontent{
     position: absolute;
     margin-top : 32px;
+    width: 60%;
+    word-wrap: break-word;
+
 }
 
 

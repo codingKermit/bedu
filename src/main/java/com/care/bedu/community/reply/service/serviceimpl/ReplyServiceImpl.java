@@ -51,6 +51,7 @@ public class ReplyServiceImpl implements ReplyService{
 		
 	}
 
+	//댓글 수정
 	@Override
 	public int replyupdate(ReplyVO replyVO) {
 		return replyDAO.replyupdate(replyVO);

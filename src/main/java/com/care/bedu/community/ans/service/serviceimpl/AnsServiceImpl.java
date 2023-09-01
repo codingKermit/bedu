@@ -49,7 +49,11 @@ public class AnsServiceImpl implements AnsService{
 	public int ansDelete(AnsVO ansVO) {
 		if(ansVO.getQsBdNum() > 0 && ansVO.getUserName().equals("ADMIN") && ansVO.getUserName() != null) {
 			return ansDAO.ansalladminDelete(ansVO);
-		}else if(ansVO.getAnsBdNum() != null && ansVO.getAnsBdNum() >0) {
+		}else if(ansVO.getQsBdNum() ==0 && ansVO.getUserName().equals("ADMIN") && ansVO.getAnsBdNum() != null && ansVO.getAnsBdNum() >0) {
+			ansDAO.ansreplyallDelete(ansVO);
+			return ansDAO.ansDelete(ansVO.getAnsBdNum());
+		}
+		else if(ansVO.getAnsBdNum() != null && ansVO.getAnsBdNum() >0) {
 			return ansDAO.ansDelete(ansVO.getAnsBdNum());
 		}else {
 			return 0;

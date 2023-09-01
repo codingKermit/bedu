@@ -3,28 +3,26 @@
 
 <template>
     <div>
-        <h2 id="review-write">수강후기 작성</h2>
-        <b-form @submit.prevent="submitReview">
-            <b-row>
-                <b-col>
-                    <div class="form-group">
-                        <label id="review-label" for="rwGrade">별점</label>
-                    <div class="star-rating">
-                        <span v-for="rwGrade in 5" :key="rwGrade" @click="setStars(rwGrade)" :class="{ 'filled': rwGrade <= reviews.rwGrade }">&#9733;</span>
-                    </div>
-                    </div>
-                    <b-form-group
-                    class = "inptucontent"
-                    label = "수강후기"
-                    label-for="inputContent"
-                    >
-                        <b-form-input class = "inputContent" id = "content" v-model="reviews.content" :state="state" trim></b-form-input>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <button id="review-WriteBtn" type="submit">작성 완료</button>
-        </b-form>
-    </div>
+        <br>
+        <h2 style="margin-left: 15%;">수강후기 작성</h2>
+            <b-form class="writeForm" @submit.prevent="submitReview">
+                <b-row>
+                    <b-col>
+                        <b-form-group
+                        style="width: 80%;"
+                        class = "inptucontent"
+                        label-for="inputContent"
+                        >
+                        <div class="star-rating">
+                            <span v-for="rwGrade in 5" :key="rwGrade" @click="setStars(rwGrade)" :class="{ 'filled': rwGrade <= reviews.rwGrade }">&#9733;</span>
+                        </div>
+                            <b-form-textarea maxlength = "100" class = "reviewContent" v-model="reviews.content" :state="state" trim></b-form-textarea>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                    <button id="review-WriteBtn" type="submit">작성 완료</button>
+            </b-form>
+        </div>
 </template>
 
 <script>

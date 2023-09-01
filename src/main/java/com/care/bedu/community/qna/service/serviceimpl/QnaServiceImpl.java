@@ -44,26 +44,21 @@ public class QnaServiceImpl implements QnaService{
 	//게시글 상세보기
 	@Override
 	public QnaVO viewone(int qnanum, String userName, String regid) {
-		int result = likeCntDAO.qnaEqcnt(qnanum, userName);
-		if(result == 0) {
-			LikeCntVO likeCntVO = new LikeCntVO();
-			likeCntVO.setQsBdNum(qnanum);
-			likeCntVO.setUserName(userName);
-			likeCntVO.setRegId(regid);
-			int savenum = likeCntDAO.cntqnaSave(likeCntVO);
-			if(savenum == 1) {
-				qnaDAO.qnaCntUp(qnanum);
-			}
-			
-		}
+		qnaDAO.qnaCntUp(qnanum);
 		return qnaDAO.viewone(qnanum);
 								
 	}
 
 	//게시글 삭제
 	@Override
-	public int viewdelete(int num) {
-		return qnaDAO.viewdelete(num);					
+	public int viewdelete(QnaVO qnaVO) {
+		if(qnaVO.getQnaBdNum() != null && qnaVO.getQnaBdNum() > 0
+				&& qnaVO.getUserName() != null && qnaVO.getUserName().equals("ADMIN")) {
+			qnaDAO.viewreplydelete(qnaVO);
+			qnaDAO.viewansdelete(qnaVO);
+			
+		}
+		return qnaDAO.viewdelete(qnaVO);
 	}
 
 	//게시글 수정
@@ -129,9 +124,7 @@ public class QnaServiceImpl implements QnaService{
 	//좋아요 1감소
 	@Override
 	public int likeDown(int num, String userName, int likenum) {
-		
 		int result = likeCntDAO.likedel(likenum);
-		
 		if(result == 1) {
 			return qnaDAO.likeDown(num);
 		}else {
@@ -151,5 +144,6 @@ public class QnaServiceImpl implements QnaService{
 		page = (page -1 )*10;
 		return qnaDAO.nameview(name, page);
 	}
+
 
 }

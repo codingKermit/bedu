@@ -121,6 +121,10 @@
     font-size: 100%;
 }
 
+.inptucontent{
+    width: 80%;
+}
+
 .infinite-loading-container {
     position: absolute;
     left: 0;
@@ -161,10 +165,6 @@
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
 #review-label {
     display: block;
     font-weight: bold;
@@ -178,8 +178,26 @@ textarea {
     border-radius: 4px;
 }
 
+.writeForm{
+    margin-left: 15%;
+}
+
+.review-content{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 1.2rem;
+}
+
+.reviewContent{
+    width: 100%;
+    height: 6.25rem;
+    resize: none;
+}
+
 .star-rating {
     font-size: 24px;
+    float: right;
 }
 
 .star-rating span {

@@ -15,32 +15,6 @@
 		 ORDER BY QS_BD_NUM DESC
 		 LIMIT #{page}, 10
 	 </select>
-	 
-	 <!--<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewcnt">
-		 SELECT
-		   QS_BD_NUM AS qnaBdNum,
-		   TITLE,
-		   QS_DATE AS qnaDate, 
-		   QS_CNT AS qnaCnt,
-		   QS_LIKE_CNT AS qnaLikeCnt,
-		   USER_NAME AS userName
-		 FROM T_BEDU_QS
-		 ORDER BY QS_CNT DESC
-		 LIMIT #{page}, 10
-	 </select>
-	 
-	 <select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlike">
-		 SELECT
-		   QS_BD_NUM AS qnaBdNum,
-		   TITLE,
-		   QS_DATE AS qnaDate, 
-		   QS_CNT AS qnaCnt,
-		   QS_LIKE_CNT AS qnaLikeCnt,
-		   USER_NAME AS userName
-		 FROM T_BEDU_QS
-		 ORDER BY QS_LIKE_CNT DESC
-		 LIMIT #{page}, 10
-	 </select>-->
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(
@@ -102,7 +76,19 @@
 	<delete id="viewdelete">
 		DELETE
 		 FROM T_BEDU_QS
-		WHERE QS_BD_NUM = #{qnanum}
+		WHERE QS_BD_NUM = #{qnaBdNum}
+	</delete>
+	
+	<delete id="viewansdelete">
+		DELETE
+		 FROM T_BEDU_ANS
+		WHERE QS_BD_NUM = #{qnaBdNum}
+	</delete>
+	
+	<delete id="viewreplydelete">
+		DELETE
+		 FROM T_BEDU_REPLY
+		WHERE QS_NUM= #{qnaBdNum}
 	</delete>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.qna.vo.QnaVO">

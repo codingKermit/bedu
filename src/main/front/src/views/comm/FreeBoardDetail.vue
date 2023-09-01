@@ -24,6 +24,7 @@
                         </p>
                     </div>
                     <div id="freeBoardEditDele">
+                        <b-button type="button" class="btn-custom ms-2 qnaboard-detail-viewpath" :to="'/comm/freBd'">목록</b-button>
                         <b-button type="button" class="bedu-bg-custom-blue freeboard-detail-editbtn" id="freeboard-detail-editbtn" @click="freeeditPath()">글수정</b-button>
                         <b-button type="button" class="ms-2 freeboard-detail-deletebtn" id="freeboard-detail-deletebtn" @click="freedelete()">삭제</b-button>
                     </div>

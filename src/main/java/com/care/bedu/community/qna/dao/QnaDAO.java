@@ -26,7 +26,13 @@ public interface QnaDAO {
 	public int viewupdate(QnaVO qnaVO);					
 	
 	//게시글 삭제
-	public int viewdelete(int qnanum);						
+	public int viewdelete(QnaVO qnaVO);
+	
+	//답변글 삭제
+	public void viewansdelete(QnaVO qnaVO);
+		
+	//댓글 삭제
+	public void viewreplydelete(QnaVO qnaVO);
 	
 	//게시글 키워드 검색
 	public ArrayList<QnaVO> viewsearch(QnaVO qnaVO);		

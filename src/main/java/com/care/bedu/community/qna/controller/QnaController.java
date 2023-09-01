@@ -25,7 +25,7 @@ public class QnaController {
 		 return qnaService.listProc(qnaVO);
 	 }
 	 
-	//질문게시글 조회
+	//질문게시글 작성자 이름으로 조회
 		 @RequestMapping(value="/qna/nameList", method= {RequestMethod.GET, RequestMethod.POST})    //작성자글 조회
 		 public List<QnaVO> nameList(String userName, int page){
 			 return qnaService.namelist(userName, page);
@@ -62,8 +62,8 @@ public class QnaController {
 	
 	//게시글 삭제
 	 @RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				
-	 public int qnaDelete(int num){
-	 	return qnaService.viewdelete(num);
+	 public int qnaDelete(QnaVO qnaVO){
+	 	return qnaService.viewdelete(qnaVO);
 	 }
 
 	//게시글 전체 개수 조회
