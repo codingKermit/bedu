@@ -46,6 +46,7 @@
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답변작성</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-viewpath" :to="'/comm/qna'">목록</b-button>
+                    <b-button type="button" class="btn-custom ms-1 qnaboard-detail-adminqnadel" v-if="admindelbtn() == 1" id="qnaboard-detail-adminqnadel" @click="adminqnadel(qna.qnaBdNum)">관리자 삭제</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-adminalldel" v-if="admindelbtn() == 1" id="qnaboard-detail-adminalldel" @click="ansalldel()">답변전체삭제</b-button>
                 </div>
 
@@ -283,6 +284,52 @@ export default{
                 return 0;
             }
         },
+        //관리자 질문 게시글 삭제
+        adminqnadel(qnanum){
+            if(this.userNickName === null || this.userNickName ===""){
+                this.$swal('로그인을 해주세요.', 'success');
+                router.push({
+                    name: "login"
+                })
+                return;
+            }
+
+            if(this.userNickName !='ADMIN'){
+                this.$swal('관리자 권한으로만 삭제 가능합니다.', 'success');
+                return;
+            }
+
+            this.$swal({
+                title: '관리자 권한으로 해당 게시글을 삭제 하시겠습니까?',
+                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
+                confirmButtonColor: '#303076',
+                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                }).then(result => {
+                    if (result.isConfirmed) {                   // 만약 알럿창에서 확인 버튼을 눌렀다면
+
+                        this.$axiosSend('get','/api/qna/qnaDelete', {
+                        num: qnanum,
+                        })
+                        .then(res => {
+                            if(res.data ===1){
+                            this.$swal('Success', '관리자 권한으로 게시글을 삭제 완료하였습니다.', 'success'),
+                                router.push({
+                                    name: "qnaBoard"
+                                })
+                            }    
+                        })
+                        .catch(error => {
+                            alert(error);
+                        })
+                    } 
+                }).catch(error => {
+                    alert(error);
+                })
+
+        },
+
         //전체 답변삭제(관리자)
         ansalldel(){
 

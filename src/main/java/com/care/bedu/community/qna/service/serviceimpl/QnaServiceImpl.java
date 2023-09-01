@@ -119,9 +119,7 @@ public class QnaServiceImpl implements QnaService{
 	//좋아요 1감소
 	@Override
 	public int likeDown(int num, String userName, int likenum) {
-		
 		int result = likeCntDAO.likedel(likenum);
-		
 		if(result == 1) {
 			return qnaDAO.likeDown(num);
 		}else {
