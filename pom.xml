@@ -152,13 +152,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<<<<<<< HEAD
-			
-			
-<!-- vue 프로젝트를 빌드하기 위한 명령어를 maven 라이프사이클 중간에 끼워넣습니다. -->
-=======
 			<!-- vue 프로젝트를 빌드하기 위한 명령어를 maven 라이프사이클 중간에 끼워넣습니다. -->
->>>>>>> ab2c6e0056c5bcd6ab1742269bc39d507d1f36ae
 			<!-- 이것을 통해서 npm run build 라는 명령어가 실행됩니다. -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -272,10 +266,6 @@
                     </filesets>
                 </configuration>
             </plugin>-->
-<<<<<<< HEAD
-			
-=======
->>>>>>> ab2c6e0056c5bcd6ab1742269bc39d507d1f36ae
 		</plugins>
 	</build>
 
