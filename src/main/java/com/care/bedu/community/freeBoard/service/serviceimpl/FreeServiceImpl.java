@@ -59,19 +59,7 @@ public class FreeServiceImpl implements FreeService{
 	//조회수 증가
 	@Override
 	public FreeVO viewone(int commnum, String userName){									
-		
-		int result = freelikeCntDAO.freeEqcnt(commnum, userName);
-		
-		if(result ==0) {
-			LikeCntVO likeCntVO = new LikeCntVO();
-			likeCntVO.setCommBdNum(commnum);
-			likeCntVO.setUserName(userName);
-			likeCntVO.setRegId(userName);
-			int savenum =freelikeCntDAO.cntFreeSave(likeCntVO);
-			if(savenum == 1) {
-				freeDAO.cntUp(commnum);
-			}
-		}
+		freeDAO.cntUp(commnum);
 		return freeDAO.viewone(commnum);
 		
 	}

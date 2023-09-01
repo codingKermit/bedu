@@ -16,7 +16,7 @@
 		 LIMIT #{page}, 10
 	 </select>
 	 
-	 <!--<select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewcnt">
+	 <select id="viewcnt" resultType="com.care.bedu.community.qna.vo.QnaVO">
 		 SELECT
 		   QS_BD_NUM AS qnaBdNum,
 		   TITLE,
@@ -26,7 +26,7 @@
 		   USER_NAME AS userName
 		 FROM T_BEDU_QS
 		 ORDER BY QS_CNT DESC
-		 LIMIT #{page}, 10
+		 limit #{page}, 10
 	 </select>
 	 
 	 <select resultType="com.care.bedu.community.qna.vo.QnaVO" id="viewlike">
@@ -40,7 +40,7 @@
 		 FROM T_BEDU_QS
 		 ORDER BY QS_LIKE_CNT DESC
 		 LIMIT #{page}, 10
-	 </select>-->
+	 </select>
 	
 	<insert id="viewWrite">
 		INSERT INTO T_BEDU_QS(

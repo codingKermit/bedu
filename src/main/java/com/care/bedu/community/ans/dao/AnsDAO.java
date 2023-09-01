@@ -25,4 +25,7 @@ public interface AnsDAO {
 	
 	//전체답변 삭제
 	public int ansalladminDelete(AnsVO ansVO);
+	
+	//답변에 해당하는 댓글 전체 삭제
+	public int ansreplyallDelete(AnsVO ansVO);
 }

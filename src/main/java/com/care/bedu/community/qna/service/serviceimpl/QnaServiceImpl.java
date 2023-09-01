@@ -44,18 +44,8 @@ public class QnaServiceImpl implements QnaService{
 	//게시글 상세보기
 	@Override
 	public QnaVO viewone(int qnanum, String userName, String regid) {
-		int result = likeCntDAO.qnaEqcnt(qnanum, userName);
-		if(result == 0) {
-			LikeCntVO likeCntVO = new LikeCntVO();
-			likeCntVO.setQsBdNum(qnanum);
-			likeCntVO.setUserName(userName);
-			likeCntVO.setRegId(regid);
-			int savenum = likeCntDAO.cntqnaSave(likeCntVO);
-			if(savenum == 1) {
-				qnaDAO.qnaCntUp(qnanum);
-			}
-			
-		}
+		
+		qnaDAO.qnaCntUp(qnanum);
 		return qnaDAO.viewone(qnanum);
 								
 	}
@@ -150,6 +140,18 @@ public class QnaServiceImpl implements QnaService{
 	public List<QnaVO> namelist(String name, int page) {
 		page = (page -1 )*10;
 		return qnaDAO.nameview(name, page);
+	}
+
+	@Override
+	public List<QnaVO> cntlistProc(QnaVO qnaVO) {
+		List<QnaVO> list = qnaDAO.viewcnt(qnaVO);
+		System.out.println("확인"+ list);
+		return list;
+	}
+
+	@Override
+	public List<QnaVO> likelistProc(QnaVO qnaVO) {
+		return qnaDAO.viewlike(qnaVO);
 	}
 
 }

@@ -58,6 +58,7 @@
                             <th>작성자</th>
                             <th>작성일자</th>
                             <th>조회 수</th>
+                            <th>좋아요</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,9 @@
                             <td>{{ qnaDateTime(qna.qnaDate) }}</td>
                             <td>
                                 <font-awesome-icon :icon="['fas', 'eye']" /> {{ qna.qnaCnt }}
+                            </td>
+                            <td>
+                                <font-awesome-icon :icon="['fas', 'heart']" /> {{ qna.qnaLikeCnt }}
                             </td>  
                         </tr>
                     </tbody>
@@ -105,6 +109,8 @@
         data() {
             return {
                 qnalist: [],
+                likelists: [],
+                cntlists:[],
                 form: {
                     keyword: '',
                 },
@@ -118,9 +124,13 @@
         },
 
         created() {
+            this.cntList();
+            this.likeList();
         },
 
         mounted() {
+            this.cntList();
+            this.likeList();
         },
 
         methods: {
@@ -141,6 +151,37 @@
             },
 
             //정렬 옵션
+            cntList() {
+                
+                this.$axiosSend('get','/api/qna/qnacntList', {
+                    page: this.currentPage,
+                })
+                .then(res => {
+                    console.log('ssmm',res.data);
+                    this.cntlists = res.data;
+                    this.sortReviews();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
+
+            //정렬 옵션
+            likeList() {
+                
+                this.$axiosSend('get','/api/qna/qnalikeList', {
+                    page: this.currentPage,
+                })
+                .then(res => {
+                    this.likelists = res.data;
+                    this.sortReviews();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
+
+            //정렬 옵션
             sortReviews() {
                 if (this.sortOption === "default") {
                     // 최신 순으로 정렬
@@ -149,9 +190,9 @@
                     return new Date(b.qnaDate) - new Date(a.qnaDate);
                 });
                 } else if (this.sortOption === "highViews") {
-
+                    console.log('조회', this.cntlists);
                     // 조회수 순으로 정렬
-                    this.qnalist.sort((a, b) => {
+                    this.cntlists.sort((a, b) => {
                         return b.qnaCnt - a.qnaCnt;
                     });
 
@@ -216,6 +257,7 @@
 
             //게시글 조회 이벤트 헨들러
             infiniteHandler($state){
+                
                 this.$axiosSend('get','/api/qna/qnaList',{
                     page : this.currentPage,
                 })

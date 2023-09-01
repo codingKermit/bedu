@@ -33,19 +33,23 @@
                             <text class="fw-bold ms-2 qna-detail-likeyn" id="qna-detail-likeyn">
                                 {{ qna.qnaLikeCnt }}
                             </text>
-                    </button>    
+                    </button>
+                    
+                    <b-button type="button" style="margin-top: 120px;"  class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
+                    <b-button type="button" style="margin-top: 120px;" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>    
                 </div>
                 </div>
+                
                 <hr style="margin-top: 20%;"/>
                 <div class="mb-3 qna-detail-btns" id="qna-detail-btns">
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-rewrite"  @click="answrite()" id="qnaboard-detail-rewrite">등록</b-button>
                     <b-button type="button" class="btn-custom ms-2 qnaboard-detail-recensell" @click="censells()" id="qnaboard-detail-recensell">취소</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-replybtn" id="qnaboard-detail-replybtn" @click="ansopen()">답변작성</b-button>
+                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-viewpath" :to="'/comm/qna'">목록</b-button>
                     <b-button type="button" class="btn-custom ms-1 qnaboard-detail-adminalldel" v-if="admindelbtn() == 1" id="qnaboard-detail-adminalldel" @click="ansalldel()">답변전체삭제</b-button>
-                    <b-button type="button" class="bedu-bg-custom-blue btn-custom ms-2 qnaboard-detail-editbtn" id="qnaboard-detail-editbtn" @click="qnaeditPath(qna.qnaBdNum)">글수정</b-button>
-                    <b-button type="button" class="btn-custom ms-2 qnaboard-detail-deletebtn" id="qnaboard-detail-deletebtn" @click="qnadelete(qna.qnaBdNum)">삭제</b-button>
                 </div>
-                <div>
+
+                <div style="margin-top: 80px;">
                     <p class = "fw-bold fs-5">
                         <font-awesome-icon :icon="['far', 'comment']" class="qna-detail-icon"/>
                         답변 {{anstotal}}개
@@ -54,7 +58,7 @@
                 <div class="qnaboard-detail-replywrite" id="qnaboard-detail-replywrite" >
                     <h4>답변을 작성해주세요.</h4>
                     <b-form>
-                        <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" ref="content"></ckeditor>
+                        <textarea v-model="form.content" ref="content" rows="10" cols="100"></textarea>
                     </b-form>
                 </div>
                 <div class="qna-detail-replylists">
@@ -75,7 +79,7 @@
                             <div class="qnaReplyContent" v-html="ans.content"></div>
                             <div class="qna-detail-replybtns" id="qna-detail-replybtns">
                                 <div class="qna-detail-replywriteBtn" id="qna-detail-replywriteBtn">
-                                    <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName, index)">댓글작성</b-button>
+                                    <b-button type="button" v-if="anseditbtneqlse(ans.userName) == 1" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-replywrite-btn" @click="replyopen(ans.ansBdNum, ans.userName, index)">댓글작성</b-button>
                                 </div>
                                 <div id="qna-detail-replyDelBtn" class="qna-detail-replyDelBtn" style="margin-left: 30px;" v-if="ansdelbtneqlse(ans.userName) == 1">
                                     <b-button type="button" class="btn-custom btn-custom mt-1 qna-detail-replywrite-btn" id="qna-detail-ansdel-btn" @click="ansdelete(ans.ansBdNum, ans.userName, ans.regId)">답변삭제</b-button>
@@ -86,21 +90,21 @@
                             </div>
                             
                             <div class="qna-detail-rewrites" id="qna-detail-rewrites">
-                                <h5 id="qna-detail-retext">댓글을 작성해주세요.</h5>
                                 <b-form>
-                                    <b-form-input placeholder="내용을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
+                                    <b-form-input placeholder="댓글을 작성해주세요" class="mt-4 mb-2" id="reply-write-content" v-model="reply.content" ref="content"></b-form-input>
                                     <b-button type="button" class="bedu-bg-custom-blue" @click="replywrite(ans.ansBdNum, ans.userName, index)">댓글등록</b-button>
                                     <b-button type="reset" class="qna-detail-replycensell" style="margin-left: 20px;" @click="replycensell(ans.ansBdNum, ans.userName, index)">취소</b-button>
                                 </b-form>
                             </div>
+
                             <div class="qna-detail-ansconedit" id="qna-detail-ansconedit">
                                 <b-form-input class="mt-4 mb-2 qna-detail-ansedit" id="qna-detail-ansedit" v-model="ans.content" ref="content"></b-form-input>
                                 <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditbtn" id="qna-detail-anseditbtn" @click="ansedit(ans.ansBdNum, ans.userName, ans.content, index)">수정</b-button>
-                                            <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
+                                <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qna-detail-anseditcensell" id="qna-detail-anseditcensell" @click="anseditcensell(index)">닫기</b-button>
                             </div>
                             <p class = "fw-bold fs-5 qna-detail-replytotalicon">
                                 <font-awesome-icon :icon="['far', 'comment']" />
-                            {{ ans.replyTotal }}개의 댓글
+                            댓글 {{ ans.replyTotal }}개
                             </p>
                             <div id="qna-detail-replyCont">
                                 <div v-for="(reply, index) in replylist" :key="index" class="d-flex qna-detail-replylistes" id="qna-detail-replylistes">
@@ -122,13 +126,11 @@
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyeditform-btn" id="qnareplyeditform-btn" @click="replyeditopen(index)">댓글수정</b-button>
                                         </div>
                                         <div class="qnareplyeditcontent" id="qnareplyeditcontent">
-                                            <b-form-input class="replyeditcontent" v-model="reply.content">{{ reply.content }}</b-form-input>
+                                            <b-form-input class="replyeditcontent" v-model="reply.content" maxlength='1000'></b-form-input>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyEdit-btn" id="qnareplyEdit-btn" @click="replyedit(reply.replyNum, reply.userName, reply.content, index)">수정</b-button>
                                             <b-button type="button" class="btn-custom ms-1 btn-custom ms-2 qnareplyform-censell" id="qnareplyform-censell" @click="replyeditcensell(index)">닫기</b-button>
                                         </div>
-                                        <div class="qnacontent">
-                                            {{ reply.content }}
-                                        </div>
+                                        <div class="qnacontent" v-html="reply.content"></div>
                                     </div>
                                 </div>
                             </div>
@@ -218,13 +220,6 @@ export default{
         getQsnumList() {
             return this.$store.getters.getQsbnumList;
         },
-        isLiked() {
-            if (Array.isArray(this.getQsnumList)) {
-                console.log('확인!');
-                return this.getQsnumList.includes(this.qna.qnaBdNum);
-            }
-            return false;
-        }
     },
     mounted() {
         const qnanum = this.$route.params.num;
@@ -242,35 +237,11 @@ export default{
         this.ansgetTotal(qnanum);
         document.getElementById("qnaboard-detail-recensell").style.display="none";
         this.form.ansBdNum = qnanum;
-
-        window.addEventListener('error', e => {
-            
-            if (e.message === 'ResizeObserver loop limit exceeded') {
-                const resizeObserverErrDiv = document.getElementById(
-                    'qna-detail-ansconedit'
-                );
-                const resizeObserverErr = document.getElementById(
-                    'qna-detail-ansconedit'
-                );
-                if (resizeObserverErr) {
-                    console.log('llll');
-                    resizeObserverErr.setAttribute('style', 'display: none');
-                    
-                }
-                if (resizeObserverErrDiv) {
-                    console.log('llll');
-                    resizeObserverErrDiv.setAttribute('style', 'display: none');
-                    
-                }
-                
-            }
-        });
-
         
     },
     methods: {
 
-        //게시글 조회
+        //게시글 조회한후 시간 표현, 수정 삭제 버튼 노출 메소드
         qnaReadtet(qnanum){ // 게시글 데이터 조회
             this.$axiosSend('get','/api/qna/editdetail',{num : qnanum,})
             .then(res=>{
@@ -293,7 +264,7 @@ export default{
             })
         },
 
-        //닉네임 존재 여부 확인
+        //닉네임 존재 여부 확인에 따른 답변 작성 버튼 
         nicknameEquals(nickname){
             if(this.userNickName === null || this.userNickName ===""){
                 document.getElementById("qnaboard-detail-replybtn").style.display="none";
@@ -434,7 +405,7 @@ export default{
             }
         },
 
-        //답변수정처리
+        //답변수정처리후 답변 조회
         ansedit(ansnum, username, content, index){
             if(this.userNickName =="" || this.userNickName== null || ansnum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
@@ -520,13 +491,13 @@ export default{
         },
 
         backLikedClass() {
-            console.log('back');
+           
             const qsbnumList = JSON.parse(localStorage.getItem('qsbnumList')) || [];
             return qsbnumList.includes(this.qna.qnaBdNum) ? 'qnaBackColor' : 'qnaDefault';
         },
 
         fontLikedClass() {
-            console.log('font');
+            
             const qsbnumList = JSON.parse(localStorage.getItem('qsbnumList')) || [];
             return qsbnumList.includes(this.qna.qnaBdNum) ? 'fontBackColor' : '';
         },
@@ -552,6 +523,14 @@ export default{
         //댓글 답변번호 비교
         ansnumeq(ansbdnum, ansNum){
             if(ansbdnum == ansNum){
+                return 1;
+            }else{
+                return 0;
+            }
+        },
+
+        anseditbtneqlse(username){
+            if(this.userNickName == username || this.userNickName == 'ADMIN'){
                 return 1;
             }else{
                 return 0;
@@ -585,6 +564,12 @@ export default{
         anseditopen(index){
             this.$refs['qna-detail-ans'+index][0].children[0].classList.add("d-none");
             this.$refs['qna-detail-ans'+index][0].children[3].classList.add("d-block");
+            var anscon= document.getElementById('qna-detail-ansedit');
+            var ans = anscon.value;
+            var textWithoutTag = ans.replace("/(<()>)?/ig", "");
+            // var anscon= document.getElementById("qna-detail-ansedit");
+
+            // anscon.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
         },
 
         //댓글 작성폼열기
@@ -699,6 +684,7 @@ export default{
 
         //댓글삭제
         replydelete(replyNum, qnanum, ansnum, username){
+           
             if(this.userNickName === null || this.userNickName ===""){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -717,7 +703,7 @@ export default{
             }
             else{
                 this.$swal({
-                    title: '댓글을 삭제 하시겠습니까?',
+                    title: '댓글 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                     confirmButtonColor: '#303076',
@@ -726,7 +712,7 @@ export default{
                 }).then(result => {
                     if (result.isConfirmed) {
                         this.$axiosSend('get','/api/reply/replydelete', {
-                            rnum: replyNum
+                            replyNum: replyNum
                         })
                         .then(res => {
                             
@@ -995,13 +981,13 @@ export default{
         //답변 글 작성
         answrite(){
             
-            if(this.userNickName === null || this.userNickName ==="" || this.qna.qnaBdNum ==0){
-                this.$swal('로그인을 해주세요.', 'success');
-                router.push({
-                    name: "login"
-                })
-                return;
-            }
+            // if(this.userNickName === null || this.userNickName ==="" || this.qna.qnaBdNum ==0){
+            //     this.$swal('로그인을 해주세요.', 'success');
+            //     router.push({
+            //         name: "login"
+            //     })
+            //     return;
+            // }
             if(this.form.content == null || this.form.content == ""){
                 this.$swal({
                     title :'warning!',
@@ -1020,7 +1006,6 @@ export default{
                 console.log('wwqq', res.data);
                 if(res.data === 1){
                     this.$swal('Success','작성완료!','success');
-                    console.log('성공');
                     this.censells();
                     this.ansread(qnanum);
                     this.ansgetTotal(qnanum);
@@ -1076,7 +1061,7 @@ export default{
         //답변 관리자 삭제시 알림창 띄우고 삭제 클릭시 답변삭제 진행
         ansdelAlert(ansNum){
             this.$swal({
-                title: '관리자 권한으로 답변을 삭제 하시겠습니까?',
+                title: '관리자 권한으로 답변과 해당 댓글들을 삭제 하시겠습니까?',
                 showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                 cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                 confirmButtonColor: '#303076',
@@ -1085,12 +1070,13 @@ export default{
                 }).then(result => {
                     if (result.isConfirmed) {
                         this.$axiosSend('get','/api/ans/ansdelete', {
-                        ansBdNum : ansNum
+                        ansBdNum : ansNum,
+                        userName : this.userNickName
                     })
                 .then(res => {
                 
                     if(res.data ==1){
-                        this.$swal('Success', '관리자 권한에 의한 답변삭제가 완료 되었습니다.', 'success');
+                        this.$swal('Success', '관리자 권한에 의한 답변과 해당하는 댓글들이 삭제가 완료 되었습니다.', 'success');
                         this.ansread(this.qna.qnaBdNum);
                         this.ansgetTotal(this.qna.qnaBdNum);
                         return;
@@ -1109,7 +1095,7 @@ export default{
         },
 
         //답변 삭제
-        ansdelete(ansNum, userName, regid){   
+        ansdelete(ansNum, userName){   
             if(this.userNickName === null || this.userNickName ==="" || ansNum ==0){
                 this.$swal('로그인을 해주세요.', 'success');
                 router.push({
@@ -1138,7 +1124,7 @@ export default{
 
                 else if(res.data ==0){
                     this.$swal({
-                    title: '답변을 삭제 하시겠습니까?',
+                    title: '답변 삭제 하시겠습니까?',
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                     confirmButtonColor: '#303076',
@@ -1147,10 +1133,11 @@ export default{
                     }).then(result => {
                         if (result.isConfirmed) {
                             this.$axiosSend('get','/api/ans/ansdelete', {
-                            ansBdNum : ansNum
+                            ansBdNum : ansNum,
+                            userName : this.userNickName
                         })
                         .then(res => {
-                            
+                            console.log('값:', res.data);
                             if(res.data ===1){
                                 this.$swal('Success', '답변삭제가 완료 되었습니다.', 'success');
                                 this.ansread(this.qna.qnaBdNum);
