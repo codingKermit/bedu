@@ -76,7 +76,19 @@
 	<delete id="viewdelete">
 		DELETE
 		 FROM T_BEDU_QS
-		WHERE QS_BD_NUM = #{qnanum}
+		WHERE QS_BD_NUM = #{qnaBdNum}
+	</delete>
+	
+	<delete id="viewansdelete">
+		DELETE
+		 FROM T_BEDU_ANS
+		WHERE QS_BD_NUM = #{qnaBdNum}
+	</delete>
+	
+	<delete id="viewreplydelete">
+		DELETE
+		 FROM T_BEDU_REPLY
+		WHERE QS_NUM= #{qnaBdNum}
 	</delete>
 	
 	<select id="viewsearch" resultType="com.care.bedu.community.qna.vo.QnaVO">

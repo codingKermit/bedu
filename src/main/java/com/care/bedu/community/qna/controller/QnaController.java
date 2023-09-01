@@ -62,8 +62,8 @@ public class QnaController {
 	
 	//게시글 삭제
 	 @RequestMapping(value="/qna/qnaDelete", method=RequestMethod.GET)				
-	 public int qnaDelete(int num){
-	 	return qnaService.viewdelete(num);
+	 public int qnaDelete(QnaVO qnaVO){
+	 	return qnaService.viewdelete(qnaVO);
 	 }
 
 	//게시글 전체 개수 조회

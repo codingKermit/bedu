@@ -300,7 +300,7 @@ export default{
             }
 
             this.$swal({
-                title: '관리자 권한으로 해당 게시글을 삭제 하시겠습니까?',
+                title: '관리자 권한으로 해당 게시글을 삭제 하시겠습니까? (삭제시 모든 답변, 댓글이 강제적으로 전부 삭제 됩니다.)',
                 showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                 cancelButtonColor: '#6c757d', // cancel 버튼 색깔 지정
                 confirmButtonColor: '#303076',
@@ -310,7 +310,8 @@ export default{
                     if (result.isConfirmed) {                   // 만약 알럿창에서 확인 버튼을 눌렀다면
 
                         this.$axiosSend('get','/api/qna/qnaDelete', {
-                        num: qnanum,
+                            qnaBdNum: qnanum,
+                            userName: this.userNickName
                         })
                         .then(res => {
                             if(res.data ===1){

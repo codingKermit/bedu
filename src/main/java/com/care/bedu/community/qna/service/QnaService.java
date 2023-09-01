@@ -24,7 +24,7 @@ public interface QnaService {
 	public QnaVO qnaEditDetail(int num);	
 	
 	//게시글 삭제
-	public int viewdelete(int num);					
+	public int viewdelete(QnaVO qnaVO);					
 	//게시글 수정
 	public int viewupdate(QnaVO qnaVO);	
 	

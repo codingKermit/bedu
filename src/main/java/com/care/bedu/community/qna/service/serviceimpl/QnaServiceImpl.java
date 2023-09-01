@@ -52,8 +52,14 @@ public class QnaServiceImpl implements QnaService{
 
 	//게시글 삭제
 	@Override
-	public int viewdelete(int num) {
-		return qnaDAO.viewdelete(num);					
+	public int viewdelete(QnaVO qnaVO) {
+		if(qnaVO.getQnaBdNum() != null && qnaVO.getQnaBdNum() > 0
+				&& qnaVO.getUserName() != null && qnaVO.getUserName().equals("ADMIN")) {
+			qnaDAO.viewreplydelete(qnaVO);
+			qnaDAO.viewansdelete(qnaVO);
+			
+		}
+		return qnaDAO.viewdelete(qnaVO);
 	}
 
 	//게시글 수정

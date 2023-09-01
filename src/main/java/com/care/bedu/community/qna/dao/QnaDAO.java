@@ -13,10 +13,6 @@ public interface QnaDAO {
 	//게시글 전체 조회
 	public List<QnaVO> viewlist(QnaVO qnaVO);
 	
-	public List<QnaVO> viewcnt(QnaVO qnaVO);
-	
-	public List<QnaVO> viewlike(QnaVO qnaVO);
-	
 	//본인이 쓴글에 한해서 전체 조회
 	public List<QnaVO> nameview(String userName, int page);
 	
@@ -30,7 +26,13 @@ public interface QnaDAO {
 	public int viewupdate(QnaVO qnaVO);					
 	
 	//게시글 삭제
-	public int viewdelete(int qnanum);						
+	public int viewdelete(QnaVO qnaVO);
+	
+	//답변글 삭제
+	public void viewansdelete(QnaVO qnaVO);
+		
+	//댓글 삭제
+	public void viewreplydelete(QnaVO qnaVO);
 	
 	//게시글 키워드 검색
 	public ArrayList<QnaVO> viewsearch(QnaVO qnaVO);		
