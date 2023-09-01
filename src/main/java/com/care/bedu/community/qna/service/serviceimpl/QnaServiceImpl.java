@@ -142,16 +142,5 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDAO.nameview(name, page);
 	}
 
-	@Override
-	public List<QnaVO> cntlistProc(QnaVO qnaVO) {
-		List<QnaVO> list = qnaDAO.viewcnt(qnaVO);
-		System.out.println("확인"+ list);
-		return list;
-	}
-
-	@Override
-	public List<QnaVO> likelistProc(QnaVO qnaVO) {
-		return qnaDAO.viewlike(qnaVO);
-	}
 
 }

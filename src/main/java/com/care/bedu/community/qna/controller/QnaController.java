@@ -25,18 +25,6 @@ public class QnaController {
 		 return qnaService.listProc(qnaVO);
 	 }
 	 
-	//질문게시글 조회수 조회
-	 @RequestMapping(value="/qna/qnacntList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	 public List<QnaVO> qnacntList(QnaVO qnaVO){
-		 return qnaService.cntlistProc(qnaVO);
-	 }
-		 
-	//질문게시글 좋아요 조회
-	 @RequestMapping(value="/qna/qnalikeList", method= {RequestMethod.GET, RequestMethod.POST})    //게시글 조회
-	 public List<QnaVO> qnalikeList(QnaVO qnaVO){
-		 return qnaService.likelistProc(qnaVO);
-	 }
-	 
 	//질문게시글 작성자 이름으로 조회
 		 @RequestMapping(value="/qna/nameList", method= {RequestMethod.GET, RequestMethod.POST})    //작성자글 조회
 		 public List<QnaVO> nameList(String userName, int page){

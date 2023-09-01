@@ -109,8 +109,6 @@
         data() {
             return {
                 qnalist: [],
-                likelists: [],
-                cntlists:[],
                 form: {
                     keyword: '',
                 },
@@ -121,16 +119,6 @@
                 qsSearch: false
             };
 
-        },
-
-        created() {
-            this.cntList();
-            this.likeList();
-        },
-
-        mounted() {
-            this.cntList();
-            this.likeList();
         },
 
         methods: {
@@ -149,37 +137,7 @@
                     console.log(error);
                 });
             },
-
-            //정렬 옵션
-            cntList() {
-                
-                this.$axiosSend('get','/api/qna/qnacntList', {
-                    page: this.currentPage,
-                })
-                .then(res => {
-                    console.log('ssmm',res.data);
-                    this.cntlists = res.data;
-                    this.sortReviews();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
-
-            //정렬 옵션
-            likeList() {
-                
-                this.$axiosSend('get','/api/qna/qnalikeList', {
-                    page: this.currentPage,
-                })
-                .then(res => {
-                    this.likelists = res.data;
-                    this.sortReviews();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
+        
 
             //정렬 옵션
             sortReviews() {
@@ -190,9 +148,8 @@
                     return new Date(b.qnaDate) - new Date(a.qnaDate);
                 });
                 } else if (this.sortOption === "highViews") {
-                    console.log('조회', this.cntlists);
                     // 조회수 순으로 정렬
-                    this.cntlists.sort((a, b) => {
+                    this.qnalist.sort((a, b) => {
                         return b.qnaCnt - a.qnaCnt;
                     });
 
@@ -274,6 +231,8 @@
                 .catch(err=>{
                     console.log(err);
                 })
+
+               
             }
         },
     };
