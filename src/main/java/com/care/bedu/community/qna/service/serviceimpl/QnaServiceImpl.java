@@ -46,6 +46,7 @@ public class QnaServiceImpl implements QnaService{
 	public QnaVO viewone(int qnanum, String userName, String regid) {
 		
 		qnaDAO.qnaCntUp(qnanum);
+		System.out.println("증가");
 		return qnaDAO.viewone(qnanum);
 								
 	}
